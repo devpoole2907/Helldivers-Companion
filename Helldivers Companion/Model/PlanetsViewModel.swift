@@ -12,8 +12,10 @@ class PlanetsViewModel: ObservableObject {
     @Published var planets: [PlanetStatus] = []
     @Published var currentSeason: String = ""
     @Published var majorOrderString: String = "Bugs have taken over!"
-    
     @Published var lastUpdatedDate: Date = Date()
+    
+    @Published var showInfo = false
+    @Published var showOrders = false
     
     private var timer: Timer?
     

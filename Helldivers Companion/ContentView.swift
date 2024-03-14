@@ -12,8 +12,6 @@ struct ContentView: View {
     
     @StateObject var viewModel = PlanetsViewModel()
     
-    @State private var showOrders = false
-    
     var body: some View {
         
         NavigationStack {
@@ -24,11 +22,11 @@ struct ContentView: View {
                 //      Text("Current war season: \(viewModel.currentSeason)")
                 
                 LazyVStack(spacing: 20) {
-                    
+                    /*
                     PlanetView().padding(.horizontal)
                     PlanetView().padding(.horizontal)
                     PlanetView().padding(.horizontal)
-                    PlanetView().padding(.horizontal)
+                    PlanetView().padding(.horizontal)*/
                     
                     ForEach(viewModel.planets, id: \.self) { planet in
                         
@@ -43,7 +41,7 @@ struct ContentView: View {
             }.scrollContentBackground(.hidden)
             
                 Button(action: {
-                    showOrders.toggle()
+                    viewModel.showOrders.toggle()
                 }){
                     Text("Major Order").textCase(.uppercase).tint(.white).fontWeight(.heavy)
                 }.padding()
@@ -57,11 +55,12 @@ struct ContentView: View {
             
         }
             
-            .sheet(isPresented: $showOrders) {
+            .sheet(isPresented: $viewModel.showOrders) {
                 NavigationStack {
                 
                         Text(viewModel.majorOrderString).bold()
                             .padding(.horizontal)
+                            .multilineTextAlignment(.center)
                     Spacer()
                     
                     .toolbar {
@@ -76,6 +75,29 @@ struct ContentView: View {
                 .presentationBackground(.thinMaterial)
                 
             }
+            
+            .sheet(isPresented: $viewModel.showInfo) {
+                NavigationStack {
+                    VStack(spacing: 20) {
+                        Text("This application utilizes the unofficial Helldivers 2 API developed by dealloc, available at https://github.com/dealloc/helldivers2-api, to fetch and display the latest data from the ongoing galactic war in the Helldivers 2 universe.").bold()
+                     
+                        Text("This application is not affiliated with, endorsed by, or in any way officially connected to Arrowhead Game Studios or Sony. All game content, including images and trademarks, are the property of their respective owners. The use of such content within this app falls under fair use for informational purposes and does not imply any association with the game developers or publishers.").bold()
+                    
+                    }.padding(.horizontal)
+                        .multilineTextAlignment(.center)
+                    Spacer()
+                    
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            Text("About").textCase(.uppercase).fontWeight(.heavy)
+                        }
+                    }
+                }
+                
+                .presentationDragIndicator(.visible)
+                .presentationBackground(.thinMaterial)
+                
+            }
                
             
             .onAppear {
@@ -86,6 +108,16 @@ struct ContentView: View {
                 Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
             }
         
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {
+                        viewModel.showInfo.toggle()
+                    }){
+                        Image(systemName: "info.circle")
+                    }.foregroundStyle(.white)
+                        .bold()
+                }
+            }
             
             .navigationTitle("LAST UPDATED: \(viewModel.lastUpdatedDate.formatted(date: .omitted, time: .shortened))")
             .navigationBarTitleDisplayMode(.inline)
