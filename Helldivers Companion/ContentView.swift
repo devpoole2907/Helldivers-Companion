@@ -22,6 +22,9 @@ struct ContentView: View {
                 //      Text("Current war season: \(viewModel.currentSeason)")
                 
                 LazyVStack(spacing: 20) {
+                    
+                    // some preview planets for when editing
+                    
                     /*
                     PlanetView().padding(.horizontal)
                     PlanetView().padding(.horizontal)

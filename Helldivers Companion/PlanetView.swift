@@ -18,8 +18,16 @@ struct PlanetView: View {
     var formattedPlanetImageName: String {
             let cleanedName = planetName
             .filter { !$0.isPunctuation }   // no apostrophes etc
-            .replacingOccurrences(of: " ", with: "_") // replace spaces with underscores
-            return "\(cleanedName)_Landscape"
+            .replacingOccurrences(of: " ", with: "_")
+        
+        let imageName = "\(cleanedName)_Landscape"
+        
+        if UIImage(named: imageName) != nil {
+                return imageName
+            } else {
+                // if asset doesn't exist return a default preview image (Fenrir 3 i guess?)
+                return "Fenrir_III_Landscape"
+            }
         }
     
     var bugOrAutomation: String {

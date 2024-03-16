@@ -163,8 +163,8 @@ class PlanetsViewModel: ObservableObject {
     }
     
     func isActive(planetStatus: PlanetStatus) -> Bool {
-      
-        return planetStatus.players > 0 && planetStatus.liberation < 100
+      // only show with more than 1000 planets and a liberation status less than 100%
+        return planetStatus.players > 1000 && planetStatus.liberation < 100
     }
 
     
