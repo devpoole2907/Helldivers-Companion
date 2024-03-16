@@ -75,10 +75,11 @@ struct RootView: View {
             
                 Text(tab.rawValue).textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 20))
             }.padding(.horizontal)
-                .padding(.vertical, 2)
+                .padding(.bottom, 10)
+                .frame(width: 100)
                 .background {
             Color.black.opacity(0.7)
-        }
+                }
         .clipShape(RoundedRectangle(cornerRadius: 12))
         } .frame(maxWidth: .infinity)
         
@@ -97,13 +98,13 @@ extension View {
 }
 
 enum Tab: String, CaseIterable {
-    case home = "Home"
+    case home = "War"
     case game = "Game"
     
     var systemImage: String? {
         switch self {
         case .home:
-            return "house.fill"
+            return "globe.americas.fill"
         case .game:
             return "scope"
         }
