@@ -15,6 +15,7 @@
 		7C0C995D2BA2BAFD00CF7C91 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C0C995F2BA2C7BC00CF7C91 /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */; };
 		7C0C99612BA2FA0600CF7C91 /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
+		7C4589B72BA546B00019B00E /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589B62BA546B00019B00E /* OrderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetsViewModel.swift; sourceTree = "<group>"; };
 		7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetView.swift; sourceTree = "<group>"; };
 		7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleProgressBar.swift; sourceTree = "<group>"; };
+		7C4589B62BA546B00019B00E /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				7C0C99512BA2BA9000CF7C91 /* Preview Content */,
 				7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */,
 				7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */,
+				7C4589B62BA546B00019B00E /* OrderView.swift */,
 			);
 			path = "Helldivers Companion";
 			sourceTree = "<group>";
@@ -161,6 +164,7 @@
 				7C0C994E2BA2BA8F00CF7C91 /* ContentView.swift in Sources */,
 				7C0C99612BA2FA0600CF7C91 /* RectangleProgressBar.swift in Sources */,
 				7C0C995B2BA2BAE800CF7C91 /* PlanetStructs.swift in Sources */,
+				7C4589B72BA546B00019B00E /* OrderView.swift in Sources */,
 				7C0C994C2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift in Sources */,
 				7C0C995F2BA2C7BC00CF7C91 /* PlanetView.swift in Sources */,
 			);

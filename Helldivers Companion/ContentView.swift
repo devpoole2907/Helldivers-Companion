@@ -59,19 +59,8 @@ struct ContentView: View {
         }
             
             .sheet(isPresented: $viewModel.showOrders) {
-                NavigationStack {
                 
-                        Text(viewModel.majorOrderString).bold()
-                            .padding(.horizontal)
-                            .multilineTextAlignment(.center)
-                    Spacer()
-                    
-                    .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            Text("MAJOR ORDER").textCase(.uppercase).fontWeight(.heavy)
-                        }
-                    }
-                }
+                ordersSheet
                 
                 .presentationDetents([.fraction(0.65)])
                 .presentationDragIndicator(.visible)
@@ -80,22 +69,8 @@ struct ContentView: View {
             }
             
             .sheet(isPresented: $viewModel.showInfo) {
-                NavigationStack {
-                    VStack(spacing: 20) {
-                        Text("This application utilizes the unofficial Helldivers 2 API developed by dealloc, available at https://github.com/dealloc/helldivers2-api, to fetch and display the latest data from the ongoing galactic war in the Helldivers 2 universe.").bold()
-                     
-                        Text("This application is not affiliated with, endorsed by, or in any way officially connected to Arrowhead Game Studios or Sony. All game content, including images and trademarks, are the property of their respective owners. The use of such content within this app falls under fair use for informational purposes and does not imply any association with the game developers or publishers.").bold()
-                    
-                    }.padding(.horizontal)
-                        .multilineTextAlignment(.center)
-                    Spacer()
-                    
-                    .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            Text("About").textCase(.uppercase).fontWeight(.heavy)
-                        }
-                    }
-                }
+               
+                infoSheet
                 
                 .presentationDragIndicator(.visible)
                 .presentationBackground(.thinMaterial)
@@ -128,6 +103,51 @@ struct ContentView: View {
         }
         
     }
+    
+    var infoSheet: some View {
+        
+        
+        NavigationStack {
+            VStack(spacing: 20) {
+                Text("This application utilizes the unofficial Helldivers 2 API developed by dealloc, available at https://github.com/dealloc/helldivers2-api, to fetch and display the latest data from the ongoing galactic war in the Helldivers 2 universe.").bold()
+             
+                Text("This application is not affiliated with, endorsed by, or in any way officially connected to Arrowhead Game Studios or Sony. All game content, including images and trademarks, are the property of their respective owners. The use of such content within this app falls under fair use for informational purposes and does not imply any association with the game developers or publishers.").bold()
+            
+            }.padding(.horizontal)
+                .multilineTextAlignment(.center)
+            Spacer()
+            
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("About").textCase(.uppercase).fontWeight(.heavy)
+                }
+            }
+        }
+        
+    }
+    
+    var ordersSheet: some View {
+        
+        NavigationStack {
+            
+            OrderView()
+        
+                Text(viewModel.majorOrderString).bold()
+                    .padding(.horizontal)
+                    .multilineTextAlignment(.center)
+            Spacer()
+            
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("MAJOR ORDER").textCase(.uppercase).fontWeight(.heavy)
+                }
+            }
+        }
+        
+        
+    }
+    
+    
 }
 
 #Preview {
