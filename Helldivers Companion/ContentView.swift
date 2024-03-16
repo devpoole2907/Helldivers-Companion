@@ -25,11 +25,11 @@ struct ContentView: View {
                     
                     // some preview planets for when editing
                     
-                    /*
+                    
                     PlanetView().padding(.horizontal)
                     PlanetView().padding(.horizontal)
                     PlanetView().padding(.horizontal)
-                    PlanetView().padding(.horizontal)*/
+                    PlanetView().padding(.horizontal)
                     
                     ForEach(viewModel.planets, id: \.self) { planet in
                         
@@ -43,7 +43,7 @@ struct ContentView: View {
                 
             }.scrollContentBackground(.hidden)
             
-               majorOrderButton
+                majorOrderButton.padding(.bottom, 50)
             
         }
             
@@ -68,7 +68,7 @@ struct ContentView: View {
                
             
             .onAppear {
-                viewModel.startUpdating()
+                // viewModel.startUpdating()
             }
             
             .background {

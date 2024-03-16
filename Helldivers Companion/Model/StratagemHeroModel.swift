@@ -97,9 +97,7 @@ class StratagemHeroModel: ObservableObject {
         
       
         
-        if totalScore > highScore {
-            highScore = totalScore
-        }
+      
         
         // report high score to game center leaderboard
         let gameCenterManager = GameCenterManager()
@@ -107,6 +105,9 @@ class StratagemHeroModel: ObservableObject {
         gameCenterManager.reportScore(score: highScore, leaderboardID: leaderboardId)
         
         Task {
+            if totalScore > highScore {
+                highScore = totalScore
+            }
             self.topScores = await gameCenterManager.loadTopScores(leaderboardID: leaderboardId, count: 3)
             gameState = .gameOver
         }
