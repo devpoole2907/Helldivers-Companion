@@ -16,6 +16,13 @@
 		7C0C995F2BA2C7BC00CF7C91 /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */; };
 		7C0C99612BA2FA0600CF7C91 /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
 		7C4589B72BA546B00019B00E /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589B62BA546B00019B00E /* OrderView.swift */; };
+		7C4589B92BA54C030019B00E /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
+		7C4589BC2BA54ED50019B00E /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589BB2BA54ED50019B00E /* AboutView.swift */; };
+		7C4589BE2BA554AA0019B00E /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589BD2BA554AA0019B00E /* RootView.swift */; };
+		7C4589C02BA5551F0019B00E /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589BF2BA5551F0019B00E /* GameView.swift */; };
+		7C4589C22BA5554E0019B00E /* StratagemHeroModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C12BA5554E0019B00E /* StratagemHeroModel.swift */; };
+		7C4589C42BA574B20019B00E /* ShakeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C32BA574B20019B00E /* ShakeModifier.swift */; };
+		7C4589C72BA5849F0019B00E /* GameCenterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C62BA5849F0019B00E /* GameCenterManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +36,15 @@
 		7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetView.swift; sourceTree = "<group>"; };
 		7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleProgressBar.swift; sourceTree = "<group>"; };
 		7C4589B62BA546B00019B00E /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
+		7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FS Sinclair Bold.otf"; sourceTree = "<group>"; };
+		7C4589BA2BA54C140019B00E /* Helldivers-Companion-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Helldivers-Companion-Info.plist"; sourceTree = SOURCE_ROOT; };
+		7C4589BB2BA54ED50019B00E /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		7C4589BD2BA554AA0019B00E /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		7C4589BF2BA5551F0019B00E /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		7C4589C12BA5554E0019B00E /* StratagemHeroModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StratagemHeroModel.swift; sourceTree = "<group>"; };
+		7C4589C32BA574B20019B00E /* ShakeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeModifier.swift; sourceTree = "<group>"; };
+		7C4589C52BA5840A0019B00E /* Helldivers Companion.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Helldivers Companion.entitlements"; sourceTree = "<group>"; };
+		7C4589C62BA5849F0019B00E /* GameCenterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +77,8 @@
 		7C0C994A2BA2BA8F00CF7C91 /* Helldivers Companion */ = {
 			isa = PBXGroup;
 			children = (
+				7C4589C52BA5840A0019B00E /* Helldivers Companion.entitlements */,
+				7C4589BA2BA54C140019B00E /* Helldivers-Companion-Info.plist */,
 				7C0C99592BA2BAC000CF7C91 /* Model */,
 				7C0C994B2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift */,
 				7C0C994D2BA2BA8F00CF7C91 /* ContentView.swift */,
@@ -69,6 +87,11 @@
 				7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */,
 				7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */,
 				7C4589B62BA546B00019B00E /* OrderView.swift */,
+				7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */,
+				7C4589BB2BA54ED50019B00E /* AboutView.swift */,
+				7C4589BD2BA554AA0019B00E /* RootView.swift */,
+				7C4589BF2BA5551F0019B00E /* GameView.swift */,
+				7C4589C32BA574B20019B00E /* ShakeModifier.swift */,
 			);
 			path = "Helldivers Companion";
 			sourceTree = "<group>";
@@ -86,6 +109,8 @@
 			children = (
 				7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */,
 				7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */,
+				7C4589C12BA5554E0019B00E /* StratagemHeroModel.swift */,
+				7C4589C62BA5849F0019B00E /* GameCenterManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -148,6 +173,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C4589B92BA54C030019B00E /* FS Sinclair Bold.otf in Resources */,
 				7C0C99532BA2BA9000CF7C91 /* Preview Assets.xcassets in Resources */,
 				7C0C99502BA2BA9000CF7C91 /* Assets.xcassets in Resources */,
 			);
@@ -160,11 +186,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C4589BC2BA54ED50019B00E /* AboutView.swift in Sources */,
 				7C0C995D2BA2BAFD00CF7C91 /* PlanetsViewModel.swift in Sources */,
 				7C0C994E2BA2BA8F00CF7C91 /* ContentView.swift in Sources */,
 				7C0C99612BA2FA0600CF7C91 /* RectangleProgressBar.swift in Sources */,
+				7C4589C02BA5551F0019B00E /* GameView.swift in Sources */,
+				7C4589C72BA5849F0019B00E /* GameCenterManager.swift in Sources */,
+				7C4589C42BA574B20019B00E /* ShakeModifier.swift in Sources */,
 				7C0C995B2BA2BAE800CF7C91 /* PlanetStructs.swift in Sources */,
+				7C4589BE2BA554AA0019B00E /* RootView.swift in Sources */,
 				7C4589B72BA546B00019B00E /* OrderView.swift in Sources */,
+				7C4589C22BA5554E0019B00E /* StratagemHeroModel.swift in Sources */,
 				7C0C994C2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift in Sources */,
 				7C0C995F2BA2C7BC00CF7C91 /* PlanetView.swift in Sources */,
 			);
@@ -297,12 +329,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Helldivers Companion/Helldivers Companion.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Helldivers Companion/Preview Content\"";
 				DEVELOPMENT_TEAM = L9DB7QA9DE;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Helldivers-Companion-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "War Monitor | Helldivers 2 Companion";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -332,12 +366,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Helldivers Companion/Helldivers Companion.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Helldivers Companion/Preview Content\"";
 				DEVELOPMENT_TEAM = L9DB7QA9DE;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Helldivers-Companion-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "War Monitor | Helldivers 2 Companion";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

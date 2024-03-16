@@ -17,6 +17,9 @@ class PlanetsViewModel: ObservableObject {
     @Published var showInfo = false
     @Published var showOrders = false
     
+    //var apiAddress = "http://127.0.0.1:4000/api"
+    var apiAddress = "https://helldivers-2.fly.dev/api"
+    
     private var timer: Timer?
     
     init() {
@@ -29,7 +32,7 @@ class PlanetsViewModel: ObservableObject {
     
     func fetchCurrentWarSeason(completion: @escaping () -> Void) {
         
-        let urlString = "https://helldivers-2.fly.dev/api"
+        let urlString = apiAddress
         guard let url = URL(string: urlString) else { return }
         
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
@@ -61,7 +64,7 @@ class PlanetsViewModel: ObservableObject {
     func fetchMajorOrder() {
         
         
-        let urlString = "https://helldivers-2.fly.dev/api/\(currentSeason)/events/latest"
+        let urlString = "\(apiAddress)/\(currentSeason)/events/latest"
         
         print("made url")
         guard let url = URL(string: urlString) else { print("mission failed")
@@ -103,7 +106,7 @@ class PlanetsViewModel: ObservableObject {
     
     func fetchPlanetStatuses() {
         
-        let urlString = "https://helldivers-2.fly.dev/api/\(currentSeason)/status"
+        let urlString = "\(apiAddress)/\(currentSeason)/status"
         
         
         guard let url = URL(string: urlString) else { return }

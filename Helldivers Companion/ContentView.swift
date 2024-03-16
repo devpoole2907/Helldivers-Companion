@@ -19,7 +19,7 @@ struct ContentView: View {
             
             ScrollView {
                 
-                //      Text("Current war season: \(viewModel.currentSeason)")
+                //     Text("Current war season: \(viewModel.currentSeason)")
                 
                 LazyVStack(spacing: 20) {
                     
@@ -43,18 +43,7 @@ struct ContentView: View {
                 
             }.scrollContentBackground(.hidden)
             
-                Button(action: {
-                    viewModel.showOrders.toggle()
-                }){
-                    Text("Major Order").textCase(.uppercase).tint(.white).fontWeight(.heavy)
-                }.padding()
-                    
-                    .background {
-                        Color.black.opacity(0.7)
-                }
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                
-                .padding()
+               majorOrderButton
             
         }
             
@@ -70,7 +59,7 @@ struct ContentView: View {
             
             .sheet(isPresented: $viewModel.showInfo) {
                
-                infoSheet
+                AboutView()
                 
                 .presentationDragIndicator(.visible)
                 .presentationBackground(.thinMaterial)
@@ -95,33 +84,18 @@ struct ContentView: View {
                     }.foregroundStyle(.white)
                         .bold()
                 }
-            }
-            
-            .navigationTitle("LAST UPDATED: \(viewModel.lastUpdatedDate.formatted(date: .omitted, time: .shortened))")
-            .navigationBarTitleDisplayMode(.inline)
-            
-        }
-        
-    }
-    
-    var infoSheet: some View {
-        
-        
-        NavigationStack {
-            VStack(spacing: 20) {
-                Text("This application utilizes the unofficial Helldivers 2 API developed by dealloc, available at https://github.com/dealloc/helldivers2-api, to fetch and display the latest data from the ongoing galactic war in the Helldivers 2 universe.").bold()
-             
-                Text("This application is not affiliated with, endorsed by, or in any way officially connected to Arrowhead Game Studios or Sony. All game content, including images and trademarks, are the property of their respective owners. The use of such content within this app falls under fair use for informational purposes and does not imply any association with the game developers or publishers.").bold()
-            
-            }.padding(.horizontal)
-                .multilineTextAlignment(.center)
-            Spacer()
-            
-            .toolbar {
+                
                 ToolbarItem(placement: .principal) {
-                    Text("About").textCase(.uppercase).fontWeight(.heavy)
+                    
+                    Text("LAST UPDATED: \(viewModel.lastUpdatedDate.formatted(date: .omitted, time: .shortened))")
+                        .font(Font.custom("FS Sinclair", size: 24))
+                    
                 }
+                
+                
             }
+         
+            .navigationBarTitleDisplayMode(.inline)
         }
         
     }
@@ -142,7 +116,28 @@ struct ContentView: View {
                     Text("MAJOR ORDER").textCase(.uppercase).fontWeight(.heavy)
                 }
             }
+            
+            .navigationBarTitleDisplayMode(.inline)
         }
+        
+        
+    }
+    
+    var majorOrderButton: some View {
+        
+        Button(action: {
+            viewModel.showOrders.toggle()
+        }){
+            Text("Major Order").textCase(.uppercase).tint(.white).fontWeight(.heavy)
+                .font(Font.custom("FS Sinclair", size: 20))
+        }.padding()
+            
+            .background {
+                Color.black.opacity(0.7)
+        }
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        
+        .padding()
         
         
     }

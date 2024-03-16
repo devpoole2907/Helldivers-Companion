@@ -12,7 +12,7 @@ struct PlanetView: View {
     var planetName = "Meridia"
     var liberation = 24.13020
     var rate = 0.0
-    var playerCount: Int = 0
+    var playerCount: Int = 347246
     var planet: PlanetStatus? = nil
     
     var formattedPlanetImageName: String {
@@ -52,11 +52,11 @@ struct PlanetView: View {
             
             VStack(spacing: 6) {
                 VStack(spacing: 0) {
-                    HStack {
+                    HStack(alignment: .bottom) {
                         Image(bugOrAutomation).resizable().aspectRatio(contentMode: .fit)
                             .frame(width: 35, height: 35)
                         Text(planetName).textCase(.uppercase).foregroundStyle(bugOrAutomation == "terminid" ? Color.yellow : Color.red)
-                            .font(.system(size: 24)).fontWeight(.heavy)
+                            .font(Font.custom("FS Sinclair", size: 24))
                         Spacer()
                         
                     }.padding(.horizontal, 5)
@@ -96,7 +96,7 @@ struct PlanetView: View {
                     VStack {
                         Text("\(liberation)% Liberated").textCase(.uppercase)
                             .foregroundStyle(.white).bold()
-                        
+                            .font(Font.custom("FS Sinclair", size: 18))
                            
                     }
                     .frame(maxWidth: .infinity)
@@ -115,23 +115,27 @@ struct PlanetView: View {
                 
                 HStack {
                     
-                    HStack(spacing: 5) {
+                    HStack(alignment: .center, spacing: 10) {
                         Image(bugOrAutomation).resizable().aspectRatio(contentMode: .fit)
                             .frame(width: 35, height: 35)
                         
                         Text(bugOrAutomation == "terminid" ? "- 3% / h" : "- 1.5% / h").foregroundStyle(bugOrAutomation == "terminid" ? Color.yellow : Color.red).bold()
+                            .font(Font.custom("FS Sinclair", size: 18))
+                            .padding(.top, 3)
                         
                     }.frame(maxWidth: .infinity)
                     
                     Rectangle().frame(width: 1, height: 30).foregroundStyle(Color.white)
                         .padding(.vertical, 10)
                 
-                    HStack(spacing: 5) {
+                    HStack(spacing: 10) {
                         
                         Image("helldiverIcon").resizable().aspectRatio(contentMode: .fit)
                             .frame(width: 25, height: 25)
                         Text("\(playerCount)").textCase(.uppercase)
                             .foregroundStyle(.white).bold()
+                            .font(Font.custom("FS Sinclair", size: 18))
+                            .padding(.top, 3)
                         
                     }.frame(maxWidth: .infinity)
                   

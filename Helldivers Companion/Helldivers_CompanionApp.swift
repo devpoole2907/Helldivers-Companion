@@ -11,7 +11,9 @@ import SwiftUI
 struct Helldivers_CompanionApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView().preferredColorScheme(.dark)
+            
+            RootView().preferredColorScheme(.dark)
+            
         }
     }
 }
