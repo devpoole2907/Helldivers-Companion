@@ -33,7 +33,7 @@ struct ContentView: View {
                     
                     ForEach(viewModel.planets, id: \.self) { planet in
                         
-                        PlanetView(planetName: planet.planet.name, liberation: planet.liberation, rate: planet.regenPerSecond, playerCount: planet.players, planet: planet)
+                        PlanetView(planetName: planet.planet.name, liberation: planet.liberation, rate: planet.regenPerSecond, playerCount: planet.players, planet: planet).environmentObject(viewModel)
                             .padding(.horizontal)
                     }
                     

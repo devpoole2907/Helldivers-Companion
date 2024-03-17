@@ -22,10 +22,6 @@ class PlanetsViewModel: ObservableObject {
     
     private var timer: Timer?
     
-    init() {
-        
-    }
-    
     deinit {
         timer?.invalidate()
     }
@@ -141,6 +137,53 @@ class PlanetsViewModel: ObservableObject {
         
         
     }
+   /*
+    func fetchPlanetStatuses(for date: Date) async throws -> [PlanetDataPoint] {
+        let dateString = iso8601Formatter.string(from: date)
+        let urlString = "https://raw.githubusercontent.com/devpoole2907/Helldivers-Companion/main/data/\(dateString)_planet_statuses.json"
+        
+        guard let url = URL(string: urlString) else {
+            throw URLError(.badURL)
+        }
+
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        let planetStatuses = try decoder.decode([PlanetStatus].self, from: data)
+        
+        return planetStatuses.map { PlanetDataPoint(timestamp: date, status: $0) }
+    }
+   
+    // fetches from github old planet status to create graphs
+    func fetchCachedPlanetStatuses() async {
+        let totalIntervals = 12 * 6 // 12 hours, 6 times per hour
+        var planetDataPoints: [PlanetDataPoint] = []
+
+        for interval in 0..<totalIntervals {
+            guard let targetDate = Calendar.current.date(byAdding: .minute, value: -interval * 10, to: Date()) else {
+                continue
+            }
+            
+            do {
+                let dataPoints = try await fetchPlanetStatuses(for: targetDate)
+                planetDataPoints.append(contentsOf: dataPoints)
+            } catch {
+                print("Error fetching data for interval \(interval): \(error)")
+            }
+        }
+        
+        // Update your chart UI here with `planetDataPoints`
+        print("count of planet data points: \(planetDataPoints.count)")
+    }
+    // Helper to create an ISO 8601 Date Formatter
+    let iso8601Formatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter
+    }()
+*/
+
+    
     
     // setup the timer to fetch the data every few seconds or so
     func startUpdating() {

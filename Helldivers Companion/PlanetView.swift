@@ -6,14 +6,19 @@
 //
 
 import SwiftUI
+import Charts
 
 struct PlanetView: View {
+    
+    @EnvironmentObject var viewModel: PlanetsViewModel
     
     var planetName = "Meridia"
     var liberation = 24.13020
     var rate = 0.0
     var playerCount: Int = 347246
     var planet: PlanetStatus? = nil
+    
+    @State private var showChart = false
     
     var formattedPlanetImageName: String {
             let cleanedName = planetName
@@ -59,16 +64,41 @@ struct PlanetView: View {
                             .font(Font.custom("FS Sinclair", size: 24))
                         Spacer()
                         
+                        Button(action: {
+                            
+                         
+                            withAnimation {
+                                showChart.toggle()
+                            }
+                        }){
+                            HStack(alignment: .center, spacing: 4) {
+                                
+                                Image(systemName: "chart.xyaxis.line").bold()
+                                    .padding(.bottom, 4)
+                                Text("History")   .font(Font.custom("FS Sinclair", size: 24))
+                                
+                            }
+                        }.padding(.trailing, 5)
+                            .tint(.white)
+                        
+                        
+                            .background {
+                                Color.gray.opacity(0.4)
+                            }
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        
                     }.padding(.horizontal, 5)
                         .padding(.vertical, 2)
                         .background{ Color.black}
                     
-                    Image(formattedPlanetImageName).resizable().aspectRatio(contentMode: .fit)
+                    if !showChart {
+                        Image(formattedPlanetImageName).resizable().aspectRatio(contentMode: .fit)
+                    }
                     
                 }.border(Color.white)
                     .padding(4)
                     .border(Color.gray)
-                
+                if !showChart {
                 VStack(spacing: 0) {
                     
                     VStack {
@@ -76,11 +106,11 @@ struct PlanetView: View {
                             
                             // health bar
                             
-                                RectangleProgressBar(value: liberation / 100, secondaryColor: bugOrAutomation == "terminid" ? Color.yellow : Color.red)
+                            RectangleProgressBar(value: liberation / 100, secondaryColor: bugOrAutomation == "terminid" ? Color.yellow : Color.red)
                             
                                 .padding(.horizontal, 6)
                                 .padding(.trailing, 2)
-                               
+                            
                             
                             
                         }.frame(height: 34)
@@ -97,7 +127,7 @@ struct PlanetView: View {
                         Text("\(liberation)% Liberated").textCase(.uppercase)
                             .foregroundStyle(.white).bold()
                             .font(Font.custom("FS Sinclair", size: 18))
-                           
+                        
                     }
                     .frame(maxWidth: .infinity)
                     .background {
@@ -105,13 +135,13 @@ struct PlanetView: View {
                     }
                     .padding(.vertical, 5)
                     
-              
-                
+                    
+                    
                     
                 }
-                    .border(Color.white)
-                    .padding(4)
-                    .border(Color.gray)
+                .border(Color.white)
+                .padding(4)
+                .border(Color.gray)
                 
                 HStack {
                     
@@ -127,7 +157,7 @@ struct PlanetView: View {
                     
                     Rectangle().frame(width: 1, height: 30).foregroundStyle(Color.white)
                         .padding(.vertical, 10)
-                
+                    
                     HStack(spacing: 10) {
                         
                         Image("helldiverIcon").resizable().aspectRatio(contentMode: .fit)
@@ -138,10 +168,10 @@ struct PlanetView: View {
                             .padding(.top, 3)
                         
                     }.frame(maxWidth: .infinity)
-                  
-                
+                    
+                    
                 }
-              
+                
                 .background {
                     Color.black
                 }
@@ -150,7 +180,9 @@ struct PlanetView: View {
                 .padding(4)
                 .border(Color.gray)
                 
-                
+                } else {
+                    historyChart
+                }
             }
             
             
@@ -160,8 +192,47 @@ struct PlanetView: View {
             }
             .border(.yellow, width: 2)
     }
+    
+    var historyChart: some View {
+        
+        Chart {
+            ForEach(stackedBarData) { shape in
+                LineMark(
+                    x: .value("Shape Type", shape.type),
+                    y: .value("Total Count", shape.count)
+                )
+                .foregroundStyle(by: .value("Shape Color", shape.color))
+            }
+        }.padding(15).frame(maxHeight: 200)
+           
+        
+    }
+    
 }
 
 #Preview {
-    PlanetView()
+    
+    PlanetView().environmentObject(PlanetsViewModel())
 }
+
+struct ToyShape: Identifiable {
+    var color: String
+    var type: String
+    var count: Double
+    var id = UUID()
+}
+
+var stackedBarData: [ToyShape] = [
+    .init(color: "Green", type: "Cube", count: 2),
+    .init(color: "Green", type: "Sphere", count: 0),
+    .init(color: "Green", type: "Pyramid", count: 1),
+    .init(color: "Purple", type: "Cube", count: 1),
+    .init(color: "Purple", type: "Sphere", count: 1),
+    .init(color: "Purple", type: "Pyramid", count: 1),
+    .init(color: "Pink", type: "Cube", count: 1),
+    .init(color: "Pink", type: "Sphere", count: 2),
+    .init(color: "Pink", type: "Pyramid", count: 0),
+    .init(color: "Yellow", type: "Cube", count: 1),
+    .init(color: "Yellow", type: "Sphere", count: 1),
+    .init(color: "Yellow", type: "Pyramid", count: 2)
+]

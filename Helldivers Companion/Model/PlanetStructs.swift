@@ -44,6 +44,11 @@ struct Planet: Decodable {
     let waypoints: [Int]
 }
 
+struct PlanetDataPoint {
+    let timestamp: Date
+    let status: PlanetStatus
+}
+
 struct Position: Decodable {
     let x: Double
     let y: Double

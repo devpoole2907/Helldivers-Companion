@@ -13,7 +13,6 @@ struct RootView: View {
     
     var body: some View {
         ZStack(alignment: .bottom){
-            
             TabView(selection: $currentTab) {
                 
                 ContentView()
@@ -26,13 +25,9 @@ struct RootView: View {
                     .toolbarBackground(.hidden, for: .tabBar)
                 
             }
-         
                 tabButtons
-            
         }
-        
-      
-   
+
     }
     
     var tabButtons: some View {
