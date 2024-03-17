@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct WarStatusResponse: Decodable {
     let planetStatus: [PlanetStatus]
@@ -13,6 +14,10 @@ struct WarStatusResponse: Decodable {
     let warId: Int
 }
 
+struct PlanetDataPoint {
+    let timestamp: Date
+    let status: PlanetStatus
+}
 
 struct PlanetStatus: Decodable, Hashable {
     static func == (lhs: PlanetStatus, rhs: PlanetStatus) -> Bool {
@@ -42,11 +47,6 @@ struct Planet: Decodable {
     let position: Position
     let sector: String
     let waypoints: [Int]
-}
-
-struct PlanetDataPoint {
-    let timestamp: Date
-    let status: PlanetStatus
 }
 
 struct Position: Decodable {
@@ -82,7 +82,26 @@ struct MajorOrderResponse: Decodable {
 struct Message: Decodable {
     
     let en: String
-    
-    
-    
 }
+
+struct GitHubFile: Decodable {
+    let name: String
+    let downloadUrl: String
+
+}
+
+struct BugRate: Decodable {
+    let terminidRate: String
+    let automatonRate: String
+}
+
+#if os(iOS)
+let smallFont: CGFloat = 16
+let mediumFont: CGFloat = 18
+let largeFont: CGFloat = 24
+#elseif os(watchOS)
+let smallFont: CGFloat = 12
+let mediumFont: CGFloat = 12
+let largeFont: CGFloat = 16
+#endif
+

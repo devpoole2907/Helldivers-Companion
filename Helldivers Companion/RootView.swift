@@ -24,6 +24,8 @@ struct RootView: View {
                     .tag(Tab.game)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
+                
+                
             }
                 tabButtons
         }

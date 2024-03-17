@@ -11,8 +11,12 @@ class PlanetsViewModel: ObservableObject {
     
     @Published var planets: [PlanetStatus] = []
     @Published var currentSeason: String = ""
-    @Published var majorOrderString: String = "Bugs have taken over!"
+    @Published var majorOrderString: String = "Stand by for further orders from Super Earth High Command."
     @Published var lastUpdatedDate: Date = Date()
+    
+    private var apiToken: String? = nil
+    
+    @Published var bugRates: BugRate = BugRate(terminidRate: "-5%", automatonRate: "-1.5%")
     
     @Published var showInfo = false
     @Published var showOrders = false
@@ -20,11 +24,102 @@ class PlanetsViewModel: ObservableObject {
     //var apiAddress = "http://127.0.0.1:4000/api"
     var apiAddress = "https://helldivers-2.fly.dev/api"
     
+    @Published var planetHistory: [String: [PlanetDataPoint]] = [:]
+    
     private var timer: Timer?
     
     deinit {
         timer?.invalidate()
     }
+    
+    
+    func fetchPlanetStatusTimeSeries(completion: @escaping (Error?) -> Void) {
+        Task {
+            do {
+                let history = try await fetchCachedPlanetData()
+                DispatchQueue.main.async {
+                    self.planetHistory = history
+                    print("Success, there are \(history.count) data points")
+                    completion(nil)  // No error, pass nil to the completion handler
+                }
+            } catch {
+                print("Error fetching planet status time series: \(error)")
+                completion(error)  // Pass the error to the completion handler
+            }
+        }
+    }
+    
+    func fetchCachedPlanetData() async throws -> [String: [PlanetDataPoint]] {
+        let apiURLString = "https://api.github.com/repos/devpoole2907/helldivers-api-cache/contents/data"
+        guard let apiURL = URL(string: apiURLString) else {
+            throw URLError(.badURL)
+        }
+
+         var request = URLRequest(url: apiURL)
+
+        if let apiToken = apiToken { // unauthenticated for deployed versions
+            
+            request.addValue("token \(apiToken)", forHTTPHeaderField: "Authorization")
+        }
+        
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
+        let (apiData, _) = try await URLSession.shared.data(for: request)
+        
+        let files = try decoder.decode([GitHubFile].self, from: apiData)
+        
+        var planetHistory: [String: [PlanetDataPoint]] = [:]
+        
+        for file in files {
+                guard let fileURL = URL(string: file.downloadUrl) else {
+                    continue
+                }
+                
+                do {
+                    let (fileData, response) = try await URLSession.shared.data(from: fileURL)
+                    
+                    guard let httpResponse = response as? HTTPURLResponse else {
+                                    continue
+                                }
+                    
+                    var request = URLRequest(url: apiURL)
+                    request.addValue("token YOUR_PERSONAL_ACCESS_TOKEN", forHTTPHeaderField: "Authorization")
+
+                    
+                    let decodedResponse = try decoder.decode(WarStatusResponse.self, from: fileData)
+                    let planetStatuses = decodedResponse.planetStatus
+                    
+                    let fileTimestamp = extractTimestamp(from: file.name)
+                    
+                    for status in planetStatuses {
+                        let planetName = status.planet.name
+                        let dataPoint = PlanetDataPoint(timestamp: fileTimestamp, status: status)
+                        planetHistory[planetName, default: []].append(dataPoint)
+                    }
+                } catch {
+                    print("Error fetching file data: \(error)")
+                    continue // skip file, couldve been rated limited
+                }
+            }
+        
+        for key in planetHistory.keys {
+            planetHistory[key]?.sort(by: { $0.timestamp < $1.timestamp })
+        }
+        
+        return planetHistory
+    }
+    
+    
+    func extractTimestamp(from filename: String) -> Date {
+        let dateFormatter = ISO8601DateFormatter()
+        let endOfTimestampIndex = filename.firstIndex(of: "_") ?? filename.endIndex
+        let timestampString = String(filename.prefix(upTo: endOfTimestampIndex))
+        return dateFormatter.date(from: timestampString) ?? Date()
+    }
+    
+    
+    
     
     func fetchCurrentWarSeason(completion: @escaping () -> Void) {
         
@@ -102,7 +197,11 @@ class PlanetsViewModel: ObservableObject {
     
     func fetchPlanetStatuses() {
         
+        // this function should be adapted for use both in the caching one or the live one below
+        
         let urlString = "\(apiAddress)/\(currentSeason)/status"
+        
+        //  let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/2024-03-17T02%3A20%3A07Z_planet_statuses.json"
         
         
         guard let url = URL(string: urlString) else { return }
@@ -118,7 +217,7 @@ class PlanetsViewModel: ObservableObject {
                     let decoder = JSONDecoder()
                     
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
-
+                    
                     let decodedResponse = try decoder.decode(WarStatusResponse.self, from: data)
                     DispatchQueue.main.async {
                         self?.planets = decodedResponse.planetStatus
@@ -137,52 +236,7 @@ class PlanetsViewModel: ObservableObject {
         
         
     }
-   /*
-    func fetchPlanetStatuses(for date: Date) async throws -> [PlanetDataPoint] {
-        let dateString = iso8601Formatter.string(from: date)
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/Helldivers-Companion/main/data/\(dateString)_planet_statuses.json"
-        
-        guard let url = URL(string: urlString) else {
-            throw URLError(.badURL)
-        }
-
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        let planetStatuses = try decoder.decode([PlanetStatus].self, from: data)
-        
-        return planetStatuses.map { PlanetDataPoint(timestamp: date, status: $0) }
-    }
-   
-    // fetches from github old planet status to create graphs
-    func fetchCachedPlanetStatuses() async {
-        let totalIntervals = 12 * 6 // 12 hours, 6 times per hour
-        var planetDataPoints: [PlanetDataPoint] = []
-
-        for interval in 0..<totalIntervals {
-            guard let targetDate = Calendar.current.date(byAdding: .minute, value: -interval * 10, to: Date()) else {
-                continue
-            }
-            
-            do {
-                let dataPoints = try await fetchPlanetStatuses(for: targetDate)
-                planetDataPoints.append(contentsOf: dataPoints)
-            } catch {
-                print("Error fetching data for interval \(interval): \(error)")
-            }
-        }
-        
-        // Update your chart UI here with `planetDataPoints`
-        print("count of planet data points: \(planetDataPoints.count)")
-    }
-    // Helper to create an ISO 8601 Date Formatter
-    let iso8601Formatter: ISO8601DateFormatter = {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        return formatter
-    }()
-*/
-
+    
     
     
     // setup the timer to fetch the data every few seconds or so
@@ -191,33 +245,56 @@ class PlanetsViewModel: ObservableObject {
         timer?.invalidate()
         
         fetchCurrentWarSeason() { [weak self] in
-               self?.fetchPlanetStatuses()
-                self?.fetchMajorOrder()
-           }
+            self?.fetchBugRates()
+            self?.fetchPlanetStatuses()
+            self?.fetchMajorOrder()
+            self?.fetchPlanetStatusTimeSeries { error in
+                if let error = error {
+                    print("Error updating planet status time series: \(error)")
+                }
+            }
+        }
         
         timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
             
             // fetch planet data
             
             self?.lastUpdatedDate = Date()
+            self?.fetchBugRates()
             self?.fetchMajorOrder()
             self?.fetchPlanetStatuses()
-            
+            self?.fetchPlanetStatusTimeSeries { error in
+                if let error = error {
+                    print("Error updating planet status time series: \(error)")
+                }
+            }
             
         }
         
     }
+    // update bug rates via github json file so the app doesnt need an update every change
+    func fetchBugRates() {
+            let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/force-rates/rates.json"
+            
+            guard let url = URL(string: urlString) else {
+                print("Invalid URL")
+                return
+            }
+            
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data {
+                    if let decodedResponse = try? JSONDecoder().decode(BugRate.self, from: data) {
+                        DispatchQueue.main.async {
+                            self.bugRates = decodedResponse
+                        }
+                    }
+                }
+            }.resume()
+        }
     
     func isActive(planetStatus: PlanetStatus) -> Bool {
-      // only show with more than 1000 planets and a liberation status less than 100%
+        // only show with more than 1000 planets and a liberation status less than 100%
         return planetStatus.players > 1000 && planetStatus.liberation < 100
     }
-
-    
-    
-    
-    
-    
-    
     
 }

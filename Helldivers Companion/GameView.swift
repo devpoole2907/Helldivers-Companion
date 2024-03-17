@@ -76,6 +76,7 @@ struct GameView: View {
                     
                     
                 }.padding(.top)
+#if os(iOS)
                     .toolbar {
                         ToolbarItem(placement: gameCenterManager.isAuthenticated ? .principal : .topBarLeading) {
                             
@@ -109,6 +110,7 @@ struct GameView: View {
                     }
                     
                 }
+            #endif
                 
             
             

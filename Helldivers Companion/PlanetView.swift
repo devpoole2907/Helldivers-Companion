@@ -20,6 +20,32 @@ struct PlanetView: View {
     
     @State private var showChart = false
     
+    @State private var chartType: ChartType = .liberation
+    let chartTypes: [ChartType] = [.liberation, .players]
+    
+    @State private var chartSelection: Date? = nil
+    
+  //  var planetHistory: [String: [PlanetDataPoint]] = [:]
+    
+#if os(iOS)
+let helldiverImageSize: CGFloat = 25
+let raceIconSize: CGFloat = 25
+    let spacingSize: CGFloat = 10
+    let chartHeight: CGFloat = 240
+    let chartSectionHeight: CGFloat = 300
+
+#elseif os(watchOS)
+    let helldiverImageSize: CGFloat = 10
+    let raceIconSize: CGFloat = 20
+    let spacingSize: CGFloat = 4
+    let chartHeight: CGFloat = 160
+    let chartSectionHeight: CGFloat = 210
+#endif
+
+        private var planetData: [PlanetDataPoint] {
+            viewModel.planetHistory[planetName] ?? []
+        }
+    
     var formattedPlanetImageName: String {
             let cleanedName = planetName
             .filter { !$0.isPunctuation }   // no apostrophes etc
@@ -35,7 +61,7 @@ struct PlanetView: View {
             }
         }
     
-    var bugOrAutomation: String {
+    var bugOrAutomaton: String {
 
         if let planet = planet {
             
@@ -58,10 +84,10 @@ struct PlanetView: View {
             VStack(spacing: 6) {
                 VStack(spacing: 0) {
                     HStack(alignment: .bottom) {
-                        Image(bugOrAutomation).resizable().aspectRatio(contentMode: .fit)
-                            .frame(width: 35, height: 35)
-                        Text(planetName).textCase(.uppercase).foregroundStyle(bugOrAutomation == "terminid" ? Color.yellow : Color.red)
-                            .font(Font.custom("FS Sinclair", size: 24))
+                        Image(bugOrAutomaton).resizable().aspectRatio(contentMode: .fit)
+                            .frame(width: raceIconSize, height: raceIconSize)
+                        Text(planetName).textCase(.uppercase).foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
+                            .font(Font.custom("FS Sinclair", size: largeFont))
                         Spacer()
                         
                         Button(action: {
@@ -71,25 +97,36 @@ struct PlanetView: View {
                                 showChart.toggle()
                             }
                         }){
-                            HStack(alignment: .center, spacing: 4) {
+                            HStack(alignment: .bottom, spacing: 4) {
                                 
                                 Image(systemName: "chart.xyaxis.line").bold()
-                                    .padding(.bottom, 4)
-                                Text("History")   .font(Font.custom("FS Sinclair", size: 24))
-                                
+                                    .padding(.bottom, 2)
+#if os(iOS) 
+                                Text("History")   .font(Font.custom("FS Sinclair", size: smallFont))
+                                #endif
                             }
-                        }.padding(.trailing, 5)
+                        }
+                        
+                        #if os(watchOS)
+                        .padding(.bottom, 4)
+                        .frame(width: 14, height: 14)
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        #endif
+                        .padding(.trailing, 2)
+                        #if os(iOS)
+                      
                             .tint(.white)
                         
+                            .padding(4)
+                            .border(.yellow)
                         
-                            .background {
-                                Color.gray.opacity(0.4)
-                            }
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                        
+                            .padding(.bottom, 2)
+                        #endif
                     }.padding(.horizontal, 5)
                         .padding(.vertical, 2)
                         .background{ Color.black}
+                    
                     
                     if !showChart {
                         Image(formattedPlanetImageName).resizable().aspectRatio(contentMode: .fit)
@@ -98,7 +135,11 @@ struct PlanetView: View {
                 }.border(Color.white)
                     .padding(4)
                     .border(Color.gray)
-                if !showChart {
+                if showChart {
+                    
+                    historyChart
+                    
+                }
                 VStack(spacing: 0) {
                     
                     VStack {
@@ -106,7 +147,7 @@ struct PlanetView: View {
                             
                             // health bar
                             
-                            RectangleProgressBar(value: liberation / 100, secondaryColor: bugOrAutomation == "terminid" ? Color.yellow : Color.red)
+                            RectangleProgressBar(value: liberation / 100, secondaryColor: bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
                             
                                 .padding(.horizontal, 6)
                                 .padding(.trailing, 2)
@@ -126,7 +167,8 @@ struct PlanetView: View {
                     VStack {
                         Text("\(liberation)% Liberated").textCase(.uppercase)
                             .foregroundStyle(.white).bold()
-                            .font(Font.custom("FS Sinclair", size: 18))
+                            .font(Font.custom("FS Sinclair", size: mediumFont))
+                            .multilineTextAlignment(.center)
                         
                     }
                     .frame(maxWidth: .infinity)
@@ -145,12 +187,12 @@ struct PlanetView: View {
                 
                 HStack {
                     
-                    HStack(alignment: .center, spacing: 10) {
-                        Image(bugOrAutomation).resizable().aspectRatio(contentMode: .fit)
-                            .frame(width: 35, height: 35)
+                    HStack(alignment: .center, spacing: spacingSize) {
+                        Image(bugOrAutomaton).resizable().aspectRatio(contentMode: .fit)
+                            .frame(width: raceIconSize, height: raceIconSize)
                         
-                        Text(bugOrAutomation == "terminid" ? "- 3% / h" : "- 1.5% / h").foregroundStyle(bugOrAutomation == "terminid" ? Color.yellow : Color.red).bold()
-                            .font(Font.custom("FS Sinclair", size: 18))
+                        Text(bugOrAutomaton == "terminid" ? "\(viewModel.bugRates.terminidRate) / h" : "\(viewModel.bugRates.automatonRate) / h").foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red).bold()
+                            .font(Font.custom("FS Sinclair", size: mediumFont))
                             .padding(.top, 3)
                         
                     }.frame(maxWidth: .infinity)
@@ -158,13 +200,15 @@ struct PlanetView: View {
                     Rectangle().frame(width: 1, height: 30).foregroundStyle(Color.white)
                         .padding(.vertical, 10)
                     
-                    HStack(spacing: 10) {
+           
+                    HStack(spacing: spacingSize) {
+                
                         
                         Image("helldiverIcon").resizable().aspectRatio(contentMode: .fit)
-                            .frame(width: 25, height: 25)
+                            .frame(width: helldiverImageSize, height: helldiverImageSize)
                         Text("\(playerCount)").textCase(.uppercase)
                             .foregroundStyle(.white).bold()
-                            .font(Font.custom("FS Sinclair", size: 18))
+                            .font(Font.custom("FS Sinclair", size: mediumFont))
                             .padding(.top, 3)
                         
                     }.frame(maxWidth: .infinity)
@@ -180,9 +224,7 @@ struct PlanetView: View {
                 .padding(4)
                 .border(Color.gray)
                 
-                } else {
-                    historyChart
-                }
+                
             }
             
             
@@ -194,16 +236,87 @@ struct PlanetView: View {
     }
     
     var historyChart: some View {
+
         
-        Chart {
-            ForEach(stackedBarData) { shape in
+ 
+            
+           
+        
+        
+            return VStack { 
+                
+                if viewModel.planetHistory.isEmpty {
+                    
+                    ProgressView()
+                        .frame(minHeight: chartHeight)
+                    
+                } else {
+                
+                Chart(planetData, id: \.timestamp) { dataPoint in
+
                 LineMark(
-                    x: .value("Shape Type", shape.type),
-                    y: .value("Total Count", shape.count)
-                )
-                .foregroundStyle(by: .value("Shape Color", shape.color))
+                    x: .value("Time", dataPoint.timestamp),
+                    y: .value(chartType == .liberation ? "Liberation" : "Players", chartType == .liberation ? dataPoint.status.liberation : Double(dataPoint.status.players))
+                ).foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
+                    .lineStyle(StrokeStyle(lineWidth: 2.0))
+                    .interpolationMethod(.catmullRom)
+                
+                
+                
+                
+                
+                //}
+                
+                if let chartSelection = chartSelection, Calendar.current.isDate(chartSelection, equalTo: dataPoint.timestamp, toGranularity: .minute) {
+                    
+                    
+                    
+                    let ruleMark = RuleMark(x: .value("Time", chartSelection))
+                    let annotationView = ChartAnnotationView(value: chartType == .liberation ? "\(String(format: "%.4f", dataPoint.status.liberation))%" : "\(dataPoint.status.players)", date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
+                    ruleMark.opacity(0.5)
+                    
+                    
+                    
+                        .annotation(position: .topLeading, alignment: .top, overflowResolution: .init(x: .fit(to: .chart), y: .fit)){
+                            
+                            annotationView
+                            
+                            
+                            
+                        }
+                    
+                    
+                    
+                }
+            }.chartYScale(domain: [0, chartType == .liberation ? 100 : 350000])
+                
+                    .chartXSelection(value: $chartSelection)
+                
+                    .padding(10)
+                    .frame(minHeight: chartHeight)
+                
+                    .onChange(of: chartSelection) { newValue in
+                        
+                        // find nearest data point to the current selection, jump to it
+                        if let newValue = newValue, !planetData.isEmpty {
+                            let closest = planetData.min(by: { abs($0.timestamp.timeIntervalSince1970 - newValue.timeIntervalSince1970) < abs($1.timestamp.timeIntervalSince1970 - newValue.timeIntervalSince1970) })
+                            chartSelection = closest?.timestamp
+                        }
+                        
+                    }
+                
             }
-        }.padding(15).frame(maxHeight: 200)
+            
+            CustomSegmentedPicker(selection: $chartType, items: chartTypes)
+                #if os(watchOS)
+                
+                    .padding(.trailing, 1.5)
+                
+                #endif
+            
+        }.frame(minHeight: chartSectionHeight)
+        
+    
            
         
     }
@@ -215,24 +328,70 @@ struct PlanetView: View {
     PlanetView().environmentObject(PlanetsViewModel())
 }
 
-struct ToyShape: Identifiable {
-    var color: String
-    var type: String
-    var count: Double
-    var id = UUID()
+enum ChartType: String, SegmentedItem {
+    case liberation = "Liberation"
+    case players = "Players"
+
+    var contentType: SegmentedContentType {
+        switch self {
+        case .liberation:
+            return .text("Liberation")
+        case .players:
+            return .text("Players")
+        }
+    }
 }
 
-var stackedBarData: [ToyShape] = [
-    .init(color: "Green", type: "Cube", count: 2),
-    .init(color: "Green", type: "Sphere", count: 0),
-    .init(color: "Green", type: "Pyramid", count: 1),
-    .init(color: "Purple", type: "Cube", count: 1),
-    .init(color: "Purple", type: "Sphere", count: 1),
-    .init(color: "Purple", type: "Pyramid", count: 1),
-    .init(color: "Pink", type: "Cube", count: 1),
-    .init(color: "Pink", type: "Sphere", count: 2),
-    .init(color: "Pink", type: "Pyramid", count: 0),
-    .init(color: "Yellow", type: "Cube", count: 1),
-    .init(color: "Yellow", type: "Sphere", count: 1),
-    .init(color: "Yellow", type: "Pyramid", count: 2)
-]
+
+struct ChartAnnotationView: View {
+    
+    var chartType: ChartType = .players
+    var bugOrAutomaton = "terminid"
+     var value: String = "55.1586%"
+     var date: String = "4:41PM"
+    
+#if os(iOS)
+let valueFont: CGFloat = 32
+
+#elseif os(watchOS)
+    let valueFont: CGFloat = 16
+
+#endif
+    
+    var body: some View{
+        HStack{
+            VStack(alignment: .leading, spacing: -5){
+            
+            Text("TOTAL")
+                    .font(Font.custom("FS Sinclair", size: smallFont))
+                .foregroundStyle(.gray)
+                .padding(.top, 1)
+            
+            Text(value)
+              
+                .foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
+                .font(Font.custom("FS Sinclair", size: valueFont))
+            
+            Text(date)
+                .foregroundColor(.gray)
+                .font(Font.custom("FS Sinclair", size: smallFont))
+                
+           
+        }.padding(.leading, 8)
+                .padding(.trailing)
+        Spacer()
+        }
+            .padding(.vertical, 4)
+        
+           
+            .border(Color.white)
+                .padding(4)
+                .border(Color.gray)
+                .background{ Color.black}
+    }
+}
+
+#Preview {
+    ChartAnnotationView()
+}
+

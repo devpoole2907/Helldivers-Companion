@@ -9,8 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     
-    
+    #if os(iOS)
     @StateObject var viewModel = PlanetsViewModel()
+    #elseif os(watchOS)
+    @EnvironmentObject var viewModel: PlanetsViewModel
+    #endif
     
     var body: some View {
         
@@ -25,8 +28,8 @@ struct ContentView: View {
                     
                     // some preview planets for when editing
                     
-                    /*
-                    PlanetView().padding(.horizontal)
+                    
+                  /*  PlanetView().padding(.horizontal).environmentObject(viewModel)
                     PlanetView().padding(.horizontal)
                     PlanetView().padding(.horizontal)
                     PlanetView().padding(.horizontal)*/
@@ -43,8 +46,9 @@ struct ContentView: View {
                 
             }.scrollContentBackground(.hidden)
             
+#if os(iOS)
                 majorOrderButton.padding(.bottom, 50)
-            
+                #endif
         }
             
             .sheet(isPresented: $viewModel.showOrders) {
@@ -68,12 +72,16 @@ struct ContentView: View {
                
             
             .onAppear {
-                 viewModel.startUpdating()
+                
+                viewModel.startUpdating()
+
             }
-            
+
+            #if os(iOS)
             .background {
                 Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
             }
+            #endif
         
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -85,12 +93,16 @@ struct ContentView: View {
                         .bold()
                 }
                 
-                ToolbarItem(placement: .principal) {
-                    
-                    Text("LAST UPDATED: \(viewModel.lastUpdatedDate.formatted(date: .omitted, time: .shortened))")
-                        .font(Font.custom("FS Sinclair", size: 24))
-                    
-                }
+                
+#if os(iOS)
+                    ToolbarItem(placement: .principal) {
+                        
+                        Text("LAST UPDATED: \(viewModel.lastUpdatedDate.formatted(date: .omitted, time: .shortened))")
+                            .font(Font.custom("FS Sinclair", size: 24))
+                        
+                    }
+                    #endif
+                
                 
                 
             }
@@ -104,18 +116,20 @@ struct ContentView: View {
         
         NavigationStack {
             
-            OrderView()
+          //  OrderView()
         
                 Text(viewModel.majorOrderString).bold()
                     .padding(.horizontal)
                     .multilineTextAlignment(.center)
             Spacer()
             
+#if os(iOS)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("MAJOR ORDER").textCase(.uppercase).fontWeight(.heavy)
                 }
             }
+            #endif
             
             .navigationBarTitleDisplayMode(.inline)
         }
