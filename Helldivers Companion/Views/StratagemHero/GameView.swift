@@ -311,7 +311,7 @@ struct GameView: View {
             }) {
                 Image(systemName: "arrowshape.left.fill")
                     .font(.system(size: 75))
-            }
+            }.keyboardShortcut(.leftArrow, modifiers: [])
             
             VStack(spacing: 50) {
             
@@ -321,14 +321,15 @@ struct GameView: View {
             }) {
                 Image(systemName: "arrowshape.up.fill")
                     .font(.system(size: 75))
-            }
+            }.keyboardShortcut(.upArrow, modifiers: [])
             
             Button(action: {
                 viewModel.buttonInput(input: .down)
             }) {
                 Image(systemName: "arrowshape.down.fill")
                     .font(.system(size: 75))
-            }
+            }.keyboardShortcut(.downArrow, modifiers: [])
+                
 
         }
             
@@ -337,7 +338,8 @@ struct GameView: View {
             }) {
                 Image(systemName: "arrowshape.right.fill")
                     .font(.system(size: 75))
-            }
+            }.keyboardShortcut(.rightArrow, modifiers: [])
+            
         
         
         }.tint(.yellow)

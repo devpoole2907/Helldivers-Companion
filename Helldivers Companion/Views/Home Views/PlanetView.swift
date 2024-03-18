@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Charts
+import WidgetKit
 
 struct PlanetView: View {
     
@@ -17,6 +18,9 @@ struct PlanetView: View {
     var rate = 0.0
     var playerCount: Int = 347246
     var planet: PlanetStatus? = nil
+    var showHistory = true
+    var showImage = true
+    var showExtraStats = true
     
     @State private var showChart = false
     
@@ -81,60 +85,10 @@ let raceIconSize: CGFloat = 25
         
         VStack {
             
-            VStack(spacing: 6) {
-                VStack(spacing: 0) {
-                    HStack(alignment: .bottom) {
-                        Image(bugOrAutomaton).resizable().aspectRatio(contentMode: .fit)
-                            .frame(width: raceIconSize, height: raceIconSize)
-                        Text(planetName).textCase(.uppercase).foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
-                            .font(Font.custom("FS Sinclair", size: largeFont))
-                        Spacer()
-                        
-                        Button(action: {
-                            
-                         
-                            withAnimation {
-                                showChart.toggle()
-                            }
-                        }){
-                            HStack(alignment: .bottom, spacing: 4) {
-                                
-                                Image(systemName: "chart.xyaxis.line").bold()
-                                    .padding(.bottom, 2)
-#if os(iOS) 
-                                Text("History")   .font(Font.custom("FS Sinclair", size: smallFont))
-                                #endif
-                            }
-                        }
-                        
-                        #if os(watchOS)
-                        .padding(.bottom, 4)
-                        .frame(width: 14, height: 14)
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        #endif
-                        .padding(.trailing, 2)
-                        #if os(iOS)
-                      
-                            .tint(.white)
-                        
-                            .padding(4)
-                            .border(.yellow)
-                        
-                            .padding(.bottom, 2)
-                        #endif
-                    }.padding(.horizontal, 5)
-                        .padding(.vertical, 2)
-                        .background{ Color.black}
-                    
-                    
-                    if !showChart {
-                        Image(formattedPlanetImageName).resizable().aspectRatio(contentMode: .fit)
-                    }
-                    
-                }.border(Color.white)
-                    .padding(4)
-                    .border(Color.gray)
+            VStack(spacing: showExtraStats ? 6 : 2) {
+                
+                headerWithImage
+                
                 if showChart {
                     
                     historyChart
@@ -154,7 +108,7 @@ let raceIconSize: CGFloat = 25
                             
                             
                             
-                        }.frame(height: 34)
+                        }.frame(height: showExtraStats ? 34 : 30)
                             .foregroundStyle(Color.clear)
                             .border(Color.orange, width: 2)
                             .padding(.horizontal, 4)
@@ -167,7 +121,7 @@ let raceIconSize: CGFloat = 25
                     VStack {
                         Text("\(liberation)% Liberated").textCase(.uppercase)
                             .foregroundStyle(.white).bold()
-                            .font(Font.custom("FS Sinclair", size: mediumFont))
+                            .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
                             .multilineTextAlignment(.center)
                         
                     }
@@ -184,7 +138,7 @@ let raceIconSize: CGFloat = 25
                 .border(Color.white)
                 .padding(4)
                 .border(Color.gray)
-                
+                if showExtraStats {
                 HStack {
                     
                     HStack(alignment: .center, spacing: spacingSize) {
@@ -200,9 +154,9 @@ let raceIconSize: CGFloat = 25
                     Rectangle().frame(width: 1, height: 30).foregroundStyle(Color.white)
                         .padding(.vertical, 10)
                     
-           
+                    
                     HStack(spacing: spacingSize) {
-                
+                        
                         
                         Image("helldiverIcon").resizable().aspectRatio(contentMode: .fit)
                             .frame(width: helldiverImageSize, height: helldiverImageSize)
@@ -224,6 +178,8 @@ let raceIconSize: CGFloat = 25
                 .padding(4)
                 .border(Color.gray)
                 
+            }
+                
                 
             }
             
@@ -233,6 +189,82 @@ let raceIconSize: CGFloat = 25
                 Color.black
             }
             .border(.yellow, width: 2)
+    }
+    
+    var headerWithImage: some View {
+        VStack(spacing: 0) {
+            HStack(alignment: .center) {
+                Image(bugOrAutomaton).resizable().aspectRatio(contentMode: .fit)
+                    .frame(width: raceIconSize, height: raceIconSize)
+                Text(planetName).textCase(.uppercase).foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
+                    .font(Font.custom("FS Sinclair", size: largeFont))
+                    .padding(.top, 3)
+                
+                Spacer()
+                
+                
+                if !showExtraStats {
+                    HStack(spacing: spacingSize) {
+                        
+                        
+                        Image("helldiverIcon").resizable().aspectRatio(contentMode: .fit)
+                            .frame(width: 16, height: 16)
+                        Text("\(playerCount)").textCase(.uppercase)
+                            .foregroundStyle(.white).bold()
+                            .font(Font.custom("FS Sinclair", size: smallFont))
+                            .padding(.top, 3)
+                        
+                    }.padding(.trailing, 4)
+                }
+                
+                if showHistory {
+                Button(action: {
+                    
+                    
+                    withAnimation {
+                        showChart.toggle()
+                    }
+                }){
+                    HStack(alignment: .bottom, spacing: 4) {
+                        
+                        Image(systemName: "chart.xyaxis.line").bold()
+                            .padding(.bottom, 2)
+#if os(iOS)
+                        Text("History")   .font(Font.custom("FS Sinclair", size: smallFont))
+#endif
+                    }
+                }
+                
+#if os(watchOS)
+                .frame(width: 14, height: 14)
+                .buttonStyle(PlainButtonStyle())
+                
+#endif
+                .padding(.trailing, 2)
+#if os(iOS)
+                
+                .tint(.white)
+                
+                .padding(4)
+                .border(.yellow)
+#endif
+                
+                
+            }
+                
+            }.padding(.horizontal, 5)
+                .padding(.vertical, 2)
+                .background{ Color.black}
+            
+            if showImage {
+                if !showChart {
+                    Image(formattedPlanetImageName).resizable().aspectRatio(contentMode: .fit)
+                }
+            }
+            
+        }.border(Color.white)
+            .padding(4)
+            .border(Color.gray)
     }
     
     var historyChart: some View {

@@ -121,7 +121,7 @@ class PlanetsViewModel: ObservableObject {
     
     
     
-    func fetchCurrentWarSeason(completion: @escaping () -> Void) {
+    func fetchCurrentWarSeason(completion: @escaping (String) -> Void) {
         
         let urlString = apiAddress
         guard let url = URL(string: urlString) else { return }
@@ -135,7 +135,7 @@ class PlanetsViewModel: ObservableObject {
                     let decodedResponse = try JSONDecoder().decode(WarSeason.self, from: data)
                     DispatchQueue.main.async {
                         self?.currentSeason = decodedResponse.current
-                        completion()
+                        completion(decodedResponse.current)
                     }
                     
                 } catch {
@@ -195,11 +195,12 @@ class PlanetsViewModel: ObservableObject {
     }
     
     
-    func fetchPlanetStatuses() {
+    func fetchPlanetStatuses(for season: String? = nil, completion: @escaping ([PlanetStatus]) -> Void) {
         
         // this function should be adapted for use both in the caching one or the live one below
         
-        let urlString = "\(apiAddress)/\(currentSeason)/status"
+        
+        let urlString = "\(apiAddress)/\(season ?? currentSeason)/status"
         
         //  let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/2024-03-17T02%3A20%3A07Z_planet_statuses.json"
         
@@ -208,7 +209,12 @@ class PlanetsViewModel: ObservableObject {
         
         URLSession.shared.dataTask(with: url){ [weak self] data, response, error in
             
-            if let data = data {
+            guard let data = data else {
+                completion([])
+                return
+            }
+            
+
                 
                 
                 
@@ -220,16 +226,22 @@ class PlanetsViewModel: ObservableObject {
                     
                     let decodedResponse = try decoder.decode(WarStatusResponse.self, from: data)
                     DispatchQueue.main.async {
-                        self?.planets = decodedResponse.planetStatus
+                        
+                        
+                        
+                        let filteredPlanets = decodedResponse.planetStatus
                             .filter { [weak self] in self?.isActive(planetStatus: $0) ?? false }
                             .sorted { $1.players < $0.players}
+                        self?.planets = filteredPlanets
+                                        completion(filteredPlanets)
                     }
                     
                 } catch {
                     print("Decoding error: \(error)")
+                    completion([])
                 }
                 
-            }
+            
             
             
         }.resume()
@@ -244,9 +256,11 @@ class PlanetsViewModel: ObservableObject {
         
         timer?.invalidate()
         
-        fetchCurrentWarSeason() { [weak self] in
+        fetchCurrentWarSeason() { [weak self] _ in
             self?.fetchBugRates()
-            self?.fetchPlanetStatuses()
+            self?.fetchPlanetStatuses { planets in
+                print("Fetched planets: \(planets)")
+            }
             self?.fetchMajorOrder()
             self?.fetchPlanetStatusTimeSeries { error in
                 if let error = error {
@@ -262,7 +276,9 @@ class PlanetsViewModel: ObservableObject {
             self?.lastUpdatedDate = Date()
             self?.fetchBugRates()
             self?.fetchMajorOrder()
-            self?.fetchPlanetStatuses()
+            self?.fetchPlanetStatuses { planets in
+                print("Fetched planets: \(planets)")
+            }
             self?.fetchPlanetStatusTimeSeries { error in
                 if let error = error {
                     print("Error updating planet status time series: \(error)")

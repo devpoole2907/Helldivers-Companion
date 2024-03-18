@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ContentView: View {
     
@@ -54,6 +55,7 @@ struct ContentView: View {
             .sheet(isPresented: $viewModel.showOrders) {
                 
                 ordersSheet
+                
                 
                 .presentationDetents([.fraction(0.65)])
                 .presentationDragIndicator(.visible)
@@ -134,6 +136,9 @@ struct ContentView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         
+      
+
+        
         
     }
     
@@ -145,14 +150,15 @@ struct ContentView: View {
             Text("Major Order").textCase(.uppercase).tint(.white).fontWeight(.heavy)
                 .font(Font.custom("FS Sinclair", size: 20))
         }.padding()
-            
+        
             .background {
                 Color.black.opacity(0.7)
-        }
+            }
             .clipShape(RoundedRectangle(cornerRadius: 12))
         
-        .padding()
+            .padding()
         
+
         
     }
     
@@ -161,4 +167,19 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+}
+
+
+extension View {
+   
+    var isIpad: Bool {
+#if !os(watchOS)
+        UIDevice.current.userInterfaceIdiom == .pad
+        #else
+        
+        return false
+        
+        #endif
+    }
+    
 }
