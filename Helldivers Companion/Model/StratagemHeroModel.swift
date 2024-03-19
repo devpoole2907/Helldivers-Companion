@@ -48,12 +48,16 @@ class StratagemHeroModel: ObservableObject {
             loadStratagems(forRound: currentRound)
             nextStratagem()
             startTimer()
+        withAnimation {
             gameState = .started
+        }
         }
     
     func stopGame() {
         totalScore = 0 // clear total score
-        gameState = .notStarted
+        withAnimation {
+            gameState = .notStarted
+        }
     }
     
     enum GameState {
@@ -109,7 +113,9 @@ class StratagemHeroModel: ObservableObject {
                 highScore = totalScore
             }
             self.topScores = await gameCenterManager.loadTopScores(leaderboardID: leaderboardId, count: 3)
-            gameState = .gameOver
+            withAnimation {
+                gameState = .gameOver
+            }
         }
   
        
@@ -117,7 +123,9 @@ class StratagemHeroModel: ObservableObject {
     }
     
     func endRound() {
-        gameState = .roundEnded
+        withAnimation {
+            gameState = .roundEnded
+        }
         
         totalScore += roundScore + roundBonus + timeBonus + perfectBonus
 
@@ -133,8 +141,9 @@ class StratagemHeroModel: ObservableObject {
         nextStratagem()
         
         
-        
-        gameState = .roundStarting
+        withAnimation {
+            gameState = .roundStarting
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             // reset scores
             self.roundScore = 0
@@ -142,7 +151,9 @@ class StratagemHeroModel: ObservableObject {
             self.timeBonus = 0
             self.perfectBonus = 0
             self.startTimer()
-            self.gameState = .started
+            withAnimation {
+                self.gameState = .started
+            }
         }
     }
 

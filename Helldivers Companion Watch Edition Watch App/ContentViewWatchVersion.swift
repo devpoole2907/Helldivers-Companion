@@ -21,21 +21,30 @@ struct ContentViewWatchVersion: View {
                 
               //  OrderView()
             
+                ScrollView {
                     Text(viewModel.majorOrderString).bold()
                         .padding(.horizontal)
                         .multilineTextAlignment(.center)
-                Spacer()
+                        .font(Font.custom("FS Sinclair", size: 18))
+                    Spacer()
+                }.scrollContentBackground(.hidden)
                 
   
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
-                        Text("MAJOR ORDER").textCase(.uppercase).fontWeight(.heavy)
+                        Text("MAJOR ORDER").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont))
                     }
                 }
            
                 
                 .navigationBarTitleDisplayMode(.inline)
             }
+            
+            NewsView()
+ 
+           
+                
+                .navigationBarTitleDisplayMode(.inline)
             
         }.background {
             Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()

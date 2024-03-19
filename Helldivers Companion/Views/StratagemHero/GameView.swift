@@ -17,7 +17,7 @@ struct GameView: View {
            
                 
                 
-            VStack(spacing: 30) {
+            VStack(spacing: getRect().height == 667 ? 0 : 30) {
                 Group {
                     switch viewModel.gameState {
                     case .started:
@@ -69,11 +69,10 @@ struct GameView: View {
                     }
                 }.frame(maxHeight: .infinity)
                 
-                if getRect().height != 667 {
-                Spacer()
-            }
+          
                 buttons.padding(.bottom, getRect().height == 667 ? 30 : 0)
                     
+                Spacer()
                     
                 }.padding(.top)
 #if os(iOS)
@@ -302,7 +301,7 @@ struct GameView: View {
     
     var buttons: some View {
         
-        HStack {
+        HStack(spacing: getRect().height == 667 ? 0 : 8) {
             
             
             
@@ -310,24 +309,24 @@ struct GameView: View {
                 viewModel.buttonInput(input: .left)
             }) {
                 Image(systemName: "arrowshape.left.fill")
-                    .font(.system(size: 75))
+                    .font(.system(size: getRect().height == 667 ? 60 : 75))
             }.keyboardShortcut(.leftArrow, modifiers: [])
             
-            VStack(spacing: 50) {
+            VStack(spacing: getRect().height == 667 ? 30 : 50) {
             
             
             Button(action: {
                 viewModel.buttonInput(input: .up)
             }) {
                 Image(systemName: "arrowshape.up.fill")
-                    .font(.system(size: 75))
+                    .font(.system(size: getRect().height == 667 ? 60 : 75))
             }.keyboardShortcut(.upArrow, modifiers: [])
             
             Button(action: {
                 viewModel.buttonInput(input: .down)
             }) {
                 Image(systemName: "arrowshape.down.fill")
-                    .font(.system(size: 75))
+                    .font(.system(size: getRect().height == 667 ? 60 : 75))
             }.keyboardShortcut(.downArrow, modifiers: [])
                 
 
@@ -337,7 +336,7 @@ struct GameView: View {
                 viewModel.buttonInput(input: .right)
             }) {
                 Image(systemName: "arrowshape.right.fill")
-                    .font(.system(size: 75))
+                    .font(.system(size: getRect().height == 667 ? 60 : 75))
             }.keyboardShortcut(.rightArrow, modifiers: [])
             
         

@@ -10,11 +10,8 @@ import UIKit
 
 struct ContentView: View {
     
-    #if os(iOS)
-    @StateObject var viewModel = PlanetsViewModel()
-    #elseif os(watchOS)
     @EnvironmentObject var viewModel: PlanetsViewModel
-    #endif
+
     
     var body: some View {
         
@@ -35,9 +32,17 @@ struct ContentView: View {
                     PlanetView().padding(.horizontal)
                     PlanetView().padding(.horizontal)*/
                     
-                    ForEach(viewModel.planets, id: \.self) { planet in
+                    ForEach(viewModel.defensePlanets, id: \.planet.index) { planet in
+                      
+                        if let status = planet.planetStatus {
+                            PlanetView(planetName: planet.planet.name, liberation: planet.defensePercentage, playerCount: status.players, planet: status, liberationType: .defense).environmentObject(viewModel)
+                                .padding(.horizontal)
+                        }
+                    }
+                    
+                    ForEach(viewModel.planets, id: \.self) { planetStatus in
                         
-                        PlanetView(planetName: planet.planet.name, liberation: planet.liberation, rate: planet.regenPerSecond, playerCount: planet.players, planet: planet).environmentObject(viewModel)
+                        PlanetView(planetName: planetStatus.planet.name, liberation: planetStatus.liberation, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus).environmentObject(viewModel)
                             .padding(.horizontal)
                     }
                     
@@ -46,9 +51,16 @@ struct ContentView: View {
                 Spacer(minLength: 100)
                 
             }.scrollContentBackground(.hidden)
+                
+                    .refreshable {
+                        viewModel.refresh()
+                    }
             
 #if os(iOS)
                 majorOrderButton.padding(.bottom, 50)
+                
+        
+                
                 #endif
         }
             
@@ -72,12 +84,13 @@ struct ContentView: View {
                 
             }
                
-            
+            #if os(watchOS) // this is updated in root on ios
             .onAppear {
                 
                 viewModel.startUpdating()
 
             }
+            #endif
 
             #if os(iOS)
             .background {
@@ -117,21 +130,43 @@ struct ContentView: View {
     var ordersSheet: some View {
         
         NavigationStack {
-            
-          //  OrderView()
-        
-                Text(viewModel.majorOrderString).bold()
-                    .padding(.horizontal)
-                    .multilineTextAlignment(.center)
+            ScrollView {
+            OrderView().padding(.horizontal)
+
             Spacer()
             
 #if os(iOS)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("MAJOR ORDER").textCase(.uppercase).fontWeight(.heavy)
+                 
+                    ZStack(alignment: .leading) {
+                        Image("MajorOrdersBanner").resizable()
+                            .frame(width: getRect().width + 50, height: 60).ignoresSafeArea()
+                            .offset(CGSize(width: 0, height: 0))
+                            .border(Color.white, width: 2)
+                            .padding(.bottom)
+                            .opacity(0.8)
+                          
+                        
+                        HStack(alignment: .firstTextBaseline, spacing: 3) {
+                            Image(systemName: "scope").bold()
+                           
+                            Text("MAJOR ORDER").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 24))
+                                    
+                        }.padding(.leading, 70)
+                    }
+                    
+                
+                        
                 }
             }
             #endif
+            
+        }.scrollContentBackground(.hidden)
+     
+            .toolbarBackground(.hidden, for: .navigationBar)
+            
+          
             
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -166,7 +201,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView().environmentObject(PlanetsViewModel())
 }
 
 

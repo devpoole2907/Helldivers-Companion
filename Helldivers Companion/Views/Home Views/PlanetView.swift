@@ -21,15 +21,22 @@ struct PlanetView: View {
     var showHistory = true
     var showImage = true
     var showExtraStats = true
+    var liberationType: LiberationType = .liberation
     
     @State private var showChart = false
     
-    @State private var chartType: ChartType = .liberation
-    let chartTypes: [ChartType] = [.liberation, .players]
+    @State private var chartType: ChartType = .players
+    
+    var chartTypes: [ChartType] {
+        switch liberationType {
+        case .liberation:
+            return [.liberation, .players]
+        case .defense:
+            return [.defense, .players]
+        }
+    }
     
     @State private var chartSelection: Date? = nil
-    
-  //  var planetHistory: [String: [PlanetDataPoint]] = [:]
     
 #if os(iOS)
 let helldiverImageSize: CGFloat = 25
@@ -119,7 +126,7 @@ let raceIconSize: CGFloat = 25
                         .frame(height: 1)
                     
                     VStack {
-                        Text("\(liberation)% Liberated").textCase(.uppercase)
+                        Text("\(liberation)% \(liberationType == .liberation ? "Liberated" : "Defended")").textCase(.uppercase)
                             .foregroundStyle(.white).bold()
                             .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
                             .multilineTextAlignment(.center)
@@ -142,12 +149,19 @@ let raceIconSize: CGFloat = 25
                 HStack {
                     
                     HStack(alignment: .center, spacing: spacingSize) {
-                        Image(bugOrAutomaton).resizable().aspectRatio(contentMode: .fit)
-                            .frame(width: raceIconSize, height: raceIconSize)
                         
-                        Text(bugOrAutomaton == "terminid" ? "\(viewModel.bugRates.terminidRate) / h" : "\(viewModel.bugRates.automatonRate) / h").foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red).bold()
-                            .font(Font.custom("FS Sinclair", size: mediumFont))
-                            .padding(.top, 3)
+                        if liberationType == .liberation {
+                            
+                            Image(bugOrAutomaton).resizable().aspectRatio(contentMode: .fit)
+                                .frame(width: raceIconSize, height: raceIconSize)
+                            
+                            Text(bugOrAutomaton == "terminid" ? "\(viewModel.configData.terminidRate) / h" : "\(viewModel.configData.automatonRate) / h").foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red).bold()
+                                .font(Font.custom("FS Sinclair", size: mediumFont))
+                                .padding(.top, 3)
+                            
+                        } else {
+                            Text("DEFEND") .font(Font.custom("FS Sinclair", size: largeFont))
+                        }
                         
                     }.frame(maxWidth: .infinity)
                     
@@ -269,12 +283,6 @@ let raceIconSize: CGFloat = 25
     
     var historyChart: some View {
 
-        
- 
-            
-           
-        
-        
             return VStack { 
                 
                 if viewModel.planetHistory.isEmpty {
@@ -286,41 +294,51 @@ let raceIconSize: CGFloat = 25
                 
                 Chart(planetData, id: \.timestamp) { dataPoint in
 
-                LineMark(
-                    x: .value("Time", dataPoint.timestamp),
-                    y: .value(chartType == .liberation ? "Liberation" : "Players", chartType == .liberation ? dataPoint.status.liberation : Double(dataPoint.status.players))
-                ).foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
-                    .lineStyle(StrokeStyle(lineWidth: 2.0))
-                    .interpolationMethod(.catmullRom)
-                
-                
-                
-                
-                
-                //}
-                
-                if let chartSelection = chartSelection, Calendar.current.isDate(chartSelection, equalTo: dataPoint.timestamp, toGranularity: .minute) {
-                    
-                    
-                    
-                    let ruleMark = RuleMark(x: .value("Time", chartSelection))
-                    let annotationView = ChartAnnotationView(value: chartType == .liberation ? "\(String(format: "%.4f", dataPoint.status.liberation))%" : "\(dataPoint.status.players)", date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
-                    ruleMark.opacity(0.5)
-                    
-                    
-                    
-                        .annotation(position: .topLeading, alignment: .top, overflowResolution: .init(x: .fit(to: .chart), y: .fit)){
+                    if let status = dataPoint.status {
+                        LineMark(
+                            x: .value("Time", dataPoint.timestamp),
+                            y: .value(
+                                    chartType == .liberation ? "Liberation" :
+                                    chartType == .defense ? "Defense" : "Players",
+                                    chartType == .liberation ? status.liberation :
+                                        chartType == .defense ? status.defensePercentage ?? 0.0 :
+                                    Double(status.players)
+                                )
+                        ).foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
+                            .lineStyle(StrokeStyle(lineWidth: 2.0))
+                            .interpolationMethod(.catmullRom)
+                        
+                        
+                        
+                        
+                        if let chartSelection = chartSelection, Calendar.current.isDate(chartSelection, equalTo: dataPoint.timestamp, toGranularity: .minute) {
                             
-                            annotationView
+                            
+                            
+                            let ruleMark = RuleMark(x: .value("Time", chartSelection))
+                            let annotationValue = chartType == .liberation ? "\(String(format: "%.2f%%", status.liberation))" :
+                            chartType == .defense ? "\(String(format: "%.2f%%", status.defensePercentage ?? 0.0))" :
+                                                  "\(status.players)"
+                            let annotationView = ChartAnnotationView(value: annotationValue, date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
+                            ruleMark.opacity(0.5)
+
+                            
+                            
+                            
+                                .annotation(position: .topLeading, alignment: .top, overflowResolution: .init(x: .fit(to: .chart), y: .fit)){
+                                    
+                                    annotationView
+                                    
+                                    
+                                    
+                                }
                             
                             
                             
                         }
-                    
-                    
-                    
-                }
-            }.chartYScale(domain: [0, chartType == .liberation ? 100 : 350000])
+                        
+                    }
+            }.chartYScale(domain: [0, chartType == .players ? 350000 : 100])
                 
                     .chartXSelection(value: $chartSelection)
                 
@@ -363,6 +381,7 @@ let raceIconSize: CGFloat = 25
 enum ChartType: String, SegmentedItem {
     case liberation = "Liberation"
     case players = "Players"
+    case defense = "Defense"
 
     var contentType: SegmentedContentType {
         switch self {
@@ -370,8 +389,17 @@ enum ChartType: String, SegmentedItem {
             return .text("Liberation")
         case .players:
             return .text("Players")
+        case .defense:
+            return .text("Defense")
         }
     }
+}
+
+enum LiberationType: String {
+    
+    case liberation = "Liberation"
+    case defense = "Defense"
+    
 }
 
 

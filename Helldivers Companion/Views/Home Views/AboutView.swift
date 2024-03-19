@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct AboutView: View {
+    
+    @EnvironmentObject var viewModel: PlanetsViewModel
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -17,6 +20,11 @@ struct AboutView: View {
                 
                 Text("This application is not affiliated with, endorsed by, or in any way officially connected to Arrowhead Game Studios or Sony. All game content, including images and trademarks, are the property of their respective owners. The use of such content within this app falls under fair use for informational purposes and does not imply any association with the game developers or publishers.")
                     .font(Font.custom("FS Sinclair", size: 18))
+                
+                if let alert = viewModel.configData.alert {
+                    Text(alert)      .font(Font.custom("FS Sinclair", size: 18))
+                        .foregroundStyle(Color.yellow)
+                }
                 
             }.padding(.horizontal)
                 .padding(.top)

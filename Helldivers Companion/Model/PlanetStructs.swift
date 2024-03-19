@@ -10,13 +10,15 @@ import SwiftUI
 
 struct WarStatusResponse: Decodable {
     let planetStatus: [PlanetStatus]
+    var planetEvents: [PlanetEvent]
     let snapshotAt: String
     let warId: Int
 }
 
 struct PlanetDataPoint {
     let timestamp: Date
-    let status: PlanetStatus
+    var status: PlanetStatus?
+    var event: PlanetEvent?
 }
 
 struct PlanetStatus: Decodable, Hashable {
@@ -35,6 +37,28 @@ struct PlanetStatus: Decodable, Hashable {
     let planet: Planet
     let players: Int
     let regenPerSecond: Double
+    var defensePercentage: Double?
+    
+}
+
+struct PlanetEvent: Decodable {
+    let planet: Planet
+    let health: Int
+    let maxHealth: Int
+    let race: String
+    var planetStatus: PlanetStatus?
+    
+    // computed property, calcs defense percent
+   var defensePercentage: Double {
+            maxHealth > 0 ? (1 - (Double(health) / Double(maxHealth))) * 100 : 0
+        }
+
+        enum CodingKeys: String, CodingKey {
+            case planet
+            case health
+            case maxHealth
+            case race
+        }
 }
 
 struct Planet: Decodable {
@@ -80,8 +104,15 @@ struct MajorOrderResponse: Decodable {
 }
 
 struct Message: Decodable {
-    
-    let en: String
+    let de, en, es, fr, it, pl, ru, zh: String?
+}
+
+struct NewsFeed: Decodable {
+    let id: Int
+    let message: Message?
+    let published: String?
+    let tagIds: [Int]
+    let type: Int
 }
 
 struct GitHubFile: Decodable {
@@ -90,9 +121,10 @@ struct GitHubFile: Decodable {
 
 }
 
-struct BugRate: Decodable {
+struct RemoteConfigDetails: Decodable {
     let terminidRate: String
     let automatonRate: String
+    let alert: String?
 }
 
 #if os(iOS)

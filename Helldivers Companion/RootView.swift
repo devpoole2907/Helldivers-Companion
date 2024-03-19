@@ -13,11 +13,14 @@ struct RootView: View {
     
     @StateObject private var notificationManager = NotificationManager()
     
+    @StateObject var viewModel = PlanetsViewModel()
+    
+    
     var body: some View {
         ZStack(alignment: .bottom){
             TabView(selection: $currentTab) {
                 
-                ContentView()
+                ContentView().environmentObject(viewModel)
                     .tag(Tab.home)
                 
                     .toolbarBackground(.hidden, for: .tabBar)
@@ -26,6 +29,9 @@ struct RootView: View {
                         await notificationManager.request()
                     }
                 
+                NewsView()
+                    .tag(Tab.news)
+                    .toolbarBackground(.hidden, for: .tabBar)
                 
                 GameView()
                     .tag(Tab.game)
@@ -40,13 +46,19 @@ struct RootView: View {
             await notificationManager.getAuthStatus()
         }
         
+        .onAppear {
+            
+            viewModel.startUpdating()
+
+        }
+        
     }
     
     var tabButtons: some View {
         VStack(spacing: 0){
             HStack(spacing: 0) {
                 TabButton(tab: .home, action: {currentTab = .home})
-                
+                TabButton(tab: .news, action: {currentTab = .news})
                 TabButton(tab: .game, action: {currentTab = .game})
             }
             .padding(.top, (UIScreen.main.bounds.height) == 667 || (UIScreen.main.bounds.height) == 736 ? 10 : 15)
@@ -106,6 +118,7 @@ extension View {
 
 enum Tab: String, CaseIterable {
     case home = "War"
+    case news = "News"
     case game = "Game"
     
     var systemImage: String? {
@@ -114,6 +127,8 @@ enum Tab: String, CaseIterable {
             return "globe.americas.fill"
         case .game:
             return "scope"
+        case .news:
+            return "newspaper.fill"
         }
     }
 }

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyD05M7Fo9zhQA0OpLwUBH0Y6G_OQVP3Hy8</string>
+	<string>AIzaSyAI7Pqgj5S0moafE6anR7mOTclDdHa-G_8</string>
 	<key>GCM_SENDER_ID</key>
 	<string>552449488278</string>
 	<key>PLIST_VERSION</key>
@@ -15,15 +15,15 @@
 	<key>STORAGE_BUCKET</key>
 	<string>helldivers-war-monitor.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:552449488278:ios:cd1044143da43507ffd9b7</string>
 </dict>
