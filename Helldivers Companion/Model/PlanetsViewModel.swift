@@ -32,6 +32,7 @@ class PlanetsViewModel: ObservableObject {
     @Published var eventHistory: [String: [PlanetDataPoint]] = [:]
     
     private var timer: Timer?
+    private var cacheTimer: Timer?
     
     deinit {
         timer?.invalidate()
@@ -45,6 +46,9 @@ class PlanetsViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.planetHistory = history.0
                     self.eventHistory = history.1
+                    
+                    print("there are this many event history: \(self.eventHistory.count)")
+                    
                 //    print("Success, there are \(history.count) data points")
                     completion(nil)  // No error, pass nil to the completion handler
                 }
@@ -254,7 +258,8 @@ class PlanetsViewModel: ObservableObject {
         
         let urlString = "\(apiAddress)/\(season ?? currentSeason)/status"
         
-        //  let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/2024-03-17T02%3A20%3A07Z_planet_statuses.json"
+        // for testing
+        //  let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/planet_event_test_planet_statuses.json"
         
         
         guard let url = URL(string: urlString) else { return }
@@ -334,6 +339,8 @@ class PlanetsViewModel: ObservableObject {
         
         timer?.invalidate()
         
+        cacheTimer?.invalidate()
+        
         refresh()
         
         timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
@@ -346,13 +353,22 @@ class PlanetsViewModel: ObservableObject {
             self?.fetchPlanetStatuses { planets in
                 print("Updated planets: \(planets)")
             }
+
+            
+        }
+        
+        // fetch cache every 5 min (although it is only updated every 10...)
+        cacheTimer = Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { [weak self] _ in
+            
             self?.fetchPlanetStatusTimeSeries { error in
                 if let error = error {
                     print("Error updating planet status time series: \(error)")
                 }
             }
             
+            
         }
+        
         
     }
     // update bug rates via github json file so the app doesnt need an update every change, or an alert string to present in the about page to update remotely

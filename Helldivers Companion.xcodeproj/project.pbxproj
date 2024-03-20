@@ -15,6 +15,8 @@
 		7C0C995D2BA2BAFD00CF7C91 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C0C995F2BA2C7BC00CF7C91 /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */; };
 		7C0C99612BA2FA0600CF7C91 /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
+		7C319F942BAAE91E0075A1E4 /* NewsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */; };
+		7C319F952BAAEF7F0075A1E4 /* NewsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */; };
 		7C3A9EC62BA944BE00F26307 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3A9EC52BA944BE00F26307 /* NewsView.swift */; };
 		7C3A9EC72BA9528A00F26307 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3A9EC52BA944BE00F26307 /* NewsView.swift */; };
 		7C3A9EC92BA9724E00F26307 /* NewsFeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3A9EC82BA9724E00F26307 /* NewsFeedModel.swift */; };
@@ -147,6 +149,7 @@
 		7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetsViewModel.swift; sourceTree = "<group>"; };
 		7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetView.swift; sourceTree = "<group>"; };
 		7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleProgressBar.swift; sourceTree = "<group>"; };
+		7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemView.swift; sourceTree = "<group>"; };
 		7C3A9EC52BA944BE00F26307 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
 		7C3A9EC82BA9724E00F26307 /* NewsFeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedModel.swift; sourceTree = "<group>"; };
 		7C3DE9772BA80B3D00C95B84 /* Helldivers Companion Watch WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion Watch WidgetsExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -281,6 +284,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		7C319F922BAAE90F0075A1E4 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				7C3A9EC52BA944BE00F26307 /* NewsView.swift */,
+				7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */,
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
 		7C3DE97A2BA80B3D00C95B84 /* Helldivers Companion Watch Widgets */ = {
 			isa = PBXGroup;
 			children = (
@@ -362,11 +374,11 @@
 		7CE4AE3B2BA832930033D4AF /* Home Views */ = {
 			isa = PBXGroup;
 			children = (
+				7C319F922BAAE90F0075A1E4 /* News */,
 				7C0C994D2BA2BA8F00CF7C91 /* ContentView.swift */,
 				7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */,
 				7C4589B62BA546B00019B00E /* OrderView.swift */,
 				7C4589BB2BA54ED50019B00E /* AboutView.swift */,
-				7C3A9EC52BA944BE00F26307 /* NewsView.swift */,
 			);
 			path = "Home Views";
 			sourceTree = "<group>";
@@ -576,6 +588,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C319F942BAAE91E0075A1E4 /* NewsItemView.swift in Sources */,
 				7C4589BC2BA54ED50019B00E /* AboutView.swift in Sources */,
 				7C0C995D2BA2BAFD00CF7C91 /* PlanetsViewModel.swift in Sources */,
 				7C0C994E2BA2BA8F00CF7C91 /* ContentView.swift in Sources */,
@@ -618,6 +631,7 @@
 				7C3DE9722BA80A1A00C95B84 /* Helldivers_Companion_Widgets.swift in Sources */,
 				7C587F562BA6DBFD00C66643 /* PlanetsViewModel.swift in Sources */,
 				7C587F5E2BA6DD2500C66643 /* RectangleProgressBar.swift in Sources */,
+				7C319F952BAAEF7F0075A1E4 /* NewsItemView.swift in Sources */,
 				7C587F572BA6DC2400C66643 /* ContentView.swift in Sources */,
 				7C587F5A2BA6DCFC00C66643 /* OrderView.swift in Sources */,
 				7C587F5B2BA6DD0800C66643 /* PlanetView.swift in Sources */,

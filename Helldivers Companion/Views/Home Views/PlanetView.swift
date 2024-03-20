@@ -57,6 +57,10 @@ let raceIconSize: CGFloat = 25
             viewModel.planetHistory[planetName] ?? []
         }
     
+    private var defensePlanetData: [PlanetDataPoint] {
+        viewModel.eventHistory[planetName] ?? []
+    }
+    
     var formattedPlanetImageName: String {
             let cleanedName = planetName
             .filter { !$0.isPunctuation }   // no apostrophes etc
@@ -98,7 +102,8 @@ let raceIconSize: CGFloat = 25
                 
                 if showChart {
                     
-                    historyChart
+                    HistoryChart(liberationType: liberationType, defensePlanetData: defensePlanetData, planetData: planetData, chartSelection: $chartSelection, chartHeight: chartHeight, chartSectionHeight: chartSectionHeight, chartType: $chartType, chartTypes: chartTypes, bugOrAutomaton: bugOrAutomaton).environmentObject(viewModel)
+
                     
                 }
                 VStack(spacing: 0) {
@@ -292,52 +297,74 @@ let raceIconSize: CGFloat = 25
                     
                 } else {
                 
-                Chart(planetData, id: \.timestamp) { dataPoint in
-
-                    if let status = dataPoint.status {
-                        LineMark(
-                            x: .value("Time", dataPoint.timestamp),
-                            y: .value(
-                                    chartType == .liberation ? "Liberation" :
-                                    chartType == .defense ? "Defense" : "Players",
-                                    chartType == .liberation ? status.liberation :
-                                        chartType == .defense ? status.defensePercentage ?? 0.0 :
-                                    Double(status.players)
-                                )
-                        ).foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
-                            .lineStyle(StrokeStyle(lineWidth: 2.0))
-                            .interpolationMethod(.catmullRom)
+                    Chart {
                         
-                        
-                        
-                        
-                        if let chartSelection = chartSelection, Calendar.current.isDate(chartSelection, equalTo: dataPoint.timestamp, toGranularity: .minute) {
+                        if liberationType == .defense {
                             
-                            
-                            
-                            let ruleMark = RuleMark(x: .value("Time", chartSelection))
-                            let annotationValue = chartType == .liberation ? "\(String(format: "%.2f%%", status.liberation))" :
-                            chartType == .defense ? "\(String(format: "%.2f%%", status.defensePercentage ?? 0.0))" :
-                                                  "\(status.players)"
-                            let annotationView = ChartAnnotationView(value: annotationValue, date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
-                            ruleMark.opacity(0.5)
-
-                            
-                            
-                            
-                                .annotation(position: .topLeading, alignment: .top, overflowResolution: .init(x: .fit(to: .chart), y: .fit)){
-                                    
-                                    annotationView
-                                    
-                                    
-                                    
-                                }
+                            ForEach(defensePlanetData, id: \.timestamp) { dataPoint in
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                            }
                             
                             
                             
                         }
                         
+                        ForEach(planetData, id: \.timestamp) { dataPoint in
+                        
+                        if let status = dataPoint.status {
+                            LineMark(
+                                x: .value("Time", dataPoint.timestamp),
+                                y: .value(
+                                    chartType == .liberation ? "Liberation" :
+                                        chartType == .defense ? "Defense" : "Players",
+                                    chartType == .liberation ? status.liberation :
+                                        chartType == .defense ? status.defensePercentage ?? 0.0 :
+                                        Double(status.players)
+                                )
+                            ).foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
+                                .lineStyle(StrokeStyle(lineWidth: 2.0))
+                                .interpolationMethod(.catmullRom)
+                            
+                            
+                            
+                            
+                            if let chartSelection = chartSelection, Calendar.current.isDate(chartSelection, equalTo: dataPoint.timestamp, toGranularity: .minute) {
+                                
+                                
+                                
+                                let ruleMark = RuleMark(x: .value("Time", chartSelection))
+                                let annotationValue = chartType == .liberation ? "\(String(format: "%.2f%%", status.liberation))" :
+                                chartType == .defense ? "\(String(format: "%.2f%%", status.defensePercentage ?? 0.0))" :
+                                "\(status.players)"
+                                let annotationView = ChartAnnotationView(value: annotationValue, date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
+                                ruleMark.opacity(0.5)
+                                
+                                
+                                
+                                
+                                    .annotation(position: .topLeading, alignment: .top, overflowResolution: .init(x: .fit(to: .chart), y: .fit)){
+                                        
+                                        annotationView
+                                        
+                                        
+                                        
+                                    }
+                                
+                                
+                                
+                            }
+                            
+                        }
+                        
                     }
+                    
+                    
             }.chartYScale(domain: [0, chartType == .players ? 350000 : 100])
                 
                     .chartXSelection(value: $chartSelection)
@@ -453,5 +480,121 @@ let valueFont: CGFloat = 32
 
 #Preview {
     ChartAnnotationView()
+}
+
+struct HistoryChart: View {
+    @EnvironmentObject var viewModel: PlanetsViewModel
+    var liberationType: LiberationType
+    var defensePlanetData: [PlanetDataPoint]
+    var planetData: [PlanetDataPoint]
+    @Binding var chartSelection: Date?
+    var chartHeight: CGFloat = 200
+    var chartSectionHeight: CGFloat = 300
+    @Binding var chartType: ChartType
+    var chartTypes: [ChartType] = []
+    var bugOrAutomaton: String = "terminid"
+
+    var body: some View {
+        VStack {
+            if viewModel.planetHistory.isEmpty {
+                ProgressView()
+                    .frame(minHeight: chartHeight)
+            } else {
+                chartView
+            }
+            CustomSegmentedPicker(selection: $chartType, items: chartTypes)
+                #if os(watchOS)
+                .padding(.trailing, 1.5)
+                #endif
+        }
+        .frame(minHeight: chartSectionHeight)
+    }
+
+    private var chartView: some View {
+        Chart {
+            if liberationType == .defense {
+                ForEach(defensePlanetData, id: \.timestamp) { dataPoint in
+                    if let status = dataPoint.status {
+                        chartLineMark(for: dataPoint, status)
+                        
+                        if let chartSelection = chartSelection, Calendar.current.isDate(chartSelection, equalTo: dataPoint.timestamp, toGranularity: .minute) {
+                            chartRuleMark(for: dataPoint, status)
+                        }
+                    }
+                }
+            } else {
+                ForEach(planetData, id: \.timestamp) { dataPoint in
+                    if let status = dataPoint.status {
+                        chartLineMark(for: dataPoint, status)
+                        
+                        if let chartSelection = chartSelection, Calendar.current.isDate(chartSelection, equalTo: dataPoint.timestamp, toGranularity: .minute) {
+                            chartRuleMark(for: dataPoint, status)
+                        }
+                    }
+                }
+            }
+        }
+        .chartYScale(domain: [0, chartType == .players ? 350000 : 100])
+        .chartXSelection(value: $chartSelection)
+        .padding(10)
+        .frame(minHeight: chartHeight)
+        .onChange(of: chartSelection) { newValue in
+            // Jump to nearest data point logic
+            if let newValue = newValue, !planetData.isEmpty {
+                chartSelection = planetData.min(by: { abs($0.timestamp.timeIntervalSince(newValue)) < abs($1.timestamp.timeIntervalSince(newValue)) })?.timestamp
+            }
+        }
+    }
+
+    private func chartLineMark(for dataPoint: PlanetDataPoint, _ status: PlanetStatus) -> some ChartContent {
+        
+        
+           LineMark(
+                x: .value("Time", dataPoint.timestamp),
+                y: .value(
+                    chartType == .liberation ? "Liberation" :
+                        chartType == .defense ? "Defense" : "Players",
+                    chartType == .liberation ? dataPoint.status?.liberation ?? 0.0 :
+                        chartType == .defense ? dataPoint.status?.defensePercentage ?? 0.0 :
+                        Double(dataPoint.status?.players ?? 0)
+                )
+            )
+            .foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
+            .lineStyle(StrokeStyle(lineWidth: 2.0))
+            .interpolationMethod(.catmullRom)
+            
+          
+        
+        
+        
+    }
+    
+    
+    private func chartRuleMark(for dataPoint: PlanetDataPoint, _ status: PlanetStatus) -> some ChartContent {
+        
+        
+     
+            
+            
+            
+            let ruleMark = RuleMark(x: .value("Time", chartSelection!))
+            let annotationValue = chartType == .liberation ? "\(String(format: "%.2f%%", status.liberation))" :
+            chartType == .defense ? "\(String(format: "%.2f%%", status.defensePercentage ?? 0.0))" :
+            "\(status.players)"
+            let annotationView = ChartAnnotationView(value: annotationValue, date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
+          return  ruleMark.opacity(0.5)
+                .annotation(position: .topLeading, alignment: .top, overflowResolution: .init(x: .fit(to: .chart), y: .fit)){
+                    
+                    annotationView
+                    
+                    
+                    
+                }
+
+            
+        
+        
+    }
+    
 }
 

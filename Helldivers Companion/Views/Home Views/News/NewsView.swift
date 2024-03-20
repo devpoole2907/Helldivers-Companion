@@ -28,7 +28,7 @@ struct NewsView: View {
                             
                             
                             if let message = news.message?.en {
-                                OrderView(majorOrderTitle: message)
+                                NewsItemView(newsMessage: message)
                             }
                             
                             
@@ -90,3 +90,5 @@ struct NewsView: View {
 #Preview {
     NewsView()
 }
+
+
