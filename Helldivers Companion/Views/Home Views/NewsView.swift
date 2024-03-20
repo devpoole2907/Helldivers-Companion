@@ -28,7 +28,7 @@ struct NewsView: View {
                             
                             
                             if let message = news.message?.en {
-                                OrderView(majorOrderString: message)
+                                OrderView(majorOrderTitle: message)
                             }
                             
                             

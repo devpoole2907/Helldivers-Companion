@@ -12,7 +12,10 @@ class PlanetsViewModel: ObservableObject {
     @Published var planets: [PlanetStatus] = []
     @Published var defensePlanets: [PlanetEvent] = []
     @Published var currentSeason: String = ""
-    @Published var majorOrderString: String = "Stand by for further orders from Super Earth High Command."
+    @Published var majorOrderBody: String = "Awaiting further orders from Super Earth High Command."
+    @Published var majorOrderTitle: String = "Stand by."
+    @Published var majorOrderRewardType: Int = 1
+    @Published var majorOrderRewardValue = 0
     @Published var lastUpdatedDate: Date = Date()
     
     private var apiToken: String? = ProcessInfo.processInfo.environment["GITHUB_API_KEY"]
@@ -185,35 +188,54 @@ class PlanetsViewModel: ObservableObject {
     func fetchMajorOrder() {
         
         
-        let urlString = "\(apiAddress)/\(currentSeason)/events/latest"
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(currentSeason)"
+            print("made url")
         
         print("made url")
         guard let url = URL(string: urlString) else { print("mission failed")
             return }
         
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+        var request = URLRequest(url: url)
+            request.addValue("en", forHTTPHeaderField: "Accept-Language")
+        
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             
-            if let data = data {
-                
+            guard let data = data else {
+                        print("NOOO! No data received: \(error?.localizedDescription ?? "Unknown error")")
+                        return
+                    }
+
                 
                 do {
                     let decoder = JSONDecoder()
                     
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     
-                    let decodedResponse = try decoder.decode(MajorOrderResponse.self, from: data)
+                    let decodedResponse = try decoder.decode([MajorOrder].self, from: data)
                     DispatchQueue.main.async {
-                        self?.majorOrderString = decodedResponse.message.en ?? "Stand by for further orders from Super Earth High Command."
-                        print("We set the major order")
-                    }
+                                    if let firstOrder = decodedResponse.first {
+                                        
+                                        print("first order title is: \(firstOrder.setting.taskDescription)")
+                                        
+                                        self?.majorOrderTitle = firstOrder.setting.taskDescription
+                                        self?.majorOrderBody = firstOrder.setting.overrideBrief
+                                        self?.majorOrderRewardType = firstOrder.setting.reward.type
+                                        self?.majorOrderRewardValue = firstOrder.setting.reward.amount
+                                        
+                                        // eventually get the task progress
+                                        
+                                        print("We set the major order")
+                                    } else {
+                                        self?.majorOrderTitle = "Stand by."
+                                        self?.majorOrderBody = "Await further orders from Super Earth High Command."
+                                    }
+                                }
                     
                     
                 } catch {
                     print("Decoding error: \(error)")
                 }
-            } else {
-                print("NOOO!")
-            }
+           
             
             print("yeet")
             

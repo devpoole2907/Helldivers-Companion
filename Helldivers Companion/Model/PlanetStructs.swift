@@ -85,22 +85,34 @@ struct WarSeason: Decodable {
     
 }
 
-struct MajorOrderResponse: Decodable {
-    let assignmentId32: Int
-    let effects: [String]
-    let flag: Int
-    let id: Int
+
+struct MajorOrder: Decodable {
     let id32: Int
-    let message: Message
-    let messageId32: Int
-    let planets: [String]
-    let portraitId32: Int
-    let race: String
-    let title: String
-    let title32: Int
-    
- 
-    
+    let progress: [Int]
+    let expiresIn: Int
+    let setting: Setting
+
+    struct Setting: Decodable {
+        let type: Int
+        let overrideTitle: String
+        let overrideBrief: String
+        let taskDescription: String
+        let tasks: [Task]
+        let reward: Reward
+        let flags: Int
+
+        struct Task: Decodable {
+            let type: Int
+            let values: [Int]
+            let valueTypes: [Int]
+        }
+
+        struct Reward: Decodable {
+            let type: Int
+            let id32: Int
+            let amount: Int
+        }
+    }
 }
 
 struct Message: Decodable {

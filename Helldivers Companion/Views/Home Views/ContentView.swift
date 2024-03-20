@@ -131,7 +131,7 @@ struct ContentView: View {
         
         NavigationStack {
             ScrollView {
-            OrderView().padding(.horizontal)
+                OrderView(majorOrderTitle: viewModel.majorOrderTitle, majorOrderBody: viewModel.majorOrderBody, rewardValue: viewModel.majorOrderRewardValue, rewardType: viewModel.majorOrderRewardType).padding(.horizontal)
 
             Spacer()
             
