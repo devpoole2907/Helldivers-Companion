@@ -16,7 +16,6 @@ struct ContentView: View {
     var body: some View {
         
         NavigationStack {
-            ZStack(alignment: .bottomTrailing) {
             
             ScrollView {
                 
@@ -31,6 +30,12 @@ struct ContentView: View {
                     PlanetView().padding(.horizontal)
                     PlanetView().padding(.horizontal)
                     PlanetView().padding(.horizontal)*/
+                    
+                    if let alert = viewModel.configData.prominentAlert {
+                        
+                        AlertView(alert: alert)
+                        .padding(.horizontal)
+                    }
                     
                     ForEach(viewModel.defensePlanets, id: \.planet.index) { planet in
                       
@@ -56,24 +61,9 @@ struct ContentView: View {
                         viewModel.refresh()
                     }
             
-#if os(iOS)
-                majorOrderButton.padding(.bottom, 50)
-                
-        
-                
-                #endif
-        }
+
             
-            .sheet(isPresented: $viewModel.showOrders) {
-                
-                ordersSheet
-                
-                
-                .presentationDetents([.fraction(0.65)])
-                .presentationDragIndicator(.visible)
-                .presentationBackground(.thinMaterial)
-                
-            }
+
             
             .sheet(isPresented: $viewModel.showInfo) {
                
@@ -87,7 +77,7 @@ struct ContentView: View {
             #if os(watchOS) // this is updated in root on ios
             .onAppear {
                 
-                viewModel.startUpdating()
+               // viewModel.startUpdating()
 
             }
             #endif
@@ -127,75 +117,7 @@ struct ContentView: View {
         
     }
     
-    var ordersSheet: some View {
-        
-        NavigationStack {
-            ScrollView {
-                OrderView(majorOrderTitle: viewModel.majorOrderTitle, majorOrderBody: viewModel.majorOrderBody, rewardValue: viewModel.majorOrderRewardValue, rewardType: viewModel.majorOrderRewardType).padding(.horizontal)
 
-            Spacer()
-            
-#if os(iOS)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                 
-                    ZStack(alignment: .leading) {
-                        Image("MajorOrdersBanner").resizable()
-                            .frame(width: getRect().width + 50, height: 60).ignoresSafeArea()
-                            .offset(CGSize(width: 0, height: 0))
-                            .border(Color.white, width: 2)
-                            .padding(.bottom)
-                            .opacity(0.8)
-                          
-                        
-                        HStack(alignment: .firstTextBaseline, spacing: 3) {
-                            Image(systemName: "scope").bold()
-                           
-                            Text("MAJOR ORDER").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 24))
-                                    
-                        }.padding(.leading, 70)
-                    }
-                    
-                
-                        
-                }
-            }
-            #endif
-            
-        }.scrollContentBackground(.hidden)
-     
-            .toolbarBackground(.hidden, for: .navigationBar)
-            
-          
-            
-            .navigationBarTitleDisplayMode(.inline)
-        }
-        
-      
-
-        
-        
-    }
-    
-    var majorOrderButton: some View {
-        
-        Button(action: {
-            viewModel.showOrders.toggle()
-        }){
-            Text("Major Order").textCase(.uppercase).tint(.white).fontWeight(.heavy)
-                .font(Font.custom("FS Sinclair", size: 20))
-        }.padding()
-        
-            .background {
-                Color.black.opacity(0.7)
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-        
-            .padding()
-        
-
-        
-    }
     
     
 }

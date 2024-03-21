@@ -27,8 +27,9 @@ struct NewsView: View {
                             
                             
                             
-                            if let message = news.message?.en {
-                                NewsItemView(newsMessage: message)
+                            if let message = news.message {
+                                NewsItemView(newsTitle: news.title, newsMessage: message)
+                                    .padding(.horizontal)
                             }
                             
                             

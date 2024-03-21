@@ -16,11 +16,12 @@ class PlanetsViewModel: ObservableObject {
     @Published var majorOrderTitle: String = "Stand by."
     @Published var majorOrderRewardType: Int = 1
     @Published var majorOrderRewardValue = 0
+    @Published var majorOrderTimeRemaining = 0
     @Published var lastUpdatedDate: Date = Date()
     
     private var apiToken: String? = ProcessInfo.processInfo.environment["GITHUB_API_KEY"]
     
-    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", alert: "")
+    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", alert: "", prominentAlert: nil)
     
     @Published var showInfo = false
     @Published var showOrders = false
@@ -225,6 +226,7 @@ class PlanetsViewModel: ObservableObject {
                                         self?.majorOrderBody = firstOrder.setting.overrideBrief
                                         self?.majorOrderRewardType = firstOrder.setting.reward.type
                                         self?.majorOrderRewardValue = firstOrder.setting.reward.amount
+                                        self?.majorOrderTimeRemaining = firstOrder.expiresIn
                                         
                                         // eventually get the task progress
                                         

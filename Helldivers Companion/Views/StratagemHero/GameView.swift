@@ -37,7 +37,7 @@ struct GameView: View {
                     
                     VStack {
                         
-                        Image("Super_Earth").opacity(0.15)
+                        Image("superEarth").resizable().aspectRatio(contentMode: .fit).frame(width: 160, height: 160).opacity(0.15)
                         
                     }
                     VStack {

@@ -17,6 +17,7 @@ struct RootView: View {
     
     
     var body: some View {
+        ZStack(alignment: .bottomTrailing) {
         ZStack(alignment: .bottom){
             TabView(selection: $currentTab) {
                 
@@ -42,8 +43,24 @@ struct RootView: View {
                 
             }
             tabButtons
+            
+            
+
+            
+            
         }.task {
             await notificationManager.getAuthStatus()
+        }
+        
+        .sheet(isPresented: $viewModel.showOrders) {
+            
+            ordersSheet
+            
+            
+            .presentationDetents([.fraction(0.65)])
+            .presentationDragIndicator(.visible)
+            .presentationBackground(.thinMaterial)
+            
         }
         
         .onAppear {
@@ -51,6 +68,85 @@ struct RootView: View {
             viewModel.startUpdating()
 
         }
+            
+#if os(iOS)
+            if currentTab != .game {
+                majorOrderButton.padding(.bottom, 85)
+            }
+        
+                
+                #endif
+        }
+        
+    }
+    
+    var majorOrderButton: some View {
+        
+        Button(action: {
+            viewModel.showOrders.toggle()
+        }){
+            Text("Major Order").textCase(.uppercase).tint(.white).fontWeight(.heavy)
+                .font(Font.custom("FS Sinclair", size: 20))
+        }.padding()
+        
+            .background {
+                Color.black.opacity(0.7)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        
+            .padding()
+        
+
+        
+    }
+    
+    var ordersSheet: some View {
+        
+        NavigationStack {
+            ScrollView {
+                OrderView(majorOrderTitle: viewModel.majorOrderTitle, majorOrderBody: viewModel.majorOrderBody, rewardValue: viewModel.majorOrderRewardValue, rewardType: viewModel.majorOrderRewardType, endsIn: viewModel.majorOrderTimeRemaining).padding(.horizontal)
+
+            Spacer()
+            
+#if os(iOS)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                 
+                    ZStack(alignment: .leading) {
+                        Image("MajorOrdersBanner").resizable()
+                            .frame(width: getRect().width + 50, height: 60).ignoresSafeArea()
+                            .offset(CGSize(width: 0, height: 0))
+                            .border(Color.white, width: 2)
+                            .padding(.bottom)
+                            .opacity(0.8)
+                          
+                        
+                        HStack(alignment: .firstTextBaseline, spacing: 3) {
+                            Image(systemName: "scope").bold()
+                           
+                            Text("MAJOR ORDER").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 24))
+                                    
+                        }.padding(.leading, 70)
+                    }
+                    
+                
+                        
+                }
+            }
+            #endif
+            
+        }.scrollContentBackground(.hidden)
+     
+            .toolbarBackground(.hidden, for: .navigationBar)
+            
+          
+            
+            .navigationBarTitleDisplayMode(.inline)
+        }
+        
+      
+
+        
         
     }
     

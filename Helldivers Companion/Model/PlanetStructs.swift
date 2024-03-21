@@ -121,10 +121,39 @@ struct Message: Decodable {
 
 struct NewsFeed: Decodable {
     let id: Int
-    let message: Message?
+    var message: String?
+    var title: String?
     let published: String?
     let tagIds: [Int]
     let type: Int
+    let rawMessage: Message
+    
+    private enum CodingKeys: String, CodingKey {
+            case id, rawMessage = "message", published, tagIds, type
+        }
+    
+    // custom init handles decoding/processing of message to seperate to title/message if possible
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            id = try container.decode(Int.self, forKey: .id)
+            published = try container.decodeIfPresent(String.self, forKey: .published)
+            tagIds = try container.decode([Int].self, forKey: .tagIds)
+            type = try container.decode(Int.self, forKey: .type)
+            rawMessage = try container.decode(Message.self, forKey: .rawMessage)
+            
+       // processing english version
+            if let enMessage = rawMessage.en {
+                // check for new line in message
+                if let newlineIndex = enMessage.firstIndex(of: "\n") {
+                   // if we find a new line in the message then seperate to title/message
+                    title = String(enMessage[..<newlineIndex])
+                    message = String(enMessage[enMessage.index(after: newlineIndex)...])
+                } else {
+                 // no new line, so entire content is message
+                    message = enMessage
+                }
+            }
+        }
 }
 
 struct GitHubFile: Decodable {
@@ -134,9 +163,33 @@ struct GitHubFile: Decodable {
 }
 
 struct RemoteConfigDetails: Decodable {
-    let terminidRate: String
-    let automatonRate: String
-    let alert: String?
+    var terminidRate: String
+    var automatonRate: String
+    var alert: String?
+    var prominentAlert: String?
+    
+    private enum CodingKeys: String, CodingKey {
+            case terminidRate, automatonRate, alert, prominentAlert
+        }
+    // default init
+    init(terminidRate: String, automatonRate: String, alert: String, prominentAlert: String?) {
+            self.terminidRate = terminidRate
+            self.automatonRate = automatonRate
+            self.alert = alert
+            self.prominentAlert = prominentAlert
+        }
+    
+    // set prominent alert to nil if its empty
+    init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            terminidRate = try container.decode(String.self, forKey: .terminidRate)
+            automatonRate = try container.decode(String.self, forKey: .automatonRate)
+            alert = try container.decode(String.self, forKey: .alert)
+            
+            let prominentAlertValue = try container.decode(String.self, forKey: .prominentAlert)
+            prominentAlert = prominentAlertValue.isEmpty ? nil : prominentAlertValue
+        }
+    
 }
 
 #if os(iOS)

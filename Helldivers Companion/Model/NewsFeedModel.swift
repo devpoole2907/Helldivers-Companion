@@ -51,7 +51,7 @@ class NewsFeedModel: ObservableObject {
 
       }
     
-    // setup the timer to fetch the data every few seconds or so
+    // fetch news feed every 5 min
     func startUpdating() {
            timer?.invalidate()
            

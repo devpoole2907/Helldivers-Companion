@@ -11,6 +11,8 @@ struct AboutView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
     
+    let gitUrl = "https://github.com/devpoole2907/Helldivers-Companion"
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -29,6 +31,24 @@ struct AboutView: View {
             }.padding(.horizontal)
                 .padding(.top)
                 .multilineTextAlignment(.center)
+                
+                #if os(watchOS)
+                
+                if let githubUrl = URL(string: gitUrl) {
+                    
+                  
+                            Link(destination: githubUrl, label: {
+                                Image("github-mark-white")
+                                    .resizable().aspectRatio(contentMode: .fit)
+                                    .frame(width: 30, height: 30)
+                            })
+                    
+                    
+                }
+                
+                
+                #endif
+                
             Spacer()
             
         }
@@ -44,7 +64,7 @@ struct AboutView: View {
                  
                 }
                 
-                if let githubUrl = URL(string: "https://github.com/devpoole2907/Helldivers-Companion") {
+                if let githubUrl = URL(string: gitUrl) {
                     
                     ToolbarItem(placement: .topBarLeading) {
                             Link(destination: githubUrl, label: {

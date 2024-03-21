@@ -92,6 +92,12 @@ let raceIconSize: CGFloat = 25
         return "terminid"
     }
     
+    func showChartToggler() {
+        withAnimation {
+            showChart.toggle()
+        }
+    }
+    
     var body: some View {
         
         VStack {
@@ -150,6 +156,9 @@ let raceIconSize: CGFloat = 25
                 .border(Color.white)
                 .padding(4)
                 .border(Color.gray)
+                
+            
+                
                 if showExtraStats {
                 HStack {
                     
@@ -200,6 +209,9 @@ let raceIconSize: CGFloat = 25
             }
                 
                 
+            }.onTapGesture {
+                // show chart if tapped anywhere
+                showChartToggler()
             }
             
             
@@ -238,11 +250,7 @@ let raceIconSize: CGFloat = 25
                 
                 if showHistory {
                 Button(action: {
-                    
-                    
-                    withAnimation {
-                        showChart.toggle()
-                    }
+                    showChartToggler()
                 }){
                     HStack(alignment: .bottom, spacing: 4) {
                         

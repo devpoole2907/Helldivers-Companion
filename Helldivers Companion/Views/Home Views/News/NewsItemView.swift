@@ -9,15 +9,26 @@ import SwiftUI
 
 struct NewsItemView: View {
     
+    var newsTitle: String? = nil
     var newsMessage: String = "Terminids! Automatons! EVERYWHERE!!??!!"
     
     var body: some View {
-        
-        VStack {
-            Text(newsMessage)
-        }
-        
-        
+
+            VStack(alignment: .leading, spacing: 4) {
+                
+                if let title = newsTitle {
+                    Text(title).textCase(.uppercase) .font(Font.custom("FS Sinclair", size: mediumFont)).foregroundStyle(Color.yellow)
+                }
+                
+                Text(newsMessage).font(Font.custom("FS Sinclair", size: mediumFont))
+                
+            }
+            .padding()
+            .frame(maxWidth: .infinity)
+                .background {
+                    Color.black
+                }.border(Color.blue.opacity(0.4), width: 6)
+   
         
     }
     
