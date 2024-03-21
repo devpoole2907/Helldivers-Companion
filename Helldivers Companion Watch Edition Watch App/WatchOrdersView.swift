@@ -26,6 +26,12 @@ struct WatchOrdersView: View {
                         .padding(.horizontal)
                         .multilineTextAlignment(.center)
                         .font(Font.custom("FS Sinclair", size: 16))
+                    
+                    
+                    if !viewModel.taskPlanets.isEmpty {
+                        TasksView().environmentObject(viewModel)
+                    }
+                    
                 }.frame(maxHeight: .infinity)
                 if viewModel.majorOrderRewardValue > 0 {
                     

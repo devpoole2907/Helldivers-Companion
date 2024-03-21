@@ -104,7 +104,7 @@ struct RootView: View {
         
         NavigationStack {
             ScrollView {
-                OrderView(majorOrderTitle: viewModel.majorOrderTitle, majorOrderBody: viewModel.majorOrderBody, rewardValue: viewModel.majorOrderRewardValue, rewardType: viewModel.majorOrderRewardType, endsIn: viewModel.majorOrderTimeRemaining).padding(.horizontal)
+                OrderView().environmentObject(viewModel).padding(.horizontal)
 
             Spacer()
             
@@ -212,19 +212,4 @@ extension View {
     }
 }
 
-enum Tab: String, CaseIterable {
-    case home = "War"
-    case news = "News"
-    case game = "Game"
-    
-    var systemImage: String? {
-        switch self {
-        case .home:
-            return "globe.americas.fill"
-        case .game:
-            return "scope"
-        case .news:
-            return "newspaper.fill"
-        }
-    }
-}
+

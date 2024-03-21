@@ -11,15 +11,23 @@ struct ContentViewWatchVersion: View {
     
     @StateObject var viewModel = PlanetsViewModel()
     
+    @State private var currentTab: Tab = .home
+    
     var body: some View {
        
-        TabView {
+        TabView(selection: $currentTab) {
+            
+            AboutView().environmentObject(viewModel)
+                .tag(Tab.about)
             
             ContentView().environmentObject(viewModel)
+                .tag(Tab.home)
             
             WatchOrdersView().environmentObject(viewModel)
+                .tag(Tab.orders)
             
             NewsView()
+                .tag(Tab.news)
  
            
                 

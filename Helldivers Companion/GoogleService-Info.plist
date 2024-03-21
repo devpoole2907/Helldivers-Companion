@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyAI7Pqgj5S0moafE6anR7mOTclDdHa-G_8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>552449488278</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.poole.james.Helldivers-Companion</string>
+	<key>PROJECT_ID</key>
+	<string>helldivers-war-monitor</string>
+	<key>STORAGE_BUCKET</key>
+	<string>helldivers-war-monitor.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:552449488278:ios:cd1044143da43507ffd9b7</string>
+</dict>
+</plist>

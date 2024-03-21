@@ -9,10 +9,18 @@ import Foundation
 import SwiftUI
 
 struct WarStatusResponse: Decodable {
+    let campaigns: [Campaign]
     let planetStatus: [PlanetStatus]
     var planetEvents: [PlanetEvent]
     let snapshotAt: String
     let warId: Int
+}
+
+struct Campaign: Decodable {
+    let count: Int
+    let id: Int
+    let planet: Planet
+    let type: Int
 }
 
 struct PlanetDataPoint {
@@ -63,7 +71,7 @@ struct PlanetEvent: Decodable {
 
 struct Planet: Decodable {
     let disabled: Bool
-    let hash: UInt32
+    let hash: UInt
     let index: Int
     let initialOwner: String
     let maxHealth: Int
@@ -72,6 +80,7 @@ struct Planet: Decodable {
     let sector: String
     let waypoints: [Int]
 }
+
 
 struct Position: Decodable {
     let x: Double

@@ -11,7 +11,7 @@ import UIKit
 struct ContentView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
-
+    
     
     var body: some View {
         
@@ -26,26 +26,26 @@ struct ContentView: View {
                     // some preview planets for when editing
                     
                     
-                  /*  PlanetView().padding(.horizontal).environmentObject(viewModel)
-                    PlanetView().padding(.horizontal)
-                    PlanetView().padding(.horizontal)
-                    PlanetView().padding(.horizontal)*/
+                    /*  PlanetView().padding(.horizontal).environmentObject(viewModel)
+                     PlanetView().padding(.horizontal)
+                     PlanetView().padding(.horizontal)
+                     PlanetView().padding(.horizontal)*/
                     
                     if let alert = viewModel.configData.prominentAlert {
                         
                         AlertView(alert: alert)
-                        .padding(.horizontal)
+                            .padding(.horizontal)
                     }
                     
                     ForEach(viewModel.defensePlanets, id: \.planet.index) { planet in
-                      
+                        
                         if let status = planet.planetStatus {
                             PlanetView(planetName: planet.planet.name, liberation: planet.defensePercentage, playerCount: status.players, planet: status, liberationType: .defense).environmentObject(viewModel)
                                 .padding(.horizontal)
                         }
                     }
                     
-                    ForEach(viewModel.planets, id: \.self) { planetStatus in
+                    ForEach(viewModel.campaignPlanets, id: \.self) { planetStatus in
                         
                         PlanetView(planetName: planetStatus.planet.name, liberation: planetStatus.liberation, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus).environmentObject(viewModel)
                             .padding(.horizontal)
@@ -56,68 +56,77 @@ struct ContentView: View {
                 Spacer(minLength: 100)
                 
             }.scrollContentBackground(.hidden)
-                
-                    .refreshable {
-                        viewModel.refresh()
-                    }
             
-
-            
-
-            
-            .sheet(isPresented: $viewModel.showInfo) {
-               
-                AboutView()
-                
-                .presentationDragIndicator(.visible)
-                .presentationBackground(.thinMaterial)
-                
-            }
-               
-            #if os(watchOS) // this is updated in root on ios
-            .onAppear {
-                
-               // viewModel.startUpdating()
-
-            }
-            #endif
-
-            #if os(iOS)
-            .background {
-                Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
-            }
-            #endif
-        
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        viewModel.showInfo.toggle()
-                    }){
-                        Image(systemName: "info.circle")
-                    }.foregroundStyle(.white)
-                        .bold()
+                .refreshable {
+                    viewModel.refresh()
                 }
-                
-                
+            
+            
+            
+            
+            
+                .sheet(isPresented: $viewModel.showInfo) {
+                    
+                    AboutView()
+                    
+                        .presentationDragIndicator(.visible)
+                        .presentationBackground(.thinMaterial)
+                    
+                }
+            
+#if os(watchOS) // this is updated in root on ios
+                .onAppear {
+                    
+                    viewModel.startUpdating()
+                    
+                }
+#endif
+            
 #if os(iOS)
+                .background {
+                    Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
+                }
+#endif
+            
+                .toolbar {
+#if os(iOS)
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(action: {
+                            viewModel.showInfo.toggle()
+                        }){
+                            Image(systemName: "info.circle")
+                        }.foregroundStyle(.white)
+                            .bold()
+                    }
+                    
+                    
+                    
+                    
+                    
                     ToolbarItem(placement: .principal) {
                         
                         Text("LAST UPDATED: \(viewModel.lastUpdatedDate.formatted(date: .omitted, time: .shortened))")
                             .font(Font.custom("FS Sinclair", size: 24))
                         
                     }
-                    #endif
-                
-                
-                
-            }
-         
-            .navigationBarTitleDisplayMode(.inline)
+                    
+#endif
+                    
+#if os(watchOS)
+                    ToolbarItem(placement: .topBarLeading) {
+                        Text("WAR").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont))
+                    }
+#endif
+                    
+                }
+            
+            
+                .navigationBarTitleDisplayMode(.inline)
         }
         
     }
     
-
+    
     
     
 }
@@ -128,15 +137,15 @@ struct ContentView: View {
 
 
 extension View {
-   
+    
     var isIpad: Bool {
 #if !os(watchOS)
         UIDevice.current.userInterfaceIdiom == .pad
-        #else
+#else
         
         return false
         
-        #endif
+#endif
     }
     
 }

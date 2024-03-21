@@ -62,6 +62,10 @@
 		7C45D4742BABF47C0013A632 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4722BABF47C0013A632 /* AlertView.swift */; };
 		7C45D4752BABF47C0013A632 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4722BABF47C0013A632 /* AlertView.swift */; };
 		7C45D4762BABF47C0013A632 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4722BABF47C0013A632 /* AlertView.swift */; };
+		7C45D4782BAC142C0013A632 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4772BAC142C0013A632 /* Tab.swift */; };
+		7C45D4792BAC142C0013A632 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4772BAC142C0013A632 /* Tab.swift */; };
+		7C45D47A2BAC142C0013A632 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4772BAC142C0013A632 /* Tab.swift */; };
+		7C45D47B2BAC142C0013A632 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4772BAC142C0013A632 /* Tab.swift */; };
 		7C50CEE62BA8295E009094AE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C50CEE52BA8295E009094AE /* GoogleService-Info.plist */; };
 		7C50CEE72BA8295E009094AE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C50CEE52BA8295E009094AE /* GoogleService-Info.plist */; };
 		7C50CEE82BA8295E009094AE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C50CEE52BA8295E009094AE /* GoogleService-Info.plist */; };
@@ -194,6 +198,7 @@
 		7C45D4642BABEE6E0013A632 /* AngledLinesShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngledLinesShape.swift; sourceTree = "<group>"; };
 		7C45D46D2BABEECF0013A632 /* MajorOrderTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MajorOrderTimeView.swift; sourceTree = "<group>"; };
 		7C45D4722BABF47C0013A632 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		7C45D4772BAC142C0013A632 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		7C50CEE52BA8295E009094AE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedPicker.swift; sourceTree = "<group>"; };
 		7C587F442BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Helldivers Companion Watch Edition Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -288,6 +293,7 @@
 				7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */,
 				7C4589BD2BA554AA0019B00E /* RootView.swift */,
 				7C319F962BABEA2D0075A1E4 /* GlobalFunctions.swift */,
+				7C45D4772BAC142C0013A632 /* Tab.swift */,
 			);
 			path = "Helldivers Companion";
 			sourceTree = "<group>";
@@ -637,6 +643,7 @@
 				7C0C995D2BA2BAFD00CF7C91 /* PlanetsViewModel.swift in Sources */,
 				7C45D4732BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C0C994E2BA2BA8F00CF7C91 /* ContentView.swift in Sources */,
+				7C45D4782BAC142C0013A632 /* Tab.swift in Sources */,
 				7C0C99612BA2FA0600CF7C91 /* RectangleProgressBar.swift in Sources */,
 				7C4589C02BA5551F0019B00E /* GameView.swift in Sources */,
 				7C3A9EC62BA944BE00F26307 /* NewsView.swift in Sources */,
@@ -669,6 +676,7 @@
 				7C45D46B2BABEE7D0013A632 /* RewardView.swift in Sources */,
 				7C3DE98A2BA80C1900C95B84 /* PlanetsViewModel.swift in Sources */,
 				7C45D45A2BABEB350013A632 /* GlobalFunctions.swift in Sources */,
+				7C45D47B2BAC142C0013A632 /* Tab.swift in Sources */,
 				7C3DE98B2BA80C1E00C95B84 /* PlanetStructs.swift in Sources */,
 				7C3DE97C2BA80B3D00C95B84 /* Helldivers_Companion_Watch_Widgets.swift in Sources */,
 			);
@@ -684,6 +692,7 @@
 				7C45D4662BABEE750013A632 /* AngledLinesShape.swift in Sources */,
 				7C587F492BA6DBB400C66643 /* ContentViewWatchVersion.swift in Sources */,
 				7C45D4742BABF47C0013A632 /* AlertView.swift in Sources */,
+				7C45D4792BAC142C0013A632 /* Tab.swift in Sources */,
 				7C45D45B2BABEB370013A632 /* GlobalFunctions.swift in Sources */,
 				7C587F5D2BA6DD2200C66643 /* CustomSegmentedPicker.swift in Sources */,
 				7C3DE9722BA80A1A00C95B84 /* Helldivers_Companion_Widgets.swift in Sources */,
@@ -712,6 +721,7 @@
 				7C45D45C2BABEB370013A632 /* GlobalFunctions.swift in Sources */,
 				7C45D4752BABF47C0013A632 /* AlertView.swift in Sources */,
 				7CC0AE842BA7F37D00802D9F /* PlanetsViewModel.swift in Sources */,
+				7C45D47A2BAC142C0013A632 /* Tab.swift in Sources */,
 				7CC0AE852BA7F38500802D9F /* PlanetStructs.swift in Sources */,
 				7C45D4702BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
 				7CC0AE772BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift in Sources */,

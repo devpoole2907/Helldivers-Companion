@@ -9,8 +9,9 @@ import Foundation
 
 class PlanetsViewModel: ObservableObject {
     
-    @Published var planets: [PlanetStatus] = []
+    @Published var allPlanetStatuses: [PlanetStatus] = []
     @Published var defensePlanets: [PlanetEvent] = []
+    @Published var campaignPlanets: [PlanetStatus] = []
     @Published var currentSeason: String = ""
     @Published var majorOrderBody: String = "Awaiting further orders from Super Earth High Command."
     @Published var majorOrderTitle: String = "Stand by."
@@ -18,6 +19,8 @@ class PlanetsViewModel: ObservableObject {
     @Published var majorOrderRewardValue = 0
     @Published var majorOrderTimeRemaining = 0
     @Published var lastUpdatedDate: Date = Date()
+    // planetstatuses with tasks in the major order (e.g need to be liberated)
+    @Published var taskPlanets: [PlanetStatus] = []
     
     private var apiToken: String? = ProcessInfo.processInfo.environment["GITHUB_API_KEY"]
     
@@ -228,7 +231,14 @@ class PlanetsViewModel: ObservableObject {
                                         self?.majorOrderRewardValue = firstOrder.setting.reward.amount
                                         self?.majorOrderTimeRemaining = firstOrder.expiresIn
                                         
-                                        // eventually get the task progress
+                                        let taskPlanetIndexes = firstOrder.setting.tasks.compactMap { task in
+                                                task.values.count >= 3 ? task.values[2] : nil
+                                            }
+                                        
+                                        self?.taskPlanets = self?.allPlanetStatuses.filter { planetStatus in
+                                                taskPlanetIndexes.contains(planetStatus.planet.index)
+                                            } ?? []
+                                        
                                         
                                         print("We set the major order")
                                     } else {
@@ -282,8 +292,14 @@ class PlanetsViewModel: ObservableObject {
                 var decodedResponse = try decoder.decode(WarStatusResponse.self, from: data)
                 DispatchQueue.main.async {
                     
-                   
-                    
+                    // get planets in the active campaigns
+                    let campaignPlanets = decodedResponse.campaigns.map { $0 }
+
+                                   // match planets with their campaigns
+                                   let campaignPlanetsWithStatus = campaignPlanets.compactMap { campaignPlanet in
+                                       decodedResponse.planetStatus.first { $0.planet.index == campaignPlanet.planet.index }
+                                   }
+
                     
                     for i in 0..<decodedResponse.planetEvents.count {
                                         let eventIndex = decodedResponse.planetEvents[i].planet.index
@@ -294,16 +310,13 @@ class PlanetsViewModel: ObservableObject {
                                         }
                                     }
                     
-                    let filteredPlanets = decodedResponse.planetStatus
-                        .filter { [weak self] in self?.isActive(planetStatus: $0) ?? false }
-                        .sorted { $1.players < $0.players}
-                    
             
                     
                     self?.defensePlanets = decodedResponse.planetEvents
-                    self?.planets = filteredPlanets
+                    self?.allPlanetStatuses = decodedResponse.planetStatus
+                    self?.campaignPlanets = campaignPlanetsWithStatus.sorted  { $0.players > $1.players }
 
-                    completion(filteredPlanets)
+                    completion(campaignPlanetsWithStatus)
                 }
                 
             } catch {
@@ -323,9 +336,9 @@ class PlanetsViewModel: ObservableObject {
         fetchCurrentWarSeason() { [weak self] _ in
             self?.fetchConfig()
             self?.fetchPlanetStatuses { planets in
+                self?.fetchMajorOrder() // fetching in here so planet status is populated to associate major order planets with tasks
                 print("Fetched planets: \(planets.count)")
             }
-            self?.fetchMajorOrder()
             self?.fetchPlanetStatusTimeSeries { error in
                 if let error = error {
                     print("Error updating planet status time series: \(error)")
@@ -351,10 +364,16 @@ class PlanetsViewModel: ObservableObject {
             
             self?.lastUpdatedDate = Date()
             self?.fetchConfig()
-            self?.fetchMajorOrder()
+            
             self?.fetchPlanetStatuses { planets in
+                
+                
+                self?.fetchMajorOrder() // fetching in here so planet status is populated to associate major order planets with tasks
                 print("Updated planets: \(planets)")
             }
+            
+            
+           
 
             
         }
