@@ -18,11 +18,15 @@
 		7C319F942BAAE91E0075A1E4 /* NewsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */; };
 		7C319F952BAAEF7F0075A1E4 /* NewsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */; };
 		7C319F972BABEA2D0075A1E4 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions.swift */; };
+		7C3321A12BAC31930042F6D1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
+		7C3321A22BAC31930042F6D1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
+		7C3321B02BAC31DD0042F6D1 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
+		7C3321B12BAC32120042F6D1 /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
 		7C3A9EC62BA944BE00F26307 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3A9EC52BA944BE00F26307 /* NewsView.swift */; };
 		7C3A9EC72BA9528A00F26307 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3A9EC52BA944BE00F26307 /* NewsView.swift */; };
 		7C3A9EC92BA9724E00F26307 /* NewsFeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3A9EC82BA9724E00F26307 /* NewsFeedModel.swift */; };
 		7C3A9ECB2BA9725800F26307 /* NewsFeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3A9EC82BA9724E00F26307 /* NewsFeedModel.swift */; };
-		7C3DE9722BA80A1A00C95B84 /* Helldivers_Companion_Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Widgets.swift */; };
+		7C3DE9722BA80A1A00C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift */; };
 		7C3DE9782BA80B3D00C95B84 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
 		7C3DE9792BA80B3D00C95B84 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
 		7C3DE97C2BA80B3D00C95B84 /* Helldivers_Companion_Watch_Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3DE97B2BA80B3D00C95B84 /* Helldivers_Companion_Watch_Widgets.swift */; };
@@ -30,7 +34,7 @@
 		7C3DE9822BA80B3E00C95B84 /* Helldivers Companion Watch WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7C3DE9772BA80B3D00C95B84 /* Helldivers Companion Watch WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7C3DE9872BA80B5000C95B84 /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
 		7C3DE9882BA80B8100C95B84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
-		7C3DE9892BA80B9600C95B84 /* Helldivers_Companion_Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Widgets.swift */; };
+		7C3DE9892BA80B9600C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift */; };
 		7C3DE98A2BA80C1900C95B84 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C3DE98B2BA80C1E00C95B84 /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
 		7C4589B72BA546B00019B00E /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589B62BA546B00019B00E /* OrderView.swift */; };
@@ -89,7 +93,7 @@
 		7CC0AE722BA7F31400802D9F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
 		7CC0AE742BA7F31400802D9F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
 		7CC0AE772BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE762BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift */; };
-		7CC0AE792BA7F31400802D9F /* Helldivers_Companion_Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Widgets.swift */; };
+		7CC0AE792BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift */; };
 		7CC0AE7B2BA7F31500802D9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CC0AE7A2BA7F31500802D9F /* Assets.xcassets */; };
 		7CC0AE7F2BA7F31500802D9F /* Helldivers Companion WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7CC0AE6F2BA7F31400802D9F /* Helldivers Companion WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7CC0AE842BA7F37D00802D9F /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
@@ -106,6 +110,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		7C3321AB2BAC31940042F6D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7C0C99402BA2BA8F00CF7C91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7C33219F2BAC31930042F6D1;
+			remoteInfo = "Helldivers Companion Orders WidgetExtension";
+		};
 		7C3DE9802BA80B3E00C95B84 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7C0C99402BA2BA8F00CF7C91 /* Project object */;
@@ -177,6 +188,7 @@
 		7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleProgressBar.swift; sourceTree = "<group>"; };
 		7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemView.swift; sourceTree = "<group>"; };
 		7C319F962BABEA2D0075A1E4 /* GlobalFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
+		7C3321A02BAC31930042F6D1 /* Helldivers Companion Orders WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion Orders WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C3A9EC52BA944BE00F26307 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
 		7C3A9EC82BA9724E00F26307 /* NewsFeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedModel.swift; sourceTree = "<group>"; };
 		7C3DE9772BA80B3D00C95B84 /* Helldivers Companion Watch WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion Watch WidgetsExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -211,7 +223,7 @@
 		7CC0AE712BA7F31400802D9F /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		7CC0AE732BA7F31400802D9F /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		7CC0AE762BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_WidgetsBundle.swift; sourceTree = "<group>"; };
-		7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Widgets.swift; sourceTree = "<group>"; };
+		7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Planet_Widgets.swift; sourceTree = "<group>"; };
 		7CC0AE7A2BA7F31500802D9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CC0AE7C2BA7F31500802D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7CE4AE3C2BA832C40033D4AF /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
@@ -225,6 +237,15 @@
 				7CE4AE372BA82C6A0033D4AF /* FirebaseMessaging in Frameworks */,
 				7CE4AE332BA82C6A0033D4AF /* FirebaseFirestore in Frameworks */,
 				7CE4AE352BA82C6A0033D4AF /* FirebaseFunctions in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7C33219D2BAC31930042F6D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C3321A22BAC31930042F6D1 /* SwiftUI.framework in Frameworks */,
+				7C3321A12BAC31930042F6D1 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +296,7 @@
 				7C587F442BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App.app */,
 				7CC0AE6F2BA7F31400802D9F /* Helldivers Companion WidgetsExtension.appex */,
 				7C3DE9772BA80B3D00C95B84 /* Helldivers Companion Watch WidgetsExtension.appex */,
+				7C3321A02BAC31930042F6D1 /* Helldivers Companion Orders WidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -382,7 +404,7 @@
 			isa = PBXGroup;
 			children = (
 				7CC0AE762BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift */,
-				7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Widgets.swift */,
+				7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift */,
 				7CC0AE7A2BA7F31500802D9F /* Assets.xcassets */,
 				7CC0AE7C2BA7F31500802D9F /* Info.plist */,
 			);
@@ -450,6 +472,7 @@
 			dependencies = (
 				7C587F502BA6DBBB00C66643 /* PBXTargetDependency */,
 				7CC0AE7E2BA7F31500802D9F /* PBXTargetDependency */,
+				7C3321AC2BAC31940042F6D1 /* PBXTargetDependency */,
 			);
 			name = "Helldivers Companion";
 			packageProductDependencies = (
@@ -460,6 +483,23 @@
 			productName = "Helldivers Companion";
 			productReference = 7C0C99482BA2BA8F00CF7C91 /* Helldivers Companion.app */;
 			productType = "com.apple.product-type.application";
+		};
+		7C33219F2BAC31930042F6D1 /* Helldivers Companion Orders WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C3321AD2BAC31940042F6D1 /* Build configuration list for PBXNativeTarget "Helldivers Companion Orders WidgetExtension" */;
+			buildPhases = (
+				7C33219C2BAC31930042F6D1 /* Sources */,
+				7C33219D2BAC31930042F6D1 /* Frameworks */,
+				7C33219E2BAC31930042F6D1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Helldivers Companion Orders WidgetExtension";
+			productName = "Helldivers Companion Orders WidgetExtension";
+			productReference = 7C3321A02BAC31930042F6D1 /* Helldivers Companion Orders WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		7C3DE9762BA80B3D00C95B84 /* Helldivers Companion Watch WidgetsExtension */ = {
 			isa = PBXNativeTarget;
@@ -527,6 +567,9 @@
 					7C0C99472BA2BA8F00CF7C91 = {
 						CreatedOnToolsVersion = 15.3;
 					};
+					7C33219F2BAC31930042F6D1 = {
+						CreatedOnToolsVersion = 15.3;
+					};
 					7C3DE9762BA80B3D00C95B84 = {
 						CreatedOnToolsVersion = 15.3;
 					};
@@ -558,6 +601,7 @@
 				7C587F432BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App */,
 				7CC0AE6E2BA7F31400802D9F /* Helldivers Companion WidgetsExtension */,
 				7C3DE9762BA80B3D00C95B84 /* Helldivers Companion Watch WidgetsExtension */,
+				7C33219F2BAC31930042F6D1 /* Helldivers Companion Orders WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -571,6 +615,13 @@
 				7C50CEE62BA8295E009094AE /* GoogleService-Info.plist in Resources */,
 				7C0C99532BA2BA9000CF7C91 /* Preview Assets.xcassets in Resources */,
 				7C0C99502BA2BA9000CF7C91 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7C33219E2BAC31930042F6D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -665,12 +716,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7C33219C2BAC31930042F6D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C3321B02BAC31DD0042F6D1 /* PlanetsViewModel.swift in Sources */,
+				7C3321B12BAC32120042F6D1 /* PlanetStructs.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7C3DE9732BA80B3D00C95B84 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				7C45D4682BABEE770013A632 /* AngledLinesShape.swift in Sources */,
-				7C3DE9892BA80B9600C95B84 /* Helldivers_Companion_Widgets.swift in Sources */,
+				7C3DE9892BA80B9600C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7C45D4762BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C45D4712BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
 				7C45D46B2BABEE7D0013A632 /* RewardView.swift in Sources */,
@@ -695,7 +755,7 @@
 				7C45D4792BAC142C0013A632 /* Tab.swift in Sources */,
 				7C45D45B2BABEB370013A632 /* GlobalFunctions.swift in Sources */,
 				7C587F5D2BA6DD2200C66643 /* CustomSegmentedPicker.swift in Sources */,
-				7C3DE9722BA80A1A00C95B84 /* Helldivers_Companion_Widgets.swift in Sources */,
+				7C3DE9722BA80A1A00C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7C587F562BA6DBFD00C66643 /* PlanetsViewModel.swift in Sources */,
 				7C587F5E2BA6DD2500C66643 /* RectangleProgressBar.swift in Sources */,
 				7C319F952BAAEF7F0075A1E4 /* NewsItemView.swift in Sources */,
@@ -715,7 +775,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C45D4672BABEE770013A632 /* AngledLinesShape.swift in Sources */,
-				7CC0AE792BA7F31400802D9F /* Helldivers_Companion_Widgets.swift in Sources */,
+				7CC0AE792BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7CC0AE882BA7F63100802D9F /* RectangleProgressBar.swift in Sources */,
 				7C45D46A2BABEE7D0013A632 /* RewardView.swift in Sources */,
 				7C45D45C2BABEB370013A632 /* GlobalFunctions.swift in Sources */,
@@ -733,6 +793,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7C3321AC2BAC31940042F6D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7C33219F2BAC31930042F6D1 /* Helldivers Companion Orders WidgetExtension */;
+			targetProxy = 7C3321AB2BAC31940042F6D1 /* PBXContainerItemProxy */;
+		};
 		7C3DE9812BA80B3E00C95B84 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7C3DE9762BA80B3D00C95B84 /* Helldivers Companion Watch WidgetsExtension */;
@@ -946,6 +1011,62 @@
 			};
 			name = Release;
 		};
+		7C3321AE2BAC31940042F6D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Helldivers Companion Orders Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Orders Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Orders-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7C3321AF2BAC31940042F6D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Helldivers Companion Orders Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Orders Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Orders-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		7C3DE9842BA80B3E00C95B84 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1145,6 +1266,15 @@
 			buildConfigurations = (
 				7C0C99572BA2BA9000CF7C91 /* Debug */,
 				7C0C99582BA2BA9000CF7C91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7C3321AD2BAC31940042F6D1 /* Build configuration list for PBXNativeTarget "Helldivers Companion Orders WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C3321AE2BAC31940042F6D1 /* Debug */,
+				7C3321AF2BAC31940042F6D1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

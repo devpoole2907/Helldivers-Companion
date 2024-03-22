@@ -4,41 +4,91 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Helldivers Companion Orders Watch WidgetExtension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
+		</dict>
+		<key>Helldivers Companion Orders WidgetExtension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>Helldivers Companion Watch Edition Watch App.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>1</integer>
+		</dict>
+		<key>Helldivers Companion Watch WidgetsExtension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>Helldivers Companion WidgetsExtension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>Helldivers Companion another fucked widget fuck youExtension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>10</integer>
+		</dict>
+		<key>Helldivers Companion stupid fucking test WidgetExtension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>9</integer>
 		</dict>
 		<key>Helldivers Companion.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>0</integer>
 		</dict>
 		<key>Promises (Playground) 1.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>5</integer>
 		</dict>
 		<key>Promises (Playground) 2.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>6</integer>
 		</dict>
 		<key>Promises (Playground).xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>4</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>7C0C99472BA2BA8F00CF7C91</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7C3321722BAC30080042F6D1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7C3321B52BAC32480042F6D1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7C3321CC2BAC34470042F6D1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7C3321E32BAC35760042F6D1</key>
 		<dict>
 			<key>primary</key>
 			<true/>

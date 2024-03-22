@@ -193,7 +193,7 @@ class PlanetsViewModel: ObservableObject {
         
     }
     
-    func fetchMajorOrder() {
+    func fetchMajorOrder(for season: String? = nil, completion: @escaping ([PlanetStatus]) -> Void) {
         
         
         let urlString = "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(currentSeason)"
@@ -210,6 +210,7 @@ class PlanetsViewModel: ObservableObject {
             
             guard let data = data else {
                         print("NOOO! No data received: \(error?.localizedDescription ?? "Unknown error")")
+                completion([])
                         return
                     }
 
@@ -220,6 +221,8 @@ class PlanetsViewModel: ObservableObject {
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     
                     let decodedResponse = try decoder.decode([MajorOrder].self, from: data)
+                    
+                    var taskPlanets: [PlanetStatus] = []
                     DispatchQueue.main.async {
                                     if let firstOrder = decodedResponse.first {
                                         
@@ -235,9 +238,11 @@ class PlanetsViewModel: ObservableObject {
                                                 task.values.count >= 3 ? task.values[2] : nil
                                             }
                                         
-                                        self?.taskPlanets = self?.allPlanetStatuses.filter { planetStatus in
-                                                taskPlanetIndexes.contains(planetStatus.planet.index)
-                                            } ?? []
+                                        taskPlanets = self?.allPlanetStatuses.filter { planetStatus in
+                                            taskPlanetIndexes.contains(planetStatus.planet.index)
+                                        } ?? []
+                                        
+                                        self?.taskPlanets = taskPlanets
                                         
                                         
                                         print("We set the major order")
@@ -245,11 +250,15 @@ class PlanetsViewModel: ObservableObject {
                                         self?.majorOrderTitle = "Stand by."
                                         self?.majorOrderBody = "Await further orders from Super Earth High Command."
                                     }
+                        
+                        completion(taskPlanets)
+                        
                                 }
                     
                     
                 } catch {
                     print("Decoding error: \(error)")
+                    completion([])
                 }
            
             
@@ -268,10 +277,10 @@ class PlanetsViewModel: ObservableObject {
         // this function should be adapted for use both in the caching one or the live one below
         
         
-        let urlString = "\(apiAddress)/\(season ?? currentSeason)/status"
+      //  let urlString = "\(apiAddress)/\(season ?? currentSeason)/status"
         
         // for testing
-        //  let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/planet_event_test_planet_statuses.json"
+          let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/2024-03-21T06%3A08%3A52Z_planet_statuses.json"
         
         
         guard let url = URL(string: urlString) else { return }
@@ -336,7 +345,9 @@ class PlanetsViewModel: ObservableObject {
         fetchCurrentWarSeason() { [weak self] _ in
             self?.fetchConfig()
             self?.fetchPlanetStatuses { planets in
-                self?.fetchMajorOrder() // fetching in here so planet status is populated to associate major order planets with tasks
+                self?.fetchMajorOrder { _ in
+                    print("fetched major order")
+                }// fetching in here so planet status is populated to associate major order planets with tasks
                 print("Fetched planets: \(planets.count)")
             }
             self?.fetchPlanetStatusTimeSeries { error in
@@ -368,7 +379,11 @@ class PlanetsViewModel: ObservableObject {
             self?.fetchPlanetStatuses { planets in
                 
                 
-                self?.fetchMajorOrder() // fetching in here so planet status is populated to associate major order planets with tasks
+                self?.fetchMajorOrder { _ in
+                
+                    print("fetched major order")
+                    
+                } // fetching in here so planet status is populated to associate major order planets with tasks
                 print("Updated planets: \(planets)")
             }
             

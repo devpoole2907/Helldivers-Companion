@@ -11,6 +11,6 @@ import SwiftUI
 @main
 struct Helldivers_Companion_WidgetsBundle: WidgetBundle {
     var body: some Widget {
-        Helldivers_Companion_Widgets()
+        Helldivers_Companion_Planet_Widgets()
     }
 }
