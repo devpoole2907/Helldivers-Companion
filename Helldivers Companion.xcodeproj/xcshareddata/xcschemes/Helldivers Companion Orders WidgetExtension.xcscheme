@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1530"
-   version = "1.7">
+   wasCreatedForAppExtension = "YES"
+   version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES"
@@ -15,9 +16,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7C587F432BA6DBB400C66643"
-               BuildableName = "Helldivers Companion Watch Edition Watch App.app"
-               BlueprintName = "Helldivers Companion Watch Edition Watch App"
+               BlueprintIdentifier = "7C33219F2BAC31930042F6D1"
+               BuildableName = "Helldivers Companion Orders WidgetExtension.appex"
+               BlueprintName = "Helldivers Companion Orders WidgetExtension"
                ReferencedContainer = "container:Helldivers Companion.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,22 +47,23 @@
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
+      askForAppToLaunch = "Yes"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
-      notificationPayloadFile = "PushNotificationPayload.apns">
+      launchAutomaticallySubstyle = "2">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7C587F432BA6DBB400C66643"
-            BuildableName = "Helldivers Companion Watch Edition Watch App.app"
-            BlueprintName = "Helldivers Companion Watch Edition Watch App"
+            BlueprintIdentifier = "7C0C99472BA2BA8F00CF7C91"
+            BuildableName = "Helldivers Companion.app"
+            BlueprintName = "Helldivers Companion"
             ReferencedContainer = "container:Helldivers Companion.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -71,14 +73,16 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      debugDocumentVersioning = "YES">
+      debugDocumentVersioning = "YES"
+      askForAppToLaunch = "Yes"
+      launchAutomaticallySubstyle = "2">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7C587F432BA6DBB400C66643"
-            BuildableName = "Helldivers Companion Watch Edition Watch App.app"
-            BlueprintName = "Helldivers Companion Watch Edition Watch App"
+            BlueprintIdentifier = "7C0C99472BA2BA8F00CF7C91"
+            BuildableName = "Helldivers Companion.app"
+            BlueprintName = "Helldivers Companion"
             ReferencedContainer = "container:Helldivers Companion.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

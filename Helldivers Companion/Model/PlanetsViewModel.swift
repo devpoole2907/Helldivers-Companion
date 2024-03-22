@@ -106,17 +106,36 @@ class PlanetsViewModel: ObservableObject {
                 let planetStatuses = decodedResponse.planetStatus
                 let planetEvents = decodedResponse.planetEvents
                 
+                
+
+                
                 let fileTimestamp = extractTimestamp(from: file.name)
                 
+                
+                // adds data point but first calcs liberation rate
                 for status in planetStatuses {
                     let planetName = status.planet.name
-                    let dataPoint = PlanetDataPoint(timestamp: fileTimestamp, status: status)
-                    planetHistory[planetName, default: []].append(dataPoint)
+                    let fileTimestamp = extractTimestamp(from: file.name)
+                    
+                    let previousDataPoint = planetHistory[planetName]?.last
+                    var currentDataPoint = PlanetDataPoint(timestamp: fileTimestamp, status: status)
+
+                    if let previous = previousDataPoint, let previousLiberation = previous.status?.liberation {
+                        let timeInterval = currentDataPoint.timestamp.timeIntervalSince(previous.timestamp) / 3600
+                        if timeInterval > 0 {  
+                            let liberationRate = (status.liberation - previousLiberation) / timeInterval
+                            currentDataPoint.liberationRate = liberationRate
+                        }
+                    }
+
+                    planetHistory[planetName, default: []].append(currentDataPoint)
                 }
-                
+
+                // adds data point but first calcs defense rate
                 for event in planetEvents {
                     let planetName = event.planet.name
-                    
+                    let previousDataPoint = eventHistory[planetName]?.last
+                        var currentDataPoint = PlanetDataPoint(timestamp: fileTimestamp, event: event)
                     
                     if var existingStatuses = planetHistory[planetName] {
                             for i in 0..<existingStatuses.count {
@@ -127,10 +146,14 @@ class PlanetsViewModel: ObservableObject {
                             planetHistory[planetName] = existingStatuses
                         }
 
-                    
-                    print("planet events health is: \(event.defensePercentage)")
-                    let dataPoint = PlanetDataPoint(timestamp: fileTimestamp, event: event)
-                    eventHistory[planetName, default: []].append(dataPoint)
+                    if let previous = previousDataPoint, let previousDefense = previous.event?.defensePercentage {
+                            let timeInterval = currentDataPoint.timestamp.timeIntervalSince(previous.timestamp) / 3600
+                            if timeInterval > 0 {
+                                let defenseRate = (event.defensePercentage - previousDefense) / timeInterval
+                                currentDataPoint.liberationRate = defenseRate
+                            }
+                        }
+                    eventHistory[planetName, default: []].append(currentDataPoint)
                 }
                 
             } catch {
@@ -280,7 +303,7 @@ class PlanetsViewModel: ObservableObject {
         let urlString = "\(apiAddress)/\(season ?? currentSeason)/status"
         
         // for testing
-       //   let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/2024-03-21T06%3A08%3A52Z_planet_statuses.json"
+       //   let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/2024-03-21T22%3A31%3A33Z_planet_statuses.json"
         
         
         guard let url = URL(string: urlString) else { return }

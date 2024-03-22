@@ -27,6 +27,8 @@ struct PlanetDataPoint {
     let timestamp: Date
     var status: PlanetStatus?
     var event: PlanetEvent?
+    var liberationRate: Double?
+    
 }
 
 struct PlanetStatus: Decodable, Hashable {

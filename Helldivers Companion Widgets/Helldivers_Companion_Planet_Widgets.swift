@@ -127,8 +127,14 @@ struct RectangularPlanetWidgetView: View {
                 }.padding(.leading, 5)
             }.padding(.top, 2)
             
-        }.padding(.leading, 5)
-            .padding(.vertical, 2).background(in: RoundedRectangle(cornerRadius: 5.0))
+        }.widgetAccentable()
+        
+        .padding(.leading, 5)
+            .padding(.vertical, 2)
+        //background breaks the watch version
+        #if os(iOS)
+            .background(in: RoundedRectangle(cornerRadius: 5.0))
+        #endif
     }
 }
 

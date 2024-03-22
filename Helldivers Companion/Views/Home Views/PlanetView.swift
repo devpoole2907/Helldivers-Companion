@@ -138,10 +138,25 @@ let raceIconSize: CGFloat = 25
                         .frame(height: 1)
                     
                     VStack {
-                        Text("\(liberation)% \(liberationType == .liberation ? "Liberated" : "Defended")").textCase(.uppercase)
-                            .foregroundStyle(.white).bold()
-                            .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
-                            .multilineTextAlignment(.center)
+                        HStack{
+                            Text("\(liberation, specifier: "%.3f")% \(liberationType == .liberation ? "Liberated" : "Defended")").textCase(.uppercase)
+                                .foregroundStyle(.white).bold()
+                                .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
+                                .multilineTextAlignment(.leading)
+                            
+                            if let latestDataPoint = planetData.last, let liberationRate = latestDataPoint.liberationRate {
+                                Spacer()
+                                HStack(alignment: .top, spacing: 4) {
+                                    Image(systemName: "chart.line.uptrend.xyaxis")
+                                        .padding(.top, 2)
+                                    Text("\(liberationRate, specifier: "%.2f")% / h")
+                                        .foregroundStyle(.white)
+                                        .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
+                                        .multilineTextAlignment(.trailing)
+                                }
+                                    }
+                            
+                        }   .padding(.horizontal)
                         
                     }
                     .frame(maxWidth: .infinity)
