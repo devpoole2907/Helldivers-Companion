@@ -77,7 +77,7 @@ struct ContentView: View {
 #if os(watchOS) // this is updated in root on ios
                 .onAppear {
                     
-                 //   viewModel.startUpdating()
+                    viewModel.startUpdating()
                     
                 }
 #endif
