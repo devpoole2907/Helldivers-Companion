@@ -16,7 +16,7 @@ struct GameViewWatch: View {
         NavigationStack {
             Text("Testing!")
             
-            Text("\(viewModel.gameState)")
+            Text("test")
         }
         
       /*  NavigationStack {
@@ -143,7 +143,7 @@ struct GameViewWatch: View {
         
     }
     
-    var scoreView: some View {
+/*    var scoreView: some View {
         
         HStack {
             VStack(spacing: -5) {
@@ -341,7 +341,7 @@ struct GameViewWatch: View {
         }.tint(.yellow)
         
         
-    }
+    }*/
     
 }
 
