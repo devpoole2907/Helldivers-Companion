@@ -108,6 +108,7 @@
 		7C587F5D2BA6DD2200C66643 /* CustomSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */; };
 		7C587F5E2BA6DD2500C66643 /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
 		7C587F602BA6E25500C66643 /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
+		7C8C5F272BADD17000C4FBD2 /* ShakeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C32BA574B20019B00E /* ShakeModifier.swift */; };
 		7CC0AE722BA7F31400802D9F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
 		7CC0AE742BA7F31400802D9F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
 		7CC0AE772BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE762BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift */; };
@@ -832,6 +833,7 @@
 				7C587F572BA6DC2400C66643 /* ContentView.swift in Sources */,
 				7C1B8C332BAD77A100944823 /* StratagemHeroModel.swift in Sources */,
 				7C587F5A2BA6DCFC00C66643 /* OrderView.swift in Sources */,
+				7C8C5F272BADD17000C4FBD2 /* ShakeModifier.swift in Sources */,
 				7C587F5B2BA6DD0800C66643 /* PlanetView.swift in Sources */,
 				7C45D4692BABEE7C0013A632 /* RewardView.swift in Sources */,
 				7C3A9EC72BA9528A00F26307 /* NewsView.swift in Sources */,

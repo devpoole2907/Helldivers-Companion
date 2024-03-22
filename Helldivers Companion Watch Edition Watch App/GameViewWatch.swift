@@ -14,12 +14,6 @@ struct GameViewWatch: View {
     var body: some View {
         
         NavigationStack {
-            Text("Testing!")
-            
-            Text("test")
-        }
-        
-      /*  NavigationStack {
             
             ZStack {
                 VStack {
@@ -81,12 +75,7 @@ struct GameViewWatch: View {
                 
                 
                 
-                
-                /*  ZStack {
-                 
-                 
-                 
-                 }*/
+ 
                 
                 VStack(spacing: 0) {
                     HStack {
@@ -139,11 +128,11 @@ struct GameViewWatch: View {
             
             .navigationBarTitleDisplayMode(.inline)
             
-    }*/
+    }
         
     }
     
-/*    var scoreView: some View {
+    var scoreView: some View {
         
         HStack {
             VStack(spacing: -5) {
@@ -277,8 +266,6 @@ struct GameViewWatch: View {
                     
                 HStack {
                     
-                    // Text("Stratagem: \(stratagem.sequence.joined(separator: " "))")
-                    
                     ForEach(Array(stratagem.sequence.enumerated()), id: \.offset) { index, input in
                         
                         Image(systemName: "arrowshape.\(input).fill")
@@ -286,7 +273,7 @@ struct GameViewWatch: View {
                         
                     }
 
-                }//.shake(times: CGFloat(viewModel.arrowShakeTimes))
+                }.shake(times: CGFloat(viewModel.arrowShakeTimes))
                 .frame(maxWidth: 200)
                 WatchTimerBarView(timeRemaining: $viewModel.timeRemaining, totalTime: 10)
                     .frame(maxWidth: 100)
@@ -294,54 +281,6 @@ struct GameViewWatch: View {
             }
     
     }
-
-    
-    var buttons: some View {
-        
-        HStack {
-            
-            
-            
-            Button(action: {
-                viewModel.buttonInput(input: .left)
-            }) {
-                Image(systemName: "arrowshape.left.fill")
-                    .font(.system(size: 75))
-            }
-            
-            VStack(spacing: 50) {
-            
-            
-            Button(action: {
-                viewModel.buttonInput(input: .up)
-            }) {
-                Image(systemName: "arrowshape.up.fill")
-                    .font(.system(size: 75))
-            }
-            
-            Button(action: {
-                viewModel.buttonInput(input: .down)
-            }) {
-                Image(systemName: "arrowshape.down.fill")
-                    .font(.system(size: 75))
-            }
-                
-
-        }
-            
-            Button(action: {
-                viewModel.buttonInput(input: .right)
-            }) {
-                Image(systemName: "arrowshape.right.fill")
-                    .font(.system(size: 75))
-            }
-            
-        
-        
-        }.tint(.yellow)
-        
-        
-    }*/
     
 }
 
