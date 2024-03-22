@@ -7,7 +7,9 @@
 
 import Foundation
 import SwiftUI
+#if os(iOS)
 import GameKit
+#endif
 
 class StratagemHeroModel: ObservableObject {
     @Published var currentStratagem: Stratagem?
@@ -16,7 +18,10 @@ class StratagemHeroModel: ObservableObject {
     @Published var gameState: GameState = .notStarted
     @Published var showError = false
     
+    #if os(iOS)
     @Published var topScores: [GKLeaderboard.Entry] = []
+    #endif
+    
     
     @Published var currentRound = 1
     private var stratagemsPerRound = 6
