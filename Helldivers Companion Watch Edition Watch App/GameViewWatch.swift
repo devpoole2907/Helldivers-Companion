@@ -4,7 +4,7 @@
 //
 //  Created by James Poole on 22/03/2024.
 //
-/*
+
 import SwiftUI
 
 struct GameViewWatch: View {
@@ -12,7 +12,14 @@ struct GameViewWatch: View {
     @StateObject var viewModel = StratagemHeroModel()
     
     var body: some View {
+        
         NavigationStack {
+            Text("Testing!")
+            
+            Text("\(viewModel.gameState)")
+        }
+        
+      /*  NavigationStack {
             
             ZStack {
                 VStack {
@@ -132,7 +139,7 @@ struct GameViewWatch: View {
             
             .navigationBarTitleDisplayMode(.inline)
             
-    }
+    }*/
         
     }
     
@@ -363,4 +370,4 @@ struct WatchTimerBarView: View {
 }
 
 
-*/
+
