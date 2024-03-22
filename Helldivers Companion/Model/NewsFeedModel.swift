@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Algorithms
 
 class NewsFeedModel: ObservableObject {
     
@@ -13,7 +14,7 @@ class NewsFeedModel: ObservableObject {
     private var timer: Timer?
     
     func fetchNewsFeed(completion: @escaping ([NewsFeed]) -> Void) {
-          let feedURLString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/feed/feed.json"
+          let feedURLString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/feed/news.json"
           guard let feedURL = URL(string: feedURLString) else {
               print("Bad URL")
               return
@@ -37,8 +38,9 @@ class NewsFeedModel: ObservableObject {
     
                     newsFeed.sort { $0.id > $1.id }
                     
-                    self?.news = newsFeed
-                
+                    let newsItems = Array(newsFeed.uniqued())
+                    self?.news = newsItems
+                    completion(newsItems)
                 }
                 
             } catch {

@@ -20,6 +20,12 @@ struct ContentViewWatchVersion: View {
             AboutView().environmentObject(viewModel)
                 .tag(Tab.about)
             
+            GameViewWatch()
+                .tag(Tab.game)
+                .background {
+                    Color.black.ignoresSafeArea()
+                }
+            
             ContentView().environmentObject(viewModel)
                 .tag(Tab.home)
             
@@ -43,3 +49,4 @@ struct ContentViewWatchVersion: View {
 #Preview {
     ContentViewWatchVersion()
 }
+

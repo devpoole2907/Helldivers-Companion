@@ -22,12 +22,12 @@ struct NewsView: View {
                     ProgressView().frame(maxWidth: .infinity)
                 } else {
                     LazyVStack(spacing: 15) {
-                        ForEach(feedModel.news, id: \.id) { news in
+                        ForEach(feedModel.news, id: \.self) { news in
                             
                             
                             
                             
-                            if let message = news.message {
+                            if let message = news.message, !message.isEmpty {
                                 NewsItemView(newsTitle: news.title, newsMessage: message)
                                     .padding(.horizontal)
                             }
@@ -91,5 +91,3 @@ struct NewsView: View {
 #Preview {
     NewsView()
 }
-
-

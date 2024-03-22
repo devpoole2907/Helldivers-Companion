@@ -128,38 +128,34 @@ struct Message: Decodable {
     let de, en, es, fr, it, pl, ru, zh: String?
 }
 
-struct NewsFeed: Decodable {
+struct NewsFeed: Decodable, Hashable {
     let id: Int
     var message: String?
     var title: String?
-    let published: String?
+    let published: UInt32?
     let tagIds: [Int]
     let type: Int
-    let rawMessage: Message
     
     private enum CodingKeys: String, CodingKey {
-            case id, rawMessage = "message", published, tagIds, type
+            case id, message, published, tagIds, type
         }
     
     // custom init handles decoding/processing of message to seperate to title/message if possible
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             id = try container.decode(Int.self, forKey: .id)
-            published = try container.decodeIfPresent(String.self, forKey: .published)
+            published = try container.decodeIfPresent(UInt32.self, forKey: .published)
             tagIds = try container.decode([Int].self, forKey: .tagIds)
             type = try container.decode(Int.self, forKey: .type)
-            rawMessage = try container.decode(Message.self, forKey: .rawMessage)
+            message = try container.decode(String.self, forKey: .message)
             
-       // processing english version
-            if let enMessage = rawMessage.en {
+       // processing into title/message
+            if let msg = message {
                 // check for new line in message
-                if let newlineIndex = enMessage.firstIndex(of: "\n") {
+                if let newlineIndex = msg.firstIndex(of: "\n") {
                    // if we find a new line in the message then seperate to title/message
-                    title = String(enMessage[..<newlineIndex])
-                    message = String(enMessage[enMessage.index(after: newlineIndex)...])
-                } else {
-                 // no new line, so entire content is message
-                    message = enMessage
+                    title = String(msg[..<newlineIndex])
+                    message = String(msg[msg.index(after: newlineIndex)...])
                 }
             }
         }

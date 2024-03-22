@@ -102,7 +102,7 @@ class StratagemHeroModel: ObservableObject {
       
         
       
-        
+        #if os(iOS)
         // report high score to game center leaderboard
         let gameCenterManager = GameCenterManager()
         let leaderboardId = "com.poole.james.helldiverscompanion.highscores"
@@ -117,7 +117,12 @@ class StratagemHeroModel: ObservableObject {
                 gameState = .gameOver
             }
         }
-  
+        #else
+        withAnimation {
+            gameState = .gameOver
+        }
+        #endif
+        
        
 
     }

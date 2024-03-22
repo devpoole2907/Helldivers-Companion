@@ -277,10 +277,10 @@ class PlanetsViewModel: ObservableObject {
         // this function should be adapted for use both in the caching one or the live one below
         
         
-      //  let urlString = "\(apiAddress)/\(season ?? currentSeason)/status"
+        let urlString = "\(apiAddress)/\(season ?? currentSeason)/status"
         
         // for testing
-          let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/2024-03-21T06%3A08%3A52Z_planet_statuses.json"
+       //   let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/2024-03-21T06%3A08%3A52Z_planet_statuses.json"
         
         
         guard let url = URL(string: urlString) else { return }

@@ -73,11 +73,21 @@ struct Helldivers_Companion_WidgetsEntryView : View {
             
             
             #if os(iOS)
-            PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium).environmentObject(PlanetsViewModel())
             
-                .background {
-                    Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
-                }
+            
+            ZStack {
+                
+                Color(.yellow).opacity(0.6)
+                
+                ContainerRelativeShape()
+                    .inset(by: 4)
+                    .fill(Color.black)
+                
+                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, isWidget: true).environmentObject(PlanetsViewModel())
+                                  .padding(.horizontal)
+                                      .padding(.vertical, 5)
+                
+            }
             #else
             Text("You shouldnt see this")
             #endif
@@ -133,14 +143,15 @@ struct Helldivers_Companion_Planet_Widgets: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: PlanetStatusProvider()) { entry in
-            if #available(iOS 17.0, *) {
+
                 Helldivers_Companion_WidgetsEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
-            }
+            
         }
         .configurationDisplayName("Player Count")
         .description("Shows the planet with the current highest player count.")
         .supportedFamilies(supportedFamilies)
+        .contentMarginsDisabled()
     }
 }
     

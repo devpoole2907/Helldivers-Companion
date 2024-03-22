@@ -11,23 +11,24 @@ struct NewsItemView: View {
     
     var newsTitle: String? = nil
     var newsMessage: String = "Terminids! Automatons! EVERYWHERE!!??!!"
+    var isWidget = false
     
     var body: some View {
 
             VStack(alignment: .leading, spacing: 4) {
                 
                 if let title = newsTitle {
-                    Text(title).textCase(.uppercase) .font(Font.custom("FS Sinclair", size: mediumFont)).foregroundStyle(Color.yellow)
+                    Text(title).textCase(.uppercase) .font(Font.custom("FS Sinclair", size: isWidget ? smallFont : mediumFont)).foregroundStyle(Color.yellow)
+                        .lineLimit(isWidget ? 1 : nil)
                 }
                 
-                Text(newsMessage).font(Font.custom("FS Sinclair", size: mediumFont))
-                
+                Text(newsMessage).font(Font.custom("FS Sinclair", size: isWidget ? 14 : mediumFont)).foregroundStyle(Color.white)
             }
             .padding()
             .frame(maxWidth: .infinity)
                 .background {
                     Color.black
-                }.border(Color.blue.opacity(0.4), width: 6)
+                }.border(Color.blue.opacity(isWidget ? 0 : 0.4), width: 6)
    
         
     }

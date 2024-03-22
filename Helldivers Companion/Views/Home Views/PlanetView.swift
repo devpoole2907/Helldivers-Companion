@@ -22,6 +22,7 @@ struct PlanetView: View {
     var showImage = true
     var showExtraStats = true
     var liberationType: LiberationType = .liberation
+    var isWidget = false
     
     @State private var showChart = false
     
@@ -217,9 +218,13 @@ let raceIconSize: CGFloat = 25
             
         }.padding(5)
             .background {
-                Color.black
+                if isWidget {
+                    Color.clear
+                } else {
+                    Color.black
+                }
             }
-            .border(.yellow, width: 2)
+            .border(.yellow, width: isWidget ? 0 : 2)
     }
     
     var headerWithImage: some View {
@@ -296,7 +301,7 @@ let raceIconSize: CGFloat = 25
     
     var historyChart: some View {
 
-            return VStack { 
+            return VStack {
                 
                 if viewModel.planetHistory.isEmpty {
                     
@@ -605,4 +610,3 @@ struct HistoryChart: View {
     }
     
 }
-

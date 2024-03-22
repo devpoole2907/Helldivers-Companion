@@ -374,3 +374,9 @@ struct TimerBarView: View {
         .frame(height: 10)
     }
 }
+
+extension View {
+    func getRect()->CGRect {
+        return UIScreen.main.bounds
+    }
+}
