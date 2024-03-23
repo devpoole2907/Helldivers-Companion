@@ -121,6 +121,7 @@ struct RectangularPlanetWidgetView: View {
                 
           
                     Image(systemName: entry.liberationType == .defense ? "shield.lefthalf.filled" : "target")
+                    .font(.footnote)
                 
                 
             }
