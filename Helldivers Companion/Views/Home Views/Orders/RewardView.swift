@@ -9,18 +9,24 @@ import SwiftUI
 
 struct RewardView: View {
     
-    var rewardType: Int = 1
+    var rewardType: Int? = 1
     var rewardValue: Int = 0
     
+    var widgetMode = false
+    
+    var imageSize: CGFloat {
+        return widgetMode ? 20 : 30
+    }
+    
     var body: some View {
-        VStack(spacing: 6) {
-            Text("Reward").textCase(.uppercase).font(Font.custom("FS Sinclair", size: 18))
+        VStack(spacing: widgetMode ? 2 : 6) {
+            Text("Reward").textCase(.uppercase).font(Font.custom("FS Sinclair", size: widgetMode ? 14 : 18))
             
             HStack(spacing: 4) {
                 
                 if rewardType == 1 {
                     Image("medalSymbol").resizable().aspectRatio(contentMode: .fit)
-                        .frame(width: 30, height: 30)
+                        .frame(width: imageSize, height: imageSize)
                 } else {
                     VStack(spacing: 2){
                         Text("R").font(Font.custom("FS Sinclair", size: smallFont)).padding(.horizontal, 4).foregroundStyle(Color.black).background(Color.yellow)
@@ -29,7 +35,7 @@ struct RewardView: View {
                     }
                 }
                 
-                Text("\(rewardValue)").font(Font.custom("FS Sinclair", size: 26))
+                Text("\(rewardValue)").font(Font.custom("FS Sinclair", size: widgetMode ? 20 : 26))
                     .foregroundStyle(rewardType == 1 ? .white : .yellow)
                 
             }

@@ -16,33 +16,30 @@ struct WatchOrdersView: View {
 
             ScrollView {
                 VStack(spacing: 12) {
-                    Text(viewModel.majorOrderTitle).bold()
+                    Text(viewModel.majorOrder?.setting.taskDescription ?? "Stand by.").bold()
                         .padding(.horizontal)
                         .multilineTextAlignment(.center)
                         .font(Font.custom("FS Sinclair", size: 18))
                         .foregroundStyle(.yellow)
                     
-                    Text(viewModel.majorOrderBody).bold()
+                    Text(viewModel.majorOrder?.setting.overrideBrief ?? "Await further orders from Super Earth High Command.").bold()
                         .padding(.horizontal)
                         .multilineTextAlignment(.center)
                         .font(Font.custom("FS Sinclair", size: 16))
                     
                     
                     if !viewModel.taskPlanets.isEmpty {
-                        TasksView().environmentObject(viewModel)
+                        TasksView(taskPlanets: viewModel.taskPlanets)
                     }
                     
                 }.frame(maxHeight: .infinity)
-                if viewModel.majorOrderRewardValue > 0 {
-                    
-                    RewardView(rewardType: viewModel.majorOrderRewardType, rewardValue: viewModel.majorOrderRewardValue)
+                if let majorOrderRewardValue = viewModel.majorOrder?.setting.reward.amount, majorOrderRewardValue > 0 {
+                    RewardView(rewardType: viewModel.majorOrder?.setting.reward.type, rewardValue: majorOrderRewardValue)
                     
                 }
                 
-                if viewModel.majorOrderTimeRemaining > 0 {
-                    
-                    MajorOrderTimeView(timeRemaining: viewModel.majorOrderTimeRemaining)
-                    
+                if let majorOrderTimeRemaining = viewModel.majorOrder?.expiresIn,  majorOrderTimeRemaining > 0 {
+                    MajorOrderTimeView(timeRemaining: majorOrderTimeRemaining)
                 }
                 
                 

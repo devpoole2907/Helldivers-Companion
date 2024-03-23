@@ -101,6 +101,13 @@ struct MajorOrder: Decodable {
     let progress: [Int]
     let expiresIn: Int
     let setting: Setting
+    
+    enum CodingKeys: String, CodingKey {
+        case id32
+        case progress
+        case expiresIn
+        case setting
+    }
 
     struct Setting: Decodable {
         let type: Int
@@ -123,6 +130,8 @@ struct MajorOrder: Decodable {
             let amount: Int
         }
     }
+    
+    
 }
 
 struct Message: Decodable {

@@ -11,6 +11,12 @@ struct MajorOrderTimeView: View {
     
     var timeRemaining = 0
     
+    var isWidget = false
+    
+    var nameSize: CGFloat {
+        return isWidget ? 14 : mediumFont
+    }
+    
     #if os(iOS)
     let alignment: VerticalAlignment = .bottom
     #elseif os(watchOS)
@@ -26,7 +32,7 @@ struct MajorOrderTimeView: View {
             
             #endif
             Text("\(formatDuration(seconds: timeRemaining))").padding(.top, 2).padding(.horizontal, 16).background(Color.yellow).foregroundStyle(Color.black)
-        }.font(Font.custom("FS Sinclair", size: mediumFont))
+        }.font(Font.custom("FS Sinclair", size: nameSize))
     }
 }
 

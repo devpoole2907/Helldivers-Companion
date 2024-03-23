@@ -18,26 +18,26 @@ struct OrderView: View {
         VStack(spacing: 12) {
                 
             VStack(spacing: 12) {
-                Text(viewModel.majorOrderTitle).font(Font.custom("FS Sinclair", size: 24))
+                Text(viewModel.majorOrder?.setting.taskDescription ?? "Stand by.").font(Font.custom("FS Sinclair", size: 24))
                     .foregroundStyle(Color.yellow).textCase(.uppercase)
                     .multilineTextAlignment(.center)
                 
-                Text(viewModel.majorOrderBody).font(Font.custom("FS Sinclair", size: 18))
+                Text(viewModel.majorOrder?.setting.overrideBrief ?? "Await further orders from Super Earth High Command.").font(Font.custom("FS Sinclair", size: 18))
                     .foregroundStyle(Color.cyan)
                     .padding(5)
                 
                 if !viewModel.taskPlanets.isEmpty {
-                    TasksView().environmentObject(viewModel)
+                    TasksView(taskPlanets: viewModel.taskPlanets)
                 }
                 
                 
             }.frame(maxHeight: .infinity)
-            if viewModel.majorOrderRewardValue > 0 {
-                RewardView(rewardType: viewModel.majorOrderRewardType, rewardValue: viewModel.majorOrderRewardValue)
+            if let majorOrderRewardValue = viewModel.majorOrder?.setting.reward.amount, majorOrderRewardValue > 0 {
+                RewardView(rewardType: viewModel.majorOrder?.setting.reward.type, rewardValue: majorOrderRewardValue)
             }
             
-            if viewModel.majorOrderTimeRemaining > 0 {
-                MajorOrderTimeView(timeRemaining: viewModel.majorOrderTimeRemaining)
+            if let majorOrderTimeRemaining = viewModel.majorOrder?.expiresIn,  majorOrderTimeRemaining > 0 {
+                MajorOrderTimeView(timeRemaining: majorOrderTimeRemaining)
             }
             
             }  .frame(maxWidth: .infinity) .padding()  .background {
@@ -60,24 +60,35 @@ struct OrderView: View {
 
 
 struct TasksView: View {
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    
+    var taskPlanets: [PlanetStatus]
+    
+    var isWidget = false
     
     let columns = [
-           GridItem(.flexible()),
-           GridItem(.flexible()),
+           GridItem(.flexible(maximum: 150)),
+           GridItem(.flexible(maximum: 150)),
        ]
+    
+    var nameSize: CGFloat {
+        return isWidget ? 14 : mediumFont
+    }
+    
+    var boxSize: CGFloat {
+        return isWidget ? 7 : 10
+    }
     
     var body: some View {
         
         
         LazyVGrid(columns: columns) {
-            ForEach(viewModel.taskPlanets, id: \.self) { planetStatus in
+            ForEach(taskPlanets, id: \.self) { planetStatus in
                 
          
                     HStack {
-                        Rectangle().frame(width: 10, height: 10).foregroundStyle(planetStatus.liberation == 100 ? Color.yellow : Color.black)
+                        Rectangle().frame(width: boxSize, height: boxSize).foregroundStyle(planetStatus.liberation == 100 ? Color.yellow : Color.black)
                             .border(planetStatus.liberation == 100 ? Color.black : Color.yellow)
-                        Text(planetStatus.planet.name).font(Font.custom("FS Sinclair", size: mediumFont))
+                        Text(planetStatus.planet.name).font(Font.custom("FS Sinclair", size: nameSize))
                     }
                               
                 

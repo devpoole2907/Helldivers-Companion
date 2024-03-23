@@ -78,6 +78,8 @@ struct Helldivers_Companion_WidgetsEntryView : View {
         switch widgetFamily {
         case .accessoryRectangular:
             RectangularPlanetWidgetView(entry: entry)
+        case .accessoryInline:
+            InlinePlanetWidgetView(entry: entry)
         default:
             
             
@@ -152,13 +154,30 @@ struct RectangularPlanetWidgetView: View {
     }
 }
 
+struct InlinePlanetWidgetView: View {
+    
+    var entry: PlanetStatusProvider.Entry
+    
+    var body: some View {
+        HStack(spacing: 3) {
+            Image("terminid").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
+                .padding(.bottom, 2)
+            Text("\(entry.planetName)") .font(Font.custom("FS Sinclair", size: 16))
+            Image(systemName: entry.liberationType == .defense ? "shield.lefthalf.filled" : "target")
+            .font(.footnote)
+            Text("\(String(format: "%.2f%%", entry.liberation))") .font(Font.custom("FS Sinclair", size: 16))
+        }
+        
+    }
+}
+
 struct Helldivers_Companion_Planet_Widgets: Widget {
     let kind: String = "Helldivers_Companion_Widgets"
     
     #if os(watchOS)
-    let supportedFamilies: [WidgetFamily] = [.accessoryRectangular]
+    let supportedFamilies: [WidgetFamily] = [.accessoryRectangular, .accessoryInline]
     #elseif os(iOS)
-    let supportedFamilies: [WidgetFamily] = [.accessoryRectangular, .systemMedium, .systemLarge]
+    let supportedFamilies: [WidgetFamily] = [.accessoryRectangular, .accessoryInline, .systemMedium, .systemLarge]
     #endif
 
     var body: some WidgetConfiguration {

@@ -13,11 +13,7 @@ class PlanetsViewModel: ObservableObject {
     @Published var defensePlanets: [PlanetEvent] = []
     @Published var campaignPlanets: [PlanetStatus] = []
     @Published var currentSeason: String = ""
-    @Published var majorOrderBody: String = "Awaiting further orders from Super Earth High Command."
-    @Published var majorOrderTitle: String = "Stand by."
-    @Published var majorOrderRewardType: Int = 1
-    @Published var majorOrderRewardValue = 0
-    @Published var majorOrderTimeRemaining = 0
+    @Published var majorOrder: MajorOrder? = nil
     @Published var lastUpdatedDate: Date = Date()
     // planetstatuses with tasks in the major order (e.g need to be liberated)
     @Published var taskPlanets: [PlanetStatus] = []
@@ -196,12 +192,13 @@ class PlanetsViewModel: ObservableObject {
         
         
     }
-    
-    func fetchMajorOrder(for season: String? = nil, completion: @escaping ([PlanetStatus]) -> Void) {
+    // optionally passed season and planet statuses if calling from widget
+    func fetchMajorOrder(for season: String? = nil, with planetStatuses: [PlanetStatus]? = nil, completion: @escaping ([PlanetStatus], MajorOrder?) -> Void) {
         
-        
-        let urlString = "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(currentSeason)"
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(season ?? currentSeason)"
             print("made url")
+        
+        
         
         print("made url")
         guard let url = URL(string: urlString) else { print("mission failed")
@@ -214,7 +211,7 @@ class PlanetsViewModel: ObservableObject {
             
             guard let data = data else {
                         print("NOOO! No data received: \(error?.localizedDescription ?? "Unknown error")")
-                completion([])
+                completion([], nil)
                         return
                     }
 
@@ -227,42 +224,50 @@ class PlanetsViewModel: ObservableObject {
                     let decodedResponse = try decoder.decode([MajorOrder].self, from: data)
                     
                     var taskPlanets: [PlanetStatus] = []
+                    var majorOrder: MajorOrder? = nil
                     DispatchQueue.main.async {
                                     if let firstOrder = decodedResponse.first {
                                         
                                         print("first order title is: \(firstOrder.setting.taskDescription)")
                                         
-                                        self?.majorOrderTitle = firstOrder.setting.taskDescription
-                                        self?.majorOrderBody = firstOrder.setting.overrideBrief
-                                        self?.majorOrderRewardType = firstOrder.setting.reward.type
-                                        self?.majorOrderRewardValue = firstOrder.setting.reward.amount
-                                        self?.majorOrderTimeRemaining = firstOrder.expiresIn
+                                        majorOrder = firstOrder
+                                        
+                                        self?.majorOrder = majorOrder
+                                        
+                                        var collectionOfPlanetStatuses: [PlanetStatus] = []
+                                        
+                                        // if passed planet statuses (widgets), set collection to be those
+                                        if let planetStatuses = planetStatuses {
+                                            collectionOfPlanetStatuses = planetStatuses
+                                        } else if let planetStatuses = self?.allPlanetStatuses {
+                                            // otherwise they are the viewmodel's planet statuses
+                                            collectionOfPlanetStatuses = planetStatuses
+                                        }
                                         
                                         let taskPlanetIndexes = firstOrder.setting.tasks.compactMap { task in
                                                 task.values.count >= 3 ? task.values[2] : nil
                                             }
                                         
-                                        taskPlanets = self?.allPlanetStatuses.filter { planetStatus in
+                                        taskPlanets = collectionOfPlanetStatuses.filter { planetStatus in
                                             taskPlanetIndexes.contains(planetStatus.planet.index)
-                                        } ?? []
+                                        }
                                         
                                         self?.taskPlanets = taskPlanets
                                         
                                         
                                         print("We set the major order")
                                     } else {
-                                        self?.majorOrderTitle = "Stand by."
-                                        self?.majorOrderBody = "Await further orders from Super Earth High Command."
+                                        self?.majorOrder = nil
                                     }
                         
-                        completion(taskPlanets)
+                        completion(taskPlanets, majorOrder)
                         
                                 }
                     
                     
                 } catch {
                     print("Decoding error: \(error)")
-                    completion([])
+                    completion([], nil)
                 }
            
             
@@ -275,8 +280,8 @@ class PlanetsViewModel: ObservableObject {
         
     }
     
-    
-    func fetchPlanetStatuses(for season: String? = nil, completion: @escaping (([PlanetStatus], [PlanetEvent])) -> Void) {
+    // returns campaign planets, planet events, and all planet statuses (for widgets to use etc)
+    func fetchPlanetStatuses(for season: String? = nil, completion: @escaping (([PlanetStatus], [PlanetEvent], [PlanetStatus])) -> Void) {
         
         // this function should be adapted for use both in the caching one or the live one below
         
@@ -292,7 +297,7 @@ class PlanetsViewModel: ObservableObject {
         URLSession.shared.dataTask(with: url){ [weak self] data, response, error in
             
             guard let data = data else {
-                completion(([], []))
+                completion(([], [], []))
                 return
             }
             
@@ -329,12 +334,12 @@ class PlanetsViewModel: ObservableObject {
                     self?.allPlanetStatuses = decodedResponse.planetStatus
                     self?.campaignPlanets = campaignPlanetsWithStatus.sorted  { $0.players > $1.players }
 
-                    completion((campaignPlanetsWithStatus, decodedResponse.planetEvents))
+                    completion((campaignPlanetsWithStatus, decodedResponse.planetEvents, decodedResponse.planetStatus))
                 }
                 
             } catch {
                 print("Decoding error: \(error)")
-                completion(([], []))
+                completion(([], [], []))
             }
             
             
@@ -349,7 +354,7 @@ class PlanetsViewModel: ObservableObject {
         fetchCurrentWarSeason() { [weak self] _ in
             self?.fetchConfig()
             self?.fetchPlanetStatuses { planets in
-                self?.fetchMajorOrder { _ in
+                self?.fetchMajorOrder { _, _ in
                     print("fetched major order")
                 }// fetching in here so planet status is populated to associate major order planets with tasks
             }
@@ -382,7 +387,7 @@ class PlanetsViewModel: ObservableObject {
             self?.fetchPlanetStatuses { planets in
                 
                 
-                self?.fetchMajorOrder { _ in
+                self?.fetchMajorOrder { _, _ in
                 
                     print("fetched major order")
                     

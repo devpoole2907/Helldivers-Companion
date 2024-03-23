@@ -110,6 +110,35 @@
 		7C8C5F282BAE80D300C4FBD2 /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */; };
 		7C8C5F292BAE810E00C4FBD2 /* CustomSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */; };
 		7C8C5F2A2BAE811C00C4FBD2 /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
+		7C8C5F302BAEF91300C4FBD2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
+		7C8C5F312BAEF91300C4FBD2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
+		7C8C5F342BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8C5F332BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_WidgetBundle.swift */; };
+		7C8C5F362BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8C5F352BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift */; };
+		7C8C5F382BAEF91300C4FBD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C8C5F372BAEF91300C4FBD2 /* Assets.xcassets */; };
+		7C8C5F3C2BAEF91300C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7C8C5F2F2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7C8C5F402BAEF96A00C4FBD2 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
+		7C8C5F412BAEF96C00C4FBD2 /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
+		7C8C5F422BAEF97200C4FBD2 /* RewardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4602BABEE3D0013A632 /* RewardView.swift */; };
+		7C8C5F432BAEF97600C4FBD2 /* MajorOrderTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D46D2BABEECF0013A632 /* MajorOrderTimeView.swift */; };
+		7C8C5F442BAEF98100C4FBD2 /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
+		7C8C5F452BAEFC9A00C4FBD2 /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
+		7C8C5F462BAEFCB500C4FBD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
+		7C8C5F472BAEFE1A00C4FBD2 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589B62BA546B00019B00E /* OrderView.swift */; };
+		7C8C5F482BAEFE8600C4FBD2 /* AngledLinesShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4642BABEE6E0013A632 /* AngledLinesShape.swift */; };
+		7C8C5F4E2BAF0AD100C4FBD2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
+		7C8C5F4F2BAF0AD100C4FBD2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
+		7C8C5F522BAF0AD100C4FBD2 /* Helldivers_Companion_Major_Order_Watch_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8C5F512BAF0AD100C4FBD2 /* Helldivers_Companion_Major_Order_Watch_Widget.swift */; };
+		7C8C5F542BAF0AD200C4FBD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C8C5F532BAF0AD200C4FBD2 /* Assets.xcassets */; };
+		7C8C5F582BAF0AD200C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7C8C5F4D2BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7C8C5F5C2BAF0B1800C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8C5F352BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift */; };
+		7C8C5F5D2BAF0B5C00C4FBD2 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
+		7C8C5F5E2BAF0B5E00C4FBD2 /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
+		7C8C5F5F2BAF0B8600C4FBD2 /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
+		7C8C5F602BAF0C1000C4FBD2 /* MajorOrderTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D46D2BABEECF0013A632 /* MajorOrderTimeView.swift */; };
+		7C8C5F612BAF0C1500C4FBD2 /* RewardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4602BABEE3D0013A632 /* RewardView.swift */; };
+		7C8C5F622BAF0C1900C4FBD2 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589B62BA546B00019B00E /* OrderView.swift */; };
+		7C8C5F632BAF0C1D00C4FBD2 /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
+		7C8C5F642BAF0C2900C4FBD2 /* AngledLinesShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4642BABEE6E0013A632 /* AngledLinesShape.swift */; };
 		7CC0AE722BA7F31400802D9F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
 		7CC0AE742BA7F31400802D9F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
 		7CC0AE772BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE762BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift */; };
@@ -151,6 +180,20 @@
 			remoteGlobalIDString = 7C587F432BA6DBB400C66643;
 			remoteInfo = "Helldivers Companion Watch Edition Watch App";
 		};
+		7C8C5F3A2BAEF91300C4FBD2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7C0C99402BA2BA8F00CF7C91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7C8C5F2E2BAEF91200C4FBD2;
+			remoteInfo = "Helldivers Companion Major Order WidgetExtension";
+		};
+		7C8C5F562BAF0AD200C4FBD2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7C0C99402BA2BA8F00CF7C91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7C8C5F4C2BAF0AD100C4FBD2;
+			remoteInfo = "Helldivers Companion Major Order Watch WidgetExtension";
+		};
 		7CC0AE7D2BA7F31500802D9F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7C0C99402BA2BA8F00CF7C91 /* Project object */;
@@ -168,6 +211,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				7C3DE9822BA80B3E00C95B84 /* Helldivers Companion Watch WidgetsExtension.appex in Embed Foundation Extensions */,
+				7C8C5F582BAF0AD200C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -189,6 +233,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				7C8C5F3C2BAEF91300C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex in Embed Foundation Extensions */,
 				7CC0AE7F2BA7F31500802D9F /* Helldivers Companion WidgetsExtension.appex in Embed Foundation Extensions */,
 				7C1B8C1D2BAD705700944823 /* Helldivers Companion News WidgetExtension.appex in Embed Foundation Extensions */,
 			);
@@ -245,6 +290,15 @@
 		7C587F4A2BA6DBBB00C66643 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C587F4D2BA6DBBB00C66643 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7C587F612BA6E8AE00C66643 /* Helldivers-Companion-Watch-Edition-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Helldivers-Companion-Watch-Edition-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		7C8C5F2F2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion Major Order WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C8C5F332BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Major_Order_WidgetBundle.swift; sourceTree = "<group>"; };
+		7C8C5F352BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Major_Order_Widget.swift; sourceTree = "<group>"; };
+		7C8C5F372BAEF91300C4FBD2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7C8C5F392BAEF91300C4FBD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C8C5F4D2BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion Major Order Watch WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C8C5F512BAF0AD100C4FBD2 /* Helldivers_Companion_Major_Order_Watch_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Major_Order_Watch_Widget.swift; sourceTree = "<group>"; };
+		7C8C5F532BAF0AD200C4FBD2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7C8C5F552BAF0AD200C4FBD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7CC0AE6F2BA7F31400802D9F /* Helldivers Companion WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion WidgetsExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CC0AE712BA7F31400802D9F /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		7CC0AE732BA7F31400802D9F /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -298,6 +352,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7C8C5F2C2BAEF91200C4FBD2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C8C5F312BAEF91300C4FBD2 /* SwiftUI.framework in Frameworks */,
+				7C8C5F302BAEF91300C4FBD2 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7C8C5F4A2BAF0AD100C4FBD2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C8C5F4F2BAF0AD100C4FBD2 /* SwiftUI.framework in Frameworks */,
+				7C8C5F4E2BAF0AD100C4FBD2 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7CC0AE6C2BA7F31400802D9F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -319,6 +391,8 @@
 				7CC0AE752BA7F31400802D9F /* Helldivers Companion Widgets */,
 				7C3DE97A2BA80B3D00C95B84 /* Helldivers Companion Watch Widgets */,
 				7C1B8C132BAD705600944823 /* Helldivers Companion News Widget */,
+				7C8C5F322BAEF91300C4FBD2 /* Helldivers Companion Major Order Widget */,
+				7C8C5F502BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch Widget */,
 				7CC0AE702BA7F31400802D9F /* Frameworks */,
 				7C0C99492BA2BA8F00CF7C91 /* Products */,
 			);
@@ -332,6 +406,8 @@
 				7CC0AE6F2BA7F31400802D9F /* Helldivers Companion WidgetsExtension.appex */,
 				7C3DE9772BA80B3D00C95B84 /* Helldivers Companion Watch WidgetsExtension.appex */,
 				7C1B8C102BAD705600944823 /* Helldivers Companion News WidgetExtension.appex */,
+				7C8C5F2F2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex */,
+				7C8C5F4D2BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -438,6 +514,27 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		7C8C5F322BAEF91300C4FBD2 /* Helldivers Companion Major Order Widget */ = {
+			isa = PBXGroup;
+			children = (
+				7C8C5F332BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_WidgetBundle.swift */,
+				7C8C5F352BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift */,
+				7C8C5F372BAEF91300C4FBD2 /* Assets.xcassets */,
+				7C8C5F392BAEF91300C4FBD2 /* Info.plist */,
+			);
+			path = "Helldivers Companion Major Order Widget";
+			sourceTree = "<group>";
+		};
+		7C8C5F502BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch Widget */ = {
+			isa = PBXGroup;
+			children = (
+				7C8C5F512BAF0AD100C4FBD2 /* Helldivers_Companion_Major_Order_Watch_Widget.swift */,
+				7C8C5F532BAF0AD200C4FBD2 /* Assets.xcassets */,
+				7C8C5F552BAF0AD200C4FBD2 /* Info.plist */,
+			);
+			path = "Helldivers Companion Major Order Watch Widget";
+			sourceTree = "<group>";
+		};
 		7CC0AE702BA7F31400802D9F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -520,6 +617,7 @@
 				7C587F502BA6DBBB00C66643 /* PBXTargetDependency */,
 				7CC0AE7E2BA7F31500802D9F /* PBXTargetDependency */,
 				7C1B8C1C2BAD705700944823 /* PBXTargetDependency */,
+				7C8C5F3B2BAEF91300C4FBD2 /* PBXTargetDependency */,
 			);
 			name = "Helldivers Companion";
 			packageProductDependencies = (
@@ -585,6 +683,7 @@
 			);
 			dependencies = (
 				7C3DE9812BA80B3E00C95B84 /* PBXTargetDependency */,
+				7C8C5F572BAF0AD200C4FBD2 /* PBXTargetDependency */,
 			);
 			name = "Helldivers Companion Watch Edition Watch App";
 			packageProductDependencies = (
@@ -596,6 +695,40 @@
 			productName = "Helldivers Companion Watch Edition Watch App";
 			productReference = 7C587F442BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App.app */;
 			productType = "com.apple.product-type.application";
+		};
+		7C8C5F2E2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C8C5F3D2BAEF91300C4FBD2 /* Build configuration list for PBXNativeTarget "Helldivers Companion Major Order WidgetExtension" */;
+			buildPhases = (
+				7C8C5F2B2BAEF91200C4FBD2 /* Sources */,
+				7C8C5F2C2BAEF91200C4FBD2 /* Frameworks */,
+				7C8C5F2D2BAEF91200C4FBD2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Helldivers Companion Major Order WidgetExtension";
+			productName = "Helldivers Companion Major Order WidgetExtension";
+			productReference = 7C8C5F2F2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		7C8C5F4C2BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C8C5F592BAF0AD200C4FBD2 /* Build configuration list for PBXNativeTarget "Helldivers Companion Major Order Watch WidgetExtension" */;
+			buildPhases = (
+				7C8C5F492BAF0AD100C4FBD2 /* Sources */,
+				7C8C5F4A2BAF0AD100C4FBD2 /* Frameworks */,
+				7C8C5F4B2BAF0AD100C4FBD2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Helldivers Companion Major Order Watch WidgetExtension";
+			productName = "Helldivers Companion Major Order Watch WidgetExtension";
+			productReference = 7C8C5F4D2BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		7CC0AE6E2BA7F31400802D9F /* Helldivers Companion WidgetsExtension */ = {
 			isa = PBXNativeTarget;
@@ -639,6 +772,12 @@
 					7C587F432BA6DBB400C66643 = {
 						CreatedOnToolsVersion = 15.3;
 					};
+					7C8C5F2E2BAEF91200C4FBD2 = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					7C8C5F4C2BAF0AD100C4FBD2 = {
+						CreatedOnToolsVersion = 15.3;
+					};
 					7CC0AE6E2BA7F31400802D9F = {
 						CreatedOnToolsVersion = 15.3;
 					};
@@ -666,6 +805,8 @@
 				7CC0AE6E2BA7F31400802D9F /* Helldivers Companion WidgetsExtension */,
 				7C3DE9762BA80B3D00C95B84 /* Helldivers Companion Watch WidgetsExtension */,
 				7C1B8C0F2BAD705600944823 /* Helldivers Companion News WidgetExtension */,
+				7C8C5F2E2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension */,
+				7C8C5F4C2BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -710,6 +851,25 @@
 				7C50CEE72BA8295E009094AE /* GoogleService-Info.plist in Resources */,
 				7C587F4E2BA6DBBB00C66643 /* Preview Assets.xcassets in Resources */,
 				7C587F4B2BA6DBBB00C66643 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7C8C5F2D2BAEF91200C4FBD2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C8C5F452BAEFC9A00C4FBD2 /* FS Sinclair Bold.otf in Resources */,
+				7C8C5F462BAEFCB500C4FBD2 /* Assets.xcassets in Resources */,
+				7C8C5F382BAEF91300C4FBD2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7C8C5F4B2BAF0AD100C4FBD2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C8C5F5F2BAF0B8600C4FBD2 /* FS Sinclair Bold.otf in Resources */,
+				7C8C5F542BAF0AD200C4FBD2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -845,6 +1005,38 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7C8C5F2B2BAEF91200C4FBD2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C8C5F482BAEFE8600C4FBD2 /* AngledLinesShape.swift in Sources */,
+				7C8C5F342BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_WidgetBundle.swift in Sources */,
+				7C8C5F472BAEFE1A00C4FBD2 /* OrderView.swift in Sources */,
+				7C8C5F402BAEF96A00C4FBD2 /* PlanetsViewModel.swift in Sources */,
+				7C8C5F442BAEF98100C4FBD2 /* GlobalFunctions+Extensions.swift in Sources */,
+				7C8C5F432BAEF97600C4FBD2 /* MajorOrderTimeView.swift in Sources */,
+				7C8C5F412BAEF96C00C4FBD2 /* PlanetStructs.swift in Sources */,
+				7C8C5F422BAEF97200C4FBD2 /* RewardView.swift in Sources */,
+				7C8C5F362BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7C8C5F492BAF0AD100C4FBD2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C8C5F642BAF0C2900C4FBD2 /* AngledLinesShape.swift in Sources */,
+				7C8C5F632BAF0C1D00C4FBD2 /* GlobalFunctions+Extensions.swift in Sources */,
+				7C8C5F522BAF0AD100C4FBD2 /* Helldivers_Companion_Major_Order_Watch_Widget.swift in Sources */,
+				7C8C5F612BAF0C1500C4FBD2 /* RewardView.swift in Sources */,
+				7C8C5F5D2BAF0B5C00C4FBD2 /* PlanetsViewModel.swift in Sources */,
+				7C8C5F5E2BAF0B5E00C4FBD2 /* PlanetStructs.swift in Sources */,
+				7C8C5F622BAF0C1900C4FBD2 /* OrderView.swift in Sources */,
+				7C8C5F5C2BAF0B1800C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */,
+				7C8C5F602BAF0C1000C4FBD2 /* MajorOrderTimeView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7CC0AE6B2BA7F31400802D9F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -882,6 +1074,16 @@
 			isa = PBXTargetDependency;
 			target = 7C587F432BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App */;
 			targetProxy = 7C587F4F2BA6DBBB00C66643 /* PBXContainerItemProxy */;
+		};
+		7C8C5F3B2BAEF91300C4FBD2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7C8C5F2E2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension */;
+			targetProxy = 7C8C5F3A2BAEF91300C4FBD2 /* PBXContainerItemProxy */;
+		};
+		7C8C5F572BAF0AD200C4FBD2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7C8C5F4C2BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension */;
+			targetProxy = 7C8C5F562BAF0AD200C4FBD2 /* PBXContainerItemProxy */;
 		};
 		7CC0AE7E2BA7F31500802D9F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1268,6 +1470,122 @@
 			};
 			name = Release;
 		};
+		7C8C5F3E2BAEF91300C4FBD2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Helldivers Companion Major Order Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Major Order Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Major-Order-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7C8C5F3F2BAEF91300C4FBD2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Helldivers Companion Major Order Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Major Order Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Major-Order-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7C8C5F5A2BAF0AD200C4FBD2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Helldivers Companion Major Order Watch Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Major Order Watch Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Major-Order-Watch-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.4;
+			};
+			name = Debug;
+		};
+		7C8C5F5B2BAF0AD200C4FBD2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Helldivers Companion Major Order Watch Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Major Order Watch Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Major-Order-Watch-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.4;
+			};
+			name = Release;
+		};
 		7CC0AE812BA7F31500802D9F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1368,6 +1686,24 @@
 			buildConfigurations = (
 				7C587F532BA6DBBB00C66643 /* Debug */,
 				7C587F542BA6DBBB00C66643 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7C8C5F3D2BAEF91300C4FBD2 /* Build configuration list for PBXNativeTarget "Helldivers Companion Major Order WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C8C5F3E2BAEF91300C4FBD2 /* Debug */,
+				7C8C5F3F2BAEF91300C4FBD2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7C8C5F592BAF0AD200C4FBD2 /* Build configuration list for PBXNativeTarget "Helldivers Companion Major Order Watch WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C8C5F5A2BAF0AD200C4FBD2 /* Debug */,
+				7C8C5F5B2BAF0AD200C4FBD2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
