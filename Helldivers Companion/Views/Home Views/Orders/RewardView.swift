@@ -51,7 +51,7 @@ struct RewardView: View {
                 .opacity(0.2) // Adjust for desired line opacity
                 .clipped() // Ensure the pattern does not extend beyond the view bounds
         )
-        .padding(.horizontal, 20)
+        .padding(.horizontal, 14)
         
     }
     

@@ -186,17 +186,16 @@ struct OrdersWidgetView: View {
                         .padding(5)
                     
                 }
-                
-              
-                
+
                 HStack(spacing: 0) {
                     if let majorOrderRewardValue = rewardValue, majorOrderRewardValue > 0 {
                         RewardView(rewardType: rewardType, rewardValue: majorOrderRewardValue, widgetMode: true)
-                        
+                            .frame(maxWidth: 200)
                     }
                     
                     if !taskPlanets.isEmpty {
                         TasksView(taskPlanets: taskPlanets, isWidget: true)
+                            .frame(maxWidth: .infinity)
                     }
                   
                    
@@ -224,8 +223,8 @@ struct RectangularOrdersTimeLeftView: View {
                 Text("Major Order").font(Font.custom("FS Sinclair", size: 16))
                 RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)
                 HStack(spacing: 4) {
-                    Text("Ends in").padding(.top, 1)
-                    Text("\(formatDuration(seconds: timeRemaining))").padding(.top, 2).padding(.horizontal, 8).background(Color.yellow).foregroundStyle(Color.black).clipShape(RoundedRectangle(cornerRadius: 6)).padding(.trailing, 5)
+                    Text("Ends in").padding(.top, 1).font(Font.custom("FS Sinclair", size: 14))
+                    Text("\(formatDuration(seconds: timeRemaining))").font(Font.custom("FS Sinclair", size: 12)).padding(.top, 2).padding(.horizontal, 8).background(Color.yellow).foregroundStyle(Color.black).clipShape(RoundedRectangle(cornerRadius: 6)).padding(.trailing, 5)
                         
                     
                 }.font(Font.custom("FS Sinclair", size: 14))
@@ -244,8 +243,9 @@ struct InlineOrdersTimeLeftWidget: View {
         if let timeRemaining = timeRemaining {
             
             HStack(spacing: 4) {
-                Text("MO").padding(.top, 1)
-                Text("\(formatDuration(seconds: timeRemaining))").padding(.top, 2).padding(.horizontal, 8).background(Color.yellow).foregroundStyle(Color.black).clipShape(RoundedRectangle(cornerRadius: 6)).padding(.trailing, 5)
+                Text("MO")
+                
+                Text("\(formatDuration(seconds: timeRemaining))")
                     
                 
             }.font(Font.custom("FS Sinclair", size: 14))

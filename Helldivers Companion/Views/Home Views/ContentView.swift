@@ -74,14 +74,6 @@ struct ContentView: View {
                     
                 }
             
-#if os(watchOS) // this is updated in root on ios
-                .onAppear {
-                    
-                    viewModel.startUpdating()
-                    
-                }
-#endif
-            
 #if os(iOS)
                 .background {
                     Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()

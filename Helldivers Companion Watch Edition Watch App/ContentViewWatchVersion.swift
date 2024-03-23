@@ -40,6 +40,12 @@ struct ContentViewWatchVersion: View {
             Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
         }
         
+        .onAppear {
+            
+            viewModel.startUpdating()
+
+        }
+        
     }
 }
 

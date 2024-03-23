@@ -66,8 +66,8 @@ struct TasksView: View {
     var isWidget = false
     
     let columns = [
-           GridItem(.flexible(maximum: 150)),
-           GridItem(.flexible(maximum: 150)),
+           GridItem(.flexible(maximum: 190)),
+           GridItem(.flexible(maximum: 190)),
        ]
     
     var nameSize: CGFloat {
