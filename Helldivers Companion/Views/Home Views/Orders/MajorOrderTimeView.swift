@@ -25,7 +25,7 @@ struct MajorOrderTimeView: View {
     
     var body: some View {
         HStack(alignment: alignment) {
-            Text("Major Order ends in:")
+            Text("Major Order ends in:").foregroundStyle(.white)
             #if os(watchOS)
             
                 .multilineTextAlignment(.center)

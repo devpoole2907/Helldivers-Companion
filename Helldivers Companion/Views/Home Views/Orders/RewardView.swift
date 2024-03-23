@@ -20,7 +20,7 @@ struct RewardView: View {
     
     var body: some View {
         VStack(spacing: widgetMode ? 2 : 6) {
-            Text("Reward").textCase(.uppercase).font(Font.custom("FS Sinclair", size: widgetMode ? 14 : 18))
+            Text("Reward").textCase(.uppercase).font(Font.custom("FS Sinclair", size: widgetMode ? 14 : 18)).foregroundStyle(.white)
             
             HStack(spacing: 4) {
                 

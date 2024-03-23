@@ -88,7 +88,7 @@ struct TasksView: View {
                     HStack {
                         Rectangle().frame(width: boxSize, height: boxSize).foregroundStyle(planetStatus.liberation == 100 ? Color.yellow : Color.black)
                             .border(planetStatus.liberation == 100 ? Color.black : Color.yellow)
-                        Text(planetStatus.planet.name).font(Font.custom("FS Sinclair", size: nameSize))
+                        Text(planetStatus.planet.name).font(Font.custom("FS Sinclair", size: nameSize)).foregroundStyle(.white)
                     }
                               
                 
