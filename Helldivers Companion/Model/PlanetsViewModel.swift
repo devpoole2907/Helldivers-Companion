@@ -18,6 +18,8 @@ class PlanetsViewModel: ObservableObject {
     // planetstatuses with tasks in the major order (e.g need to be liberated)
     @Published var taskPlanets: [PlanetStatus] = []
     
+    @Published var debugInfo: String = "Initializing..."
+    
     private var apiToken: String? = ProcessInfo.processInfo.environment["GITHUB_API_KEY"]
     
     @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", alert: "", prominentAlert: nil)
@@ -200,8 +202,10 @@ class PlanetsViewModel: ObservableObject {
 
         
         print("made url")
-        guard let url = URL(string: urlString) else { print("mission failed")
-            return }
+        guard let url = URL(string: urlString) else {
+                debugInfo = "Error: Invalid URL"
+                return
+            }
         
         var request = URLRequest(url: url)
             request.addValue("en", forHTTPHeaderField: "Accept-Language")
@@ -209,8 +213,9 @@ class PlanetsViewModel: ObservableObject {
         URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             
             guard let data = data else {
-                        print("NOOO! No data received: \(error?.localizedDescription ?? "Unknown error")")
-                completion([], nil)
+                        DispatchQueue.main.async {
+                            self?.debugInfo = "Error: No data received \(error?.localizedDescription ?? "Unknown error")"
+                        }
                         return
                     }
 
@@ -266,6 +271,11 @@ class PlanetsViewModel: ObservableObject {
                     
                 } catch {
                     print("Decoding error: \(error)")
+                    
+                    DispatchQueue.main.async {
+                                    self?.debugInfo = "Decoding error: \(error)"
+                                }
+                    
                     completion([], nil)
                 }
            

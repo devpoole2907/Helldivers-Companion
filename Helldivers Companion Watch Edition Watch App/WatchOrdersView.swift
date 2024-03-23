@@ -60,7 +60,7 @@ struct WatchOrdersView: View {
                 
                 viewModel.majorOrder = order
                 print("re setting major order! patching that shit up!")
-                
+                viewModel.debugInfo = "Major order fetched successfully"
             }
         }
     }
