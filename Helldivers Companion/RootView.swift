@@ -57,7 +57,7 @@ struct RootView: View {
             ordersSheet
             
             
-            .presentationDetents([.fraction(0.65)])
+                .presentationDetents([.fraction(0.65), .fraction(0.8), .large])
             .presentationDragIndicator(.visible)
             .presentationBackground(.thinMaterial)
             

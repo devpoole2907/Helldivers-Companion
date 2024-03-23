@@ -22,7 +22,7 @@ struct NewsItemView: View {
                         .lineLimit(isWidget ? 1 : nil)
                 }
                 
-                Text(newsMessage).font(Font.custom("FS Sinclair", size: isWidget ? 14 : mediumFont)).foregroundStyle(Color.white)
+                Text(newsMessage.replacingOccurrences(of: "\n", with: "")).font(Font.custom("FS Sinclair", size: isWidget ? 14 : mediumFont)).foregroundStyle(Color.white)
             }
             .padding()
             .frame(maxWidth: .infinity)

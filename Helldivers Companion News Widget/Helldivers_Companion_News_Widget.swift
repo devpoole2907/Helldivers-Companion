@@ -72,7 +72,7 @@ struct Helldivers_Companion_News_WidgetEntryView : View {
             ContainerRelativeShape()
                 .inset(by: 4)
                 .fill(Color.black)
-            NewsItemView(newsTitle: entry.title, newsMessage: entry.description, isWidget: true).padding(.horizontal)
+            NewsItemView(newsTitle: entry.title, newsMessage: entry.description.replacingOccurrences(of: "\n", with: ""), isWidget: true).padding(.horizontal)
                 .padding(.vertical, 5)
               
             
