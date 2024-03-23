@@ -14,12 +14,12 @@ struct PlanetStatusProvider: TimelineProvider {
     var planetsModel = PlanetsViewModel()
 
     func placeholder(in context: Context) -> SimplePlanetStatus {
-        SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000)
+        SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimplePlanetStatus) -> Void) {
         
-        let entry = SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000)
+        let entry = SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation)
         
         completion(entry)
     }
@@ -33,11 +33,19 @@ struct PlanetStatusProvider: TimelineProvider {
 
         planetsModel.fetchCurrentWarSeason() { season in
             planetsModel.fetchPlanetStatuses(for: season) { planets in
-                if let highestPlanet = planets.max(by: { $0.players < $1.players }) {
-                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.planet.name, liberation: highestPlanet.liberation, playerCount: highestPlanet.players, planet: highestPlanet)
+                if let highestPlanet = planets.0.max(by: { $0.players < $1.players }) {
+                    if let defenseEvent = planets.1.first(where: { $0.planet.index == highestPlanet.planet.index }) {
+                        
+                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.planet.name, liberation: defenseEvent.defensePercentage, playerCount: highestPlanet.players, planet: highestPlanet, liberationType: .defense)
+                        entries.append(entry)
+                        
+                    } else {
+                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.planet.name, liberation: highestPlanet.liberation, playerCount: highestPlanet.players, planet: highestPlanet)
+                        entries.append(entry)
+                    }
                     
                     print("appending entry!")
-                    entries.append(entry)
+                 
                 }
 
                 let timeline = Timeline(entries: entries, policy: .atEnd)
@@ -55,6 +63,7 @@ struct SimplePlanetStatus: TimelineEntry {
     var liberation: Double
     var playerCount: Int
     var planet: PlanetStatus? = nil
+    var liberationType: LiberationType = .liberation
 }
 
 
@@ -83,7 +92,7 @@ struct Helldivers_Companion_WidgetsEntryView : View {
                     .inset(by: 4)
                     .fill(Color.black)
                 
-                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, isWidget: true).environmentObject(PlanetsViewModel())
+                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true).environmentObject(PlanetsViewModel())
                                   .padding(.horizontal)
                                       .padding(.vertical, 5)
                 
@@ -109,7 +118,11 @@ struct RectangularPlanetWidgetView: View {
                 Image("terminid").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                     .padding(.bottom, 2)
                 Text(entry.planetName) .font(Font.custom("FS Sinclair", size: 16))
-                Spacer()
+                
+          
+                    Image(systemName: entry.liberationType == .defense ? "shield.lefthalf.filled" : "target")
+                
+                
             }
             RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)
             VStack (alignment: .leading, spacing: -3){
@@ -164,6 +177,6 @@ struct Helldivers_Companion_Planet_Widgets: Widget {
 #Preview(as: .accessoryRectangular) {
     Helldivers_Companion_Planet_Widgets()
 } timeline: {
-    SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000)
+    SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation)
 }
 

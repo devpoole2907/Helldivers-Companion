@@ -107,6 +107,9 @@
 		7C587F5E2BA6DD2500C66643 /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
 		7C587F602BA6E25500C66643 /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
 		7C8C5F272BADD17000C4FBD2 /* ShakeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C32BA574B20019B00E /* ShakeModifier.swift */; };
+		7C8C5F282BAE80D300C4FBD2 /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */; };
+		7C8C5F292BAE810E00C4FBD2 /* CustomSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */; };
+		7C8C5F2A2BAE811C00C4FBD2 /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
 		7CC0AE722BA7F31400802D9F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
 		7CC0AE742BA7F31400802D9F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
 		7CC0AE772BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE762BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift */; };
@@ -795,16 +798,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C8C5F282BAE80D300C4FBD2 /* PlanetView.swift in Sources */,
 				7C45D4682BABEE770013A632 /* AngledLinesShape.swift in Sources */,
 				7C3DE9892BA80B9600C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7C45D4762BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C45D4712BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
 				7C45D46B2BABEE7D0013A632 /* RewardView.swift in Sources */,
 				7C3DE98A2BA80C1900C95B84 /* PlanetsViewModel.swift in Sources */,
+				7C8C5F2A2BAE811C00C4FBD2 /* RectangleProgressBar.swift in Sources */,
 				7C45D45A2BABEB350013A632 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C45D47B2BAC142C0013A632 /* Tab.swift in Sources */,
 				7C3DE98B2BA80C1E00C95B84 /* PlanetStructs.swift in Sources */,
 				7C3DE97C2BA80B3D00C95B84 /* Helldivers_Companion_Watch_Widgets.swift in Sources */,
+				7C8C5F292BAE810E00C4FBD2 /* CustomSegmentedPicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

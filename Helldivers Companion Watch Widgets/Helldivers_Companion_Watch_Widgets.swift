@@ -27,10 +27,11 @@ struct Helldivers_Companion_Watch_Widgets: Widget {
         
     }
 }
-
+/*
 #Preview(as: .accessoryRectangular) {
     Helldivers_Companion_Watch_Widgets()
 } timeline: {
-    SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000)
+    SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation)
 }
 
+*/

@@ -36,22 +36,20 @@ struct ContentView: View {
                         AlertView(alert: alert)
                             .padding(.horizontal)
                     }
-                    
-                    ForEach(viewModel.defensePlanets, id: \.planet.index) { planet in
-                        
-                        if let status = planet.planetStatus {
-                            PlanetView(planetName: planet.planet.name, liberation: planet.defensePercentage, playerCount: status.players, planet: status, liberationType: .defense).environmentObject(viewModel)
-                                .padding(.horizontal)
-                        }
-                    }
-                    
+
                     ForEach(viewModel.campaignPlanets, id: \.self) { planetStatus in
-                        // dont show planets defending
-                        if !viewModel.defensePlanets.contains(where: { $0.planet.index == planetStatus.planet.index}) {
-                            PlanetView(planetName: planetStatus.planet.name, liberation: planetStatus.liberation, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus).environmentObject(viewModel)
+                        // check if planet is defending
+                        if let defenseEvent = viewModel.defensePlanets.first(where: { $0.planet.index == planetStatus.planet.index }) {
+                            // planet is defending, use defense percentage for liberation val
+                            PlanetView(planetName: planetStatus.planet.name, liberation: defenseEvent.defensePercentage, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus, liberationType: .defense).environmentObject(viewModel)
+                                .padding(.horizontal)
+                        } else {
+                            // planet not defending, use liberation
+                            PlanetView(planetName: planetStatus.planet.name, liberation: planetStatus.liberation, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus, liberationType: .liberation).environmentObject(viewModel)
                                 .padding(.horizontal)
                         }
                     }
+
                     
                 }
                 

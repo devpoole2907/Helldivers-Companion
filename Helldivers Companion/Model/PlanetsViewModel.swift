@@ -84,7 +84,7 @@ class PlanetsViewModel: ObservableObject {
         let files = try decoder.decode([GitHubFile].self, from: apiData)
         
         var planetHistory: [String: [PlanetDataPoint]] = [:]
-        var eventHistory: [String: [PlanetDataPoint]] = [:]
+        var defensePercentages: [String: Double] = [:]
         
         for file in files {
             guard let fileURL = URL(string: file.downloadUrl) else {
@@ -94,7 +94,7 @@ class PlanetsViewModel: ObservableObject {
             do {
                 let (fileData, response) = try await URLSession.shared.data(from: fileURL)
                 
-                guard let httpResponse = response as? HTTPURLResponse else {
+                guard response is HTTPURLResponse else {
                     continue
                 }
                 
@@ -104,12 +104,15 @@ class PlanetsViewModel: ObservableObject {
                 
                 let decodedResponse = try decoder.decode(WarStatusResponse.self, from: fileData)
                 let planetStatuses = decodedResponse.planetStatus
-                let planetEvents = decodedResponse.planetEvents
-                
-                
 
+            
                 
-                let fileTimestamp = extractTimestamp(from: file.name)
+                // calculate defense if a planet is defending
+                for event in decodedResponse.planetEvents {
+                                let planetName = event.planet.name
+                                let defensePercentage = event.maxHealth > 0 ? (1 - (Double(event.health) / Double(event.maxHealth))) * 100 : 0
+                                defensePercentages[planetName] = defensePercentage
+                            }
                 
                 
                 // adds data point but first calcs liberation rate
@@ -119,41 +122,23 @@ class PlanetsViewModel: ObservableObject {
                     
                     let previousDataPoint = planetHistory[planetName]?.last
                     var currentDataPoint = PlanetDataPoint(timestamp: fileTimestamp, status: status)
-
-                    if let previous = previousDataPoint, let previousLiberation = previous.status?.liberation {
-                        let timeInterval = currentDataPoint.timestamp.timeIntervalSince(previous.timestamp) / 3600
-                        if timeInterval > 0 {  
-                            let liberationRate = (status.liberation - previousLiberation) / timeInterval
-                            currentDataPoint.liberationRate = liberationRate
-                        }
-                    }
-
-                    planetHistory[planetName, default: []].append(currentDataPoint)
-                }
-
-                // adds data point but first calcs defense rate
-                for event in planetEvents {
-                    let planetName = event.planet.name
-                    let previousDataPoint = eventHistory[planetName]?.last
-                        var currentDataPoint = PlanetDataPoint(timestamp: fileTimestamp, event: event)
                     
-                    if var existingStatuses = planetHistory[planetName] {
-                            for i in 0..<existingStatuses.count {
-                                if existingStatuses[i].status?.planet.index == event.planet.index {
-                                    existingStatuses[i].status?.defensePercentage = event.defensePercentage
-                                }
-                            }
-                            planetHistory[planetName] = existingStatuses
-                        }
+                    // override the liberation with a defense percentage if defending
+                                   if let defensePercentage = defensePercentages[planetName] {
+                                       currentDataPoint.status?.liberation = defensePercentage
+                                   }
 
-                    if let previous = previousDataPoint, let previousDefense = previous.event?.defensePercentage {
+                    if let previous = previousDataPoint {
                             let timeInterval = currentDataPoint.timestamp.timeIntervalSince(previous.timestamp) / 3600
                             if timeInterval > 0 {
-                                let defenseRate = (event.defensePercentage - previousDefense) / timeInterval
-                                currentDataPoint.liberationRate = defenseRate
+                                let currentLiberation = currentDataPoint.status?.liberation ?? 0
+                                let previousLiberation = previous.status?.liberation ?? 0
+                                let liberationRate = (currentLiberation - previousLiberation) / timeInterval
+                                currentDataPoint.liberationRate = liberationRate
                             }
                         }
-                    eventHistory[planetName, default: []].append(currentDataPoint)
+
+                    planetHistory[planetName, default: []].append(currentDataPoint)
                 }
                 
             } catch {
@@ -164,10 +149,6 @@ class PlanetsViewModel: ObservableObject {
         
         for key in planetHistory.keys {
             planetHistory[key]?.sort(by: { $0.timestamp < $1.timestamp })
-        }
-        
-        for key in eventHistory.keys {
-            eventHistory[key]?.sort(by: { $0.timestamp < $1.timestamp })
         }
         
         return (planetHistory, eventHistory)
@@ -295,7 +276,7 @@ class PlanetsViewModel: ObservableObject {
     }
     
     
-    func fetchPlanetStatuses(for season: String? = nil, completion: @escaping ([PlanetStatus]) -> Void) {
+    func fetchPlanetStatuses(for season: String? = nil, completion: @escaping (([PlanetStatus], [PlanetEvent])) -> Void) {
         
         // this function should be adapted for use both in the caching one or the live one below
         
@@ -311,7 +292,7 @@ class PlanetsViewModel: ObservableObject {
         URLSession.shared.dataTask(with: url){ [weak self] data, response, error in
             
             guard let data = data else {
-                completion([])
+                completion(([], []))
                 return
             }
             
@@ -348,12 +329,12 @@ class PlanetsViewModel: ObservableObject {
                     self?.allPlanetStatuses = decodedResponse.planetStatus
                     self?.campaignPlanets = campaignPlanetsWithStatus.sorted  { $0.players > $1.players }
 
-                    completion(campaignPlanetsWithStatus)
+                    completion((campaignPlanetsWithStatus, decodedResponse.planetEvents))
                 }
                 
             } catch {
                 print("Decoding error: \(error)")
-                completion([])
+                completion(([], []))
             }
             
             
@@ -371,7 +352,6 @@ class PlanetsViewModel: ObservableObject {
                 self?.fetchMajorOrder { _ in
                     print("fetched major order")
                 }// fetching in here so planet status is populated to associate major order planets with tasks
-                print("Fetched planets: \(planets.count)")
             }
             self?.fetchPlanetStatusTimeSeries { error in
                 if let error = error {

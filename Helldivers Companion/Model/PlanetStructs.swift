@@ -42,13 +42,12 @@ struct PlanetStatus: Decodable, Hashable {
     
     
     let health: Int
-    let liberation: Double
+    var liberation: Double
     let owner: String
     let planet: Planet
     let players: Int
     let regenPerSecond: Double
     var defensePercentage: Double?
-    
 }
 
 struct PlanetEvent: Decodable {
