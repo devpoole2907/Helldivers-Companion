@@ -21,6 +21,18 @@ class StratagemHeroModel: ObservableObject {
     #if os(iOS)
     @Published var topScores: [GKLeaderboard.Entry] = []
     #endif
+   
+    // used on watchos, display a sheet with interactive dismiss disabled so the gestures for playing dont interact with the tab view
+    #if os(watchOS)
+    @Published var showGameSheet = false
+    @Published var showArrow = false
+    @Published var swipeDirection: SwipeDirection = .none
+    @Published var arrowOffset: CGSize = .zero
+    @Published var arrows: [Arrow] = []
+    
+    
+    
+    #endif
     
     
     @Published var currentRound = 1
@@ -46,6 +58,74 @@ class StratagemHeroModel: ObservableObject {
     init() {
         loadStratagems(forRound: currentRound)
     }
+    
+    // for swipe gestures on watch
+    #if os(watchOS)
+    enum SwipeDirection {
+            case up, down, left, right, none
+        }
+    
+    struct Arrow: Identifiable {
+        var id = UUID()
+            var direction: SwipeDirection
+        var offset: CGSize = .zero
+        var opacity: Double = 0.4
+        }
+    
+    func moveArrow(id: UUID, to offset: CGSize) {
+           guard let index = arrows.firstIndex(where: { $0.id == id }) else { return }
+           arrows[index].offset = offset
+       }
+
+       func fadeOutArrow(id: UUID) {
+           guard let index = arrows.firstIndex(where: { $0.id == id }) else { return }
+           arrows[index].opacity = 0.0
+       }
+
+       func removeArrow(id: UUID) {
+           arrows.removeAll { $0.id == id }
+       }
+    
+    func arrowName(for direction: SwipeDirection) -> String {
+           switch direction {
+               case .up: return "arrowshape.up.fill"
+               case .down: return "arrowshape.down.fill"
+               case .left: return "arrowshape.left.fill"
+               case .right: return "arrowshape.right.fill"
+               case .none: return ""
+           }
+       }
+    
+    
+     func determineDirection(from translation: CGSize) -> SwipeDirection {
+            if abs(translation.width) > abs(translation.height) {
+                return translation.width < 0 ? .left : .right
+            } else {
+                return translation.height < 0 ? .up : .down
+            }
+        }
+
+         func movementOffset(for direction: SwipeDirection) -> CGSize {
+            switch direction {
+                case .up: return CGSize(width: 0, height: -100)
+                case .down: return CGSize(width: 0, height: 100)
+                case .left: return CGSize(width: -100, height: 0)
+                case .right: return CGSize(width: 100, height: 0)
+                case .none: return CGSize()
+            }
+        }
+    
+    func addArrow(direction: SwipeDirection) {
+            let arrow = Arrow(direction: direction)
+            arrows.append(arrow)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                if let index = self.arrows.firstIndex(where: { $0.direction == direction && $0.offset == .zero }) {
+                    self.arrows.remove(at: index)
+                }
+            }
+        }
+    
+    #endif
     
     func startGame() {
             currentRound = 1
@@ -82,6 +162,18 @@ class StratagemHeroModel: ObservableObject {
             stopGame()
         }
         else if gameState == .notStarted {
+            // show the game sheet if on watch
+            #if os(watchOS)
+            if gameState == .notStarted {
+                showGameSheet = true
+            } else {
+                // show round start with instructions to swipe the directions of arrows
+                withAnimation {
+                    gameState = .roundStarting
+                }
+            }
+            #endif
+            
             startGame()
         } else if gameState == .roundEnded {
            startNextRound()
@@ -124,6 +216,9 @@ class StratagemHeroModel: ObservableObject {
         }
         #else
         withAnimation {
+            if totalScore > highScore {
+                highScore = totalScore
+            }
             gameState = .gameOver
         }
         #endif

@@ -22,9 +22,6 @@ struct ContentViewWatchVersion: View {
             
             GameViewWatch()
                 .tag(Tab.game)
-                .background {
-                    Color.black.ignoresSafeArea()
-                }
             
             ContentView().environmentObject(viewModel)
                 .tag(Tab.home)

@@ -36,7 +36,6 @@
 		7C1B8C3A2BAD78CD00944823 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7C1B8C392BAD78CD00944823 /* FirebaseMessaging */; };
 		7C1B8C3B2BAD790500944823 /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
 		7C1B8C602BAD85B200944823 /* GameViewWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1B8C5F2BAD85B200944823 /* GameViewWatch.swift */; };
-		7C1B8C612BAD85D500944823 /* GameViewWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1B8C5F2BAD85B200944823 /* GameViewWatch.swift */; };
 		7C319F942BAAE91E0075A1E4 /* NewsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */; };
 		7C319F952BAAEF7F0075A1E4 /* NewsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */; };
 		7C319F972BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
@@ -101,7 +100,6 @@
 		7C587F562BA6DBFD00C66643 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C587F572BA6DC2400C66643 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C994D2BA2BA8F00CF7C91 /* ContentView.swift */; };
 		7C587F582BA6DC7000C66643 /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
-		7C587F592BA6DCDC00C66643 /* ContentViewWatchVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F482BA6DBB400C66643 /* ContentViewWatchVersion.swift */; };
 		7C587F5A2BA6DCFC00C66643 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589B62BA546B00019B00E /* OrderView.swift */; };
 		7C587F5B2BA6DD0800C66643 /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */; };
 		7C587F5C2BA6DD1700C66643 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589BB2BA54ED50019B00E /* AboutView.swift */; };
@@ -756,7 +754,6 @@
 				7C4589BC2BA54ED50019B00E /* AboutView.swift in Sources */,
 				7C45D46E2BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
 				7C319F972BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift in Sources */,
-				7C1B8C612BAD85D500944823 /* GameViewWatch.swift in Sources */,
 				7C0C995D2BA2BAFD00CF7C91 /* PlanetsViewModel.swift in Sources */,
 				7C45D4732BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C0C994E2BA2BA8F00CF7C91 /* ContentView.swift in Sources */,
@@ -776,7 +773,6 @@
 				7C45D4612BABEE3D0013A632 /* RewardView.swift in Sources */,
 				7C3A9EC92BA9724E00F26307 /* NewsFeedModel.swift in Sources */,
 				7C45D46C2BABEE980013A632 /* WatchOrdersView.swift in Sources */,
-				7C587F592BA6DCDC00C66643 /* ContentViewWatchVersion.swift in Sources */,
 				7C0C994C2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift in Sources */,
 				7C0C995F2BA2C7BC00CF7C91 /* PlanetView.swift in Sources */,
 			);
