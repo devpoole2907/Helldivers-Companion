@@ -189,6 +189,7 @@ struct RootView: View {
                 }
                 
                 Text(tab.rawValue).textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 20))
+                    .dynamicTypeSize(.medium ... .large)
             }.padding(.horizontal)
                 .padding(.bottom, 10)
                 .frame(width: 100)
