@@ -183,7 +183,19 @@ struct GameViewWatch: View {
                 }
             }
 
-
+                
+            .toolbar {
+                if viewModel.gameState == .started {
+                    ToolbarItem(placement: .topBarTrailing){
+                        HStack(spacing: -4) {
+                            Text("R") .font(Font.custom("FS Sinclair", size: 20))
+                            
+                            Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair", size: 20))
+                                .foregroundStyle(.yellow)
+                        }
+                    }
+                }
+            }
 
                     
                 
@@ -203,22 +215,13 @@ struct GameViewWatch: View {
     var scoreView: some View {
         
         HStack {
-            VStack(spacing: -5) {
-                Text("R") .font(Font.custom("FS Sinclair", size: 20))
-                
-                Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair", size: 20))
-                    .foregroundStyle(.yellow)
-            }
-            Spacer()
-            
-            VStack(alignment: .trailing, spacing: -8) {
                 Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair", size: 20))
                     .foregroundStyle(.yellow)
                 Text("PTs").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 20))
-            }
             
             
-        }.padding(.horizontal, 50)
+            
+        }.padding(.horizontal, 10)
        
     }
     
@@ -244,6 +247,7 @@ struct GameViewWatch: View {
             Text("Swipe in any direction to Continue!") .font(Font.custom("FS Sinclair", size: 14))
                 .foregroundStyle(.yellow)
                 .multilineTextAlignment(.center)
+                .lineLimit(2, reservesSpace: true)
                 .padding(.top)
                
             
@@ -304,9 +308,11 @@ struct GameViewWatch: View {
                 HStack(spacing: 10) {
                     
                     Image(stratagem.name)
+                     
                         .resizable()
+                        .aspectRatio(contentMode: .fit)
                         .scaledToFit()
-                        .frame(width: 40) // Adjust the size as needed
+                        .frame(width: 40)
                     
                         .border(.yellow)
                     
@@ -314,7 +320,7 @@ struct GameViewWatch: View {
                         Image(stratagem.name)
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 30)
+                            .frame(width: 30, height: 30)
                             .opacity(0.6)
                     }
                 }
@@ -338,12 +344,15 @@ struct GameViewWatch: View {
                     ForEach(Array(stratagem.sequence.enumerated()), id: \.offset) { index, input in
                         
                         Image(systemName: "arrowshape.\(input).fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .scaledToFit()
                             .foregroundStyle(viewModel.showError ? .red.opacity(0.8) : (index < viewModel.inputSequence.count ? .yellow : .gray))
-                        
+                            
                     }
 
                 }.shake(times: CGFloat(viewModel.arrowShakeTimes))
-                .frame(maxWidth: 200)
+                .frame(maxWidth: 150)
                 WatchTimerBarView(timeRemaining: $viewModel.timeRemaining, totalTime: 10)
                     .frame(maxWidth: 100)
             }
