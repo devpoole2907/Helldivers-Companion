@@ -12,6 +12,7 @@ struct AboutView: View {
     @EnvironmentObject var viewModel: PlanetsViewModel
     
     let gitUrl = "https://github.com/devpoole2907/Helldivers-Companion"
+    let supportUrl = "https://devpoole2907.github.io/helldivers-companion-support/"
     
     var body: some View {
         NavigationStack {
@@ -31,6 +32,17 @@ struct AboutView: View {
                 }.padding(.horizontal)
                     .padding(.top)
                     .multilineTextAlignment(.center)
+                
+                #if os(iOS)
+                
+                if let supportUrl = URL(string: supportUrl) {
+                    Link(destination: supportUrl, label: {
+                        Text("Support") .font(Font.custom("FS Sinclair", size: 20))
+                            .underline()
+                    }).padding()
+                }
+                
+                #endif
                 
 #if os(watchOS)
                 
