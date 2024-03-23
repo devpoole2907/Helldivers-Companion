@@ -46,9 +46,11 @@ struct ContentView: View {
                     }
                     
                     ForEach(viewModel.campaignPlanets, id: \.self) { planetStatus in
-                        
-                        PlanetView(planetName: planetStatus.planet.name, liberation: planetStatus.liberation, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus).environmentObject(viewModel)
-                            .padding(.horizontal)
+                        // dont show planets defending
+                        if !viewModel.defensePlanets.contains(where: { $0.planet.index == planetStatus.planet.index}) {
+                            PlanetView(planetName: planetStatus.planet.name, liberation: planetStatus.liberation, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus).environmentObject(viewModel)
+                                .padding(.horizontal)
+                        }
                     }
                     
                 }
