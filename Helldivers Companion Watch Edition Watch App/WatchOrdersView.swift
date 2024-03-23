@@ -55,6 +55,13 @@ struct WatchOrdersView: View {
        
             
             .navigationBarTitleDisplayMode(.inline)
+        }.task {
+            viewModel.fetchMajorOrder { _, order in
+                
+                viewModel.majorOrder = order
+                print("re setting major order! patching that shit up!")
+                
+            }
         }
     }
 }

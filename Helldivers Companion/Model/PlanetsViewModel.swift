@@ -197,8 +197,7 @@ class PlanetsViewModel: ObservableObject {
         
         let urlString = "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(season ?? currentSeason)"
             print("made url")
-        
-        
+
         
         print("made url")
         guard let url = URL(string: urlString) else { print("mission failed")
