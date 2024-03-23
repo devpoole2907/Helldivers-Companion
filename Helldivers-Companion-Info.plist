@@ -4,6 +4,8 @@
 <dict>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>com.apple.developer.game-center</key>
+	<true/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FS Sinclair Bold.otf</string>
