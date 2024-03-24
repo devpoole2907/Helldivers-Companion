@@ -13,6 +13,7 @@ struct AboutView: View {
     
     let gitUrl = "https://github.com/devpoole2907/Helldivers-Companion"
     let supportUrl = "https://devpoole2907.github.io/helldivers-companion-support/"
+    let discordUrl = "https://discord.gg/3zMFwyyWPc"
     
     var body: some View {
         NavigationStack {
@@ -39,6 +40,13 @@ struct AboutView: View {
                     Link(destination: supportUrl, label: {
                         Text("Support") .font(Font.custom("FS Sinclair", size: 20))
                             .underline()
+                    }).padding()
+                }
+                
+                if let discordUrl = URL(string: discordUrl) {
+                    Link(destination: discordUrl, label: {
+                        Image("discordLogo").resizable().aspectRatio(contentMode: .fit)
+                            .frame(width: 150, height: 150)
                     }).padding()
                 }
                 

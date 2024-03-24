@@ -12,7 +12,7 @@ import SwiftUI
 struct Helldivers_Companion_Watch_Widgets: Widget {
     let kind: String = "Helldivers_Companion_Watch_Widgets"
     
-    let supportedFamilies: [WidgetFamily] = [.accessoryRectangular]
+    let supportedFamilies: [WidgetFamily] = [.accessoryRectangular, .accessoryInline, .accessoryCorner]
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: PlanetStatusProvider()) { entry in
@@ -27,11 +27,4 @@ struct Helldivers_Companion_Watch_Widgets: Widget {
         
     }
 }
-/*
-#Preview(as: .accessoryRectangular) {
-    Helldivers_Companion_Watch_Widgets()
-} timeline: {
-    SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation)
-}
 
-*/

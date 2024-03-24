@@ -12,25 +12,25 @@ struct PlanetStatusProvider: TimelineProvider {
     typealias Entry = SimplePlanetStatus
     
     var planetsModel = PlanetsViewModel()
-
+    
     func placeholder(in context: Context) -> SimplePlanetStatus {
         SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation)
     }
-
+    
     func getSnapshot(in context: Context, completion: @escaping (SimplePlanetStatus) -> Void) {
         
         let entry = SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation)
         
         completion(entry)
     }
-
+    
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimplePlanetStatus>) -> Void) {
         
-
+        
         
         
         var entries: [SimplePlanetStatus] = []
-
+        
         planetsModel.fetchCurrentWarSeason() { season in
             planetsModel.fetchPlanetStatuses(for: season) { planets in
                 if let highestPlanet = planets.0.max(by: { $0.players < $1.players }) {
@@ -45,15 +45,15 @@ struct PlanetStatusProvider: TimelineProvider {
                     }
                     
                     print("appending entry!")
-                 
+                    
                 }
-
+                
                 let timeline = Timeline(entries: entries, policy: .atEnd)
                 completion(timeline)
             }
         }
     }
-
+    
 }
 
 
@@ -72,7 +72,7 @@ struct Helldivers_Companion_WidgetsEntryView : View {
     @Environment(\.widgetFamily) var widgetFamily
     
     var entry: PlanetStatusProvider.Entry
-
+    
     var body: some View {
         
         switch widgetFamily {
@@ -80,10 +80,15 @@ struct Helldivers_Companion_WidgetsEntryView : View {
             RectangularPlanetWidgetView(entry: entry)
         case .accessoryInline:
             InlinePlanetWidgetView(entry: entry)
+#if os(watchOS)
+        case .accessoryCorner:
+            CornerPlanetWidgetView(entry: entry)
+                .widgetAccentable()
+#endif
         default:
             
             
-            #if os(iOS)
+#if os(iOS)
             
             
             ZStack {
@@ -95,17 +100,17 @@ struct Helldivers_Companion_WidgetsEntryView : View {
                     .fill(Color.black)
                 
                 PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true).environmentObject(PlanetsViewModel())
-                                  .padding(.horizontal)
-                                      .padding(.vertical, 5)
+                    .padding(.horizontal)
+                    .padding(.vertical, 5)
                 
             }
-            #else
+#else
             Text("You shouldnt see this")
-            #endif
+#endif
         }
         
-      
-          
+        
+        
     }
 }
 
@@ -121,8 +126,8 @@ struct RectangularPlanetWidgetView: View {
                     .padding(.bottom, 2)
                 Text(entry.planetName) .font(Font.custom("FS Sinclair", size: 16))
                 
-          
-                    Image(systemName: entry.liberationType == .defense ? "shield.lefthalf.filled" : "target")
+                
+                Image(systemName: entry.liberationType == .defense ? "shield.lefthalf.filled" : "target")
                     .font(.footnote)
                 
                 
@@ -145,12 +150,28 @@ struct RectangularPlanetWidgetView: View {
             
         }.widgetAccentable()
         
-        .padding(.leading, 5)
+            .padding(.leading, 5)
             .padding(.vertical, 2)
         //background breaks the watch version
-        #if os(iOS)
+#if os(iOS)
             .background(in: RoundedRectangle(cornerRadius: 5.0))
-        #endif
+#endif
+    }
+}
+
+struct CornerPlanetWidgetView: View {
+    var entry: PlanetStatusProvider.Entry
+    var body: some View {
+        Text(entry.planetName)
+            .font(.footnote)
+            .scaledToFit()
+            .minimumScaleFactor(0.2)
+            .widgetCurvesContent()
+            .widgetLabel {
+                ProgressView(value: entry.liberation, total: 100)
+                    .tint(.yellow)
+            }
+        
     }
 }
 
@@ -164,7 +185,7 @@ struct InlinePlanetWidgetView: View {
                 .padding(.bottom, 2)
             Text("\(entry.planetName)") .font(Font.custom("FS Sinclair", size: 16))
             Image(systemName: entry.liberationType == .defense ? "shield.lefthalf.filled" : "target")
-            .font(.footnote)
+                .font(.footnote)
             Text("\(String(format: "%.2f%%", entry.liberation))") .font(Font.custom("FS Sinclair", size: 16))
         }
         
@@ -174,17 +195,17 @@ struct InlinePlanetWidgetView: View {
 struct Helldivers_Companion_Planet_Widgets: Widget {
     let kind: String = "Helldivers_Companion_Widgets"
     
-    #if os(watchOS)
+#if os(watchOS)
     let supportedFamilies: [WidgetFamily] = [.accessoryRectangular, .accessoryInline]
-    #elseif os(iOS)
+#elseif os(iOS)
     let supportedFamilies: [WidgetFamily] = [.accessoryRectangular, .accessoryInline, .systemMedium, .systemLarge]
-    #endif
-
+#endif
+    
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: PlanetStatusProvider()) { entry in
-
-                Helldivers_Companion_WidgetsEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
+            
+            Helldivers_Companion_WidgetsEntryView(entry: entry)
+                .containerBackground(.fill.tertiary, for: .widget)
             
         }
         .configurationDisplayName("Player Count")
@@ -193,7 +214,7 @@ struct Helldivers_Companion_Planet_Widgets: Widget {
         .contentMarginsDisabled()
     }
 }
-    
+
 #Preview(as: .accessoryRectangular) {
     Helldivers_Companion_Planet_Widgets()
 } timeline: {

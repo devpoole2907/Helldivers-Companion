@@ -1417,7 +1417,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Helldivers-Companion-Watch-Edition-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Watch Edition";
+				INFOPLIST_KEY_CFBundleDisplayName = "War Monitor | Helldivers Companion Watch Edition";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.poole.james.Helldivers-Companion";
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
@@ -1433,7 +1433,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
 		};
@@ -1450,7 +1450,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Helldivers-Companion-Watch-Edition-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Watch Edition";
+				INFOPLIST_KEY_CFBundleDisplayName = "War Monitor | Helldivers Companion Watch Edition";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.poole.james.Helldivers-Companion";
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
@@ -1466,7 +1466,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
 		};

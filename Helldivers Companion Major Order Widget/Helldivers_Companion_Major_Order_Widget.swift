@@ -224,7 +224,13 @@ struct RectangularOrdersTimeLeftView: View {
                 RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)
                 HStack(spacing: 4) {
                     Text("Ends in").padding(.top, 1).font(Font.custom("FS Sinclair", size: 14))
-                    Text("\(formatDuration(seconds: timeRemaining))").font(Font.custom("FS Sinclair", size: 12)).padding(.top, 2).padding(.horizontal, 8).background(Color.yellow).foregroundStyle(Color.black).clipShape(RoundedRectangle(cornerRadius: 6)).padding(.trailing, 5)
+                    Text("\(formatDuration(seconds: timeRemaining))").font(Font.custom("FS Sinclair", size: 12))
+                    #if os(watchOS)
+                        .padding(.top, 1.7)
+                    #endif
+            #if os(iOS)
+                        .padding(.top, 2).padding(.horizontal, 8).background(Color.yellow).foregroundStyle(Color.black).clipShape(RoundedRectangle(cornerRadius: 6)).padding(.trailing, 5)
+                    #endif
                         
                     
                 }.font(Font.custom("FS Sinclair", size: 14))
