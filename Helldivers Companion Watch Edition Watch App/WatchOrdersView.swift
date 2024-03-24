@@ -27,6 +27,11 @@ struct WatchOrdersView: View {
                         .multilineTextAlignment(.center)
                         .font(Font.custom("FS Sinclair", size: 16))
                     
+                    Text(viewModel.debugInfo)
+                                         .font(.caption)
+                                         .foregroundColor(.gray)
+                                         .padding()
+                    
                     
                     if !viewModel.taskPlanets.isEmpty {
                         TasksView(taskPlanets: viewModel.taskPlanets)
