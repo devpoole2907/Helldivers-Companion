@@ -97,9 +97,9 @@ struct WarSeason: Decodable {
 
 
 struct MajorOrder: Decodable {
-    let id32: Int
+    let id32: Int64 // this must be int64 to run on watchOS!
     let progress: [Int]
-    let expiresIn: Int
+    let expiresIn: Int64 // this must be int64 to run on watchOS!
     let setting: Setting
     
     enum CodingKeys: String, CodingKey {
@@ -126,7 +126,7 @@ struct MajorOrder: Decodable {
 
         struct Reward: Decodable {
             let type: Int
-            let id32: Int
+            let id32: Int // this must be int64 to run on watchOS!
             let amount: Int
         }
     }

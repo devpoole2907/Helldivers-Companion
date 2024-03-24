@@ -16,15 +16,6 @@ struct WatchOrdersView: View {
 
             ScrollView {
                 VStack(spacing: 12) {
-                    
-                    
-                    if let title = viewModel.majorOrder?.setting.taskDescription {
-                        Text("yeah it exists!, its \(title)")
-                    }
-                    
-                    
-                    
-                    
                     Text(viewModel.majorOrder?.setting.taskDescription ?? "Stand by.").bold()
                         .padding(.horizontal)
                         .multilineTextAlignment(.center)
@@ -35,13 +26,7 @@ struct WatchOrdersView: View {
                         .padding(.horizontal)
                         .multilineTextAlignment(.center)
                         .font(Font.custom("FS Sinclair", size: 16))
-                    
-                    Text(viewModel.debugInfo)
-                                         .font(.caption)
-                                         .foregroundColor(.gray)
-                                         .padding()
-                    
-                    
+
                     if !viewModel.taskPlanets.isEmpty {
                         TasksView(taskPlanets: viewModel.taskPlanets)
                     }
@@ -69,15 +54,6 @@ struct WatchOrdersView: View {
        
             
             .navigationBarTitleDisplayMode(.inline)
-        }.task {
-            viewModel.fetchMajorOrder { _, order in
-                DispatchQueue.main.async {
-                    if let order = order {
-                                    viewModel.majorOrder = order
-                                    viewModel.debugInfo = "Major order fetched successfully"
-                                }
-                        }
-            }
         }
     }
 }

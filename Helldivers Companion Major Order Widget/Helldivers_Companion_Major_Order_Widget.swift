@@ -57,7 +57,7 @@ struct MajorOrderEntry: TimelineEntry {
     let taskPlanets: [PlanetStatus]
     let rewardValue: Int?
     let rewardType: Int?
-    let timeRemaining: Int?
+    let timeRemaining: Int64?
 }
 
 struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
@@ -145,7 +145,7 @@ struct OrdersWidgetView: View {
     var taskPlanets: [PlanetStatus]
     var rewardValue: Int?
     var rewardType: Int?
-    var timeRemaining: Int?
+    var timeRemaining: Int64?
     
     var titleSize: CGFloat {
         switch widgetFamily {
@@ -214,7 +214,7 @@ struct OrdersWidgetView: View {
 
 struct RectangularOrdersTimeLeftView: View {
     
-    var timeRemaining: Int?
+    var timeRemaining: Int64?
     
     var body: some View {
 
@@ -237,7 +237,7 @@ struct RectangularOrdersTimeLeftView: View {
 
 struct InlineOrdersTimeLeftWidget: View {
     
-    var timeRemaining: Int?
+    var timeRemaining: Int64?
     
     var body: some View {
         if let timeRemaining = timeRemaining {

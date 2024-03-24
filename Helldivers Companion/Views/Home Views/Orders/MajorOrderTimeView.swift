@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MajorOrderTimeView: View {
     
-    var timeRemaining = 0
+    var timeRemaining: Int64 = 0
     
     var isWidget = false
     
