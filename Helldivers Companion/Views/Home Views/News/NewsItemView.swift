@@ -20,13 +20,15 @@ struct NewsItemView: View {
             VStack(alignment: .leading, spacing: 4) {
                 
                 if let title = newsTitle {
-                    Text(title).textCase(.uppercase) .font(Font.custom("FS Sinclair", size: isWidget ? smallFont : mediumFont)).foregroundStyle(Color.yellow)
+                    Text(title).textCase(.uppercase) .font(Font.custom("FS Sinclair", size: mediumFont)).foregroundStyle(Color.yellow)
                         .lineLimit(isWidget ? 1 : nil)
                 }
                 
                 Text(newsMessage.replacingOccurrences(of: "\n", with: "")).font(Font.custom("FS Sinclair", size: isWidget ? 14 : mediumFont)).foregroundStyle(Color.white)
                 #if os(iOS)
-                    .lineLimit(isWidget ? (widgetFamily != .systemMedium ? 8 : 4 ) : nil)
+                    .lineLimit(isWidget ? (widgetFamily != .systemMedium ? 10 : 4 ) : nil)
+                
+                    .frame(maxHeight: .infinity)
                 #endif
             }
             .padding()
