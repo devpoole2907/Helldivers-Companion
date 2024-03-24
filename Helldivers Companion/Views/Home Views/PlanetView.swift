@@ -23,6 +23,10 @@ struct PlanetView: View {
     var showExtraStats = true
     var liberationType: LiberationType = .liberation
     var isWidget = false
+    // for widgets, pass remote config info
+    
+    var terminidRate: String
+    var automatonRate: String
     
     @State private var showChart = false
     
@@ -180,7 +184,7 @@ let raceIconSize: CGFloat = 25
                             Image(bugOrAutomaton).resizable().aspectRatio(contentMode: .fit)
                                 .frame(width: raceIconSize, height: raceIconSize)
                             
-                            Text(bugOrAutomaton == "terminid" ? "\(viewModel.configData.terminidRate) / h" : "\(viewModel.configData.automatonRate) / h").foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red).bold()
+                            Text(bugOrAutomaton == "terminid" ? "\(terminidRate) / h" : "\(automatonRate) / h").foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red).bold()
                                 .font(Font.custom("FS Sinclair", size: mediumFont))
                                 .padding(.top, 3)
                             
@@ -313,7 +317,7 @@ let raceIconSize: CGFloat = 25
 
 #Preview {
     
-    PlanetView().environmentObject(PlanetsViewModel())
+    PlanetView(terminidRate: "-5%", automatonRate: "-1.5%").environmentObject(PlanetsViewModel())
 }
 
 enum ChartType: String, SegmentedItem {

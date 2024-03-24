@@ -352,7 +352,9 @@ class PlanetsViewModel: ObservableObject {
     
     func refresh() {
         fetchCurrentWarSeason() { [weak self] _ in
-            self?.fetchConfig()
+            self?.fetchConfig { _ in
+                print("fetched config")
+            }
             self?.fetchPlanetStatuses { planets in
                 self?.fetchMajorOrder { _, _ in
                     print("fetched major order")
@@ -382,7 +384,9 @@ class PlanetsViewModel: ObservableObject {
             // fetch planet data
             
             self?.lastUpdatedDate = Date()
-            self?.fetchConfig()
+            self?.fetchConfig { _ in
+                print("fetched config")
+            }
             
             self?.fetchPlanetStatuses { planets in
                 
@@ -416,7 +420,7 @@ class PlanetsViewModel: ObservableObject {
         
     }
     // update bug rates via github json file so the app doesnt need an update every change, or an alert string to present in the about page to update remotely
-    func fetchConfig() {
+    func fetchConfig(completion: @escaping (RemoteConfigDetails?) -> Void) {
         let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/config/config.json"
         
         guard let url = URL(string: urlString) else {
@@ -429,9 +433,15 @@ class PlanetsViewModel: ObservableObject {
                 if let decodedResponse = try? JSONDecoder().decode(RemoteConfigDetails.self, from: data) {
                     DispatchQueue.main.async {
                         self.configData = decodedResponse
+                        completion(decodedResponse)
                     }
                 }
+            } else {
+                completion(nil)
             }
+            
+            
+            
         }.resume()
     }
     

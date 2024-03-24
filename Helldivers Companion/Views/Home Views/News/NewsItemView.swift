@@ -9,6 +9,8 @@ import SwiftUI
 
 struct NewsItemView: View {
     
+    @Environment(\.widgetFamily) var widgetFamily
+    
     var newsTitle: String? = nil
     var newsMessage: String = "Terminids! Automatons! EVERYWHERE!!??!!"
     var isWidget = false
@@ -23,6 +25,9 @@ struct NewsItemView: View {
                 }
                 
                 Text(newsMessage.replacingOccurrences(of: "\n", with: "")).font(Font.custom("FS Sinclair", size: isWidget ? 14 : mediumFont)).foregroundStyle(Color.white)
+                #if os(iOS)
+                    .lineLimit(isWidget ? (widgetFamily != .systemMedium ? 8 : 4 ) : nil)
+                #endif
             }
             .padding()
             .frame(maxWidth: .infinity)
