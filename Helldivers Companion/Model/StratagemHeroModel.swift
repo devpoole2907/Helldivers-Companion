@@ -288,8 +288,10 @@ class StratagemHeroModel: ObservableObject {
         
         
         if let stratagem = stratagems.first {
+            withAnimation(.bouncy) {
             currentStratagem = stratagem
-            stratagems.removeFirst()
+                stratagems.removeFirst()
+            }
             
             inputSequence = []
             
@@ -331,7 +333,11 @@ class StratagemHeroModel: ObservableObject {
         inputSequence.append(key)
         if inputSequence == currentStratagem.sequence {
             // Correct sequence
-            timeRemaining += 2
+            if timeRemaining + 2 > 10 {
+                timeRemaining = 10
+            } else {
+                timeRemaining += 2
+            }
                    let stratagemScore = currentStratagem.sequence.count * 10
                    roundScore += stratagemScore
 

@@ -75,7 +75,13 @@ struct GameView: View {
                     
                 Spacer()
                     
-                }.padding(.top)
+                }
+            
+            .background {
+                Image("BackgroundImage").blur(radius: 14).ignoresSafeArea()
+            }
+            
+            .padding(.top)
 #if os(iOS)
                     .toolbar {
                         ToolbarItem(placement: gameCenterManager.isAuthenticated ? .principal : .topBarLeading) {
@@ -294,9 +300,9 @@ struct GameView: View {
                     ForEach(Array(stratagem.sequence.enumerated()), id: \.offset) { index, input in
                         
                         Image(systemName: "arrowshape.\(input).fill")
-                            .foregroundStyle(viewModel.showError ? .red.opacity(0.8) : (index < viewModel.inputSequence.count ? .yellow : .gray))
-                        
-                    }
+                            .foregroundStyle(viewModel.showError ? .red.opacity(0.8) : (index < viewModel.inputSequence.count ? .yellow : Color(red: 189, green: 185, blue: 185)))
+                            .shadow(radius: 3)
+                    }.animation(.none) // needs to ignore the animation system otherwise it gets buggy visually when changing stratagems
 
                 }.shake(times: CGFloat(viewModel.arrowShakeTimes))
                     
@@ -350,6 +356,7 @@ struct GameView: View {
         
         
         }.tint(.yellow)
+            .shadow(radius: 3)
         
         
     }

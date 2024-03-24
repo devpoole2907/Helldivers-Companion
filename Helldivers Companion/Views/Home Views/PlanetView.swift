@@ -90,7 +90,7 @@ let raceIconSize: CGFloat = 25
     }
     
     func showChartToggler() {
-        withAnimation {
+        withAnimation(.bouncy) {
             showChart.toggle()
         }
     }

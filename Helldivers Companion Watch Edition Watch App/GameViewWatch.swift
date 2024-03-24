@@ -348,9 +348,10 @@ struct GameViewWatch: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .scaledToFit()
-                            .foregroundStyle(viewModel.showError ? .red.opacity(0.8) : (index < viewModel.inputSequence.count ? .yellow : .gray))
+                            .foregroundStyle(viewModel.showError ? .red.opacity(0.8) : (index < viewModel.inputSequence.count ? .yellow : Color(red: 189, green: 185, blue: 185)))
+                            .shadow(radius: 3)
                             
-                    }
+                    }.animation(.none) // needs to ignore the animation system otherwise it gets buggy visually when changing stratagems
 
                 }.shake(times: CGFloat(viewModel.arrowShakeTimes))
                 .frame(maxWidth: 150)

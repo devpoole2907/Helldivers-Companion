@@ -7,6 +7,7 @@
 
 import Foundation
 import Algorithms
+import SwiftUI
 
 class NewsFeedModel: ObservableObject {
     
@@ -39,7 +40,9 @@ class NewsFeedModel: ObservableObject {
                     newsFeed.sort { $0.id > $1.id }
                     
                     let newsItems = Array(newsFeed.uniqued())
-                    self?.news = newsItems
+                    withAnimation(.bouncy)  {
+                        self?.news = newsItems
+                    }
                     completion(newsItems)
                 }
                 

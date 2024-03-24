@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class PlanetsViewModel: ObservableObject {
     
@@ -329,7 +330,9 @@ class PlanetsViewModel: ObservableObject {
                     
                     self?.defensePlanets = decodedResponse.planetEvents
                     self?.allPlanetStatuses = decodedResponse.planetStatus
-                    self?.campaignPlanets = campaignPlanetsWithStatus.sorted  { $0.players > $1.players }
+                    withAnimation(.bouncy) {
+                        self?.campaignPlanets = campaignPlanetsWithStatus.sorted  { $0.players > $1.players }
+                    }
 
                     completion((campaignPlanetsWithStatus, decodedResponse.planetEvents, decodedResponse.planetStatus))
                 }
