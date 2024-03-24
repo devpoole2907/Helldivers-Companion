@@ -7,9 +7,9 @@
 
 import Foundation
 import SwiftUI
+import WatchConnectivity
 #if os(iOS)
 import GameKit
-import WatchConnectivity
 #endif
 
 class StratagemHeroModel: ObservableObject {
