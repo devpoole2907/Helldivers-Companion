@@ -302,6 +302,7 @@
 		7C8C5F512BAF0AD100C4FBD2 /* Helldivers_Companion_Major_Order_Watch_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Major_Order_Watch_Widget.swift; sourceTree = "<group>"; };
 		7C8C5F532BAF0AD200C4FBD2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C8C5F552BAF0AD200C4FBD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CBDDC872BB02F0900EAD9F0 /* Helldivers Companion Watch Edition Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Helldivers Companion Watch Edition Watch App.entitlements"; sourceTree = "<group>"; };
 		7CC0AE6F2BA7F31400802D9F /* Helldivers Companion WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion WidgetsExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CC0AE712BA7F31400802D9F /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		7CC0AE732BA7F31400802D9F /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -499,6 +500,7 @@
 		7C587F452BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				7CBDDC872BB02F0900EAD9F0 /* Helldivers Companion Watch Edition Watch App.entitlements */,
 				7C587F612BA6E8AE00C66643 /* Helldivers-Companion-Watch-Edition-Watch-App-Info.plist */,
 				7C587F462BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift */,
 				7C587F482BA6DBB400C66643 /* ContentViewWatchVersion.swift */,
@@ -1416,6 +1418,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Helldivers Companion Watch Edition Watch App/Helldivers Companion Watch Edition Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Helldivers Companion Watch Edition Watch App/Preview Content\"";
@@ -1449,6 +1452,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Helldivers Companion Watch Edition Watch App/Helldivers Companion Watch Edition Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Helldivers Companion Watch Edition Watch App/Preview Content\"";
