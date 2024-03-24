@@ -52,22 +52,6 @@ struct AboutView: View {
                 
                 #endif
                 
-#if os(watchOS)
-                
-                if let githubUrl = URL(string: gitUrl) {
-                    
-                    
-                    Link(destination: githubUrl, label: {
-                        Image("github-mark-white")
-                            .resizable().aspectRatio(contentMode: .fit)
-                            .frame(width: 30, height: 30)
-                    })
-                    
-                    
-                }
-                
-                
-#endif
                 
                 Spacer()
                 
@@ -81,18 +65,6 @@ struct AboutView: View {
                     ToolbarItem(placement: .principal) {
                         Text("About").textCase(.uppercase)
                             .font(Font.custom("FS Sinclair", size: 24))
-                    }
-                    
-                }
-                
-                if let githubUrl = URL(string: gitUrl) {
-                    
-                    ToolbarItem(placement: .topBarLeading) {
-                        Link(destination: githubUrl, label: {
-                            Image("github-mark-white")
-                                .resizable().aspectRatio(contentMode: .fit)
-                                .frame(width: 30, height: 30)
-                        })
                     }
                     
                 }
