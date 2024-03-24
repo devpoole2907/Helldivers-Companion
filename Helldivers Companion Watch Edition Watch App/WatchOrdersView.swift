@@ -72,8 +72,10 @@ struct WatchOrdersView: View {
         }.task {
             viewModel.fetchMajorOrder { _, order in
                 DispatchQueue.main.async {
-                            viewModel.majorOrder = order
-                            viewModel.debugInfo = "Major order fetched and UI should update"
+                    if let order = order {
+                                    viewModel.majorOrder = order
+                                    viewModel.debugInfo = "Major order fetched successfully"
+                                }
                         }
             }
         }
