@@ -11,7 +11,7 @@ struct GameView: View {
     
     @StateObject var viewModel = StratagemHeroModel()
     @StateObject var gameCenterManager = GameCenterManager()
-    @ObservedObject var watchConnectivity = WatchConnectivityProvider()
+    @ObservedObject var watchConnectivity = WatchConnectivityProvider.shared
     
     var body: some View {
         NavigationStack {

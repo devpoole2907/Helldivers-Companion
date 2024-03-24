@@ -240,13 +240,10 @@ class StratagemHeroModel: ObservableObject {
         #if os(iOS)
         // report high score to game center leaderboard
         gameCenterManager.reportScore(score: highScore, leaderboardID: leaderboardId)
-
+        #endif
         if WCSession.isSupported() {
             watchConnectivity.sendHighScore(highScore: highScore)
         }
-
-        
-        #endif
     }
     
     func endRound() {
