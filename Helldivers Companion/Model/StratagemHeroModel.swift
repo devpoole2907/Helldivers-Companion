@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 #if os(iOS)
 import GameKit
+import WatchConnectivity
 #endif
 
 class StratagemHeroModel: ObservableObject {
@@ -29,10 +30,15 @@ class StratagemHeroModel: ObservableObject {
     @Published var swipeDirection: SwipeDirection = .none
     @Published var arrowOffset: CGSize = .zero
     @Published var arrows: [Arrow] = []
-    
-    
-    
     #endif
+    
+    #if os(iOS)
+    let gameCenterManager = GameCenterManager()
+    let leaderboardId = "com.poole.james.helldiverscompanion.highscores"
+    #endif
+    
+    // for sending high scores between watch and ios
+    let watchConnectivity = WatchConnectivityProvider.shared
     
     
     @Published var currentRound = 1
@@ -127,6 +133,19 @@ class StratagemHeroModel: ObservableObject {
     
     #endif
     
+    #if os(iOS)
+    // Assuming `gameCenterManager` is already initialized and available
+    func updateHighScore() {
+        gameCenterManager.fetchHighScore(leaderboardId: leaderboardId) { [weak self] fetchedHighScore in
+            DispatchQueue.main.async {
+                if fetchedHighScore > self?.highScore ?? 0 {
+                    self?.highScore = fetchedHighScore
+                }
+            }
+        }
+    }
+    #endif
+    
     func startGame() {
             currentRound = 1
             stratagemsPerRound = 6
@@ -193,22 +212,11 @@ class StratagemHeroModel: ObservableObject {
         
         self.timer?.invalidate()
         self.timer = nil
-        
-        
-        
-      
-        
       
         #if os(iOS)
-        // report high score to game center leaderboard
-        let gameCenterManager = GameCenterManager()
-        let leaderboardId = "com.poole.james.helldiverscompanion.highscores"
-        gameCenterManager.reportScore(score: highScore, leaderboardID: leaderboardId)
-        
+
         Task {
-            if totalScore > highScore {
-                highScore = totalScore
-            }
+            recordHighScore()
             self.topScores = await gameCenterManager.loadTopScores(leaderboardID: leaderboardId, count: 3)
             withAnimation {
                 gameState = .gameOver
@@ -216,15 +224,29 @@ class StratagemHeroModel: ObservableObject {
         }
         #else
         withAnimation {
-            if totalScore > highScore {
-                highScore = totalScore
-            }
+            recordHighScore()
             gameState = .gameOver
         }
         #endif
         
        
 
+    }
+    
+    func recordHighScore() {
+        if totalScore > highScore {
+            highScore = totalScore
+        }
+        #if os(iOS)
+        // report high score to game center leaderboard
+        gameCenterManager.reportScore(score: highScore, leaderboardID: leaderboardId)
+
+        if WCSession.isSupported() {
+            watchConnectivity.sendHighScore(highScore: highScore)
+        }
+
+        
+        #endif
     }
     
     func endRound() {
@@ -237,6 +259,9 @@ class StratagemHeroModel: ObservableObject {
         
         self.timer?.invalidate()
         self.timer = nil
+        
+        recordHighScore()
+        
     }
     
     func startNextRound() {

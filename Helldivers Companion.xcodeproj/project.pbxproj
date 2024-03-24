@@ -106,6 +106,8 @@
 		7C587F5D2BA6DD2200C66643 /* CustomSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */; };
 		7C587F5E2BA6DD2500C66643 /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
 		7C587F602BA6E25500C66643 /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
+		7C5D5F592BAFD74900B644B9 /* WatchConnectivityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */; };
+		7C5D5F5A2BAFD83F00B644B9 /* WatchConnectivityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */; };
 		7C8C5F272BADD17000C4FBD2 /* ShakeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C32BA574B20019B00E /* ShakeModifier.swift */; };
 		7C8C5F282BAE80D300C4FBD2 /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */; };
 		7C8C5F292BAE810E00C4FBD2 /* CustomSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */; };
@@ -290,6 +292,7 @@
 		7C587F4A2BA6DBBB00C66643 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C587F4D2BA6DBBB00C66643 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7C587F612BA6E8AE00C66643 /* Helldivers-Companion-Watch-Edition-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Helldivers-Companion-Watch-Edition-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityProvider.swift; sourceTree = "<group>"; };
 		7C8C5F2F2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion Major Order WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C8C5F332BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Major_Order_WidgetBundle.swift; sourceTree = "<group>"; };
 		7C8C5F352BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Major_Order_Widget.swift; sourceTree = "<group>"; };
@@ -448,6 +451,7 @@
 				7C4589C62BA5849F0019B00E /* GameCenterManager.swift */,
 				7CE4AE3C2BA832C40033D4AF /* NotificationManager.swift */,
 				7C3A9EC82BA9724E00F26307 /* NewsFeedModel.swift */,
+				7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -936,6 +940,7 @@
 				7C45D4612BABEE3D0013A632 /* RewardView.swift in Sources */,
 				7C3A9EC92BA9724E00F26307 /* NewsFeedModel.swift in Sources */,
 				7C45D46C2BABEE980013A632 /* WatchOrdersView.swift in Sources */,
+				7C5D5F592BAFD74900B644B9 /* WatchConnectivityProvider.swift in Sources */,
 				7C0C994C2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift in Sources */,
 				7C0C995F2BA2C7BC00CF7C91 /* PlanetView.swift in Sources */,
 			);
@@ -979,6 +984,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C45D46F2BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
+				7C5D5F5A2BAFD83F00B644B9 /* WatchConnectivityProvider.swift in Sources */,
 				7C587F5C2BA6DD1700C66643 /* AboutView.swift in Sources */,
 				7C1B8C602BAD85B200944823 /* GameViewWatch.swift in Sources */,
 				7C45D45E2BABEDE40013A632 /* WatchOrdersView.swift in Sources */,

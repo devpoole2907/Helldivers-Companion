@@ -10,6 +10,7 @@ import SwiftUI
 struct GameViewWatch: View {
     
     @StateObject var viewModel = StratagemHeroModel()
+    @ObservedObject var connectivityProvider = WatchConnectivityProvider.shared
     
     var body: some View {
         

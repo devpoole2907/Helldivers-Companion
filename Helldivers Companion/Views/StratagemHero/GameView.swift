@@ -11,6 +11,7 @@ struct GameView: View {
     
     @StateObject var viewModel = StratagemHeroModel()
     @StateObject var gameCenterManager = GameCenterManager()
+    @ObservedObject var watchConnectivity = WatchConnectivityProvider()
     
     var body: some View {
         NavigationStack {
@@ -93,6 +94,7 @@ struct GameView: View {
                                         print("Authentication successful")
                                         
                                         gameCenterManager.hasSignedInBefore = true
+                                        viewModel.updateHighScore()
                                         
                                     case .failure(let error):
                                         print("Authentication failed: \(error.localizedDescription)")
@@ -124,10 +126,15 @@ struct GameView: View {
                 switch result {
                 case .success(_):
                     print("Authentication successful")
+                    viewModel.updateHighScore()
                 case .failure(let error):
                     print("Authentication failed: \(error.localizedDescription)")
                 }
             }
+            
+            
+            
+            
         }
         
     }
@@ -225,6 +232,7 @@ struct GameView: View {
             }
         }.padding(.horizontal, 70)
           //  .frame(maxHeight: 90)
+        
     }
     
     var roundStartView: some View {

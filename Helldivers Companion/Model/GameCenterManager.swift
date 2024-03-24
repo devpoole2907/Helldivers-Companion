@@ -30,6 +30,21 @@ class GameCenterManager: ObservableObject {
            }
        }
 
+    func fetchHighScore(leaderboardId: String, completion: @escaping (Int) -> Void) {
+            GKLeaderboard.loadLeaderboards(IDs: [leaderboardId]) { (leaderboards, error) in
+                guard let leaderboard = leaderboards?.first(where: { $0.baseLeaderboardID == leaderboardId }) else {
+                    print("Leaderboard not found or error occurred: \(String(describing: error))")
+                    completion(0)
+                    return
+                }
+
+                leaderboard.loadEntries(for: [GKLocalPlayer.local], timeScope: .allTime) { (localPlayerEntry, _, _) in
+                    let score = localPlayerEntry?.score ?? 0
+                    completion(score)
+                }
+            }
+        }
+    
     func loadTopScores(leaderboardID: String, count: Int = 3) async -> [GKLeaderboard.Entry] {
         do {
             let leaderboards = try await GKLeaderboard.loadLeaderboards(IDs: [leaderboardID])
