@@ -16,6 +16,15 @@ struct WatchOrdersView: View {
 
             ScrollView {
                 VStack(spacing: 12) {
+                    
+                    
+                    if let title = viewModel.majorOrder?.setting.taskDescription {
+                        Text("yeah it exists!, its \(title)")
+                    }
+                    
+                    
+                    
+                    
                     Text(viewModel.majorOrder?.setting.taskDescription ?? "Stand by.").bold()
                         .padding(.horizontal)
                         .multilineTextAlignment(.center)
@@ -62,10 +71,10 @@ struct WatchOrdersView: View {
             .navigationBarTitleDisplayMode(.inline)
         }.task {
             viewModel.fetchMajorOrder { _, order in
-                
-                viewModel.majorOrder = order
-                print("re setting major order! patching that shit up!")
-                viewModel.debugInfo = "Major order fetched successfully"
+                DispatchQueue.main.async {
+                            viewModel.majorOrder = order
+                            viewModel.debugInfo = "Major order fetched and UI should update"
+                        }
             }
         }
     }
