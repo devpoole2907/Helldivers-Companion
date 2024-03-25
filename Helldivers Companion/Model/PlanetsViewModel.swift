@@ -308,13 +308,19 @@ class PlanetsViewModel: ObservableObject {
                 var decodedResponse = try decoder.decode(WarStatusResponse.self, from: data)
                 DispatchQueue.main.async {
                     
-                    // get planets in the active campaigns
-                    let campaignPlanets = decodedResponse.campaigns.map { $0 }
+                    // update owner to race variable in planet events, duct tape fixing mantes for example for now
+                    for i in 0..<decodedResponse.planetEvents.count {
+                        if let index = decodedResponse.planetStatus.firstIndex(where: { $0.planet.index == decodedResponse.planetEvents[i].planet.index }) {
+                            decodedResponse.planetStatus[index].owner = decodedResponse.planetEvents[i].race
+                            decodedResponse.planetEvents[i].planetStatus = decodedResponse.planetStatus[index]
+                        }
+                    }
 
-                                   // match planets with their campaigns
-                                   let campaignPlanetsWithStatus = campaignPlanets.compactMap { campaignPlanet in
-                                       decodedResponse.planetStatus.first { $0.planet.index == campaignPlanet.planet.index }
-                                   }
+                // campaign planets with status updated array
+                    let campaignPlanetsWithStatus = decodedResponse.campaigns.compactMap { campaignPlanet in
+                        decodedResponse.planetStatus.first { $0.planet.index == campaignPlanet.planet.index }
+                    }
+
 
                     
                     for i in 0..<decodedResponse.planetEvents.count {

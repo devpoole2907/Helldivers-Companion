@@ -10,7 +10,7 @@ import SwiftUI
 
 struct WarStatusResponse: Decodable {
     let campaigns: [Campaign]
-    let planetStatus: [PlanetStatus]
+    var planetStatus: [PlanetStatus]
     var planetEvents: [PlanetEvent]
     let snapshotAt: String
     let warId: Int
@@ -43,7 +43,7 @@ struct PlanetStatus: Decodable, Hashable {
     
     let health: Int
     var liberation: Double
-    let owner: String
+    var owner: String
     let planet: Planet
     let players: Int
     let regenPerSecond: Double
