@@ -19,6 +19,9 @@ class StratagemHeroModel: ObservableObject {
     @Published var gameState: GameState = .notStarted
     @Published var showError = false
     
+    // tracks times this screen is viewed
+    @AppStorage("gameViewCount") var viewCount = 0
+    
     #if os(iOS)
     @Published var topScores: [GKLeaderboard.Entry] = []
     #endif

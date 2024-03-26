@@ -97,20 +97,19 @@ class PlanetsViewModel: ObservableObject {
                     continue
                 }
                 
-                var request = URLRequest(url: apiURL)
-                request.addValue("token YOUR_PERSONAL_ACCESS_TOKEN", forHTTPHeaderField: "Authorization")
-                
-                
                 let decodedResponse = try decoder.decode(WarStatusResponse.self, from: fileData)
                 let planetStatuses = decodedResponse.planetStatus
-
-            
                 
                 // calculate defense if a planet is defending
                 for event in decodedResponse.planetEvents {
                                 let planetName = event.planet.name
                                 let defensePercentage = event.maxHealth > 0 ? (1 - (Double(event.health) / Double(event.maxHealth))) * 100 : 0
-                                defensePercentages[planetName] = defensePercentage
+                    
+                    // dont replace the defense percents in from the current files events if the real time defense planets doesnt contain the events in the current file
+                    if self.defensePlanets.contains(where: {$0.planet.name == event.planet.name }) {
+                        
+                        defensePercentages[planetName] = defensePercentage
+                    }
                             }
                 
                 

@@ -107,7 +107,8 @@ struct GameView: View {
                                     }
                                 }
                             }) {
-                                Image(systemName: "gamecontroller.fill")
+                                Text("Sign In").textCase(.uppercase)
+                                    .font(Font.custom("FS Sinclair", size: 16))
                                     .accessibility(label: Text("Game Center"))
                             }
                             .buttonStyle(.bordered)
@@ -124,7 +125,11 @@ struct GameView: View {
             .navigationBarTitleDisplayMode(.inline)
             
     } .onAppear {
-        if gameCenterManager.hasSignedInBefore {
+        
+        viewModel.viewCount += 1
+        
+        // auto sign in if viewing this for the first time, or has signed in before
+        if gameCenterManager.hasSignedInBefore || viewModel.viewCount == 1 {
             GKAccessPoint.shared.isActive = true
             GKAccessPoint.shared.location = .topTrailing
             
