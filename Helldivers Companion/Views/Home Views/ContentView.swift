@@ -7,11 +7,15 @@
 
 import SwiftUI
 import UIKit
+import StoreKit
 
 struct ContentView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
-    
+
+    #if os(iOS)
+    @Environment(\.requestReview) var requestReview
+    #endif
     
     var body: some View {
         
@@ -115,6 +119,15 @@ struct ContentView: View {
             
                 .navigationBarTitleDisplayMode(.inline)
         }
+        #if os(iOS)
+        .onAppear {
+            viewModel.viewCount += 1
+            
+            if viewModel.viewCount == 3 {
+                requestReview()
+            }
+        }
+        #endif
         
     }
     

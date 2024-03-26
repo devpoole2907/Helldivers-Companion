@@ -19,6 +19,8 @@ class PlanetsViewModel: ObservableObject {
     // planetstatuses with tasks in the major order (e.g need to be liberated)
     @Published var taskPlanets: [PlanetStatus] = []
     
+    @AppStorage("viewCount") var viewCount = 0
+    
     private var apiToken: String? = ProcessInfo.processInfo.environment["GITHUB_API_KEY"]
     
     @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", alert: "", prominentAlert: nil)
