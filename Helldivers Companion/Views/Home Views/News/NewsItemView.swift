@@ -43,9 +43,14 @@ struct NewsItemView: View {
                         }) {
                         Text(isExpanded ? "Less" : "More")
                             .foregroundStyle(.yellow)
+                            #if os(iOS)
                             .font(Font.custom("FS Sinclair", size: smallFont))
+                            #elseif os(watchOS)
+                            .font(Font.custom("FS Sinclair", size: mediumFont))
+                            #endif
                             .padding([.top, .bottom], 2)
                     }
+                        .buttonStyle(PlainButtonStyle())
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .transition(.opacity)
                 }

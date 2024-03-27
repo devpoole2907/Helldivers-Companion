@@ -195,7 +195,7 @@ let raceIconSize: CGFloat = 25
                             
                             // defense is important, so pulsate
                                 .foregroundStyle(isWidget ? .white : (pulsate ? .red : .white))
-                                .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.4))
+                                .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.0))
                                 .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: pulsate)
                             
                                 .onAppear {
