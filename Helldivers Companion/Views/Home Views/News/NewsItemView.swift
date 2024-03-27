@@ -23,7 +23,11 @@ struct NewsItemView: View {
                 
                 if let title = newsTitle {
                     Text(title).textCase(.uppercase) .font(Font.custom("FS Sinclair", size: mediumFont)).foregroundStyle(Color.yellow)
-                        .lineLimit(isWidget ? 1 : nil)
+                    #if os(watchOS)
+                        .lineLimit(nil)
+                    #elseif os(iOS)
+                        .lineLimit(isWidget ? (widgetFamily != .systemMedium ? 2 : 1) : nil)
+                    #endif
                 }
                 // replace only first found new line
                 Text(newsMessage.replacingOccurrences(of: "\n", with: "", options: [], range: newsMessage.range(of: "\n"))).font(Font.custom("FS Sinclair", size: isWidget ? 14 : mediumFont)).foregroundStyle(Color.white)
