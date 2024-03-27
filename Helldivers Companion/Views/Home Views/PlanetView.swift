@@ -65,17 +65,17 @@ let raceIconSize: CGFloat = 25
         }
     
     var formattedPlanetImageName: String {
-            let cleanedName = planetName
-            .filter { !$0.isPunctuation }   // no apostrophes etc
-            .replacingOccurrences(of: " ", with: "_")
+          //  let cleanedName = planetName
+          //  .filter { !$0.isPunctuation }   // no apostrophes etc
+        //    .replacingOccurrences(of: " ", with: "_")
         
-        let imageName = "\(cleanedName)_Landscape"
+  //      let imageName = "\(cleanedName)_Landscape"
         
-        if UIImage(named: imageName) != nil {
-                return imageName
+        if UIImage(named: planetName) != nil {
+                return planetName
             } else {
                 // if asset doesn't exist return a default preview image (Fenrir 3 i guess?)
-                return "Fenrir_III_Landscape"
+                return "Fenrir III"
             }
         }
     
