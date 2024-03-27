@@ -13,6 +13,8 @@ struct PlanetView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
     
+    @State private var pulsate = false
+    
     var planetName = "Meridia"
     var liberation = 24.13020
     var rate = 0.0
@@ -190,6 +192,16 @@ let raceIconSize: CGFloat = 25
                             
                         } else {
                             Text("DEFEND") .font(Font.custom("FS Sinclair", size: largeFont))
+                            
+                            // defense is important, so pulsate
+                                .foregroundStyle(isWidget ? .white : (pulsate ? .red : .white))
+                                .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.4))
+                                .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: pulsate)
+                            
+                                .onAppear {
+                                                pulsate = true
+                                            }
+                                
                         }
                         
                     }.frame(maxWidth: .infinity)

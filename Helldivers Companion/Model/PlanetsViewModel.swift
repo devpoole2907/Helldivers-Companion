@@ -338,7 +338,21 @@ class PlanetsViewModel: ObservableObject {
                     self?.defensePlanets = decodedResponse.planetEvents
                     self?.allPlanetStatuses = decodedResponse.planetStatus
                     withAnimation(.bouncy) {
-                        self?.campaignPlanets = campaignPlanetsWithStatus.sorted  { $0.players > $1.players }
+                        self?.campaignPlanets = campaignPlanetsWithStatus.sorted { firstPlanetStatus, secondPlanetStatus in
+                            // prioritise planets in an event first, then by highest player count
+                            let isFirstPlanetInEvent = decodedResponse.planetEvents.contains { $0.planet.index == firstPlanetStatus.planet.index }
+                            let isSecondPlanetInEvent = decodedResponse.planetEvents.contains { $0.planet.index == secondPlanetStatus.planet.index }
+
+                            if isFirstPlanetInEvent && !isSecondPlanetInEvent {
+                                return true
+                            } else if !isFirstPlanetInEvent && isSecondPlanetInEvent {
+                                return false
+                            } else {
+                                return firstPlanetStatus.players > secondPlanetStatus.players
+                            }
+                        }
+
+
                     }
 
                     completion((campaignPlanetsWithStatus, decodedResponse.planetEvents, decodedResponse.planetStatus))
