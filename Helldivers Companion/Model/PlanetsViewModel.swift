@@ -10,6 +10,8 @@ import SwiftUI
 
 class PlanetsViewModel: ObservableObject {
     
+    @Published var currentTab: Tab = .home
+    
     @Published var allPlanetStatuses: [PlanetStatus] = []
     @Published var defensePlanets: [PlanetEvent] = []
     @Published var campaignPlanets: [PlanetStatus] = []
@@ -23,7 +25,7 @@ class PlanetsViewModel: ObservableObject {
     
     private var apiToken: String? = ProcessInfo.processInfo.environment["GITHUB_API_KEY"]
     
-    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", alert: "", prominentAlert: nil)
+    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", alert: "", prominentAlert: nil, season: "801")
     
     @Published var showInfo = false
     @Published var showOrders = false
@@ -164,7 +166,7 @@ class PlanetsViewModel: ObservableObject {
     
     
     
-    func fetchCurrentWarSeason(completion: @escaping (String) -> Void) {
+  /*  func fetchCurrentWarSeason(completion: @escaping (String) -> Void) {
         
         let urlString = apiAddress
         guard let url = URL(string: urlString) else { return }
@@ -193,11 +195,11 @@ class PlanetsViewModel: ObservableObject {
         }.resume()
         
         
-    }
+    }*/
     // optionally passed season and planet statuses if calling from widget
     func fetchMajorOrder(for season: String? = nil, with planetStatuses: [PlanetStatus]? = nil, completion: @escaping ([PlanetStatus], MajorOrder?) -> Void) {
         
-        let urlString = "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(season ?? currentSeason)"
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(season ?? configData.season)"
 
         print("made url")
           guard let url = URL(string: urlString) else { print("mission failed")
@@ -285,7 +287,7 @@ class PlanetsViewModel: ObservableObject {
         // this function should be adapted for use both in the caching one or the live one below
         
         
-        let urlString = "\(apiAddress)/\(season ?? currentSeason)/status"
+        let urlString = "\(apiAddress)/\(season ?? configData.season)/status"
         
         // for testing
        //   let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/2024-03-21T22%3A31%3A33Z_planet_statuses.json"
@@ -372,10 +374,10 @@ class PlanetsViewModel: ObservableObject {
     }
     
     func refresh() {
-        fetchCurrentWarSeason() { [weak self] _ in
-            self?.fetchConfig { _ in
-                print("fetched config")
-            }
+       // fetchCurrentWarSeason() { [weak self] _ in
+        self.fetchConfig { [weak self] _ in
+            print("fetched config")
+            
             self?.fetchPlanetStatuses { planets in
                 self?.fetchMajorOrder { _, _ in
                     print("fetched major order")
@@ -387,6 +389,7 @@ class PlanetsViewModel: ObservableObject {
                 }
             }
         }
+       // }
     }
     
     
@@ -400,27 +403,32 @@ class PlanetsViewModel: ObservableObject {
         
         refresh()
         
-        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 120, repeats: true) { [weak self] _ in
             
             // fetch planet data
             
-            self?.lastUpdatedDate = Date()
-            self?.fetchConfig { _ in
-                print("fetched config")
-            }
-            
-            self?.fetchPlanetStatuses { planets in
+            // only update if the current tab is home, bit of a duct tape fix for now but should stop fetching while playing stratagem hero etc
+            if self?.currentTab == .home {
                 
                 
-                self?.fetchMajorOrder { _, _ in
-                
-                    print("fetched major order")
+                self?.fetchConfig { _ in
+                    print("fetched config")
                     
-                } // fetching in here so planet status is populated to associate major order planets with tasks
-                print("Updated planets: \(planets)")
+                    
+                    self?.fetchPlanetStatuses { planets in
+                        self?.lastUpdatedDate = Date()
+                        
+                        self?.fetchMajorOrder { _, _ in
+                            
+                            print("fetched major order")
+                            
+                        } // fetching in here so planet status is populated to associate major order planets with tasks
+                        print("Updated planets: \(planets)")
+                    }
+                    
+                }
+                
             }
-            
-            
            
 
             
@@ -442,7 +450,7 @@ class PlanetsViewModel: ObservableObject {
     }
     // update bug rates via github json file so the app doesnt need an update every change, or an alert string to present in the about page to update remotely
     func fetchConfig(completion: @escaping (RemoteConfigDetails?) -> Void) {
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/config/config.json"
+        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/config/newConfig.json"
         
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
@@ -471,4 +479,27 @@ class PlanetsViewModel: ObservableObject {
         return planetStatus.players > 1000 && planetStatus.liberation < 100
     }
     
+}
+
+enum Tab: String, CaseIterable {
+    case home = "War"
+    case news = "News"
+    case game = "Game"
+    case about = "About"
+    case orders = "Orders"
+    
+    var systemImage: String? {
+        switch self {
+        case .home:
+            return "globe.americas.fill"
+        case .game:
+            return "scope"
+        case .news:
+            return "newspaper.fill"
+        case .about:
+            return "info.circle.fill"
+        case .orders:
+            return "target"
+        }
+    }
 }

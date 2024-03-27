@@ -32,8 +32,8 @@ struct PlanetStatusProvider: TimelineProvider {
         var entries: [SimplePlanetStatus] = []
         
         planetsModel.fetchConfig { configData in
-        planetsModel.fetchCurrentWarSeason() { season in
-            planetsModel.fetchPlanetStatuses(for: season) { planets in
+    //    planetsModel.fetchCurrentWarSeason() { season in
+            planetsModel.fetchPlanetStatuses(for: configData?.season ?? "801") { planets in
                 if let highestPlanet = planets.0.max(by: { $0.players < $1.players }) {
                     if let defenseEvent = planets.1.first(where: { $0.planet.index == highestPlanet.planet.index }) {
                         
@@ -52,7 +52,7 @@ struct PlanetStatusProvider: TimelineProvider {
                 let timeline = Timeline(entries: entries, policy: .atEnd)
                 completion(timeline)
             }
-        }
+      //  }
         
     }
     }

@@ -189,16 +189,18 @@ struct RemoteConfigDetails: Decodable {
     var automatonRate: String
     var alert: String?
     var prominentAlert: String?
+    var season: String
     
     private enum CodingKeys: String, CodingKey {
-            case terminidRate, automatonRate, alert, prominentAlert
+            case terminidRate, automatonRate, alert, prominentAlert, season
         }
     // default init
-    init(terminidRate: String, automatonRate: String, alert: String, prominentAlert: String?) {
+    init(terminidRate: String, automatonRate: String, alert: String, prominentAlert: String?, season: String) {
             self.terminidRate = terminidRate
             self.automatonRate = automatonRate
             self.alert = alert
             self.prominentAlert = prominentAlert
+            self.season = season
         }
     
     // set prominent alert to nil if its empty
@@ -210,6 +212,7 @@ struct RemoteConfigDetails: Decodable {
             
             let prominentAlertValue = try container.decode(String.self, forKey: .prominentAlert)
             prominentAlert = prominentAlertValue.isEmpty ? nil : prominentAlertValue
+        season = try container.decode(String.self, forKey: .season)
         }
     
 }

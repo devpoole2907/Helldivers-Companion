@@ -9,8 +9,6 @@ import SwiftUI
 
 struct RootView: View {
     
-    @State private var currentTab: Tab = .home
-    
     @StateObject private var notificationManager = NotificationManager()
     
     @StateObject var viewModel = PlanetsViewModel()
@@ -19,7 +17,7 @@ struct RootView: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
         ZStack(alignment: .bottom){
-            TabView(selection: $currentTab) {
+            TabView(selection: $viewModel.currentTab) {
                 
                 ContentView().environmentObject(viewModel)
                     .tag(Tab.home)
@@ -70,7 +68,7 @@ struct RootView: View {
         }
             
 #if os(iOS)
-            if currentTab != .game {
+            if viewModel.currentTab != .game {
                 majorOrderButton.padding(.bottom, 85)
             }
         
@@ -153,9 +151,9 @@ struct RootView: View {
     var tabButtons: some View {
         VStack(spacing: 0){
             HStack(spacing: 0) {
-                TabButton(tab: .home, action: {currentTab = .home})
-                TabButton(tab: .news, action: {currentTab = .news})
-                TabButton(tab: .game, action: {currentTab = .game})
+                TabButton(tab: .home, action: {viewModel.currentTab = .home})
+                TabButton(tab: .news, action: {viewModel.currentTab = .news})
+                TabButton(tab: .game, action: {viewModel.currentTab = .game})
             }
             .padding(.top, (UIScreen.main.bounds.height) == 667 || (UIScreen.main.bounds.height) == 736 ? 10 : 15)
             .padding(.bottom, (UIScreen.main.bounds.height) == 667 || (UIScreen.main.bounds.height) == 736 ? 10 : 0)
@@ -180,7 +178,7 @@ struct RootView: View {
                         .renderingMode(.template)
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 30, height: 30)
-                        .foregroundColor(currentTab == tab ? .accentColor : .gray)
+                        .foregroundColor(viewModel.currentTab == tab ? .accentColor : .gray)
                         .padding()
                     
                     

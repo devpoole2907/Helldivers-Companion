@@ -24,9 +24,9 @@ struct MajorOrderProvider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [MajorOrderEntry] = []
 
-        planetsModel.fetchCurrentWarSeason() { season in
-            planetsModel.fetchPlanetStatuses(for: season) { _, _, planetStatuses in
-            planetsModel.fetchMajorOrder(for: season, with: planetStatuses) { planets, order in
+        planetsModel.fetchConfig() { config in
+            planetsModel.fetchPlanetStatuses(for: config?.season ?? "801") { _, _, planetStatuses in
+                planetsModel.fetchMajorOrder(for: config?.season ?? "801", with: planetStatuses) { planets, order in
                 
                 let entry = MajorOrderEntry(date: Date(), title: order?.setting.taskDescription, description: order?.setting.overrideBrief, taskPlanets: planets, rewardValue: order?.setting.reward.amount, rewardType: order?.setting.reward.type, timeRemaining: order?.expiresIn)
                 
