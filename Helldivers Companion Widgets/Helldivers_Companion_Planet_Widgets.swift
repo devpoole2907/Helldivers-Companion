@@ -14,12 +14,12 @@ struct PlanetStatusProvider: TimelineProvider {
     var planetsModel = PlanetsViewModel()
     
     func placeholder(in context: Context) -> SimplePlanetStatus {
-        SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, terminidRate: "-5%", automatonRate: "-1.5%")
+        SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, terminidRate: "-5%", automatonRate: "-1.5%", bugOrAutomaton: .terminid)
     }
     
     func getSnapshot(in context: Context, completion: @escaping (SimplePlanetStatus) -> Void) {
         
-        let entry = SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, terminidRate: "-5%", automatonRate: "-1.5%")
+        let entry = SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, terminidRate: "-5%", automatonRate: "-1.5%", bugOrAutomaton: .terminid)
         
         completion(entry)
     }
@@ -37,11 +37,11 @@ struct PlanetStatusProvider: TimelineProvider {
                 if let highestPlanet = planets.0.max(by: { $0.players < $1.players }) {
                     if let defenseEvent = planets.1.first(where: { $0.planet.index == highestPlanet.planet.index }) {
                         
-                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.planet.name, liberation: defenseEvent.defensePercentage, playerCount: highestPlanet.players, planet: highestPlanet, liberationType: .defense, terminidRate: configData?.terminidRate ?? "0%", automatonRate: configData?.automatonRate ?? "0%")
+                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.planet.name, liberation: defenseEvent.defensePercentage, playerCount: highestPlanet.players, planet: highestPlanet, liberationType: .defense, terminidRate: configData?.terminidRate ?? "0%", automatonRate: configData?.automatonRate ?? "0%", bugOrAutomaton: highestPlanet.owner == "Terminids" ? .terminid : .automaton)
                         entries.append(entry)
                         
                     } else {
-                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.planet.name, liberation: highestPlanet.liberation, playerCount: highestPlanet.players, terminidRate: configData?.terminidRate ?? "0%", automatonRate: configData?.automatonRate ?? "0%")
+                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.planet.name, liberation: highestPlanet.liberation, playerCount: highestPlanet.players, terminidRate: configData?.terminidRate ?? "0%", automatonRate: configData?.automatonRate ?? "0%", bugOrAutomaton: highestPlanet.owner == "Terminids" ? .terminid : .automaton)
                         entries.append(entry)
                     }
                     
@@ -69,6 +69,7 @@ struct SimplePlanetStatus: TimelineEntry {
     var liberationType: LiberationType = .liberation
     var terminidRate: String
     var automatonRate: String
+    var bugOrAutomaton: EnemyType
 }
 
 
@@ -104,7 +105,7 @@ struct Helldivers_Companion_WidgetsEntryView : View {
                     .inset(by: 4)
                     .fill(Color.black)
                 
-                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, terminidRate: entry.terminidRate, automatonRate: entry.automatonRate).environmentObject(PlanetsViewModel())
+                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, bugOrAutomaton: entry.bugOrAutomaton, terminidRate: entry.terminidRate, automatonRate: entry.automatonRate).environmentObject(PlanetsViewModel())
                     .padding(.horizontal)
                     .padding(.vertical, 5)
                 
@@ -223,6 +224,6 @@ struct Helldivers_Companion_Planet_Widgets: Widget {
 #Preview(as: .accessoryRectangular) {
     Helldivers_Companion_Planet_Widgets()
 } timeline: {
-    SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, terminidRate: "-5%", automatonRate: "-1.5%")
+    SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, terminidRate: "-5%", automatonRate: "-1.5%", bugOrAutomaton: .terminid)
 }
 

@@ -31,6 +31,13 @@ struct PlanetDataPoint {
     
 }
 
+enum EnemyType: String {
+    
+    case terminid
+    case automaton
+    
+}
+
 struct PlanetStatus: Decodable, Hashable {
     static func == (lhs: PlanetStatus, rhs: PlanetStatus) -> Bool {
         return lhs.planet.index == rhs.planet.index

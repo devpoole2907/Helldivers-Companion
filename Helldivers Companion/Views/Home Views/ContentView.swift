@@ -45,11 +45,11 @@ struct ContentView: View {
                         // check if planet is defending
                         if let defenseEvent = viewModel.defensePlanets.first(where: { $0.planet.index == planetStatus.planet.index }) {
                             // planet is defending, use defense percentage for liberation val
-                            PlanetView(planetName: planetStatus.planet.name, liberation: defenseEvent.defensePercentage, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus, liberationType: .defense, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate).environmentObject(viewModel)
+                            PlanetView(planetName: planetStatus.planet.name, liberation: defenseEvent.defensePercentage, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus, liberationType: .defense, bugOrAutomaton: planetStatus.owner == "Terminids" ? .terminid : .automaton, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate).environmentObject(viewModel)
                                 .padding(.horizontal)
                         } else {
                             // planet not defending, use liberation
-                            PlanetView(planetName: planetStatus.planet.name, liberation: planetStatus.liberation, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus, liberationType: .liberation, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate).environmentObject(viewModel)
+                            PlanetView(planetName: planetStatus.planet.name, liberation: planetStatus.liberation, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus, liberationType: .liberation, bugOrAutomaton: planetStatus.owner == "Terminids" ? .terminid : .automaton, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate).environmentObject(viewModel)
                                 .padding(.horizontal)
                         }
                     }
@@ -57,7 +57,14 @@ struct ContentView: View {
                     
                 }
                 
-                Spacer(minLength: 100)
+                Text("Pull to Refresh").textCase(.uppercase)
+                    .opacity(0.5)
+                    .foregroundStyle(.gray)
+                    .font(Font.custom("FS Sinclair", size: smallFont))
+                    .padding()
+                
+                
+                Spacer(minLength: 150)
                 
             }.scrollContentBackground(.hidden)
             

@@ -27,6 +27,8 @@ struct PlanetView: View {
     var isWidget = false
     // for widgets, pass remote config info
     
+    @State var bugOrAutomaton: EnemyType
+    
     var terminidRate: String
     var automatonRate: String
     
@@ -79,22 +81,6 @@ let raceIconSize: CGFloat = 25
             }
         }
     
-    var bugOrAutomaton: String {
-
-        if let planet = planet {
-            
-            if planet.planet.initialOwner.lowercased() == "terminid" || planet.owner.lowercased() == "terminid" {
-                return "terminid"
-            } else if planet.planet.initialOwner.lowercased() == "automaton" || planet.owner.lowercased() == "automaton" {
-                return "automaton"
-            }
-        
-        }
-        
-        
-        return "terminid"
-    }
-    
     func showChartToggler() {
         withAnimation(.bouncy) {
             showChart.toggle()
@@ -122,7 +108,7 @@ let raceIconSize: CGFloat = 25
                             
                             // health bar
                             
-                            RectangleProgressBar(value: liberation / 100, secondaryColor: bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
+                            RectangleProgressBar(value: liberation / 100, secondaryColor: bugOrAutomaton == .terminid ? Color.yellow : Color.red)
                             
                                 .padding(.horizontal, 6)
                                 .padding(.trailing, 2)
@@ -183,10 +169,10 @@ let raceIconSize: CGFloat = 25
                         
                         if liberationType == .liberation {
                             
-                            Image(bugOrAutomaton).resizable().aspectRatio(contentMode: .fit)
+                            Image(bugOrAutomaton.rawValue).resizable().aspectRatio(contentMode: .fit)
                                 .frame(width: raceIconSize, height: raceIconSize)
                             
-                            Text(bugOrAutomaton == "terminid" ? "\(terminidRate) / h" : "\(automatonRate) / h").foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red).bold()
+                            Text(bugOrAutomaton == .terminid ? "\(terminidRate) / h" : "\(automatonRate) / h").foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red).bold()
                                 .font(Font.custom("FS Sinclair", size: mediumFont))
                                 .padding(.top, 3)
                             
@@ -251,14 +237,19 @@ let raceIconSize: CGFloat = 25
                 }
             }
             .border(.yellow, width: isWidget ? 0 : 2)
+        
+        
+            .onAppear {
+                print("passed value is \(bugOrAutomaton.rawValue)")
+            }
     }
     
     var headerWithImage: some View {
         VStack(spacing: 0) {
             HStack(alignment: .center) {
-                Image(bugOrAutomaton).resizable().aspectRatio(contentMode: .fit)
+                Image(bugOrAutomaton.rawValue).resizable().aspectRatio(contentMode: .fit)
                     .frame(width: raceIconSize, height: raceIconSize)
-                Text(planetName).textCase(.uppercase).foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
+                Text(planetName).textCase(.uppercase).foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red)
                     .font(Font.custom("FS Sinclair", size: largeFont))
                     .padding(.top, 3)
                 
@@ -329,7 +320,7 @@ let raceIconSize: CGFloat = 25
 
 #Preview {
     
-    PlanetView(terminidRate: "-5%", automatonRate: "-1.5%").environmentObject(PlanetsViewModel())
+    PlanetView(bugOrAutomaton: .terminid, terminidRate: "-5%", automatonRate: "-1.5%").environmentObject(PlanetsViewModel())
 }
 
 enum ChartType: String, SegmentedItem {
@@ -360,7 +351,7 @@ enum LiberationType: String {
 struct ChartAnnotationView: View {
     
     var chartType: ChartType = .players
-    var bugOrAutomaton = "terminid"
+    var bugOrAutomaton: EnemyType
      var value: String = "55.1586%"
      var date: String = "4:41PM"
     
@@ -383,7 +374,7 @@ let valueFont: CGFloat = 32
             
             Text(value)
               
-                .foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
+                    .foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red)
                 .font(Font.custom("FS Sinclair", size: valueFont))
             
             Text(date)
@@ -406,7 +397,7 @@ let valueFont: CGFloat = 32
 }
 
 #Preview {
-    ChartAnnotationView()
+    ChartAnnotationView(bugOrAutomaton: .terminid)
 }
 
 struct HistoryChart: View {
@@ -418,7 +409,7 @@ struct HistoryChart: View {
     var chartSectionHeight: CGFloat = 300
     @Binding var chartType: ChartType
     var chartTypes: [ChartType] = []
-    var bugOrAutomaton: String = "terminid"
+    var bugOrAutomaton: EnemyType
 
     var body: some View {
         VStack {
@@ -475,7 +466,7 @@ struct HistoryChart: View {
                         Double(dataPoint.status?.players ?? 0)
                 )
             )
-            .foregroundStyle(bugOrAutomaton == "terminid" ? Color.yellow : Color.red)
+           .foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red)
             .lineStyle(StrokeStyle(lineWidth: 2.0))
             .interpolationMethod(.catmullRom)
             
@@ -491,7 +482,7 @@ struct HistoryChart: View {
             let ruleMark = RuleMark(x: .value("Time", chartSelection!))
         let annotationValue = chartType != .players ? "\(String(format: "%.2f%%", status.liberation))" : "\(status.players)"
             
-            let annotationView = ChartAnnotationView(value: annotationValue, date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
+        let annotationView = ChartAnnotationView(bugOrAutomaton: bugOrAutomaton, value: annotationValue, date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
           return  ruleMark.opacity(0.5)
                 .annotation(position: .topLeading, alignment: .top, overflowResolution: .init(x: .fit(to: .chart), y: .fit)){
                     
