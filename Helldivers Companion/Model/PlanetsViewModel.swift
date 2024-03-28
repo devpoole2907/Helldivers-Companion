@@ -233,7 +233,9 @@ class PlanetsViewModel: ObservableObject {
                                         
                                         majorOrder = firstOrder
                                         
-                                        self?.majorOrder = majorOrder
+                                        withAnimation(.bouncy) {
+                                            self?.majorOrder = majorOrder
+                                        }
                                         
                                         var collectionOfPlanetStatuses: [PlanetStatus] = []
                                         
@@ -282,16 +284,16 @@ class PlanetsViewModel: ObservableObject {
     }
     
     // returns campaign planets, planet events, and all planet statuses (for widgets to use etc)
-    func fetchPlanetStatuses(for season: String? = nil, completion: @escaping (([PlanetStatus], [PlanetEvent], [PlanetStatus])) -> Void) {
+    func fetchPlanetStatuses(using url: String? = nil, for season: String? = nil, completion: @escaping (([PlanetStatus], [PlanetEvent], [PlanetStatus])) -> Void) {
         
         // this function should be adapted for use both in the caching one or the live one below
         
+        var urlString = "\(apiAddress)/\(season ?? configData.season)/status"
         
-        let urlString = "\(apiAddress)/\(season ?? configData.season)/status"
-        
-        // for testing
-       //   let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/2024-03-21T22%3A31%3A33Z_planet_statuses.json"
-        
+        // override url with provided url, must be a widget requesting data from the github cache instead
+        if let url = url {
+            urlString = url
+        }
         
         guard let url = URL(string: urlString) else { return }
         
@@ -487,6 +489,7 @@ enum Tab: String, CaseIterable {
     case game = "Game"
     case about = "About"
     case orders = "Orders"
+    case stats = "Stats"
     
     var systemImage: String? {
         switch self {
@@ -500,6 +503,8 @@ enum Tab: String, CaseIterable {
             return "info.circle.fill"
         case .orders:
             return "target"
+        case .stats:
+            return "stats"
         }
     }
 }

@@ -14,9 +14,12 @@ struct OrderView: View {
     
     var body: some View {
         
-   
+        ZStack(alignment: .top) {
+
         VStack(spacing: 12) {
-                
+            
+            
+            
             VStack(spacing: 12) {
                 Text(viewModel.majorOrder?.setting.taskDescription ?? "Stand by.").font(Font.custom("FS Sinclair", size: 24))
                     .foregroundStyle(Color.yellow).textCase(.uppercase)
@@ -31,7 +34,7 @@ struct OrderView: View {
                 }
                 
                 
-            }.frame(maxHeight: .infinity)
+            }
             if let majorOrderRewardValue = viewModel.majorOrder?.setting.reward.amount, majorOrderRewardValue > 0 {
                 RewardView(rewardType: viewModel.majorOrder?.setting.reward.type, rewardValue: majorOrderRewardValue)
             }
@@ -40,16 +43,42 @@ struct OrderView: View {
                 MajorOrderTimeView(timeRemaining: majorOrderTimeRemaining)
             }
             
-            }  .frame(maxWidth: .infinity) .padding()  .background {
-                Color.black
+        }.padding(.top, 40)
+                .padding()  .background {
+            Color.black
+        }
+            
+        //  .padding(.horizontal)
+            
+            ZStack(alignment: .center) {
+                Image("MajorOrdersBanner").resizable()
+#if os(iOS)
+                    .frame(width: UIScreen.main.bounds.width - 20, height: 45)
+#endif
+                    .offset(CGSize(width: 5, height: 0))
+               //     .clipShape(Rectangle())
+                //   .border(Color.white, width: 2)
+                // .padding(.bottom)
+                    .opacity(0.8)
+                
+                
+                
+                HStack(alignment: .firstTextBaseline, spacing: 3) {
+                    Image(systemName: "scope").bold()
+                    
+                    Text("MAJOR ORDER").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 24))
+                    
+                }.padding(.trailing, 60)
+                
             }
-          //  .padding(.horizontal)
-          
-            .border(Color.white)
-            .padding(4)
-            .border(Color.gray)
-     
         
+    }
+        .border(Color.white)
+        .padding(4)
+        .border(Color.gray)
+         
+        
+    
         
     }
 }

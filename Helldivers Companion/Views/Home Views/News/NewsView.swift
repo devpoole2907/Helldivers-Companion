@@ -60,7 +60,7 @@ struct NewsView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 
-                Text("NEWS")
+                Text("STROHMANN NEWS")
                     .font(Font.custom("FS Sinclair", size: 24))
                 
             }
@@ -71,7 +71,7 @@ struct NewsView: View {
             
 .toolbar {
     ToolbarItem(placement: .topBarLeading) {
-        Text("NEWS").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 18))
+        Text("News").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 18))
     }
     
 }

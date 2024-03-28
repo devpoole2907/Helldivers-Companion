@@ -26,14 +26,14 @@ struct PlanetStatusProvider: TimelineProvider {
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimplePlanetStatus>) -> Void) {
         
-        
-        
+        // fetches from github instead to save on api call
+        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/currentPlanetStatus.json"
         
         var entries: [SimplePlanetStatus] = []
         
         planetsModel.fetchConfig { configData in
     //    planetsModel.fetchCurrentWarSeason() { season in
-            planetsModel.fetchPlanetStatuses(for: configData?.season ?? "801") { planets in
+            planetsModel.fetchPlanetStatuses(using: urlString, for: configData?.season ?? "801") { planets in
                 if let highestPlanet = planets.0.max(by: { $0.players < $1.players }) {
                     if let defenseEvent = planets.1.first(where: { $0.planet.index == highestPlanet.planet.index }) {
                         

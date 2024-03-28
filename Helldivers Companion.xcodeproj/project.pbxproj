@@ -158,6 +158,10 @@
 		7CE4AE352BA82C6A0033D4AF /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE4AE342BA82C6A0033D4AF /* FirebaseFunctions */; };
 		7CE4AE372BA82C6A0033D4AF /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE4AE362BA82C6A0033D4AF /* FirebaseMessaging */; };
 		7CE4AE3D2BA832C40033D4AF /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE4AE3C2BA832C40033D4AF /* NotificationManager.swift */; };
+		7CE97D382BB51D5D008329BA /* MijickPopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE97D372BB51D5D008329BA /* MijickPopupView */; };
+		7CE97D3B2BB51DE9008329BA /* CentrePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */; };
+		7CE97D3D2BB53D2E008329BA /* TipJarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3C2BB53D2E008329BA /* TipJarView.swift */; };
+		7CE97D402BB5414C008329BA /* GalaxyStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -311,6 +315,9 @@
 		7CC0AE7A2BA7F31500802D9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CC0AE7C2BA7F31500802D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7CE4AE3C2BA832C40033D4AF /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentrePopup.swift; sourceTree = "<group>"; };
+		7CE97D3C2BB53D2E008329BA /* TipJarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarView.swift; sourceTree = "<group>"; };
+		7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyStatsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,6 +328,7 @@
 				7C1B8C232BAD714300944823 /* Algorithms in Frameworks */,
 				7CE4AE372BA82C6A0033D4AF /* FirebaseMessaging in Frameworks */,
 				7CE4AE332BA82C6A0033D4AF /* FirebaseFirestore in Frameworks */,
+				7CE97D382BB51D5D008329BA /* MijickPopupView in Frameworks */,
 				7CE4AE352BA82C6A0033D4AF /* FirebaseFunctions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -564,6 +572,7 @@
 		7CE4AE382BA832660033D4AF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7CE97D392BB51D65008329BA /* Popups */,
 				7CE4AE3B2BA832930033D4AF /* Home Views */,
 				7CE4AE3A2BA8327C0033D4AF /* CustomUIElements */,
 				7CE4AE392BA8326B0033D4AF /* StratagemHero */,
@@ -593,14 +602,32 @@
 		7CE4AE3B2BA832930033D4AF /* Home Views */ = {
 			isa = PBXGroup;
 			children = (
+				7CE97D3E2BB54141008329BA /* Statistics */,
 				7C45D45F2BABEE2E0013A632 /* Orders */,
 				7C319F922BAAE90F0075A1E4 /* News */,
 				7C0C994D2BA2BA8F00CF7C91 /* ContentView.swift */,
 				7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */,
 				7C4589BB2BA54ED50019B00E /* AboutView.swift */,
 				7C45D4722BABF47C0013A632 /* AlertView.swift */,
+				7CE97D3C2BB53D2E008329BA /* TipJarView.swift */,
 			);
 			path = "Home Views";
+			sourceTree = "<group>";
+		};
+		7CE97D392BB51D65008329BA /* Popups */ = {
+			isa = PBXGroup;
+			children = (
+				7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */,
+			);
+			path = Popups;
+			sourceTree = "<group>";
+		};
+		7CE97D3E2BB54141008329BA /* Statistics */ = {
+			isa = PBXGroup;
+			children = (
+				7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */,
+			);
+			path = Statistics;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -631,6 +658,7 @@
 				7CE4AE342BA82C6A0033D4AF /* FirebaseFunctions */,
 				7CE4AE362BA82C6A0033D4AF /* FirebaseMessaging */,
 				7C1B8C222BAD714300944823 /* Algorithms */,
+				7CE97D372BB51D5D008329BA /* MijickPopupView */,
 			);
 			productName = "Helldivers Companion";
 			productReference = 7C0C99482BA2BA8F00CF7C91 /* Helldivers Companion.app */;
@@ -801,6 +829,7 @@
 			packageReferences = (
 				7C50CEEA2BA82AF3009094AE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				7C1B8C212BAD714300944823 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+				7CE97D362BB51D5D008329BA /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = 7C0C99492BA2BA8F00CF7C91 /* Products */;
 			projectDirPath = "";
@@ -923,6 +952,7 @@
 				7C4589BC2BA54ED50019B00E /* AboutView.swift in Sources */,
 				7C45D46E2BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
 				7C319F972BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift in Sources */,
+				7CE97D3B2BB51DE9008329BA /* CentrePopup.swift in Sources */,
 				7C0C995D2BA2BAFD00CF7C91 /* PlanetsViewModel.swift in Sources */,
 				7C45D4732BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C0C994E2BA2BA8F00CF7C91 /* ContentView.swift in Sources */,
@@ -938,7 +968,9 @@
 				7C4589B72BA546B00019B00E /* OrderView.swift in Sources */,
 				7C4589C22BA5554E0019B00E /* StratagemHeroModel.swift in Sources */,
 				7C587F3F2BA6A7DA00C66643 /* CustomSegmentedPicker.swift in Sources */,
+				7CE97D3D2BB53D2E008329BA /* TipJarView.swift in Sources */,
 				7C45D4652BABEE6E0013A632 /* AngledLinesShape.swift in Sources */,
+				7CE97D402BB5414C008329BA /* GalaxyStatsView.swift in Sources */,
 				7C45D4612BABEE3D0013A632 /* RewardView.swift in Sources */,
 				7C3A9EC92BA9724E00F26307 /* NewsFeedModel.swift in Sources */,
 				7C45D46C2BABEE980013A632 /* WatchOrdersView.swift in Sources */,
@@ -1429,7 +1461,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "War Monitor | Helldivers Companion Watch Edition";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.poole.james.Helldivers-Companion";
-				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1463,7 +1495,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "War Monitor | Helldivers Companion Watch Edition";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.poole.james.Helldivers-Companion";
-				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1746,6 +1778,14 @@
 				minimumVersion = 10.22.1;
 			};
 		};
+		7CE97D362BB51D5D008329BA /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Mijick/PopupView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1803,6 +1843,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7C50CEEA2BA82AF3009094AE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
+		7CE97D372BB51D5D008329BA /* MijickPopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7CE97D362BB51D5D008329BA /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = MijickPopupView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

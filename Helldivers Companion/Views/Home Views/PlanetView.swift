@@ -73,12 +73,38 @@ let raceIconSize: CGFloat = 25
         
   //      let imageName = "\(cleanedName)_Landscape"
         
-        if UIImage(named: planetName) != nil {
-                return planetName
-            } else {
-                // if asset doesn't exist return a default preview image (Fenrir 3 i guess?)
-                return "Fenrir III"
-            }
+        switch planetName {
+            
+        case "Alaraph", "Veil", "Bashyr", "Solghast", "Alderidge Cove", "Ain-5", "Aesir Pass", "Pandion-XXIV", "Penta", "Haka", "Nivel 43", "Cirrus", "Troost", "Skat Bay", "X-45":
+            return "Troost"
+        case "Ubanea", "Fort Sanctuary", "Freedom Peak", "Crimsica", "Kharst", "Minchir", "Elysian Meadows", "Providence", "Valgaard", "Gatria", "Enuliale", "Liberty Ridge", "Stout", "Genesis Prime", "Valmox", "Gunvald", "Overgoe Prime", "Kuper", "Acrab XI", "Ingmar", "Yed Prior":
+            return "Ingmar"
+        case "Wezen", "Pöpli IX", "Imber", "Partion", "Karlia", "Hellmire", "Menkent", "Blistica", "Adhara", "Grand Errant", "Bore Rock", "Marre IV", "Kneth Port", "Asperoth Prime":
+            return "Hellmire"
+        case "Alathfar XI", "Marfark", "Arkturus", "Kelvinor", "Ivis", "Hadar", "Okul VI", "Khandark", "New Stockholm", "New Kiruna", "Epsilon Phoencis VI", "Tarsh", "Mog", "Julheim", "Heeth", "Parsh", "Hesoe Prime", "Borea", "Vog-sojoth", "Merga IV", "Vandalon IV", "Vega Bay":
+            return "Vandalon IV"
+        case "Meissa", "Mantes", "Meridia", "Caph", "East Iridium Trading Bay", "Clasa", "Gaellivare", "Irulta", "Rogue 5", "Oasis", "Spherion", "Regnus", "Baldrick Prime", "Navi VII", "Alta V", "Zegema Paradise", "Gar Haren", "Primordia", "Pollux 31", "Nublaria I", "Fornskogur II", "Kirrik", "Klaka 5":
+            return "Mantes"
+        case "Malevelon Creek", "Peacock", "Brink-2", "Gemma", "Siemnot", "Veld", "Seasse", "Chort Bay", "Nabatea Secundus", "Atrama", "Alairt III", "Prosperity Falls", "New Haven":
+            return "Malevelon Creek"
+        case "Fenrir III", "Zosma", "Euphoria III", "RD-4", "Sirius":
+            return "Fenrir III"
+        case "Estanu", "Krakatwo", "Martyr's Bay", "Deneb Secundus", "Krakabos", "Igla", "Inari", "Lesath", "Halies Port", "Barabos", "Eukoria", "Stor Tha Prime", "Grafmere", "Oslo Station", "Choepessa IV", "Acrux IX", "Mekbuda":
+            return "Estanu"
+        case "Omicron", "Angel's Venture", "Demiurg", "Aurora Bay":
+            return "Omicron"
+        case "Vindemitarix Prime", "Turing", "Zefia", "Shallus", "Tibit", "Iridica", "Mordia 9", "Sulfura", "Seyshel Beach":
+            return "Turing"
+        case "Emeria", "Kraz", "Pioneer II", "Hydrofall Prime", "Achird III", "Effluvia", "Fori Prime", "Prasa", "Kuma", "Myrium", "Senge 23", "Azterra", "Calypso", "Castor", "Cyberstan":
+            return "Fori Prime"
+        case "Draupnir", "Varylia 5", "The Weir", "Reaf", "Iro", "Termadon", "Fort Union", "Oshaune", "Fenmire", "Gemstone Bluffs", "Volterra", "Acamar IV", "Skitter", "Bellatrix", "Mintoria", "Afoyay Bay", "Pherkad Secundus", "Obari", "Achernar Secundus", "Electra Bay", "Matar Bay", "Pathfinder V":
+            return "Draupnir"
+        case "Tien Kwan":
+            return "Tien Kwan"
+        default:
+            return "Ustotu"
+        }
+    
         }
     
     func showChartToggler() {

@@ -10,6 +10,7 @@ import FirebaseCore
 import Firebase
 import UserNotifications
 import FirebaseMessaging
+import MijickPopupView
 
 class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
     func application(_ application: UIApplication,
@@ -61,7 +62,7 @@ struct Helldivers_CompanionApp: App {
     var body: some Scene {
         WindowGroup {
             
-            RootView().preferredColorScheme(.dark)
+            RootView().preferredColorScheme(.dark).implementPopupView()
             
         }
     }

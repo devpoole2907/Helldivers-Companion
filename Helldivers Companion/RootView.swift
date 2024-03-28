@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MijickPopupView
 
 struct RootView: View {
     
@@ -28,14 +29,18 @@ struct RootView: View {
                         await notificationManager.request()
                     }
                 
-                NewsView()
-                    .tag(Tab.news)
-                    .toolbarBackground(.hidden, for: .tabBar)
-                
                 GameView()
                     .tag(Tab.game)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
+                NewsView()
+                    .tag(Tab.news)
+                    .toolbarBackground(.hidden, for: .tabBar)
+                
+               /* GalaxyStatsView()
+                    .tag(Tab.stats)
+                    .toolbarBackground(.hidden, for: .tabBar)
+                */
                 
                 
                 
@@ -81,14 +86,26 @@ struct RootView: View {
     var majorOrderButton: some View {
         
         Button(action: {
-            viewModel.showOrders.toggle()
+            
+            CentrePopup_MoreFeatures(viewModel: viewModel)
+                        .showAndStack()
+            
+            
         }){
-            Text("Major Order").textCase(.uppercase).tint(.white).fontWeight(.heavy)
-                .font(Font.custom("FS Sinclair", size: 20))
+            VStack(alignment: .trailing, spacing: 2){
+                Text("Major Order").textCase(.uppercase).tint(.white).fontWeight(.heavy)
+                    .font(Font.custom("FS Sinclair", size: 20))
+                
+                if let timeRemaining = viewModel.majorOrder?.expiresIn {
+                    MajorOrderTimeView(timeRemaining: timeRemaining, isMini: true)
+                }
+            }
+            
+            
         }.padding()
         
             .background {
-                Color.black.opacity(0.7)
+                Color.black.opacity(0.8)
             }
             .clipShape(RoundedRectangle(cornerRadius: 12))
         
@@ -180,19 +197,17 @@ struct RootView: View {
                         .frame(width: 30, height: 30)
                         .foregroundColor(viewModel.currentTab == tab ? .accentColor : .gray)
                         .padding()
-                    
-                    
-                    
-                    
+ 
                 }
                 
                 Text(tab.rawValue).textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 20))
                     .dynamicTypeSize(.medium ... .large)
+                    .foregroundColor(viewModel.currentTab == tab ? .accentColor : .gray)
             }.padding(.horizontal)
                 .padding(.bottom, 10)
                 .frame(width: 100)
                 .background {
-                    Color.black.opacity(0.7)
+                    Color.black.opacity(0.8)
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 12))
         } .frame(maxWidth: .infinity)
