@@ -444,5 +444,7 @@ let globalStratagems: [Stratagem] = [
     Stratagem(name: "Super Earth Flag", sequence: [.down, .up, .down, .up]),
     Stratagem(name: "Upload Data", sequence: [.left, .right, .up, .up, .up]),
     Stratagem(name: "Hellbomb", sequence: [.down, .up, .left, .down, .up, .right, .down, .up]),
-    Stratagem(name: "Patriot Exosuit", sequence: [.left, .down, .right, .up, .left, .down, .down])
+    Stratagem(name: "Patriot Exosuit", sequence: [.left, .down, .right, .up, .left, .down, .down]),
+    Stratagem(name: "Quasar Cannon", sequence: [.down, .down, .up, .left, .right]),
+    Stratagem(name: "Heavy Machine Gun", sequence: [.down, .left, .up, .down, .down])
 ]
