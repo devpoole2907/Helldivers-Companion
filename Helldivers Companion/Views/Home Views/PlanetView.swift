@@ -157,7 +157,7 @@ let raceIconSize: CGFloat = 25
                                 .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
                                 .multilineTextAlignment(.leading)
                             
-                            if let latestDataPoint = planetData.last, let liberationRate = latestDataPoint.liberationRate {
+                            if let liberationRate = viewModel.averageLiberationRate(for: planetName) {
                                 Spacer()
                                 HStack(alignment: .top, spacing: 4) {
                                     Image(systemName: "chart.line.uptrend.xyaxis")

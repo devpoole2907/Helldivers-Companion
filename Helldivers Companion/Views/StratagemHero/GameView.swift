@@ -112,7 +112,7 @@ struct GameView: View {
                                     .font(Font.custom("FS Sinclair", size: 16))
                                     .accessibility(label: Text("Game Center"))
                             }
-                            .buttonStyle(.bordered)
+                          //  .buttonStyle(.bordered)
                             
                         }
                         

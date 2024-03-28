@@ -43,6 +43,35 @@ class PlanetsViewModel: ObservableObject {
         timer?.invalidate()
     }
     
+    func averageLiberationRate(for planetName: String) -> Double? {
+        guard let dataPoints = planetHistory[planetName] else {
+            return nil
+        }
+        // exclude 100 because 100 will only show if a planet has become part of a recent event
+        let filteredDataPoints = dataPoints.filter { $0.status?.liberation != 100.0 }
+
+       // must be at least 2 data points
+        guard filteredDataPoints.count >= 2 else {
+            return nil
+        }
+
+        var totalRate: Double = 0
+        var count: Double = 0
+
+        for i in 1..<filteredDataPoints.count {
+            let timeInterval = filteredDataPoints[i].timestamp.timeIntervalSince(filteredDataPoints[i - 1].timestamp) / 3600
+            if timeInterval > 0, let lastLiberation = filteredDataPoints[i].status?.liberation, let previousLiberation = filteredDataPoints[i - 1].status?.liberation {
+                let rate = (lastLiberation - previousLiberation) / timeInterval
+                totalRate += rate
+                count += 1
+            }
+        }
+
+     // average liberation rate calculation
+        let averageRate = count > 0 ? totalRate / count : nil
+        return averageRate
+    }
+
     
     func fetchPlanetStatusTimeSeries(completion: @escaping (Error?) -> Void) {
         Task {
@@ -120,26 +149,23 @@ class PlanetsViewModel: ObservableObject {
                     let planetName = status.planet.name
                     let fileTimestamp = extractTimestamp(from: file.name)
                     
+                    print("filestamp is \(fileTimestamp)")
+                    
                     let previousDataPoint = planetHistory[planetName]?.last
                     var currentDataPoint = PlanetDataPoint(timestamp: fileTimestamp, status: status)
                     
+               
+                    
+                    
+                    
                     // override the liberation with a defense percentage if defending
                                    if let defensePercentage = defensePercentages[planetName] {
+        
                                        currentDataPoint.status?.liberation = defensePercentage
                                    }
-
-                    if let previous = previousDataPoint {
-                            let timeInterval = currentDataPoint.timestamp.timeIntervalSince(previous.timestamp) / 3600
-                            if timeInterval > 0 {
-                                let currentLiberation = currentDataPoint.status?.liberation ?? 0
-                                print("current liberation is \(currentLiberation)")
-                         
-                                let previousLiberation = previous.status?.liberation ?? 0
-                                print("previous liberation is \(previousLiberation)")
-                                let liberationRate = (currentLiberation - previousLiberation) / timeInterval
-                                currentDataPoint.liberationRate = liberationRate
-                            }
-                        }
+                    
+                 
+                
 
                     planetHistory[planetName, default: []].append(currentDataPoint)
                 }
@@ -166,125 +192,6 @@ class PlanetsViewModel: ObservableObject {
         return dateFormatter.date(from: timestampString) ?? Date()
     }
     
-    
-    
-    
-  /*  func fetchCurrentWarSeason(completion: @escaping (String) -> Void) {
-        
-        let urlString = apiAddress
-        guard let url = URL(string: urlString) else { return }
-        
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            
-            if let data = data {
-                
-                do {
-                    
-                    let decodedResponse = try JSONDecoder().decode(WarSeason.self, from: data)
-                    DispatchQueue.main.async {
-                        self?.currentSeason = decodedResponse.current
-                        completion(decodedResponse.current)
-                    }
-                    
-                } catch {
-                    print("Decoding error: \(error)")
-                }
-                
-                
-            }
-            
-            
-            
-        }.resume()
-        
-        
-    }*/
-    // optionally passed season and planet statuses if calling from widget
-    func fetchMajorOrder(for season: String? = nil, with planetStatuses: [PlanetStatus]? = nil, completion: @escaping ([PlanetStatus], MajorOrder?) -> Void) {
-        
-        let urlString = "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(season ?? configData.season)"
-
-        print("made url")
-          guard let url = URL(string: urlString) else { print("mission failed")
-              return }
-        
-        var request = URLRequest(url: url)
-            request.addValue("en", forHTTPHeaderField: "Accept-Language")
-        
-        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            
-            guard let data = data else {
-                                    print("NOOO! No data received: \(error?.localizedDescription ?? "Unknown error")")
-                            completion([], nil)
-                                    return
-                                }
-
-                
-                do {
-                    let decoder = JSONDecoder()
-                    
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    
-                    let decodedResponse = try decoder.decode([MajorOrder].self, from: data)
-                    
-                    var taskPlanets: [PlanetStatus] = []
-                    var majorOrder: MajorOrder? = nil
-                    DispatchQueue.main.async {
-                                    if let firstOrder = decodedResponse.first {
-                                        
-                                        print("first order title is: \(firstOrder.setting.taskDescription)")
-                                        
-                                        majorOrder = firstOrder
-                                        
-                                        withAnimation(.bouncy) {
-                                            self?.majorOrder = majorOrder
-                                        }
-                                        
-                                        var collectionOfPlanetStatuses: [PlanetStatus] = []
-                                        
-                                        // if passed planet statuses (widgets), set collection to be those
-                                        if let planetStatuses = planetStatuses {
-                                            collectionOfPlanetStatuses = planetStatuses
-                                        } else if let planetStatuses = self?.allPlanetStatuses {
-                                            // otherwise they are the viewmodel's planet statuses
-                                            collectionOfPlanetStatuses = planetStatuses
-                                        }
-                                        
-                                        let taskPlanetIndexes = firstOrder.setting.tasks.compactMap { task in
-                                                task.values.count >= 3 ? task.values[2] : nil
-                                            }
-                                        
-                                        taskPlanets = collectionOfPlanetStatuses.filter { planetStatus in
-                                            taskPlanetIndexes.contains(planetStatus.planet.index)
-                                        }
-                                        
-                                        self?.taskPlanets = taskPlanets
-                                        
-                                        
-                                        print("We set the major order")
-                                    } else {
-                                        self?.majorOrder = nil
-                                    }
-                        
-                        completion(taskPlanets, majorOrder)
-                        
-                                }
-                    
-                    
-                } catch {
-                    print("Decoding error: \(error)")
-                    completion([], nil)
-                }
-           
-            
-            print("yeet")
-            
-        }.resume()
-        
-        print("woohoo")
-        
-        
-    }
     
     // returns campaign planets, planet events, and all planet statuses (for widgets to use etc)
     func fetchPlanetStatuses(using url: String? = nil, for season: String? = nil, completion: @escaping (([PlanetStatus], [PlanetEvent], [PlanetStatus])) -> Void) {
@@ -377,6 +284,123 @@ class PlanetsViewModel: ObservableObject {
         
         
     }
+    
+    /*  func fetchCurrentWarSeason(completion: @escaping (String) -> Void) {
+          
+          let urlString = apiAddress
+          guard let url = URL(string: urlString) else { return }
+          
+          URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+              
+              if let data = data {
+                  
+                  do {
+                      
+                      let decodedResponse = try JSONDecoder().decode(WarSeason.self, from: data)
+                      DispatchQueue.main.async {
+                          self?.currentSeason = decodedResponse.current
+                          completion(decodedResponse.current)
+                      }
+                      
+                  } catch {
+                      print("Decoding error: \(error)")
+                  }
+                  
+                  
+              }
+              
+              
+              
+          }.resume()
+          
+          
+      }*/
+      // optionally passed season and planet statuses if calling from widget
+      func fetchMajorOrder(for season: String? = nil, with planetStatuses: [PlanetStatus]? = nil, completion: @escaping ([PlanetStatus], MajorOrder?) -> Void) {
+          
+          let urlString = "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(season ?? configData.season)"
+
+          print("made url")
+            guard let url = URL(string: urlString) else { print("mission failed")
+                return }
+          
+          var request = URLRequest(url: url)
+              request.addValue("en", forHTTPHeaderField: "Accept-Language")
+          
+          URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+              
+              guard let data = data else {
+                                      print("NOOO! No data received: \(error?.localizedDescription ?? "Unknown error")")
+                              completion([], nil)
+                                      return
+                                  }
+
+                  
+                  do {
+                      let decoder = JSONDecoder()
+                      
+                      decoder.keyDecodingStrategy = .convertFromSnakeCase
+                      
+                      let decodedResponse = try decoder.decode([MajorOrder].self, from: data)
+                      
+                      var taskPlanets: [PlanetStatus] = []
+                      var majorOrder: MajorOrder? = nil
+                      DispatchQueue.main.async {
+                                      if let firstOrder = decodedResponse.first {
+                                          
+                                          print("first order title is: \(firstOrder.setting.taskDescription)")
+                                          
+                                          majorOrder = firstOrder
+                                          
+                                          withAnimation(.bouncy) {
+                                              self?.majorOrder = majorOrder
+                                          }
+                                          
+                                          var collectionOfPlanetStatuses: [PlanetStatus] = []
+                                          
+                                          // if passed planet statuses (widgets), set collection to be those
+                                          if let planetStatuses = planetStatuses {
+                                              collectionOfPlanetStatuses = planetStatuses
+                                          } else if let planetStatuses = self?.allPlanetStatuses {
+                                              // otherwise they are the viewmodel's planet statuses
+                                              collectionOfPlanetStatuses = planetStatuses
+                                          }
+                                          
+                                          let taskPlanetIndexes = firstOrder.setting.tasks.compactMap { task in
+                                                  task.values.count >= 3 ? task.values[2] : nil
+                                              }
+                                          
+                                          taskPlanets = collectionOfPlanetStatuses.filter { planetStatus in
+                                              taskPlanetIndexes.contains(planetStatus.planet.index)
+                                          }
+                                          
+                                          self?.taskPlanets = taskPlanets
+                                          
+                                          
+                                          print("We set the major order")
+                                      } else {
+                                          self?.majorOrder = nil
+                                      }
+                          
+                          completion(taskPlanets, majorOrder)
+                          
+                                  }
+                      
+                      
+                  } catch {
+                      print("Decoding error: \(error)")
+                      completion([], nil)
+                  }
+             
+              
+              print("yeet")
+              
+          }.resume()
+          
+          print("woohoo")
+          
+          
+      }
     
     func refresh() {
        // fetchCurrentWarSeason() { [weak self] _ in
@@ -514,3 +538,4 @@ enum Tab: String, CaseIterable {
         }
     }
 }
+
