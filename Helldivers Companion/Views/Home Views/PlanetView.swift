@@ -225,7 +225,7 @@ let raceIconSize: CGFloat = 25
                     HStack(spacing: spacingSize) {
                         
                         
-                        Image("helldiverIcon").resizable().aspectRatio(contentMode: .fit)
+                        Image("diver").resizable().aspectRatio(contentMode: .fit)
                             .frame(width: helldiverImageSize, height: helldiverImageSize)
                         Text("\(playerCount)").textCase(.uppercase)
                             .foregroundStyle(.white).bold()
@@ -286,7 +286,7 @@ let raceIconSize: CGFloat = 25
                     HStack(spacing: spacingSize) {
                         
                         
-                        Image("helldiverIcon").resizable().aspectRatio(contentMode: .fit)
+                        Image("diver").resizable().aspectRatio(contentMode: .fit)
                             .frame(width: 16, height: 16)
                         Text("\(playerCount)").textCase(.uppercase)
                             .foregroundStyle(.white).bold()

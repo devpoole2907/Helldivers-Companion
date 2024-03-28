@@ -141,7 +141,7 @@ struct RectangularPlanetWidgetView: View {
             RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)
             VStack (alignment: .leading, spacing: -3){
                 HStack(spacing: 3) {
-                    Image("helldiverIcon").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
+                    Image("diver").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                         .padding(.bottom, 2)
                     Text("\(entry.playerCount)") .font(Font.custom("FS Sinclair", size: 16))
                     Spacer()

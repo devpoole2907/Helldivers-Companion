@@ -14,13 +14,15 @@ struct RootView: View {
     
     @StateObject var viewModel = PlanetsViewModel()
     
+    @StateObject var purchaseManager = StoreManager()
+    
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
         ZStack(alignment: .bottom){
             TabView(selection: $viewModel.currentTab) {
                 
-                ContentView().environmentObject(viewModel)
+                ContentView().environmentObject(viewModel).environmentObject(purchaseManager)
                     .tag(Tab.home)
                 
                     .toolbarBackground(.hidden, for: .tabBar)
@@ -29,11 +31,11 @@ struct RootView: View {
                         await notificationManager.request()
                     }
                 
-                GameView()
+                GameView().environmentObject(purchaseManager)
                     .tag(Tab.game)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
-                NewsView()
+                NewsView().environmentObject(purchaseManager)
                     .tag(Tab.news)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
@@ -79,6 +81,13 @@ struct RootView: View {
         
                 
                 #endif
+        }
+        
+        .fullScreenCover(isPresented: $purchaseManager.showTips) {
+            NavigationStack {
+                TipJarView()
+            }
+            
         }
         
     }

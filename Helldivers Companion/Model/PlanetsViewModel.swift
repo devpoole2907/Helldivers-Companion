@@ -490,6 +490,7 @@ enum Tab: String, CaseIterable {
     case about = "About"
     case orders = "Orders"
     case stats = "Stats"
+    case tipJar = "Tip Jar"
     
     var systemImage: String? {
         switch self {
@@ -505,6 +506,8 @@ enum Tab: String, CaseIterable {
             return "target"
         case .stats:
             return "stats"
+        case .tipJar:
+            return "cart.fill"
         }
     }
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct NewsView: View {
     
     @StateObject var feedModel = NewsFeedModel()
+    @EnvironmentObject var purchaseManager: StoreManager
     
     var body: some View {
         
@@ -64,14 +65,27 @@ struct NewsView: View {
                     .font(Font.custom("FS Sinclair", size: 24))
                 
             }
+            
+            
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    purchaseManager.showTips.toggle()
+                }){
+                    Image(systemName: "cart.fill")
+                }.foregroundStyle(.white)
+                    .bold()
+            }
+            
         }
+    
+  
     
 }
 #elseif os(watchOS)
             
 .toolbar {
     ToolbarItem(placement: .topBarLeading) {
-        Text("News").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 18))
+        Text("STROHMANN NEWS").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 18))
     }
     
 }

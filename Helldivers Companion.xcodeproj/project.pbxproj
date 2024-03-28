@@ -162,6 +162,14 @@
 		7CE97D3B2BB51DE9008329BA /* CentrePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */; };
 		7CE97D3D2BB53D2E008329BA /* TipJarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3C2BB53D2E008329BA /* TipJarView.swift */; };
 		7CE97D402BB5414C008329BA /* GalaxyStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */; };
+		7CE97D422BB55A1F008329BA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CE97D412BB55A1F008329BA /* StoreKit.framework */; };
+		7CE97D442BB55A2B008329BA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CE97D432BB55A2B008329BA /* StoreKit.framework */; };
+		7CE97D462BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 7CE97D452BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit */; };
+		7CE97D472BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 7CE97D452BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit */; };
+		7CE97D492BB55BDB008329BA /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D482BB55BDB008329BA /* StoreManager.swift */; };
+		7CE97D4A2BB55BDB008329BA /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D482BB55BDB008329BA /* StoreManager.swift */; };
+		7CE97D4B2BB55F5D008329BA /* TipJarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3C2BB53D2E008329BA /* TipJarView.swift */; };
+		7CE97D4D2BB564F6008329BA /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D4C2BB564F6008329BA /* CloseButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -318,6 +326,11 @@
 		7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentrePopup.swift; sourceTree = "<group>"; };
 		7CE97D3C2BB53D2E008329BA /* TipJarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarView.swift; sourceTree = "<group>"; };
 		7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyStatsView.swift; sourceTree = "<group>"; };
+		7CE97D412BB55A1F008329BA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		7CE97D432BB55A2B008329BA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.4.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
+		7CE97D452BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "War Monitor for Helldivers 2 TipJar.storekit"; sourceTree = "<group>"; };
+		7CE97D482BB55BDB008329BA /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		7CE97D4C2BB564F6008329BA /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -328,6 +341,7 @@
 				7C1B8C232BAD714300944823 /* Algorithms in Frameworks */,
 				7CE4AE372BA82C6A0033D4AF /* FirebaseMessaging in Frameworks */,
 				7CE4AE332BA82C6A0033D4AF /* FirebaseFirestore in Frameworks */,
+				7CE97D422BB55A1F008329BA /* StoreKit.framework in Frameworks */,
 				7CE97D382BB51D5D008329BA /* MijickPopupView in Frameworks */,
 				7CE4AE352BA82C6A0033D4AF /* FirebaseFunctions in Frameworks */,
 			);
@@ -359,6 +373,7 @@
 			files = (
 				7C1B8C3A2BAD78CD00944823 /* FirebaseMessaging in Frameworks */,
 				7C1B8C382BAD78CD00944823 /* FirebaseInstallations in Frameworks */,
+				7CE97D442BB55A2B008329BA /* StoreKit.framework in Frameworks */,
 				7C1B8C252BAD714B00944823 /* Algorithms in Frameworks */,
 				7C1B8C362BAD78CD00944823 /* FirebaseFirestore in Frameworks */,
 			);
@@ -398,6 +413,7 @@
 		7C0C993F2BA2BA8F00CF7C91 = {
 			isa = PBXGroup;
 			children = (
+				7CE97D452BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit */,
 				7C0C994A2BA2BA8F00CF7C91 /* Helldivers Companion */,
 				7C587F452BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App */,
 				7CC0AE752BA7F31400802D9F /* Helldivers Companion Widgets */,
@@ -461,6 +477,7 @@
 				7CE4AE3C2BA832C40033D4AF /* NotificationManager.swift */,
 				7C3A9EC82BA9724E00F26307 /* NewsFeedModel.swift */,
 				7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */,
+				7CE97D482BB55BDB008329BA /* StoreManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -552,6 +569,8 @@
 		7CC0AE702BA7F31400802D9F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7CE97D432BB55A2B008329BA /* StoreKit.framework */,
+				7CE97D412BB55A1F008329BA /* StoreKit.framework */,
 				7CC0AE712BA7F31400802D9F /* WidgetKit.framework */,
 				7CC0AE732BA7F31400802D9F /* SwiftUI.framework */,
 			);
@@ -595,6 +614,7 @@
 				7C4589C32BA574B20019B00E /* ShakeModifier.swift */,
 				7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */,
 				7C45D4642BABEE6E0013A632 /* AngledLinesShape.swift */,
+				7CE97D4C2BB564F6008329BA /* CloseButton.swift */,
 			);
 			path = CustomUIElements;
 			sourceTree = "<group>";
@@ -852,6 +872,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C4589B92BA54C030019B00E /* FS Sinclair Bold.otf in Resources */,
+				7CE97D462BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit in Resources */,
 				7C50CEE62BA8295E009094AE /* GoogleService-Info.plist in Resources */,
 				7C0C99532BA2BA9000CF7C91 /* Preview Assets.xcassets in Resources */,
 				7C0C99502BA2BA9000CF7C91 /* Assets.xcassets in Resources */,
@@ -883,6 +904,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C587F602BA6E25500C66643 /* FS Sinclair Bold.otf in Resources */,
+				7CE97D472BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit in Resources */,
 				7C50CEE72BA8295E009094AE /* GoogleService-Info.plist in Resources */,
 				7C587F4E2BA6DBBB00C66643 /* Preview Assets.xcassets in Resources */,
 				7C587F4B2BA6DBBB00C66643 /* Assets.xcassets in Resources */,
@@ -975,6 +997,8 @@
 				7C3A9EC92BA9724E00F26307 /* NewsFeedModel.swift in Sources */,
 				7C45D46C2BABEE980013A632 /* WatchOrdersView.swift in Sources */,
 				7C5D5F592BAFD74900B644B9 /* WatchConnectivityProvider.swift in Sources */,
+				7CE97D492BB55BDB008329BA /* StoreManager.swift in Sources */,
+				7CE97D4D2BB564F6008329BA /* CloseButton.swift in Sources */,
 				7C0C994C2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift in Sources */,
 				7C0C995F2BA2C7BC00CF7C91 /* PlanetView.swift in Sources */,
 			);
@@ -1020,6 +1044,7 @@
 				7C45D46F2BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
 				7C5D5F5A2BAFD83F00B644B9 /* WatchConnectivityProvider.swift in Sources */,
 				7C587F5C2BA6DD1700C66643 /* AboutView.swift in Sources */,
+				7CE97D4B2BB55F5D008329BA /* TipJarView.swift in Sources */,
 				7C1B8C602BAD85B200944823 /* GameViewWatch.swift in Sources */,
 				7C45D45E2BABEDE40013A632 /* WatchOrdersView.swift in Sources */,
 				7C45D4662BABEE750013A632 /* AngledLinesShape.swift in Sources */,
@@ -1038,6 +1063,7 @@
 				7C8C5F272BADD17000C4FBD2 /* ShakeModifier.swift in Sources */,
 				7C587F5B2BA6DD0800C66643 /* PlanetView.swift in Sources */,
 				7C45D4692BABEE7C0013A632 /* RewardView.swift in Sources */,
+				7CE97D4A2BB55BDB008329BA /* StoreManager.swift in Sources */,
 				7C3A9EC72BA9528A00F26307 /* NewsView.swift in Sources */,
 				7C3A9ECB2BA9725800F26307 /* NewsFeedModel.swift in Sources */,
 				7C587F582BA6DC7000C66643 /* PlanetStructs.swift in Sources */,

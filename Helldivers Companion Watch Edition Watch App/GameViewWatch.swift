@@ -11,6 +11,7 @@ struct GameViewWatch: View {
     
     @StateObject var viewModel = StratagemHeroModel()
     @ObservedObject var connectivityProvider = WatchConnectivityProvider.shared
+    @EnvironmentObject var purchaseManager: StoreManager
     
     var body: some View {
         
@@ -41,6 +42,8 @@ struct GameViewWatch: View {
             
             .navigationBarTitleDisplayMode(.inline)
         }
+        
+        
         
         .sheet(isPresented: $viewModel.showGameSheet) {
             NavigationStack {
@@ -205,6 +208,23 @@ struct GameViewWatch: View {
                 
         }
             .interactiveDismissDisabled()
+            
+            
+            
+            .onChange(of: viewModel.gameEndCount) { value in
+                
+                if value == 3 {
+                    viewModel.gameEndCount = 0
+                    // 50% chance of showing tips sheet after 3 games played
+                    if Bool.random() {
+                        purchaseManager.showTips.toggle()
+                        purchaseManager.tipShownInSession = true // dont show again this session
+                                }
+                }
+                
+                
+            }
+            
         }
         
  

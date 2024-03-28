@@ -12,6 +12,7 @@ import StoreKit
 struct ContentView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var purchaseManager: StoreManager
 
     #if os(iOS)
     @Environment(\.requestReview) var requestReview
@@ -73,9 +74,6 @@ struct ContentView: View {
                 }
             
             
-            
-            
-            
                 .sheet(isPresented: $viewModel.showInfo) {
                     
                     AboutView()
@@ -98,6 +96,15 @@ struct ContentView: View {
                             viewModel.showInfo.toggle()
                         }){
                             Image(systemName: "info.circle")
+                        }.foregroundStyle(.white)
+                            .bold()
+                    }
+                    
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button(action: {
+                            purchaseManager.showTips.toggle()
+                        }){
+                            Image(systemName: "cart.fill")
                         }.foregroundStyle(.white)
                             .bold()
                     }

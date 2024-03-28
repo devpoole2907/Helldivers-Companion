@@ -19,6 +19,8 @@ class StratagemHeroModel: ObservableObject {
     @Published var gameState: GameState = .notStarted
     @Published var showError = false
     
+    @AppStorage("gameEndCount") var gameEndCount = 0
+    
     // tracks times this screen is viewed
     @AppStorage("gameViewCount") var viewCount = 0
     
@@ -165,6 +167,10 @@ class StratagemHeroModel: ObservableObject {
         withAnimation {
             gameState = .notStarted
         }
+        
+        // to count every 3 games to give 50% chance of showing tips sheet
+        gameEndCount += 1
+        
     }
     
     enum GameState {
