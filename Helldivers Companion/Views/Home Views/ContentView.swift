@@ -115,8 +115,11 @@ struct ContentView: View {
                     
                     ToolbarItem(placement: .principal) {
                         
-                        Text("LAST UPDATED: \(viewModel.lastUpdatedDate.formatted(date: .omitted, time: .shortened))")
-                            .font(Font.custom("FS Sinclair", size: 24))
+                        
+                            Text("UPDATED: \(viewModel.lastUpdatedDate.formatted(date: .omitted, time: .shortened))")
+                                .font(Font.custom("FS Sinclair", size: 24))
+                        
+                        
                         
                     }
                     

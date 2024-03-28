@@ -71,7 +71,7 @@ struct TipJarView: View {
                 
 #if os(iOS)
                 
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .topBarLeading) {
                     CloseButton()
                         
                 }

@@ -97,6 +97,7 @@ struct RootView: View {
         Button(action: {
             
             CentrePopup_MoreFeatures(viewModel: viewModel)
+            
                         .showAndStack()
             
             

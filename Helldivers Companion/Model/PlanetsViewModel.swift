@@ -132,7 +132,10 @@ class PlanetsViewModel: ObservableObject {
                             let timeInterval = currentDataPoint.timestamp.timeIntervalSince(previous.timestamp) / 3600
                             if timeInterval > 0 {
                                 let currentLiberation = currentDataPoint.status?.liberation ?? 0
+                                print("current liberation is \(currentLiberation)")
+                         
                                 let previousLiberation = previous.status?.liberation ?? 0
+                                print("previous liberation is \(previousLiberation)")
                                 let liberationRate = (currentLiberation - previousLiberation) / timeInterval
                                 currentDataPoint.liberationRate = liberationRate
                             }
