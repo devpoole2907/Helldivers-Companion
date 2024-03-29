@@ -83,12 +83,12 @@ struct RootView: View {
                 #endif
         }
         
-      /*  .fullScreenCover(isPresented: $purchaseManager.showTips) {
+        .fullScreenCover(isPresented: $purchaseManager.showTips) {
             NavigationStack {
                 TipJarView()
             }
             
-        }*/
+        }
         
     }
     

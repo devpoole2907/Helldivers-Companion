@@ -66,15 +66,18 @@ struct NewsView: View {
                 
             }
             
-            
-         /*   ToolbarItem(placement: .topBarLeading) {
-                Button(action: {
-                    purchaseManager.showTips.toggle()
-                }){
-                    Image(systemName: "cart.fill")
-                }.foregroundStyle(.white)
-                    .bold()
-            }*/
+            if !purchaseManager.products.isEmpty {
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: {
+                        purchaseManager.showTips.toggle()
+                    }){
+                        Image(systemName: "cart.fill")
+                    }.foregroundStyle(.white)
+                        .bold()
+                }
+                
+            }
             
         }
     
