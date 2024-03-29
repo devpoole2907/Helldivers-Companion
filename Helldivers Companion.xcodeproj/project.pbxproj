@@ -154,6 +154,8 @@
 		7CC0AE882BA7F63100802D9F /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
 		7CC0AE892BA7F76600802D9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
 		7CC0AE8A2BA7F79800802D9F /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
+		7CD554912BB73EDE008D4267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
+		7CD554922BB73EDF008D4267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
 		7CE4AE332BA82C6A0033D4AF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE4AE322BA82C6A0033D4AF /* FirebaseFirestore */; };
 		7CE4AE352BA82C6A0033D4AF /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE4AE342BA82C6A0033D4AF /* FirebaseFunctions */; };
 		7CE4AE372BA82C6A0033D4AF /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE4AE362BA82C6A0033D4AF /* FirebaseMessaging */; };
@@ -884,6 +886,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C1B8C302BAD71C800944823 /* FS Sinclair Bold.otf in Resources */,
+				7CD554912BB73EDE008D4267 /* Assets.xcassets in Resources */,
 				7C1B8C192BAD705700944823 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -926,6 +929,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C8C5F5F2BAF0B8600C4FBD2 /* FS Sinclair Bold.otf in Resources */,
+				7CD554922BB73EDF008D4267 /* Assets.xcassets in Resources */,
 				7C8C5F542BAF0AD200C4FBD2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1304,7 +1308,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1342,7 +1346,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1492,7 +1496,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1526,7 +1530,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
