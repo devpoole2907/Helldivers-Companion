@@ -237,7 +237,7 @@ struct GameViewWatch: View {
         
         HStack {
                 Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair", size: 20))
-                    .foregroundStyle(.yellow)
+                .foregroundStyle(viewModel.timeRemaining >= 2 ? .yellow : .red)
                 Text("PTs").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 20))
             
             
@@ -314,7 +314,7 @@ struct GameViewWatch: View {
             
             Text("Round") .font(Font.custom("FS Sinclair", size: 14))
             Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair", size: 26))
-                .foregroundStyle(.yellow)
+                .foregroundStyle(viewModel.timeRemaining >= 2 ? Color.yellow : Color.red)
             
         }
         
@@ -334,8 +334,7 @@ struct GameViewWatch: View {
                         .aspectRatio(contentMode: .fit)
                         .scaledToFit()
                         .frame(width: 40)
-                    
-                        .border(.yellow)
+                        .border(viewModel.timeRemaining >= 2 ? .yellow : .red)
                     
                     ForEach(viewModel.stratagems.prefix(3), id: \.id) { stratagem in // shows the next 3 stratagems
                         Image(stratagem.name)
@@ -357,7 +356,7 @@ struct GameViewWatch: View {
                         .font(Font.custom("FS Sinclair", size: 14))
                         .padding(.horizontal)
                         .background {
-                            Color.yellow
+                           viewModel.timeRemaining >= 2 ? Color.yellow : Color.red
                         }
                     
                 HStack {
@@ -397,11 +396,11 @@ struct WatchTimerBarView: View {
             ZStack(alignment: .leading) {
                 Rectangle()
                     .frame(width: geometry.size.width, height: 10)
-                    .foregroundColor(.gray)
+                    .foregroundStyle(.gray)
 
                 Rectangle()
                     .frame(width: (geometry.size.width * CGFloat(timeRemaining / totalTime)), height: 10)
-                    .foregroundColor(.yellow)
+                    .foregroundStyle(timeRemaining >= 2 ? Color.yellow : Color.red)
             }
         }
         .frame(height: 5)
