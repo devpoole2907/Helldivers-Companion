@@ -67,14 +67,14 @@ struct NewsView: View {
             }
             
             
-            ToolbarItem(placement: .topBarLeading) {
+         /*   ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
                     purchaseManager.showTips.toggle()
                 }){
                     Image(systemName: "cart.fill")
                 }.foregroundStyle(.white)
                     .bold()
-            }
+            }*/
             
         }
     

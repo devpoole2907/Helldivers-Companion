@@ -22,9 +22,9 @@ struct ContentViewWatchVersion: View {
             AboutView().environmentObject(viewModel)
                 .tag(Tab.about)
             
-            TipJarView().environmentObject(purchaseManager)
+        /*    TipJarView().environmentObject(purchaseManager)
                 .tag(Tab.tipJar)
-            
+            */
             GameViewWatch().environmentObject(purchaseManager)
                 .tag(Tab.game)
             
@@ -45,12 +45,12 @@ struct ContentViewWatchVersion: View {
             Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
         }
         
-        .fullScreenCover(isPresented: $purchaseManager.showTips) {
+       /* .fullScreenCover(isPresented: $purchaseManager.showTips) {
             NavigationStack {
                 TipJarView()
             }
             
-        }
+        }*/
         
         
         .onAppear {
