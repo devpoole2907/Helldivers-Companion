@@ -8,11 +8,16 @@
 import SwiftUI
 import UIKit
 import StoreKit
+#if os(iOS)
+import SwiftUIIntrospect
+#endif
 
 struct ContentView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
     @EnvironmentObject var purchaseManager: StoreManager
+    
+    @EnvironmentObject var navPather: NavigationPather
 
     #if os(iOS)
     @Environment(\.requestReview) var requestReview
@@ -20,7 +25,7 @@ struct ContentView: View {
     
     var body: some View {
         
-        NavigationStack {
+        NavigationStack(path: $navPather.navigationPath) {
             
             ScrollView {
                 
@@ -42,21 +47,23 @@ struct ContentView: View {
                             .padding(.horizontal)
                     }
 
-                    ForEach(viewModel.campaignPlanets, id: \.self) { planetStatus in
+                    ForEach(Array(viewModel.campaignPlanets.enumerated()), id: \.element) { (index, planetStatus) in
                         // check if planet is defending
                         if let defenseEvent = viewModel.defensePlanets.first(where: { $0.planet.index == planetStatus.planet.index }) {
                             // planet is defending, use defense percentage for liberation val
                             PlanetView(planetName: planetStatus.planet.name, liberation: defenseEvent.defensePercentage, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus, liberationType: .defense, bugOrAutomaton: planetStatus.owner == "Terminids" ? .terminid : .automaton, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate).environmentObject(viewModel)
                                 .padding(.horizontal)
+                                .id(index)
                         } else {
                             // planet not defending, use liberation
                             PlanetView(planetName: planetStatus.planet.name, liberation: planetStatus.liberation, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus, liberationType: .liberation, bugOrAutomaton: planetStatus.owner == "Terminids" ? .terminid : .automaton, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate).environmentObject(viewModel)
                                 .padding(.horizontal)
+                                .id(index)
                         }
                     }
 
                     
-                }
+                }.scrollTargetLayout()
                 
                 Text("Pull to Refresh").textCase(.uppercase)
                     .opacity(0.5)
@@ -67,7 +74,10 @@ struct ContentView: View {
                 
                 Spacer(minLength: 150)
                 
-            }.scrollContentBackground(.hidden)
+            } .scrollPosition(id: $navPather.scrollPosition)
+            
+            
+            .scrollContentBackground(.hidden)
             
                 .refreshable {
                     viewModel.refresh()
@@ -135,8 +145,45 @@ struct ContentView: View {
             
             
                 .navigationBarTitleDisplayMode(.inline)
+            
+                .navigationDestination(for: PlanetStatus.self) { status in
+                    PlanetInfoView(planetStatus: status)
+                }
+            
+            
         }
-        #if os(iOS)
+        
+#if os(iOS)
+        .introspect(.navigationStack, on: .iOS(.v16, .v17)) { controller in
+            print("I am introspecting!")
+
+            
+            let largeFontSize: CGFloat = UIFont.preferredFont(forTextStyle: .largeTitle).pointSize
+            let inlineFontSize: CGFloat = UIFont.preferredFont(forTextStyle: .body).pointSize
+
+            // default to sf system font
+            let largeFont = UIFont(name: "FS Sinclair", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
+               let inlineFont = UIFont(name: "FS Sinclair", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
+
+            
+            let largeAttributes: [NSAttributedString.Key: Any] = [
+                .font: largeFont
+            ]
+
+            let inlineAttributes: [NSAttributedString.Key: Any] = [
+                .font: inlineFont
+            ]
+                                
+            controller.navigationBar.titleTextAttributes = inlineAttributes
+            
+            controller.navigationBar.largeTitleTextAttributes = largeAttributes
+            
+            
+       
+        }
+        
+        
+    
         .onAppear {
             viewModel.viewCount += 1
             
@@ -151,10 +198,6 @@ struct ContentView: View {
     
     
     
-}
-
-#Preview {
-    ContentView().environmentObject(PlanetsViewModel())
 }
 
 

@@ -16,13 +16,26 @@ struct RootView: View {
     
     @StateObject var purchaseManager = StoreManager()
     
+    @StateObject var contentNavPather = NavigationPather()
+    
+    @StateObject var statsNavPather = NavigationPather()
+    
+    @State var showMajorOrderButton: Bool = false
+    
+    // use func to change state of major order bool so it can be animated
+    private func updateMajorOrderButtonVisibility() {
+        withAnimation(.bouncy) {
+                showMajorOrderButton = (viewModel.currentTab == .home && contentNavPather.navigationPath.isEmpty) || viewModel.currentTab == .news
+            }
+        }
+    
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
         ZStack(alignment: .bottom){
             TabView(selection: $viewModel.currentTab) {
                 
-                ContentView().environmentObject(viewModel).environmentObject(purchaseManager)
+                ContentView().environmentObject(viewModel).environmentObject(purchaseManager).environmentObject(contentNavPather)
                     .tag(Tab.home)
                 
                     .toolbarBackground(.hidden, for: .tabBar)
@@ -35,14 +48,16 @@ struct RootView: View {
                     .tag(Tab.game)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
+                GalaxyStatsView().environmentObject(viewModel).environmentObject(purchaseManager).environmentObject(statsNavPather)
+                    .tag(Tab.stats)
+                    .toolbarBackground(.hidden, for: .tabBar)
+                
                 NewsView().environmentObject(purchaseManager)
                     .tag(Tab.news)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
-               /* GalaxyStatsView()
-                    .tag(Tab.stats)
-                    .toolbarBackground(.hidden, for: .tabBar)
-                */
+              
+                
                 
                 
                 
@@ -56,6 +71,13 @@ struct RootView: View {
         }.task {
             await notificationManager.getAuthStatus()
         }
+            
+        .onChange(of: viewModel.currentTab) { _ in
+                        updateMajorOrderButtonVisibility()
+                    }
+                    .onChange(of: contentNavPather.navigationPath) { _ in
+                        updateMajorOrderButtonVisibility()
+                    }
         
         .sheet(isPresented: $viewModel.showOrders) {
             
@@ -75,8 +97,9 @@ struct RootView: View {
         }
             
 #if os(iOS)
-            if viewModel.currentTab != .game {
-                majorOrderButton.padding(.bottom, 85)
+            if showMajorOrderButton {
+                majorOrderButton.padding(.bottom, 85) 
+                    .transition(.opacity)
             }
         
                 
@@ -85,7 +108,15 @@ struct RootView: View {
         
         .fullScreenCover(isPresented: $purchaseManager.showTips) {
             NavigationStack {
+                // scrollview declared seperately because tip jar view is in about view on watchOS which contains scrollview already
+                ScrollView {
                 TipJarView()
+                }
+                    #if os(iOS)
+                    .background {
+                        Image("helldivers2planet").resizable().aspectRatio(contentMode: .fill).offset(CGSize(width: 400, height: 0)).blur(radius: 20.0).ignoresSafeArea()
+                    }
+                    #endif
             }
             
         }
@@ -178,9 +209,35 @@ struct RootView: View {
     var tabButtons: some View {
         VStack(spacing: 0){
             HStack(spacing: 0) {
-                TabButton(tab: .home, action: {viewModel.currentTab = .home})
-                TabButton(tab: .news, action: {viewModel.currentTab = .news})
+                TabButton(tab: .home, action: {
+                    
+                    
+                    // remove all items on nav stack, pop to root if button pressed already in this tab
+                    if viewModel.currentTab == .home {
+                        
+                        // if scroll position is greater than 0, and the nav path is empty (we're not in a subview) scroll to top
+                        if let scrollPos = contentNavPather.scrollPosition, scrollPos > 0, contentNavPather.navigationPath.isEmpty {
+                            withAnimation(.bouncy) {
+                                contentNavPather.scrollPosition = 0
+                            }
+                        } else {
+                            
+                            // otherwise pop to root
+                            
+                            contentNavPather.popToRoot()
+                            
+                        }
+                    } else {
+                        // otherwise change tab to home, we must have been in another tab
+                        viewModel.currentTab = .home
+                    }
+                    
+                    
+                })
                 TabButton(tab: .game, action: {viewModel.currentTab = .game})
+                TabButton(tab: .stats, action: {viewModel.currentTab = .stats})
+                TabButton(tab: .news, action: {viewModel.currentTab = .news})
+              
             }
             .padding(.top, (UIScreen.main.bounds.height) == 667 || (UIScreen.main.bounds.height) == 736 ? 10 : 15)
             .padding(.bottom, (UIScreen.main.bounds.height) == 667 || (UIScreen.main.bounds.height) == 736 ? 10 : 0)
@@ -204,18 +261,18 @@ struct RootView: View {
                         .resizable()
                         .renderingMode(.template)
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 30, height: 30)
+                        .frame(width: 26, height: 26)
                         .foregroundColor(viewModel.currentTab == tab ? .accentColor : .gray)
                         .padding()
  
                 }
                 
-                Text(tab.rawValue).textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 20))
+                Text(tab.rawValue).textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 16))
                     .dynamicTypeSize(.medium ... .large)
                     .foregroundColor(viewModel.currentTab == tab ? .accentColor : .gray)
             }.padding(.horizontal)
                 .padding(.bottom, 10)
-                .frame(width: 100)
+                .frame(width: 80)
                 .background {
                     Color.black.opacity(0.8)
                 }

@@ -13,7 +13,7 @@ struct PlanetView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
     
-    @State private var pulsate = false
+    @EnvironmentObject var navPather: NavigationPather
     
     var planetName = "Meridia"
     var liberation = 24.13020
@@ -36,74 +36,24 @@ struct PlanetView: View {
     
     @State private var chartType: ChartType = .players
     
-    var chartTypes: [ChartType] {
-        switch liberationType {
-        case .liberation:
-            return [.liberation, .players]
-        case .defense:
-            return [.defense, .players]
-        }
-    }
-    
-    @State private var chartSelection: Date? = nil
-    
 #if os(iOS)
-let helldiverImageSize: CGFloat = 25
 let raceIconSize: CGFloat = 25
     let spacingSize: CGFloat = 10
-    let chartHeight: CGFloat = 240
-    let chartSectionHeight: CGFloat = 300
+    let weatherIconSize: CGFloat = 28
 
 #elseif os(watchOS)
-    let helldiverImageSize: CGFloat = 10
     let raceIconSize: CGFloat = 20
     let spacingSize: CGFloat = 4
-    let chartHeight: CGFloat = 160
-    let chartSectionHeight: CGFloat = 210
+    let weatherIconSize: CGFloat = 14
 #endif
 
         private var planetData: [PlanetDataPoint] {
             viewModel.planetHistory[planetName] ?? []
         }
     
-    var formattedPlanetImageName: String {
-          //  let cleanedName = planetName
-          //  .filter { !$0.isPunctuation }   // no apostrophes etc
-        //    .replacingOccurrences(of: " ", with: "_")
+    private var formattedPlanetImageName: String {
         
-  //      let imageName = "\(cleanedName)_Landscape"
-        
-        switch planetName {
-            
-        case "Alaraph", "Veil", "Bashyr", "Solghast", "Alderidge Cove", "Ain-5", "Aesir Pass", "Pandion-XXIV", "Penta", "Haka", "Nivel 43", "Cirrus", "Troost", "Skat Bay", "X-45":
-            return "Troost"
-        case "Ubanea", "Fort Sanctuary", "Freedom Peak", "Crimsica", "Kharst", "Minchir", "Elysian Meadows", "Providence", "Valgaard", "Gatria", "Enuliale", "Liberty Ridge", "Stout", "Genesis Prime", "Valmox", "Gunvald", "Overgoe Prime", "Kuper", "Acrab XI", "Ingmar", "Yed Prior":
-            return "Ingmar"
-        case "Wezen", "Pöpli IX", "Imber", "Partion", "Karlia", "Hellmire", "Menkent", "Blistica", "Adhara", "Grand Errant", "Bore Rock", "Marre IV", "Kneth Port", "Asperoth Prime":
-            return "Hellmire"
-        case "Alathfar XI", "Marfark", "Arkturus", "Kelvinor", "Ivis", "Hadar", "Okul VI", "Khandark", "New Stockholm", "New Kiruna", "Epsilon Phoencis VI", "Tarsh", "Mog", "Julheim", "Heeth", "Parsh", "Hesoe Prime", "Borea", "Vog-sojoth", "Merga IV", "Vandalon IV", "Vega Bay":
-            return "Vandalon IV"
-        case "Meissa", "Mantes", "Meridia", "Caph", "East Iridium Trading Bay", "Clasa", "Gaellivare", "Irulta", "Rogue 5", "Oasis", "Spherion", "Regnus", "Baldrick Prime", "Navi VII", "Alta V", "Zegema Paradise", "Gar Haren", "Primordia", "Pollux 31", "Nublaria I", "Fornskogur II", "Kirrik", "Klaka 5":
-            return "Mantes"
-        case "Malevelon Creek", "Peacock", "Brink-2", "Gemma", "Siemnot", "Veld", "Seasse", "Chort Bay", "Nabatea Secundus", "Atrama", "Alairt III", "Prosperity Falls", "New Haven":
-            return "Malevelon Creek"
-        case "Fenrir III", "Zosma", "Euphoria III", "RD-4", "Sirius":
-            return "Fenrir III"
-        case "Estanu", "Krakatwo", "Martyr's Bay", "Deneb Secundus", "Krakabos", "Igla", "Inari", "Lesath", "Halies Port", "Barabos", "Eukoria", "Stor Tha Prime", "Grafmere", "Oslo Station", "Choepessa IV", "Acrux IX", "Mekbuda":
-            return "Estanu"
-        case "Omicron", "Angel's Venture", "Demiurg", "Aurora Bay":
-            return "Omicron"
-        case "Vindemitarix Prime", "Turing", "Zefia", "Shallus", "Tibit", "Iridica", "Mordia 9", "Sulfura", "Seyshel Beach":
-            return "Turing"
-        case "Emeria", "Kraz", "Pioneer II", "Hydrofall Prime", "Achird III", "Effluvia", "Fori Prime", "Prasa", "Kuma", "Myrium", "Senge 23", "Azterra", "Calypso", "Castor", "Cyberstan":
-            return "Fori Prime"
-        case "Draupnir", "Varylia 5", "The Weir", "Reaf", "Iro", "Termadon", "Fort Union", "Oshaune", "Fenmire", "Gemstone Bluffs", "Volterra", "Acamar IV", "Skitter", "Bellatrix", "Mintoria", "Afoyay Bay", "Pherkad Secundus", "Obari", "Achernar Secundus", "Electra Bay", "Matar Bay", "Pathfinder V":
-            return "Draupnir"
-        case "Tien Kwan":
-            return "Tien Kwan"
-        default:
-            return "Ustotu"
-        }
+        PlanetImageFormatter.formattedPlanetImageName(for: planetName)
     
         }
     
@@ -123,134 +73,30 @@ let raceIconSize: CGFloat = 25
                 
                 if showChart {
                     
-                    HistoryChart(liberationType: liberationType, planetData: planetData, chartSelection: $chartSelection, chartHeight: chartHeight, chartSectionHeight: chartSectionHeight, chartType: $chartType, chartTypes: chartTypes, bugOrAutomaton: bugOrAutomaton).environmentObject(viewModel)
+                    HistoryChart(liberationType: liberationType, planetData: planetData, bugOrAutomaton: bugOrAutomaton).environmentObject(viewModel)
+                    
+                }
+                
+                
+                // put it here
+                
+                CampaignPlanetStatsView(liberation: liberation, bugOrAutomaton: bugOrAutomaton, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, playerCount: playerCount, isWidget: isWidget, terminidRate: terminidRate, automatonRate: automatonRate)
+                
+                
 
-                    
-                }
-                VStack(spacing: 0) {
-                    
-                    VStack {
-                        HStack {
-                            
-                            // health bar
-                            
-                            RectangleProgressBar(value: liberation / 100, secondaryColor: bugOrAutomaton == .terminid ? Color.yellow : Color.red)
-                            
-                                .padding(.horizontal, 6)
-                                .padding(.trailing, 2)
-                            
-                            
-                        }.frame(height: showExtraStats ? 34 : 30)
-                            .foregroundStyle(Color.clear)
-                            .border(Color.orange, width: 2)
-                            .padding(.horizontal, 4)
-                    }  .padding(.vertical, 5)
-                    
-                    Rectangle()
-                        .fill(.white)
-                        .frame(height: 1)
-                    
-                    VStack {
-                        HStack{
-                            Text("\(liberation, specifier: "%.3f")% \(liberationType == .liberation ? "Liberated" : "Defended")").textCase(.uppercase)
-                                .foregroundStyle(.white).bold()
-                                .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
-                                .multilineTextAlignment(.leading)
-                            
-                            if let liberationRate = viewModel.averageLiberationRate(for: planetName) {
-                                Spacer()
-                                HStack(alignment: .top, spacing: 4) {
-                                    Image(systemName: "chart.line.uptrend.xyaxis")
-                                        .padding(.top, 2)
-                                    Text("\(liberationRate, specifier: "%.2f")% / h")
-                                        .foregroundStyle(.white)
-                                        .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
-                                        .multilineTextAlignment(.trailing)
-                                }
-                                    }
-                            
-                        }   .padding(.horizontal)
-                        
-                    }
-                    .frame(maxWidth: .infinity)
-                    .background {
-                        Color.black
-                    }
-                    .padding(.vertical, 5)
-                    
-                    
-                    
-                    
-                }
-                .border(Color.white)
-                .padding(4)
-                .border(Color.gray)
-                
             
-                
-                if showExtraStats {
-                HStack {
-                    
-                    HStack(alignment: .center, spacing: spacingSize) {
-                        
-                        if liberationType == .liberation {
-                            
-                            Image(bugOrAutomaton.rawValue).resizable().aspectRatio(contentMode: .fit)
-                                .frame(width: raceIconSize, height: raceIconSize)
-                            
-                            Text(bugOrAutomaton == .terminid ? "\(terminidRate) / h" : "\(automatonRate) / h").foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red).bold()
-                                .font(Font.custom("FS Sinclair", size: mediumFont))
-                                .padding(.top, 3)
-                            
-                        } else {
-                            Text("DEFEND") .font(Font.custom("FS Sinclair", size: largeFont))
-                            
-                            // defense is important, so pulsate
-                                .foregroundStyle(isWidget ? .white : (pulsate ? .red : .white))
-                                .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.0))
-                                .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: pulsate)
-                            
-                                .onAppear {
-                                                pulsate = true
-                                            }
-                                
-                        }
-                        
-                    }.frame(maxWidth: .infinity)
-                    
-                    Rectangle().frame(width: 1, height: 30).foregroundStyle(Color.white)
-                        .padding(.vertical, 10)
-                    
-                    
-                    HStack(spacing: spacingSize) {
-                        
-                        
-                        Image("diver").resizable().aspectRatio(contentMode: .fit)
-                            .frame(width: helldiverImageSize, height: helldiverImageSize)
-                        Text("\(playerCount)").textCase(.uppercase)
-                            .foregroundStyle(.white).bold()
-                            .font(Font.custom("FS Sinclair", size: mediumFont))
-                            .padding(.top, 3)
-                        
-                    }.frame(maxWidth: .infinity)
-                    
-                    
-                }
-                
-                .background {
-                    Color.black
-                }
-                .padding(.horizontal)
-                .border(Color.white)
-                .padding(4)
-                .border(Color.gray)
-                
-            }
                 
                 
             }.onTapGesture {
                 // show chart if tapped anywhere
-                showChartToggler()
+               // showChartToggler()
+                // nav to planet info view if tapped anywhere
+                if let planet = planet {
+                    navPather.navigationPath.append(planet)
+                } else {
+                    showChartToggler()
+                }
+                
             }
             
             
@@ -262,7 +108,7 @@ let raceIconSize: CGFloat = 25
                     Color.black
                 }
             }
-            .border(.yellow, width: isWidget ? 0 : 2)
+            .border(bugOrAutomaton == .terminid ? .yellow : .red, width: isWidget ? 0 : 2)
         
         
             .onAppear {
@@ -270,17 +116,38 @@ let raceIconSize: CGFloat = 25
             }
     }
     
+    var planetNameAndIcon: some View {
+        return Group {
+        Image(bugOrAutomaton.rawValue).resizable().aspectRatio(contentMode: .fit)
+            .frame(width: raceIconSize, height: raceIconSize)
+        HStack(spacing: 2){
+            Text(planetName).textCase(.uppercase).foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red)
+                .font(Font.custom("FS Sinclair", size: largeFont))
+                .padding(.top, 3)
+            if !isWidget {
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(.gray)
+                    .opacity(0.7)
+                    .bold()
+                    .font(.footnote)
+            }
+        }
+        
+    }
+    }
+    
     var headerWithImage: some View {
         VStack(spacing: 0) {
             HStack(alignment: .center) {
-                Image(bugOrAutomaton.rawValue).resizable().aspectRatio(contentMode: .fit)
-                    .frame(width: raceIconSize, height: raceIconSize)
-                Text(planetName).textCase(.uppercase).foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red)
-                    .font(Font.custom("FS Sinclair", size: largeFont))
-                    .padding(.top, 3)
+                if isWidget {
+                    planetNameAndIcon
+                } else {
+                    NavigationLink(value: planet) {
+                       planetNameAndIcon
+                    }
+                }
                 
                 Spacer()
-                
                 
                 if !showExtraStats {
                     HStack(spacing: spacingSize) {
@@ -321,7 +188,7 @@ let raceIconSize: CGFloat = 25
                 .tint(.white)
                 
                 .padding(4)
-                .border(.yellow)
+                .border(bugOrAutomaton == .terminid ? .yellow : .red)
 #endif
                 
                 
@@ -333,13 +200,50 @@ let raceIconSize: CGFloat = 25
             
             if showImage {
                 if !showChart {
-                    Image(formattedPlanetImageName).resizable().aspectRatio(contentMode: .fit)
+                    imageWithEnvironmentalInfo
+                    
                 }
             }
             
         }.border(Color.white)
             .padding(4)
             .border(Color.gray)
+    }
+    
+    var imageWithEnvironmentalInfo: some View {
+        ZStack(alignment: .bottom) {
+            Image(formattedPlanetImageName).resizable().aspectRatio(contentMode: .fit)
+            
+                .onAppear {
+                    print("weathers are: \(planet?.planet.environmentals)")
+                }
+            
+            // show weather icons
+            if let weathers = planet?.planet.environmentals {
+                VStack {
+                    if !isWidget {
+                        Spacer()
+                    }
+                HStack(spacing: 10) {
+                    ForEach(weathers, id: \.name) { weather in
+                        
+                        Image(weather.name).resizable().aspectRatio(contentMode: .fit)
+                        
+                            .frame(width: weatherIconSize, height: weatherIconSize)
+                            .padding(4)
+                            .background{
+                                Circle().foregroundStyle(Color.white)
+                                    .shadow(radius: 3.0)
+                            }
+                    }
+                }.opacity(0.7)
+                    
+                }.padding(.bottom, 8)
+                
+                
+            }
+            
+        }
     }
     
 }
@@ -430,12 +334,26 @@ struct HistoryChart: View {
     @EnvironmentObject var viewModel: PlanetsViewModel
     var liberationType: LiberationType
     var planetData: [PlanetDataPoint]
-    @Binding var chartSelection: Date?
-    var chartHeight: CGFloat = 200
-    var chartSectionHeight: CGFloat = 300
-    @Binding var chartType: ChartType
-    var chartTypes: [ChartType] = []
+    @State private var chartSelection: Date? = nil
+    @State var chartType: ChartType = .players
     var bugOrAutomaton: EnemyType
+    
+    #if os(watchOS)
+    let chartHeight: CGFloat = 160
+    let chartSectionHeight: CGFloat = 210
+    #else
+    let chartHeight: CGFloat = 240
+    let chartSectionHeight: CGFloat = 300
+    #endif
+    
+    var chartTypes: [ChartType] {
+        switch liberationType {
+        case .liberation:
+            return [.liberation, .players]
+        case .defense:
+            return [.defense, .players]
+        }
+    }
 
     var body: some View {
         VStack {
@@ -524,3 +442,4 @@ struct HistoryChart: View {
     }
     
 }
+

@@ -15,6 +15,27 @@
 		7C0C995D2BA2BAFD00CF7C91 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C0C995F2BA2C7BC00CF7C91 /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */; };
 		7C0C99612BA2FA0600CF7C91 /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
+		7C0DF6192BB922230062AB9B /* PlanetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */; };
+		7C0DF61A2BB924EC0062AB9B /* PlanetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */; };
+		7C0DF61D2BB9269F0062AB9B /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 7C0DF61C2BB9269F0062AB9B /* SwiftUIIntrospect */; };
+		7C0DF61F2BB9319C0062AB9B /* NavigationPather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF61E2BB9319C0062AB9B /* NavigationPather.swift */; };
+		7C0DF6202BB9319C0062AB9B /* NavigationPather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF61E2BB9319C0062AB9B /* NavigationPather.swift */; };
+		7C0DF6222BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6212BB934E90062AB9B /* PlanetImageFormatter.swift */; };
+		7C0DF6232BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6212BB934E90062AB9B /* PlanetImageFormatter.swift */; };
+		7C0DF6242BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6212BB934E90062AB9B /* PlanetImageFormatter.swift */; };
+		7C0DF6252BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6212BB934E90062AB9B /* PlanetImageFormatter.swift */; };
+		7C0DF6262BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6212BB934E90062AB9B /* PlanetImageFormatter.swift */; };
+		7C0DF6272BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6212BB934E90062AB9B /* PlanetImageFormatter.swift */; };
+		7C0DF6282BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6212BB934E90062AB9B /* PlanetImageFormatter.swift */; };
+		7C0DF6292BB96D450062AB9B /* NavigationPather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF61E2BB9319C0062AB9B /* NavigationPather.swift */; };
+		7C0DF62A2BB96D460062AB9B /* NavigationPather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF61E2BB9319C0062AB9B /* NavigationPather.swift */; };
+		7C0DF62B2BB96D530062AB9B /* NavigationPather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF61E2BB9319C0062AB9B /* NavigationPather.swift */; };
+		7C0DF62C2BB96D540062AB9B /* NavigationPather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF61E2BB9319C0062AB9B /* NavigationPather.swift */; };
+		7C0DF62D2BB96D550062AB9B /* NavigationPather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF61E2BB9319C0062AB9B /* NavigationPather.swift */; };
+		7C0DF62F2BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF62E2BB970E10062AB9B /* CampaignPlanetStatsView.swift */; };
+		7C0DF6302BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF62E2BB970E10062AB9B /* CampaignPlanetStatsView.swift */; };
+		7C0DF6312BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF62E2BB970E10062AB9B /* CampaignPlanetStatsView.swift */; };
+		7C0DF6322BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF62E2BB970E10062AB9B /* CampaignPlanetStatsView.swift */; };
 		7C1B8C112BAD705600944823 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
 		7C1B8C122BAD705600944823 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
 		7C1B8C152BAD705600944823 /* Helldivers_Companion_News_WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1B8C142BAD705600944823 /* Helldivers_Companion_News_WidgetBundle.swift */; };
@@ -268,6 +289,10 @@
 		7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetsViewModel.swift; sourceTree = "<group>"; };
 		7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetView.swift; sourceTree = "<group>"; };
 		7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleProgressBar.swift; sourceTree = "<group>"; };
+		7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetInfoView.swift; sourceTree = "<group>"; };
+		7C0DF61E2BB9319C0062AB9B /* NavigationPather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationPather.swift; sourceTree = "<group>"; };
+		7C0DF6212BB934E90062AB9B /* PlanetImageFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetImageFormatter.swift; sourceTree = "<group>"; };
+		7C0DF62E2BB970E10062AB9B /* CampaignPlanetStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignPlanetStatsView.swift; sourceTree = "<group>"; };
 		7C1B8C102BAD705600944823 /* Helldivers Companion News WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion News WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C1B8C142BAD705600944823 /* Helldivers_Companion_News_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_News_WidgetBundle.swift; sourceTree = "<group>"; };
 		7C1B8C162BAD705600944823 /* Helldivers_Companion_News_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_News_Widget.swift; sourceTree = "<group>"; };
@@ -340,6 +365,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C0DF61D2BB9269F0062AB9B /* SwiftUIIntrospect in Frameworks */,
 				7C1B8C232BAD714300944823 /* Algorithms in Frameworks */,
 				7CE4AE372BA82C6A0033D4AF /* FirebaseMessaging in Frameworks */,
 				7CE4AE332BA82C6A0033D4AF /* FirebaseFirestore in Frameworks */,
@@ -480,6 +506,8 @@
 				7C3A9EC82BA9724E00F26307 /* NewsFeedModel.swift */,
 				7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */,
 				7CE97D482BB55BDB008329BA /* StoreManager.swift */,
+				7C0DF61E2BB9319C0062AB9B /* NavigationPather.swift */,
+				7C0DF6212BB934E90062AB9B /* PlanetImageFormatter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -632,6 +660,8 @@
 				7C4589BB2BA54ED50019B00E /* AboutView.swift */,
 				7C45D4722BABF47C0013A632 /* AlertView.swift */,
 				7CE97D3C2BB53D2E008329BA /* TipJarView.swift */,
+				7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */,
+				7C0DF62E2BB970E10062AB9B /* CampaignPlanetStatsView.swift */,
 			);
 			path = "Home Views";
 			sourceTree = "<group>";
@@ -681,6 +711,7 @@
 				7CE4AE362BA82C6A0033D4AF /* FirebaseMessaging */,
 				7C1B8C222BAD714300944823 /* Algorithms */,
 				7CE97D372BB51D5D008329BA /* MijickPopupView */,
+				7C0DF61C2BB9269F0062AB9B /* SwiftUIIntrospect */,
 			);
 			productName = "Helldivers Companion";
 			productReference = 7C0C99482BA2BA8F00CF7C91 /* Helldivers Companion.app */;
@@ -852,6 +883,7 @@
 				7C50CEEA2BA82AF3009094AE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				7C1B8C212BAD714300944823 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				7CE97D362BB51D5D008329BA /* XCRemoteSwiftPackageReference "PopupView" */,
+				7C0DF61B2BB9269F0062AB9B /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 7C0C99492BA2BA8F00CF7C91 /* Products */;
 			projectDirPath = "";
@@ -986,6 +1018,7 @@
 				7C0C99612BA2FA0600CF7C91 /* RectangleProgressBar.swift in Sources */,
 				7C4589C02BA5551F0019B00E /* GameView.swift in Sources */,
 				7C3A9EC62BA944BE00F26307 /* NewsView.swift in Sources */,
+				7C0DF6222BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7C4589C72BA5849F0019B00E /* GameCenterManager.swift in Sources */,
 				7CE4AE3D2BA832C40033D4AF /* NotificationManager.swift in Sources */,
 				7C4589C42BA574B20019B00E /* ShakeModifier.swift in Sources */,
@@ -1000,10 +1033,13 @@
 				7C45D4612BABEE3D0013A632 /* RewardView.swift in Sources */,
 				7C3A9EC92BA9724E00F26307 /* NewsFeedModel.swift in Sources */,
 				7C45D46C2BABEE980013A632 /* WatchOrdersView.swift in Sources */,
+				7C0DF6192BB922230062AB9B /* PlanetInfoView.swift in Sources */,
 				7C5D5F592BAFD74900B644B9 /* WatchConnectivityProvider.swift in Sources */,
 				7CE97D492BB55BDB008329BA /* StoreManager.swift in Sources */,
+				7C0DF62F2BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */,
 				7CE97D4D2BB564F6008329BA /* CloseButton.swift in Sources */,
 				7C0C994C2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift in Sources */,
+				7C0DF61F2BB9319C0062AB9B /* NavigationPather.swift in Sources */,
 				7C0C995F2BA2C7BC00CF7C91 /* PlanetView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1014,8 +1050,10 @@
 			files = (
 				7C1B8C2F2BAD718500944823 /* NewsFeedModel.swift in Sources */,
 				7C1B8C152BAD705600944823 /* Helldivers_Companion_News_WidgetBundle.swift in Sources */,
+				7C0DF6262BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7C1B8C3B2BAD790500944823 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C1B8C172BAD705600944823 /* Helldivers_Companion_News_Widget.swift in Sources */,
+				7C0DF62B2BB96D530062AB9B /* NavigationPather.swift in Sources */,
 				7C1B8C312BAD767400944823 /* PlanetStructs.swift in Sources */,
 				7C1B8C2E2BAD718200944823 /* NewsItemView.swift in Sources */,
 			);
@@ -1027,10 +1065,13 @@
 			files = (
 				7C8C5F282BAE80D300C4FBD2 /* PlanetView.swift in Sources */,
 				7C45D4682BABEE770013A632 /* AngledLinesShape.swift in Sources */,
+				7C0DF6252BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7C3DE9892BA80B9600C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7C45D4762BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C45D4712BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
+				7C0DF6322BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */,
 				7C45D46B2BABEE7D0013A632 /* RewardView.swift in Sources */,
+				7C0DF62A2BB96D460062AB9B /* NavigationPather.swift in Sources */,
 				7C3DE98A2BA80C1900C95B84 /* PlanetsViewModel.swift in Sources */,
 				7C8C5F2A2BAE811C00C4FBD2 /* RectangleProgressBar.swift in Sources */,
 				7C45D45A2BABEB350013A632 /* GlobalFunctions+Extensions.swift in Sources */,
@@ -1045,8 +1086,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C0DF6202BB9319C0062AB9B /* NavigationPather.swift in Sources */,
 				7C45D46F2BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
 				7C5D5F5A2BAFD83F00B644B9 /* WatchConnectivityProvider.swift in Sources */,
+				7C0DF61A2BB924EC0062AB9B /* PlanetInfoView.swift in Sources */,
 				7C587F5C2BA6DD1700C66643 /* AboutView.swift in Sources */,
 				7CE97D4B2BB55F5D008329BA /* TipJarView.swift in Sources */,
 				7C1B8C602BAD85B200944823 /* GameViewWatch.swift in Sources */,
@@ -1061,10 +1104,12 @@
 				7C587F562BA6DBFD00C66643 /* PlanetsViewModel.swift in Sources */,
 				7C587F5E2BA6DD2500C66643 /* RectangleProgressBar.swift in Sources */,
 				7C319F952BAAEF7F0075A1E4 /* NewsItemView.swift in Sources */,
+				7C0DF6232BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7C587F572BA6DC2400C66643 /* ContentView.swift in Sources */,
 				7C1B8C332BAD77A100944823 /* StratagemHeroModel.swift in Sources */,
 				7C587F5A2BA6DCFC00C66643 /* OrderView.swift in Sources */,
 				7C8C5F272BADD17000C4FBD2 /* ShakeModifier.swift in Sources */,
+				7C0DF6302BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */,
 				7C587F5B2BA6DD0800C66643 /* PlanetView.swift in Sources */,
 				7C45D4692BABEE7C0013A632 /* RewardView.swift in Sources */,
 				7CE97D4A2BB55BDB008329BA /* StoreManager.swift in Sources */,
@@ -1087,6 +1132,8 @@
 				7C8C5F432BAEF97600C4FBD2 /* MajorOrderTimeView.swift in Sources */,
 				7C8C5F412BAEF96C00C4FBD2 /* PlanetStructs.swift in Sources */,
 				7C8C5F422BAEF97200C4FBD2 /* RewardView.swift in Sources */,
+				7C0DF6272BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
+				7C0DF62D2BB96D550062AB9B /* NavigationPather.swift in Sources */,
 				7C8C5F362BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1103,6 +1150,8 @@
 				7C8C5F5E2BAF0B5E00C4FBD2 /* PlanetStructs.swift in Sources */,
 				7C8C5F622BAF0C1900C4FBD2 /* OrderView.swift in Sources */,
 				7C8C5F5C2BAF0B1800C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */,
+				7C0DF6282BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
+				7C0DF62C2BB96D540062AB9B /* NavigationPather.swift in Sources */,
 				7C8C5F602BAF0C1000C4FBD2 /* MajorOrderTimeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1113,10 +1162,13 @@
 			files = (
 				7C45D4672BABEE770013A632 /* AngledLinesShape.swift in Sources */,
 				7CC0AE792BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
+				7C0DF6242BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7CC0AE882BA7F63100802D9F /* RectangleProgressBar.swift in Sources */,
 				7C45D46A2BABEE7D0013A632 /* RewardView.swift in Sources */,
 				7C45D45C2BABEB370013A632 /* GlobalFunctions+Extensions.swift in Sources */,
+				7C0DF6312BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */,
 				7C45D4752BABF47C0013A632 /* AlertView.swift in Sources */,
+				7C0DF6292BB96D450062AB9B /* NavigationPather.swift in Sources */,
 				7CC0AE842BA7F37D00802D9F /* PlanetsViewModel.swift in Sources */,
 				7C45D47A2BAC142C0013A632 /* Tab.swift in Sources */,
 				7CC0AE852BA7F38500802D9F /* PlanetStructs.swift in Sources */,
@@ -1792,6 +1844,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7C0DF61B2BB9269F0062AB9B /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.3;
+			};
+		};
 		7C1B8C212BAD714300944823 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-algorithms.git";
@@ -1819,6 +1879,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7C0DF61C2BB9269F0062AB9B /* SwiftUIIntrospect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C0DF61B2BB9269F0062AB9B /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = SwiftUIIntrospect;
+		};
 		7C1B8C222BAD714300944823 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7C1B8C212BAD714300944823 /* XCRemoteSwiftPackageReference "swift-algorithms" */;

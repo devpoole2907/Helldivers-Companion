@@ -99,7 +99,7 @@ struct Helldivers_Companion_WidgetsEntryView : View {
             
             ZStack {
                 
-                Color(.yellow).opacity(0.6)
+                entry.bugOrAutomaton == .automaton ? Color(.red).opacity(0.6) : Color(.yellow).opacity(0.6)
                 
                 ContainerRelativeShape()
                     .inset(by: 4)

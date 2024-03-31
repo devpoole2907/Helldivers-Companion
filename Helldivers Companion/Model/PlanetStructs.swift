@@ -51,7 +51,7 @@ struct PlanetStatus: Decodable, Hashable {
     let health: Int
     var liberation: Double
     var owner: String
-    let planet: Planet
+    var planet: Planet
     let players: Int
     let regenPerSecond: Double
     var defensePercentage: Double?
@@ -85,8 +85,11 @@ struct Planet: Decodable {
     let maxHealth: Int
     let name: String
     let position: Position
-    let sector: String
+    var sector: String // this can be overriden from helldiverstrainingmanual api
     let waypoints: [Int]
+    var environmentals: [Environmental]? // data comes from helldiverstrainingmanual api
+    var biome: Biome? // data comes from helldiverstrainingmanual api
+    var stats: PlanetStats? // data comes from official api
 }
 
 
@@ -227,3 +230,80 @@ let mediumFont: CGFloat = 12
 let largeFont: CGFloat = 16
 #endif
 
+// for weather effects, data comes from helldiverstrainingmanual api
+struct Environmental: Decodable {
+    var name: String
+    var description: String
+}
+// for biomes, data comes from helldiverstrainingmanual api
+struct Biome: Decodable {
+    var slug: String?
+    var description: String?
+}
+// for planets containing the data above, this additional data comes from helldiverstrainingmanual api
+struct PlanetAdditionalInfo: Decodable {
+    var name: String
+    var sector: String
+    var biome: Biome?
+    var environmentals: [Environmental]
+}
+
+struct AdditionalPlanetsInfoResponse: Decodable {
+    var planets: [String: PlanetAdditionalInfo]
+}
+// for galaxy statistics reponse
+struct GalaxyStats: Decodable {
+    let missionsWon: Int64
+    let missionsLost: Int64
+    let missionTime: Int64
+    let bugKills: Int64
+    let automatonKills: Int64
+    let illuminateKills: Int64
+    let bulletsFired: Int64
+    let bulletsHit: Int64
+    let timePlayed: Int64
+    let deaths: Int64
+    let revives: Int64
+    let friendlies: Int64
+    let missionSuccessRate: Int64
+    let accuracy: Int
+    
+    // manual coding keys because accurracy is spelt wrong in the json response!
+    enum CodingKeys: String, CodingKey {
+            case missionsWon, missionsLost, missionTime, bugKills, automatonKills, illuminateKills,
+                 bulletsFired, bulletsHit, timePlayed, deaths, revives, friendlies, missionSuccessRate
+            case accuracy = "accurracy" // Mapping the struct property to the actual JSON key
+        }
+    
+}
+// for planet stats in the galaxy stats response
+struct PlanetStats: Decodable {
+    let planetIndex: Int64
+    let missionsWon: Int64
+    let missionsLost: Int64
+    let missionTime: Int64
+    let bugKills: Int64
+    let automatonKills: Int64
+    let illuminateKills: Int64
+    let bulletsFired: Int64
+    let bulletsHit: Int64
+    let timePlayed: Int64
+    let deaths: Int64
+    let revives: Int64
+    let friendlies: Int64
+    let missionSuccessRate: Int64
+    let accuracy: Int
+    
+    
+    // again, accuracy is spelt wrong in the json response
+    enum CodingKeys: String, CodingKey {
+            case planetIndex, missionsWon, missionsLost, missionTime, bugKills, automatonKills, illuminateKills,
+                 bulletsFired, bulletsHit, timePlayed, deaths, revives, friendlies, missionSuccessRate, accuracy = "accurracy"
+        }
+    
+}
+
+struct GalaxyStatsResponseData: Decodable {
+    let galaxyStats: GalaxyStats
+    let planetsStats: [PlanetStats]
+}

@@ -10,6 +10,7 @@ import SwiftUI
 struct AboutView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var purchaseManager: StoreManager
     
     let gitUrl = "https://github.com/devpoole2907/Helldivers-Companion"
     let supportUrl = "https://devpoole2907.github.io/helldivers-companion-support/"
@@ -18,8 +19,23 @@ struct AboutView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
+                
+                #if os(watchOS)
+                // on watchos the tip jar is part of the about view due to nav conroller issues if placing it as a tab
+                if !purchaseManager.products.isEmpty {
+                       TipJarView().environmentObject(purchaseManager)
+                   }
+                
+                
+                #endif
+                    
+                
+                
                 VStack(spacing: 20) {
                     Text("This application utilizes the unofficial Helldivers 2 API developed by dealloc, available at https://github.com/dealloc/helldivers2-api, to fetch and display the latest data from the ongoing galactic war in the Helldivers 2 universe.")
+                        .font(Font.custom("FS Sinclair", size: 18))
+                    
+                    Text("This application also utilizes the Helldivers Training Manual API developed by Mitchel Jager, available at https://helldiverstrainingmanual.com, to fetch and display additional information such as planetary environmental effects.")
                         .font(Font.custom("FS Sinclair", size: 18))
                     
                     Text("This application is not affiliated with, endorsed by, or in any way officially connected to Arrowhead Game Studios or Sony. All game content, including images and trademarks, are the property of their respective owners. The use of such content within this app falls under fair use for informational purposes and does not imply any association with the game developers or publishers.")
@@ -46,12 +62,7 @@ struct AboutView: View {
                     }).padding()
                 }
                 
-                if let discordUrl = URL(string: discordUrl) {
-                    Link(destination: discordUrl, label: {
-                        Image("discordLogo").resizable().aspectRatio(contentMode: .fit)
-                            .frame(width: 150, height: 150)
-                    }).padding()
-                }
+           
                 
                 #endif
                 
@@ -63,14 +74,23 @@ struct AboutView: View {
             
             .toolbar {
 #if os(iOS)
-                if #available(iOS 17.0, *) {
+              
                     
                     ToolbarItem(placement: .principal) {
                         Text("About").textCase(.uppercase)
                             .font(Font.custom("FS Sinclair", size: 24))
                     }
-                    
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    if let discordUrl = URL(string: discordUrl) {
+                        Link(destination: discordUrl, label: {
+                            Image("discordLogo").resizable().aspectRatio(contentMode: .fit)
+                                .frame(width: 100, height: 100)
+                        })
+                    }
                 }
+                    
+                
 #endif
 #if os(watchOS)
                 ToolbarItem(placement: .topBarLeading) {

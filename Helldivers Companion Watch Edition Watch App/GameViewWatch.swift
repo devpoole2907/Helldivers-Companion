@@ -207,6 +207,7 @@ struct GameViewWatch: View {
                 .navigationBarTitleDisplayMode(.inline)
                 
         }
+            .dynamicTypeSize(.small)
             .interactiveDismissDisabled()
             
             

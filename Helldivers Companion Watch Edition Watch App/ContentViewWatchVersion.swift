@@ -20,12 +20,9 @@ struct ContentViewWatchVersion: View {
         TabView(selection: $currentTab) {
             
             AboutView().environmentObject(viewModel)
+                .environmentObject(purchaseManager)
                 .tag(Tab.about)
             
-            if !purchaseManager.products.isEmpty {
-                TipJarView().environmentObject(purchaseManager)
-                    .tag(Tab.tipJar)
-            }
             GameViewWatch().environmentObject(purchaseManager)
                 .tag(Tab.game)
             
@@ -48,7 +45,9 @@ struct ContentViewWatchVersion: View {
         
         .fullScreenCover(isPresented: $purchaseManager.showTips) {
             NavigationStack {
-                TipJarView()
+                ScrollView {
+                    TipJarView()
+                }
             }
             
         }

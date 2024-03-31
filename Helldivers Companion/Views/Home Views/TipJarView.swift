@@ -26,7 +26,7 @@ struct TipJarView: View {
     var body: some View {
         
         
-        ScrollView {
+  
         LazyVStack(alignment: .leading) {
             
             VStack(alignment: .center, spacing: 20) {
@@ -57,12 +57,7 @@ struct TipJarView: View {
             
         }.padding()
         
-    }
-        #if os(iOS)
-        .background {
-            Image("helldivers2planet").resizable().aspectRatio(contentMode: .fill).offset(CGSize(width: 400, height: 0)).blur(radius: 20.0).ignoresSafeArea()
-        }
-        #endif
+   
         
     
         
