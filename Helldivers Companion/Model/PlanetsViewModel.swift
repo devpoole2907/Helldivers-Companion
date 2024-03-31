@@ -13,6 +13,10 @@ class PlanetsViewModel: ObservableObject {
     @Published var currentTab: Tab = .home
     
     @Published var allPlanetStatuses: [PlanetStatus] = []
+    
+    @Published var sortedSectors: [String] = []
+    @Published var groupedBySectorPlanetStatuses: [String: [PlanetStatus]] = [:] // to display in stats view all planets by sector
+    
     @Published var defensePlanets: [PlanetEvent] = []
     @Published var campaignPlanets: [PlanetStatus] = []
     @Published var currentSeason: String = ""
@@ -486,7 +490,7 @@ class PlanetsViewModel: ObservableObject {
             var updatedStatus = status
 
             // find planet details by matching name
-            if let planetDetail = planetDetails.values.first(where: { $0.name == status.planet.name }) {
+            if let planetDetail = planetDetails.values.first(where: { $0.name.lowercased() == status.planet.name.lowercased() }) {
                 print("current planet: \(updatedStatus.planet.name) and enviros are: \(planetDetail.environmentals)")
                 updatedStatus.planet.environmentals = planetDetail.environmentals
                 updatedStatus.planet.biome = planetDetail.biome
@@ -586,9 +590,20 @@ class PlanetsViewModel: ObservableObject {
                                                     }
                                                 }
                             
+                            // group planet statuses by sector
+                                       var groupedBySector = Dictionary(grouping: decodedResponse.planetStatus) { $0.planet.sector }
+
+                                       // sort alphabetically by sector
+                                        let sortedSectors = groupedBySector.keys.sorted()
+                            
+                            
                             DispatchQueue.main.async {
                                 
                                 self?.defensePlanets = decodedResponse.planetEvents
+                                
+                                
+                                self?.groupedBySectorPlanetStatuses = groupedBySector
+                                self?.sortedSectors = sortedSectors
                                 self?.allPlanetStatuses = decodedResponse.planetStatus
                                 withAnimation(.bouncy) {
                                     self?.campaignPlanets = sortedCampaignPlanets

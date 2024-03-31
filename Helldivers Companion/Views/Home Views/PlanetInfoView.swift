@@ -33,6 +33,83 @@ struct PlanetInfoView: View {
         PlanetImageFormatter.formattedPlanetImageName(for: planetStatus?.planet.name ?? "")
         
     }
+    // to determine if it is currently defending
+    private var defenseEvent: PlanetEvent? {
+        viewModel.defensePlanets.first(where: { $0.planet.name == planetStatus?.planet.name })
+    }
+    
+    // to determine if it is currently in a campaign
+    private var campaign: PlanetStatus? {
+        viewModel.campaignPlanets.first(where: { $0.planet.name == planetStatus?.planet.name })
+    }
+    
+    #if os(watchOS)
+    
+    let dividerWidth: CGFloat = 100
+    let smallerDividerWidth: CGFloat = 80
+    let horizPadding: CGFloat = 5
+    
+    #else
+    
+    let dividerWidth: CGFloat = 300
+    let smallerDividerWidth: CGFloat = 200
+    let horizPadding: CGFloat = 20
+    
+    #endif
+    
+    private var faction: Faction {
+       /*
+        if defenseEvent != nil {
+            planetStatus?.owner
+        }
+        
+        // just return the current owner, its either being attacked or not active currently
+        else if campaign != nil {
+            
+        } else {
+            // just return the current owner, its not defending or attacking
+        }
+        */
+        
+        // TODO: STOP OVERWRITING OWNER FOR DEFENSE PLANETS, STORE/DISPLAY IT ANOTHER WAY
+        
+        // for now we just return the type of faction based on owner, this will be slightly incorrect! unless we dont mind just displaying the enemy faction when its defending anywa here
+        
+        switch planetStatus?.owner {
+            
+        case "Terminids":
+            return .terminid
+        case "Illuminates":
+            return .illuminate
+        case "Automaton":
+            return .automaton
+        case "Humans":
+            return .human
+        default:
+            return .terminid
+        }
+        
+        
+        
+        
+        
+    }
+    
+    var factionColor: Color {
+        switch planetStatus?.owner {
+            
+        case "Terminids":
+            return .yellow
+        case "Illuminates":
+            return .blue
+        case "Automaton":
+            return .red
+        case "Humans":
+            return .cyan
+        default:
+            return .yellow
+        }
+    }
     
     
     
@@ -49,7 +126,7 @@ struct PlanetInfoView: View {
                     
                 }
                 
-                if let _ = planetStatus?.planet.environmentals {
+                if let environmentals = planetStatus?.planet.environmentals, !environmentals.isEmpty {
                     environmentsList
                     
                 }
@@ -66,7 +143,7 @@ struct PlanetInfoView: View {
                     
                     if let liberation = planetStatus?.liberation, let planetName = planetStatus?.planet.name, let players = planetStatus?.players {
                         
-                        if let defenseEvent = viewModel.defensePlanets.first(where: { $0.planet.name == planetName }) {
+                        if let defenseEvent = defenseEvent {
                             
                             // must be a defending event, use defense percent
                             
@@ -89,7 +166,7 @@ struct PlanetInfoView: View {
                 
                 
                 
-            }  .padding(.horizontal, 20)
+            }  .padding(.horizontal, horizPadding)
             Text("Data provided from Helldivers Training Manual API")
                 .multilineTextAlignment(.center)
                 .textCase(.uppercase)
@@ -110,7 +187,11 @@ struct PlanetInfoView: View {
         }
         
         .overlay(
-            FactionImageView(bugOrAutomaton: bugOrAutomaton)
+            
+            
+            
+            FactionImageView(faction: faction)
+
                 .padding(.trailing, 20)
                 .offset(x: 0, y: -45)
             , alignment: .topTrailing)
@@ -128,12 +209,12 @@ struct PlanetInfoView: View {
     
     var statsList: some View {
         
-        VStack {
+        VStack(alignment: .leading) {
             if let missionsWon = planetStatus?.planet.stats?.missionsWon {
                 HStack {
                     Text("Missions won").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
-                    Text("\(missionsWon)").font(Font.custom("FS Sinclair", size: smallFont))
+                    Text("\(missionsWon)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
@@ -142,6 +223,7 @@ struct PlanetInfoView: View {
                     Text("Missions lost").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
                     Text("\(missionsLost)").font(Font.custom("FS Sinclair", size: smallFont))
+                        .multilineTextAlignment(.trailing)
                 }
             }
             
@@ -149,17 +231,18 @@ struct PlanetInfoView: View {
                 HStack {
                     Text("Success rate").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
-                    Text("\(successRate)%").font(Font.custom("FS Sinclair", size: smallFont))
+                    Text("\(successRate)%").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
-            Divider()
+            RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)
+                .padding(.bottom, 4)
             
             if let terminidKills = planetStatus?.planet.stats?.bugKills {
                 HStack {
                     Text("Terminids Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
-                    Text("\(terminidKills)").font(Font.custom("FS Sinclair", size: smallFont))
+                    Text("\(terminidKills)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
@@ -167,7 +250,7 @@ struct PlanetInfoView: View {
                 HStack {
                     Text("Automatons Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
-                    Text("\(automatonKills)").font(Font.custom("FS Sinclair", size: smallFont))
+                    Text("\(automatonKills)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
@@ -175,19 +258,19 @@ struct PlanetInfoView: View {
                 HStack {
                     Text("Illuminates Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
-                    Text("\(illuminateKills)").font(Font.custom("FS Sinclair", size: smallFont))
+                    Text("\(illuminateKills)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
           
             
-            Divider()
+            RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)         .padding(.bottom, 4)
             
             if let bulletsFied = planetStatus?.planet.stats?.bulletsFired {
                 HStack {
                     Text("Bullets Fired").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
-                    Text("\(bulletsFied)").font(Font.custom("FS Sinclair", size: smallFont))
+                    Text("\(bulletsFied)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
@@ -195,7 +278,7 @@ struct PlanetInfoView: View {
                 HStack {
                     Text("Bullets Hit").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
-                    Text("\(bulletsHit)").font(Font.custom("FS Sinclair", size: smallFont))
+                    Text("\(bulletsHit)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
@@ -203,17 +286,17 @@ struct PlanetInfoView: View {
                 HStack {
                     Text("Accuracy").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
-                    Text("\(accuracy)%").font(Font.custom("FS Sinclair", size: smallFont))
+                    Text("\(accuracy)%").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
-            Divider()
+            RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)         .padding(.bottom, 4)
             
             if let helldiversLost = planetStatus?.planet.stats?.deaths {
                 HStack {
                     Text("Helldivers Lost").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
-                    Text("\(helldiversLost)").font(Font.custom("FS Sinclair", size: smallFont))
+                    Text("\(helldiversLost)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
@@ -221,7 +304,7 @@ struct PlanetInfoView: View {
                 HStack {
                     Text("Friendly Kills").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
-                    Text("\(friendlyKills)").font(Font.custom("FS Sinclair", size: smallFont))
+                    Text("\(friendlyKills)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
@@ -241,7 +324,7 @@ struct PlanetInfoView: View {
             
             if let sector = planetStatus?.planet.sector {
                 HStack(spacing: 6) {
-                    Text(sector).foregroundColor(bugOrAutomaton == .terminid ? .yellow : .red)
+                    Text(sector).foregroundStyle(factionColor)
                     Text("Sector")
                     
                     
@@ -261,7 +344,7 @@ struct PlanetInfoView: View {
             .border(Color.gray)
         
             .padding(4)
-            .border(bugOrAutomaton == .terminid ? .yellow : .red, width: 2) .padding([.bottom, .horizontal])
+            .border(factionColor, width: 2) .padding([.bottom, .horizontal])
     }
     
     var biomeDescription: some View {
@@ -269,8 +352,7 @@ struct PlanetInfoView: View {
             
             Text(planetStatus?.planet.biome?.slug ?? "").textCase(.uppercase).font(Font.custom("FS Sinclair", size: largeFont))
             
-            Divider()
-                .frame(width: 200)
+            RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
             
             if let biomeDescript = planetStatus?.planet.biome?.description {
                 Text(biomeDescript)
@@ -287,8 +369,7 @@ struct PlanetInfoView: View {
             
             Text("Environment").textCase(.uppercase).font(Font.custom("FS Sinclair", size: largeFont))
             
-            Divider()
-                .frame(width: 200)
+            RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
             
             if let weathers = planetStatus?.planet.environmentals {
                 ForEach(weathers, id: \.name) { weather in
@@ -336,14 +417,13 @@ struct PlanetInfoView: View {
 }
 
 struct FactionImageView: View {
-    
-    var bugOrAutomaton: EnemyType = .terminid
-    
-    
+    // not using enemy type enum, because this planet may be viewed from the stats view - if its not currently in a campaign then it may be human owned, in that case the owner will be passed
+    var faction: Faction = .terminid
+
     var body: some View {
         
         
-        Image(bugOrAutomaton.rawValue)
+        Image(faction.rawValue)
             .resizable()
             .scaledToFit()
             .frame(width: 30, height: 30)

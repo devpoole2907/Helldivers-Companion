@@ -13,6 +13,10 @@ struct ContentViewWatchVersion: View {
     
     @StateObject var purchaseManager = StoreManager()
     
+    @StateObject var contentNavPather = NavigationPather()
+    
+    @StateObject var statsNavPather = NavigationPather()
+    
     @State private var currentTab: Tab = .home
     
     var body: some View {
@@ -26,11 +30,14 @@ struct ContentViewWatchVersion: View {
             GameViewWatch().environmentObject(purchaseManager)
                 .tag(Tab.game)
             
-            ContentView().environmentObject(viewModel)
+            ContentView().environmentObject(viewModel).environmentObject(contentNavPather)
                 .tag(Tab.home)
             
             WatchOrdersView().environmentObject(viewModel)
                 .tag(Tab.orders)
+            
+            WatchGalaxyStatsView().environmentObject(viewModel).environmentObject(purchaseManager).environmentObject(statsNavPather)
+                .tag(Tab.stats)
             
             NewsView()
                 .tag(Tab.news)

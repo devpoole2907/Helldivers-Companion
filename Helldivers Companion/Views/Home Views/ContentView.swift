@@ -63,7 +63,10 @@ struct ContentView: View {
                     }
 
                     
-                }.scrollTargetLayout()
+                }
+                #if os(iOS)
+                .scrollTargetLayout()
+                #endif
                 
                 Text("Pull to Refresh").textCase(.uppercase)
                     .opacity(0.5)
@@ -74,8 +77,10 @@ struct ContentView: View {
                 
                 Spacer(minLength: 150)
                 
-            } .scrollPosition(id: $navPather.scrollPosition)
-            
+            } 
+#if os(iOS)
+            .scrollPosition(id: $navPather.scrollPosition)
+            #endif
             
             .scrollContentBackground(.hidden)
             

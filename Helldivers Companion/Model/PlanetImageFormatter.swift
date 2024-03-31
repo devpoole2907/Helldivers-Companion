@@ -23,7 +23,7 @@ class PlanetImageFormatter {
         return "Mantes"
     case "Malevelon Creek", "Peacock", "Brink-2", "Gemma", "Siemnot", "Veld", "Seasse", "Chort Bay", "Nabatea Secundus", "Atrama", "Alairt III", "Prosperity Falls", "New Haven":
         return "Malevelon Creek"
-    case "Fenrir III", "Zosma", "Euphoria III", "RD-4", "Sirius":
+    case "Fenrir III", "Zosma", "Euphoria III", "Rd-4", "Sirius":
         return "Fenrir III"
     case "Estanu", "Krakatwo", "Martyr's Bay", "Deneb Secundus", "Krakabos", "Igla", "Inari", "Lesath", "Halies Port", "Barabos", "Eukoria", "Stor Tha Prime", "Grafmere", "Oslo Station", "Choepessa IV", "Acrux IX", "Mekbuda":
         return "Estanu"
@@ -35,10 +35,12 @@ class PlanetImageFormatter {
         return "Fori Prime"
     case "Draupnir", "Varylia 5", "The Weir", "Reaf", "Iro", "Termadon", "Fort Union", "Oshaune", "Fenmire", "Gemstone Bluffs", "Volterra", "Acamar IV", "Skitter", "Bellatrix", "Mintoria", "Afoyay Bay", "Pherkad Secundus", "Obari", "Achernar Secundus", "Electra Bay", "Matar Bay", "Pathfinder V":
         return "Draupnir"
+        case "Ustotu", "Pilen V", "Mortax Prime", "Erata Prime", "Cerberus IIIc", "Erson Sands", "Polaris Prime", "Zea Rugosia", "Myradesh", "Choohe", "Hydrobius", "Azur Secundus", "Canopus":
+        return "Ustotu"
     case "Tien Kwan":
         return "Tien Kwan"
     default:
-        return "Ustotu"
+        return "MissingPlanetImage"
     }
     
 }

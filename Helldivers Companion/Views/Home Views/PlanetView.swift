@@ -39,12 +39,10 @@ struct PlanetView: View {
 #if os(iOS)
 let raceIconSize: CGFloat = 25
     let spacingSize: CGFloat = 10
-    let weatherIconSize: CGFloat = 28
 
 #elseif os(watchOS)
     let raceIconSize: CGFloat = 20
     let spacingSize: CGFloat = 4
-    let weatherIconSize: CGFloat = 14
 #endif
 
         private var planetData: [PlanetDataPoint] {
@@ -139,6 +137,8 @@ let raceIconSize: CGFloat = 25
     var headerWithImage: some View {
         VStack(spacing: 0) {
             HStack(alignment: .center) {
+                
+                #if os(iOS)
                 if isWidget {
                     planetNameAndIcon
                 } else {
@@ -146,6 +146,18 @@ let raceIconSize: CGFloat = 25
                        planetNameAndIcon
                     }
                 }
+                #else
+                
+                Button(action: {
+                    if let planet = planet {
+                        navPather.navigationPath.append(planet)
+                    }
+                
+                }){
+                    planetNameAndIcon
+                }.buttonStyle(PlainButtonStyle())
+                
+                #endif
                 
                 Spacer()
                 

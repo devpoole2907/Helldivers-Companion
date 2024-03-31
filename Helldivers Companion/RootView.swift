@@ -44,9 +44,7 @@ struct RootView: View {
                         await notificationManager.request()
                     }
                 
-                GameView().environmentObject(purchaseManager)
-                    .tag(Tab.game)
-                    .toolbarBackground(.hidden, for: .tabBar)
+              
                 
                 GalaxyStatsView().environmentObject(viewModel).environmentObject(purchaseManager).environmentObject(statsNavPather)
                     .tag(Tab.stats)
@@ -55,6 +53,12 @@ struct RootView: View {
                 NewsView().environmentObject(purchaseManager)
                     .tag(Tab.news)
                     .toolbarBackground(.hidden, for: .tabBar)
+                
+                GameView().environmentObject(purchaseManager)
+                    .tag(Tab.game)
+                    .toolbarBackground(.hidden, for: .tabBar)
+                
+              
                 
               
                 
@@ -234,9 +238,33 @@ struct RootView: View {
                     
                     
                 })
-                TabButton(tab: .game, action: {viewModel.currentTab = .game})
-                TabButton(tab: .stats, action: {viewModel.currentTab = .stats})
+          
+                TabButton(tab: .stats, action: {
+                    
+                    // remove all items on nav stack, pop to root if button pressed already in this tab
+                    if viewModel.currentTab == .stats {
+                        
+                        // if scroll position is greater than 0, and the nav path is empty (we're not in a subview) scroll to top
+                        if let scrollPos = statsNavPather.scrollPosition, scrollPos > 0, statsNavPather.navigationPath.isEmpty {
+                            withAnimation(.bouncy) {
+                                statsNavPather.scrollPosition = 0
+                            }
+                        } else {
+                            
+                            // otherwise pop to root
+                            
+                            statsNavPather.popToRoot()
+                            
+                        }
+                    } else {
+                        // otherwise change tab to stats, we must have been in another tab
+                        viewModel.currentTab = .stats
+                    }
+                    
+                    
+                })
                 TabButton(tab: .news, action: {viewModel.currentTab = .news})
+                TabButton(tab: .game, action: {viewModel.currentTab = .game})
               
             }
             .padding(.top, (UIScreen.main.bounds.height) == 667 || (UIScreen.main.bounds.height) == 736 ? 10 : 15)
