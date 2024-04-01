@@ -360,8 +360,8 @@ class PlanetsViewModel: ObservableObject {
             
             // fetch planet data
             
-            // only update if the current tab is home, bit of a duct tape fix for now but should stop fetching while playing stratagem hero etc
-            if self?.currentTab == .home {
+            // only update if the current tab is not the game, bit of a duct tape fix for now but should stop fetching while playing stratagem hero etc
+            if self?.currentTab != .game {
                 
                 
                 self?.fetchConfig { _ in
