@@ -60,7 +60,7 @@ class SoundPoolManager {
     func preloadSound(soundName: String, withExtension ext: String = "mp3", isBackgroundMusic: Bool = false) {
         guard let url = Bundle.main.url(forResource: soundName, withExtension: ext) else { return }
         
-        if isBackgroundMusic {
+        if isBackgroundMusic, backgroundAudioPlayer == nil {
             
             do {
                             let player = try AVAudioPlayer(contentsOf: url)
@@ -74,17 +74,21 @@ class SoundPoolManager {
         }
         
         else {
-        var players = [AVAudioPlayer]()
-        for _ in 0..<maxPlayersPerSound {
-            do {
-                let player = try AVAudioPlayer(contentsOf: url)
-                player.prepareToPlay()
-                players.append(player)
-            } catch {
-                print("Could not load sound file: \(soundName)")
+        if soundPools[soundName] == nil { // only load if it hasnt been loaded before
+            var players = [AVAudioPlayer]()
+            for _ in 0..<maxPlayersPerSound {
+                do {
+                    let player = try AVAudioPlayer(contentsOf: url)
+                    player.prepareToPlay()
+                    players.append(player)
+                } catch {
+                    print("Could not load sound file: \(soundName)")
+                }
             }
+            soundPools[soundName] = players
+            
+            
         }
-        soundPools[soundName] = players
     }
     }
     
