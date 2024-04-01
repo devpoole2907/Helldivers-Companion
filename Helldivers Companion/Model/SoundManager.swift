@@ -29,19 +29,7 @@ class SoundPoolManager {
         // loaded on main thread, causes longer initial app load on the watch but worth it to "obscure" the loading of the sounds
         self.preloadSound(soundName: "Stratagem Hero Input Sound")
         
-        // preload all sounds for tvos on main thread
-        #if os(tvOS)
-        
-        self.preloadSound(soundName: "Stratagem Hero Round End Sound")
-        self.preloadSound(soundName: "Stratagem Hero Round Start Sound")
-        self.preloadSound(soundName: "Stratagem Hero Error Sound")
-        self.preloadSound(soundName: "Stratagem Hero Success Sound")
-        
-        DispatchQueue.main.async {
-                   completion()
-               }
-        
-        #endif
+      
         
         
 #if os(watchOS)
@@ -62,7 +50,19 @@ class SoundPoolManager {
         // these are loaded on background thread
         DispatchQueue.global(qos: .background).async {
             
-          
+            // preload all sounds for tvos
+            #if os(tvOS)
+            
+            self.preloadSound(soundName: "Stratagem Hero Round End Sound")
+            self.preloadSound(soundName: "Stratagem Hero Round Start Sound")
+            self.preloadSound(soundName: "Stratagem Hero Error Sound")
+            self.preloadSound(soundName: "Stratagem Hero Success Sound")
+            
+            DispatchQueue.main.async {
+                       completion()
+                   }
+            
+            #endif
             
 
           

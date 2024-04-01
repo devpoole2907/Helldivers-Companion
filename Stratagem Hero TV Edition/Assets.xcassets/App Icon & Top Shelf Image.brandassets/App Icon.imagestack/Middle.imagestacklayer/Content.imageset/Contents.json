@@ -1,12 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "WM tvos icon.png",
+      "filename" : "WM.jpg",
       "idiom" : "tv",
       "scale" : "1x"
     },
     {
-      "filename" : "WM tvos icon 1.png",
       "idiom" : "tv",
       "scale" : "2x"
     }
