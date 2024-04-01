@@ -35,8 +35,10 @@ class PlanetImageFormatter {
         return "Fori Prime"
     case "Draupnir", "Varylia 5", "The Weir", "Reaf", "Iro", "Termadon", "Fort Union", "Oshaune", "Fenmire", "Gemstone Bluffs", "Volterra", "Acamar IV", "Skitter", "Bellatrix", "Mintoria", "Afoyay Bay", "Pherkad Secundus", "Obari", "Achernar Secundus", "Electra Bay", "Matar Bay", "Pathfinder V":
         return "Draupnir"
-        case "Ustotu", "Pilen V", "Mortax Prime", "Erata Prime", "Cerberus IIIc", "Erson Sands", "Polaris Prime", "Zea Rugosia", "Myradesh", "Choohe", "Hydrobius", "Azur Secundus", "Canopus", "Durgen":
+        case "Ustotu", "Pilen V", "Mortax Prime", "Erata Prime", "Cerberus IIIc", "Erson Sands", "Polaris Prime", "Zea Rugosia", "Myradesh", "Choohe", "Hydrobius", "Azur Secundus", "Canopus":
         return "Ustotu"
+    case "Durgen", "Viridia Prime", "Moradesh", "Zzaniah Prime", "Heze Bay", "Ratch", "Phact Bay", "Caramoor", "Diaspora X", "Propus", "Mastia", "Zagon Prime", "Setia", "Outpost 32", "Osupsam", "Lastofe", "Klen Dahth II", "Keid":
+        return "Durgen"
     case "Tien Kwan":
         return "Tien Kwan"
     default:
