@@ -23,20 +23,16 @@ struct GalaxyStatsView: View {
             ScrollView {
                 LazyVStack(alignment: .leading) {
                     
-                 //   Text("Cheese")
-                 //       .id(0)
-                    
+              
+                    #if os(iOS)
                     Section {
-                        Text("Galaxy stats")
                         
-                        
-                        Text("lots of stats!")
-                        
-                        Text("many stats!")
-                        
-                        Image("MissingPlanetImage").resizable().aspectRatio(contentMode: .fit)
-                        
-                    }.padding()
+                        GalaxyInfoView(galaxyStats: viewModel.galaxyStats)
+                    }
+                  
+                        .id(0)
+                    #endif
+                    
                     
                     
                     // displays the planets grouped by sector
@@ -91,7 +87,7 @@ struct GalaxyStatsView: View {
                     , alignment: .topTrailing)
             
                 .background {
-                    Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
+                    Image("BackgroundImage").blur(radius: 10).ignoresSafeArea()
                 }
 #endif
             

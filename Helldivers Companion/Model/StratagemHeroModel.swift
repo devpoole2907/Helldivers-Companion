@@ -12,12 +12,17 @@ import WatchConnectivity
 import GameKit
 #endif
 
+import AVFoundation
+
 class StratagemHeroModel: ObservableObject {
     @Published var currentStratagem: Stratagem?
     @Published var inputSequence: [StratagemInput] = []
     @Published var timeRemaining: Double = 10
     @Published var gameState: GameState = .notStarted
     @Published var showError = false
+    
+    // mutes sounds
+    @Published var enableSound = true
     
     @AppStorage("gameEndCount") var gameEndCount = 0
     
@@ -65,10 +70,52 @@ class StratagemHeroModel: ObservableObject {
     
     var stratagems: [Stratagem] = []
     var timer: Timer?
+    
+    // for sound effects
+    
+    // for background music
+    private var backgroundAudioPlayer: AVAudioPlayer?
+    
+    private var audioPlayers: [AVAudioPlayer] = []
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+           if let index = audioPlayers.firstIndex(of: player) {
+               audioPlayers.remove(at: index)
+           }
+       }
 
     init() {
         loadStratagems(forRound: currentRound)
+        prepareAudioPlayer()
+        
     }
+    
+    private func prepareAudioPlayer() {
+            // Set the audio session category
+            try? AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
+            try? AVAudioSession.sharedInstance().setActive(true)
+        }
+    
+    func playBackgroundSound() {
+        if enableSound {
+            guard let url = Bundle.main.url(forResource: "Stratagem Hero Game Music", withExtension: "mp3") else { return }
+            
+            do {
+                let audioPlayer = try AVAudioPlayer(contentsOf: url)
+                audioPlayer.numberOfLoops = -1 // Loop indefinitely
+                audioPlayer.prepareToPlay()
+                audioPlayer.play()
+                backgroundAudioPlayer = audioPlayer
+            } catch {
+                print("Could not load or play the sound file.")
+            }
+        }
+    }
+
+       func stopBackgroundSound() {
+           backgroundAudioPlayer?.stop()
+           backgroundAudioPlayer = nil // Optionally reset the player
+       }
     
     // for swipe gestures on watch
     #if os(watchOS)
@@ -152,14 +199,26 @@ class StratagemHeroModel: ObservableObject {
     #endif
     
     func startGame() {
-            currentRound = 1
-            stratagemsPerRound = 6
-            loadStratagems(forRound: currentRound)
-            nextStratagem()
-            startTimer()
+        
+        currentRound = 1
+        stratagemsPerRound = 6
+        loadStratagems(forRound: currentRound)
+        
         withAnimation {
-            gameState = .started
+            gameState = .roundStarting
         }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+
+            self.nextStratagem()
+            self.startTimer()
+            withAnimation {
+                self.gameState = .started
+            }
+            self.playBackgroundSound()
+        }
+       
+       
         }
     
     func stopGame() {
@@ -183,7 +242,37 @@ class StratagemHeroModel: ObservableObject {
         
     }
     
+    func playSound(soundName: String, volume: Float = 1.0) {
+        if enableSound {
+        guard let url = Bundle.main.url(forResource: soundName, withExtension: "mp3") else { return }
+        
+        do {
+            let audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer.volume = volume
+            audioPlayer.prepareToPlay()
+            audioPlayer.play()
+            
+            // Add the player to the array to keep it alive
+            audioPlayers.append(audioPlayer)
+            
+            // Clean up audio players that have finished playing
+            audioPlayers = audioPlayers.filter { $0.isPlaying }
+        } catch {
+            print("Could not load or play the sound file.")
+        }
+    }
+       }
+    
     func buttonInput(input: StratagemInput) {
+        
+     //   SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Input Sound", volume: 0.5)
+        
+        // the watch cant handle these sounds
+        
+        #if os(iOS)
+        playSound(soundName: "Stratagem Hero Input Sound", volume: 0.3)
+        #endif
+        
         if gameState == .roundStarting {
             // do nothing
         } else if gameState == .gameOver {
@@ -218,6 +307,10 @@ class StratagemHeroModel: ObservableObject {
         }
     
     func gameOver() {
+        
+        stopBackgroundSound()
+        
+        playSound(soundName: "Stratagem Hero Round End Sound")
         
         self.timer?.invalidate()
         self.timer = nil
@@ -256,6 +349,13 @@ class StratagemHeroModel: ObservableObject {
     }
     
     func endRound() {
+        
+        stopBackgroundSound()
+        
+        audioPlayers = audioPlayers.filter { $0.isPlaying }
+        
+        playSound(soundName: "Stratagem Hero Round End Sound")
+        
         withAnimation {
             gameState = .roundEnded
         }
@@ -280,6 +380,9 @@ class StratagemHeroModel: ObservableObject {
         withAnimation {
             gameState = .roundStarting
         }
+        
+        playSound(soundName: "Stratagem Hero Round Start Sound")
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             // reset scores
             self.roundScore = 0
@@ -290,6 +393,9 @@ class StratagemHeroModel: ObservableObject {
             withAnimation {
                 self.gameState = .started
             }
+            
+            self.playBackgroundSound()
+            
         }
     }
 
@@ -357,6 +463,9 @@ class StratagemHeroModel: ObservableObject {
                        perfectBonus += perfectBonusPoints
                        totalScore += perfectBonusPoints
                    }
+
+            
+            playSound(soundName: "Stratagem Hero Success Sound")
             
             // game score added per correct stratagem
             nextStratagem()
@@ -364,6 +473,9 @@ class StratagemHeroModel: ObservableObject {
             // wrong sequence
             inputSequence = []
             showError = true //
+            
+            playSound(soundName: "Stratagem Hero Error Sound")
+            
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { // flash red for 0.3 seconds when wrongly entered
                             self.showError = false
                         }

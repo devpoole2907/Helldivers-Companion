@@ -11,11 +11,12 @@ struct NewsView: View {
     
     @StateObject var feedModel = NewsFeedModel()
     @EnvironmentObject var purchaseManager: StoreManager
+    @EnvironmentObject var navPather: NavigationPather
     
     var body: some View {
         
         
-        NavigationStack {
+        NavigationStack(path: $navPather.navigationPath) {
             ScrollView {
                 
                 if feedModel.news.isEmpty {
@@ -23,83 +24,93 @@ struct NewsView: View {
                     ProgressView().frame(maxWidth: .infinity)
                 } else {
                     LazyVStack(spacing: 15) {
-                        ForEach(feedModel.news, id: \.self) { news in
-                            
-                            
-                            
+                        ForEach(feedModel.news, id: \.id) { news in
                             
                             if let message = news.message, !message.isEmpty {
                                 NewsItemView(newsTitle: news.title, newsMessage: message)
                                     .padding(.horizontal)
+                                // set id as 0 if first news item to programmatic scroll to top
+                                    .id(feedModel.news.first == news ? 0 : news.id)
                             }
-                            
-                            
                             
                         }
                         Spacer(minLength: 150)
                     }.padding()
+#if os(iOS)
+                        .scrollTargetLayout()
+#endif
                 }
                 
                 
-            }.scrollContentBackground(.hidden)
-                .refreshable {
-                    feedModel.fetchNewsFeed { _ in
-                        
-                        print("fetching news")
-                        
-                        
-                    }
-                }
+            }
+#if os(iOS)
+            .scrollPosition(id: $navPather.scrollPosition)
+#endif
+            .onChange(of: navPather.scrollPosition) { value in
+                
+                print("scroll pos is \(value)")
+                
+            }
             
-                .navigationBarTitleDisplayMode(.inline)
+            .scrollContentBackground(.hidden)
+            .refreshable {
+                feedModel.fetchNewsFeed { _ in
+                    
+                    print("fetching news")
+                    
+                    
+                }
+            }
+            
+            .navigationBarTitleDisplayMode(.inline)
             
 #if os(iOS)
-.background {
-    Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
-    
-    
-        .toolbar {
-            ToolbarItem(placement: .principal) {
+            .background {
+                Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
                 
-                Text("STROHMANN NEWS")
-                    .font(Font.custom("FS Sinclair", size: 24))
+                
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            
+                            Text("STROHMANN NEWS")
+                                .font(Font.custom("FS Sinclair", size: 24))
+                            
+                        }
+                        
+                        if !purchaseManager.products.isEmpty {
+                            
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button(action: {
+                                    purchaseManager.showTips.toggle()
+                                }){
+                                    Image(systemName: "cart.fill")
+                                }.foregroundStyle(.white)
+                                    .bold()
+                            }
+                            
+                        }
+                        
+                    }
+                
+                
                 
             }
+#elseif os(watchOS)
             
-            if !purchaseManager.products.isEmpty {
-                
+            .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
-                        purchaseManager.showTips.toggle()
-                    }){
-                        Image(systemName: "cart.fill")
-                    }.foregroundStyle(.white)
-                        .bold()
+                    Text("STROHMANN NEWS").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 18))
                 }
                 
             }
             
-        }
-    
-  
-    
-}
-#elseif os(watchOS)
-            
-.toolbar {
-    ToolbarItem(placement: .topBarLeading) {
-        Text("STROHMANN NEWS").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 18))
-    }
-    
-}
-            
-            #endif
+#endif
             
         }.onAppear {
             feedModel.startUpdating()
         }
         
-
+        
         
         
     }

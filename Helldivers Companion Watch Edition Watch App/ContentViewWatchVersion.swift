@@ -17,6 +17,8 @@ struct ContentViewWatchVersion: View {
     
     @StateObject var statsNavPather = NavigationPather()
     
+    @StateObject var newsNavPather = NavigationPather()
+    
     @State private var currentTab: Tab = .home
     
     var body: some View {
@@ -39,7 +41,7 @@ struct ContentViewWatchVersion: View {
             WatchGalaxyStatsView().environmentObject(viewModel).environmentObject(purchaseManager).environmentObject(statsNavPather)
                 .tag(Tab.stats)
             
-            NewsView()
+            WatchNewsView().environmentObject(newsNavPather)
                 .tag(Tab.news)
  
            

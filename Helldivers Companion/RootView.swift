@@ -20,6 +20,8 @@ struct RootView: View {
     
     @StateObject var statsNavPather = NavigationPather()
     
+    @StateObject var newsNavPather = NavigationPather()
+    
     @State var showMajorOrderButton: Bool = false
     
     // use func to change state of major order bool so it can be animated
@@ -50,7 +52,7 @@ struct RootView: View {
                     .tag(Tab.stats)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
-                NewsView().environmentObject(purchaseManager)
+                NewsView().environmentObject(purchaseManager).environmentObject(newsNavPather)
                     .tag(Tab.news)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
@@ -263,7 +265,29 @@ struct RootView: View {
                     
                     
                 })
-                TabButton(tab: .news, action: {viewModel.currentTab = .news})
+                TabButton(tab: .news, action: {
+                    
+                    if viewModel.currentTab == .news {
+                        
+                        // if scroll position is greater than 0, and the nav path is empty (we're not in a subview) scroll to top
+                        if let scrollPos = newsNavPather.scrollPosition, scrollPos > 0, newsNavPather.navigationPath.isEmpty {
+                            withAnimation(.bouncy) {
+                                newsNavPather.scrollPosition = 0
+                            }
+                        } else {
+                            
+                            // otherwise pop to root
+                            
+                            newsNavPather.popToRoot()
+                            
+                        }
+                    } else {
+                        // otherwise change tab to stats, we must have been in another tab
+                        viewModel.currentTab = .news
+                    }
+                    
+                    
+                })
                 TabButton(tab: .game, action: {viewModel.currentTab = .game})
               
             }

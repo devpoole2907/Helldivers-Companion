@@ -13,13 +13,36 @@ struct WatchGalaxyStatsView: View {
     @EnvironmentObject var navPather: NavigationPather
     @EnvironmentObject var purchaseManager: StoreManager
     
+    enum WatchStatsTab: Hashable {
+        case galaxyInfo
+        case sector(Int)  // each sector has a unique integer identifier
+ 
+    }
+    // to give each tab a title
+    func titleForTab(_ tab: WatchStatsTab) -> String {
+        switch tab {
+        case .galaxyInfo:
+            return "Galaxy Stats"
+        case .sector(let index):
+            let sectorName = viewModel.sortedSectors[index]
+            return "\(sectorName)"
+        }
+    }
+
+    
+    @State private var currentTab: WatchStatsTab = .galaxyInfo
     
     var body: some View {
         
         
         
         NavigationStack(path: $navPather.navigationPath){
-        TabView {
+            TabView(selection: $currentTab) {
+            
+            ScrollView {
+                GalaxyInfoView(galaxyStats: viewModel.galaxyStats)
+                    .padding(.horizontal, 5)
+            }.tag(WatchStatsTab.galaxyInfo)
             
             ForEach(viewModel.sortedSectors.indices, id: \.self) { index in
                 let sector = viewModel.sortedSectors[index]
@@ -56,7 +79,7 @@ struct WatchGalaxyStatsView: View {
                                 
                             }
                         }
-                    }
+                    }.tag(WatchStatsTab.sector(index))
                 
                 
             }
@@ -67,7 +90,7 @@ struct WatchGalaxyStatsView: View {
             
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
-                        Text("Galaxy Stats").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 18))
+                        Text("\(titleForTab(currentTab))").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 18))
                     }
                 }
             

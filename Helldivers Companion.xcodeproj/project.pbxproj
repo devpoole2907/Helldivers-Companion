@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C018FE42BBA532C001AFB15 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C018FE32BBA532C001AFB15 /* SoundManager.swift */; };
+		7C018FE52BBA532C001AFB15 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C018FE32BBA532C001AFB15 /* SoundManager.swift */; };
+		7C018FEA2BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FE92BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 */; };
+		7C018FEB2BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FE92BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 */; };
+		7C018FED2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FEC2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 */; };
+		7C018FEE2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FEC2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 */; };
+		7C018FF02BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FEF2BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 */; };
+		7C018FF12BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FEF2BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 */; };
+		7C018FF32BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FF22BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 */; };
+		7C018FF42BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FF22BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 */; };
+		7C018FF62BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FF52BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 */; };
+		7C018FF72BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FF52BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 */; };
+		7C018FF92BBA6152001AFB15 /* Stratagem Hero Success Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FF82BBA6151001AFB15 /* Stratagem Hero Success Sound.mp3 */; };
+		7C018FFA2BBA6152001AFB15 /* Stratagem Hero Success Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FF82BBA6151001AFB15 /* Stratagem Hero Success Sound.mp3 */; };
 		7C0C994C2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C994B2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift */; };
 		7C0C994E2BA2BA8F00CF7C91 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C994D2BA2BA8F00CF7C91 /* ContentView.swift */; };
 		7C0C99502BA2BA9000CF7C91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
@@ -40,6 +54,9 @@
 		7C0DF6382BB987FB0062AB9B /* PlanetInfoDetailRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6362BB987FB0062AB9B /* PlanetInfoDetailRow.swift */; };
 		7C0DF6392BB9A67D0062AB9B /* GalaxyStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */; };
 		7C0DF63B2BB9A7DE0062AB9B /* WatchGalaxyStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF63A2BB9A7DE0062AB9B /* WatchGalaxyStatsView.swift */; };
+		7C0DF63D2BBA19340062AB9B /* GalaxyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF63C2BBA19340062AB9B /* GalaxyInfoView.swift */; };
+		7C0DF6402BBA2D550062AB9B /* GalaxyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF63C2BBA19340062AB9B /* GalaxyInfoView.swift */; };
+		7C0DF6422BBA35770062AB9B /* WatchNewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6412BBA35770062AB9B /* WatchNewsView.swift */; };
 		7C1B8C112BAD705600944823 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
 		7C1B8C122BAD705600944823 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
 		7C1B8C152BAD705600944823 /* Helldivers_Companion_News_WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1B8C142BAD705600944823 /* Helldivers_Companion_News_WidgetBundle.swift */; };
@@ -284,6 +301,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7C018FE32BBA532C001AFB15 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		7C018FE92BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Input Sound.mp3"; sourceTree = "<group>"; };
+		7C018FEC2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Game Music.mp3"; sourceTree = "<group>"; };
+		7C018FEF2BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Round Start Sound.mp3"; sourceTree = "<group>"; };
+		7C018FF22BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Round End Sound.mp3"; sourceTree = "<group>"; };
+		7C018FF52BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Error Sound.mp3"; sourceTree = "<group>"; };
+		7C018FF82BBA6151001AFB15 /* Stratagem Hero Success Sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Success Sound.mp3"; sourceTree = "<group>"; };
 		7C0C99482BA2BA8F00CF7C91 /* Helldivers Companion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Helldivers Companion.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C0C994B2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_CompanionApp.swift; sourceTree = "<group>"; };
 		7C0C994D2BA2BA8F00CF7C91 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -299,6 +323,8 @@
 		7C0DF62E2BB970E10062AB9B /* CampaignPlanetStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignPlanetStatsView.swift; sourceTree = "<group>"; };
 		7C0DF6362BB987FB0062AB9B /* PlanetInfoDetailRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetInfoDetailRow.swift; sourceTree = "<group>"; };
 		7C0DF63A2BB9A7DE0062AB9B /* WatchGalaxyStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchGalaxyStatsView.swift; sourceTree = "<group>"; };
+		7C0DF63C2BBA19340062AB9B /* GalaxyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyInfoView.swift; sourceTree = "<group>"; };
+		7C0DF6412BBA35770062AB9B /* WatchNewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchNewsView.swift; sourceTree = "<group>"; };
 		7C1B8C102BAD705600944823 /* Helldivers Companion News WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion News WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C1B8C142BAD705600944823 /* Helldivers_Companion_News_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_News_WidgetBundle.swift; sourceTree = "<group>"; };
 		7C1B8C162BAD705600944823 /* Helldivers_Companion_News_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_News_Widget.swift; sourceTree = "<group>"; };
@@ -444,6 +470,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C018FD02BBA492A001AFB15 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				7C018FEF2BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 */,
+				7C018FE92BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 */,
+				7C018FF22BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 */,
+				7C018FF52BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 */,
+				7C018FEC2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 */,
+				7C018FF82BBA6151001AFB15 /* Stratagem Hero Success Sound.mp3 */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		7C0C993F2BA2BA8F00CF7C91 = {
 			isa = PBXGroup;
 			children = (
@@ -477,6 +516,7 @@
 		7C0C994A2BA2BA8F00CF7C91 /* Helldivers Companion */ = {
 			isa = PBXGroup;
 			children = (
+				7C018FD02BBA492A001AFB15 /* Sounds */,
 				7CE4AE382BA832660033D4AF /* Views */,
 				7C4589C52BA5840A0019B00E /* Helldivers Companion.entitlements */,
 				7C4589BA2BA54C140019B00E /* Helldivers-Companion-Info.plist */,
@@ -514,6 +554,7 @@
 				7CE97D482BB55BDB008329BA /* StoreManager.swift */,
 				7C0DF61E2BB9319C0062AB9B /* NavigationPather.swift */,
 				7C0DF6212BB934E90062AB9B /* PlanetImageFormatter.swift */,
+				7C018FE32BBA532C001AFB15 /* SoundManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -570,6 +611,7 @@
 				7C45D45D2BABEDE40013A632 /* WatchOrdersView.swift */,
 				7C1B8C5F2BAD85B200944823 /* GameViewWatch.swift */,
 				7C0DF63A2BB9A7DE0062AB9B /* WatchGalaxyStatsView.swift */,
+				7C0DF6412BBA35770062AB9B /* WatchNewsView.swift */,
 			);
 			path = "Helldivers Companion Watch Edition Watch App";
 			sourceTree = "<group>";
@@ -686,6 +728,7 @@
 			children = (
 				7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */,
 				7C0DF6362BB987FB0062AB9B /* PlanetInfoDetailRow.swift */,
+				7C0DF63C2BBA19340062AB9B /* GalaxyInfoView.swift */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -914,9 +957,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C4589B92BA54C030019B00E /* FS Sinclair Bold.otf in Resources */,
+				7C018FF02BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 in Resources */,
 				7CE97D462BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit in Resources */,
 				7C50CEE62BA8295E009094AE /* GoogleService-Info.plist in Resources */,
+				7C018FED2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 in Resources */,
+				7C018FF62BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */,
 				7C0C99532BA2BA9000CF7C91 /* Preview Assets.xcassets in Resources */,
+				7C018FEA2BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 in Resources */,
+				7C018FF32BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 in Resources */,
+				7C018FF92BBA6152001AFB15 /* Stratagem Hero Success Sound.mp3 in Resources */,
 				7C0C99502BA2BA9000CF7C91 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -947,9 +996,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C587F602BA6E25500C66643 /* FS Sinclair Bold.otf in Resources */,
+				7C018FF12BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 in Resources */,
 				7CE97D472BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit in Resources */,
 				7C50CEE72BA8295E009094AE /* GoogleService-Info.plist in Resources */,
+				7C018FEE2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 in Resources */,
+				7C018FF72BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */,
 				7C587F4E2BA6DBBB00C66643 /* Preview Assets.xcassets in Resources */,
+				7C018FEB2BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 in Resources */,
+				7C018FF42BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 in Resources */,
+				7C018FFA2BBA6152001AFB15 /* Stratagem Hero Success Sound.mp3 in Resources */,
 				7C587F4B2BA6DBBB00C66643 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1031,6 +1086,7 @@
 				7C4589C72BA5849F0019B00E /* GameCenterManager.swift in Sources */,
 				7CE4AE3D2BA832C40033D4AF /* NotificationManager.swift in Sources */,
 				7C4589C42BA574B20019B00E /* ShakeModifier.swift in Sources */,
+				7C018FE42BBA532C001AFB15 /* SoundManager.swift in Sources */,
 				7C0C995B2BA2BAE800CF7C91 /* PlanetStructs.swift in Sources */,
 				7C4589BE2BA554AA0019B00E /* RootView.swift in Sources */,
 				7C4589B72BA546B00019B00E /* OrderView.swift in Sources */,
@@ -1047,6 +1103,7 @@
 				7CE97D492BB55BDB008329BA /* StoreManager.swift in Sources */,
 				7C0DF62F2BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */,
 				7CE97D4D2BB564F6008329BA /* CloseButton.swift in Sources */,
+				7C0DF63D2BBA19340062AB9B /* GalaxyInfoView.swift in Sources */,
 				7C0C994C2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift in Sources */,
 				7C0DF61F2BB9319C0062AB9B /* NavigationPather.swift in Sources */,
 				7C0C995F2BA2C7BC00CF7C91 /* PlanetView.swift in Sources */,
@@ -1100,17 +1157,20 @@
 				7C45D46F2BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
 				7C5D5F5A2BAFD83F00B644B9 /* WatchConnectivityProvider.swift in Sources */,
 				7C0DF63B2BB9A7DE0062AB9B /* WatchGalaxyStatsView.swift in Sources */,
+				7C018FE52BBA532C001AFB15 /* SoundManager.swift in Sources */,
 				7C0DF61A2BB924EC0062AB9B /* PlanetInfoView.swift in Sources */,
 				7C587F5C2BA6DD1700C66643 /* AboutView.swift in Sources */,
 				7CE97D4B2BB55F5D008329BA /* TipJarView.swift in Sources */,
 				7C1B8C602BAD85B200944823 /* GameViewWatch.swift in Sources */,
 				7C45D45E2BABEDE40013A632 /* WatchOrdersView.swift in Sources */,
 				7C45D4662BABEE750013A632 /* AngledLinesShape.swift in Sources */,
+				7C0DF6402BBA2D550062AB9B /* GalaxyInfoView.swift in Sources */,
 				7C587F492BA6DBB400C66643 /* ContentViewWatchVersion.swift in Sources */,
 				7C45D4742BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C45D4792BAC142C0013A632 /* Tab.swift in Sources */,
 				7C45D45B2BABEB370013A632 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C587F5D2BA6DD2200C66643 /* CustomSegmentedPicker.swift in Sources */,
+				7C0DF6422BBA35770062AB9B /* WatchNewsView.swift in Sources */,
 				7C3DE9722BA80A1A00C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7C0DF6382BB987FB0062AB9B /* PlanetInfoDetailRow.swift in Sources */,
 				7C587F562BA6DBFD00C66643 /* PlanetsViewModel.swift in Sources */,

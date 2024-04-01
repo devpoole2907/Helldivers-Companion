@@ -31,7 +31,7 @@ struct PlanetInfoDetailRow: View {
                     Text(planetStatus?.planet.name ?? "Unknown")
                         .padding(.vertical, 4)
                         .textCase(.uppercase)
-                        .font(Font.custom("FS Sinclair", size: mediumFont))
+                        .font(Font.custom("FS Sinclair", size: largeFont))
                         .foregroundStyle(.white)
                         .padding(.leading)
                     Image(systemName: "chevron.right")
@@ -58,7 +58,7 @@ struct PlanetInfoDetailRow: View {
                             }
                         }.opacity(0.7)
                             
-                            .padding(.trailing, 6)
+                            .padding(.trailing, 10)
                             .padding(.bottom, 1.3)
                         
                     }
@@ -69,12 +69,11 @@ struct PlanetInfoDetailRow: View {
                     Color.black.opacity(0.5)
                 }
             }
-            
-         
-            
-            
+ 
             
         .border(.white, width: 2)
+        .padding(4)
+        .border(Color.gray)
       //  .frame(maxHeight: 50)
         
         

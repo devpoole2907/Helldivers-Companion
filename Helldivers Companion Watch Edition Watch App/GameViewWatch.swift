@@ -29,6 +29,18 @@ struct GameViewWatch: View {
                     }
      
                         .foregroundStyle(.yellow)
+                
+                Button(action: {
+                    viewModel.enableSound.toggle()
+                    
+                    if !viewModel.enableSound {
+                        viewModel.stopBackgroundSound()
+                    } else if viewModel.gameState == .started {
+                                viewModel.playBackgroundSound()
+                        }
+                }) {
+                    Image(systemName: viewModel.enableSound ? "speaker.fill" : "speaker.slash.fill")
+                }.foregroundStyle(viewModel.enableSound ? .accent : .gray)
                         
                   
                 
@@ -45,7 +57,9 @@ struct GameViewWatch: View {
         
         
         
-        .sheet(isPresented: $viewModel.showGameSheet) {
+        .sheet(isPresented: $viewModel.showGameSheet, onDismiss: {
+            viewModel.gameOver() // end game on dismiss of the sheet
+        }) {
             NavigationStack {
                 
                 ZStack {

@@ -14,8 +14,6 @@ struct PlanetInfoView: View {
     
     var planetStatus: PlanetStatus? = nil
     
-    //   PlanetView(planetName: planetStatus.planet.name, liberation: planetStatus.liberation, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus, liberationType: .liberation, bugOrAutomaton: planetStatus.owner == "Terminids" ? .terminid : .automaton, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate
-    
     private var planetData: [PlanetDataPoint] {
         viewModel.planetHistory[planetStatus?.planet.name ?? ""] ?? []
     }
@@ -48,12 +46,14 @@ struct PlanetInfoView: View {
     let dividerWidth: CGFloat = 100
     let smallerDividerWidth: CGFloat = 80
     let horizPadding: CGFloat = 5
+    let extraStatSplitter = "\n" // split by new line on watchos
     
     #else
     
     let dividerWidth: CGFloat = 300
     let smallerDividerWidth: CGFloat = 200
     let horizPadding: CGFloat = 20
+    let extraStatSplitter = " " // split by space on ios
     
     #endif
     
@@ -199,11 +199,21 @@ struct PlanetInfoView: View {
         
         .toolbarRole(.editor)
         
-        .navigationTitle(planetStatus?.planet.name.capitalized ?? "ESTANU")
+        .navigationTitle(planetStatus?.planet.name.capitalized ?? "UNKNOWN")
         
         .navigationBarTitleDisplayMode(.large)
 #else
         .navigationBarTitleDisplayMode(.inline) // TODO: come back here, inlining nav on watchos might be unneccesary
+        
+        
+        .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Text(planetStatus?.planet.name.capitalized ?? "UNKNOWN").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont))
+                }
+
+        }
+        
+        
 #endif
     }
     
@@ -212,7 +222,7 @@ struct PlanetInfoView: View {
         VStack(alignment: .leading) {
             if let missionsWon = planetStatus?.planet.stats?.missionsWon {
                 HStack {
-                    Text("Missions won").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Missions\(extraStatSplitter)won").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
                     Text("\(missionsWon)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
@@ -220,7 +230,7 @@ struct PlanetInfoView: View {
             
             if let missionsLost = planetStatus?.planet.stats?.missionsLost {
                 HStack {
-                    Text("Missions lost").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Missions\(extraStatSplitter)lost").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
                     Text("\(missionsLost)").font(Font.custom("FS Sinclair", size: smallFont))
                         .multilineTextAlignment(.trailing)
@@ -240,7 +250,7 @@ struct PlanetInfoView: View {
             
             if let terminidKills = planetStatus?.planet.stats?.bugKills {
                 HStack {
-                    Text("Terminids Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Terminids\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
                     Text("\(terminidKills)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
@@ -248,7 +258,7 @@ struct PlanetInfoView: View {
             
             if let automatonKills = planetStatus?.planet.stats?.automatonKills {
                 HStack {
-                    Text("Automatons Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Automatons\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
                     Text("\(automatonKills)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
@@ -256,7 +266,7 @@ struct PlanetInfoView: View {
             
             if let illuminateKills = planetStatus?.planet.stats?.illuminateKills {
                 HStack {
-                    Text("Illuminates Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Illuminates\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
                     Text("\(illuminateKills)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
@@ -266,17 +276,17 @@ struct PlanetInfoView: View {
             
             RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)         .padding(.bottom, 4)
             
-            if let bulletsFied = planetStatus?.planet.stats?.bulletsFired {
+            if let bulletsFired = planetStatus?.planet.stats?.bulletsFired {
                 HStack {
-                    Text("Bullets Fired").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Bullets\(extraStatSplitter)Fired").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
-                    Text("\(bulletsFied)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(bulletsFired)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
             if let bulletsHit = planetStatus?.planet.stats?.bulletsHit {
                 HStack {
-                    Text("Bullets Hit").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Bullets\(extraStatSplitter)Hit").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
                     Text("\(bulletsHit)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
@@ -294,7 +304,7 @@ struct PlanetInfoView: View {
             
             if let helldiversLost = planetStatus?.planet.stats?.deaths {
                 HStack {
-                    Text("Helldivers Lost").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Helldivers\(extraStatSplitter)Lost").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
                     Text("\(helldiversLost)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
@@ -302,7 +312,7 @@ struct PlanetInfoView: View {
             
             if let friendlyKills = planetStatus?.planet.stats?.friendlies {
                 HStack {
-                    Text("Friendly Kills").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Friendly\(extraStatSplitter)Kills").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
                     Text("\(friendlyKills)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
@@ -325,7 +335,14 @@ struct PlanetInfoView: View {
             if let sector = planetStatus?.planet.sector {
                 HStack(spacing: 6) {
                     Text(sector).foregroundStyle(factionColor)
+#if os(watchOS)
+    .textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+#endif
+                  
                     Text("Sector")
+                    #if os(watchOS)
+                        .textCase(.uppercase).font(Font.custom("FS Sinclair", size: smallFont))
+                    #endif
                     
                     
                     

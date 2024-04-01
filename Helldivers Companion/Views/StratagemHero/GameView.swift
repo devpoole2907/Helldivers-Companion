@@ -88,7 +88,22 @@ struct GameView: View {
                         ToolbarItem(placement: gameCenterManager.isAuthenticated ? .principal : .topBarLeading) {
                             
                             Text("Stratagem Hero").textCase(.uppercase)
-                                .font(Font.custom("FS Sinclair", size: 32))
+                                .font(Font.custom("FS Sinclair", size: 28))
+                        }
+                        
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(action: {
+                                viewModel.enableSound.toggle()
+                                
+                                if !viewModel.enableSound {
+                                    viewModel.stopBackgroundSound()
+                                } else if viewModel.gameState == .started {
+                                            viewModel.playBackgroundSound()
+                                    }
+                            }) {
+                                Image(systemName: viewModel.enableSound ? "speaker.fill" : "speaker.slash.fill")
+                            }.foregroundStyle(viewModel.enableSound ? .accent : .gray)
+                         
                         }
                         
                         // show login button if not authenticated for game center

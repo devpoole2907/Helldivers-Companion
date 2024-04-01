@@ -34,11 +34,15 @@ struct NewsItemView: View {
               //  #if os(iOS)
                 #if os(iOS)
                     .lineLimit(isWidget ? (widgetFamily != .systemMedium ? 10 : 4) : (isExpanded ? nil : 3))
-                #elseif os(watchOS)
-                    .lineLimit(isExpanded || isWidget ? nil : 4)
-                #endif
                     .frame(maxHeight: isExpanded ? .infinity : 100)
+                #elseif os(watchOS)
+                    .lineLimit(nil)
+                    
+                #endif
+                 
                 
+                // show all of it on watchos due to the vertical paging system on the watch
+                #if os(iOS)
                 if !isWidget {
                     Button(action: { 
                         withAnimation(.bouncy) {
@@ -58,6 +62,7 @@ struct NewsItemView: View {
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .transition(.opacity)
                 }
+                #endif
                 
                  /*   if isWidget == false { // Only show "More" button if not a widget
                                 Button(action: { isExpanded.toggle() }) {
@@ -72,12 +77,29 @@ struct NewsItemView: View {
                    
              //   #endif
             }
+        #if os(iOS)
             .padding()
+        #else
+            .padding(.horizontal)
+        #endif
             .frame(maxWidth: .infinity)
+        
+        
+        
+        // dont show background on watchos
+        #if os(iOS)
                 .background {
                     Color.black
                 }.border(Color.blue.opacity(isWidget ? 0 : 0.4), width: 6)
-   
+        #else
+        
+        // show shadows on watchos because the text is on opaque backgorund
+        
+            .shadow(radius: 3.0)
+        
+        #endif
+        
+        
         
     }
     
