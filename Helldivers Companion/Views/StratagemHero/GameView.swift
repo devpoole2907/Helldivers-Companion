@@ -185,6 +185,8 @@ struct GameView: View {
     }
     .onDisappear {
         GKAccessPoint.shared.isActive = false
+        viewModel.stopBackgroundSound()
+        
     }
         
     }
