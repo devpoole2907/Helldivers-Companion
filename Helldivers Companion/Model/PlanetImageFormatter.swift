@@ -23,7 +23,7 @@ class PlanetImageFormatter {
         return "Mantes"
     case "Malevelon Creek", "Peacock", "Brink-2", "Gemma", "Siemnot", "Veld", "Seasse", "Chort Bay", "Nabatea Secundus", "Atrama", "Alairt III", "Prosperity Falls", "New Haven":
         return "Malevelon Creek"
-    case "Fenrir III", "Zosma", "Euphoria III", "Rd-4", "Sirius", "Maia":
+    case "Fenrir III", "Zosma", "Euphoria III", "Rd-4", "Sirius", "Maia", "Widow's Harbor":
         return "Fenrir III"
     case "Estanu", "Krakatwo", "Martyr's Bay", "Deneb Secundus", "Krakabos", "Igla", "Inari", "Lesath", "Halies Port", "Barabos", "Eukoria", "Stor Tha Prime", "Grafmere", "Oslo Station", "Choepessa IV", "Acrux IX", "Mekbuda":
         return "Estanu"
