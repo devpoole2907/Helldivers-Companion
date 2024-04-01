@@ -46,7 +46,7 @@ struct TvGameView: View {
                 
                 VStack {
                     
-                    Image("superEarth").resizable().aspectRatio(contentMode: .fit).frame(width: 160, height: 160).opacity(0.15)
+                    Image("superEarth").resizable().aspectRatio(contentMode: .fit).frame(width: 270, height: 270).opacity(0.15)
                     
                 }
                 VStack {
@@ -57,14 +57,14 @@ struct TvGameView: View {
                             
                             if viewModel.isPreLoadingDone == false {
                                 
-                                Text("Loading assets...") .font(Font.custom("FS Sinclair", size: 18))
+                                Text("Loading assets...") .font(Font.custom("FS Sinclair", size: 32))
                                     .foregroundStyle(.yellow)
                                     .multilineTextAlignment(.center)
                                 
                                 
                             } else {
                                 
-                                Text("Enter any Stratagem Input to Start!") .font(Font.custom("FS Sinclair", size: 18))
+                                Text("Enter any Stratagem Input to Start!") .font(Font.custom("FS Sinclair", size: 32))
                                     .foregroundStyle(.yellow)
                                     .multilineTextAlignment(.center)
                             }
@@ -82,7 +82,7 @@ struct TvGameView: View {
                             
                         }
                         
-                    }.frame(minHeight: 175)
+                    }.frame(minHeight: 350)
                     
                     Rectangle().frame(height: 6).foregroundStyle(.gray)
                     
@@ -119,17 +119,17 @@ struct TvGameView: View {
         
         HStack {
             VStack(spacing: -5) {
-                Text("Round") .font(Font.custom("FS Sinclair", size: 22))
+                Text("Round") .font(Font.custom("FS Sinclair", size: 44))
                 
-                Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair", size: 36))
+                Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair", size: 66))
                     .foregroundStyle(viewModel.timeRemaining >= 2 ? .yellow : .red)
             }
             Spacer()
             
             VStack(alignment: .trailing, spacing: -14) {
-                Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair", size: 36))
+                Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair", size: 72))
                     .foregroundStyle(viewModel.timeRemaining >= 2 ? .yellow : .red)
-                Text("Score").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 22))
+                Text("Score").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 44))
             }
             
             
@@ -140,9 +140,9 @@ struct TvGameView: View {
     var highScoreView: some View {
         VStack {
      
-            Text("High Score").textCase(.uppercase).font(Font.custom("FS Sinclair", size: 22))
+            Text("High Score").textCase(.uppercase).font(Font.custom("FS Sinclair", size: 44))
             
-            Text("\(viewModel.highScore)").textCase(.uppercase).font(Font.custom("FS Sinclair", size: 36))
+            Text("\(viewModel.highScore)").textCase(.uppercase).font(Font.custom("FS Sinclair", size: 72))
                 .foregroundStyle(.yellow)
        
         }
@@ -151,23 +151,23 @@ struct TvGameView: View {
     var gameOverView: some View {
         VStack(spacing: -5) {
             Text("GAME OVER").textCase(.uppercase)
-                .font(Font.custom("FS Sinclair", size: 36))
+                .font(Font.custom("FS Sinclair", size: 72))
                
             if viewModel.topScores.count > 0 {
-                Text("High Scores").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 18))
+                Text("High Scores").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 36))
                 
                 ForEach(viewModel.topScores, id: \.self) { score in
                     
                     Text("\(score.rank). \(score.player.displayName) | \(score.score.formatted(.number))")
-                        .textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 16))
+                        .textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 32))
                         .padding(.bottom, 5)
                 }
             }
             
-            Text("Your final score") .font(Font.custom("FS Sinclair", size: 18)).textCase(.uppercase)
-            Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair", size: 22)).foregroundStyle(.yellow)
+            Text("Your final score") .font(Font.custom("FS Sinclair", size: 36)).textCase(.uppercase)
+            Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair", size: 44)).foregroundStyle(.yellow)
             
-            Text("Enter any Stratagem Input to Continue!") .font(Font.custom("FS Sinclair", size: 18))
+            Text("Enter any Stratagem Input to Continue!") .font(Font.custom("FS Sinclair", size: 36))
                 .foregroundStyle(.yellow)
                 .multilineTextAlignment(.center)
                 .padding(.top)
@@ -179,26 +179,26 @@ struct TvGameView: View {
     var roundEndView: some View {
         VStack(spacing: -5) {
             HStack {
-                Text("Round Bonus").font(Font.custom("FS Sinclair", size: 18))
+                Text("Round Bonus").font(Font.custom("FS Sinclair", size: 36))
                 Spacer()
-                Text("\(viewModel.roundBonus)").font(Font.custom("FS Sinclair", size: 26))
+                Text("\(viewModel.roundBonus)").font(Font.custom("FS Sinclair", size: 52))
                     .foregroundStyle(.yellow)
             }
             HStack {
-                Text("Time Bonus").font(Font.custom("FS Sinclair", size: 18))
+                Text("Time Bonus").font(Font.custom("FS Sinclair", size: 36))
                 Spacer()
-                Text("\(viewModel.timeBonus)").font(Font.custom("FS Sinclair", size: 26))
+                Text("\(viewModel.timeBonus)").font(Font.custom("FS Sinclair", size: 52))
                     .foregroundStyle(.yellow)
             }
             HStack {
-                Text("Perfect Bonus").font(Font.custom("FS Sinclair", size: 18))
+                Text("Perfect Bonus").font(Font.custom("FS Sinclair", size: 36))
                 Spacer()
-                Text("\(viewModel.perfectBonus)").font(Font.custom("FS Sinclair", size: 26)).foregroundStyle(.yellow)
+                Text("\(viewModel.perfectBonus)").font(Font.custom("FS Sinclair", size: 52)).foregroundStyle(.yellow)
             }
             HStack {
-                Text("Total Score").font(Font.custom("FS Sinclair", size: 18))
+                Text("Total Score").font(Font.custom("FS Sinclair", size: 36))
                 Spacer()
-                Text("\(viewModel.totalScore)").font(Font.custom("FS Sinclair", size: 26))
+                Text("\(viewModel.totalScore)").font(Font.custom("FS Sinclair", size: 52))
                     .foregroundStyle(.yellow)
             }
         }.padding(.horizontal, 70)
@@ -210,11 +210,11 @@ struct TvGameView: View {
         
         VStack(spacing: -5) {
             Text("Get Ready").textCase(.uppercase)
-                .font(Font.custom("FS Sinclair", size: 36))
+                .font(Font.custom("FS Sinclair", size: 72))
                 .padding(.vertical)
             
-            Text("Round") .font(Font.custom("FS Sinclair", size: 18))
-            Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair", size: 26))
+            Text("Round") .font(Font.custom("FS Sinclair", size: 36))
+            Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair", size: 52))
                 .foregroundStyle(.yellow)
             
         }
@@ -232,15 +232,15 @@ struct TvGameView: View {
                     Image(stratagem.name)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 100) // Adjust the size as needed
+                        .frame(width: 200)
                     
-                        .border(viewModel.timeRemaining >= 2 ? .yellow : .red)
+                        .border(viewModel.timeRemaining >= 2 ? .yellow : .red, width: 4)
                     
                     ForEach(viewModel.stratagems.prefix(3), id: \.id) { stratagem in // shows the next 3 stratagems
                         Image(stratagem.name)
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 60)
+                            .frame(width: 120)
                             .opacity(0.6)
                     }
                 }
@@ -252,7 +252,7 @@ struct TvGameView: View {
                     Text(stratagem.name).foregroundStyle(.black)
                         .textCase(.uppercase)
                         .lineLimit(1)
-                        .font(Font.custom("FS Sinclair", size: 22))
+                        .font(Font.custom("FS Sinclair", size: 44))
                         .frame(minWidth: UIScreen.main.bounds.width - 100)
                         .background {
                             viewModel.timeRemaining >= 2 ? Color.yellow : Color.red
@@ -266,6 +266,7 @@ struct TvGameView: View {
                         
                         Image(systemName: "arrowshape.\(input).fill")
                             .foregroundStyle(viewModel.showError ? .red.opacity(0.8) : (index < viewModel.inputSequence.count ? .yellow : Color(red: 189, green: 185, blue: 185)))
+                            .font(.largeTitle)
                             .shadow(radius: 3)
                     }.animation(.none) // needs to ignore the animation system otherwise it gets buggy visually when changing stratagems
 
@@ -301,7 +302,7 @@ struct TimerBarView: View {
                 
             }
         }
-        .frame(height: 10)
+        .frame(height: 20)
     }
 }
 
