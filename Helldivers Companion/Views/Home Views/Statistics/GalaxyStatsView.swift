@@ -70,9 +70,9 @@ struct GalaxyStatsView: View {
                 }.padding(.horizontal)
                 
                 
-                    .scrollTargetLayout()
+                  //  .scrollTargetLayout()
                 
-            }.scrollPosition(id: $navPather.scrollPosition)
+            }//.scrollPosition(id: $navPather.scrollPosition)
             
             
             
