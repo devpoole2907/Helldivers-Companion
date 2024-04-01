@@ -36,13 +36,30 @@ class SoundPoolManager {
         #endif
         
         
+        #if os(watchOS) || os(iOS)
         // technically the loading assets screen should never be seen now because nothing is called before the completion in the background
         DispatchQueue.main.async {
                    completion()
                }
+        #endif
      
         // these are loaded on background thread
         DispatchQueue.global(qos: .background).async {
+            
+            // preload all sounds for tvos
+            #if os(tvOS)
+            
+            self.preloadSound(soundName: "Stratagem Hero Round End Sound")
+            self.preloadSound(soundName: "Stratagem Hero Round Start Sound")
+            self.preloadSound(soundName: "Stratagem Hero Error Sound")
+            self.preloadSound(soundName: "Stratagem Hero Success Sound")
+            
+            DispatchQueue.main.async {
+                       completion()
+                   }
+            
+            #endif
+            
 
           
 #if os(watchOS)

@@ -29,6 +29,26 @@
 		7C0190032BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C0190012BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 */; };
 		7C0190052BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C0190042BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 */; };
 		7C0190062BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C0190042BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 */; };
+		7C01900E2BBA9B73001AFB15 /* Stratagem_Hero_TV_EditionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C01900D2BBA9B73001AFB15 /* Stratagem_Hero_TV_EditionApp.swift */; };
+		7C0190102BBA9B73001AFB15 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C01900F2BBA9B73001AFB15 /* ContentView.swift */; };
+		7C0190122BBA9B75001AFB15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0190112BBA9B75001AFB15 /* Assets.xcassets */; };
+		7C0190152BBA9B75001AFB15 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0190142BBA9B75001AFB15 /* Preview Assets.xcassets */; };
+		7C0190192BBA9B81001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C0190042BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 */; };
+		7C01901A2BBA9B81001AFB15 /* Stratagem Hero Input Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FE92BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 */; };
+		7C01901B2BBA9B81001AFB15 /* Stratagem Hero Round End Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FF22BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 */; };
+		7C01901C2BBA9B81001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FF52BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 */; };
+		7C01901D2BBA9B81001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FFB2BBA679F001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 */; };
+		7C01901E2BBA9B81001AFB15 /* Stratagem Hero Round Start Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FEF2BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 */; };
+		7C01901F2BBA9B81001AFB15 /* Stratagem Hero Game Music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FEC2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 */; };
+		7C0190202BBA9B81001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C0190012BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 */; };
+		7C0190212BBA9B81001AFB15 /* Stratagem Hero Success Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FF82BBA6151001AFB15 /* Stratagem Hero Success Sound.mp3 */; };
+		7C0190222BBA9B81001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FFE2BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 */; };
+		7C0190232BBA9B96001AFB15 /* StratagemHeroModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C12BA5554E0019B00E /* StratagemHeroModel.swift */; };
+		7C0190242BBA9C2A001AFB15 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C018FE32BBA532C001AFB15 /* SoundManager.swift */; };
+		7C0190252BBA9E0C001AFB15 /* GameCenterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C62BA5849F0019B00E /* GameCenterManager.swift */; };
+		7C0190272BBA9EA4001AFB15 /* TvGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0190262BBA9EA4001AFB15 /* TvGameView.swift */; };
+		7C0190282BBA9F1D001AFB15 /* ShakeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C32BA574B20019B00E /* ShakeModifier.swift */; };
+		7C0190292BBAA51D001AFB15 /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
 		7C0C994C2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C994B2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift */; };
 		7C0C994E2BA2BA8F00CF7C91 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C994D2BA2BA8F00CF7C91 /* ContentView.swift */; };
 		7C0C99502BA2BA9000CF7C91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
@@ -320,6 +340,13 @@
 		7C018FFE2BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Round End Sound Apple Watch.mp3"; sourceTree = "<group>"; };
 		7C0190012BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Error Sound Apple Watch.mp3"; sourceTree = "<group>"; };
 		7C0190042BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Round Start Sound Apple Watch.mp3"; sourceTree = "<group>"; };
+		7C01900B2BBA9B73001AFB15 /* Stratagem Hero TV Edition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Stratagem Hero TV Edition.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C01900D2BBA9B73001AFB15 /* Stratagem_Hero_TV_EditionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stratagem_Hero_TV_EditionApp.swift; sourceTree = "<group>"; };
+		7C01900F2BBA9B73001AFB15 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		7C0190112BBA9B75001AFB15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7C0190142BBA9B75001AFB15 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		7C0190262BBA9EA4001AFB15 /* TvGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvGameView.swift; sourceTree = "<group>"; };
+		7C01902A2BBAA530001AFB15 /* Stratagem-Hero-TV-Edition-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Stratagem-Hero-TV-Edition-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7C0C99482BA2BA8F00CF7C91 /* Helldivers Companion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Helldivers Companion.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C0C994B2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_CompanionApp.swift; sourceTree = "<group>"; };
 		7C0C994D2BA2BA8F00CF7C91 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -405,6 +432,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7C0190082BBA9B73001AFB15 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7C0C99452BA2BA8F00CF7C91 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -499,6 +533,27 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
+		7C01900C2BBA9B73001AFB15 /* Stratagem Hero TV Edition */ = {
+			isa = PBXGroup;
+			children = (
+				7C01902A2BBAA530001AFB15 /* Stratagem-Hero-TV-Edition-Info.plist */,
+				7C01900D2BBA9B73001AFB15 /* Stratagem_Hero_TV_EditionApp.swift */,
+				7C01900F2BBA9B73001AFB15 /* ContentView.swift */,
+				7C0190112BBA9B75001AFB15 /* Assets.xcassets */,
+				7C0190132BBA9B75001AFB15 /* Preview Content */,
+				7C0190262BBA9EA4001AFB15 /* TvGameView.swift */,
+			);
+			path = "Stratagem Hero TV Edition";
+			sourceTree = "<group>";
+		};
+		7C0190132BBA9B75001AFB15 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				7C0190142BBA9B75001AFB15 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		7C0C993F2BA2BA8F00CF7C91 = {
 			isa = PBXGroup;
 			children = (
@@ -510,6 +565,7 @@
 				7C1B8C132BAD705600944823 /* Helldivers Companion News Widget */,
 				7C8C5F322BAEF91300C4FBD2 /* Helldivers Companion Major Order Widget */,
 				7C8C5F502BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch Widget */,
+				7C01900C2BBA9B73001AFB15 /* Stratagem Hero TV Edition */,
 				7CC0AE702BA7F31400802D9F /* Frameworks */,
 				7C0C99492BA2BA8F00CF7C91 /* Products */,
 			);
@@ -525,6 +581,7 @@
 				7C1B8C102BAD705600944823 /* Helldivers Companion News WidgetExtension.appex */,
 				7C8C5F2F2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex */,
 				7C8C5F4D2BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension.appex */,
+				7C01900B2BBA9B73001AFB15 /* Stratagem Hero TV Edition.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -752,6 +809,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		7C01900A2BBA9B73001AFB15 /* Stratagem Hero TV Edition */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C0190162BBA9B75001AFB15 /* Build configuration list for PBXNativeTarget "Stratagem Hero TV Edition" */;
+			buildPhases = (
+				7C0190072BBA9B73001AFB15 /* Sources */,
+				7C0190082BBA9B73001AFB15 /* Frameworks */,
+				7C0190092BBA9B73001AFB15 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Stratagem Hero TV Edition";
+			productName = "Stratagem Hero TV Edition";
+			productReference = 7C01900B2BBA9B73001AFB15 /* Stratagem Hero TV Edition.app */;
+			productType = "com.apple.product-type.application";
+		};
 		7C0C99472BA2BA8F00CF7C91 /* Helldivers Companion */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7C0C99562BA2BA9000CF7C91 /* Build configuration list for PBXNativeTarget "Helldivers Companion" */;
@@ -914,6 +988,9 @@
 				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
+					7C01900A2BBA9B73001AFB15 = {
+						CreatedOnToolsVersion = 15.3;
+					};
 					7C0C99472BA2BA8F00CF7C91 = {
 						CreatedOnToolsVersion = 15.3;
 					};
@@ -963,11 +1040,32 @@
 				7C1B8C0F2BAD705600944823 /* Helldivers Companion News WidgetExtension */,
 				7C8C5F2E2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension */,
 				7C8C5F4C2BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension */,
+				7C01900A2BBA9B73001AFB15 /* Stratagem Hero TV Edition */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7C0190092BBA9B73001AFB15 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C0190192BBA9B81001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */,
+				7C01901A2BBA9B81001AFB15 /* Stratagem Hero Input Sound.mp3 in Resources */,
+				7C01901B2BBA9B81001AFB15 /* Stratagem Hero Round End Sound.mp3 in Resources */,
+				7C01901C2BBA9B81001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */,
+				7C01901D2BBA9B81001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 in Resources */,
+				7C0190292BBAA51D001AFB15 /* FS Sinclair Bold.otf in Resources */,
+				7C01901E2BBA9B81001AFB15 /* Stratagem Hero Round Start Sound.mp3 in Resources */,
+				7C01901F2BBA9B81001AFB15 /* Stratagem Hero Game Music.mp3 in Resources */,
+				7C0190202BBA9B81001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 in Resources */,
+				7C0190212BBA9B81001AFB15 /* Stratagem Hero Success Sound.mp3 in Resources */,
+				7C0190222BBA9B81001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 in Resources */,
+				7C0190152BBA9B75001AFB15 /* Preview Assets.xcassets in Resources */,
+				7C0190122BBA9B75001AFB15 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7C0C99462BA2BA8F00CF7C91 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1089,6 +1187,20 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7C0190072BBA9B73001AFB15 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C0190102BBA9B73001AFB15 /* ContentView.swift in Sources */,
+				7C0190242BBA9C2A001AFB15 /* SoundManager.swift in Sources */,
+				7C0190282BBA9F1D001AFB15 /* ShakeModifier.swift in Sources */,
+				7C0190272BBA9EA4001AFB15 /* TvGameView.swift in Sources */,
+				7C01900E2BBA9B73001AFB15 /* Stratagem_Hero_TV_EditionApp.swift in Sources */,
+				7C0190252BBA9E0C001AFB15 /* GameCenterManager.swift in Sources */,
+				7C0190232BBA9B96001AFB15 /* StratagemHeroModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7C0C99442BA2BA8F00CF7C91 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1311,6 +1423,68 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		7C0190172BBA9B75001AFB15 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Stratagem Hero TV Edition/Preview Content\"";
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Stratagem-Hero-TV-Edition-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Stratagem Hero";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.arcade-games";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Stratagem-Hero-TV-Edition";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 17.0;
+			};
+			name = Debug;
+		};
+		7C0190182BBA9B75001AFB15 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Stratagem Hero TV Edition/Preview Content\"";
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Stratagem-Hero-TV-Edition-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Stratagem Hero";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.arcade-games";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Stratagem-Hero-TV-Edition";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 17.0;
+			};
+			name = Release;
+		};
 		7C0C99542BA2BA9000CF7C91 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1867,6 +2041,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7C0190162BBA9B75001AFB15 /* Build configuration list for PBXNativeTarget "Stratagem Hero TV Edition" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C0190172BBA9B75001AFB15 /* Debug */,
+				7C0190182BBA9B75001AFB15 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7C0C99432BA2BA8F00CF7C91 /* Build configuration list for PBXProject "Helldivers Companion" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

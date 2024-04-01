@@ -7,8 +7,10 @@
 
 import Foundation
 import SwiftUI
+#if os(iOS) || os(watchOS)
 import WatchConnectivity
-#if os(iOS)
+#endif
+#if os(iOS) || os(tvOS)
 import GameKit
 #endif
 
@@ -32,27 +34,28 @@ class StratagemHeroModel: ObservableObject {
     // tracks times this screen is viewed
     @AppStorage("gameViewCount") var viewCount = 0
     
-    #if os(iOS)
+#if os(iOS) || os(tvOS)
     @Published var topScores: [GKLeaderboard.Entry] = []
-    #endif
-   
+#endif
+    
     // used on watchos, display a sheet with interactive dismiss disabled so the gestures for playing dont interact with the tab view
-    #if os(watchOS)
+#if os(watchOS)
     @Published var showGameSheet = false
     @Published var showArrow = false
     @Published var swipeDirection: SwipeDirection = .none
     @Published var arrowOffset: CGSize = .zero
     @Published var arrows: [Arrow] = []
-    #endif
+#endif
     
-    #if os(iOS)
+#if os(iOS) || os(tvOS)
     let gameCenterManager = GameCenterManager()
     let leaderboardId = "com.poole.james.helldiverscompanion.highscores"
-    #endif
+#endif
     
+#if os(iOS) || os(watchOS)
     // for sending high scores between watch and ios
     let watchConnectivity = WatchConnectivityProvider.shared
-    
+#endif
     
     @Published var currentRound = 1
     private var stratagemsPerRound = 6
@@ -62,10 +65,10 @@ class StratagemHeroModel: ObservableObject {
     private let perfectBonusPoints = 50
     
     @Published var roundScore: Int = 0
-        @Published var roundBonus: Int = 0
-        @Published var timeBonus: Int = 0
-        @Published var perfectBonus: Int = 0
-        @Published var totalScore: Int = 0
+    @Published var roundBonus: Int = 0
+    @Published var timeBonus: Int = 0
+    @Published var perfectBonus: Int = 0
+    @Published var totalScore: Int = 0
     
     @AppStorage("highScore") var highScore = 0 // store high score
     
@@ -82,32 +85,32 @@ class StratagemHeroModel: ObservableObject {
     private var audioPlayers: [AVAudioPlayer] = []
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-           if let index = audioPlayers.firstIndex(of: player) {
-               audioPlayers.remove(at: index)
-           }
-       }
-
+        if let index = audioPlayers.firstIndex(of: player) {
+            audioPlayers.remove(at: index)
+        }
+    }
+    
     init() {
         loadStratagems(forRound: currentRound)
         prepareAudioPlayer()
     }
     // for watchos to load assets before gameplay
     func preloadAssets() {
-            SoundPoolManager.shared.preloadAllSounds {
-                self.isPreLoadingDone = true
-            }
+        SoundPoolManager.shared.preloadAllSounds {
+            self.isPreLoadingDone = true
         }
+    }
     
     private func prepareAudioPlayer() {
-            // Set the audio session category
-        #if os(iOS)
+        // Set the audio session category
+#if os(iOS)
         try? AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
-        #else
+#else
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-        #endif
+#endif
         
-            try? AVAudioSession.sharedInstance().setActive(true)
-        }
+        try? AVAudioSession.sharedInstance().setActive(true)
+    }
     
     func playBackgroundSound() {
         if enableSound {
@@ -124,81 +127,81 @@ class StratagemHeroModel: ObservableObject {
             }
         }
     }
-
-       func stopBackgroundSound() {
-           backgroundAudioPlayer?.stop()
-           backgroundAudioPlayer = nil // Optionally reset the player
-       }
+    
+    func stopBackgroundSound() {
+        backgroundAudioPlayer?.stop()
+        backgroundAudioPlayer = nil // Optionally reset the player
+    }
     
     // for swipe gestures on watch
-    #if os(watchOS)
+#if os(watchOS)
     enum SwipeDirection {
-            case up, down, left, right, none
-        }
+        case up, down, left, right, none
+    }
     
     struct Arrow: Identifiable {
         var id = UUID()
-            var direction: SwipeDirection
+        var direction: SwipeDirection
         var offset: CGSize = .zero
         var opacity: Double = 0.4
-        }
+    }
     
     func moveArrow(id: UUID, to offset: CGSize) {
-           guard let index = arrows.firstIndex(where: { $0.id == id }) else { return }
-           arrows[index].offset = offset
-       }
-
-       func fadeOutArrow(id: UUID) {
-           guard let index = arrows.firstIndex(where: { $0.id == id }) else { return }
-           arrows[index].opacity = 0.0
-       }
-
-       func removeArrow(id: UUID) {
-           arrows.removeAll { $0.id == id }
-       }
+        guard let index = arrows.firstIndex(where: { $0.id == id }) else { return }
+        arrows[index].offset = offset
+    }
+    
+    func fadeOutArrow(id: UUID) {
+        guard let index = arrows.firstIndex(where: { $0.id == id }) else { return }
+        arrows[index].opacity = 0.0
+    }
+    
+    func removeArrow(id: UUID) {
+        arrows.removeAll { $0.id == id }
+    }
     
     func arrowName(for direction: SwipeDirection) -> String {
-           switch direction {
-               case .up: return "arrowshape.up.fill"
-               case .down: return "arrowshape.down.fill"
-               case .left: return "arrowshape.left.fill"
-               case .right: return "arrowshape.right.fill"
-               case .none: return ""
-           }
-       }
+        switch direction {
+        case .up: return "arrowshape.up.fill"
+        case .down: return "arrowshape.down.fill"
+        case .left: return "arrowshape.left.fill"
+        case .right: return "arrowshape.right.fill"
+        case .none: return ""
+        }
+    }
     
     
-     func determineDirection(from translation: CGSize) -> SwipeDirection {
-            if abs(translation.width) > abs(translation.height) {
-                return translation.width < 0 ? .left : .right
-            } else {
-                return translation.height < 0 ? .up : .down
-            }
+    func determineDirection(from translation: CGSize) -> SwipeDirection {
+        if abs(translation.width) > abs(translation.height) {
+            return translation.width < 0 ? .left : .right
+        } else {
+            return translation.height < 0 ? .up : .down
         }
-
-         func movementOffset(for direction: SwipeDirection) -> CGSize {
-            switch direction {
-                case .up: return CGSize(width: 0, height: -100)
-                case .down: return CGSize(width: 0, height: 100)
-                case .left: return CGSize(width: -100, height: 0)
-                case .right: return CGSize(width: 100, height: 0)
-                case .none: return CGSize()
-            }
+    }
+    
+    func movementOffset(for direction: SwipeDirection) -> CGSize {
+        switch direction {
+        case .up: return CGSize(width: 0, height: -100)
+        case .down: return CGSize(width: 0, height: 100)
+        case .left: return CGSize(width: -100, height: 0)
+        case .right: return CGSize(width: 100, height: 0)
+        case .none: return CGSize()
         }
+    }
     
     func addArrow(direction: SwipeDirection) {
-            let arrow = Arrow(direction: direction)
-            arrows.append(arrow)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                if let index = self.arrows.firstIndex(where: { $0.direction == direction && $0.offset == .zero }) {
-                    self.arrows.remove(at: index)
-                }
+        let arrow = Arrow(direction: direction)
+        arrows.append(arrow)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            if let index = self.arrows.firstIndex(where: { $0.direction == direction && $0.offset == .zero }) {
+                self.arrows.remove(at: index)
             }
         }
+    }
     
-    #endif
+#endif
     
-    #if os(iOS)
+#if os(iOS)
     // Assuming `gameCenterManager` is already initialized and available
     func updateHighScore() {
         gameCenterManager.fetchHighScore(leaderboardId: leaderboardId) { [weak self] fetchedHighScore in
@@ -209,7 +212,7 @@ class StratagemHeroModel: ObservableObject {
             }
         }
     }
-    #endif
+#endif
     
     func startGame() {
         
@@ -220,9 +223,9 @@ class StratagemHeroModel: ObservableObject {
         withAnimation {
             gameState = .roundStarting
         }
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-
+            
             self.nextStratagem()
             self.startTimer()
             withAnimation {
@@ -230,9 +233,9 @@ class StratagemHeroModel: ObservableObject {
             }
             self.playBackgroundSound()
         }
-       
-       
-        }
+        
+        
+    }
     
     func stopGame() {
         totalScore = 0 // clear total score
@@ -257,35 +260,35 @@ class StratagemHeroModel: ObservableObject {
     
     func playSound(soundName: String, volume: Float = 1.0) {
         if enableSound {
-        guard let url = Bundle.main.url(forResource: soundName, withExtension: "mp3") else { return }
-        
-        do {
-            let audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer.volume = volume
-            audioPlayer.prepareToPlay()
-            audioPlayer.play()
+            guard let url = Bundle.main.url(forResource: soundName, withExtension: "mp3") else { return }
             
-            // Add the player to the array to keep it alive
-            audioPlayers.append(audioPlayer)
-            
-            // Clean up audio players that have finished playing
-            audioPlayers = audioPlayers.filter { $0.isPlaying }
-        } catch {
-            print("Could not load or play the sound file.")
+            do {
+                let audioPlayer = try AVAudioPlayer(contentsOf: url)
+                audioPlayer.volume = volume
+                audioPlayer.prepareToPlay()
+                audioPlayer.play()
+                
+                // Add the player to the array to keep it alive
+                audioPlayers.append(audioPlayer)
+                
+                // Clean up audio players that have finished playing
+                audioPlayers = audioPlayers.filter { $0.isPlaying }
+            } catch {
+                print("Could not load or play the sound file.")
+            }
         }
     }
-       }
     
     func buttonInput(input: StratagemInput) {
         
-        #if os(watchOS)
+#if os(watchOS) || os(tvOS)
         SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Input Sound", volume: 0.3)
-        #endif
+#endif
         // the watch cant handle these sounds
         
-        #if os(iOS)
+#if os(iOS)
         playSound(soundName: "Stratagem Hero Input Sound", volume: 0.3)
-        #endif
+#endif
         
         if gameState == .roundStarting {
             // do nothing
@@ -294,7 +297,7 @@ class StratagemHeroModel: ObservableObject {
         }
         else if gameState == .notStarted {
             // show the game sheet if on watch
-            #if os(watchOS)
+#if os(watchOS)
             if gameState == .notStarted {
                 showGameSheet = true
             } else {
@@ -303,38 +306,44 @@ class StratagemHeroModel: ObservableObject {
                     gameState = .roundStarting
                 }
             }
-            #endif
+#endif
             
             startGame()
         } else if gameState == .roundEnded {
-           startNextRound()
+            startNextRound()
         } else {
             inputArrowKey(input)
         }
     }
-
-
-   
+    
+    
+    
     func loadStratagems(forRound round: Int) {
-            let totalStratagems = min(globalStratagems.count, stratagemsPerRound)
-            stratagems = Array(globalStratagems.shuffled().prefix(totalStratagems))
-        }
+        let totalStratagems = min(globalStratagems.count, stratagemsPerRound)
+        stratagems = Array(globalStratagems.shuffled().prefix(totalStratagems))
+    }
     
     func gameOver() {
         
         stopBackgroundSound()
         
-        #if os(iOS)
+#if os(iOS)
         playSound(soundName: "Stratagem Hero Round End Sound")
-        #else
+#elseif os(watchOS)
         SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Round End Sound Apple Watch")
-        #endif
+#else
+        
+        // tvos
+        
+        SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Round End Sound")
+        
+#endif
         
         self.timer?.invalidate()
         self.timer = nil
-      
-        #if os(iOS)
-
+        
+#if os(iOS)
+        
         Task {
             recordHighScore()
             self.topScores = await gameCenterManager.loadTopScores(leaderboardID: leaderboardId, count: 3)
@@ -342,28 +351,30 @@ class StratagemHeroModel: ObservableObject {
                 gameState = .gameOver
             }
         }
-        #else
+#else
         withAnimation {
             recordHighScore()
             gameState = .gameOver
         }
-        #endif
+#endif
         
-       
-
+        
+        
     }
     
     func recordHighScore() {
         if totalScore > highScore {
             highScore = totalScore
         }
-        #if os(iOS)
+#if os(iOS)
         // report high score to game center leaderboard
         gameCenterManager.reportScore(score: highScore, leaderboardID: leaderboardId)
-        #endif
+#endif
+#if os(iOS) || os(watchOS)
         if WCSession.isSupported() {
             watchConnectivity.sendHighScore(highScore: highScore)
         }
+#endif
     }
     
     func endRound() {
@@ -372,18 +383,24 @@ class StratagemHeroModel: ObservableObject {
         
         audioPlayers = audioPlayers.filter { $0.isPlaying }
         
-        #if os(iOS)
+#if os(iOS)
         playSound(soundName: "Stratagem Hero Round End Sound")
-        #else
+#elseif os(watchOS)
         SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Round End Sound Apple Watch")
-        #endif
+#else
+        
+        // tvos
+        
+        SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Round End Sound")
+        
+#endif
         
         withAnimation {
             gameState = .roundEnded
         }
         
         totalScore += roundScore + roundBonus + timeBonus + perfectBonus
-
+        
         
         self.timer?.invalidate()
         self.timer = nil
@@ -403,11 +420,17 @@ class StratagemHeroModel: ObservableObject {
             gameState = .roundStarting
         }
         
-        #if os(iOS)
+#if os(iOS)
         playSound(soundName: "Stratagem Hero Round Start Sound")
-        #else
+#elseif os(watchOS)
         SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Round Start Sound Apple Watch")
-        #endif
+#else
+        
+        // tvos
+        
+        SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Round Start Sound")
+        
+#endif
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             // reset scores
@@ -424,13 +447,13 @@ class StratagemHeroModel: ObservableObject {
             
         }
     }
-
+    
     func nextStratagem() {
         
         
         if let stratagem = stratagems.first {
             withAnimation(.bouncy) {
-            currentStratagem = stratagem
+                currentStratagem = stratagem
                 stratagems.removeFirst()
             }
             
@@ -444,12 +467,12 @@ class StratagemHeroModel: ObservableObject {
             timeBonus += Int(timeRemaining) * timeBonusPointsPerSecond
             
             endRound()
-
+            
             
             
         }
     }
-
+    
     func startTimer() {
         
         timeRemaining = 10
@@ -457,7 +480,7 @@ class StratagemHeroModel: ObservableObject {
         
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             guard let self = self else { return }
-
+            
             self.timeRemaining -= 0.1
             if self.timeRemaining <= 0 {
                 // Game over
@@ -467,10 +490,10 @@ class StratagemHeroModel: ObservableObject {
             }
         }
     }
-
+    
     func inputArrowKey(_ key: StratagemInput) {
         guard let currentStratagem = currentStratagem else { return }
-
+        
         inputSequence.append(key)
         if inputSequence == currentStratagem.sequence {
             // Correct sequence
@@ -479,22 +502,28 @@ class StratagemHeroModel: ObservableObject {
             } else {
                 timeRemaining += 2
             }
-                   let stratagemScore = currentStratagem.sequence.count * 10
-                   roundScore += stratagemScore
-
-                   // Update total score live
-                   totalScore += stratagemScore
-                   if inputSequence.count == currentStratagem.sequence.count {
-                      
-                       perfectBonus += perfectBonusPoints
-                       totalScore += perfectBonusPoints
-                   }
-
-            #if os(iOS)
+            let stratagemScore = currentStratagem.sequence.count * 10
+            roundScore += stratagemScore
+            
+            // Update total score live
+            totalScore += stratagemScore
+            if inputSequence.count == currentStratagem.sequence.count {
+                
+                perfectBonus += perfectBonusPoints
+                totalScore += perfectBonusPoints
+            }
+            
+#if os(iOS)
             playSound(soundName: "Stratagem Hero Success Sound")
-            #else
+#elseif os(watchOS)
             
             SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Success Sound Apple Watch")
+#else
+            
+            // tvos
+            
+            SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Success Sound")
+            
             #endif
             // game score added per correct stratagem
             nextStratagem()
@@ -503,15 +532,21 @@ class StratagemHeroModel: ObservableObject {
             inputSequence = []
             showError = true //
             
-            #if os(iOS)
+#if os(iOS)
             playSound(soundName: "Stratagem Hero Error Sound")
-            #else
+#elseif os(watchOS)
             SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Error Sound Apple Watch")
+#else
+            
+            // tvos
+            SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Error Sound")
+            
+            
             #endif
             
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { // flash red for 0.3 seconds when wrongly entered
-                            self.showError = false
-                        }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { // flash red for 0.3 seconds when wrongly entered
+                self.showError = false
+            }
             
             withAnimation(.linear(duration: 0.3)) {
                 arrowShakeTimes += 1 //  shake when entered wrong
