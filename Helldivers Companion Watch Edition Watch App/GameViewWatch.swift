@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct GameViewWatch: View {
     
@@ -17,8 +18,11 @@ struct GameViewWatch: View {
     var body: some View {
         
         
+        
+        
         NavigationStack {
             VStack {
+                
                 highScoreView
                
          
@@ -31,19 +35,21 @@ struct GameViewWatch: View {
      
                         .foregroundStyle(.yellow)
                 
-                Button(action: {
-                    viewModel.enableSound.toggle()
-                    
-                    if !viewModel.enableSound {
-                        viewModel.stopBackgroundSound()
-                    } else if viewModel.gameState == .started {
-                                viewModel.playBackgroundSound()
-                        }
-                }) {
-                    Image(systemName: viewModel.enableSound ? "speaker.fill" : "speaker.slash.fill")
-                }.foregroundStyle(viewModel.enableSound ? .accent : .gray)
+                HStack {
+                    Button(action: {
+                        viewModel.enableSound.toggle()
                         
-                  
+                        if !viewModel.enableSound {
+                            viewModel.stopBackgroundSound()
+                        } else if viewModel.gameState == .started {
+                            viewModel.playBackgroundSound()
+                        }
+                    }) {
+                        Image(systemName: viewModel.enableSound ? "speaker.fill" : "speaker.slash.fill")
+                    }.foregroundStyle(viewModel.enableSound ? .accent : .gray)
+                    
+                    VolumeView()
+                }.padding(.horizontal, 5)
                 
             }
             
@@ -441,5 +447,25 @@ struct WatchTimerBarView: View {
     }
 }
 
+struct VolumeView: WKInterfaceObjectRepresentable {
+    typealias WKInterfaceObjectType = WKInterfaceVolumeControl
 
+
+    func makeWKInterfaceObject(context: Self.Context) -> WKInterfaceVolumeControl {
+        let view = WKInterfaceVolumeControl(origin: .local)
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak view] timer in
+            if let view = view {
+                view.focus()
+            } else {
+                timer.invalidate()
+            }
+        }
+        DispatchQueue.main.async {
+            view.focus()
+        }
+        return view
+    }
+    func updateWKInterfaceObject(_ wkInterfaceObject: WKInterfaceVolumeControl, context: WKInterfaceObjectRepresentableContext<VolumeView>) {
+    }
+}
 

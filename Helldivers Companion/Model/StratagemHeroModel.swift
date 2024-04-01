@@ -100,7 +100,12 @@ class StratagemHeroModel: ObservableObject {
     
     private func prepareAudioPlayer() {
             // Set the audio session category
-            try? AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
+        #if os(iOS)
+        try? AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
+        #else
+        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+        #endif
+        
             try? AVAudioSession.sharedInstance().setActive(true)
         }
     
