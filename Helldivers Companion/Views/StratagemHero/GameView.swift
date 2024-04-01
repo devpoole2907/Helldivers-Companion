@@ -159,6 +159,10 @@ struct GameView: View {
         
         
         .onAppear {
+            
+            if viewModel.gameState == .started {
+                viewModel.playBackgroundSound()
+                }
         
         viewModel.viewCount += 1
         
