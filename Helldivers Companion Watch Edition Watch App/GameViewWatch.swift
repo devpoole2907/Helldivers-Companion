@@ -9,7 +9,8 @@ import SwiftUI
 
 struct GameViewWatch: View {
     
-    @StateObject var viewModel = StratagemHeroModel()
+    // viewmodel must be enviro as root will load the game sounds
+    @EnvironmentObject var viewModel: StratagemHeroModel
     @ObservedObject var connectivityProvider = WatchConnectivityProvider.shared
     @EnvironmentObject var purchaseManager: StoreManager
     
@@ -59,57 +60,71 @@ struct GameViewWatch: View {
         
         .sheet(isPresented: $viewModel.showGameSheet, onDismiss: {
             viewModel.gameOver() // end game on dismiss of the sheet
+            viewModel.stopGame()
         }) {
-            NavigationStack {
-                
-                ZStack {
-                    VStack {
-                        
-                        Image("superEarth").resizable().aspectRatio(contentMode: .fit).frame(width: 100, height: 100).opacity(0.12)
-                        
-                    }
-                ZStack(alignment: .top) {
-                    VStack {
-                        Group {
-                            switch viewModel.gameState {
-                            case .started:
-                                scoreView
-                            case .notStarted:
-                                highScoreView
-                            case .roundEnded:
-                                roundEndView
-                            case .roundStarting:
-                                //roundEndView
-                                Spacer().frame(maxHeight: 45)
-                            case .gameOver:
-                                highScoreView
-                            }
-                        }
-                        
+            
+            
+         
+            
+                NavigationStack {
+                    // if preloading is done show the game, or if sound is disabled, dont bother waiting for it to load as the sounds are not called
+                    if viewModel.isPreLoadingDone || !viewModel.enableSound {
+                    ZStack {
                         VStack {
                             
+                            Image("superEarth").resizable().aspectRatio(contentMode: .fit).frame(width: 100, height: 100).opacity(0.12)
                             
+                        }
+                        ZStack(alignment: .top) {
                             VStack {
-                                if viewModel.gameState == .notStarted || viewModel.gameState == .roundEnded {
-                                    Rectangle().frame(height: 1).foregroundStyle(.gray)
-                                    Text("Swipe in any direction to Start!") .font(Font.custom("FS Sinclair", size: 14))
-                                        .foregroundStyle(.yellow)
-                                        .multilineTextAlignment(.center)
-                                        .lineLimit(2, reservesSpace: true)
-                                    Rectangle().frame(height: 1).foregroundStyle(.gray)
-                                } else if viewModel.gameState == .roundStarting {
+                                Group {
+                                    switch viewModel.gameState {
+                                    case .started:
+                                        scoreView
+                                    case .notStarted:
+                                        highScoreView
+                                    case .roundEnded:
+                                        roundEndView
+                                    case .roundStarting:
+                                        //roundEndView
+                                        Spacer().frame(maxHeight: 45)
+                                    case .gameOver:
+                                        highScoreView
+                                    }
+                                }
+                                
+                                VStack {
                                     
-                                    roundStartView
                                     
-                                } else if viewModel.gameState == .gameOver {
+                                    VStack {
+                                        if viewModel.gameState == .notStarted || viewModel.gameState == .roundEnded {
+                                            Rectangle().frame(height: 1).foregroundStyle(.gray)
+                                            Text("Swipe in any direction to Start!") .font(Font.custom("FS Sinclair", size: 14))
+                                                .foregroundStyle(.yellow)
+                                                .multilineTextAlignment(.center)
+                                                .lineLimit(2, reservesSpace: true)
+                                            Rectangle().frame(height: 1).foregroundStyle(.gray)
+                                        } else if viewModel.gameState == .roundStarting {
+                                            
+                                            roundStartView
+                                            
+                                        } else if viewModel.gameState == .gameOver {
+                                            
+                                            gameOverView
+                                            
+                                        } else {
+                                            // game view
+                                            centerView
+                                            
+                                        }
+                                        
+                                    }
                                     
-                                    gameOverView
                                     
-                                } else {
-                                    // game view
-                                    centerView
                                     
                                 }
+                                
+                                
                                 
                             }
                             
@@ -117,110 +132,112 @@ struct GameViewWatch: View {
                             
                         }
                         
-                        
-                        
-                    }
-                    
-             
-                    
-                }
-                    
-                    ForEach(viewModel.arrows, id: \.id) { arrow in
-                        Image(systemName: viewModel.arrowName(for: arrow.direction))
-                            .font(.system(size: 100))
-                            .opacity(arrow.opacity)
-                            .foregroundStyle(viewModel.showError ? .red : .accent)
-                                        .offset(arrow.offset)
-                                        .animation(.easeOut(duration: 0.5), value: arrow.offset)
-                                        .animation(.easeOut(duration: 0.5), value: arrow.opacity)
-                                        .onAppear {
-                                                    withAnimation {
-                                                        viewModel.moveArrow(id: arrow.id, to: viewModel.movementOffset(for: arrow.direction))
-                                                    }
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                                        withAnimation {
-                                                            viewModel.fadeOutArrow(id: arrow.id)
-                                                        }
-                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                                            viewModel.removeArrow(id: arrow.id)
-                                                        }
-                                                    }
-                                                }
+                        ForEach(viewModel.arrows, id: \.id) { arrow in
+                            Image(systemName: viewModel.arrowName(for: arrow.direction))
+                                .font(.system(size: 100))
+                                .opacity(arrow.opacity)
+                                .foregroundStyle(viewModel.showError ? .red : .accent)
+                                .offset(arrow.offset)
+                                .animation(.easeOut(duration: 0.5), value: arrow.offset)
+                                .animation(.easeOut(duration: 0.5), value: arrow.opacity)
+                                .onAppear {
+                                    withAnimation {
+                                        viewModel.moveArrow(id: arrow.id, to: viewModel.movementOffset(for: arrow.direction))
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                        withAnimation {
+                                            viewModel.fadeOutArrow(id: arrow.id)
+                                        }
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                            viewModel.removeArrow(id: arrow.id)
+                                        }
+                                    }
                                 }
-                
-            }.gesture(
-                DragGesture(minimumDistance: 50, coordinateSpace: .local)
-                    .onEnded { value in
-                        let horizontalAmount = value.translation.width as CGFloat
-                        let verticalAmount = value.translation.height as CGFloat
-
-                        if abs(horizontalAmount) > abs(verticalAmount) {
-                            if horizontalAmount < 0 {
-                                // Left swipe
-                                viewModel.buttonInput(input: .left)
-                                viewModel.addArrow(direction: .left)
-                                print("Swiped left")
-                            } else {
-                                // Right swipe
-                                viewModel.buttonInput(input: .right)
-                                viewModel.addArrow(direction: .right)
-                                print("Swiped right")
-                            }
-                        } else {
-                            if verticalAmount < 0 {
-                                // Up swipe
-                                viewModel.buttonInput(input: .up)
-                                viewModel.addArrow(direction: .up)
-                                print("Swiped up")
-                            } else {
-                                // Down swipe
-                                viewModel.buttonInput(input: .down)
-                                viewModel.addArrow(direction: .down)
-                                print("Swiped down")
-                            }
                         }
-                    }
-            )
-                
-            .onAppear {
-                
-                // show a quick indicator that you swipe to input on the watch version
-                let delay = 0.3
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + delay * 1) {
-                    viewModel.addArrow(direction: .right)
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + delay * 2) {
-                    viewModel.addArrow(direction: .left)
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + delay * 3) {
-                    viewModel.addArrow(direction: .down)
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + delay * 4) {
-                    viewModel.addArrow(direction: .up)
-                }
-            }
-
-                
-            .toolbar {
-                if viewModel.gameState == .started {
-                    ToolbarItem(placement: .topBarTrailing){
-                        HStack(spacing: -4) {
-                            Text("R") .font(Font.custom("FS Sinclair", size: 20))
-                            
-                            Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair", size: 20))
-                                .foregroundStyle(.yellow)
-                        }
-                    }
-                }
-            }
-
+                        
+                    }.gesture(
+                        DragGesture(minimumDistance: 50, coordinateSpace: .local)
+                            .onEnded { value in
+                                let horizontalAmount = value.translation.width as CGFloat
+                                let verticalAmount = value.translation.height as CGFloat
+                                
+                                if abs(horizontalAmount) > abs(verticalAmount) {
+                                    if horizontalAmount < 0 {
+                                        // Left swipe
+                                        viewModel.buttonInput(input: .left)
+                                        viewModel.addArrow(direction: .left)
+                                        print("Swiped left")
+                                    } else {
+                                        // Right swipe
+                                        viewModel.buttonInput(input: .right)
+                                        viewModel.addArrow(direction: .right)
+                                        print("Swiped right")
+                                    }
+                                } else {
+                                    if verticalAmount < 0 {
+                                        // Up swipe
+                                        viewModel.buttonInput(input: .up)
+                                        viewModel.addArrow(direction: .up)
+                                        print("Swiped up")
+                                    } else {
+                                        // Down swipe
+                                        viewModel.buttonInput(input: .down)
+                                        viewModel.addArrow(direction: .down)
+                                        print("Swiped down")
+                                    }
+                                }
+                            }
+                    )
                     
+                    .onAppear {
+                        
+                        // show a quick indicator that you swipe to input on the watch version
+                        let delay = 0.3
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + delay * 1) {
+                            viewModel.addArrow(direction: .right)
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + delay * 2) {
+                            viewModel.addArrow(direction: .left)
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + delay * 3) {
+                            viewModel.addArrow(direction: .down)
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + delay * 4) {
+                            viewModel.addArrow(direction: .up)
+                        }
+                    }
+                    
+                    
+                    .toolbar {
+                        if viewModel.gameState == .started {
+                            ToolbarItem(placement: .topBarTrailing){
+                                HStack(spacing: -4) {
+                                    Text("R") .font(Font.custom("FS Sinclair", size: 20))
+                                    
+                                    Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair", size: 20))
+                                        .foregroundStyle(.yellow)
+                                }
+                            }
+                        }
+                    }
+                    
+                    
+                    
+                    
+                    .navigationBarTitleDisplayMode(.inline)
+                    
+                    } else {
+                        
+                        
+                        VStack {
+                            Text("LOADING ASSETS...")
+                            ProgressView()
+                        }
+                        
+                    }
                 
-                
-                .navigationBarTitleDisplayMode(.inline)
-                
-        }
+            }
             .dynamicTypeSize(.small)
             .interactiveDismissDisabled()
             
@@ -234,11 +251,13 @@ struct GameViewWatch: View {
                     if Bool.random(), !purchaseManager.products.isEmpty {
                         purchaseManager.showTips.toggle()
                         purchaseManager.tipShownInSession = true // dont show again this session
-                                }
+                    }
                 }
                 
                 
             }
+            
+          
             
         }
         

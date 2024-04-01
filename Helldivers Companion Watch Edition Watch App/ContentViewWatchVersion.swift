@@ -19,6 +19,8 @@ struct ContentViewWatchVersion: View {
     
     @StateObject var newsNavPather = NavigationPather()
     
+    @StateObject var gameModel = StratagemHeroModel()
+    
     @State private var currentTab: Tab = .home
     
     var body: some View {
@@ -29,7 +31,7 @@ struct ContentViewWatchVersion: View {
                 .environmentObject(purchaseManager)
                 .tag(Tab.about)
             
-            GameViewWatch().environmentObject(purchaseManager)
+            GameViewWatch().environmentObject(purchaseManager).environmentObject(gameModel)
                 .tag(Tab.game)
             
             ContentView().environmentObject(viewModel).environmentObject(contentNavPather)
@@ -65,6 +67,8 @@ struct ContentViewWatchVersion: View {
         .onAppear {
             
             viewModel.startUpdating()
+            
+            gameModel.preloadAssets()
 
         }
         

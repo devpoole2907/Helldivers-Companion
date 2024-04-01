@@ -21,6 +21,14 @@
 		7C018FF72BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FF52BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 */; };
 		7C018FF92BBA6152001AFB15 /* Stratagem Hero Success Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FF82BBA6151001AFB15 /* Stratagem Hero Success Sound.mp3 */; };
 		7C018FFA2BBA6152001AFB15 /* Stratagem Hero Success Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FF82BBA6151001AFB15 /* Stratagem Hero Success Sound.mp3 */; };
+		7C018FFC2BBA679F001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FFB2BBA679F001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 */; };
+		7C018FFD2BBA68C9001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FFB2BBA679F001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 */; };
+		7C018FFF2BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FFE2BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 */; };
+		7C0190002BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C018FFE2BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 */; };
+		7C0190022BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C0190012BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 */; };
+		7C0190032BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C0190012BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 */; };
+		7C0190052BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C0190042BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 */; };
+		7C0190062BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7C0190042BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 */; };
 		7C0C994C2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C994B2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift */; };
 		7C0C994E2BA2BA8F00CF7C91 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C994D2BA2BA8F00CF7C91 /* ContentView.swift */; };
 		7C0C99502BA2BA9000CF7C91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
@@ -308,6 +316,10 @@
 		7C018FF22BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Round End Sound.mp3"; sourceTree = "<group>"; };
 		7C018FF52BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Error Sound.mp3"; sourceTree = "<group>"; };
 		7C018FF82BBA6151001AFB15 /* Stratagem Hero Success Sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Success Sound.mp3"; sourceTree = "<group>"; };
+		7C018FFB2BBA679F001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Success Sound Apple Watch.mp3"; sourceTree = "<group>"; };
+		7C018FFE2BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Round End Sound Apple Watch.mp3"; sourceTree = "<group>"; };
+		7C0190012BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Error Sound Apple Watch.mp3"; sourceTree = "<group>"; };
+		7C0190042BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Stratagem Hero Round Start Sound Apple Watch.mp3"; sourceTree = "<group>"; };
 		7C0C99482BA2BA8F00CF7C91 /* Helldivers Companion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Helldivers Companion.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C0C994B2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_CompanionApp.swift; sourceTree = "<group>"; };
 		7C0C994D2BA2BA8F00CF7C91 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -473,6 +485,10 @@
 		7C018FD02BBA492A001AFB15 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				7C018FFB2BBA679F001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 */,
+				7C018FFE2BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 */,
+				7C0190042BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 */,
+				7C0190012BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 */,
 				7C018FEF2BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 */,
 				7C018FE92BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 */,
 				7C018FF22BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 */,
@@ -959,8 +975,12 @@
 				7C4589B92BA54C030019B00E /* FS Sinclair Bold.otf in Resources */,
 				7C018FF02BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 in Resources */,
 				7CE97D462BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit in Resources */,
+				7C018FFD2BBA68C9001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 in Resources */,
 				7C50CEE62BA8295E009094AE /* GoogleService-Info.plist in Resources */,
+				7C0190052BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */,
 				7C018FED2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 in Resources */,
+				7C0190022BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 in Resources */,
+				7C018FFF2BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 in Resources */,
 				7C018FF62BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */,
 				7C0C99532BA2BA9000CF7C91 /* Preview Assets.xcassets in Resources */,
 				7C018FEA2BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 in Resources */,
@@ -998,8 +1018,12 @@
 				7C587F602BA6E25500C66643 /* FS Sinclair Bold.otf in Resources */,
 				7C018FF12BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 in Resources */,
 				7CE97D472BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit in Resources */,
+				7C018FFC2BBA679F001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 in Resources */,
 				7C50CEE72BA8295E009094AE /* GoogleService-Info.plist in Resources */,
+				7C0190062BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */,
 				7C018FEE2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 in Resources */,
+				7C0190032BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 in Resources */,
+				7C0190002BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 in Resources */,
 				7C018FF72BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */,
 				7C587F4E2BA6DBBB00C66643 /* Preview Assets.xcassets in Resources */,
 				7C018FEB2BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 in Resources */,

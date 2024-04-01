@@ -31,6 +31,13 @@ struct RootView: View {
             }
         }
     
+    init(){
+        // preload game sounds, mainly for slow watches but for ios itll load the buttons sound
+        SoundPoolManager.shared.preloadAllSounds {
+            
+        }
+    }
+    
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {

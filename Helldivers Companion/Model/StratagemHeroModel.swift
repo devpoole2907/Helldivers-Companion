@@ -22,7 +22,10 @@ class StratagemHeroModel: ObservableObject {
     @Published var showError = false
     
     // mutes sounds
-    @Published var enableSound = true
+    @AppStorage("enableGameSound") var enableSound = true
+    
+    // for watch os to determine if game sound loaded yet
+    @Published var isPreLoadingDone = false
     
     @AppStorage("gameEndCount") var gameEndCount = 0
     
@@ -87,8 +90,13 @@ class StratagemHeroModel: ObservableObject {
     init() {
         loadStratagems(forRound: currentRound)
         prepareAudioPlayer()
-        
     }
+    // for watchos to load assets before gameplay
+    func preloadAssets() {
+            SoundPoolManager.shared.preloadAllSounds {
+                self.isPreLoadingDone = true
+            }
+        }
     
     private func prepareAudioPlayer() {
             // Set the audio session category
@@ -265,8 +273,9 @@ class StratagemHeroModel: ObservableObject {
     
     func buttonInput(input: StratagemInput) {
         
-     //   SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Input Sound", volume: 0.5)
-        
+        #if os(watchOS)
+        SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Input Sound", volume: 0.3)
+        #endif
         // the watch cant handle these sounds
         
         #if os(iOS)
@@ -310,7 +319,11 @@ class StratagemHeroModel: ObservableObject {
         
         stopBackgroundSound()
         
+        #if os(iOS)
         playSound(soundName: "Stratagem Hero Round End Sound")
+        #else
+        SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Round End Sound Apple Watch")
+        #endif
         
         self.timer?.invalidate()
         self.timer = nil
@@ -354,7 +367,11 @@ class StratagemHeroModel: ObservableObject {
         
         audioPlayers = audioPlayers.filter { $0.isPlaying }
         
+        #if os(iOS)
         playSound(soundName: "Stratagem Hero Round End Sound")
+        #else
+        SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Round End Sound Apple Watch")
+        #endif
         
         withAnimation {
             gameState = .roundEnded
@@ -381,7 +398,11 @@ class StratagemHeroModel: ObservableObject {
             gameState = .roundStarting
         }
         
+        #if os(iOS)
         playSound(soundName: "Stratagem Hero Round Start Sound")
+        #else
+        SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Round Start Sound Apple Watch")
+        #endif
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             // reset scores
@@ -464,9 +485,12 @@ class StratagemHeroModel: ObservableObject {
                        totalScore += perfectBonusPoints
                    }
 
-            
+            #if os(iOS)
             playSound(soundName: "Stratagem Hero Success Sound")
+            #else
             
+            SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Success Sound Apple Watch")
+            #endif
             // game score added per correct stratagem
             nextStratagem()
         } else if !currentStratagem.sequence.starts(with: inputSequence) {
@@ -474,7 +498,11 @@ class StratagemHeroModel: ObservableObject {
             inputSequence = []
             showError = true //
             
+            #if os(iOS)
             playSound(soundName: "Stratagem Hero Error Sound")
+            #else
+            SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Error Sound Apple Watch")
+            #endif
             
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { // flash red for 0.3 seconds when wrongly entered
                             self.showError = false

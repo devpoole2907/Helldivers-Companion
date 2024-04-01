@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFoundation
+import SwiftUI
 
 class SoundPoolManager {
     static let shared = SoundPoolManager()
@@ -16,7 +17,47 @@ class SoundPoolManager {
     
     private var backgroundAudioPlayer: AVAudioPlayer?
     
-    func preloadSound(soundName: String, withExtension ext: String = "m4a", isBackgroundMusic: Bool = false) {
+    @AppStorage("enableGameSound") var enableSound = true
+    
+    // preload sounds, watches really struggle with sound loading
+    // has completion, so ui can update (will say loading assets...)
+    
+    
+    
+    func preloadAllSounds(completion: @escaping () -> Void) {
+        
+        // loaded on main thread, causes longer initial app load on the watch but worth it to "obscure" the loading of the sounds
+        self.preloadSound(soundName: "Stratagem Hero Input Sound")
+#if os(watchOS)
+        self.preloadSound(soundName: "Stratagem Hero Error Sound Apple Watch")
+        
+        self.preloadSound(soundName: "Stratagem Hero Success Sound Apple Watch")
+  
+        #endif
+        
+        
+        // technically the loading assets screen should never be seen now because nothing is called before the completion in the background
+        DispatchQueue.main.async {
+                   completion()
+               }
+     
+        // these are loaded on background thread
+        DispatchQueue.global(qos: .background).async {
+
+          
+#if os(watchOS)
+            // load round end sound after completion, reduces loading assets load time and ideally the sound will have loaded by the end of the round
+            // if it hasnt, slight hitch, but a small price to pay
+            self.preloadSound(soundName: "Stratagem Hero Round End Sound Apple Watch")
+            
+            // round start sound specifically does not play on round 1 starting, this ensures this sound is not needed yet to allow quicker load times so we can do this after completion called
+            self.preloadSound(soundName: "Stratagem Hero Round Start Sound Apple Watch")
+#endif
+        }
+        
+        }
+    
+    func preloadSound(soundName: String, withExtension ext: String = "mp3", isBackgroundMusic: Bool = false) {
         guard let url = Bundle.main.url(forResource: soundName, withExtension: ext) else { return }
         
         if isBackgroundMusic {
@@ -48,6 +89,7 @@ class SoundPoolManager {
     }
     
     func playSound(soundName: String, volume: Float = 1.0) {
+        if enableSound {
         guard let players = soundPools[soundName] else {
             preloadSound(soundName: soundName)
             playSound(soundName: soundName, volume: volume)
@@ -58,8 +100,10 @@ class SoundPoolManager {
             player.volume = volume
             player.play()
         } else {
-            // Optionally handle case when all players are busy (like stopping the earliest one)
+            // could handle case when all players are busy (like stopping earliest one)
         }
+        
+    }
     }
     
     func playBackgroundSound() {
