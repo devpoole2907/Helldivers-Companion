@@ -13,7 +13,19 @@ struct WarStatusResponse: Decodable {
     var planetStatus: [PlanetStatus]
     var planetEvents: [PlanetEvent]
     let snapshotAt: String
+    let startedAt: String // date war started
     let warId: Int
+    
+    
+    func convertStartedAtToDate() -> Date? {
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+        print("Attempting to convert date: \(startedAt)")
+        return dateFormatter.date(from: startedAt)
+    }
+
+    
 }
 
 struct Campaign: Decodable {

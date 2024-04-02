@@ -27,7 +27,7 @@ struct MajorOrderProvider: TimelineProvider {
         let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/currentPlanetStatus.json"
 
         planetsModel.fetchConfig() { config in
-            planetsModel.fetchPlanetStatuses(using: urlString, for: config?.season ?? "801") { _, _, planetStatuses in
+            planetsModel.fetchPlanetStatuses(using: urlString, for: config?.season ?? "801") { _, _, planetStatuses, _ in
                 planetsModel.fetchMajorOrder(for: config?.season ?? "801", with: planetStatuses) { planets, order in
                 
                 let entry = MajorOrderEntry(date: Date(), title: order?.setting.taskDescription, description: order?.setting.overrideBrief, taskPlanets: planets, rewardValue: order?.setting.reward.amount, rewardType: order?.setting.reward.type, timeRemaining: order?.expiresIn)

@@ -158,6 +158,7 @@
 		7C587F602BA6E25500C66643 /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
 		7C5D5F592BAFD74900B644B9 /* WatchConnectivityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */; };
 		7C5D5F5A2BAFD83F00B644B9 /* WatchConnectivityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */; };
+		7C63130B2BBBDA8D00C84C13 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C8C5F272BADD17000C4FBD2 /* ShakeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C32BA574B20019B00E /* ShakeModifier.swift */; };
 		7C8C5F282BAE80D300C4FBD2 /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */; };
 		7C8C5F292BAE810E00C4FBD2 /* CustomSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */; };
@@ -1145,6 +1146,7 @@
 				7C1B8C172BAD705600944823 /* Helldivers_Companion_News_Widget.swift in Sources */,
 				7C0DF62B2BB96D530062AB9B /* NavigationPather.swift in Sources */,
 				7C1B8C312BAD767400944823 /* PlanetStructs.swift in Sources */,
+				7C63130B2BBBDA8D00C84C13 /* PlanetsViewModel.swift in Sources */,
 				7C1B8C2E2BAD718200944823 /* NewsItemView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

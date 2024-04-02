@@ -12,6 +12,8 @@ struct WatchNewsView: View {
     @StateObject var feedModel = NewsFeedModel()
     @EnvironmentObject var purchaseManager: StoreManager
     @EnvironmentObject var navPather: NavigationPather
+    @EnvironmentObject var viewModel: PlanetsViewModel
+    
     
     var body: some View {
         
@@ -30,8 +32,8 @@ struct WatchNewsView: View {
                         LazyVStack(spacing: 15) {
                             
                             
-                            if let message = news.message, !message.isEmpty {
-                                NewsItemView(newsTitle: news.title, newsMessage: message)
+                            if let message = news.message, !message.isEmpty, let published = news.published {
+                                NewsItemView(newsTitle: news.title, newsMessage: message, published: published, warStatusResponse: viewModel.warStatusResponse)
                                   //  .padding(.horizontal)
                             
                             }

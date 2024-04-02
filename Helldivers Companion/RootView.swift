@@ -59,7 +59,7 @@ struct RootView: View {
                     .tag(Tab.stats)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
-                NewsView().environmentObject(purchaseManager).environmentObject(newsNavPather)
+                NewsView().environmentObject(purchaseManager).environmentObject(newsNavPather).environmentObject(viewModel)
                     .tag(Tab.news)
                     .toolbarBackground(.hidden, for: .tabBar)
                 

@@ -10,40 +10,48 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     
+    var planetsModel = PlanetsViewModel()
     
     var newsModel = NewsFeedModel()
     
     func placeholder(in context: Context) -> NewsItemEntry {
-        NewsItemEntry(date: Date(), title: "Automaton Counterattack", description: "Intercepted messages indicate bot plans for a significant push. Increased resistance on Automaton planets is anticipated.")
+        NewsItemEntry(date: Date(), title: "Automaton Counterattack", description: "Intercepted messages indicate bot plans for a significant push. Increased resistance on Automaton planets is anticipated.", published: 4444974)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (NewsItemEntry) -> ()) {
-        let entry = NewsItemEntry(date: Date(), title: "Automaton Counterattack", description: "Intercepted messages indicate bot plans for a significant push. Increased resistance on Automaton planets is anticipated.")
+        let entry = NewsItemEntry(date: Date(), title: "Automaton Counterattack", description: "Intercepted messages indicate bot plans for a significant push. Increased resistance on Automaton planets is anticipated.", published: 4444974)
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [NewsItemEntry] = []
 
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
+        // uses latest cached planet statuses, reduce api calls
+        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/currentPlanetStatus.json"
         
-        newsModel.fetchNewsFeed { news in
-            
-            print("fetching news")
-            
-            if let newsEntry = news.first, let message = newsEntry.message {
-                
-                
+        planetsModel.fetchConfig() { config in
+            planetsModel.fetchPlanetStatuses(using: urlString, for: config?.season ?? "801") { _, _, _, warStatusResponse in
+                newsModel.fetchNewsFeed { news in
                     
-                    let entry = NewsItemEntry(date: Date(), title: newsEntry.title ?? "BREAKING NEWS", description: message)
-                
+                    print("fetching news")
                     
-                    entries.append(entry)
+                    if let newsEntry = news.first, let message = newsEntry.message {
+                        
+                        
+                        
+                        let entry = NewsItemEntry(date: Date(), title: newsEntry.title ?? "BREAKING NEWS", description: message, published: newsEntry.published ?? 0, warStatusResponse: warStatusResponse)
+                        
+                        
+                        entries.append(entry)
+                        
+                    }
+                    
+                    let timeline = Timeline(entries: entries, policy: .atEnd)
+                    completion(timeline)
+                    
+                }
                 
             }
-            
-            let timeline = Timeline(entries: entries, policy: .atEnd)
-            completion(timeline)
             
         }
         
@@ -59,6 +67,8 @@ struct NewsItemEntry: TimelineEntry {
     let date: Date
     let title: String?
     let description: String
+    let published: UInt32
+    var warStatusResponse: WarStatusResponse? = nil
 }
 
 struct Helldivers_Companion_News_WidgetEntryView : View {
@@ -72,7 +82,7 @@ struct Helldivers_Companion_News_WidgetEntryView : View {
             ContainerRelativeShape()
                 .inset(by: 4)
                 .fill(Color.black)
-            NewsItemView(newsTitle: entry.title, newsMessage: entry.description.replacingOccurrences(of: "\n", with: ""), isWidget: true).padding(.horizontal)
+            NewsItemView(newsTitle: entry.title, newsMessage: entry.description.replacingOccurrences(of: "\n", with: ""), published: entry.published, warStatusResponse: entry.warStatusResponse, isWidget: true).padding(.horizontal)
                 .padding(.vertical, 5)
               
             
@@ -105,5 +115,5 @@ struct Helldivers_Companion_News_Widget: Widget {
 #Preview(as: .systemLarge) {
     Helldivers_Companion_News_Widget()
 } timeline: {
-    NewsItemEntry(date: Date(), title: "Automaton Counterattack", description: "Intercepted messages indicate bot plans for a significant push. Increased resistance on Automaton planets is anticipated.")
+    NewsItemEntry(date: Date(), title: "Automaton Counterattack", description: "Intercepted messages indicate bot plans for a significant push. Increased resistance on Automaton planets is anticipated.", published: 4444974)
 }

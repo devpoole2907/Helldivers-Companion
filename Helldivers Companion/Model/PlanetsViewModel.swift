@@ -22,6 +22,7 @@ class PlanetsViewModel: ObservableObject {
     @Published var currentSeason: String = ""
     @Published var majorOrder: MajorOrder? = nil
     @Published var galaxyStats: GalaxyStats? = nil
+    @Published var warStatusResponse: WarStatusResponse? = nil
     @Published var lastUpdatedDate: Date = Date()
     // planetstatuses with tasks in the major order (e.g need to be liberated)
     @Published var taskPlanets: [PlanetStatus] = []
@@ -501,7 +502,7 @@ class PlanetsViewModel: ObservableObject {
     }
     
     // returns campaign planets, planet events, and all planet statuses (for widgets to use etc)
-    func fetchPlanetStatuses(using url: String? = nil, for season: String? = nil, completion: @escaping (([PlanetStatus], [PlanetEvent], [PlanetStatus])) -> Void) {
+    func fetchPlanetStatuses(using url: String? = nil, for season: String? = nil, completion: @escaping (([PlanetStatus], [PlanetEvent], [PlanetStatus], WarStatusResponse?)) -> Void) {
         
         // this function should be adapted for use both in the caching one or the live one below
         
@@ -517,7 +518,7 @@ class PlanetsViewModel: ObservableObject {
         URLSession.shared.dataTask(with: url){ [weak self] data, response, error in
             
             guard let data = data else {
-                completion(([], [], []))
+                completion(([], [], [], nil))
                 return
             }
             
@@ -605,11 +606,12 @@ class PlanetsViewModel: ObservableObject {
                                 self?.groupedBySectorPlanetStatuses = groupedBySector
                                 self?.sortedSectors = sortedSectors
                                 self?.allPlanetStatuses = decodedResponse.planetStatus
+                                self?.warStatusResponse = decodedResponse
                                 withAnimation(.bouncy) {
                                     self?.campaignPlanets = sortedCampaignPlanets
                                 }
                                 print("fetchPlanetStatuses: All updates done, calling completion")
-                                completion((campaignPlanetsWithStatus, decodedResponse.planetEvents, decodedResponse.planetStatus))
+                                completion((campaignPlanetsWithStatus, decodedResponse.planetEvents, decodedResponse.planetStatus, decodedResponse))
                                 
                             }
                             
@@ -626,7 +628,7 @@ class PlanetsViewModel: ObservableObject {
                 
             } catch {
                 print("Decoding error: \(error)")
-                completion(([], [], []))
+                completion(([], [], [], nil))
             }
             
             

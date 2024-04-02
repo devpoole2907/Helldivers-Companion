@@ -43,7 +43,7 @@ struct ContentViewWatchVersion: View {
             WatchGalaxyStatsView().environmentObject(viewModel).environmentObject(purchaseManager).environmentObject(statsNavPather)
                 .tag(Tab.stats)
             
-            WatchNewsView().environmentObject(newsNavPather)
+            WatchNewsView().environmentObject(newsNavPather).environmentObject(viewModel)
                 .tag(Tab.news)
  
            

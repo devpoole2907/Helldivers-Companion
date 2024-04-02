@@ -12,6 +12,7 @@ struct NewsView: View {
     @StateObject var feedModel = NewsFeedModel()
     @EnvironmentObject var purchaseManager: StoreManager
     @EnvironmentObject var navPather: NavigationPather
+    @EnvironmentObject var viewModel: PlanetsViewModel
     
     var body: some View {
         
@@ -26,8 +27,8 @@ struct NewsView: View {
                     LazyVStack(spacing: 15) {
                         ForEach(feedModel.news, id: \.id) { news in
                             
-                            if let message = news.message, !message.isEmpty {
-                                NewsItemView(newsTitle: news.title, newsMessage: message)
+                            if let message = news.message, !message.isEmpty, let published = news.published {
+                                NewsItemView(newsTitle: news.title, newsMessage: message, published: published, warStatusResponse: viewModel.warStatusResponse)
                                     .padding(.horizontal)
                                 // set id as 0 if first news item to programmatic scroll to top
                                     .id(feedModel.news.first == news ? 0 : news.id)
