@@ -17,6 +17,8 @@ struct GalaxyStatsView: View {
     @EnvironmentObject var navPather: NavigationPather
     @EnvironmentObject var purchaseManager: StoreManager
     
+    @State private var searchText = ""
+    
     var body: some View {
         NavigationStack(path: $navPather.navigationPath) {
             
@@ -25,12 +27,14 @@ struct GalaxyStatsView: View {
                     
               
                     #if os(iOS)
-                    Section {
+                    if searchText.isEmpty {
+                        Section {
+                            
+                            GalaxyInfoView(galaxyStats: viewModel.galaxyStats)
+                        }
                         
-                        GalaxyInfoView(galaxyStats: viewModel.galaxyStats)
-                    }
-                  
                         .id(0)
+                    }
                     #endif
                     
                     
@@ -40,10 +44,16 @@ struct GalaxyStatsView: View {
                         // this isnt technically ordered, but it doesnt matter because index of 0 will be marked for the statistics at the top, so if scroll position has any value then bring us back to 0 at the top :-)
                     ForEach(viewModel.sortedSectors.indices, id: \.self) { index in
                         let sector = viewModel.sortedSectors[index]
+                        let planets = viewModel.groupedBySectorPlanetStatuses[sector] ?? []
+                        let filteredPlanets = planets.filter { searchText.isEmpty || $0.planet.name.lowercased().contains(searchText.lowercased()) }
+                        let isSectorMatch = sector.localizedCaseInsensitiveContains(searchText)
+                     
+                        // show all planets when no search term, show only search matching planets when there is and their respective sector heading
                         
+                        if searchText.isEmpty || isSectorMatch || !filteredPlanets.isEmpty {
                         Section{
                             
-                            ForEach(viewModel.groupedBySectorPlanetStatuses[sector] ?? [], id: \.planet.index) { planetStatus in
+                            ForEach(isSectorMatch ? planets : filteredPlanets, id: \.planet.index) { planetStatus in
                                 
                                 
                                 NavigationLink(value: planetStatus) {
@@ -60,7 +70,8 @@ struct GalaxyStatsView: View {
                             }.padding(.top)
                             
                         }.id(index + 1)
-                
+                        
+                    }
                         
                     }
                     
@@ -69,22 +80,27 @@ struct GalaxyStatsView: View {
                     
                 }.padding(.horizontal)
                 
+                Spacer(minLength: 150)
+                
                 
                   //  .scrollTargetLayout()
                 
             }//.scrollPosition(id: $navPather.scrollPosition)
             
+
             
             
 #if os(iOS)
-            
-            
-                .overlay(
+            // searching only on ios
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Planets").disableAutocorrection(true)
+
+            // overlay conflicts with searchable
+             /*   .overlay(
                     FactionImageView(faction: .human)
 
                         .padding(.trailing, 20)
                         .offset(x: 0, y: -45)
-                    , alignment: .topTrailing)
+                    , alignment: .topTrailing)*/
             
                 .background {
                     Image("BackgroundImage").blur(radius: 10).ignoresSafeArea()
@@ -110,6 +126,10 @@ struct GalaxyStatsView: View {
                             }.foregroundStyle(.white)
                                 .bold()
                         }
+                    }
+                    
+                    ToolbarItem(placement: .topBarTrailing) {
+                        FactionImageView(faction: .human)
                     }
                     
 #endif

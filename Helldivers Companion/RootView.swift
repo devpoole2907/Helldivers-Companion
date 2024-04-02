@@ -85,6 +85,8 @@ struct RootView: View {
             await notificationManager.getAuthStatus()
         }
             
+        .ignoresSafeArea(.keyboard)
+            
         .onChange(of: viewModel.currentTab) { _ in
                         updateMajorOrderButtonVisibility()
                     }
