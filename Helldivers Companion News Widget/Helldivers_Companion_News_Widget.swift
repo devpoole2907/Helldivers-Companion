@@ -102,7 +102,8 @@ struct Helldivers_Companion_News_Widget: Widget {
                 Helldivers_Companion_News_WidgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
             
-                   
+                    // for deeplinking to news view
+                .widgetURL(URL(string: "helldiverscompanion://news"))
                     
         }
         .configurationDisplayName("News")
