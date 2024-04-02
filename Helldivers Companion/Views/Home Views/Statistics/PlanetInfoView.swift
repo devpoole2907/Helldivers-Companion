@@ -264,7 +264,7 @@ struct PlanetInfoView: View {
                 }
             }
             
-            if let illuminateKills = planetStatus?.planet.stats?.illuminateKills {
+            if let illuminateKills = planetStatus?.planet.stats?.illuminateKills, viewModel.configData.showIlluminate {
                 HStack {
                     Text("Illuminates\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()

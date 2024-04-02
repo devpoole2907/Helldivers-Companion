@@ -30,7 +30,7 @@ class PlanetsViewModel: ObservableObject {
     
     private var apiToken: String? = ProcessInfo.processInfo.environment["GITHUB_API_KEY"]
     
-    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", alert: "", prominentAlert: nil, season: "801")
+    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", alert: "", prominentAlert: nil, season: "801", showIlluminate: false)
     
     @Published var showInfo = false
     @Published var showOrders = false

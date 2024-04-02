@@ -30,7 +30,7 @@ struct GalaxyStatsView: View {
                     if searchText.isEmpty {
                         Section {
                             
-                            GalaxyInfoView(galaxyStats: viewModel.galaxyStats)
+                            GalaxyInfoView(galaxyStats: viewModel.galaxyStats, showIlluminate: viewModel.configData.showIlluminate)
                         }
                         
                         .id(0)

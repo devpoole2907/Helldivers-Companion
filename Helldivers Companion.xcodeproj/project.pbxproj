@@ -725,7 +725,6 @@
 				7C4589BB2BA54ED50019B00E /* AboutView.swift */,
 				7C45D4722BABF47C0013A632 /* AlertView.swift */,
 				7CE97D3C2BB53D2E008329BA /* TipJarView.swift */,
-				7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */,
 				7C0DF62E2BB970E10062AB9B /* CampaignPlanetStatsView.swift */,
 			);
 			path = "Home Views";
@@ -745,6 +744,7 @@
 				7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */,
 				7C0DF6362BB987FB0062AB9B /* PlanetInfoDetailRow.swift */,
 				7C0DF63C2BBA19340062AB9B /* GalaxyInfoView.swift */,
+				7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";

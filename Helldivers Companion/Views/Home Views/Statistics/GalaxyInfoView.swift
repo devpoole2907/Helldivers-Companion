@@ -11,6 +11,8 @@ struct GalaxyInfoView: View {
     
     var galaxyStats: GalaxyStats? = nil
     
+    let showIlluminate: Bool
+    
     
     #if os(iOS)
     let missionsWonSize: CGFloat = 50
@@ -109,7 +111,7 @@ struct GalaxyInfoView: View {
                 }
             }
             
-            if let illuminateKills = galaxyStats?.illuminateKills {
+            if let illuminateKills = galaxyStats?.illuminateKills, showIlluminate {
                 HStack {
                     Spacer()
                     VStack(alignment: .trailing, spacing: illuminateKillsStackSpacing) {
@@ -175,5 +177,5 @@ struct GalaxyInfoView: View {
 }
 
 #Preview {
-    GalaxyInfoView()
+    GalaxyInfoView(showIlluminate: true)
 }

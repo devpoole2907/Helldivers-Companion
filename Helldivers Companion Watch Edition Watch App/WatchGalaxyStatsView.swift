@@ -40,7 +40,7 @@ struct WatchGalaxyStatsView: View {
             TabView(selection: $currentTab) {
             
             ScrollView {
-                GalaxyInfoView(galaxyStats: viewModel.galaxyStats)
+                GalaxyInfoView(galaxyStats: viewModel.galaxyStats, showIlluminate: viewModel.configData.showIlluminate)
                     .padding(.horizontal, 5)
             }.tag(WatchStatsTab.galaxyInfo)
             
