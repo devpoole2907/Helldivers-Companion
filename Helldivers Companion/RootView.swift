@@ -22,7 +22,7 @@ struct RootView: View {
     
     @StateObject var newsNavPather = NavigationPather()
     
-    @State var showMajorOrderButton: Bool = false
+    @State var showMajorOrderButton: Bool = true
     
     // use func to change state of major order bool so it can be animated
     private func updateMajorOrderButtonVisibility() {
