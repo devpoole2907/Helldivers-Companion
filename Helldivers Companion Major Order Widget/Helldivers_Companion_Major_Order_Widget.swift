@@ -123,6 +123,9 @@ struct Helldivers_Companion_Major_Order_Widget: Widget {
                 Helldivers_Companion_Major_Order_WidgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
             
+             // for deeplinking to major order popup
+                .widgetURL(URL(string: "helldiverscompanion://orders"))
+            
         }
         .configurationDisplayName("Major Order")
         .description("Displays the current major order.")
