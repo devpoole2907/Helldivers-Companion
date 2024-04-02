@@ -51,7 +51,7 @@ struct ContentView: View {
                         // check if planet is defending
                         if let defenseEvent = viewModel.defensePlanets.first(where: { $0.planet.index == planetStatus.planet.index }) {
                             // planet is defending, use defense percentage for liberation val
-                            PlanetView(planetName: planetStatus.planet.name, liberation: defenseEvent.defensePercentage, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus, liberationType: .defense, bugOrAutomaton: planetStatus.owner == "Terminids" ? .terminid : .automaton, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate).environmentObject(viewModel)
+                            PlanetView(planetName: planetStatus.planet.name, liberation: defenseEvent.defensePercentage, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus, liberationType: .defense, bugOrAutomaton: planetStatus.owner == "Terminids" ? .terminid : .automaton, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, eventExpirationTime: defenseEvent.expireTimeDate).environmentObject(viewModel)
                                 .padding(.horizontal)
                                 .id(index)
                         } else {

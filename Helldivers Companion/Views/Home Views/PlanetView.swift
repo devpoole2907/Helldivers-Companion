@@ -32,6 +32,8 @@ struct PlanetView: View {
     var terminidRate: String
     var automatonRate: String
     
+    var eventExpirationTime: Date? = nil // for defense events
+    
     @State private var showChart = false
     
     @State private var chartType: ChartType = .players
@@ -78,7 +80,7 @@ let raceIconSize: CGFloat = 25
                 
                 // put it here
                 
-                CampaignPlanetStatsView(liberation: liberation, bugOrAutomaton: bugOrAutomaton, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, playerCount: playerCount, isWidget: isWidget, terminidRate: terminidRate, automatonRate: automatonRate)
+                CampaignPlanetStatsView(liberation: liberation, bugOrAutomaton: bugOrAutomaton, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, playerCount: playerCount, isWidget: isWidget, terminidRate: terminidRate, automatonRate: automatonRate, eventExpirationTime: eventExpirationTime)
                 
                 
 
@@ -128,6 +130,10 @@ let raceIconSize: CGFloat = 25
                     .opacity(0.7)
                     .bold()
                     .font(.footnote)
+            } else {
+                Image(systemName: liberationType == .defense ? "shield.lefthalf.filled" : "target")
+                    .font(.footnote)
+                    .padding(.leading, 2)
             }
         }
         

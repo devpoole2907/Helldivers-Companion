@@ -87,6 +87,39 @@ struct RootView: View {
             
         .ignoresSafeArea(.keyboard)
             
+            // deeplink from planet widget to the view of the planet
+        .onOpenURL { url in
+            
+            if url.scheme == "helldiverscompanion"  {
+                
+                if let selectedPlanet = viewModel.allPlanetStatuses.first(where: { $0.planet.name == url.host }) {
+                    
+                    if viewModel.currentTab == .home {
+                        if !contentNavPather.navigationPath.isEmpty {
+                            contentNavPather.navigationPath.removeLast() // remove anything if somethings on the stack already
+                        }
+                        contentNavPather.navigationPath.append(selectedPlanet)
+                    } else if viewModel.currentTab == .stats {
+                        
+                        if !statsNavPather.navigationPath.isEmpty {
+                            statsNavPather.navigationPath.removeLast()
+                        }
+                        statsNavPather.navigationPath.append(selectedPlanet)
+                        
+                    }
+                    
+                    else {
+                        // change tab to home, nav to the planet
+                        viewModel.currentTab = .home
+                        contentNavPather.navigationPath.append(selectedPlanet)
+                    }
+                }
+                
+            }
+            
+            
+        }
+            
         .onChange(of: viewModel.currentTab) { _ in
                         updateMajorOrderButtonVisibility()
                     }
@@ -135,6 +168,8 @@ struct RootView: View {
             }
             
         }
+        
+       
         
     }
     

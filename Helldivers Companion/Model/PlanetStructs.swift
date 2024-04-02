@@ -77,6 +77,7 @@ struct PlanetStatus: Decodable, Hashable {
     let players: Int
     let regenPerSecond: Double
     var defensePercentage: Double?
+    
 }
 
 struct PlanetEvent: Decodable {
@@ -85,6 +86,8 @@ struct PlanetEvent: Decodable {
     let maxHealth: Int
     let race: String
     var planetStatus: PlanetStatus?
+    
+    var expireTimeDate: Date?
     
     // computed property, calcs defense percent
    var defensePercentage: Double {
@@ -331,7 +334,17 @@ struct PlanetStats: Decodable {
     
 }
 
+// for helldiverstrainingmanual api
+
 struct GalaxyStatsResponseData: Decodable {
     let galaxyStats: GalaxyStats
     let planetsStats: [PlanetStats]
+}
+
+// also comes from helldivers training manual api, eventually i will migrate all of this to its own api but to at least get the feature (defense time remaining) out the door here we go, fetches from a github cache tho:
+
+struct PlanetExpiration: Decodable {
+    let planetIndex: Int
+    let name: String
+    let expireDateTime: Double?  
 }

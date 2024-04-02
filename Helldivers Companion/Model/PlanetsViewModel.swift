@@ -38,7 +38,6 @@ class PlanetsViewModel: ObservableObject {
     
     //var apiAddress = "http://127.0.0.1:4000/api"
     var apiAddress = "https://helldivers-2.fly.dev/api"
-    var trainingManualApiAddress = "https://helldiverstrainingmanual.com/api/v1/planets"
     
     @Published var planetHistory: [String: [PlanetDataPoint]] = [:]
     @Published var eventHistory: [String: [PlanetDataPoint]] = [:]
@@ -357,7 +356,7 @@ class PlanetsViewModel: ObservableObject {
         
         refresh()
         
-        timer = Timer.scheduledTimer(withTimeInterval: 90, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
             
             // fetch planet data
             
@@ -531,92 +530,106 @@ class PlanetsViewModel: ObservableObject {
                 var decodedResponse = try decoder.decode(WarStatusResponse.self, from: data)
             
                     
-                    self?.fetchPlanetDetailsAndUpdateStatuses(for: decodedResponse.planetStatus) { updatedPlanetStatuses in
-                        // update planet statuses with additional info from training manual api if possible
-                        if let updatedStatuses = updatedPlanetStatuses {
-                            decodedResponse.planetStatus = updatedStatuses
+                self?.fetchPlanetDetailsAndUpdateStatuses(for: decodedResponse.planetStatus) { updatedPlanetStatuses in
+                    // update planet statuses with additional info from training manual api if possible
+                    if let updatedStatuses = updatedPlanetStatuses {
+                        decodedResponse.planetStatus = updatedStatuses
+                    }
+                    
+                    self?.fetchExpirationTimes { defenseExpirations in
+                    
+                    // update owner to race variable in planet events, duct tape fixing mantes for example for now
+                        // also update expiration time with value from helldivers training api
+                    for i in 0..<decodedResponse.planetEvents.count {
+                        if let index = decodedResponse.planetStatus.firstIndex(where: { $0.planet.index == decodedResponse.planetEvents[i].planet.index }) {
+                            decodedResponse.planetStatus[index].owner = decodedResponse.planetEvents[i].race
+                            decodedResponse.planetEvents[i].planetStatus = decodedResponse.planetStatus[index]
                         }
                         
-                        // update owner to race variable in planet events, duct tape fixing mantes for example for now
-                        for i in 0..<decodedResponse.planetEvents.count {
-                            if let index = decodedResponse.planetStatus.firstIndex(where: { $0.planet.index == decodedResponse.planetEvents[i].planet.index }) {
-                                decodedResponse.planetStatus[index].owner = decodedResponse.planetEvents[i].race
-                                decodedResponse.planetEvents[i].planetStatus = decodedResponse.planetStatus[index]
+                    }
+                    
+                    for i in 0..<decodedResponse.planetEvents.count {
+                        let eventIndex = decodedResponse.planetEvents[i].planet.index
+                        print("index of planet is: \(eventIndex), name is \(decodedResponse.planetEvents[i].planet.name)")
+                        if let matchingStatus = decodedResponse.planetStatus.first(where: { $0.planet.index == eventIndex }) {
+                            decodedResponse.planetEvents[i].planetStatus = matchingStatus
+                            print("found matching planet index")
+                        }
+                        
+                        // add defense expirations
+                        
+                        if let expiration = defenseExpirations.first(where: { $0.planetIndex == eventIndex }) {
+                                    if let expireTime = expiration.expireDateTime {
+                                        let expireDate = Date(timeIntervalSince1970: expireTime)
+                                        decodedResponse.planetEvents[i].expireTimeDate = expireDate
+                                    }
+                                }
+                        
+                    }
+                    // now add the statistics for each planet, if they exist
+                    self?.fetchGalaxyStats(for: decodedResponse.planetStatus) { galaxyUpdatedStatuses in
+                        
+                        
+                        
+                        print("fetchGalaxyStats is called")
+                        
+                        if let galaxyUpdatedStatuses = galaxyUpdatedStatuses {
+                            decodedResponse.planetStatus = galaxyUpdatedStatuses
+                        }
+                        // should i wrap the rest with this new func?
+                        
+                        let campaignPlanetsWithStatus = decodedResponse.campaigns.compactMap { campaignPlanet in
+                            decodedResponse.planetStatus.first { $0.planet.index == campaignPlanet.planet.index }
+                        }
+                        
+                        for planet in campaignPlanetsWithStatus {
+                            print("\(planet.planet.name) has enviros: \(planet.planet.environmentals)")
+                        }
+                        
+                        
+                        
+                        let sortedCampaignPlanets = campaignPlanetsWithStatus.sorted { firstPlanetStatus, secondPlanetStatus in
+                            let isFirstPlanetInEvent = decodedResponse.planetEvents.contains { $0.planet.index == firstPlanetStatus.planet.index }
+                            let isSecondPlanetInEvent = decodedResponse.planetEvents.contains { $0.planet.index == secondPlanetStatus.planet.index }
+                            
+                            if isFirstPlanetInEvent && !isSecondPlanetInEvent {
+                                return true
+                            } else if !isFirstPlanetInEvent && isSecondPlanetInEvent {
+                                return false
+                            } else {
+                                return firstPlanetStatus.players > secondPlanetStatus.players
                             }
                         }
-
-                        for i in 0..<decodedResponse.planetEvents.count {
-                                            let eventIndex = decodedResponse.planetEvents[i].planet.index
-                            print("index of planet is: \(eventIndex), name is \(decodedResponse.planetEvents[i].planet.name)")
-                            if let matchingStatus = decodedResponse.planetStatus.first(where: { $0.planet.index == eventIndex }) {
-                                                decodedResponse.planetEvents[i].planetStatus = matchingStatus
-                                                print("found matching planet index")
-                                            }
-                                        }
-                        // now add the statistics for each planet, if they exist
-                        self?.fetchGalaxyStats(for: decodedResponse.planetStatus) { galaxyUpdatedStatuses in
+                        
+                        // group planet statuses by sector
+                        var groupedBySector = Dictionary(grouping: decodedResponse.planetStatus) { $0.planet.sector }
+                        
+                        // sort alphabetically by sector
+                        let sortedSectors = groupedBySector.keys.sorted()
+                        
+                        
+                        DispatchQueue.main.async {
                             
-                            guard let strongSelf = self else {
-                                    print("self is nil before calling fetchGalaxyStats")
-                                    return
-                                }
-                            
-                            print("fetchGalaxyStats is called")
-                            
-                            if let galaxyUpdatedStatuses = galaxyUpdatedStatuses {
-                                                        decodedResponse.planetStatus = galaxyUpdatedStatuses
-                                                    }
+                            self?.defensePlanets = decodedResponse.planetEvents
                             
                             
-                            let campaignPlanetsWithStatus = decodedResponse.campaigns.compactMap { campaignPlanet in
-                                decodedResponse.planetStatus.first { $0.planet.index == campaignPlanet.planet.index }
+                            self?.groupedBySectorPlanetStatuses = groupedBySector
+                            self?.sortedSectors = sortedSectors
+                            self?.allPlanetStatuses = decodedResponse.planetStatus
+                            self?.warStatusResponse = decodedResponse
+                            withAnimation(.bouncy) {
+                                self?.campaignPlanets = sortedCampaignPlanets
                             }
-                            
-                            for planet in campaignPlanetsWithStatus {
-                                print("\(planet.planet.name) has enviros: \(planet.planet.environmentals)")
-                            }
-                            
-                            
-                            
-                            let sortedCampaignPlanets = campaignPlanetsWithStatus.sorted { firstPlanetStatus, secondPlanetStatus in
-                                                    let isFirstPlanetInEvent = decodedResponse.planetEvents.contains { $0.planet.index == firstPlanetStatus.planet.index }
-                                                    let isSecondPlanetInEvent = decodedResponse.planetEvents.contains { $0.planet.index == secondPlanetStatus.planet.index }
-
-                                                    if isFirstPlanetInEvent && !isSecondPlanetInEvent {
-                                                        return true
-                                                    } else if !isFirstPlanetInEvent && isSecondPlanetInEvent {
-                                                        return false
-                                                    } else {
-                                                        return firstPlanetStatus.players > secondPlanetStatus.players
-                                                    }
-                                                }
-                            
-                            // group planet statuses by sector
-                                       var groupedBySector = Dictionary(grouping: decodedResponse.planetStatus) { $0.planet.sector }
-
-                                       // sort alphabetically by sector
-                                        let sortedSectors = groupedBySector.keys.sorted()
-                            
-                            
-                            DispatchQueue.main.async {
-                                
-                                self?.defensePlanets = decodedResponse.planetEvents
-                                
-                                
-                                self?.groupedBySectorPlanetStatuses = groupedBySector
-                                self?.sortedSectors = sortedSectors
-                                self?.allPlanetStatuses = decodedResponse.planetStatus
-                                self?.warStatusResponse = decodedResponse
-                                withAnimation(.bouncy) {
-                                    self?.campaignPlanets = sortedCampaignPlanets
-                                }
-                                print("fetchPlanetStatuses: All updates done, calling completion")
-                                completion((campaignPlanetsWithStatus, decodedResponse.planetEvents, decodedResponse.planetStatus, decodedResponse))
-                                
-                            }
-                            
+                            print("fetchPlanetStatuses: All updates done, calling completion")
+                            completion((campaignPlanetsWithStatus, decodedResponse.planetEvents, decodedResponse.planetStatus, decodedResponse))
                             
                         }
+                        
+                        
+                    }
+                    
+                    
+                }
                             
                             
                            
@@ -635,6 +648,39 @@ class PlanetsViewModel: ObservableObject {
             
             
         }.resume()
+        
+        
+    }
+    
+    // gets defense expiration times from a cache from helldiverstrainingmanual api
+    func fetchExpirationTimes(completion: @escaping ([PlanetExpiration]) -> Void) {
+        
+        
+        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/planets/campaignInfo.json"
+        
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL")
+            completion([])
+            return
+        }
+        
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+                guard let data = data, error == nil else {
+                    print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
+                    completion([])
+                    return
+                }
+
+                do {
+                    let decoder = JSONDecoder()
+                    let decodedResponse = try decoder.decode([PlanetExpiration].self, from: data)
+                    completion(decodedResponse)
+                } catch {
+                    print("Decoding error: \(error)")
+                    completion([])
+                }
+            }.resume()
         
         
     }

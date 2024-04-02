@@ -159,6 +159,7 @@
 		7C5D5F592BAFD74900B644B9 /* WatchConnectivityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */; };
 		7C5D5F5A2BAFD83F00B644B9 /* WatchConnectivityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */; };
 		7C63130B2BBBDA8D00C84C13 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
+		7C63130E2BBC01C800C84C13 /* GalaxyMapTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63130D2BBC01C800C84C13 /* GalaxyMapTesting.swift */; };
 		7C8C5F272BADD17000C4FBD2 /* ShakeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C32BA574B20019B00E /* ShakeModifier.swift */; };
 		7C8C5F282BAE80D300C4FBD2 /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */; };
 		7C8C5F292BAE810E00C4FBD2 /* CustomSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */; };
@@ -377,6 +378,7 @@
 		7C587F4D2BA6DBBB00C66643 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7C587F612BA6E8AE00C66643 /* Helldivers-Companion-Watch-Edition-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Helldivers-Companion-Watch-Edition-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityProvider.swift; sourceTree = "<group>"; };
+		7C63130D2BBC01C800C84C13 /* GalaxyMapTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyMapTesting.swift; sourceTree = "<group>"; };
 		7C8C5F2F2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion Major Order WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C8C5F332BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Major_Order_WidgetBundle.swift; sourceTree = "<group>"; };
 		7C8C5F352BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Major_Order_Widget.swift; sourceTree = "<group>"; };
@@ -641,6 +643,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		7C63130C2BBC01BA00C84C13 /* Galaxy Map */ = {
+			isa = PBXGroup;
+			children = (
+				7C63130D2BBC01C800C84C13 /* GalaxyMapTesting.swift */,
+			);
+			path = "Galaxy Map";
+			sourceTree = "<group>";
+		};
 		7C8C5F322BAEF91300C4FBD2 /* Helldivers Companion Major Order Widget */ = {
 			isa = PBXGroup;
 			children = (
@@ -718,6 +728,7 @@
 		7CE4AE3B2BA832930033D4AF /* Home Views */ = {
 			isa = PBXGroup;
 			children = (
+				7C63130C2BBC01BA00C84C13 /* Galaxy Map */,
 				7CE97D3E2BB54141008329BA /* Statistics */,
 				7C45D45F2BABEE2E0013A632 /* Orders */,
 				7C319F922BAAE90F0075A1E4 /* News */,
@@ -1120,6 +1131,7 @@
 				7CE97D3D2BB53D2E008329BA /* TipJarView.swift in Sources */,
 				7C45D4652BABEE6E0013A632 /* AngledLinesShape.swift in Sources */,
 				7CE97D402BB5414C008329BA /* GalaxyStatsView.swift in Sources */,
+				7C63130E2BBC01C800C84C13 /* GalaxyMapTesting.swift in Sources */,
 				7C45D4612BABEE3D0013A632 /* RewardView.swift in Sources */,
 				7C3A9EC92BA9724E00F26307 /* NewsFeedModel.swift in Sources */,
 				7C45D46C2BABEE980013A632 /* WatchOrdersView.swift in Sources */,

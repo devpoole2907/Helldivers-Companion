@@ -24,6 +24,8 @@ struct CampaignPlanetStatsView: View {
     var terminidRate: String
     var automatonRate: String
     
+    var eventExpirationTime: Date? = nil
+    
     @State private var pulsate = false
     
     @EnvironmentObject var viewModel: PlanetsViewModel
@@ -70,11 +72,29 @@ let helldiverImageSize: CGFloat = 25
             
             VStack {
                 HStack{
-                    Text("\(liberation, specifier: "%.3f")% \(liberationType == .liberation ? "Liberated" : "Defended")").textCase(.uppercase)
-                        .foregroundStyle(.white).bold()
-                        .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
-                        .multilineTextAlignment(.leading)
-                    
+                    // funky zstack stuff for the widget, because the text.datestyle is so wide by default
+                    ZStack {
+                        HStack {
+                            Text("\(liberation, specifier: "%.3f")% \(liberationType == .liberation ? "Liberated" : "Defended")").textCase(.uppercase)
+                                .foregroundStyle(.white).bold()
+                                .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
+                                .multilineTextAlignment(.leading)
+                            if isWidget && !showExtraStats, let _ = eventExpirationTime {
+                                Spacer()
+                            }
+                        }
+                        
+                        if isWidget && !showExtraStats, let eventExpirationTime = eventExpirationTime {
+                            HStack {
+                                Spacer()
+                                Text(eventExpirationTime, style: .timer)
+                                    .font(Font.custom("FS Sinclair", size: smallFont))
+                                    .foregroundStyle(.red)
+                                    .monospacedDigit()
+                                    .multilineTextAlignment(.trailing)
+                            }
+                        }
+                    }
                     if let liberationRate = viewModel.averageLiberationRate(for: planetName) {
                         Spacer()
                         HStack(alignment: .top, spacing: 4) {
@@ -120,16 +140,24 @@ let helldiverImageSize: CGFloat = 25
                         .padding(.top, 3)
                     
                 } else {
-                    Text("DEFEND") .font(Font.custom("FS Sinclair", size: largeFont))
-                    
-                    // defense is important, so pulsate
-                        .foregroundStyle(isWidget ? .white : (pulsate ? .red : .white))
-                        .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.0))
-                        .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: pulsate)
-                    
-                        .onAppear {
-                                        pulsate = true
-                                    }
+                    VStack(spacing: -5) {
+                        Text("DEFEND") .font(Font.custom("FS Sinclair", size: largeFont))
+                        
+                        // defense is important, so pulsate
+                            .foregroundStyle(isWidget ? .red : (pulsate ? .red : .white))
+                            .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.0))
+                            .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: pulsate)
+                        
+                            .onAppear {
+                                pulsate = true
+                            }
+                        if let eventExpirationTime = eventExpirationTime {
+                            Text(eventExpirationTime, style: .timer)
+                                .font(Font.custom("FS Sinclair", size: mediumFont))
+                                .multilineTextAlignment(.center)
+                               // .frame(maxWidth: .infinity)
+                        }
+                    }.padding(.vertical, 6)
                         
                 }
                 

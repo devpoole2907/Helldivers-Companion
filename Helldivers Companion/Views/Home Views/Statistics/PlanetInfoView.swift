@@ -147,7 +147,7 @@ struct PlanetInfoView: View {
                             
                             // must be a defending event, use defense percent
                             
-                            CampaignPlanetStatsView(liberation: defenseEvent.defensePercentage, bugOrAutomaton: bugOrAutomaton, liberationType: liberationType, showExtraStats: true, planetName: planetName, playerCount: players, isWidget: false, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate)
+                            CampaignPlanetStatsView(liberation: defenseEvent.defensePercentage, bugOrAutomaton: bugOrAutomaton, liberationType: liberationType, showExtraStats: true, planetName: planetName, playerCount: players, isWidget: false, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, eventExpirationTime: defenseEvent.expireTimeDate)
                                .shadow(radius: 5.0)
                             
                             

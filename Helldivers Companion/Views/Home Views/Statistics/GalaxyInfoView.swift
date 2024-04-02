@@ -32,7 +32,7 @@ struct GalaxyInfoView: View {
     
     #else
     
-    let missionsWonSize: CGFloat = 28
+    let missionsWonSize: CGFloat = 26
     let dividerWidth: CGFloat = 100
     let missionsLostSize: CGFloat = 26
     let successRateSize: CGFloat = 24
