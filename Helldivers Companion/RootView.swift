@@ -113,7 +113,21 @@ struct RootView: View {
                         viewModel.currentTab = .home
                         contentNavPather.navigationPath.append(selectedPlanet)
                     }
+                } else if url.host == "orders" {
+                    
+                    CentrePopup_MoreFeatures(viewModel: viewModel)
+                    
+                                .showAndStack()
+                    
+                } else if url.host == "news" {
+                    
+                    viewModel.currentTab = .news
+                    
                 }
+                
+                
+                
+                
                 
             }
             
