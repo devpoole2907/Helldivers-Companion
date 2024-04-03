@@ -10,7 +10,6 @@ import SwiftUI
 struct WatchNewsView: View {
     
     @StateObject var feedModel = NewsFeedModel()
-    @EnvironmentObject var purchaseManager: StoreManager
     @EnvironmentObject var navPather: NavigationPather
     @EnvironmentObject var viewModel: PlanetsViewModel
     
