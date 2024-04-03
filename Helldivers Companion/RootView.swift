@@ -154,7 +154,7 @@ struct RootView: View {
                 #endif
         }
         
-        .fullScreenCover(isPresented: $purchaseManager.showTips) {
+       /* .fullScreenCover(isPresented: $purchaseManager.showTips) {
             NavigationStack {
                 // scrollview declared seperately because tip jar view is in about view on watchOS which contains scrollview already
                 ScrollView {
@@ -167,7 +167,7 @@ struct RootView: View {
                     #endif
             }
             
-        }
+        }*/
         
        
         

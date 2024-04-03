@@ -216,10 +216,6 @@
 		7CE97D3B2BB51DE9008329BA /* CentrePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */; };
 		7CE97D3D2BB53D2E008329BA /* TipJarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3C2BB53D2E008329BA /* TipJarView.swift */; };
 		7CE97D402BB5414C008329BA /* GalaxyStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */; };
-		7CE97D422BB55A1F008329BA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CE97D412BB55A1F008329BA /* StoreKit.framework */; };
-		7CE97D442BB55A2B008329BA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CE97D432BB55A2B008329BA /* StoreKit.framework */; };
-		7CE97D462BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 7CE97D452BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit */; };
-		7CE97D472BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 7CE97D452BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit */; };
 		7CE97D492BB55BDB008329BA /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D482BB55BDB008329BA /* StoreManager.swift */; };
 		7CE97D4A2BB55BDB008329BA /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D482BB55BDB008329BA /* StoreManager.swift */; };
 		7CE97D4B2BB55F5D008329BA /* TipJarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3C2BB53D2E008329BA /* TipJarView.swift */; };
@@ -400,9 +396,6 @@
 		7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentrePopup.swift; sourceTree = "<group>"; };
 		7CE97D3C2BB53D2E008329BA /* TipJarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarView.swift; sourceTree = "<group>"; };
 		7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyStatsView.swift; sourceTree = "<group>"; };
-		7CE97D412BB55A1F008329BA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		7CE97D432BB55A2B008329BA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.4.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
-		7CE97D452BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "War Monitor for Helldivers 2 TipJar.storekit"; sourceTree = "<group>"; };
 		7CE97D482BB55BDB008329BA /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		7CE97D4C2BB564F6008329BA /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -416,7 +409,6 @@
 				7C1B8C232BAD714300944823 /* Algorithms in Frameworks */,
 				7CE4AE372BA82C6A0033D4AF /* FirebaseMessaging in Frameworks */,
 				7CE4AE332BA82C6A0033D4AF /* FirebaseFirestore in Frameworks */,
-				7CE97D422BB55A1F008329BA /* StoreKit.framework in Frameworks */,
 				7CE97D382BB51D5D008329BA /* MijickPopupView in Frameworks */,
 				7CE4AE352BA82C6A0033D4AF /* FirebaseFunctions in Frameworks */,
 			);
@@ -448,7 +440,6 @@
 			files = (
 				7C1B8C3A2BAD78CD00944823 /* FirebaseMessaging in Frameworks */,
 				7C1B8C382BAD78CD00944823 /* FirebaseInstallations in Frameworks */,
-				7CE97D442BB55A2B008329BA /* StoreKit.framework in Frameworks */,
 				7C1B8C252BAD714B00944823 /* Algorithms in Frameworks */,
 				7C1B8C362BAD78CD00944823 /* FirebaseFirestore in Frameworks */,
 			);
@@ -505,7 +496,6 @@
 		7C0C993F2BA2BA8F00CF7C91 = {
 			isa = PBXGroup;
 			children = (
-				7CE97D452BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit */,
 				7C0C994A2BA2BA8F00CF7C91 /* Helldivers Companion */,
 				7C587F452BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App */,
 				7CC0AE752BA7F31400802D9F /* Helldivers Companion Widgets */,
@@ -675,8 +665,6 @@
 		7CC0AE702BA7F31400802D9F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7CE97D432BB55A2B008329BA /* StoreKit.framework */,
-				7CE97D412BB55A1F008329BA /* StoreKit.framework */,
 				7CC0AE712BA7F31400802D9F /* WidgetKit.framework */,
 				7CC0AE732BA7F31400802D9F /* SwiftUI.framework */,
 			);
@@ -986,7 +974,6 @@
 			files = (
 				7C4589B92BA54C030019B00E /* FS Sinclair Bold.otf in Resources */,
 				7C018FF02BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 in Resources */,
-				7CE97D462BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit in Resources */,
 				7C018FFD2BBA68C9001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 in Resources */,
 				7C50CEE62BA8295E009094AE /* GoogleService-Info.plist in Resources */,
 				7C0190052BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */,
@@ -1029,7 +1016,6 @@
 			files = (
 				7C587F602BA6E25500C66643 /* FS Sinclair Bold.otf in Resources */,
 				7C018FF12BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 in Resources */,
-				7CE97D472BB55A7F008329BA /* War Monitor for Helldivers 2 TipJar.storekit in Resources */,
 				7C018FFC2BBA679F001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 in Resources */,
 				7C50CEE72BA8295E009094AE /* GoogleService-Info.plist in Resources */,
 				7C0190062BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */,

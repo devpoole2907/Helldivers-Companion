@@ -114,7 +114,7 @@ struct ContentView: View {
                         }.foregroundStyle(.white)
                             .bold()
                     }
-                    if !purchaseManager.products.isEmpty {
+                /*    if !purchaseManager.products.isEmpty {
                         ToolbarItem(placement: .topBarLeading) {
                             Button(action: {
                                 purchaseManager.showTips.toggle()
@@ -123,7 +123,7 @@ struct ContentView: View {
                             }.foregroundStyle(.white)
                                 .bold()
                         }
-                    }
+                    }*/
                     
                     
                     

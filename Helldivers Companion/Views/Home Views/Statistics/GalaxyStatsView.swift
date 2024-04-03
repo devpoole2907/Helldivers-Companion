@@ -117,7 +117,7 @@ struct GalaxyStatsView: View {
 #if os(iOS)
                     
                     
-                    if !purchaseManager.products.isEmpty {
+                  /*  if !purchaseManager.products.isEmpty {
                         ToolbarItem(placement: .topBarLeading) {
                             Button(action: {
                                 purchaseManager.showTips.toggle()
@@ -126,7 +126,7 @@ struct GalaxyStatsView: View {
                             }.foregroundStyle(.white)
                                 .bold()
                         }
-                    }
+                    }*/
                     
                     ToolbarItem(placement: .topBarTrailing) {
                         FactionImageView(faction: .human)

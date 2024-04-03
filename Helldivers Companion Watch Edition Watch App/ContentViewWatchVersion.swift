@@ -53,7 +53,7 @@ struct ContentViewWatchVersion: View {
         }.background {
             Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
         }
-        
+        /*
         .fullScreenCover(isPresented: $purchaseManager.showTips) {
             NavigationStack {
                 ScrollView {
@@ -62,7 +62,7 @@ struct ContentViewWatchVersion: View {
             }
             
         }
-        
+        */
         
         .onAppear {
             

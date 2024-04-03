@@ -19,7 +19,7 @@ struct AboutView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                
+              /*
                 #if os(watchOS)
                 // on watchos the tip jar is part of the about view due to nav conroller issues if placing it as a tab
                 if !purchaseManager.products.isEmpty {
@@ -29,7 +29,7 @@ struct AboutView: View {
                 
                 #endif
                     
-                
+                */
                 
                 VStack(spacing: 20) {
                     Text("This application utilizes the unofficial Helldivers 2 API developed by dealloc, available at https://github.com/dealloc/helldivers2-api, to fetch and display the latest data from the ongoing galactic war in the Helldivers 2 universe.")
