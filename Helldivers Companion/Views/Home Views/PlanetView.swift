@@ -91,10 +91,10 @@ let raceIconSize: CGFloat = 25
                 // show chart if tapped anywhere
                // showChartToggler()
                 // nav to planet info view if tapped anywhere
-                if let planet = planet {
+                if let planet = planet, viewModel.currentTab == .home {
                     navPather.navigationPath.append(planet)
                 } else {
-                    showChartToggler()
+                    // showChartToggler()
                 }
                 
             }

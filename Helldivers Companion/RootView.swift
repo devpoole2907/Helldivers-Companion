@@ -59,6 +59,10 @@ struct RootView: View {
                     .tag(Tab.stats)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
+                MapRootViewTest().environmentObject(viewModel)
+                    .tag(Tab.map)
+                    .toolbarBackground(.hidden, for: .tabBar)
+                
                 NewsView().environmentObject(purchaseManager).environmentObject(newsNavPather).environmentObject(viewModel)
                     .tag(Tab.news)
                     .toolbarBackground(.hidden, for: .tabBar)
@@ -272,7 +276,7 @@ struct RootView: View {
     
     var tabButtons: some View {
         VStack(spacing: 0){
-            HStack(spacing: 0) {
+            HStack(spacing: -6) {
                 TabButton(tab: .home, action: {
                     
                     
@@ -298,6 +302,10 @@ struct RootView: View {
                     
                     
                 })
+                
+                TabButton(tab: .map, action: {viewModel.currentTab = .map})
+                
+                TabButton(tab: .game, action: {viewModel.currentTab = .game})
           
                 TabButton(tab: .stats, action: {
                     
@@ -346,7 +354,6 @@ struct RootView: View {
                     
                     
                 })
-                TabButton(tab: .game, action: {viewModel.currentTab = .game})
               
             }
             .padding(.top, (UIScreen.main.bounds.height) == 667 || (UIScreen.main.bounds.height) == 736 ? 10 : 15)
@@ -371,7 +378,7 @@ struct RootView: View {
                         .resizable()
                         .renderingMode(.template)
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 26, height: 26)
+                        .frame(width: 24, height: 24)
                         .foregroundColor(viewModel.currentTab == tab ? .accentColor : .gray)
                         .padding()
  
@@ -380,9 +387,9 @@ struct RootView: View {
                 Text(tab.rawValue).textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 16))
                     .dynamicTypeSize(.medium ... .large)
                     .foregroundColor(viewModel.currentTab == tab ? .accentColor : .gray)
-            }.padding(.horizontal)
+            }.padding(.horizontal, 10)
                 .padding(.bottom, 10)
-                .frame(width: 80)
+                .frame(width: 74)
                 .background {
                     Color.black.opacity(0.8)
                 }

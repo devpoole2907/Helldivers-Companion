@@ -100,7 +100,7 @@ struct ContentView: View {
             
 #if os(iOS)
                 .background {
-                    Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
+                    Image("BackgroundImage").blur(radius: 10).ignoresSafeArea()
                 }
 #endif
             

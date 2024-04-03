@@ -27,6 +27,8 @@ class PlanetsViewModel: ObservableObject {
     // planetstatuses with tasks in the major order (e.g need to be liberated)
     @Published var taskPlanets: [PlanetStatus] = []
     
+    @Published var selectedPlanet: PlanetStatus? = nil // for map view selection
+    
     @AppStorage("viewCount") var viewCount = 0
     
     private var apiToken: String? = ProcessInfo.processInfo.environment["GITHUB_API_KEY"]
@@ -612,6 +614,8 @@ class PlanetsViewModel: ObservableObject {
                             
                             self?.defensePlanets = decodedResponse.planetEvents
                             
+                            // set default selected planet for map
+                            self?.selectedPlanet = sortedCampaignPlanets.first
                             
                             self?.groupedBySectorPlanetStatuses = groupedBySector
                             self?.sortedSectors = sortedSectors
@@ -784,6 +788,7 @@ enum Tab: String, CaseIterable {
     case about = "About"
     case orders = "Orders"
     case stats = "Stats"
+    case map = "Map"
     case tipJar = "Tip Jar"
     
     var systemImage: String? {
@@ -800,6 +805,8 @@ enum Tab: String, CaseIterable {
             return "target"
         case .stats:
             return "globe.americas.fill"
+        case .map:
+            return "mappin.and.ellipse.circle.fill"
         case .tipJar:
             return "cart.fill"
         }

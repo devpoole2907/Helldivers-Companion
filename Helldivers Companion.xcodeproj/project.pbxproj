@@ -104,6 +104,7 @@
 		7C3DE9892BA80B9600C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift */; };
 		7C3DE98A2BA80C1900C95B84 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C3DE98B2BA80C1E00C95B84 /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
+		7C4110732BBCFED000A0008F /* Zoomable in Frameworks */ = {isa = PBXBuildFile; productRef = 7C4110722BBCFED000A0008F /* Zoomable */; };
 		7C4589B72BA546B00019B00E /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589B62BA546B00019B00E /* OrderView.swift */; };
 		7C4589B92BA54C030019B00E /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
 		7C4589BC2BA54ED50019B00E /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589BB2BA54ED50019B00E /* AboutView.swift */; };
@@ -411,6 +412,7 @@
 				7CE4AE332BA82C6A0033D4AF /* FirebaseFirestore in Frameworks */,
 				7CE97D382BB51D5D008329BA /* MijickPopupView in Frameworks */,
 				7CE4AE352BA82C6A0033D4AF /* FirebaseFunctions in Frameworks */,
+				7C4110732BBCFED000A0008F /* Zoomable in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -779,6 +781,7 @@
 				7C1B8C222BAD714300944823 /* Algorithms */,
 				7CE97D372BB51D5D008329BA /* MijickPopupView */,
 				7C0DF61C2BB9269F0062AB9B /* SwiftUIIntrospect */,
+				7C4110722BBCFED000A0008F /* Zoomable */,
 			);
 			productName = "Helldivers Companion";
 			productReference = 7C0C99482BA2BA8F00CF7C91 /* Helldivers Companion.app */;
@@ -951,6 +954,7 @@
 				7C1B8C212BAD714300944823 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				7CE97D362BB51D5D008329BA /* XCRemoteSwiftPackageReference "PopupView" */,
 				7C0DF61B2BB9269F0062AB9B /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				7C4110712BBCFED000A0008F /* XCRemoteSwiftPackageReference "Zoomable" */,
 			);
 			productRefGroup = 7C0C99492BA2BA8F00CF7C91 /* Products */;
 			projectDirPath = "";
@@ -1958,6 +1962,14 @@
 				minimumVersion = 1.2.0;
 			};
 		};
+		7C4110712BBCFED000A0008F /* XCRemoteSwiftPackageReference "Zoomable" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ryohey/Zoomable.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		7C50CEEA2BA82AF3009094AE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -2021,6 +2033,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7C50CEEA2BA82AF3009094AE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
+		7C4110722BBCFED000A0008F /* Zoomable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C4110712BBCFED000A0008F /* XCRemoteSwiftPackageReference "Zoomable" */;
+			productName = Zoomable;
 		};
 		7CE4AE322BA82C6A0033D4AF /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
