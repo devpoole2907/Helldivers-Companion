@@ -9,7 +9,6 @@ import SwiftUI
 
 struct GameView: View {
     
-    @EnvironmentObject var purchaseManager: StoreManager
     @StateObject var viewModel = StratagemHeroModel()
     @StateObject var gameCenterManager = GameCenterManager()
     @ObservedObject var watchConnectivity = WatchConnectivityProvider.shared
@@ -144,14 +143,7 @@ struct GameView: View {
         
         .onChange(of: viewModel.gameEndCount) { value in
             
-            if value == 3 {
-                viewModel.gameEndCount = 0
-                // 50% chance of showing tips sheet after 3 games played
-                if Bool.random(), !purchaseManager.products.isEmpty {
-                    purchaseManager.showTips.toggle()
-                    purchaseManager.tipShownInSession = true // dont show again this session
-                            }
-            }
+          
             
             
         }

@@ -15,7 +15,6 @@ import SwiftUIIntrospect
 struct ContentView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
-    @EnvironmentObject var purchaseManager: StoreManager
     
     @EnvironmentObject var navPather: NavigationPather
 
@@ -114,16 +113,7 @@ struct ContentView: View {
                         }.foregroundStyle(.white)
                             .bold()
                     }
-                /*    if !purchaseManager.products.isEmpty {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button(action: {
-                                purchaseManager.showTips.toggle()
-                            }){
-                                Image(systemName: "cart.fill")
-                            }.foregroundStyle(.white)
-                                .bold()
-                        }
-                    }*/
+        
                     
                     
                     

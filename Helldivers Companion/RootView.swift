@@ -14,8 +14,6 @@ struct RootView: View {
     
     @StateObject var viewModel = PlanetsViewModel()
     
-    @StateObject var purchaseManager = StoreManager()
-    
     @StateObject var contentNavPather = NavigationPather()
     
     @StateObject var statsNavPather = NavigationPather()
@@ -44,7 +42,7 @@ struct RootView: View {
         ZStack(alignment: .bottom){
             TabView(selection: $viewModel.currentTab) {
                 
-                ContentView().environmentObject(viewModel).environmentObject(purchaseManager).environmentObject(contentNavPather)
+                ContentView().environmentObject(viewModel).environmentObject(contentNavPather)
                     .tag(Tab.home)
                 
                     .toolbarBackground(.hidden, for: .tabBar)
@@ -55,19 +53,19 @@ struct RootView: View {
                 
               
                 
-                GalaxyStatsView().environmentObject(viewModel).environmentObject(purchaseManager).environmentObject(statsNavPather)
+                GalaxyStatsView().environmentObject(viewModel).environmentObject(statsNavPather)
                     .tag(Tab.stats)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
-                MapRootViewTest().environmentObject(viewModel)
+           /*     MapRootViewTest().environmentObject(viewModel)
                     .tag(Tab.map)
-                    .toolbarBackground(.hidden, for: .tabBar)
+                    .toolbarBackground(.hidden, for: .tabBar)*/
                 
-                NewsView().environmentObject(purchaseManager).environmentObject(newsNavPather).environmentObject(viewModel)
+                NewsView().environmentObject(newsNavPather).environmentObject(viewModel)
                     .tag(Tab.news)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
-                GameView().environmentObject(purchaseManager)
+                GameView()
                     .tag(Tab.game)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
@@ -172,20 +170,7 @@ struct RootView: View {
                 #endif
         }
         
-       /* .fullScreenCover(isPresented: $purchaseManager.showTips) {
-            NavigationStack {
-                // scrollview declared seperately because tip jar view is in about view on watchOS which contains scrollview already
-                ScrollView {
-                TipJarView()
-                }
-                    #if os(iOS)
-                    .background {
-                        Image("helldivers2planet").resizable().aspectRatio(contentMode: .fill).offset(CGSize(width: 400, height: 0)).blur(radius: 20.0).ignoresSafeArea()
-                    }
-                    #endif
-            }
-            
-        }*/
+  
         
        
         
@@ -303,9 +288,9 @@ struct RootView: View {
                     
                 })
                 
-                TabButton(tab: .map, action: {viewModel.currentTab = .map})
+             //   TabButton(tab: .map, action: {viewModel.currentTab = .map})
                 
-                TabButton(tab: .game, action: {viewModel.currentTab = .game})
+      
           
                 TabButton(tab: .stats, action: {
                     
@@ -354,6 +339,8 @@ struct RootView: View {
                     
                     
                 })
+                
+                TabButton(tab: .game, action: {viewModel.currentTab = .game})
               
             }
             .padding(.top, (UIScreen.main.bounds.height) == 667 || (UIScreen.main.bounds.height) == 736 ? 10 : 15)

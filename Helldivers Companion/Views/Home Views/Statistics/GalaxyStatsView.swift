@@ -15,7 +15,6 @@ struct GalaxyStatsView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
     @EnvironmentObject var navPather: NavigationPather
-    @EnvironmentObject var purchaseManager: StoreManager
     
     @State private var searchText = ""
     
@@ -117,16 +116,7 @@ struct GalaxyStatsView: View {
 #if os(iOS)
                     
                     
-                  /*  if !purchaseManager.products.isEmpty {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button(action: {
-                                purchaseManager.showTips.toggle()
-                            }){
-                                Image(systemName: "cart.fill")
-                            }.foregroundStyle(.white)
-                                .bold()
-                        }
-                    }*/
+              
                     
                     ToolbarItem(placement: .topBarTrailing) {
                         FactionImageView(faction: .human)
@@ -177,6 +167,6 @@ struct GalaxyStatsView: View {
 }
 
 #Preview {
-    GalaxyStatsView().environmentObject(PlanetsViewModel()).environmentObject(NavigationPather()).environmentObject(StoreManager())
+    GalaxyStatsView().environmentObject(PlanetsViewModel()).environmentObject(NavigationPather())
 }
 

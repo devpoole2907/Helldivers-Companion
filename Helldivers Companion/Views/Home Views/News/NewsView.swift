@@ -10,7 +10,6 @@ import SwiftUI
 struct NewsView: View {
     
     @StateObject var feedModel = NewsFeedModel()
-    @EnvironmentObject var purchaseManager: StoreManager
     @EnvironmentObject var navPather: NavigationPather
     @EnvironmentObject var viewModel: PlanetsViewModel
     
@@ -78,18 +77,7 @@ struct NewsView: View {
                             
                         }
                         
-                      /*  if !purchaseManager.products.isEmpty {
-                            
-                            ToolbarItem(placement: .topBarLeading) {
-                                Button(action: {
-                                    purchaseManager.showTips.toggle()
-                                }){
-                                    Image(systemName: "cart.fill")
-                                }.foregroundStyle(.white)
-                                    .bold()
-                            }
-                            
-                        }*/
+                 
                         
                     }
                 

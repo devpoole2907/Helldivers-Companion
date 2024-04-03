@@ -11,8 +11,6 @@ struct ContentViewWatchVersion: View {
     
     @StateObject var viewModel = PlanetsViewModel()
     
-    @StateObject var purchaseManager = StoreManager()
-    
     @StateObject var contentNavPather = NavigationPather()
     
     @StateObject var statsNavPather = NavigationPather()
@@ -28,10 +26,10 @@ struct ContentViewWatchVersion: View {
         TabView(selection: $currentTab) {
             
             AboutView().environmentObject(viewModel)
-                .environmentObject(purchaseManager)
+            
                 .tag(Tab.about)
             
-            GameViewWatch().environmentObject(purchaseManager).environmentObject(gameModel)
+            GameViewWatch().environmentObject(gameModel)
                 .tag(Tab.game)
             
             ContentView().environmentObject(viewModel).environmentObject(contentNavPather)
@@ -40,7 +38,7 @@ struct ContentViewWatchVersion: View {
             WatchOrdersView().environmentObject(viewModel)
                 .tag(Tab.orders)
             
-            WatchGalaxyStatsView().environmentObject(viewModel).environmentObject(purchaseManager).environmentObject(statsNavPather)
+            WatchGalaxyStatsView().environmentObject(viewModel).environmentObject(statsNavPather)
                 .tag(Tab.stats)
             
             WatchNewsView().environmentObject(newsNavPather).environmentObject(viewModel)
@@ -53,16 +51,7 @@ struct ContentViewWatchVersion: View {
         }.background {
             Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
         }
-        /*
-        .fullScreenCover(isPresented: $purchaseManager.showTips) {
-            NavigationStack {
-                ScrollView {
-                    TipJarView()
-                }
-            }
-            
-        }
-        */
+   
         
         .onAppear {
             

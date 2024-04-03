@@ -11,7 +11,6 @@ struct WatchGalaxyStatsView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
     @EnvironmentObject var navPather: NavigationPather
-    @EnvironmentObject var purchaseManager: StoreManager
     
     enum WatchStatsTab: Hashable {
         case galaxyInfo

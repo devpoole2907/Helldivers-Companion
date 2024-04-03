@@ -13,7 +13,7 @@ struct GameViewWatch: View {
     // viewmodel must be enviro as root will load the game sounds
     @EnvironmentObject var viewModel: StratagemHeroModel
     @ObservedObject var connectivityProvider = WatchConnectivityProvider.shared
-    @EnvironmentObject var purchaseManager: StoreManager
+
     
     var body: some View {
         
@@ -251,14 +251,7 @@ struct GameViewWatch: View {
             
             .onChange(of: viewModel.gameEndCount) { value in
                 
-                if value == 3 {
-                    viewModel.gameEndCount = 0
-                    // 50% chance of showing tips sheet after 3 games played
-                    if Bool.random(), !purchaseManager.products.isEmpty {
-                        purchaseManager.showTips.toggle()
-                        purchaseManager.tipShownInSession = true // dont show again this session
-                    }
-                }
+               
                 
                 
             }
