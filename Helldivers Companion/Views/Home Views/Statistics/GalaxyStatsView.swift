@@ -104,6 +104,8 @@ struct GalaxyStatsView: View {
                 .background {
                     Image("BackgroundImage").blur(radius: 10).ignoresSafeArea()
                 }
+            
+                .toolbarTitleDisplayMode(.inlineLarge)
 #endif
             
                 .navigationTitle("Galaxy Statistics".capitalized)

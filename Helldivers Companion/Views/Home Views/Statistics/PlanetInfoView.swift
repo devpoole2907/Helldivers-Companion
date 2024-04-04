@@ -203,9 +203,7 @@ struct PlanetInfoView: View {
         
         .navigationBarTitleDisplayMode(.large)
 #else
-        .navigationBarTitleDisplayMode(.inline) // TODO: come back here, inlining nav on watchos might be unneccesary
-        
-        
+
         .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Text(planetStatus?.planet.name.capitalized ?? "UNKNOWN").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont))
