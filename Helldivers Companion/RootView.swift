@@ -156,7 +156,7 @@ struct RootView: View {
         
         .onAppear {
             
-         //   viewModel.startUpdating()
+            viewModel.startUpdating()
 
         }
             
