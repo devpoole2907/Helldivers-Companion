@@ -591,5 +591,10 @@ let globalStratagems: [Stratagem] = [
     Stratagem(name: "Hellbomb", sequence: [.down, .up, .left, .down, .up, .right, .down, .up]),
     Stratagem(name: "Patriot Exosuit", sequence: [.left, .down, .right, .up, .left, .down, .down]),
     Stratagem(name: "Quasar Cannon", sequence: [.down, .down, .up, .left, .right]),
-    Stratagem(name: "Heavy Machine Gun", sequence: [.down, .left, .up, .down, .down])
+    Stratagem(name: "Heavy Machine Gun", sequence: [.down, .left, .up, .down, .down]),
+    Stratagem(name: "Resupply", sequence: [.down, .down, .up, .right]),
+    Stratagem(name: "Prospecting Drill", sequence: [.down, .down, .left, .right, .down, .down]),
+    Stratagem(name: "Seismic Probe", sequence: [.up, .up, .left, .right, .down, .down]),
+    Stratagem(name: "SEAF Artillery", sequence: [.right, .up, .up, .down]),
+    Stratagem(name: "Orbital Illumination Flare", sequence: [.right, .right, .left, .left])
 ]
