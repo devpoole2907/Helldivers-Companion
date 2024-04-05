@@ -33,7 +33,7 @@ class PlanetsViewModel: ObservableObject {
     
     private var apiToken: String? = ProcessInfo.processInfo.environment["GITHUB_API_KEY"]
     
-    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", alert: "", prominentAlert: nil, season: "801", showIlluminate: false)
+    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", alert: "", prominentAlert: nil, season: "801", showIlluminate: false, apiAddress: "")
     
     @Published var showInfo = false
     @Published var showOrders = false
@@ -411,7 +411,7 @@ class PlanetsViewModel: ObservableObject {
     }
     // update bug rates via github json file so the app doesnt need an update every change, or an alert string to present in the about page to update remotely
     func fetchConfig(completion: @escaping (RemoteConfigDetails?) -> Void) {
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/config/newConfig.json"
+        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/config/latestConfig.json"
         
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
@@ -507,7 +507,7 @@ class PlanetsViewModel: ObservableObject {
         
         // this function should be adapted for use both in the caching one or the live one below
         
-        var urlString = "\(apiAddress)/\(season ?? configData.season)/status"
+        var urlString = "\(configData.apiAddress)/\(season ?? configData.season)/status"
         
         // override url with provided url, must be a widget requesting data from the github cache instead
         if let url = url {

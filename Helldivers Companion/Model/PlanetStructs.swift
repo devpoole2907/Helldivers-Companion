@@ -161,7 +161,7 @@ struct MajorOrder: Decodable {
 
         struct Reward: Decodable {
             let type: Int
-            let id32: Int // this must be int64 to run on watchOS!
+            let id32: Int 
             let amount: Int
         }
     }
@@ -219,18 +219,20 @@ struct RemoteConfigDetails: Decodable {
     var prominentAlert: String?
     var season: String
     var showIlluminate: Bool
+    var apiAddress: String
     
     private enum CodingKeys: String, CodingKey {
-            case terminidRate, automatonRate, alert, prominentAlert, season, showIlluminate
+        case terminidRate, automatonRate, alert, prominentAlert, season, showIlluminate, apiAddress
         }
     // default init
-    init(terminidRate: String, automatonRate: String, alert: String, prominentAlert: String?, season: String, showIlluminate: Bool) {
+    init(terminidRate: String, automatonRate: String, alert: String, prominentAlert: String?, season: String, showIlluminate: Bool, apiAddress: String) {
             self.terminidRate = terminidRate
             self.automatonRate = automatonRate
             self.alert = alert
             self.prominentAlert = prominentAlert
             self.season = season
             self.showIlluminate = showIlluminate
+            self.apiAddress = apiAddress
         }
     
     // set prominent alert to nil if its empty
@@ -244,6 +246,7 @@ struct RemoteConfigDetails: Decodable {
             prominentAlert = prominentAlertValue.isEmpty ? nil : prominentAlertValue
         season = try container.decode(String.self, forKey: .season)
         showIlluminate = try container.decode(Bool.self, forKey: .showIlluminate)
+        apiAddress = try container.decode(String.self, forKey: .apiAddress)
         }
     
 }

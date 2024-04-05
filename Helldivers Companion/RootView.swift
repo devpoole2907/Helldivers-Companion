@@ -57,9 +57,9 @@ struct RootView: View {
                     .tag(Tab.stats)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
-                MapRootViewTest().environmentObject(viewModel)
+              /*  MapRootViewTest().environmentObject(viewModel)
                     .tag(Tab.map)
-                    .toolbarBackground(.hidden, for: .tabBar)
+                    .toolbarBackground(.hidden, for: .tabBar)*/
                 
                 NewsView().environmentObject(newsNavPather).environmentObject(viewModel)
                     .tag(Tab.news)
@@ -288,9 +288,9 @@ struct RootView: View {
                     
                 })
                 
-                TabButton(tab: .map, action: {viewModel.currentTab = .map})
+              //  TabButton(tab: .map, action: {viewModel.currentTab = .map})
                 
-                TabButton(tab: .game, action: {viewModel.currentTab = .game})
+    
       
           
                 TabButton(tab: .stats, action: {
@@ -340,6 +340,8 @@ struct RootView: View {
                     
                     
                 })
+                
+                TabButton(tab: .game, action: {viewModel.currentTab = .game})
                 
               
               

@@ -11,6 +11,7 @@ struct OrderView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
     
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         
@@ -28,6 +29,7 @@ struct OrderView: View {
                 Text(viewModel.majorOrder?.setting.overrideBrief ?? "Await further orders from Super Earth High Command.").font(Font.custom("FS Sinclair", size: 18))
                     .foregroundStyle(Color.cyan)
                     .padding(5)
+                    .multilineTextAlignment(.center)
                 
                 if !viewModel.taskPlanets.isEmpty {
                     TasksView(taskPlanets: viewModel.taskPlanets)
@@ -51,24 +53,13 @@ struct OrderView: View {
         //  .padding(.horizontal)
             
             ZStack(alignment: .center) {
-                Image("MajorOrdersBanner").resizable()
-#if os(iOS)
-                    .frame(width: UIScreen.main.bounds.width - 20, height: 45)
-#endif
-                    .offset(CGSize(width: 5, height: 0))
-               //     .clipShape(Rectangle())
-                //   .border(Color.white, width: 2)
-                // .padding(.bottom)
-                    .opacity(0.8)
                 
                 
                 
-                HStack(alignment: .firstTextBaseline, spacing: 3) {
-                    Image(systemName: "scope").bold()
-                    
-                    Text("MAJOR ORDER").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 24))
-                    
-                }.padding(.trailing, 60)
+                
+               
+                
+            
                 
             }
         
