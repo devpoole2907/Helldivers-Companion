@@ -806,7 +806,7 @@ enum Tab: String, CaseIterable {
         case .stats:
             return "globe.americas.fill"
         case .map:
-            return "mappin.and.ellipse.circle.fill"
+            return "map.fill"
         case .tipJar:
             return "cart.fill"
         }

@@ -336,9 +336,25 @@ struct GameView: View {
                     
                     ForEach(Array(stratagem.sequence.enumerated()), id: \.offset) { index, input in
                         
-                        Image(systemName: "arrowshape.\(input).fill")
-                            .foregroundStyle(viewModel.showError ? .red.opacity(0.8) : (index < viewModel.inputSequence.count ? .yellow : Color(red: 189, green: 185, blue: 185)))
-                            .shadow(radius: 3)
+                        
+                        if #available(iOS 17.0, *) {
+                            Image(systemName: "arrowshape.\(input).fill")
+                                .foregroundStyle(viewModel.showError ? .red.opacity(0.8) : (index < viewModel.inputSequence.count ? .yellow : Color(red: 189, green: 185, blue: 185)))
+                                .shadow(radius: 3)
+                            
+                        } else {
+                            Image(systemName: "arrowtriangle.\(input).fill")
+                                .foregroundStyle(viewModel.showError ? .red.opacity(0.8) : (index < viewModel.inputSequence.count ? .yellow : Color(red: 189, green: 185, blue: 185)))
+                                .shadow(radius: 3)
+                            
+                        }
+                        
+                      
+                           
+                        
+                        
+                        
+                        
                     }.animation(.none) // needs to ignore the animation system otherwise it gets buggy visually when changing stratagems
 
                 }.shake(times: CGFloat(viewModel.arrowShakeTimes))
@@ -353,15 +369,24 @@ struct GameView: View {
     var buttons: some View {
         
         HStack(spacing: getRect().height == 667 ? 0 : 8) {
-            
-            
-            
+
             Button(action: {
                 viewModel.buttonInput(input: .left)
             }) {
-                Image(systemName: "arrowshape.left.fill")
+                if #available(iOS 17.0, *) {
+                    Image(systemName: "arrowshape.left.fill")
                     .font(.system(size: getRect().height == 667 ? 60 : 75))
-            }.keyboardShortcut(.leftArrow, modifiers: [])
+                    
+                } else {
+                    
+                    Image(systemName: "arrowtriangle.left.fill")
+                        .font(.system(size: 60))
+                    
+                }
+                
+            }
+                    
+                    .keyboardShortcut(.leftArrow, modifiers: [])
             
             VStack(spacing: getRect().height == 667 ? 30 : 50) {
             
@@ -369,15 +394,37 @@ struct GameView: View {
             Button(action: {
                 viewModel.buttonInput(input: .up)
             }) {
-                Image(systemName: "arrowshape.up.fill")
+
+                if #available(iOS 17.0, *) {
+                    Image(systemName: "arrowshape.up.fill")
                     .font(.system(size: getRect().height == 667 ? 60 : 75))
+                    
+                } else {
+                    
+                    Image(systemName: "arrowtriangle.up.fill")
+                        .font(.system(size: 60))
+                    
+                }
+                
+                
             }.keyboardShortcut(.upArrow, modifiers: [])
             
             Button(action: {
                 viewModel.buttonInput(input: .down)
             }) {
-                Image(systemName: "arrowshape.down.fill")
+               
+                if #available(iOS 17.0, *) {
+                    Image(systemName: "arrowshape.down.fill")
                     .font(.system(size: getRect().height == 667 ? 60 : 75))
+                    
+                } else {
+                    
+                    Image(systemName: "arrowtriangle.down.fill")
+                        .font(.system(size: 60))
+                    
+                }
+                
+                
             }.keyboardShortcut(.downArrow, modifiers: [])
                 
 
@@ -386,8 +433,16 @@ struct GameView: View {
             Button(action: {
                 viewModel.buttonInput(input: .right)
             }) {
-                Image(systemName: "arrowshape.right.fill")
+                if #available(iOS 17.0, *) {
+                    Image(systemName: "arrowshape.right.fill")
                     .font(.system(size: getRect().height == 667 ? 60 : 75))
+                    
+                } else {
+                    
+                    Image(systemName: "arrowtriangle.right.fill")
+                        .font(.system(size: 60))
+                    
+                }
             }.keyboardShortcut(.rightArrow, modifiers: [])
             
         
