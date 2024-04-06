@@ -37,14 +37,15 @@ struct NewsView: View {
                         Spacer(minLength: 150)
                     }.padding()
 #if os(iOS)
-                        .scrollTargetLayout()
+                        .scrollTargetLayoutiOS17()
 #endif
                 }
                 
                 
             }
 #if os(iOS)
-            .scrollPosition(id: $navPather.scrollPosition)
+            
+            .scrollPositioniOS17($navPather.scrollPosition)
 #endif
             .onChange(of: navPather.scrollPosition) { value in
                 

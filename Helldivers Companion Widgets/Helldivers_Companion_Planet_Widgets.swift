@@ -165,22 +165,36 @@ struct RectangularPlanetWidgetView: View {
 #endif
     }
 }
-
+#if os(watchOS)
 struct CornerPlanetWidgetView: View {
     var entry: PlanetStatusProvider.Entry
     var body: some View {
-        Text(entry.planetName)
-            .font(.footnote)
-            .scaledToFit()
-            .minimumScaleFactor(0.2)
-            .widgetCurvesContent()
-            .widgetLabel {
-                ProgressView(value: entry.liberation, total: 100)
-                    .tint(.yellow)
-            }
         
+        if #available(iOS 17.0, *), #available(watchOS 10.0, *) {
+            
+            Text(entry.planetName)
+                .font(.footnote)
+                .scaledToFit()
+                .minimumScaleFactor(0.2)
+                .widgetCurvesContent()
+                .widgetLabel {
+                    ProgressView(value: entry.liberation, total: 100)
+                        .tint(.yellow)
+                }
+        } else {
+            Text(entry.planetName)
+                .font(.footnote)
+                .scaledToFit()
+                .minimumScaleFactor(0.2)
+               
+                .widgetLabel {
+                    ProgressView(value: entry.liberation, total: 100)
+                        .tint(.yellow)
+                }
+        }
     }
 }
+#endif
 
 struct InlinePlanetWidgetView: View {
     
@@ -211,11 +225,14 @@ struct Helldivers_Companion_Planet_Widgets: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: PlanetStatusProvider()) { entry in
             
-            Helldivers_Companion_WidgetsEntryView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
-            
-            // for deeplinking to info of planet view
-                .widgetURL(URL(string: "helldiverscompanion://\(entry.planetName)"))
+            if #available(iOS 17.0, *) {
+                Helldivers_Companion_WidgetsEntryView(entry: entry)
+                    .containerBackground(.fill.tertiary, for: .widget)
+                // for deeplinking to info of planet view
+                    .widgetURL(URL(string: "helldiverscompanion://\(entry.planetName)"))
+            } else {
+                Helldivers_Companion_WidgetsEntryView(entry: entry)
+            }
             
         }
         .configurationDisplayName("Player Count")
@@ -224,7 +241,7 @@ struct Helldivers_Companion_Planet_Widgets: Widget {
         .contentMarginsDisabled()
     }
 }
-
+@available(iOS 17.0, *)
 #Preview(as: .accessoryRectangular) {
     Helldivers_Companion_Planet_Widgets()
 } timeline: {
