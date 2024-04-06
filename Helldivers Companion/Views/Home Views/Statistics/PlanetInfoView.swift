@@ -12,6 +12,8 @@ struct PlanetInfoView: View {
     @EnvironmentObject var viewModel: PlanetsViewModel
     @EnvironmentObject var navPath: NavigationPather
     
+    @State private var infoType: InfoType = .warEffort
+    
     var planetStatus: PlanetStatus? = nil
     
     private var planetData: [PlanetDataPoint] {
@@ -37,8 +39,8 @@ struct PlanetInfoView: View {
     }
     
     // to determine if it is currently in a campaign
-    private var campaign: PlanetStatus? {
-        viewModel.campaignPlanets.first(where: { $0.planet.name == planetStatus?.planet.name })
+    private var campaign: Bool {
+        viewModel.campaignPlanets.contains(where: { $0.planet.name == planetStatus?.planet.name })
     }
     
     #if os(watchOS)
@@ -119,25 +121,26 @@ struct PlanetInfoView: View {
             
             imageWithSectorName
             
+            
+         
+            
             VStack(alignment: .leading, spacing: 14) {
                 
-                if let _ = planetStatus?.planet.biome?.slug {
-                    biomeDescription
+                // dont show if not currently fighting
+                if campaign {
+                    
+                    CustomSegmentedPicker(selection: $infoType, items: InfoType.allCases)
+                        .frame(maxWidth: .infinity)
+                    
+                        .padding(.bottom, 34)
                     
                 }
                 
-                if let environmentals = planetStatus?.planet.environmentals, !environmentals.isEmpty {
-                    environmentsList
-                    
-                }
-                
-                if let _ = planetStatus?.planet.stats {
-                    statsList
-                }
+           
                 
                 
                 // dont show this data if the planet isnt a current campaign
-                if viewModel.campaignPlanets.contains(where: { $0.planet.name == planetStatus?.planet.name }) {
+                if campaign && infoType == .warEffort {
                     HistoryChart(liberationType: liberationType, planetData: planetData, bugOrAutomaton: bugOrAutomaton).environmentObject(viewModel)
                         .shadow(radius: 5.0)
                     
@@ -158,6 +161,23 @@ struct PlanetInfoView: View {
                                 .shadow(radius: 5.0)
                         }
                     }
+                } else {
+                    
+                    if let _ = planetStatus?.planet.biome?.slug {
+                        biomeDescription
+                        
+                    }
+                    
+                    if let environmentals = planetStatus?.planet.environmentals, !environmentals.isEmpty {
+                        environmentsList
+                        
+                    }
+                    
+                    if let _ = planetStatus?.planet.stats {
+                        statsList
+                    }
+                    
+                    
                 }
                 
              
@@ -448,4 +468,18 @@ struct FactionImageView: View {
     }
     
     
+}
+
+enum InfoType: String, SegmentedItem, CaseIterable {
+    case warEffort = "War Effort"
+    case database = "Database"
+    
+    var contentType: SegmentedContentType {
+        switch self {
+        case .warEffort:
+            return .text("War Effort")
+        case .database:
+            return .text("Database")
+        }
+    }
 }

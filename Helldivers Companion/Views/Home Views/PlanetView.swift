@@ -39,23 +39,26 @@ struct PlanetView: View {
     @State private var chartType: ChartType = .players
     
 #if os(iOS)
-let raceIconSize: CGFloat = 25
+    let raceIconSize: CGFloat = 25
     let spacingSize: CGFloat = 10
-
+    
+    let zStackAlignment: Alignment = .topTrailing
+    
 #elseif os(watchOS)
     let raceIconSize: CGFloat = 20
     let spacingSize: CGFloat = 4
+    let zStackAlignment: Alignment = .topLeading
 #endif
-
-        private var planetData: [PlanetDataPoint] {
-            viewModel.planetHistory[planetName] ?? []
-        }
+    
+    private var planetData: [PlanetDataPoint] {
+        viewModel.planetHistory[planetName] ?? []
+    }
     
     private var formattedPlanetImageName: String {
         
         PlanetImageFormatter.formattedPlanetImageName(for: planetName)
-    
-        }
+        
+    }
     
     func showChartToggler() {
         withAnimation(.bouncy) {
@@ -77,19 +80,16 @@ let raceIconSize: CGFloat = 25
                     
                 }
                 
-                
-                // put it here
-                
                 CampaignPlanetStatsView(liberation: liberation, bugOrAutomaton: bugOrAutomaton, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, playerCount: playerCount, isWidget: isWidget, terminidRate: terminidRate, automatonRate: automatonRate, eventExpirationTime: eventExpirationTime)
                 
                 
-
-            
+                
+                
                 
                 
             }.onTapGesture {
                 // show chart if tapped anywhere
-               // showChartToggler()
+                // showChartToggler()
                 // nav to planet info view if tapped anywhere
                 if let planet = planet, viewModel.currentTab == .home {
                     navPather.navigationPath.append(planet)
@@ -118,150 +118,155 @@ let raceIconSize: CGFloat = 25
     
     var planetNameAndIcon: some View {
         return Group {
-        Image(bugOrAutomaton.rawValue).resizable().aspectRatio(contentMode: .fit)
-            .frame(width: raceIconSize, height: raceIconSize)
-        HStack(spacing: 2){
-            Text(planetName).textCase(.uppercase).foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red)
-                .font(Font.custom("FS Sinclair", size: largeFont))
-                .padding(.top, 3)
-            if !isWidget {
-                Image(systemName: "chevron.right")
-                    .foregroundStyle(.gray)
-                    .opacity(0.7)
-                    .bold()
-                    .font(.footnote)
-            } else {
-                Image(systemName: liberationType == .defense ? "shield.lefthalf.filled" : "target")
-                    .font(.footnote)
-                    .padding(.leading, 2)
-            }
+            Image(bugOrAutomaton.rawValue).resizable().aspectRatio(contentMode: .fit)
+                .frame(width: raceIconSize, height: raceIconSize)
+                .shadow(radius: 3)
+            HStack(spacing: 2){
+                Text(planetName).textCase(.uppercase).foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red)
+                    .font(Font.custom("FS Sinclair", size: largeFont))
+                    .padding(.top, 3)
+                #if os(iOS)
+                    .lineLimit(2)
+                #elseif os(watchOS)
+                    .lineLimit(1)
+                #endif
+                    .multilineTextAlignment(.leading)
+                    .lineSpacing(0)
+                if !isWidget {
+                    Image(systemName: "chevron.right")
+                        .foregroundStyle(.gray)
+                        .opacity(0.7)
+                        .bold()
+                        .font(.footnote)
+                } else {
+                    Image(systemName: liberationType == .defense ? "shield.lefthalf.filled" : "target")
+                        .font(.footnote)
+                        .padding(.leading, 2)
+                }
+                
+             
+                
+                
+            }  .shadow(radius: 3)
+            
         }
-        
-    }
     }
     
     var headerWithImage: some View {
-        VStack(spacing: 0) {
-            HStack(alignment: .center) {
-                
-                #if os(iOS)
-                if isWidget {
-                    planetNameAndIcon
-                } else {
-                    NavigationLink(value: planet) {
-                       planetNameAndIcon
-                    }
-                }
-                #else
-                
-                Button(action: {
-                    if let planet = planet {
-                        navPather.navigationPath.append(planet)
-                    }
-                
-                }){
-                    planetNameAndIcon
-                }.buttonStyle(PlainButtonStyle())
-                
-                #endif
-                
-                Spacer()
-                
-                if !showExtraStats {
-                    HStack(spacing: spacingSize) {
-                        
-                        
-                        Image("diver").resizable().aspectRatio(contentMode: .fit)
-                            .frame(width: 16, height: 16)
-                        Text("\(playerCount)").textCase(.uppercase)
-                            .foregroundStyle(.white).bold()
-                            .font(Font.custom("FS Sinclair", size: smallFont))
-                            .padding(.top, 3)
-                        
-                    }.padding(.trailing, 4)
-                }
-                
-                if showHistory {
-                Button(action: {
-                    showChartToggler()
-                }){
-                    HStack(alignment: .bottom, spacing: 4) {
-                        
-                        Image(systemName: "chart.xyaxis.line").bold()
-                            .padding(.bottom, 2)
-#if os(iOS)
-                        Text("History")   .font(Font.custom("FS Sinclair", size: smallFont))
-#endif
-                    }
-                }
-                
-#if os(watchOS)
-                .frame(width: 14, height: 14)
-                .buttonStyle(PlainButtonStyle())
-                
-#endif
-                .padding(.trailing, 2)
-#if os(iOS)
-                
-                .tint(.white)
-                
-                .padding(4)
-                .border(bugOrAutomaton == .terminid ? .yellow : .red)
-#endif
-                
-                
-            }
-                
-            }.padding(.horizontal, 5)
-                .padding(.vertical, 2)
-                .background{ Color.black}
+        ZStack(alignment: .bottom){
             
             if showImage {
                 if !showChart {
-                    imageWithEnvironmentalInfo
+                    
+                    // this really messes with the widgets so ive done it in an... odd way
+                    ZStack(alignment: zStackAlignment){
+                        ZStack(alignment: .bottom) {
+                            
+                            planetaryImage
+                            
+                            
+                            LinearGradient(
+                                gradient: Gradient(colors: [.clear, .black]),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                            .blendMode(.multiply)
+                            
+                            .frame(maxHeight: 80)
+                            
+                        }
+                        
+                        // show weather icons
+                        if let weathers = planet?.planet.environmentals {
+                            
+                         
+                            
+                            HStack(spacing: 8) {
+                                ForEach(weathers, id: \.name) { weather in
+                                    
+                                    Image(weather.name).resizable().aspectRatio(contentMode: .fit)
+                                    
+                                        .frame(width: weatherIconSize, height: weatherIconSize)
+                                      .padding(4)
+                                        .background{
+                                            Circle().foregroundStyle(Color.white)
+                                                .shadow(radius: 3.0)
+                                        }
+                                }
+                            }.opacity(0.7)
+                            
+                                .padding(5)
+                            
+                            
+                            
+                            
+                        }
+                        
+                        
+                    }
                     
                 }
             }
+            
+     
+                HStack(alignment: .center) {
+                    
+#if os(iOS)
+                    if isWidget {
+                        planetNameAndIcon
+                    } else {
+                        NavigationLink(value: planet) {
+                            planetNameAndIcon
+                        }
+                    }
+#else
+                    
+                    Button(action: {
+                        if let planet = planet {
+                            navPather.navigationPath.append(planet)
+                        }
+                        
+                    }){
+                        planetNameAndIcon
+                    }.buttonStyle(PlainButtonStyle())
+                    
+#endif
+                    
+                    Spacer()
+                    
+                    if !showExtraStats {
+                        HStack(spacing: spacingSize) {
+                            
+                            
+                            Image("diver").resizable().aspectRatio(contentMode: .fit)
+                                .frame(width: 16, height: 16)
+                            Text("\(playerCount)").textCase(.uppercase)
+                                .foregroundStyle(.white).bold()
+                                .font(Font.custom("FS Sinclair", size: smallFont))
+                                .padding(.top, 3)
+                            
+                        }.padding(.trailing, 4)
+                    }
+                    
+                }.padding(.horizontal, 5)
+                    .padding(.vertical, 2)
+                
+            
+            
             
         }.border(Color.white)
             .padding(4)
             .border(Color.gray)
     }
     
-    var imageWithEnvironmentalInfo: some View {
-        ZStack(alignment: .bottom) {
-            Image(formattedPlanetImageName).resizable().aspectRatio(contentMode: .fit)
-            
-                .onAppear {
-                    print("weathers are: \(planet?.planet.environmentals)")
-                }
-            
-            // show weather icons
-            if let weathers = planet?.planet.environmentals {
-                VStack {
-                    if !isWidget {
-                        Spacer()
-                    }
-                HStack(spacing: 10) {
-                    ForEach(weathers, id: \.name) { weather in
-                        
-                        Image(weather.name).resizable().aspectRatio(contentMode: .fit)
-                        
-                            .frame(width: weatherIconSize, height: weatherIconSize)
-                            .padding(4)
-                            .background{
-                                Circle().foregroundStyle(Color.white)
-                                    .shadow(radius: 3.0)
-                            }
-                    }
-                }.opacity(0.7)
-                    
-                }.padding(.bottom, 8)
-                
-                
-            }
-            
-        }
+    var planetaryImage: some View {
+        
+        Image(formattedPlanetImageName).resizable().aspectRatio(contentMode: .fit)
+        
+        
+        
+        
+        
     }
     
 }
@@ -275,7 +280,7 @@ enum ChartType: String, SegmentedItem {
     case liberation = "Liberation"
     case players = "Players"
     case defense = "Defense"
-
+    
     var contentType: SegmentedContentType {
         switch self {
         case .liberation:
@@ -300,47 +305,47 @@ struct ChartAnnotationView: View {
     
     var chartType: ChartType = .players
     var bugOrAutomaton: EnemyType
-     var value: String = "55.1586%"
-     var date: String = "4:41PM"
+    var value: String = "55.1586%"
+    var date: String = "4:41PM"
     
 #if os(iOS)
-let valueFont: CGFloat = 32
-
+    let valueFont: CGFloat = 32
+    
 #elseif os(watchOS)
     let valueFont: CGFloat = 16
-
+    
 #endif
     
     var body: some View{
         HStack{
             VStack(alignment: .leading, spacing: -5){
-            
-            Text("TOTAL")
-                    .font(Font.custom("FS Sinclair", size: smallFont))
-                .foregroundStyle(.gray)
-                .padding(.top, 1)
-            
-            Text(value)
-              
-                    .foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red)
-                .font(Font.custom("FS Sinclair", size: valueFont))
-            
-            Text(date)
-                .foregroundColor(.gray)
-                .font(Font.custom("FS Sinclair", size: smallFont))
                 
-           
-        }.padding(.leading, 8)
+                Text("TOTAL")
+                    .font(Font.custom("FS Sinclair", size: smallFont))
+                    .foregroundStyle(.gray)
+                    .padding(.top, 1)
+                
+                Text(value)
+                
+                    .foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red)
+                    .font(Font.custom("FS Sinclair", size: valueFont))
+                
+                Text(date)
+                    .foregroundColor(.gray)
+                    .font(Font.custom("FS Sinclair", size: smallFont))
+                
+                
+            }.padding(.leading, 8)
                 .padding(.trailing)
-        Spacer()
+            Spacer()
         }
-            .padding(.vertical, 4)
+        .padding(.vertical, 4)
         
-           
-            .border(Color.white)
-                .padding(4)
-                .border(Color.gray)
-                .background{ Color.black}
+        
+        .border(Color.white)
+        .padding(4)
+        .border(Color.gray)
+        .background{ Color.black}
     }
 }
 
@@ -356,13 +361,13 @@ struct HistoryChart: View {
     @State var chartType: ChartType = .players
     var bugOrAutomaton: EnemyType
     
-    #if os(watchOS)
+#if os(watchOS)
     let chartHeight: CGFloat = 160
     let chartSectionHeight: CGFloat = 210
-    #else
+#else
     let chartHeight: CGFloat = 240
     let chartSectionHeight: CGFloat = 300
-    #endif
+#endif
     
     var chartTypes: [ChartType] {
         switch liberationType {
@@ -372,7 +377,7 @@ struct HistoryChart: View {
             return [.defense, .players]
         }
     }
-
+    
     var body: some View {
         VStack {
             if viewModel.planetHistory.isEmpty {
@@ -382,26 +387,26 @@ struct HistoryChart: View {
                 chartView
             }
             CustomSegmentedPicker(selection: $chartType, items: chartTypes)
-                #if os(watchOS)
+#if os(watchOS)
                 .padding(.trailing, 1.5)
-                #endif
+#endif
         }
         .frame(minHeight: chartSectionHeight)
     }
-
+    
     private var chartView: some View {
         Chart {
- 
-
-                ForEach(planetData, id: \.timestamp) { dataPoint in
-                    if let status = dataPoint.status {
-                        chartLineMark(for: dataPoint, status)
-                        
-                        if let chartSelection = chartSelection, Calendar.current.isDate(chartSelection, equalTo: dataPoint.timestamp, toGranularity: .minute) {
-                            chartRuleMark(for: dataPoint, status)
-                        }
+            
+            
+            ForEach(planetData, id: \.timestamp) { dataPoint in
+                if let status = dataPoint.status {
+                    chartLineMark(for: dataPoint, status)
+                    
+                    if let chartSelection = chartSelection, Calendar.current.isDate(chartSelection, equalTo: dataPoint.timestamp, toGranularity: .minute) {
+                        chartRuleMark(for: dataPoint, status)
                     }
                 }
+            }
             
         }
         .chartYScale(domain: [0, chartType == .players ? 350000 : 100])
@@ -415,24 +420,24 @@ struct HistoryChart: View {
             }
         }
     }
-
+    
     private func chartLineMark(for dataPoint: PlanetDataPoint, _ status: PlanetStatus) -> some ChartContent {
         
         
-           LineMark(
-                x: .value("Time", dataPoint.timestamp),
-                y: .value(
-                    chartType == .liberation ? "Liberation" :
-                        chartType == .defense ? "Defense" : "Players",
-                    chartType != .players ? dataPoint.status?.liberation ?? 0.0 :
-                        Double(dataPoint.status?.players ?? 0)
-                )
+        LineMark(
+            x: .value("Time", dataPoint.timestamp),
+            y: .value(
+                chartType == .liberation ? "Liberation" :
+                    chartType == .defense ? "Defense" : "Players",
+                chartType != .players ? dataPoint.status?.liberation ?? 0.0 :
+                    Double(dataPoint.status?.players ?? 0)
             )
-           .foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red)
-            .lineStyle(StrokeStyle(lineWidth: 2.0))
-            .interpolationMethod(.catmullRom)
-            
-          
+        )
+        .foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red)
+        .lineStyle(StrokeStyle(lineWidth: 2.0))
+        .interpolationMethod(.catmullRom)
+        
+        
         
         
         
@@ -440,21 +445,21 @@ struct HistoryChart: View {
     
     
     private func chartRuleMark(for dataPoint: PlanetDataPoint, _ status: PlanetStatus) -> some ChartContent {
-
-            let ruleMark = RuleMark(x: .value("Time", chartSelection!))
+        
+        let ruleMark = RuleMark(x: .value("Time", chartSelection!))
         let annotationValue = chartType != .players ? "\(String(format: "%.2f%%", status.liberation))" : "\(status.players)"
-            
+        
         let annotationView = ChartAnnotationView(bugOrAutomaton: bugOrAutomaton, value: annotationValue, date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
-          return  ruleMark.opacity(0.5)
-                .annotation(position: .topLeading, alignment: .top, overflowResolution: .init(x: .fit(to: .chart), y: .fit)){
-                    
-                    annotationView
-                    
-                    
-                    
-                }
-
-            
+        return  ruleMark.opacity(0.5)
+            .annotation(position: .topLeading, alignment: .top, overflowResolution: .init(x: .fit(to: .chart), y: .fit)){
+                
+                annotationView
+                
+                
+                
+            }
+        
+        
         
         
     }
