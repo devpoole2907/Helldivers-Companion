@@ -11,7 +11,7 @@ import SwiftUI
 struct Stratagem_Hero_TV_EditionApp: App {
     var body: some Scene {
         WindowGroup {
-            TvGameView()
+            TvGameView().preferredColorScheme(.dark)
         }
     }
 }
