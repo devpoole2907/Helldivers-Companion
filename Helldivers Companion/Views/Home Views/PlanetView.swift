@@ -410,7 +410,49 @@ struct HistoryChart: View {
             
         }
         .chartYScale(domain: [0, chartType == .players ? 350000 : 100])
-        .chartXSelection(value: $chartSelection)
+        .chartXSelectioniOS17Modifier($chartSelection)
+        
+        .chartOverlayiOS16 { proxy in
+            
+            GeometryReader { innerProxy in
+                
+                Rectangle()
+                    .fill(.clear).contentShape(Rectangle())
+                    .gesture(
+                        DragGesture()
+                            .onChanged{ value in
+                                
+                                
+                                
+                                let location = value.location
+                                
+                                if let date: Date = proxy.value(atX: location.x){
+                           
+                                    print("date is \(date)")
+                                    
+                                    chartSelection = date
+                                }
+                                
+                                
+                            } .onEnded{ value in
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                        
+                                        
+                                        chartSelection = nil
+                                        
+                                    }
+                                }
+                            }
+                    )
+                
+            }
+            
+            
+            
+        }
+        
         .padding(10)
         .frame(minHeight: chartHeight)
         .onChange(of: chartSelection) { newValue in
@@ -450,18 +492,21 @@ struct HistoryChart: View {
         let annotationValue = chartType != .players ? "\(String(format: "%.2f%%", status.liberation))" : "\(status.players)"
         
         let annotationView = ChartAnnotationView(bugOrAutomaton: bugOrAutomaton, value: annotationValue, date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
-        return  ruleMark.opacity(0.5)
-            .annotation(position: .topLeading, alignment: .top, overflowResolution: .init(x: .fit(to: .chart), y: .fit)){
-                
-                annotationView
-                
-                
-                
-            }
-        
-        
-        
-        
+        if #available(iOS 17, *), #available(watchOS 10, *) {
+               return ruleMark
+                   .opacity(0.5)
+                   .annotation(position: .topLeading, alignment: .top, overflowResolution: .init(x: .fit(to: .chart), y: .fit)) {
+                       annotationView
+                   }
+           } else {
+               return ruleMark
+                   .opacity(0.5)
+                   // Apply the annotation without the overflowResolution for iOS 16 and earlier
+                   .annotation(position: .leading, alignment: .top) {
+                       annotationView
+                   }
+           }
+  
     }
     
 }

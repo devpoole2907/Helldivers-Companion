@@ -99,11 +99,18 @@ struct Helldivers_Companion_News_Widget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
 
+            if #available(iOSApplicationExtension 17.0, *) {
                 Helldivers_Companion_News_WidgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
-            
-                    // for deeplinking to news view
-                .widgetURL(URL(string: "helldiverscompanion://news"))
+                
+                // for deeplinking to news view
+                    .widgetURL(URL(string: "helldiverscompanion://news"))
+            } else {
+                Helldivers_Companion_News_WidgetEntryView(entry: entry)
+                
+                // for deeplinking to news view
+                    .widgetURL(URL(string: "helldiverscompanion://news"))
+            }
                     
         }
         .configurationDisplayName("News")
@@ -112,7 +119,7 @@ struct Helldivers_Companion_News_Widget: Widget {
         .contentMarginsDisabled()
     }
 }
-
+@available(iOS 17.0, *)
 #Preview(as: .systemLarge) {
     Helldivers_Companion_News_Widget()
 } timeline: {

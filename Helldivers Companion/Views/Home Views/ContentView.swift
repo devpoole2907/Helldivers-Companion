@@ -64,7 +64,7 @@ struct ContentView: View {
                     
                 }
                 #if os(iOS)
-                .scrollTargetLayout()
+                .scrollTargetLayoutiOS17()
                 #endif
                 
                 Text("Pull to Refresh").textCase(.uppercase)
@@ -78,7 +78,7 @@ struct ContentView: View {
                 
             } 
 #if os(iOS)
-            .scrollPosition(id: $navPather.scrollPosition)
+            .scrollPositioniOS17($navPather.scrollPosition)
             #endif
             
             .scrollContentBackground(.hidden)

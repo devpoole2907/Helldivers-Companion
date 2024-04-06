@@ -105,7 +105,7 @@ struct GalaxyStatsView: View {
                     Image("BackgroundImage").blur(radius: 10).ignoresSafeArea()
                 }
             
-                .toolbarTitleDisplayMode(.inlineLarge)
+                .inlineLargeTitleiOS17()
 #endif
             
                 .navigationTitle("Galaxy Statistics".capitalized)

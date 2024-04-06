@@ -161,6 +161,13 @@
 		7C5D5F5A2BAFD83F00B644B9 /* WatchConnectivityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */; };
 		7C63130B2BBBDA8D00C84C13 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C63130E2BBC01C800C84C13 /* GalaxyMapTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63130D2BBC01C800C84C13 /* GalaxyMapTesting.swift */; };
+		7C80F3EC2BC13F890058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
+		7C80F3ED2BC1425B0058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
+		7C80F3EE2BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
+		7C80F3EF2BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
+		7C80F3F02BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
+		7C80F3F12BC142C30058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
+		7C80F3F22BC142C40058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
 		7C8C5F272BADD17000C4FBD2 /* ShakeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C32BA574B20019B00E /* ShakeModifier.swift */; };
 		7C8C5F282BAE80D300C4FBD2 /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */; };
 		7C8C5F292BAE810E00C4FBD2 /* CustomSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */; };
@@ -374,6 +381,7 @@
 		7C587F612BA6E8AE00C66643 /* Helldivers-Companion-Watch-Edition-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Helldivers-Companion-Watch-Edition-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityProvider.swift; sourceTree = "<group>"; };
 		7C63130D2BBC01C800C84C13 /* GalaxyMapTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyMapTesting.swift; sourceTree = "<group>"; };
+		7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Version Check View Modifiers.swift"; sourceTree = "<group>"; };
 		7C8C5F2F2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion Major Order WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C8C5F332BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Major_Order_WidgetBundle.swift; sourceTree = "<group>"; };
 		7C8C5F352BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Major_Order_Widget.swift; sourceTree = "<group>"; };
@@ -639,6 +647,14 @@
 			path = "Galaxy Map";
 			sourceTree = "<group>";
 		};
+		7C80F3EA2BC13F710058BF39 /* iOS Version Check Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */,
+			);
+			path = "iOS Version Check Modifiers";
+			sourceTree = "<group>";
+		};
 		7C8C5F322BAEF91300C4FBD2 /* Helldivers Companion Major Order Widget */ = {
 			isa = PBXGroup;
 			children = (
@@ -683,6 +699,7 @@
 		7CE4AE382BA832660033D4AF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7C80F3EA2BC13F710058BF39 /* iOS Version Check Modifiers */,
 				7CE97D392BB51D65008329BA /* Popups */,
 				7CE4AE3B2BA832930033D4AF /* Home Views */,
 				7CE4AE3A2BA8327C0033D4AF /* CustomUIElements */,
@@ -1097,6 +1114,7 @@
 				7C0DF6372BB987FB0062AB9B /* PlanetInfoDetailRow.swift in Sources */,
 				7C319F972BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift in Sources */,
 				7CE97D3B2BB51DE9008329BA /* CentrePopup.swift in Sources */,
+				7C80F3EC2BC13F890058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C0C995D2BA2BAFD00CF7C91 /* PlanetsViewModel.swift in Sources */,
 				7C45D4732BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C0C994E2BA2BA8F00CF7C91 /* ContentView.swift in Sources */,
@@ -1142,6 +1160,7 @@
 				7C1B8C3B2BAD790500944823 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C1B8C172BAD705600944823 /* Helldivers_Companion_News_Widget.swift in Sources */,
 				7C0DF62B2BB96D530062AB9B /* NavigationPather.swift in Sources */,
+				7C80F3F02BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C1B8C312BAD767400944823 /* PlanetStructs.swift in Sources */,
 				7C63130B2BBBDA8D00C84C13 /* PlanetsViewModel.swift in Sources */,
 				7C1B8C2E2BAD718200944823 /* NewsItemView.swift in Sources */,
@@ -1164,6 +1183,7 @@
 				7C3DE98A2BA80C1900C95B84 /* PlanetsViewModel.swift in Sources */,
 				7C8C5F2A2BAE811C00C4FBD2 /* RectangleProgressBar.swift in Sources */,
 				7C45D45A2BABEB350013A632 /* GlobalFunctions+Extensions.swift in Sources */,
+				7C80F3EF2BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C45D47B2BAC142C0013A632 /* Tab.swift in Sources */,
 				7C3DE98B2BA80C1E00C95B84 /* PlanetStructs.swift in Sources */,
 				7C3DE97C2BA80B3D00C95B84 /* Helldivers_Companion_Watch_Widgets.swift in Sources */,
@@ -1191,6 +1211,7 @@
 				7C587F492BA6DBB400C66643 /* ContentViewWatchVersion.swift in Sources */,
 				7C45D4742BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C45D4792BAC142C0013A632 /* Tab.swift in Sources */,
+				7C80F3ED2BC1425B0058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C45D45B2BABEB370013A632 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C587F5D2BA6DD2200C66643 /* CustomSegmentedPicker.swift in Sources */,
 				7C0DF6422BBA35770062AB9B /* WatchNewsView.swift in Sources */,
@@ -1224,6 +1245,7 @@
 				7C8C5F402BAEF96A00C4FBD2 /* PlanetsViewModel.swift in Sources */,
 				7C8C5F442BAEF98100C4FBD2 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C8C5F432BAEF97600C4FBD2 /* MajorOrderTimeView.swift in Sources */,
+				7C80F3F12BC142C30058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C8C5F412BAEF96C00C4FBD2 /* PlanetStructs.swift in Sources */,
 				7C8C5F422BAEF97200C4FBD2 /* RewardView.swift in Sources */,
 				7C0DF6272BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
@@ -1242,6 +1264,7 @@
 				7C8C5F612BAF0C1500C4FBD2 /* RewardView.swift in Sources */,
 				7C8C5F5D2BAF0B5C00C4FBD2 /* PlanetsViewModel.swift in Sources */,
 				7C8C5F5E2BAF0B5E00C4FBD2 /* PlanetStructs.swift in Sources */,
+				7C80F3F22BC142C40058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C8C5F622BAF0C1900C4FBD2 /* OrderView.swift in Sources */,
 				7C8C5F5C2BAF0B1800C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */,
 				7C0DF6282BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
@@ -1266,6 +1289,7 @@
 				7CC0AE842BA7F37D00802D9F /* PlanetsViewModel.swift in Sources */,
 				7C45D47A2BAC142C0013A632 /* Tab.swift in Sources */,
 				7CC0AE852BA7F38500802D9F /* PlanetStructs.swift in Sources */,
+				7C80F3EE2BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C45D4702BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
 				7CC0AE772BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift in Sources */,
 				7CC0AE862BA7F59200802D9F /* PlanetView.swift in Sources */,
@@ -1451,7 +1475,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1489,7 +1513,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1518,7 +1542,7 @@
 				INFOPLIST_FILE = "Helldivers Companion News Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion News Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1546,7 +1570,7 @@
 				INFOPLIST_FILE = "Helldivers Companion News Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion News Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1702,7 +1726,7 @@
 				INFOPLIST_FILE = "Helldivers Companion Major Order Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Major Order Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1730,7 +1754,7 @@
 				INFOPLIST_FILE = "Helldivers Companion Major Order Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Major Order Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1818,7 +1842,7 @@
 				INFOPLIST_FILE = "Helldivers Companion Widgets/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Widgets";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1846,7 +1870,7 @@
 				INFOPLIST_FILE = "Helldivers Companion Widgets/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Widgets";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -119,12 +119,20 @@ struct Helldivers_Companion_Major_Order_Widget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: MajorOrderProvider()) { entry in
-       
+            
+                
+            if #available(iOSApplicationExtension 17.0, *) {
                 Helldivers_Companion_Major_Order_WidgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
-            
-             // for deeplinking to major order popup
-                .widgetURL(URL(string: "helldiverscompanion://orders"))
+                
+                // for deeplinking to major order popup
+                    .widgetURL(URL(string: "helldiverscompanion://orders"))
+            } else {
+                Helldivers_Companion_Major_Order_WidgetEntryView(entry: entry)
+                
+                // for deeplinking to major order popup
+                    .widgetURL(URL(string: "helldiverscompanion://orders"))
+            }
             
         }
         .configurationDisplayName("Major Order")
@@ -134,6 +142,7 @@ struct Helldivers_Companion_Major_Order_Widget: Widget {
     }
 }
 #if os(iOS)
+@available(iOS 17.0, *)
 #Preview(as: .systemSmall) {
     Helldivers_Companion_Major_Order_Widget()
 } timeline: {
