@@ -20,15 +20,16 @@ struct WarStatusResponse: Decodable {
     func convertStartedAtToDate() -> Date? {
         let dateFormatter = ISO8601DateFormatter()
         dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-
+        
         print("Attempting to convert date: \(startedAt)")
         return dateFormatter.date(from: startedAt)
     }
-
+    
     
 }
 
 struct Campaign: Decodable {
+    
     let count: Int
     let id: Int
     let planet: Planet
@@ -66,8 +67,8 @@ struct PlanetStatus: Decodable, Hashable {
     }
     
     func hash(into hasher: inout Hasher) {
-            hasher.combine(planet.index)
-        }
+        hasher.combine(planet.index)
+    }
     
     
     let health: Int
@@ -90,16 +91,16 @@ struct PlanetEvent: Decodable {
     var expireTimeDate: Date?
     
     // computed property, calcs defense percent
-   var defensePercentage: Double {
-            maxHealth > 0 ? (1 - (Double(health) / Double(maxHealth))) * 100 : 0
-        }
-
-        enum CodingKeys: String, CodingKey {
-            case planet
-            case health
-            case maxHealth
-            case race
-        }
+    var defensePercentage: Double {
+        maxHealth > 0 ? (1 - (Double(health) / Double(maxHealth))) * 100 : 0
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case planet
+        case health
+        case maxHealth
+        case race
+    }
 }
 
 struct Planet: Decodable {
@@ -143,7 +144,7 @@ struct MajorOrder: Decodable {
         case expiresIn
         case setting
     }
-
+    
     struct Setting: Decodable {
         let type: Int
         let overrideTitle: String
@@ -152,16 +153,16 @@ struct MajorOrder: Decodable {
         let tasks: [Task]
         let reward: Reward
         let flags: Int
-
+        
         struct Task: Decodable {
             let type: Int
             let values: [Int]
             let valueTypes: [Int]
         }
-
+        
         struct Reward: Decodable {
             let type: Int
-            let id32: Int 
+            let id32: Int
             let amount: Int
         }
     }
@@ -182,34 +183,34 @@ struct NewsFeed: Decodable, Hashable {
     let type: Int
     
     private enum CodingKeys: String, CodingKey {
-            case id, message, published, tagIds, type
-        }
+        case id, message, published, tagIds, type
+    }
     
     // custom init handles decoding/processing of message to seperate to title/message if possible
-        init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            id = try container.decode(Int.self, forKey: .id)
-            published = try container.decodeIfPresent(UInt32.self, forKey: .published)
-            tagIds = try container.decode([Int].self, forKey: .tagIds)
-            type = try container.decode(Int.self, forKey: .type)
-            message = try container.decode(String.self, forKey: .message)
-            
-       // processing into title/message
-            if let msg = message {
-                // check for new line in message
-                if let newlineIndex = msg.firstIndex(of: "\n") {
-                   // if we find a new line in the message then seperate to title/message
-                    title = String(msg[..<newlineIndex])
-                    message = String(msg[msg.index(after: newlineIndex)...])
-                }
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        published = try container.decodeIfPresent(UInt32.self, forKey: .published)
+        tagIds = try container.decode([Int].self, forKey: .tagIds)
+        type = try container.decode(Int.self, forKey: .type)
+        message = try container.decode(String.self, forKey: .message)
+        
+        // processing into title/message
+        if let msg = message {
+            // check for new line in message
+            if let newlineIndex = msg.firstIndex(of: "\n") {
+                // if we find a new line in the message then seperate to title/message
+                title = String(msg[..<newlineIndex])
+                message = String(msg[msg.index(after: newlineIndex)...])
             }
         }
+    }
 }
 
 struct GitHubFile: Decodable {
     let name: String
     let downloadUrl: String
-
+    
 }
 
 struct RemoteConfigDetails: Decodable {
@@ -223,31 +224,31 @@ struct RemoteConfigDetails: Decodable {
     
     private enum CodingKeys: String, CodingKey {
         case terminidRate, automatonRate, alert, prominentAlert, season, showIlluminate, apiAddress
-        }
+    }
     // default init
     init(terminidRate: String, automatonRate: String, alert: String, prominentAlert: String?, season: String, showIlluminate: Bool, apiAddress: String) {
-            self.terminidRate = terminidRate
-            self.automatonRate = automatonRate
-            self.alert = alert
-            self.prominentAlert = prominentAlert
-            self.season = season
-            self.showIlluminate = showIlluminate
-            self.apiAddress = apiAddress
-        }
+        self.terminidRate = terminidRate
+        self.automatonRate = automatonRate
+        self.alert = alert
+        self.prominentAlert = prominentAlert
+        self.season = season
+        self.showIlluminate = showIlluminate
+        self.apiAddress = apiAddress
+    }
     
     // set prominent alert to nil if its empty
     init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            terminidRate = try container.decode(String.self, forKey: .terminidRate)
-            automatonRate = try container.decode(String.self, forKey: .automatonRate)
-            alert = try container.decode(String.self, forKey: .alert)
-            
-            let prominentAlertValue = try container.decode(String.self, forKey: .prominentAlert)
-            prominentAlert = prominentAlertValue.isEmpty ? nil : prominentAlertValue
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        terminidRate = try container.decode(String.self, forKey: .terminidRate)
+        automatonRate = try container.decode(String.self, forKey: .automatonRate)
+        alert = try container.decode(String.self, forKey: .alert)
+        
+        let prominentAlertValue = try container.decode(String.self, forKey: .prominentAlert)
+        prominentAlert = prominentAlertValue.isEmpty ? nil : prominentAlertValue
         season = try container.decode(String.self, forKey: .season)
         showIlluminate = try container.decode(Bool.self, forKey: .showIlluminate)
         apiAddress = try container.decode(String.self, forKey: .apiAddress)
-        }
+    }
     
 }
 
@@ -304,10 +305,10 @@ struct GalaxyStats: Decodable {
     
     // manual coding keys because accurracy is spelt wrong in the json response!
     enum CodingKeys: String, CodingKey {
-            case missionsWon, missionsLost, missionTime, bugKills, automatonKills, illuminateKills,
-                 bulletsFired, bulletsHit, timePlayed, deaths, revives, friendlies, missionSuccessRate
-            case accuracy = "accurracy" // Mapping the struct property to the actual JSON key
-        }
+        case missionsWon, missionsLost, missionTime, bugKills, automatonKills, illuminateKills,
+             bulletsFired, bulletsHit, timePlayed, deaths, revives, friendlies, missionSuccessRate
+        case accuracy = "accurracy" // Mapping the struct property to the actual JSON key
+    }
     
 }
 // for planet stats in the galaxy stats response
@@ -331,9 +332,9 @@ struct PlanetStats: Decodable {
     
     // again, accuracy is spelt wrong in the json response
     enum CodingKeys: String, CodingKey {
-            case planetIndex, missionsWon, missionsLost, missionTime, bugKills, automatonKills, illuminateKills,
-                 bulletsFired, bulletsHit, timePlayed, deaths, revives, friendlies, missionSuccessRate, accuracy = "accurracy"
-        }
+        case planetIndex, missionsWon, missionsLost, missionTime, bugKills, automatonKills, illuminateKills,
+             bulletsFired, bulletsHit, timePlayed, deaths, revives, friendlies, missionSuccessRate, accuracy = "accurracy"
+    }
     
 }
 
@@ -349,5 +350,93 @@ struct GalaxyStatsResponseData: Decodable {
 struct PlanetExpiration: Decodable {
     let planetIndex: Int
     let name: String
-    let expireDateTime: Double?  
+    let expireDateTime: Double?
+}
+
+struct UpdatedPlanet: Decodable, Hashable {
+    
+    static func == (lhs: UpdatedPlanet, rhs: UpdatedPlanet) -> Bool {
+        return lhs.index == rhs.index
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(index)
+    }
+    
+    var index: Int
+    var name: String
+    var sector: String
+    var hash: Int
+    var position: Position
+    var waypoints: [Int]
+    var maxHealth: Int
+    var health: Int
+    var disabled: Bool
+    var initialOwner: String
+    var currentOwner: String
+    var regenPerSecond: Double
+    var event: UpdatedPlanetEvent?
+    var statistics: UpdatedPlanetStatistics
+    
+    var environmentals: [Environmental]? // data comes from helldiverstrainingmanual api
+    var biome: Biome? // data comes from helldiverstrainingmanual api
+    
+    
+    // computed prop for liberation/defense
+    var percentage: Double {
+        maxHealth > 0 ? (1 - (Double(health) / Double(maxHealth))) * 100 : 0
+    }
+    // if its associated with major order, put its task progress here
+    var taskProgress: Int? = nil
+    
+}
+
+struct UpdatedPlanetEvent: Decodable {
+    
+    var id: Int
+    var eventType: Int
+    var faction: String
+    var health: Int
+    var maxHealth: Int
+    var startTime: String
+    var endTime: String
+    var campaignId: Int
+    var jointOperationIds: [Int]
+    
+    
+}
+
+struct UpdatedPlanetStatistics: Decodable {
+    var missionsWon: Int
+    var missionsLost: Int
+    var missionTime: Int
+    var terminidKills: Int
+    var automatonKills: Int
+    var illuminateKills: Int
+    var bulletsFired: Int
+    var bulletsHit: Int
+    var timePlayed: Int
+    var deaths: Int
+    var revives: Int
+    var friendlies: Int
+    var missionSuccessRate: Int
+    var accuracy: Int
+    var playerCount: Int
+}
+
+struct UpdatedCampaign: Decodable, Hashable {
+    
+    static func == (lhs: UpdatedCampaign, rhs: UpdatedCampaign) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    
+    var id: Int
+    var planet: UpdatedPlanet
+    var type: Int
+    var count: Int
 }

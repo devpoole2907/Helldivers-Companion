@@ -24,28 +24,33 @@ struct MajorOrderProvider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [MajorOrderEntry] = []
         
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/currentPlanetStatus.json"
+        // TODO: CHANGE TO GET ALL PLANETS NOT JUST CURRENT CAMPAIGNS
+        
+        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/currentPlanets.json"
 
         planetsModel.fetchConfig() { config in
-            planetsModel.fetchPlanetStatuses(using: urlString, for: config?.season ?? "801") { _, _, planetStatuses, _ in
-                planetsModel.fetchMajorOrder(for: config?.season ?? "801", with: planetStatuses) { planets, order in
-                
-                let entry = MajorOrderEntry(date: Date(), title: order?.setting.taskDescription, description: order?.setting.overrideBrief, taskPlanets: planets, rewardValue: order?.setting.reward.amount, rewardType: order?.setting.reward.type, timeRemaining: order?.expiresIn)
-                
-                print("apending entry, this many planets: \(planets.count)")
-                
-                entries.append(entry)
+            
+            planetsModel.fetchUpdatedPlanets(using: urlString) { planets in
                 
                 
+                planetsModel.fetchMajorOrder(for: config?.season ?? "801", with: planets) { taskPlanets, order in
+                    
+                    let entry = MajorOrderEntry(date: Date(), title: order?.setting.taskDescription, description: order?.setting.overrideBrief, taskPlanets: taskPlanets, rewardValue: order?.setting.reward.amount, rewardType: order?.setting.reward.type, timeRemaining: order?.expiresIn)
+                    
+                    print("apending entry, this many planets: \(planets.count)")
+                    
+                    entries.append(entry)
+                    
+                    
+                    
+                    let timeline = Timeline(entries: entries, policy: .atEnd)
+                    completion(timeline)
+                    
+                }
                 
-                let timeline = Timeline(entries: entries, policy: .atEnd)
-                completion(timeline)
+                
             }
-            
-        }
-            
-            
-            
+         
         }
 
        
@@ -56,7 +61,7 @@ struct MajorOrderEntry: TimelineEntry {
     let date: Date
     let title: String?
     let description: String?
-    let taskPlanets: [PlanetStatus]
+    let taskPlanets: [UpdatedPlanet]
     let rewardValue: Int?
     let rewardType: Int?
     let timeRemaining: Int64?
@@ -156,7 +161,7 @@ struct OrdersWidgetView: View {
     
     var title: String?
     var description: String?
-    var taskPlanets: [PlanetStatus]
+    var taskPlanets: [UpdatedPlanet]
     var rewardValue: Int?
     var rewardType: Int?
     var timeRemaining: Int64?

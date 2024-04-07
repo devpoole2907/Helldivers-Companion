@@ -9,11 +9,11 @@ import SwiftUI
 
 struct PlanetInfoDetailRow: View {
     
-    var planetStatus: PlanetStatus? = nil
+    var planet: UpdatedPlanet? = nil
     
     private var formattedPlanetImageName: String {
         
-        PlanetImageFormatter.formattedPlanetImageName(for: planetStatus?.planet.name ?? "Fori Prime")
+        PlanetImageFormatter.formattedPlanetImageName(for: planet?.name ?? "Fori Prime")
     
         }
     
@@ -28,7 +28,7 @@ struct PlanetInfoDetailRow: View {
                     .aspectRatio(contentMode: .fill)
                 
                 HStack(spacing: 4) {
-                    Text(planetStatus?.planet.name ?? "Unknown")
+                    Text(planet?.name ?? "Unknown")
                         .padding(.vertical, 4)
                         .textCase(.uppercase)
                         .font(Font.custom("FS Sinclair", size: largeFont))
@@ -42,7 +42,7 @@ struct PlanetInfoDetailRow: View {
                         .padding(.bottom, 1.7)
                     Spacer()
                     
-                    if let weathers = planetStatus?.planet.environmentals {
+                    if let weathers = planet?.environmentals {
                        
                         HStack(spacing: 6) {
                             ForEach(weathers, id: \.name) { weather in

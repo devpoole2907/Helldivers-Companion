@@ -45,22 +45,27 @@ struct ContentView: View {
                         AlertView(alert: alert)
                             .padding(.horizontal)
                     }
-
-                    ForEach(Array(viewModel.campaignPlanets.enumerated()), id: \.element) { (index, planetStatus) in
+                    
+                    
+                    ForEach(Array(viewModel.updatedCampaigns.enumerated()), id: \.element) { (index, campaign) in
                         // check if planet is defending
-                        if let defenseEvent = viewModel.defensePlanets.first(where: { $0.planet.index == planetStatus.planet.index }) {
-                            // planet is defending, use defense percentage for liberation val
-                            PlanetView(planetName: planetStatus.planet.name, liberation: defenseEvent.defensePercentage, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus, liberationType: .defense, bugOrAutomaton: planetStatus.owner == "Terminids" ? .terminid : .automaton, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, eventExpirationTime: defenseEvent.expireTimeDate).environmentObject(viewModel)
+                        if let defenseCampaign = viewModel.updatedDefenseCampaigns.first(where: { $0.planet.index == campaign.planet.index }) {
+                            
+                            let eventExpirationTime = viewModel.eventExpirationDate(from: defenseCampaign.planet.event?.endTime)
+                            
+                            
+                            // uses faction from event instead
+                            PlanetView(planetName: campaign.planet.name, liberation: campaign.planet.percentage, rate: campaign.planet.regenPerSecond, playerCount: campaign.planet.statistics.playerCount, planet: campaign.planet, liberationType: .defense, bugOrAutomaton: campaign.planet.event?.faction == "Terminids" ? .terminid : .automaton, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, eventExpirationTime: eventExpirationTime).environmentObject(viewModel)
                                 .padding(.horizontal)
                                 .id(index)
+                            
+                            
                         } else {
-                            // planet not defending, use liberation
-                            PlanetView(planetName: planetStatus.planet.name, liberation: planetStatus.liberation, rate: planetStatus.regenPerSecond, playerCount: planetStatus.players, planet: planetStatus, liberationType: .liberation, bugOrAutomaton: planetStatus.owner == "Terminids" ? .terminid : .automaton, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate).environmentObject(viewModel)
+                            PlanetView(planetName: campaign.planet.name, liberation: campaign.planet.percentage, rate: campaign.planet.regenPerSecond, playerCount: campaign.planet.statistics.playerCount, planet: campaign.planet, liberationType: .liberation, bugOrAutomaton: campaign.planet.currentOwner == "Terminids" ? .terminid : .automaton, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate).environmentObject(viewModel)
                                 .padding(.horizontal)
                                 .id(index)
                         }
                     }
-
                     
                 }
                 #if os(iOS)
@@ -141,8 +146,8 @@ struct ContentView: View {
             
                 .navigationBarTitleDisplayMode(.inline)
             
-                .navigationDestination(for: PlanetStatus.self) { status in
-                    PlanetInfoView(planetStatus: status)
+                .navigationDestination(for: UpdatedPlanet.self) { planet in
+                    PlanetInfoView(planet: planet)
                 }
             
             

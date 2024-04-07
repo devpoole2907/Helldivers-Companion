@@ -34,6 +34,10 @@ struct RootView: View {
         SoundPoolManager.shared.preloadAllSounds {
             
         }
+        
+  
+        
+        
     }
     
     
@@ -116,10 +120,14 @@ struct RootView: View {
                         contentNavPather.navigationPath.append(selectedPlanet)
                     }
                 } else if url.host == "orders" {
-                    
-                    CentrePopup_MoreFeatures(viewModel: viewModel)
-                    
-                                .showAndStack()
+                    // wait 2 seconds to fetch orders info
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        
+                        CentrePopup_MoreFeatures(viewModel: viewModel)
+                        
+                            .showAndStack()
+                        
+                    }
                     
                 } else if url.host == "news" {
                     

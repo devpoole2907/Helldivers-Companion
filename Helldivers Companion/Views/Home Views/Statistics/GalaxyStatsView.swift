@@ -10,7 +10,6 @@ import SwiftUI
 import SwiftUIIntrospect
 #endif
 
-// TODO: ADD GALAXY STATS HERE
 struct GalaxyStatsView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
@@ -41,10 +40,14 @@ struct GalaxyStatsView: View {
                     // displays the planets grouped by sector
                     
                         // this isnt technically ordered, but it doesnt matter because index of 0 will be marked for the statistics at the top, so if scroll position has any value then bring us back to 0 at the top :-)
-                    ForEach(viewModel.sortedSectors.indices, id: \.self) { index in
-                        let sector = viewModel.sortedSectors[index]
-                        let planets = viewModel.groupedBySectorPlanetStatuses[sector] ?? []
-                        let filteredPlanets = planets.filter { searchText.isEmpty || $0.planet.name.lowercased().contains(searchText.lowercased()) }
+                    ForEach(viewModel.updatedSortedSectors.indices, id: \.self) { index in
+                        
+                     
+                        
+                        
+                        let sector = viewModel.updatedSortedSectors[index]
+                        let planets = viewModel.updatedGroupedBySectorPlanets[sector] ?? []
+                        let filteredPlanets = planets.filter { searchText.isEmpty || $0.name.lowercased().contains(searchText.lowercased()) }
                         let isSectorMatch = sector.localizedCaseInsensitiveContains(searchText)
                      
                         // show all planets when no search term, show only search matching planets when there is and their respective sector heading
@@ -52,11 +55,11 @@ struct GalaxyStatsView: View {
                         if searchText.isEmpty || isSectorMatch || !filteredPlanets.isEmpty {
                         Section{
                             
-                            ForEach(isSectorMatch ? planets : filteredPlanets, id: \.planet.index) { planetStatus in
+                            ForEach(isSectorMatch ? planets : filteredPlanets, id: \.index) { planet in
                                 
                                 
-                                NavigationLink(value: planetStatus) {
-                                    PlanetInfoDetailRow(planetStatus: planetStatus)
+                                NavigationLink(value: planet) {
+                                    PlanetInfoDetailRow(planet: planet)
                                 }.padding(.vertical, 8)
                                 
                             }
@@ -110,8 +113,8 @@ struct GalaxyStatsView: View {
             
                 .navigationTitle("Galaxy Statistics".capitalized)
             
-                .navigationDestination(for: PlanetStatus.self) { status in
-                    PlanetInfoView(planetStatus: status)
+                .navigationDestination(for: UpdatedPlanet.self) { planet in
+                    PlanetInfoView(planet: planet)
                 }
             
                 .toolbar {

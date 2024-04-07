@@ -23,7 +23,7 @@ struct WatchGalaxyStatsView: View {
         case .galaxyInfo:
             return "Galaxy Stats"
         case .sector(let index):
-            let sectorName = viewModel.sortedSectors[index]
+            let sectorName = viewModel.updatedSortedSectors[index]
             return "\(sectorName)"
         }
     }
@@ -43,25 +43,25 @@ struct WatchGalaxyStatsView: View {
                     .padding(.horizontal, 5)
             }.tag(WatchStatsTab.galaxyInfo)
             
-            ForEach(viewModel.sortedSectors.indices, id: \.self) { index in
-                let sector = viewModel.sortedSectors[index]
+            ForEach(viewModel.updatedSortedSectors.indices, id: \.self) { index in
+                let sector = viewModel.updatedSortedSectors[index]
                
                     ScrollView {
                         LazyVStack {
                             Section{
                                 
-                                ForEach(viewModel.groupedBySectorPlanetStatuses[sector] ?? [], id: \.planet.index) { planetStatus in
+                                ForEach(viewModel.updatedGroupedBySectorPlanets[sector] ?? [], id: \.index) { planet in
                                     
                                     
                                     Button(action: {
                                         
                                        
-                                            navPather.navigationPath.append(planetStatus)
+                                            navPather.navigationPath.append(planet)
                                         
                                         
                                     }){
                                         
-                                        PlanetInfoDetailRow(planetStatus: planetStatus)
+                                        PlanetInfoDetailRow(planet: planet)
                                         
                                     }.padding(.vertical, 8)
                                         .buttonStyle(PlainButtonStyle())
@@ -93,8 +93,8 @@ struct WatchGalaxyStatsView: View {
                     }
                 }
             
-                .navigationDestination(for: PlanetStatus.self) { status in
-                    PlanetInfoView(planetStatus: status)
+                .navigationDestination(for: UpdatedPlanet.self) { planet in
+                    PlanetInfoView(planet: planet)
                 }
         
     }

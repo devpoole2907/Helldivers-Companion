@@ -31,8 +31,8 @@ struct OrderView: View {
                     .padding(5)
                     .multilineTextAlignment(.center)
                 
-                if !viewModel.taskPlanets.isEmpty {
-                    TasksView(taskPlanets: viewModel.taskPlanets)
+                if !viewModel.updatedTaskPlanets.isEmpty {
+                    TasksView(taskPlanets: viewModel.updatedTaskPlanets)
                 }
                 
                 
@@ -81,7 +81,7 @@ struct OrderView: View {
 
 struct TasksView: View {
     
-    var taskPlanets: [PlanetStatus]
+    var taskPlanets: [UpdatedPlanet]
     
     var isWidget = false
     
@@ -100,15 +100,15 @@ struct TasksView: View {
     
     var body: some View {
         
-        
+       // curently using task progress from major order response
         LazyVGrid(columns: columns) {
-            ForEach(taskPlanets, id: \.self) { planetStatus in
+            ForEach(taskPlanets, id: \.self) { planet in
                 
          
                     HStack {
-                        Rectangle().frame(width: boxSize, height: boxSize).foregroundStyle(planetStatus.liberation == 100 ? Color.yellow : Color.black)
-                            .border(planetStatus.liberation == 100 ? Color.black : Color.yellow)
-                        Text(planetStatus.planet.name).font(Font.custom("FS Sinclair", size: nameSize)).foregroundStyle(.white)
+                        Rectangle().frame(width: boxSize, height: boxSize).foregroundStyle(planet.taskProgress == 1 ? Color.yellow : Color.black)
+                            .border(planet.taskProgress == 1 ? Color.black : Color.yellow)
+                        Text(planet.name).font(Font.custom("FS Sinclair", size: nameSize)).foregroundStyle(.white)
                     }
                               
                 

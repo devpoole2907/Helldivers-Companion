@@ -27,21 +27,25 @@ struct PlanetStatusProvider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimplePlanetStatus>) -> Void) {
         
         // fetches from github instead to save on api call
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/currentPlanetStatus.json"
+        
+        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/currentCampaigns.json"
         
         var entries: [SimplePlanetStatus] = []
-        
+
         planetsModel.fetchConfig { configData in
-    //    planetsModel.fetchCurrentWarSeason() { season in
-            planetsModel.fetchPlanetStatuses(using: urlString, for: configData?.season ?? "801") { planets in
-                if let highestPlanet = planets.0.max(by: { $0.players < $1.players }) {
-                    if let defenseEvent = planets.1.first(where: { $0.planet.index == highestPlanet.planet.index }) {
+            planetsModel.fetchUpdatedCampaigns(using: urlString) { campaigns, defenseCampaigns in
+                
+                if let highestPlanetCampaign = campaigns.max(by: { $0.planet.statistics.playerCount < $1.planet.statistics.playerCount }) {
+                    let highestPlanet = highestPlanetCampaign.planet
+                    if let defenseEvent = defenseCampaigns.first(where: { $0.planet.index == highestPlanet.index }) {
                         
-                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.planet.name, liberation: defenseEvent.defensePercentage, playerCount: highestPlanet.players, planet: highestPlanet, liberationType: .defense, terminidRate: configData?.terminidRate ?? "0%", automatonRate: configData?.automatonRate ?? "0%", bugOrAutomaton: highestPlanet.owner == "Terminids" ? .terminid : .automaton, eventExpirationTime: defenseEvent.expireTimeDate)
+                        let eventExpirationTime = planetsModel.eventExpirationDate(from: defenseEvent.planet.event?.endTime)
+                        
+                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, terminidRate: configData?.terminidRate ?? "0%", automatonRate: configData?.automatonRate ?? "0%", bugOrAutomaton: highestPlanet.currentOwner == "Terminids" ? .terminid : .automaton, eventExpirationTime: eventExpirationTime)
                         entries.append(entry)
                         
                     } else {
-                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.planet.name, liberation: highestPlanet.liberation, playerCount: highestPlanet.players, terminidRate: configData?.terminidRate ?? "0%", automatonRate: configData?.automatonRate ?? "0%", bugOrAutomaton: highestPlanet.owner == "Terminids" ? .terminid : .automaton)
+                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, terminidRate: configData?.terminidRate ?? "0%", automatonRate: configData?.automatonRate ?? "0%", bugOrAutomaton: highestPlanet.currentOwner == "Terminids" ? .terminid : .automaton)
                         entries.append(entry)
                     }
                     
@@ -51,10 +55,10 @@ struct PlanetStatusProvider: TimelineProvider {
                 
                 let timeline = Timeline(entries: entries, policy: .atEnd)
                 completion(timeline)
+                
             }
-      //  }
-        
-    }
+            
+        }
     }
     
 }
@@ -65,7 +69,7 @@ struct SimplePlanetStatus: TimelineEntry {
     var planetName: String
     var liberation: Double
     var playerCount: Int
-    var planet: PlanetStatus? = nil
+    var planet: UpdatedPlanet? = nil
     var liberationType: LiberationType = .liberation
     var terminidRate: String
     var automatonRate: String
@@ -186,7 +190,7 @@ struct CornerPlanetWidgetView: View {
                 .font(.footnote)
                 .scaledToFit()
                 .minimumScaleFactor(0.2)
-               
+            
                 .widgetLabel {
                     ProgressView(value: entry.liberation, total: 100)
                         .tint(.yellow)

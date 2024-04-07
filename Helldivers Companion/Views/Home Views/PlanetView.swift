@@ -19,7 +19,7 @@ struct PlanetView: View {
     var liberation = 24.13020
     var rate = 0.0
     var playerCount: Int = 347246
-    var planet: PlanetStatus? = nil
+    var planet: UpdatedPlanet? = nil
     var showHistory = true
     var showImage = true
     var showExtraStats = true
@@ -177,7 +177,7 @@ struct PlanetView: View {
                         }
                         
                         // show weather icons
-                        if let weathers = planet?.planet.environmentals {
+                        if let weathers = planet?.environmentals {
                             
                          
                             

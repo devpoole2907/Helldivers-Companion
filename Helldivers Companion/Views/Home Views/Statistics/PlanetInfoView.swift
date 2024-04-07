@@ -14,33 +14,33 @@ struct PlanetInfoView: View {
     
     @State private var infoType: InfoType = .warEffort
     
-    var planetStatus: PlanetStatus? = nil
+    var planet: UpdatedPlanet? = nil
     
     private var planetData: [PlanetDataPoint] {
-        viewModel.planetHistory[planetStatus?.planet.name ?? ""] ?? []
+        viewModel.planetHistory[planet?.name ?? ""] ?? []
     }
     
     private var liberationType: LiberationType {
-        viewModel.defensePlanets.contains(where: { $0.planet.index == planetStatus?.planet.index }) ? .defense : .liberation
+        viewModel.defensePlanets.contains(where: { $0.planet.index == planet?.index }) ? .defense : .liberation
     }
     
     private var bugOrAutomaton: EnemyType {
-        planetStatus?.owner == "Terminids" ? .terminid : .automaton
+        planet?.currentOwner == "Terminids" ? .terminid : .automaton
     }
     
     private var formattedPlanetImageName: String {
         
-        PlanetImageFormatter.formattedPlanetImageName(for: planetStatus?.planet.name ?? "")
+        PlanetImageFormatter.formattedPlanetImageName(for: planet?.name ?? "")
         
     }
     // to determine if it is currently defending
-    private var defenseEvent: PlanetEvent? {
-        viewModel.defensePlanets.first(where: { $0.planet.name == planetStatus?.planet.name })
+    private var defenseEvent: Bool {
+        viewModel.updatedDefenseCampaigns.contains(where: { $0.planet.name == planet?.name })
     }
     
     // to determine if it is currently in a campaign
     private var campaign: Bool {
-        viewModel.campaignPlanets.contains(where: { $0.planet.name == planetStatus?.planet.name })
+        viewModel.updatedCampaigns.contains(where: { $0.planet.name == planet?.name })
     }
     
     #if os(watchOS)
@@ -77,11 +77,11 @@ struct PlanetInfoView: View {
         
         // for now we just return the type of faction based on owner, this will be slightly incorrect! unless we dont mind just displaying the enemy faction when its defending anywa here
         
-        switch planetStatus?.owner {
+        switch planet?.currentOwner {
             
         case "Terminids":
             return .terminid
-        case "Illuminates":
+        case "Illuminate":
             return .illuminate
         case "Automaton":
             return .automaton
@@ -98,11 +98,11 @@ struct PlanetInfoView: View {
     }
     
     var factionColor: Color {
-        switch planetStatus?.owner {
+        switch planet?.currentOwner {
             
         case "Terminids":
             return .yellow
-        case "Illuminates":
+        case "Illuminate":
             return .blue
         case "Automaton":
             return .red
@@ -144,13 +144,15 @@ struct PlanetInfoView: View {
                     HistoryChart(liberationType: liberationType, planetData: planetData, bugOrAutomaton: bugOrAutomaton).environmentObject(viewModel)
                         .shadow(radius: 5.0)
                     
-                    if let liberation = planetStatus?.liberation, let planetName = planetStatus?.planet.name, let players = planetStatus?.players {
+                    if let liberation = planet?.percentage, let planetName = planet?.name, let players = planet?.statistics.playerCount {
                         
-                        if let defenseEvent = defenseEvent {
+                        if defenseEvent {
+                            
+                            let eventExpirationTime = viewModel.eventExpirationDate(from: planet?.event?.endTime)
                             
                             // must be a defending event, use defense percent
                             
-                            CampaignPlanetStatsView(liberation: defenseEvent.defensePercentage, bugOrAutomaton: bugOrAutomaton, liberationType: liberationType, showExtraStats: true, planetName: planetName, playerCount: players, isWidget: false, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, eventExpirationTime: defenseEvent.expireTimeDate)
+                            CampaignPlanetStatsView(liberation: liberation, bugOrAutomaton: bugOrAutomaton, liberationType: liberationType, showExtraStats: true, planetName: planetName, playerCount: players, isWidget: false, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, eventExpirationTime: eventExpirationTime)
                                .shadow(radius: 5.0)
                             
                             
@@ -163,17 +165,17 @@ struct PlanetInfoView: View {
                     }
                 } else {
                     
-                    if let _ = planetStatus?.planet.biome?.slug {
+                    if let _ = planet?.biome?.slug {
                         biomeDescription
                         
                     }
                     
-                    if let environmentals = planetStatus?.planet.environmentals, !environmentals.isEmpty {
+                    if let environmentals = planet?.environmentals, !environmentals.isEmpty {
                         environmentsList
                         
                     }
                     
-                    if let _ = planetStatus?.planet.stats {
+                    if let _ = planet?.statistics {
                         statsList
                     }
                     
@@ -219,14 +221,14 @@ struct PlanetInfoView: View {
         
         .toolbarRole(.editor)
         
-        .navigationTitle(planetStatus?.planet.name.capitalized ?? "UNKNOWN")
+        .navigationTitle(planet?.name.capitalized ?? "UNKNOWN")
         
         .navigationBarTitleDisplayMode(.large)
 #else
 
         .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Text(planetStatus?.planet.name.capitalized ?? "UNKNOWN").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont))
+                    Text(planet?.name.capitalized ?? "UNKNOWN").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont))
                 }
 
         }
@@ -238,7 +240,7 @@ struct PlanetInfoView: View {
     var statsList: some View {
         
         VStack(alignment: .leading) {
-            if let missionsWon = planetStatus?.planet.stats?.missionsWon {
+            if let missionsWon = planet?.statistics.missionsWon {
                 HStack {
                     Text("Missions\(extraStatSplitter)won").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
@@ -246,7 +248,7 @@ struct PlanetInfoView: View {
                 }
             }
             
-            if let missionsLost = planetStatus?.planet.stats?.missionsLost {
+            if let missionsLost = planet?.statistics.missionsLost {
                 HStack {
                     Text("Missions\(extraStatSplitter)lost").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
@@ -255,7 +257,7 @@ struct PlanetInfoView: View {
                 }
             }
             
-            if let successRate = planetStatus?.planet.stats?.missionSuccessRate {
+            if let successRate = planet?.statistics.missionSuccessRate {
                 HStack {
                     Text("Success rate").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
@@ -266,7 +268,7 @@ struct PlanetInfoView: View {
             RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)
                 .padding(.bottom, 4)
             
-            if let terminidKills = planetStatus?.planet.stats?.bugKills {
+            if let terminidKills = planet?.statistics.terminidKills {
                 HStack {
                     Text("Terminids\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
@@ -274,7 +276,7 @@ struct PlanetInfoView: View {
                 }
             }
             
-            if let automatonKills = planetStatus?.planet.stats?.automatonKills {
+            if let automatonKills = planet?.statistics.automatonKills {
                 HStack {
                     Text("Automatons\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
@@ -282,7 +284,7 @@ struct PlanetInfoView: View {
                 }
             }
             
-            if let illuminateKills = planetStatus?.planet.stats?.illuminateKills, viewModel.configData.showIlluminate {
+            if let illuminateKills = planet?.statistics.illuminateKills, viewModel.configData.showIlluminate {
                 HStack {
                     Text("Illuminates\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
@@ -294,7 +296,7 @@ struct PlanetInfoView: View {
             
             RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)         .padding(.bottom, 4)
             
-            if let bulletsFired = planetStatus?.planet.stats?.bulletsFired {
+            if let bulletsFired = planet?.statistics.bulletsFired {
                 HStack {
                     Text("Bullets\(extraStatSplitter)Fired").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
@@ -302,7 +304,7 @@ struct PlanetInfoView: View {
                 }
             }
             
-            if let bulletsHit = planetStatus?.planet.stats?.bulletsHit {
+            if let bulletsHit = planet?.statistics.bulletsHit {
                 HStack {
                     Text("Bullets\(extraStatSplitter)Hit").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
@@ -310,7 +312,7 @@ struct PlanetInfoView: View {
                 }
             }
             
-            if let accuracy = planetStatus?.planet.stats?.accuracy {
+            if let accuracy = planet?.statistics.accuracy {
                 HStack {
                     Text("Accuracy").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
@@ -320,7 +322,7 @@ struct PlanetInfoView: View {
             
             RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)         .padding(.bottom, 4)
             
-            if let helldiversLost = planetStatus?.planet.stats?.deaths {
+            if let helldiversLost = planet?.statistics.deaths {
                 HStack {
                     Text("Helldivers\(extraStatSplitter)Lost").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
@@ -328,7 +330,7 @@ struct PlanetInfoView: View {
                 }
             }
             
-            if let friendlyKills = planetStatus?.planet.stats?.friendlies {
+            if let friendlyKills = planet?.statistics.friendlies {
                 HStack {
                     Text("Friendly\(extraStatSplitter)Kills").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
@@ -350,7 +352,7 @@ struct PlanetInfoView: View {
             Image(formattedPlanetImageName).resizable().aspectRatio(contentMode: .fit)
             
             
-            if let sector = planetStatus?.planet.sector {
+            if let sector = planet?.sector {
                 HStack(spacing: 6) {
                     Text(sector).foregroundStyle(factionColor)
 #if os(watchOS)
@@ -385,11 +387,11 @@ struct PlanetInfoView: View {
     var biomeDescription: some View {
         VStack(alignment: .leading, spacing: 5){
             
-            Text(planetStatus?.planet.biome?.slug ?? "").textCase(.uppercase).font(Font.custom("FS Sinclair", size: largeFont))
+            Text(planet?.biome?.slug ?? "").textCase(.uppercase).font(Font.custom("FS Sinclair", size: largeFont))
             
             RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
             
-            if let biomeDescript = planetStatus?.planet.biome?.description {
+            if let biomeDescript = planet?.biome?.description {
                 Text(biomeDescript)
                     .font(Font.custom("FS Sinclair", size: smallFont))
                 
@@ -406,7 +408,7 @@ struct PlanetInfoView: View {
             
             RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
             
-            if let weathers = planetStatus?.planet.environmentals {
+            if let weathers = planet?.environmentals {
                 ForEach(weathers, id: \.name) { weather in
                     
                     HStack(spacing: 12) {
