@@ -242,13 +242,9 @@ struct PlanetView: View {
                 HStack(alignment: .center) {
                     
 #if os(iOS)
-                    if isWidget {
+                    if isWidget || isInMapView {
                         planetNameAndIcon
-                    } else if isInMapView {
-                        NavigationLink(destination: PlanetInfoView(planet: planet)){
-                            planetNameAndIcon
-                        }
-                    } else {
+                    }  else {
                         NavigationLink(value: planet) {
                             planetNameAndIcon
                         }

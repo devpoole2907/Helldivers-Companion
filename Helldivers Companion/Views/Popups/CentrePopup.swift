@@ -43,23 +43,36 @@ struct CentrePopup_MoreFeatures: CentrePopup {
                 
             }.padding(.top, 5)
             
-          /*  HStack {
+                /*HStack {
                 Spacer()
                 
                 Button(action: dismiss){
-                    Image(systemName: "xmark.square.fill")
-                        .font(.largeTitle)
-                        .symbolRenderingMode(.monochrome)
-                        
-                        .tint(.black)
+                    Image(systemName: "xmark")
+                        .font(.title2)
+                        .bold()
+                        .foregroundStyle(.white)
                     
                 
                       
                 }
+                .padding(5)
+                .background(
+                    ZStack {
+                        Color.black
+                        AngledLinesShape()
+                            .stroke(lineWidth: 3)
+                            .foregroundColor(.white)
+                            .opacity(0.4)
+                            .clipped()
+                        
+                    }
+                )
+                
+                .border(Color.white, width: 4)
                 
             }.padding(.trailing)
-                .padding(.bottom, 40)
-            */
+                .padding(.bottom, 40)*/
+            
             
         }    .offset(CGSize(width: -7, height: 0))
         

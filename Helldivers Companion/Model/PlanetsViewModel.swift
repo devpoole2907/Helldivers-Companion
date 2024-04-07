@@ -20,14 +20,7 @@ class PlanetsViewModel: ObservableObject {
     
     
     @Published var currentTab: Tab = .home
-    
-    @Published var allPlanetStatuses: [PlanetStatus] = []
-    
-    @Published var sortedSectors: [String] = []
-    @Published var groupedBySectorPlanetStatuses: [String: [PlanetStatus]] = [:] // to display in stats view all planets by sector
-    
-    @Published var defensePlanets: [PlanetEvent] = []
-    @Published var campaignPlanets: [PlanetStatus] = []
+
     @Published var currentSeason: String = ""
     @Published var majorOrder: MajorOrder? = nil
     @Published var galaxyStats: GalaxyStats? = nil
@@ -85,9 +78,6 @@ class PlanetsViewModel: ObservableObject {
                 case "Illuminate": return .blue
                 default: return .gray // default color if currentOwner doesn't match any known factions
                 }
-                
-                
-                print("current owner is \(planet.currentOwner)")
             }
         } else {
             switch planet.currentOwner {
@@ -229,12 +219,14 @@ class PlanetsViewModel: ObservableObject {
                 let planetStatuses = decodedResponse.planetStatus
                 
                 // calculate defense if a planet is defending
+                
+                // TODO: THIS CALC IS TOTALLY WRONG NOW, JUST MADE IT SO THE COMPILER IS HAPPY - UNTIL MIGRATED TO NEW API!
                 for event in decodedResponse.planetEvents {
                     let planetName = event.planet.name
                     let defensePercentage = event.maxHealth > 0 ? (1 - (Double(event.health) / Double(event.maxHealth))) * 100 : 0
                     
                     // dont replace the defense percents in from the current files events if the real time defense planets doesnt contain the events in the current file
-                    if self.defensePlanets.contains(where: {$0.planet.name == event.planet.name }) {
+                    if self.updatedDefenseCampaigns.contains(where: {$0.planet.index == event.planet.index }) {
                         
                         defensePercentages[planetName] = defensePercentage
                     }
@@ -415,10 +407,7 @@ class PlanetsViewModel: ObservableObject {
                 }// fetching in here so planets is populated to associate major order planets with tasks
                 
             }
-            
-            self?.fetchPlanetStatuses { planets in
-                
-            }
+
             self?.fetchPlanetStatusTimeSeries { error in
                 if let error = error {
                     print("Error updating planet status time series: \(error)")
@@ -478,13 +467,7 @@ class PlanetsViewModel: ObservableObject {
                         
                     }
                     
-                    
-                    
-                    
-                    
-                    self?.fetchPlanetStatuses { planets in
-                        print("Updated planets: \(planets)")
-                    }
+
                     
                 }
                 
@@ -676,160 +659,6 @@ class PlanetsViewModel: ObservableObject {
         }
     }
     
-    
-    
-    
-    // returns campaign planets, planet events, and all planet statuses (for widgets to use etc)
-    func fetchPlanetStatuses(using url: String? = nil, for season: String? = nil, completion: @escaping (([PlanetStatus], [PlanetEvent], [PlanetStatus], WarStatusResponse?)) -> Void) {
-        
-        // this function should be adapted for use both in the caching one or the live one below
-        
-        var urlString = "\(configData.apiAddress)/\(season ?? configData.season)/status"
-        
-        // override url with provided url, must be a widget requesting data from the github cache instead
-        if let url = url {
-            urlString = url
-        }
-        
-        guard let url = URL(string: urlString) else { return }
-        
-        URLSession.shared.dataTask(with: url){ [weak self] data, response, error in
-            
-            guard let data = data else {
-                completion(([], [], [], nil))
-                return
-            }
-            
-            do {
-                
-                let decoder = JSONDecoder()
-                
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                
-                var decodedResponse = try decoder.decode(WarStatusResponse.self, from: data)
-                
-                
-                self?.fetchPlanetDetailsAndUpdateStatuses(for: decodedResponse.planetStatus) { updatedPlanetStatuses in
-                    // update planet statuses with additional info from training manual api if possible
-                    if let updatedStatuses = updatedPlanetStatuses {
-                        decodedResponse.planetStatus = updatedStatuses
-                    }
-                    
-                    self?.fetchExpirationTimes { defenseExpirations in
-                        
-                        // update owner to race variable in planet events, duct tape fixing mantes for example for now
-                        // also update expiration time with value from helldivers training api
-                        for i in 0..<decodedResponse.planetEvents.count {
-                            if let index = decodedResponse.planetStatus.firstIndex(where: { $0.planet.index == decodedResponse.planetEvents[i].planet.index }) {
-                                decodedResponse.planetStatus[index].owner = decodedResponse.planetEvents[i].race
-                                decodedResponse.planetEvents[i].planetStatus = decodedResponse.planetStatus[index]
-                            }
-                            
-                        }
-                        
-                        for i in 0..<decodedResponse.planetEvents.count {
-                            let eventIndex = decodedResponse.planetEvents[i].planet.index
-                            print("index of planet is: \(eventIndex), name is \(decodedResponse.planetEvents[i].planet.name)")
-                            if let matchingStatus = decodedResponse.planetStatus.first(where: { $0.planet.index == eventIndex }) {
-                                decodedResponse.planetEvents[i].planetStatus = matchingStatus
-                                print("found matching planet index")
-                            }
-                            
-                            // add defense expirations
-                            
-                            if let expiration = defenseExpirations.first(where: { $0.planetIndex == eventIndex }) {
-                                if let expireTime = expiration.expireDateTime {
-                                    let expireDate = Date(timeIntervalSince1970: expireTime)
-                                    decodedResponse.planetEvents[i].expireTimeDate = expireDate
-                                }
-                            }
-                            
-                        }
-                        // now add the statistics for each planet, if they exist
-                        self?.fetchGalaxyStats(for: decodedResponse.planetStatus) { galaxyUpdatedStatuses in
-                            
-                            
-                            
-                            print("fetchGalaxyStats is called")
-                            
-                            if let galaxyUpdatedStatuses = galaxyUpdatedStatuses {
-                                decodedResponse.planetStatus = galaxyUpdatedStatuses
-                            }
-                            // should i wrap the rest with this new func?
-                            
-                            let campaignPlanetsWithStatus = decodedResponse.campaigns.compactMap { campaignPlanet in
-                                decodedResponse.planetStatus.first { $0.planet.index == campaignPlanet.planet.index }
-                            }
-                            
-                            for planet in campaignPlanetsWithStatus {
-                                print("\(planet.planet.name) has enviros: \(planet.planet.environmentals)")
-                            }
-                            
-                            
-                            
-                            let sortedCampaignPlanets = campaignPlanetsWithStatus.sorted { firstPlanetStatus, secondPlanetStatus in
-                                let isFirstPlanetInEvent = decodedResponse.planetEvents.contains { $0.planet.index == firstPlanetStatus.planet.index }
-                                let isSecondPlanetInEvent = decodedResponse.planetEvents.contains { $0.planet.index == secondPlanetStatus.planet.index }
-                                
-                                if isFirstPlanetInEvent && !isSecondPlanetInEvent {
-                                    return true
-                                } else if !isFirstPlanetInEvent && isSecondPlanetInEvent {
-                                    return false
-                                } else {
-                                    return firstPlanetStatus.players > secondPlanetStatus.players
-                                }
-                            }
-                            
-                            // group planet statuses by sector
-                            var groupedBySector = Dictionary(grouping: decodedResponse.planetStatus) { $0.planet.sector }
-                            
-                            // sort alphabetically by sector
-                            let sortedSectors = groupedBySector.keys.sorted()
-                            
-                            
-                            DispatchQueue.main.async {
-                                
-                                self?.defensePlanets = decodedResponse.planetEvents
-                                
-                                self?.groupedBySectorPlanetStatuses = groupedBySector
-                                self?.sortedSectors = sortedSectors
-                                self?.allPlanetStatuses = decodedResponse.planetStatus
-                                self?.warStatusResponse = decodedResponse
-                                withAnimation(.bouncy) {
-                                    self?.campaignPlanets = sortedCampaignPlanets
-                                }
-                                print("fetchPlanetStatuses: All updates done, calling completion")
-                                completion((campaignPlanetsWithStatus, decodedResponse.planetEvents, decodedResponse.planetStatus, decodedResponse))
-                                
-                            }
-                            
-                            
-                        }
-                        
-                        
-                    }
-                    
-                    
-                    
-                    
-                    
-                    
-                }
-                
-                
-            } catch {
-                print("Decoding error: \(error)")
-                completion(([], [], [], nil))
-            }
-            
-            
-            
-            
-        }.resume()
-        
-        
-    }
-    
     // gets defense expiration times from a cache from helldiverstrainingmanual api
     func fetchExpirationTimes(completion: @escaping ([PlanetExpiration]) -> Void) {
         
@@ -861,95 +690,6 @@ class PlanetsViewModel: ObservableObject {
         }.resume()
         
         
-    }
-    
-    // fetches statistics for the galaxy and individual planets
-    func fetchGalaxyStats(for planetStatuses: [PlanetStatus], completion: @escaping ([PlanetStatus]?) -> Void) {
-        
-        print("fetch galaxy stats called!")
-        
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/planets/galaxyStatistics.json"
-        
-        guard let url = URL(string: urlString) else {
-            print("Invalid URL")
-            completion(nil)
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let data = data, error == nil else {
-                print("Network request failed: \(error?.localizedDescription ?? "Unknown error")")
-                completion(nil)
-                return
-            }
-            
-            print("fetchGalaxyStats: Network request completed")
-            
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            
-            
-            print("fetchGalaxyStats: Received data, starting decoding")
-            
-            do {
-                
-                let decodedResponse = try decoder.decode(GalaxyStatsResponseData.self, from: data)
-                
-                DispatchQueue.main.async {
-                    
-                    //  self?.galaxyStats = decodedResponse.galaxyStats
-                    
-                    // now must link all stats into each planetstatus.stats variable
-                    // planets can be matched by their index, planetstatus has index as string and json response is an INT!
-                    
-                    let updatedPlanetStatuses = self?.updatePlanetStatusesWithGalaxyStats(planetStatuses, with: decodedResponse.planetsStats)
-                    
-                    print("fetchGalaxyStats: Updating UI and calling completion")
-                    completion(updatedPlanetStatuses)
-                    
-                }
-                print("fetchGalaxyStats: Decoding successful")
-                
-                
-            } catch {
-                print("fetchGalaxyStats: Decoding failed: \(error)")
-                completion(nil)
-            }
-            
-            
-        }.resume()
-        
-        
-    }
-    
-    
-    private func updatePlanetStatusesWithGalaxyStats(_ statuses: [PlanetStatus]?, with planetStats: [PlanetStats]) -> [PlanetStatus] {
-        print("yeet")
-        guard let statuses = statuses else {
-            
-            print("statuses were nil dawg")
-            
-            return [] }
-        
-        print("update with galaxy stats called")
-        return statuses.compactMap { status in
-            var updatedStatus = status
-            print("updatePlanetStatusesWithGalaxyStats: Updating status for \(status.planet.name)")
-            
-            print("planet status index is: \(status.planet.index)")
-            
-            for stat in planetStats {
-                print("planet status indexes are: \(stat.planetIndex)")
-            }
-            
-            // find corresponding planet stats by matching index
-            if let planetStat = planetStats.first(where: { $0.planetIndex == Int(updatedStatus.planet.index) }) {
-                print("current planet: \(updatedStatus.planet.name) and bug kills are: \(planetStat.bugKills)")
-                updatedStatus.planet.stats = planetStat // associate stats w planet status planet stats variable
-            }
-            
-            return updatedStatus
-        }
     }
     
     // completion gives both campaigns and campaigns with an event

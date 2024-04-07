@@ -544,11 +544,23 @@ struct MapRootViewTest: View {
                     
                     let eventExpirationTime = viewModel.eventExpirationDate(from: selectedPlanet.event?.endTime)
                     
+               
+                        
+                        PlanetView(planetName: selectedPlanet.name, liberation: liberationPercentage, rate: selectedPlanet.regenPerSecond, playerCount: selectedPlanet.statistics.playerCount, planet: selectedPlanet, liberationType: isDefending ? .defense : .liberation, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, illuminateRate: viewModel.configData.illuminateRate, eventExpirationTime: eventExpirationTime, isInMapView: true, isActive: isActive).environmentObject(viewModel)
+                            .padding(.horizontal)
+                            .frame(maxHeight: 300)
+                            .animation(.bouncy, value: isActive)
+                        
+                            // wrapping the planet view as a nav link directly doesnt work, but overlaying a clear view that is the nav link does! ebic hax
                     
-                    PlanetView(planetName: selectedPlanet.name, liberation: liberationPercentage, rate: selectedPlanet.regenPerSecond, playerCount: selectedPlanet.statistics.playerCount, planet: selectedPlanet, liberationType: isDefending ? .defense : .liberation, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, illuminateRate: viewModel.configData.illuminateRate, eventExpirationTime: eventExpirationTime, isInMapView: true, isActive: isActive).environmentObject(viewModel)
-                        .padding(.horizontal)
-                        .frame(maxHeight: 300)
-                        .animation(.bouncy, value: isActive)
+                            .overlay {
+                                NavigationLink(destination: PlanetInfoView(planet: selectedPlanet)) {
+                                    
+                                    Color.clear
+                                    
+                                }
+                            }
+                    
                     
                 }
                 
@@ -591,6 +603,26 @@ struct MapRootViewTest: View {
                     Text("GALAXY MAP")
                         .font(Font.custom("FS Sinclair", size: 24))
                 }
+                
+                if #unavailable(iOS 17.0) {
+                    
+                    ToolbarItem(placement: .topBarTrailing) {
+                        
+                        Button(action: {
+                            
+                            iOS16AlertPopup().showAndStack()
+                            
+                        }){
+                            Image(systemName: "exclamationmark.triangle.fill")
+                               
+                        } .tint(.red)
+                        
+                    }
+                    
+                    
+                }
+                
+                
             }
             
             .navigationBarTitleDisplayMode(.inline)

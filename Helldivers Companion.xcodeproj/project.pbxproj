@@ -229,6 +229,7 @@
 		7CF6D2DD2BC2820D00107663 /* PlanetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */; };
 		7CF6D2DE2BC2820E00107663 /* PlanetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */; };
 		7CF6D2E02BC290EC00107663 /* MapSettingsPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2DF2BC290EC00107663 /* MapSettingsPopup.swift */; };
+		7CF6D2E22BC29BCD00107663 /* iOS16Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E12BC29BCD00107663 /* iOS16Alert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -408,6 +409,7 @@
 		7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyStatsView.swift; sourceTree = "<group>"; };
 		7CE97D4C2BB564F6008329BA /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		7CF6D2DF2BC290EC00107663 /* MapSettingsPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsPopup.swift; sourceTree = "<group>"; };
+		7CF6D2E12BC29BCD00107663 /* iOS16Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS16Alert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -754,6 +756,7 @@
 			children = (
 				7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */,
 				7CF6D2DF2BC290EC00107663 /* MapSettingsPopup.swift */,
+				7CF6D2E12BC29BCD00107663 /* iOS16Alert.swift */,
 			);
 			path = Popups;
 			sourceTree = "<group>";
@@ -1136,6 +1139,7 @@
 				7CF6D2E02BC290EC00107663 /* MapSettingsPopup.swift in Sources */,
 				7C4589BE2BA554AA0019B00E /* RootView.swift in Sources */,
 				7C4589B72BA546B00019B00E /* OrderView.swift in Sources */,
+				7CF6D2E22BC29BCD00107663 /* iOS16Alert.swift in Sources */,
 				7C4589C22BA5554E0019B00E /* StratagemHeroModel.swift in Sources */,
 				7C587F3F2BA6A7DA00C66643 /* CustomSegmentedPicker.swift in Sources */,
 				7CE97D3D2BB53D2E008329BA /* TipJarView.swift in Sources */,
