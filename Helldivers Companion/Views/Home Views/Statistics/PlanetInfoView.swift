@@ -21,7 +21,7 @@ struct PlanetInfoView: View {
     }
     
     private var liberationType: LiberationType {
-        viewModel.defensePlanets.contains(where: { $0.planet.index == planet?.index }) ? .defense : .liberation
+        viewModel.updatedDefenseCampaigns.contains(where: { $0.planet.index == planet?.index }) ? .defense : .liberation
     }
     
     private var formattedPlanetImageName: String {

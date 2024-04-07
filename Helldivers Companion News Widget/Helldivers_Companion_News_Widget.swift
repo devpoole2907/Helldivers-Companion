@@ -30,7 +30,6 @@ struct Provider: TimelineProvider {
         let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/currentPlanetStatus.json"
         
         planetsModel.fetchConfig() { config in
-            planetsModel.fetchPlanetStatuses(using: urlString, for: config?.season ?? "801") { _, _, _, warStatusResponse in
                 newsModel.fetchNewsFeed { news in
                     
                     print("fetching news")
@@ -39,7 +38,7 @@ struct Provider: TimelineProvider {
                         
                         
                         
-                        let entry = NewsItemEntry(date: Date(), title: newsEntry.title ?? "BREAKING NEWS", description: message, published: newsEntry.published ?? 0, warStatusResponse: warStatusResponse)
+                        let entry = NewsItemEntry(date: Date(), title: newsEntry.title ?? "BREAKING NEWS", description: message, published: newsEntry.published ?? 0)
                         
                         
                         entries.append(entry)
@@ -50,8 +49,7 @@ struct Provider: TimelineProvider {
                     completion(timeline)
                     
                 }
-                
-            }
+     
             
         }
         

@@ -356,6 +356,13 @@ struct PlanetExpiration: Decodable {
     let expireDateTime: Double?
 }
 
+struct PlanetPosition {
+    let name: String
+    let index: Int
+    let xMultiplier: Double
+    let yMultiplier: Double
+}
+
 struct UpdatedPlanet: Decodable, Hashable {
     
     static func == (lhs: UpdatedPlanet, rhs: UpdatedPlanet) -> Bool {
