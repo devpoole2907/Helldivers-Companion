@@ -55,13 +55,13 @@ struct ContentView: View {
                             
                             
                             // uses faction from event instead
-                            PlanetView(planetName: campaign.planet.name, liberation: campaign.planet.percentage, rate: campaign.planet.regenPerSecond, playerCount: campaign.planet.statistics.playerCount, planet: campaign.planet, liberationType: .defense, bugOrAutomaton: campaign.planet.event?.faction == "Terminids" ? .terminid : .automaton, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, eventExpirationTime: eventExpirationTime).environmentObject(viewModel)
+                            PlanetView(planetName: campaign.planet.name, liberation: campaign.planet.percentage, rate: campaign.planet.regenPerSecond, playerCount: campaign.planet.statistics.playerCount, planet: campaign.planet, liberationType: .defense, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, illuminateRate: viewModel.configData.illuminateRate, eventExpirationTime: eventExpirationTime).environmentObject(viewModel)
                                 .padding(.horizontal)
                                 .id(index)
                             
                             
                         } else {
-                            PlanetView(planetName: campaign.planet.name, liberation: campaign.planet.percentage, rate: campaign.planet.regenPerSecond, playerCount: campaign.planet.statistics.playerCount, planet: campaign.planet, liberationType: .liberation, bugOrAutomaton: campaign.planet.currentOwner == "Terminids" ? .terminid : .automaton, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate).environmentObject(viewModel)
+                            PlanetView(planetName: campaign.planet.name, liberation: campaign.planet.percentage, rate: campaign.planet.regenPerSecond, playerCount: campaign.planet.statistics.playerCount, planet: campaign.planet, liberationType: .liberation, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, illuminateRate: viewModel.configData.illuminateRate).environmentObject(viewModel)
                                 .padding(.horizontal)
                                 .id(index)
                         }

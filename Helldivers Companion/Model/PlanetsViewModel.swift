@@ -36,13 +36,13 @@ class PlanetsViewModel: ObservableObject {
     // planetstatuses with tasks in the major order (e.g need to be liberated)
     @Published var taskPlanets: [PlanetStatus] = []
     
-    @Published var selectedPlanet: PlanetStatus? = nil // for map view selection
+    @Published var selectedPlanet: UpdatedPlanet? = nil // for map view selection
     
     @AppStorage("viewCount") var viewCount = 0
     
     private var apiToken: String? = ProcessInfo.processInfo.environment["GITHUB_API_KEY"]
     
-    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", alert: "", prominentAlert: nil, season: "801", showIlluminate: false, apiAddress: "")
+    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", illuminateRate: "-0%", alert: "", prominentAlert: nil, season: "801", showIlluminate: false, apiAddress: "")
     
     @Published var showInfo = false
     @Published var showOrders = false
@@ -59,6 +59,86 @@ class PlanetsViewModel: ObservableObject {
     deinit {
         timer?.invalidate()
     }
+    
+    func getColorForPlanet(planet: UpdatedPlanet?) -> Color {
+        guard let planet = planet else {
+            return .gray // default color if no matching planet found
+        }
+        
+        if planet.currentOwner == "Humans" {
+            if updatedDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
+                let campaign = updatedDefenseCampaigns.first { $0.planet.index == planet.index }
+                switch campaign?.planet.event?.faction {
+                case "Terminids": return .yellow
+                case "Automaton": return .red
+                case "Illuminate": return .blue
+                default: return .cyan
+                }
+            } else {
+                return .cyan
+            }
+        } else if updatedCampaigns.contains(where: { $0.planet.index == planet.index }) {
+            if !updatedDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
+                switch planet.currentOwner {
+                case "Automaton": return .red
+                case "Terminids": return .yellow
+                case "Illuminate": return .blue
+                default: return .gray // default color if currentOwner doesn't match any known factions
+                }
+                
+                
+                print("current owner is \(planet.currentOwner)")
+            }
+        } else {
+            switch planet.currentOwner {
+            case "Automaton": return .red
+            case "Terminids": return .yellow
+            case "Illuminate": return .blue
+            default: return .gray // default color if currentOwner doesn't match any known factions
+            }
+        }
+        
+        return .gray // if no conditions meet for some reason
+    }
+    
+    func getImageNameForPlanet(_ planet: UpdatedPlanet?) -> String {
+           guard let planet = planet else {
+               return "human" 
+           }
+           
+           if planet.currentOwner == "humans" {
+               if updatedDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
+                   let campaign = updatedDefenseCampaigns.first { $0.planet.index == planet.index }
+                   switch campaign?.planet.event?.faction {
+                   case "Terminids": return "terminid"
+                   case "Automaton": return "automaton"
+                   case "Illuminate": return "illuminate"
+                   default: return "human"
+                   }
+               } else {
+                   return "human"
+               }
+           } else if updatedCampaigns.contains(where: { $0.planet.index == planet.index }) {
+               if !updatedDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
+                   switch planet.currentOwner {
+                   case "Automaton": return "automaton"
+                   case "Terminids": return "terminid"
+                   case "Illuminate": return "illuminate"
+                   default: return "human"
+                   }
+               }
+           } else {
+               switch planet.currentOwner {
+               case "Automaton": return "automaton"
+               case "Terminids": return "terminid"
+               case "Illuminate": return "illuminate"
+               default: return "human"
+               }
+           }
+           
+           return "human"
+       }
+    
     
     func averageLiberationRate(for planetName: String) -> Double? {
         guard let dataPoints = planetHistory[planetName] else {
@@ -319,7 +399,12 @@ class PlanetsViewModel: ObservableObject {
                 print("fetched galaxy stats")
             }
             
-            self?.fetchUpdatedCampaigns { _, _ in
+            self?.fetchUpdatedCampaigns { campaigns, _ in
+                
+                // for first call set default selected planet for map view
+                
+                // set default selected planet for map, grab first planet in campaigns
+                self?.selectedPlanet = campaigns.first?.planet
                 
             }
             
@@ -706,9 +791,6 @@ class PlanetsViewModel: ObservableObject {
                                 
                                 self?.defensePlanets = decodedResponse.planetEvents
                                 
-                                // set default selected planet for map
-                                self?.selectedPlanet = sortedCampaignPlanets.first
-                                
                                 self?.groupedBySectorPlanetStatuses = groupedBySector
                                 self?.sortedSectors = sortedSectors
                                 self?.allPlanetStatuses = decodedResponse.planetStatus
@@ -966,6 +1048,25 @@ class PlanetsViewModel: ObservableObject {
         request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Application-Contact")
         
         URLSession.shared.dataTask(with: request){ [weak self] data, response, error in
+            
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                       completion([])
+                       return
+                   }
+
+                   if httpResponse.statusCode == 429 {
+                       if let retryAfter = httpResponse.value(forHTTPHeaderField: "Retry-After"),
+                          let retryAfterSeconds = Double(retryAfter) {
+                           print("retry after seconds is: \(retryAfterSeconds)")
+                           // retry after specified number of seconds in the response header
+                           DispatchQueue.global().asyncAfter(deadline: .now() + retryAfterSeconds) {
+                               self?.fetchUpdatedPlanets(completion: completion)
+                           }
+                           return
+                       }
+                   }
+            
             
             guard let data = data else {
                 completion([])

@@ -226,6 +226,9 @@
 		7CE97D402BB5414C008329BA /* GalaxyStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */; };
 		7CE97D4B2BB55F5D008329BA /* TipJarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3C2BB53D2E008329BA /* TipJarView.swift */; };
 		7CE97D4D2BB564F6008329BA /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D4C2BB564F6008329BA /* CloseButton.swift */; };
+		7CF6D2DD2BC2820D00107663 /* PlanetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */; };
+		7CF6D2DE2BC2820E00107663 /* PlanetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */; };
+		7CF6D2E02BC290EC00107663 /* MapSettingsPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2DF2BC290EC00107663 /* MapSettingsPopup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -404,6 +407,7 @@
 		7CE97D3C2BB53D2E008329BA /* TipJarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarView.swift; sourceTree = "<group>"; };
 		7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyStatsView.swift; sourceTree = "<group>"; };
 		7CE97D4C2BB564F6008329BA /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
+		7CF6D2DF2BC290EC00107663 /* MapSettingsPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsPopup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -749,6 +753,7 @@
 			isa = PBXGroup;
 			children = (
 				7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */,
+				7CF6D2DF2BC290EC00107663 /* MapSettingsPopup.swift */,
 			);
 			path = Popups;
 			sourceTree = "<group>";
@@ -1128,6 +1133,7 @@
 				7C4589C42BA574B20019B00E /* ShakeModifier.swift in Sources */,
 				7C018FE42BBA532C001AFB15 /* SoundManager.swift in Sources */,
 				7C0C995B2BA2BAE800CF7C91 /* PlanetStructs.swift in Sources */,
+				7CF6D2E02BC290EC00107663 /* MapSettingsPopup.swift in Sources */,
 				7C4589BE2BA554AA0019B00E /* RootView.swift in Sources */,
 				7C4589B72BA546B00019B00E /* OrderView.swift in Sources */,
 				7C4589C22BA5554E0019B00E /* StratagemHeroModel.swift in Sources */,
@@ -1175,6 +1181,7 @@
 				7C45D4682BABEE770013A632 /* AngledLinesShape.swift in Sources */,
 				7C0DF6252BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7C3DE9892BA80B9600C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
+				7CF6D2DE2BC2820E00107663 /* PlanetInfoView.swift in Sources */,
 				7C45D4762BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C45D4712BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
 				7C0DF6322BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */,
@@ -1281,6 +1288,7 @@
 				7CC0AE792BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7C0DF6242BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7CC0AE882BA7F63100802D9F /* RectangleProgressBar.swift in Sources */,
+				7CF6D2DD2BC2820D00107663 /* PlanetInfoView.swift in Sources */,
 				7C45D46A2BABEE7D0013A632 /* RewardView.swift in Sources */,
 				7C45D45C2BABEB370013A632 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C0DF6312BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */,

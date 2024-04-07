@@ -20,6 +20,8 @@ struct PlanetView: View {
     var rate = 0.0
     var playerCount: Int = 347246
     var planet: UpdatedPlanet? = nil
+    var factionName: String? = nil // this is for widgets as they cannot access some conditions in the planets view model image function
+    var factionColor: Color? = nil // this is for widgets as they cannot access some conditions in the planets view model color function
     var showHistory = true
     var showImage = true
     var showExtraStats = true
@@ -27,12 +29,16 @@ struct PlanetView: View {
     var isWidget = false
     // for widgets, pass remote config info
     
-    @State var bugOrAutomaton: EnemyType
-    
+    // these are here because widgets cannot read the view model state
     var terminidRate: String
     var automatonRate: String
+    var illuminateRate: String
     
     var eventExpirationTime: Date? = nil // for defense events
+    
+    var isInMapView = false // map view uses navigation view not navigationstack, due to the zoomable package/modifier not working in stack. so this is a workaround that allows us to change the navigationlink styling to the older deprecated way if we are in the map view
+    
+    var isActive = true // map view needs this, as it shows planet view for all planets even if they arent actively in a campaign. used to hide additional info such as liberation %
     
     @State private var showChart = false
     
@@ -60,6 +66,31 @@ struct PlanetView: View {
         
     }
     
+    private var factionImage: String {
+        
+        if let imageName = factionName {
+            return imageName
+        }
+        
+        // if faction name is nil, we must be in the app - faction is only passed to this view as a widget because widgets cannot access all conditions for this function - unless it is liberating (not defense), liberating campaigns can access the required conditionals so no faction image or color is passed to this view in that case either
+        
+        return viewModel.getImageNameForPlanet(planet)
+        
+    }
+    
+    private var foreColor: Color {
+        
+        if let color = factionColor {
+            return color
+        }
+        
+        // see above computed prop comments for more info, its the same reasoning
+        // if faction color is nil, we must be in the app - faction is only passed to this view as a widget because widgets cannot access all conditions for this function
+        
+        return viewModel.getColorForPlanet(planet: planet)
+        
+    }
+    
     func showChartToggler() {
         withAnimation(.bouncy) {
             showChart.toggle()
@@ -76,12 +107,14 @@ struct PlanetView: View {
                 
                 if showChart {
                     
-                    HistoryChart(liberationType: liberationType, planetData: planetData, bugOrAutomaton: bugOrAutomaton).environmentObject(viewModel)
+                    HistoryChart(liberationType: liberationType, planetData: planetData, factionColor: foreColor).environmentObject(viewModel)
                     
                 }
                 
-                CampaignPlanetStatsView(liberation: liberation, bugOrAutomaton: bugOrAutomaton, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, playerCount: playerCount, isWidget: isWidget, terminidRate: terminidRate, automatonRate: automatonRate, eventExpirationTime: eventExpirationTime)
-                
+         
+                    
+                CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: playerCount, isWidget: isWidget, terminidRate: terminidRate, automatonRate: automatonRate, illuminateRate: illuminateRate, eventExpirationTime: eventExpirationTime, isActive: isActive)
+                    
                 
                 
                 
@@ -108,21 +141,17 @@ struct PlanetView: View {
                     Color.black
                 }
             }
-            .border(bugOrAutomaton == .terminid ? .yellow : .red, width: isWidget ? 0 : 2)
-        
-        
-            .onAppear {
-                print("passed value is \(bugOrAutomaton.rawValue)")
-            }
+            .border(foreColor, width: isWidget ? 0 : 2)
+     
     }
     
     var planetNameAndIcon: some View {
         return Group {
-            Image(bugOrAutomaton.rawValue).resizable().aspectRatio(contentMode: .fit)
+            Image(viewModel.getImageNameForPlanet(planet)).resizable().aspectRatio(contentMode: .fit)
                 .frame(width: raceIconSize, height: raceIconSize)
                 .shadow(radius: 3)
             HStack(spacing: 2){
-                Text(planetName).textCase(.uppercase).foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red)
+                Text(planetName).textCase(.uppercase).foregroundStyle(foreColor)
                     .font(Font.custom("FS Sinclair", size: largeFont))
                     .padding(.top, 3)
                 #if os(iOS)
@@ -142,6 +171,7 @@ struct PlanetView: View {
                     Image(systemName: liberationType == .defense ? "shield.lefthalf.filled" : "target")
                         .font(.footnote)
                         .padding(.leading, 2)
+                        .foregroundStyle(.white)
                 }
                 
              
@@ -214,11 +244,16 @@ struct PlanetView: View {
 #if os(iOS)
                     if isWidget {
                         planetNameAndIcon
+                    } else if isInMapView {
+                        NavigationLink(destination: PlanetInfoView(planet: planet)){
+                            planetNameAndIcon
+                        }
                     } else {
                         NavigationLink(value: planet) {
                             planetNameAndIcon
                         }
                     }
+                    // map view isnt coming to the watch so no need to change the nav link method there
 #else
                     
                     Button(action: {
@@ -273,7 +308,7 @@ struct PlanetView: View {
 
 #Preview {
     
-    PlanetView(bugOrAutomaton: .terminid, terminidRate: "-5%", automatonRate: "-1.5%").environmentObject(PlanetsViewModel())
+    PlanetView(terminidRate: "-5%", automatonRate: "-1.5%", illuminateRate: "-0%").environmentObject(PlanetsViewModel())
 }
 
 enum ChartType: String, SegmentedItem {
@@ -304,7 +339,7 @@ enum LiberationType: String {
 struct ChartAnnotationView: View {
     
     var chartType: ChartType = .players
-    var bugOrAutomaton: EnemyType
+    var factionColor: Color
     var value: String = "55.1586%"
     var date: String = "4:41PM"
     
@@ -327,7 +362,7 @@ struct ChartAnnotationView: View {
                 
                 Text(value)
                 
-                    .foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red)
+                    .foregroundStyle(factionColor)
                     .font(Font.custom("FS Sinclair", size: valueFont))
                 
                 Text(date)
@@ -349,17 +384,13 @@ struct ChartAnnotationView: View {
     }
 }
 
-#Preview {
-    ChartAnnotationView(bugOrAutomaton: .terminid)
-}
-
 struct HistoryChart: View {
     @EnvironmentObject var viewModel: PlanetsViewModel
     var liberationType: LiberationType
     var planetData: [PlanetDataPoint]
     @State private var chartSelection: Date? = nil
     @State var chartType: ChartType = .players
-    var bugOrAutomaton: EnemyType
+    var factionColor: Color
     
 #if os(watchOS)
     let chartHeight: CGFloat = 160
@@ -475,7 +506,7 @@ struct HistoryChart: View {
                     Double(dataPoint.status?.players ?? 0)
             )
         )
-        .foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red)
+        .foregroundStyle(factionColor)
         .lineStyle(StrokeStyle(lineWidth: 2.0))
         .interpolationMethod(.catmullRom)
         
@@ -491,7 +522,7 @@ struct HistoryChart: View {
         let ruleMark = RuleMark(x: .value("Time", chartSelection!))
         let annotationValue = chartType != .players ? "\(String(format: "%.2f%%", status.liberation))" : "\(status.players)"
         
-        let annotationView = ChartAnnotationView(bugOrAutomaton: bugOrAutomaton, value: annotationValue, date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
+        let annotationView = ChartAnnotationView(factionColor: factionColor, value: annotationValue, date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
         if #available(iOS 17, *), #available(watchOS 10, *) {
                return ruleMark
                    .opacity(0.5)

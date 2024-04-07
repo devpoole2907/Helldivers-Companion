@@ -10,12 +10,16 @@ import SwiftUI
 struct CampaignPlanetStatsView: View {
     
     var liberation: Double
-    var bugOrAutomaton: EnemyType
     var liberationType: LiberationType
     
     var showExtraStats: Bool
     
     var planetName: String
+    
+    var planet: UpdatedPlanet? = nil
+    
+    var factionColor: Color // color is passed to this view as widgets dont have the required state to calculate the color from the view model
+    var factionImage: String // same reason as above
     
     var playerCount: Int = 347246
     
@@ -23,8 +27,11 @@ struct CampaignPlanetStatsView: View {
     
     var terminidRate: String
     var automatonRate: String
+    var illuminateRate: String
     
     var eventExpirationTime: Date? = nil
+    
+    var isActive = true // if accessed from galaxy map, planet view wont need to display all info if the planet isnt in a campaign
     
     @State private var pulsate = false
     
@@ -43,10 +50,28 @@ let helldiverImageSize: CGFloat = 25
     #endif
     
     
+    private func enemyRate() -> String {
+            guard let planet = planet else {
+                return "chungus" // or some default text
+            }
+
+            switch planet.currentOwner {
+            case "Terminids":
+                return "\(terminidRate) / h"
+            case "Automaton":
+                return "\(automatonRate) / h"
+            case "Illuminate":
+                return "\(illuminateRate) / h"
+            default:
+                return "Unknown Rate / h"
+            }
+        }
     
     
     
     var body: some View {
+        
+
         VStack(spacing: 0) {
             
             VStack {
@@ -54,7 +79,7 @@ let helldiverImageSize: CGFloat = 25
                     
                     // health bar
                     
-                    RectangleProgressBar(value: liberation / 100, secondaryColor: bugOrAutomaton == .terminid ? Color.yellow : Color.red)
+                    RectangleProgressBar(value: liberation / 100, secondaryColor: factionColor)
                     
                         .padding(.horizontal, 6)
                         .padding(.trailing, 2)
@@ -105,14 +130,14 @@ let helldiverImageSize: CGFloat = 25
                                 .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
                                 .multilineTextAlignment(.trailing)
                         }
-                            }
+                    }
                     
                 }   .padding(.horizontal)
                 
             }
             .frame(maxWidth: .infinity)
             .background {
-            //    Color.black
+                //    Color.black
             }
             .padding(.vertical, 5)
             
@@ -124,48 +149,53 @@ let helldiverImageSize: CGFloat = 25
         .padding(4)
         .border(Color.gray)
         
+    
+        
         
         if showExtraStats {
-        HStack {
-            
-            HStack(alignment: .center, spacing: spacingSize) {
+            HStack {
                 
-                if liberationType == .liberation {
+                if isActive { // dont show this section if planet isnt in a campaign (accessed via galaxy map)
+                
+                HStack(alignment: .center, spacing: spacingSize) {
                     
-                    Image(bugOrAutomaton.rawValue).resizable().aspectRatio(contentMode: .fit)
-                        .frame(width: raceIconSize, height: raceIconSize)
-                    
-                    Text(bugOrAutomaton == .terminid ? "\(terminidRate) / h" : "\(automatonRate) / h").foregroundStyle(bugOrAutomaton == .terminid ? Color.yellow : Color.red).bold()
-                        .font(Font.custom("FS Sinclair", size: mediumFont))
-                        .padding(.top, 3)
-                    
-                } else {
-                    VStack(spacing: -5) {
-                        Text("DEFEND") .font(Font.custom("FS Sinclair", size: largeFont))
+                    if liberationType == .liberation {
                         
-                        // defense is important, so pulsate
-                            .foregroundStyle(isWidget ? .red : (pulsate ? .red : .white))
-                            .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.0))
-                            .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: pulsate)
+                        Image(factionImage).resizable().aspectRatio(contentMode: .fit)
+                            .frame(width: raceIconSize, height: raceIconSize)
                         
-                            .onAppear {
-                                pulsate = true
+                        Text(enemyRate()).foregroundStyle(factionColor).bold()
+                            .font(Font.custom("FS Sinclair", size: mediumFont))
+                            .padding(.top, 3)
+                        
+                    } else {
+                        VStack(spacing: -5) {
+                            Text("DEFEND") .font(Font.custom("FS Sinclair", size: largeFont))
+                            
+                            // defense is important, so pulsate
+                                .foregroundStyle(isWidget ? .red : (pulsate ? .red : .white))
+                                .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.0))
+                                .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: pulsate)
+                            
+                                .onAppear {
+                                    pulsate = true
+                                }
+                            if let eventExpirationTime = eventExpirationTime {
+                                Text(eventExpirationTime, style: .timer)
+                                    .font(Font.custom("FS Sinclair", size: mediumFont))
+                                    .multilineTextAlignment(.center)
+                                // .frame(maxWidth: .infinity)
                             }
-                        if let eventExpirationTime = eventExpirationTime {
-                            Text(eventExpirationTime, style: .timer)
-                                .font(Font.custom("FS Sinclair", size: mediumFont))
-                                .multilineTextAlignment(.center)
-                               // .frame(maxWidth: .infinity)
-                        }
-                    }.padding(.vertical, 6)
+                        }.padding(.vertical, 6)
                         
-                }
+                    }
+                    
+                }.frame(maxWidth: .infinity)
                 
-            }.frame(maxWidth: .infinity)
-            
-            Rectangle().frame(width: 1, height: 30).foregroundStyle(Color.white)
-                .padding(.vertical, 10)
-            
+                Rectangle().frame(width: 1, height: 30).foregroundStyle(Color.white)
+                    .padding(.vertical, 10)
+                
+            }
             
             HStack(spacing: spacingSize) {
                 
@@ -177,7 +207,8 @@ let helldiverImageSize: CGFloat = 25
                     .font(Font.custom("FS Sinclair", size: mediumFont))
                     .padding(.top, 3)
                 
-            }.frame(maxWidth: .infinity)
+            }  .padding(.vertical, 10)
+            .frame(maxWidth: .infinity, minHeight: 30)
             
             
         }

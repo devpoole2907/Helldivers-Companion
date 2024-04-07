@@ -24,10 +24,6 @@ struct PlanetInfoView: View {
         viewModel.defensePlanets.contains(where: { $0.planet.index == planet?.index }) ? .defense : .liberation
     }
     
-    private var bugOrAutomaton: EnemyType {
-        planet?.currentOwner == "Terminids" ? .terminid : .automaton
-    }
-    
     private var formattedPlanetImageName: String {
         
         PlanetImageFormatter.formattedPlanetImageName(for: planet?.name ?? "")
@@ -59,62 +55,6 @@ struct PlanetInfoView: View {
     
     #endif
     
-    private var faction: Faction {
-       /*
-        if defenseEvent != nil {
-            planetStatus?.owner
-        }
-        
-        // just return the current owner, its either being attacked or not active currently
-        else if campaign != nil {
-            
-        } else {
-            // just return the current owner, its not defending or attacking
-        }
-        */
-        
-        // TODO: STOP OVERWRITING OWNER FOR DEFENSE PLANETS, STORE/DISPLAY IT ANOTHER WAY
-        
-        // for now we just return the type of faction based on owner, this will be slightly incorrect! unless we dont mind just displaying the enemy faction when its defending anywa here
-        
-        switch planet?.currentOwner {
-            
-        case "Terminids":
-            return .terminid
-        case "Illuminate":
-            return .illuminate
-        case "Automaton":
-            return .automaton
-        case "Humans":
-            return .human
-        default:
-            return .terminid
-        }
-        
-        
-        
-        
-        
-    }
-    
-    var factionColor: Color {
-        switch planet?.currentOwner {
-            
-        case "Terminids":
-            return .yellow
-        case "Illuminate":
-            return .blue
-        case "Automaton":
-            return .red
-        case "Humans":
-            return .cyan
-        default:
-            return .yellow
-        }
-    }
-    
-    
-    
     var body: some View {
         ScrollView {
             
@@ -141,7 +81,7 @@ struct PlanetInfoView: View {
                 
                 // dont show this data if the planet isnt a current campaign
                 if campaign && infoType == .warEffort {
-                    HistoryChart(liberationType: liberationType, planetData: planetData, bugOrAutomaton: bugOrAutomaton).environmentObject(viewModel)
+                    HistoryChart(liberationType: liberationType, planetData: planetData, factionColor: viewModel.getColorForPlanet(planet: planet)).environmentObject(viewModel)
                         .shadow(radius: 5.0)
                     
                     if let liberation = planet?.percentage, let planetName = planet?.name, let players = planet?.statistics.playerCount {
@@ -152,14 +92,14 @@ struct PlanetInfoView: View {
                             
                             // must be a defending event, use defense percent
                             
-                            CampaignPlanetStatsView(liberation: liberation, bugOrAutomaton: bugOrAutomaton, liberationType: liberationType, showExtraStats: true, planetName: planetName, playerCount: players, isWidget: false, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, eventExpirationTime: eventExpirationTime)
+                            CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: true, planetName: planetName, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: players, isWidget: false, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, illuminateRate: viewModel.configData.illuminateRate, eventExpirationTime: eventExpirationTime)
                                .shadow(radius: 5.0)
                             
                             
                         } else {
                             // not defending
                             
-                            CampaignPlanetStatsView(liberation: liberation, bugOrAutomaton: bugOrAutomaton, liberationType: liberationType, showExtraStats: true, planetName: planetName, playerCount: players, isWidget: false, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate)
+                            CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: true, planetName: planetName, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: players, isWidget: false, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, illuminateRate: viewModel.configData.illuminateRate)
                                 .shadow(radius: 5.0)
                         }
                     }
@@ -212,7 +152,7 @@ struct PlanetInfoView: View {
             
             
             
-            FactionImageView(faction: faction)
+            FactionImageView(faction: viewModel.getImageNameForPlanet(planet))
 
                 .padding(.trailing, 20)
                 .offset(x: 0, y: -45)
@@ -354,7 +294,7 @@ struct PlanetInfoView: View {
             
             if let sector = planet?.sector {
                 HStack(spacing: 6) {
-                    Text(sector).foregroundStyle(factionColor)
+                    Text(sector).foregroundStyle(viewModel.getColorForPlanet(planet: planet))
 #if os(watchOS)
     .textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
 #endif
@@ -381,7 +321,7 @@ struct PlanetInfoView: View {
             .border(Color.gray)
         
             .padding(4)
-            .border(factionColor, width: 2) .padding([.bottom, .horizontal])
+            .border(viewModel.getColorForPlanet(planet: planet), width: 2) .padding([.bottom, .horizontal])
     }
     
     var biomeDescription: some View {
@@ -455,12 +395,12 @@ struct PlanetInfoView: View {
 
 struct FactionImageView: View {
     // not using enemy type enum, because this planet may be viewed from the stats view - if its not currently in a campaign then it may be human owned, in that case the owner will be passed
-    var faction: Faction = .terminid
+    var faction: String = "terminid"
 
     var body: some View {
         
         
-        Image(faction.rawValue)
+        Image(faction)
             .resizable()
             .scaledToFit()
             .frame(width: 30, height: 30)

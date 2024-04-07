@@ -44,12 +44,11 @@ struct RewardView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 10)
         .background(
-            // Use the custom shape as a pattern
             AngledLinesShape()
                 .stroke(lineWidth: 3)
-                .foregroundColor(.white) // or any color you prefer
-                .opacity(0.2) // Adjust for desired line opacity
-                .clipped() // Ensure the pattern does not extend beyond the view bounds
+                .foregroundColor(.white)
+                .opacity(0.2)
+                .clipped()
         )
         .padding(.horizontal, 14)
         

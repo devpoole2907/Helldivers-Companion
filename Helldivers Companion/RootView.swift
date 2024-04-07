@@ -98,7 +98,7 @@ struct RootView: View {
             
             if url.scheme == "helldiverscompanion"  {
                 
-                if let selectedPlanet = viewModel.allPlanetStatuses.first(where: { $0.planet.name == url.host }) {
+                if let selectedPlanet = viewModel.updatedPlanets.first(where: { $0.name == url.host }) {
                     
                     if viewModel.currentTab == .home {
                         if !contentNavPather.navigationPath.isEmpty {

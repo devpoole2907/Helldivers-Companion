@@ -133,3 +133,53 @@ struct SimpleSegmentedItem: SegmentedItem {
     }
 }
 
+struct CustomTogglePicker: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    
+    @Binding var selection: Bool
+    
+    var cornerRadius: CGFloat = 20.0
+    var borderWidth: CGFloat = 2.0
+    
+    var body: some View {
+        let iconColor = colorScheme == .dark ? Color.gray : Color.black
+        
+        
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Rectangle()
+                    .foregroundStyle(.yellow)
+                    .frame(width: geo.size.width / 2, height: 30)
+                    .offset(x: selection ? geo.size.width / 2 : 0, y: 0)
+                    .animation(.spring().speed(1.5), value: selection)
+                
+                HStack(spacing: 0) {
+                    Button(action: {
+                        withAnimation(.spring().speed(1.5)) {
+                            selection = false
+                        }
+                    }) {
+                        Text("Disabled")
+                            .font(Font.custom("FS Sinclair", size: 18))
+                            .foregroundStyle(selection ? iconColor : .black)
+                            .frame(width: geo.size.width / 2, height: 30)
+                    }
+                    
+                    Button(action: {
+                        withAnimation(.spring().speed(1.5)) {
+                            selection = true
+                        }
+                    }) {
+                        Text("Enabled")
+                            .font(Font.custom("FS Sinclair", size: 18))
+                            .foregroundStyle(selection ? .black : iconColor)
+                            .frame(width: geo.size.width / 2, height: 30)
+                    }
+                }
+            }
+            .frame(height: 30)
+        }
+        .frame(maxWidth: 300)
+    }
+}

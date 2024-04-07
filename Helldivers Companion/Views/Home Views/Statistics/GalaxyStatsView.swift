@@ -124,7 +124,7 @@ struct GalaxyStatsView: View {
               
                     
                     ToolbarItem(placement: .topBarTrailing) {
-                        FactionImageView(faction: .human)
+                        FactionImageView(faction: "human")
                     }
                     
 #endif
