@@ -10,6 +10,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>FS Sinclair Bold.otf</string>
+		<string>FS Sinclair Regular.otf</string>
 	</array>
 </dict>
 </plist>

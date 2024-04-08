@@ -27,7 +27,7 @@ struct OrderView: View {
                     .multilineTextAlignment(.center)
                 
                 Text(viewModel.majorOrder?.setting.overrideBrief ?? "Await further orders from Super Earth High Command.").font(Font.custom("FS Sinclair", size: 18))
-                    .foregroundStyle(Color.cyan)
+                    .foregroundStyle(Color(red: 164, green: 177, blue: 183))
                     .padding(5)
                     .multilineTextAlignment(.center)
                 

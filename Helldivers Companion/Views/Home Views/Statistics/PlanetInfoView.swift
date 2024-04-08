@@ -161,7 +161,7 @@ struct PlanetInfoView: View {
         
         .toolbarRole(.editor)
         
-        .navigationTitle(planet?.name.capitalized ?? "UNKNOWN")
+        .navigationTitle(planet?.name.uppercased() ?? "UNKNOWN")
         
         .navigationBarTitleDisplayMode(.large)
 #else

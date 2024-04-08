@@ -231,6 +231,14 @@
 		7CF6D2E02BC290EC00107663 /* MapSettingsPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2DF2BC290EC00107663 /* MapSettingsPopup.swift */; };
 		7CF6D2E22BC29BCD00107663 /* iOS16Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E12BC29BCD00107663 /* iOS16Alert.swift */; };
 		7CF6D2E62BC2AF1C00107663 /* PlanetPositions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E52BC2AF1C00107663 /* PlanetPositions.swift */; };
+		7CF6D2E82BC401B800107663 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E72BC401B800107663 /* CircularProgressView.swift */; };
+		7CF6D2EA2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
+		7CF6D2EB2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
+		7CF6D2EC2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
+		7CF6D2ED2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
+		7CF6D2EE2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
+		7CF6D2EF2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
+		7CF6D2F02BC412EA00107663 /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -412,6 +420,8 @@
 		7CF6D2DF2BC290EC00107663 /* MapSettingsPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsPopup.swift; sourceTree = "<group>"; };
 		7CF6D2E12BC29BCD00107663 /* iOS16Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS16Alert.swift; sourceTree = "<group>"; };
 		7CF6D2E52BC2AF1C00107663 /* PlanetPositions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetPositions.swift; sourceTree = "<group>"; };
+		7CF6D2E72BC401B800107663 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
+		7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FS Sinclair Regular.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -550,6 +560,7 @@
 				7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */,
 				7C0C99512BA2BA9000CF7C91 /* Preview Content */,
 				7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */,
+				7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */,
 				7C4589BD2BA554AA0019B00E /* RootView.swift */,
 				7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */,
 				7C45D4772BAC142C0013A632 /* Tab.swift */,
@@ -733,6 +744,7 @@
 				7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */,
 				7C45D4642BABEE6E0013A632 /* AngledLinesShape.swift */,
 				7CE97D4C2BB564F6008329BA /* CloseButton.swift */,
+				7CF6D2E72BC401B800107663 /* CircularProgressView.swift */,
 			);
 			path = CustomUIElements;
 			sourceTree = "<group>";
@@ -1011,6 +1023,7 @@
 				7C018FF62BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */,
 				7C0C99532BA2BA9000CF7C91 /* Preview Assets.xcassets in Resources */,
 				7C018FEA2BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 in Resources */,
+				7CF6D2EA2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
 				7C018FF32BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 in Resources */,
 				7C018FF92BBA6152001AFB15 /* Stratagem Hero Success Sound.mp3 in Resources */,
 				7C0C99502BA2BA9000CF7C91 /* Assets.xcassets in Resources */,
@@ -1023,6 +1036,7 @@
 			files = (
 				7C1B8C302BAD71C800944823 /* FS Sinclair Bold.otf in Resources */,
 				7CD554912BB73EDE008D4267 /* Assets.xcassets in Resources */,
+				7CF6D2EE2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
 				7C1B8C192BAD705700944823 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1032,6 +1046,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C3DE9872BA80B5000C95B84 /* FS Sinclair Bold.otf in Resources */,
+				7CF6D2ED2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
 				7C50CEE92BA8295E009094AE /* GoogleService-Info.plist in Resources */,
 				7C3DE9882BA80B8100C95B84 /* Assets.xcassets in Resources */,
 				7C3DE97E2BA80B3E00C95B84 /* Assets.xcassets in Resources */,
@@ -1053,6 +1068,7 @@
 				7C018FF72BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */,
 				7C587F4E2BA6DBBB00C66643 /* Preview Assets.xcassets in Resources */,
 				7C018FEB2BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 in Resources */,
+				7CF6D2EB2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
 				7C018FF42BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 in Resources */,
 				7C018FFA2BBA6152001AFB15 /* Stratagem Hero Success Sound.mp3 in Resources */,
 				7C587F4B2BA6DBBB00C66643 /* Assets.xcassets in Resources */,
@@ -1065,6 +1081,7 @@
 			files = (
 				7C8C5F452BAEFC9A00C4FBD2 /* FS Sinclair Bold.otf in Resources */,
 				7C8C5F462BAEFCB500C4FBD2 /* Assets.xcassets in Resources */,
+				7CF6D2EF2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
 				7C8C5F382BAEF91300C4FBD2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1075,6 +1092,7 @@
 			files = (
 				7C8C5F5F2BAF0B8600C4FBD2 /* FS Sinclair Bold.otf in Resources */,
 				7CD554922BB73EDF008D4267 /* Assets.xcassets in Resources */,
+				7CF6D2F02BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
 				7C8C5F542BAF0AD200C4FBD2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1084,6 +1102,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CC0AE892BA7F76600802D9F /* Assets.xcassets in Resources */,
+				7CF6D2EC2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
 				7C50CEE82BA8295E009094AE /* GoogleService-Info.plist in Resources */,
 				7CC0AE8A2BA7F79800802D9F /* FS Sinclair Bold.otf in Resources */,
 				7CC0AE7B2BA7F31500802D9F /* Assets.xcassets in Resources */,
@@ -1124,6 +1143,7 @@
 				7C45D46E2BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
 				7C0DF6372BB987FB0062AB9B /* PlanetInfoDetailRow.swift in Sources */,
 				7C319F972BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift in Sources */,
+				7CF6D2E82BC401B800107663 /* CircularProgressView.swift in Sources */,
 				7CE97D3B2BB51DE9008329BA /* CentrePopup.swift in Sources */,
 				7C80F3EC2BC13F890058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C0C995D2BA2BAFD00CF7C91 /* PlanetsViewModel.swift in Sources */,

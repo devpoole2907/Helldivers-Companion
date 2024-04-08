@@ -111,7 +111,7 @@ struct GalaxyStatsView: View {
                 .inlineLargeTitleiOS17()
 #endif
             
-                .navigationTitle("Galaxy Statistics".capitalized)
+                .navigationTitle("Galaxy Statistics".uppercased())
             
                 .navigationDestination(for: UpdatedPlanet.self) { planet in
                     PlanetInfoView(planet: planet)

@@ -4,16 +4,17 @@
 <dict>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
-	<key>com.apple.developer.game-center</key>
-	<true/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FS Sinclair Bold.otf</string>
+		<string>FS Sinclair Regular.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
+	<key>com.apple.developer.game-center</key>
+	<true/>
 </dict>
 </plist>

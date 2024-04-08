@@ -147,23 +147,42 @@ struct GalaxyMapTesting: View {
                     
                     
                     // determine if in an active campaign,
-                    let isInActiveCampaign = viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet.index })
+                    let activeCampaign = viewModel.updatedCampaigns.first(where: { $0.planet.index == planet.index })
+                    let isDefending = viewModel.updatedDefenseCampaigns.contains(where: { $0.planet.index == planet.index })
                     
                     // change size of circle, if its in a campaign or selected it should be larger
                     let circleSize = viewModel.selectedPlanet?.index == planet.index ? 10 :
-                    (isInActiveCampaign ? 8 : 6)
+                    ((activeCampaign != nil) ? 8 : 6)
                     
-                    Circle()
-                        .frame(width: viewModel.selectedPlanet?.index == planet.index ? 10 : 6, height: viewModel.selectedPlanet?.index == planet.index ? 10 : 6)
-                        .position(
-                            x: imageSize.width * planet.xMultiplier,
-                            y: imageSize.height * planet.yMultiplier
-                        )
-                    
-                    
-                        .foregroundColor(
-                            getColorForPlanet(planetPosition: planet)
-                        )
+                    ZStack {
+                        
+                        Circle()
+                            .frame(width: viewModel.selectedPlanet?.index == planet.index ? 10 : viewModel.selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 8 : 6), height: viewModel.selectedPlanet?.index == planet.index ? 10 : viewModel.selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 8 : 6))
+                            .position(
+                                x: imageSize.width * planet.xMultiplier,
+                                y: imageSize.height * planet.yMultiplier
+                            )
+                        
+                        
+                            .foregroundColor(
+                                getColorForPlanet(planetPosition: planet)
+                            )
+                        
+                        if let percentage = activeCampaign?.planet.percentage {
+                            let progress = percentage / 100.0
+                            
+                            CircularProgressView(progress: progress, color: getColorForPlanet(planetPosition: planet))
+                                   .frame(width: viewModel.selectedPlanet?.index == planet.index ? 8 : viewModel.selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 6 : 4), height: viewModel.selectedPlanet?.index == planet.index ? 8 : viewModel.selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 6 : 4))
+                                   .position(
+                                       x: imageSize.width * planet.xMultiplier,
+                                       y: imageSize.height * planet.yMultiplier
+                                   )
+                            
+                        }
+                        
+                     /*   */
+                        
+                    }
                     
                         .overlay(
                             Group {
@@ -271,32 +290,13 @@ struct MapRootViewTest: View {
         // nav is needed to be able to tap planets
         NavigationView {
             
-            VStack(spacing: 0) {
+            ZStack(alignment: .top) {
                 
-                if let selectedPlanet = viewModel.selectedPlanet {
+              
+                
+                VStack(spacing: 0) {
                     
-                    
-                    let eventExpirationTime = selectedPlanet.event?.expireTimeDate
-                    
-               
-                        
-                        PlanetView(planetName: selectedPlanet.name, liberation: liberationPercentage, rate: selectedPlanet.regenPerSecond, playerCount: selectedPlanet.statistics.playerCount, planet: selectedPlanet, liberationType: isDefending ? .defense : .liberation, eventExpirationTime: eventExpirationTime, isInMapView: true, isActive: isActive).environmentObject(viewModel)
-                            .padding(.horizontal)
-                            .frame(maxHeight: 300)
-                            .animation(.bouncy, value: isActive)
-                        
-                            // wrapping the planet view as a nav link directly doesnt work, but overlaying a clear view that is the nav link does! ebic hax
-                    
-                            .overlay {
-                                NavigationLink(destination: PlanetInfoView(planet: selectedPlanet)) {
-                                    
-                                    Color.clear
-                                    
-                                }
-                            }
-                    
-                    
-                }
+                    Spacer(minLength: 300)
                 
                 GalaxyMapTesting(selectedPlanet: $viewModel.selectedPlanet, position: $position, showSupplyLines: $showSupplyLines, showAllPlanets: $showAllPlanets).environmentObject(viewModel)
                 
@@ -313,6 +313,33 @@ struct MapRootViewTest: View {
                     .clipShape(Rectangle())
                 
                     .padding(.bottom, 20)
+                
+            }
+                
+                if let selectedPlanet = viewModel.selectedPlanet {
+                    
+                    
+                    let eventExpirationTime = selectedPlanet.event?.expireTimeDate
+                    
+                    
+                    
+                    PlanetView(planetName: selectedPlanet.name, liberation: liberationPercentage, rate: selectedPlanet.regenPerSecond, playerCount: selectedPlanet.statistics.playerCount, planet: selectedPlanet, liberationType: isDefending ? .defense : .liberation, eventExpirationTime: eventExpirationTime, isInMapView: true, isActive: isActive).environmentObject(viewModel)
+                        .padding(.horizontal)
+                        .frame(maxHeight: 300)
+                        .animation(.bouncy, value: isActive)
+                    
+                    // wrapping the planet view as a nav link directly doesnt work, but overlaying a clear view that is the nav link does! ebic hax
+                        .contentShape(Rectangle())
+                        .overlay {
+                            NavigationLink(destination: PlanetInfoView(planet: selectedPlanet)) {
+                                
+                                Color.clear
+                                
+                            }
+                        }
+                    
+                    
+                }
                 
             }
             .background {

@@ -6,6 +6,7 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
+		<string>FS Sinclair Regular.otf</string>
 		<string>FS Sinclair Bold.otf</string>
 	</array>
 </dict>
