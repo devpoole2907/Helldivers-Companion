@@ -27,12 +27,6 @@ struct PlanetView: View {
     var showExtraStats = true
     var liberationType: LiberationType = .liberation
     var isWidget = false
-    // for widgets, pass remote config info
-    
-    // these are here because widgets cannot read the view model state
-    var terminidRate: String
-    var automatonRate: String
-    var illuminateRate: String
     
     var eventExpirationTime: Date? = nil // for defense events
     
@@ -113,7 +107,7 @@ struct PlanetView: View {
                 
          
                     
-                CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: playerCount, isWidget: isWidget, terminidRate: terminidRate, automatonRate: automatonRate, illuminateRate: illuminateRate, eventExpirationTime: eventExpirationTime, isActive: isActive)
+                CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, isActive: isActive)
                     
                 
                 
@@ -304,7 +298,7 @@ struct PlanetView: View {
 
 #Preview {
     
-    PlanetView(terminidRate: "-5%", automatonRate: "-1.5%", illuminateRate: "-0%").environmentObject(PlanetsViewModel())
+    PlanetView().environmentObject(PlanetsViewModel())
 }
 
 enum ChartType: String, SegmentedItem {

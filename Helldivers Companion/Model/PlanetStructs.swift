@@ -214,9 +214,6 @@ struct GitHubFile: Decodable {
 }
 
 struct RemoteConfigDetails: Decodable {
-    var terminidRate: String
-    var automatonRate: String
-    var illuminateRate: String
     var alert: String?
     var prominentAlert: String?
     var season: String
@@ -235,13 +232,10 @@ struct RemoteConfigDetails: Decodable {
     
     
     private enum CodingKeys: String, CodingKey {
-        case terminidRate, automatonRate, illuminateRate, alert, prominentAlert, season, showIlluminate, apiAddress, startedAt
+        case alert, prominentAlert, season, showIlluminate, apiAddress, startedAt
     }
     // default init
-    init(terminidRate: String, automatonRate: String, illuminateRate: String, alert: String, prominentAlert: String?, season: String, showIlluminate: Bool, apiAddress: String, startedAt: String) {
-        self.terminidRate = terminidRate
-        self.automatonRate = automatonRate
-        self.illuminateRate = illuminateRate
+    init(alert: String, prominentAlert: String?, season: String, showIlluminate: Bool, apiAddress: String, startedAt: String) {
         self.alert = alert
         self.prominentAlert = prominentAlert
         self.season = season
@@ -253,9 +247,6 @@ struct RemoteConfigDetails: Decodable {
     // set prominent alert to nil if its empty
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        terminidRate = try container.decode(String.self, forKey: .terminidRate)
-        automatonRate = try container.decode(String.self, forKey: .automatonRate)
-        illuminateRate = try container.decode(String.self, forKey: .illuminateRate)
         alert = try container.decode(String.self, forKey: .alert)
         
         let prominentAlertValue = try container.decode(String.self, forKey: .prominentAlert)

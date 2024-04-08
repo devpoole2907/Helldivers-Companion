@@ -280,7 +280,7 @@ struct MapRootViewTest: View {
                     
                
                         
-                        PlanetView(planetName: selectedPlanet.name, liberation: liberationPercentage, rate: selectedPlanet.regenPerSecond, playerCount: selectedPlanet.statistics.playerCount, planet: selectedPlanet, liberationType: isDefending ? .defense : .liberation, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, illuminateRate: viewModel.configData.illuminateRate, eventExpirationTime: eventExpirationTime, isInMapView: true, isActive: isActive).environmentObject(viewModel)
+                        PlanetView(planetName: selectedPlanet.name, liberation: liberationPercentage, rate: selectedPlanet.regenPerSecond, playerCount: selectedPlanet.statistics.playerCount, planet: selectedPlanet, liberationType: isDefending ? .defense : .liberation, eventExpirationTime: eventExpirationTime, isInMapView: true, isActive: isActive).environmentObject(viewModel)
                             .padding(.horizontal)
                             .frame(maxHeight: 300)
                             .animation(.bouncy, value: isActive)

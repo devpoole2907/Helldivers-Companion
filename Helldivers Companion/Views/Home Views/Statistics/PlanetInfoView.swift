@@ -92,14 +92,14 @@ struct PlanetInfoView: View {
                             
                             // must be a defending event, use defense percent
                             
-                            CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: true, planetName: planetName, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: players, isWidget: false, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, illuminateRate: viewModel.configData.illuminateRate, eventExpirationTime: eventExpirationTime)
+                            CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: true, planetName: planetName, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: players, isWidget: false, eventExpirationTime: eventExpirationTime)
                                .shadow(radius: 5.0)
                             
                             
                         } else {
                             // not defending
                             
-                            CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: true, planetName: planetName, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: players, isWidget: false, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, illuminateRate: viewModel.configData.illuminateRate)
+                            CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: true, planetName: planetName, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: players, isWidget: false)
                                 .shadow(radius: 5.0)
                         }
                     }

@@ -25,10 +25,6 @@ struct CampaignPlanetStatsView: View {
     
     var isWidget = false
     
-    var terminidRate: String
-    var automatonRate: String
-    var illuminateRate: String
-    
     var eventExpirationTime: Date? = nil
     
     var isActive = true // if accessed from galaxy map, planet view wont need to display all info if the planet isnt in a campaign
@@ -48,26 +44,6 @@ let helldiverImageSize: CGFloat = 25
     let spacingSize: CGFloat = 4
     
     #endif
-    
-    
-    private func enemyRate() -> String {
-            guard let planet = planet else {
-                return "chungus" // or some default text
-            }
-
-            switch planet.currentOwner {
-            case "Terminids":
-                return "\(terminidRate) / h"
-            case "Automaton":
-                return "\(automatonRate) / h"
-            case "Illuminate":
-                return "\(illuminateRate) / h"
-            default:
-                return "Unknown Rate / h"
-            }
-        }
-    
-    
     
     var body: some View {
         
@@ -164,9 +140,16 @@ let helldiverImageSize: CGFloat = 25
                         Image(factionImage).resizable().aspectRatio(contentMode: .fit)
                             .frame(width: raceIconSize, height: raceIconSize)
                         
-                        Text(enemyRate()).foregroundStyle(factionColor).bold()
-                            .font(Font.custom("FS Sinclair", size: mediumFont))
-                            .padding(.top, 3)
+                        if let regenPerSecond = planet?.regenPerSecond, let maxHealth = planet?.maxHealth {
+                           
+                            let regenPerHour = regenPerSecond * 3600.0
+                            let regenPercent = (regenPerHour / Double(maxHealth)) * 100
+                            Text(String(format: "-%.1f%% / h", regenPercent))
+                                .foregroundStyle(factionColor).bold()
+                                .font(Font.custom("FS Sinclair", size: mediumFont))
+                                .padding(.top, 3)
+                            
+                        }
                         
                     } else {
                         VStack(spacing: -5) {

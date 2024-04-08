@@ -14,12 +14,12 @@ struct PlanetStatusProvider: TimelineProvider {
     var planetsModel = PlanetsViewModel()
     
     func placeholder(in context: Context) -> SimplePlanetStatus {
-        SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, terminidRate: "-5%", automatonRate: "-1.5%", illuminateRate: "-0%", faction: "terminid", factionColor: .yellow)
+        SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, faction: "terminid", factionColor: .yellow)
     }
     
     func getSnapshot(in context: Context, completion: @escaping (SimplePlanetStatus) -> Void) {
         
-        let entry = SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, terminidRate: "-5%", automatonRate: "-1.5%", illuminateRate: "-0%", faction: "terminid", factionColor: .yellow)
+        let entry = SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, faction: "terminid", factionColor: .yellow)
         
         completion(entry)
     }
@@ -54,13 +54,13 @@ struct PlanetStatusProvider: TimelineProvider {
                             factionColor = .blue
                         }
 
-                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, terminidRate: configData?.terminidRate ?? "0%", automatonRate: configData?.automatonRate ?? "0%", illuminateRate: configData?.illuminateRate ?? "0%", faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime)
+                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime)
                         entries.append(entry)
                         
                     } else {
                         // we dont need to access the view models faction image function's additional conditions here, because the planet is definitely not defending and is definitely a campaign, so we can just use it in the view directly as it will fall through to the check we need anyway
                         
-                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, terminidRate: configData?.terminidRate ?? "0%", automatonRate: configData?.automatonRate ?? "0%", illuminateRate: configData?.illuminateRate ?? "0%")
+                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet)
                         entries.append(entry)
                     }
                     
@@ -86,9 +86,6 @@ struct SimplePlanetStatus: TimelineEntry {
     var playerCount: Int
     var planet: UpdatedPlanet? = nil
     var liberationType: LiberationType = .liberation
-    var terminidRate: String
-    var automatonRate: String
-    var illuminateRate: String
     var faction: String? // optional for the same reasons below
     var factionColor: Color? // this is optional and fetched in the app if state is liberation not defense because the viewmodel doesnt need its state for defense planets in that case, it falls through the if statements anyway
     var eventExpirationTime: Date? = nil
@@ -136,7 +133,7 @@ struct Helldivers_Companion_WidgetsEntryView : View {
                     .inset(by: 4)
                     .fill(Color.black)
                 
-                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, factionName: entry.faction, factionColor: entry.factionColor, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, terminidRate: entry.terminidRate, automatonRate: entry.automatonRate, illuminateRate: entry.illuminateRate, eventExpirationTime: entry.eventExpirationTime).environmentObject(PlanetsViewModel())
+                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, factionName: entry.faction, factionColor: entry.factionColor, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, eventExpirationTime: entry.eventExpirationTime).environmentObject(PlanetsViewModel())
                     .padding(.horizontal)
                     .padding(.vertical, 5)
                 
@@ -277,6 +274,6 @@ struct Helldivers_Companion_Planet_Widgets: Widget {
 #Preview(as: .accessoryRectangular) {
     Helldivers_Companion_Planet_Widgets()
 } timeline: {
-    SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, terminidRate: "-5%", automatonRate: "-1.5%", illuminateRate: "-0%", faction: "terminid")
+    SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, faction: "terminid")
 }
 

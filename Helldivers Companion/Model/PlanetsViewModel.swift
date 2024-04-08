@@ -38,7 +38,7 @@ class PlanetsViewModel: ObservableObject {
     
     
     // TODO: MAKE FETCH FOR STARTEDAT DYNAMIC FROM API NOT STATIC
-    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", illuminateRate: "-0%", alert: "", prominentAlert: nil, season: "801", showIlluminate: false, apiAddress: "", startedAt: "2024-02-10T07:20:30.089979Z")
+    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(alert: "", prominentAlert: nil, season: "801", showIlluminate: false, apiAddress: "", startedAt: "2024-02-10T07:20:30.089979Z")
     
     @Published var showInfo = false
     @Published var showOrders = false
@@ -638,6 +638,14 @@ class PlanetsViewModel: ObservableObject {
                     // use updated planets if available, otherwise use original planets without additional info added
                     let finalPlanets = updatedPlanets ?? decodedResponse.map { $0.planet }
                     
+                    for planet in finalPlanets {
+                        
+                        
+                        print("planet current owner is: \(planet.currentOwner)")
+                        print("planet regen is: \(planet.regenPerSecond)")
+                        
+                    }
+                    
                     // update campaigns with the updated planets with additional info
                     let updatedCampaigns = decodedResponse.map { campaign -> UpdatedCampaign in
                         var updatedCampaign = campaign
@@ -753,6 +761,15 @@ class PlanetsViewModel: ObservableObject {
                     
                     // sort alphabetically by sector
                     let sortedSectors = groupedBySector.keys.sorted()
+                    
+                    for planet in decodedResponse {
+                        
+                        
+                        print("planet current owner is: \(planet.currentOwner)")
+                        print("planet regen is: \(planet.regenPerSecond)")
+                        
+                    }
+                   
                     
                     DispatchQueue.main.async {
                         

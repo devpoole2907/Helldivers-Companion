@@ -54,13 +54,13 @@ struct ContentView: View {
                             let eventExpirationTime = campaign.planet.event?.expireTimeDate
                             
                             // uses faction from event instead, use event health/percentage instead
-                            PlanetView(planetName: campaign.planet.name, liberation: campaign.planet.event?.percentage ?? 0.0, rate: campaign.planet.regenPerSecond, playerCount: campaign.planet.statistics.playerCount, planet: campaign.planet, liberationType: .defense, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, illuminateRate: viewModel.configData.illuminateRate, eventExpirationTime: eventExpirationTime).environmentObject(viewModel)
+                            PlanetView(planetName: campaign.planet.name, liberation: campaign.planet.event?.percentage ?? 0.0, rate: campaign.planet.regenPerSecond, playerCount: campaign.planet.statistics.playerCount, planet: campaign.planet, liberationType: .defense, eventExpirationTime: eventExpirationTime).environmentObject(viewModel)
                                 .padding(.horizontal)
                                 .id(index)
                             
                             
                         } else {
-                            PlanetView(planetName: campaign.planet.name, liberation: campaign.planet.percentage, rate: campaign.planet.regenPerSecond, playerCount: campaign.planet.statistics.playerCount, planet: campaign.planet, liberationType: .liberation, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, illuminateRate: viewModel.configData.illuminateRate).environmentObject(viewModel)
+                            PlanetView(planetName: campaign.planet.name, liberation: campaign.planet.percentage, rate: campaign.planet.regenPerSecond, playerCount: campaign.planet.statistics.playerCount, planet: campaign.planet, liberationType: .liberation).environmentObject(viewModel)
                                 .padding(.horizontal)
                                 .id(index)
                         }
