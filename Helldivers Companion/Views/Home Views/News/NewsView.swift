@@ -27,7 +27,7 @@ struct NewsView: View {
                         ForEach(feedModel.news, id: \.id) { news in
                             
                             if let message = news.message, !message.isEmpty, let published = news.published {
-                                NewsItemView(newsTitle: news.title, newsMessage: message, published: published, warStatusResponse: viewModel.warStatusResponse)
+                                NewsItemView(newsTitle: news.title, newsMessage: message, published: published, configData: viewModel.configData)
                                     .padding(.horizontal)
                                 // set id as 0 if first news item to programmatic scroll to top
                                     .id(feedModel.news.first == news ? 0 : news.id)

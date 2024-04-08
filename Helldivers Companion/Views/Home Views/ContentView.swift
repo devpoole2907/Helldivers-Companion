@@ -51,11 +51,10 @@ struct ContentView: View {
                         // check if planet is defending
                         if let defenseCampaign = viewModel.updatedDefenseCampaigns.first(where: { $0.planet.index == campaign.planet.index }) {
                             
-                            let eventExpirationTime = viewModel.eventExpirationDate(from: defenseCampaign.planet.event?.endTime)
+                            let eventExpirationTime = campaign.planet.event?.expireTimeDate
                             
-                            
-                            // uses faction from event instead
-                            PlanetView(planetName: campaign.planet.name, liberation: campaign.planet.percentage, rate: campaign.planet.regenPerSecond, playerCount: campaign.planet.statistics.playerCount, planet: campaign.planet, liberationType: .defense, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, illuminateRate: viewModel.configData.illuminateRate, eventExpirationTime: eventExpirationTime).environmentObject(viewModel)
+                            // uses faction from event instead, use event health/percentage instead
+                            PlanetView(planetName: campaign.planet.name, liberation: campaign.planet.event?.percentage ?? 0.0, rate: campaign.planet.regenPerSecond, playerCount: campaign.planet.statistics.playerCount, planet: campaign.planet, liberationType: .defense, terminidRate: viewModel.configData.terminidRate, automatonRate: viewModel.configData.automatonRate, illuminateRate: viewModel.configData.illuminateRate, eventExpirationTime: eventExpirationTime).environmentObject(viewModel)
                                 .padding(.horizontal)
                                 .id(index)
                             
@@ -71,6 +70,24 @@ struct ContentView: View {
                 #if os(iOS)
                 .scrollTargetLayoutiOS17()
                 #endif
+                
+                if let failedFetchTimeRemaining = viewModel.nextFetchTime {
+                    VStack(spacing: 0) {
+                        
+                        Text("Failed to connect to Super Earth High Command. Retrying in:")
+                            .opacity(0.5)
+                            .foregroundStyle(.gray)
+                            .font(Font.custom("FS Sinclair", size: smallFont))
+                            .multilineTextAlignment(.center)
+                       
+                        Text(failedFetchTimeRemaining, style: .timer)
+                            .opacity(0.5)
+                            .foregroundStyle(.gray)
+                            .font(Font.custom("FS Sinclair", size: largeFont))
+                            .padding()
+                        
+                    }      .padding()
+                }
                 
                 Text("Pull to Refresh").textCase(.uppercase)
                     .opacity(0.5)

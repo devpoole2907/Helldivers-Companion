@@ -39,7 +39,7 @@ struct PlanetStatusProvider: TimelineProvider {
                     let highestPlanet = highestPlanetCampaign.planet
                     if let defenseEvent = defenseCampaigns.first(where: { $0.planet.index == highestPlanet.index }) {
                         
-                        let eventExpirationTime = planetsModel.eventExpirationDate(from: defenseEvent.planet.event?.endTime)
+                        let eventExpirationTime = highestPlanet.event?.expireTimeDate
                         
                         // faction always humans when defending, so put event faction here manually because we cant access the extra conditions in the view models faction image or color functions
                         

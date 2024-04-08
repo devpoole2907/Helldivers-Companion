@@ -222,12 +222,23 @@ struct RemoteConfigDetails: Decodable {
     var season: String
     var showIlluminate: Bool
     var apiAddress: String
+    var startedAt: String // temporarily we will now store the start date statically
+    
+    
+    func convertStartedAtToDate() -> Date? {
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        
+        print("Attempting to convert date: \(startedAt)")
+        return dateFormatter.date(from: startedAt)
+    }
+    
     
     private enum CodingKeys: String, CodingKey {
-        case terminidRate, automatonRate, illuminateRate, alert, prominentAlert, season, showIlluminate, apiAddress
+        case terminidRate, automatonRate, illuminateRate, alert, prominentAlert, season, showIlluminate, apiAddress, startedAt
     }
     // default init
-    init(terminidRate: String, automatonRate: String, illuminateRate: String, alert: String, prominentAlert: String?, season: String, showIlluminate: Bool, apiAddress: String) {
+    init(terminidRate: String, automatonRate: String, illuminateRate: String, alert: String, prominentAlert: String?, season: String, showIlluminate: Bool, apiAddress: String, startedAt: String) {
         self.terminidRate = terminidRate
         self.automatonRate = automatonRate
         self.illuminateRate = illuminateRate
@@ -236,6 +247,7 @@ struct RemoteConfigDetails: Decodable {
         self.season = season
         self.showIlluminate = showIlluminate
         self.apiAddress = apiAddress
+        self.startedAt = startedAt
     }
     
     // set prominent alert to nil if its empty
@@ -251,6 +263,7 @@ struct RemoteConfigDetails: Decodable {
         season = try container.decode(String.self, forKey: .season)
         showIlluminate = try container.decode(Bool.self, forKey: .showIlluminate)
         apiAddress = try container.decode(String.self, forKey: .apiAddress)
+        startedAt = try container.decode(String.self, forKey: .startedAt)
     }
     
 }
@@ -392,7 +405,7 @@ struct UpdatedPlanet: Decodable, Hashable {
     var biome: Biome? // data comes from helldiverstrainingmanual api
     
     
-    // computed prop for liberation/defense
+    // computed prop for liberation
     var percentage: Double {
         maxHealth > 0 ? (1 - (Double(health) / Double(maxHealth))) * 100 : 0
     }
@@ -400,7 +413,7 @@ struct UpdatedPlanet: Decodable, Hashable {
     var taskProgress: Int? = nil
     
 }
-
+// TODO: CHECK IF PLANET EVENTS HEALTH IS SEPERATE FROM THE PLANET ITSELF DURING AN EVENT
 struct UpdatedPlanetEvent: Decodable {
     
     var id: Int
@@ -412,6 +425,14 @@ struct UpdatedPlanetEvent: Decodable {
     var endTime: String
     var campaignId: Int
     var jointOperationIds: [Int]
+    
+    // computed prop for defense
+    var percentage: Double {
+        maxHealth > 0 ? (1 - (Double(health) / Double(maxHealth))) * 100 : 0
+    }
+    
+    // TODO: USE ACTUAL EXPIRY TIME FROM DEALLOCS NEW API INSTEAD OF TRAINING MANUAL
+    var expireTimeDate: Date?
     
     
 }
@@ -449,4 +470,9 @@ struct UpdatedCampaign: Decodable, Hashable {
     var planet: UpdatedPlanet
     var type: Int
     var count: Int
+}
+
+struct UpdatedPlanetDataPoint {
+    let timestamp: Date
+    var planet: UpdatedPlanet?
 }

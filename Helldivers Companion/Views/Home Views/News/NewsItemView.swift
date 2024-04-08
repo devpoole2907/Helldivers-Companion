@@ -16,7 +16,7 @@ struct NewsItemView: View {
     var newsTitle: String? = nil
     var newsMessage: String = "Terminids! Automatons! EVERYWHERE!!??!!"
     var published: UInt32
-    @State var warStatusResponse: WarStatusResponse?
+    @State var configData: RemoteConfigDetails?
     var isWidget = false
     
     var body: some View {
@@ -46,7 +46,7 @@ struct NewsItemView: View {
             // show all of it on watchos due to the vertical paging system on the watch
             HStack {
                 
-                if let warStartDate = warStatusResponse?.convertStartedAtToDate() {
+                if let warStartDate = configData?.convertStartedAtToDate() {
                     let publishedTimeInterval = TimeInterval(published)
                     let publishedDate = warStartDate.addingTimeInterval(publishedTimeInterval)
                     let now = Date()

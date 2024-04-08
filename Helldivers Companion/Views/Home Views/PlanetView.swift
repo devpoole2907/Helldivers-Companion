@@ -56,8 +56,8 @@ struct PlanetView: View {
     let zStackAlignment: Alignment = .topLeading
 #endif
     
-    private var planetData: [PlanetDataPoint] {
-        viewModel.planetHistory[planetName] ?? []
+    private var planetData: [UpdatedPlanetDataPoint] {
+        viewModel.updatedPlanetHistory[planetName] ?? []
     }
     
     private var formattedPlanetImageName: String {
@@ -383,7 +383,7 @@ struct ChartAnnotationView: View {
 struct HistoryChart: View {
     @EnvironmentObject var viewModel: PlanetsViewModel
     var liberationType: LiberationType
-    var planetData: [PlanetDataPoint]
+    var planetData: [UpdatedPlanetDataPoint]
     @State private var chartSelection: Date? = nil
     @State var chartType: ChartType = .players
     var factionColor: Color
@@ -407,7 +407,7 @@ struct HistoryChart: View {
     
     var body: some View {
         VStack {
-            if viewModel.planetHistory.isEmpty {
+            if viewModel.updatedPlanetHistory.isEmpty {
                 ProgressView()
                     .frame(minHeight: chartHeight)
             } else {
@@ -423,14 +423,12 @@ struct HistoryChart: View {
     
     private var chartView: some View {
         Chart {
-            
-            
             ForEach(planetData, id: \.timestamp) { dataPoint in
-                if let status = dataPoint.status {
-                    chartLineMark(for: dataPoint, status)
+                if let planet = dataPoint.planet {
+                    chartLineMark(for: dataPoint, planet)
                     
                     if let chartSelection = chartSelection, Calendar.current.isDate(chartSelection, equalTo: dataPoint.timestamp, toGranularity: .minute) {
-                        chartRuleMark(for: dataPoint, status)
+                        chartRuleMark(for: dataPoint, planet)
                     }
                 }
             }
@@ -490,7 +488,7 @@ struct HistoryChart: View {
         }
     }
     
-    private func chartLineMark(for dataPoint: PlanetDataPoint, _ status: PlanetStatus) -> some ChartContent {
+    private func chartLineMark(for dataPoint: UpdatedPlanetDataPoint, _ planet: UpdatedPlanet) -> some ChartContent {
         
         
         LineMark(
@@ -498,8 +496,9 @@ struct HistoryChart: View {
             y: .value(
                 chartType == .liberation ? "Liberation" :
                     chartType == .defense ? "Defense" : "Players",
-                chartType != .players ? dataPoint.status?.liberation ?? 0.0 :
-                    Double(dataPoint.status?.players ?? 0)
+                // use event percentage if defending
+                chartType != .players ? (chartType == .defense ? dataPoint.planet?.event?.percentage : dataPoint.planet?.percentage) ?? 0.0 :
+                    Double(dataPoint.planet?.statistics.playerCount ?? 0)
             )
         )
         .foregroundStyle(factionColor)
@@ -513,10 +512,10 @@ struct HistoryChart: View {
     }
     
     
-    private func chartRuleMark(for dataPoint: PlanetDataPoint, _ status: PlanetStatus) -> some ChartContent {
+    private func chartRuleMark(for dataPoint: UpdatedPlanetDataPoint, _ planet: UpdatedPlanet) -> some ChartContent {
         
         let ruleMark = RuleMark(x: .value("Time", chartSelection!))
-        let annotationValue = chartType != .players ? "\(String(format: "%.2f%%", status.liberation))" : "\(status.players)"
+        let annotationValue = chartType != .players ? "\(String(format: "%.2f%%", planet.percentage))" : "\(planet.statistics.playerCount)"
         
         let annotationView = ChartAnnotationView(factionColor: factionColor, value: annotationValue, date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
         if #available(iOS 17, *), #available(watchOS 10, *) {

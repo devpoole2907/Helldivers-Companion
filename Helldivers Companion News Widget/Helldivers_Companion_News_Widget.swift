@@ -25,9 +25,6 @@ struct Provider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [NewsItemEntry] = []
-
-        // uses latest cached planet statuses, reduce api calls
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/data/currentPlanetStatus.json"
         
         planetsModel.fetchConfig() { config in
                 newsModel.fetchNewsFeed { news in
@@ -38,7 +35,7 @@ struct Provider: TimelineProvider {
                         
                         
                         
-                        let entry = NewsItemEntry(date: Date(), title: newsEntry.title ?? "BREAKING NEWS", description: message, published: newsEntry.published ?? 0)
+                        let entry = NewsItemEntry(date: Date(), title: newsEntry.title ?? "BREAKING NEWS", description: message, published: newsEntry.published ?? 0, configData: config)
                         
                         
                         entries.append(entry)
@@ -66,7 +63,7 @@ struct NewsItemEntry: TimelineEntry {
     let title: String?
     let description: String
     let published: UInt32
-    var warStatusResponse: WarStatusResponse? = nil
+    var configData: RemoteConfigDetails? = nil
 }
 
 struct Helldivers_Companion_News_WidgetEntryView : View {
@@ -80,7 +77,7 @@ struct Helldivers_Companion_News_WidgetEntryView : View {
             ContainerRelativeShape()
                 .inset(by: 4)
                 .fill(Color.black)
-            NewsItemView(newsTitle: entry.title, newsMessage: entry.description.replacingOccurrences(of: "\n", with: ""), published: entry.published, warStatusResponse: entry.warStatusResponse, isWidget: true).padding(.horizontal)
+            NewsItemView(newsTitle: entry.title, newsMessage: entry.description.replacingOccurrences(of: "\n", with: ""), published: entry.published, configData: entry.configData, isWidget: true).padding(.horizontal)
                 .padding(.vertical, 5)
               
             

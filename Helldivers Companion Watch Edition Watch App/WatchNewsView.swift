@@ -32,7 +32,7 @@ struct WatchNewsView: View {
                             
                             
                             if let message = news.message, !message.isEmpty, let published = news.published {
-                                NewsItemView(newsTitle: news.title, newsMessage: message, published: published, warStatusResponse: viewModel.warStatusResponse)
+                                NewsItemView(newsTitle: news.title, newsMessage: message, published: published, configData: viewModel.configData)
                                   //  .padding(.horizontal)
                             
                             }

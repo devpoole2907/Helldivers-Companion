@@ -276,7 +276,7 @@ struct MapRootViewTest: View {
                 if let selectedPlanet = viewModel.selectedPlanet {
                     
                     
-                    let eventExpirationTime = viewModel.eventExpirationDate(from: selectedPlanet.event?.endTime)
+                    let eventExpirationTime = selectedPlanet.event?.expireTimeDate
                     
                
                         

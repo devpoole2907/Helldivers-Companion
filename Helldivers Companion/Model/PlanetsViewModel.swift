@@ -16,11 +16,12 @@ class PlanetsViewModel: ObservableObject {
     @Published var updatedSortedSectors: [String] = []
     @Published var updatedGroupedBySectorPlanets: [String: [UpdatedPlanet]] = [:]
     @Published var updatedTaskPlanets: [UpdatedPlanet] = []
-    
-    
+    @Published var updatedPlanetHistory: [String: [UpdatedPlanetDataPoint]] = [:]
+    @Published var nextFetchTime: Date? // for the ui to show count down if a fetch failed due to rate limiting
+    @Published var hasSetSelectedPlanet: Bool = false // to stop setting the selected planet to the first in campaigns every fetch after the first
     
     @Published var currentTab: Tab = .home
-
+    
     @Published var currentSeason: String = ""
     @Published var majorOrder: MajorOrder? = nil
     @Published var galaxyStats: GalaxyStats? = nil
@@ -35,16 +36,15 @@ class PlanetsViewModel: ObservableObject {
     
     private var apiToken: String? = ProcessInfo.processInfo.environment["GITHUB_API_KEY"]
     
-    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", illuminateRate: "-0%", alert: "", prominentAlert: nil, season: "801", showIlluminate: false, apiAddress: "")
+    
+    // TODO: MAKE FETCH FOR STARTEDAT DYNAMIC FROM API NOT STATIC
+    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(terminidRate: "-5%", automatonRate: "-1.5%", illuminateRate: "-0%", alert: "", prominentAlert: nil, season: "801", showIlluminate: false, apiAddress: "", startedAt: "2024-02-10T07:20:30.089979Z")
     
     @Published var showInfo = false
     @Published var showOrders = false
     
     //var apiAddress = "http://127.0.0.1:4000/api"
     var apiAddress = "https://helldivers-2.fly.dev/api"
-    
-    @Published var planetHistory: [String: [PlanetDataPoint]] = [:]
-    @Published var eventHistory: [String: [PlanetDataPoint]] = [:]
     
     private var timer: Timer?
     private var cacheTimer: Timer?
@@ -92,50 +92,50 @@ class PlanetsViewModel: ObservableObject {
     }
     
     func getImageNameForPlanet(_ planet: UpdatedPlanet?) -> String {
-           guard let planet = planet else {
-               return "human" 
-           }
-           
-           if planet.currentOwner == "humans" {
-               if updatedDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
-                   let campaign = updatedDefenseCampaigns.first { $0.planet.index == planet.index }
-                   switch campaign?.planet.event?.faction {
-                   case "Terminids": return "terminid"
-                   case "Automaton": return "automaton"
-                   case "Illuminate": return "illuminate"
-                   default: return "human"
-                   }
-               } else {
-                   return "human"
-               }
-           } else if updatedCampaigns.contains(where: { $0.planet.index == planet.index }) {
-               if !updatedDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
-                   switch planet.currentOwner {
-                   case "Automaton": return "automaton"
-                   case "Terminids": return "terminid"
-                   case "Illuminate": return "illuminate"
-                   default: return "human"
-                   }
-               }
-           } else {
-               switch planet.currentOwner {
-               case "Automaton": return "automaton"
-               case "Terminids": return "terminid"
-               case "Illuminate": return "illuminate"
-               default: return "human"
-               }
-           }
-           
-           return "human"
-       }
+        guard let planet = planet else {
+            return "human"
+        }
+        
+        if planet.currentOwner == "humans" {
+            if updatedDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
+                let campaign = updatedDefenseCampaigns.first { $0.planet.index == planet.index }
+                switch campaign?.planet.event?.faction {
+                case "Terminids": return "terminid"
+                case "Automaton": return "automaton"
+                case "Illuminate": return "illuminate"
+                default: return "human"
+                }
+            } else {
+                return "human"
+            }
+        } else if updatedCampaigns.contains(where: { $0.planet.index == planet.index }) {
+            if !updatedDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
+                switch planet.currentOwner {
+                case "Automaton": return "automaton"
+                case "Terminids": return "terminid"
+                case "Illuminate": return "illuminate"
+                default: return "human"
+                }
+            }
+        } else {
+            switch planet.currentOwner {
+            case "Automaton": return "automaton"
+            case "Terminids": return "terminid"
+            case "Illuminate": return "illuminate"
+            default: return "human"
+            }
+        }
+        
+        return "human"
+    }
     
     
     func averageLiberationRate(for planetName: String) -> Double? {
-        guard let dataPoints = planetHistory[planetName] else {
+        guard let dataPoints = updatedPlanetHistory[planetName] else {
             return nil
         }
         // exclude 100 because 100 will only show if a planet has become part of a recent event
-        let filteredDataPoints = dataPoints.filter { $0.status?.liberation != 100.0 }
+        let filteredDataPoints = dataPoints.filter { $0.planet?.percentage != 100.0 }
         
         // must be at least 2 data points
         guard filteredDataPoints.count >= 2 else {
@@ -147,7 +147,7 @@ class PlanetsViewModel: ObservableObject {
         
         for i in 1..<filteredDataPoints.count {
             let timeInterval = filteredDataPoints[i].timestamp.timeIntervalSince(filteredDataPoints[i - 1].timestamp) / 3600
-            if timeInterval > 0, let lastLiberation = filteredDataPoints[i].status?.liberation, let previousLiberation = filteredDataPoints[i - 1].status?.liberation {
+            if timeInterval > 0, let lastLiberation = filteredDataPoints[i].planet?.percentage, let previousLiberation = filteredDataPoints[i - 1].planet?.percentage {
                 let rate = (lastLiberation - previousLiberation) / timeInterval
                 totalRate += rate
                 count += 1
@@ -159,29 +159,28 @@ class PlanetsViewModel: ObservableObject {
         return averageRate
     }
     
-    
-    func fetchPlanetStatusTimeSeries(completion: @escaping (Error?) -> Void) {
+    func fetchUpdatedPlanetTimeSeries(completion: @escaping (Error?) -> Void) {
+        
         Task {
             do {
-                let history = try await fetchCachedPlanetData()
+                let history = try await fetchUpdatedCachedPlanetData()
                 DispatchQueue.main.async {
-                    self.planetHistory = history.0
-                    self.eventHistory = history.1
-                    
-                    print("there are this many event history: \(self.eventHistory.count)")
-                    
-                    //    print("Success, there are \(history.count) data points")
-                    completion(nil)  // No error, pass nil to the completion handler
+                    self.updatedPlanetHistory = history
+                    completion(nil)
                 }
             } catch {
                 print("Error fetching planet status time series: \(error)")
-                completion(error)  // Pass the error to the completion handler
+                completion(error)
             }
         }
+        
+        
+        
     }
     
-    func fetchCachedPlanetData() async throws -> ([String: [PlanetDataPoint]], [String: [PlanetDataPoint]]) {
-        let apiURLString = "https://api.github.com/repos/devpoole2907/helldivers-api-cache/contents/data"
+    func fetchUpdatedCachedPlanetData() async throws -> ([String: [UpdatedPlanetDataPoint]]) {
+        
+        let apiURLString = "https://api.github.com/repos/devpoole2907/helldivers-api-cache/contents/newData"
         guard let apiURL = URL(string: apiURLString) else {
             throw URLError(.badURL)
         }
@@ -200,79 +199,33 @@ class PlanetsViewModel: ObservableObject {
         
         let files = try decoder.decode([GitHubFile].self, from: apiData)
         
-        var planetHistory: [String: [PlanetDataPoint]] = [:]
-        var defensePercentages: [String: Double] = [:]
-        
-        for file in files {
-            guard let fileURL = URL(string: file.downloadUrl) else {
-                continue
-            }
-            
-            do {
-                let (fileData, response) = try await URLSession.shared.data(from: fileURL)
-                
-                guard response is HTTPURLResponse else {
-                    continue
-                }
-                
-                let decodedResponse = try decoder.decode(WarStatusResponse.self, from: fileData)
-                let planetStatuses = decodedResponse.planetStatus
-                
-                // calculate defense if a planet is defending
-                
-                // TODO: THIS CALC IS TOTALLY WRONG NOW, JUST MADE IT SO THE COMPILER IS HAPPY - UNTIL MIGRATED TO NEW API!
-                for event in decodedResponse.planetEvents {
-                    let planetName = event.planet.name
-                    let defensePercentage = event.maxHealth > 0 ? (1 - (Double(event.health) / Double(event.maxHealth))) * 100 : 0
-                    
-                    // dont replace the defense percents in from the current files events if the real time defense planets doesnt contain the events in the current file
-                    if self.updatedDefenseCampaigns.contains(where: {$0.planet.index == event.planet.index }) {
-                        
-                        defensePercentages[planetName] = defensePercentage
-                    }
-                }
-                
-                
-                // adds data point but first calcs liberation rate
-                for status in planetStatuses {
-                    let planetName = status.planet.name
-                    let fileTimestamp = extractTimestamp(from: file.name)
-                    
-                    //  print("filestamp is \(fileTimestamp)")
-                    
-                    let previousDataPoint = planetHistory[planetName]?.last
-                    var currentDataPoint = PlanetDataPoint(timestamp: fileTimestamp, status: status)
-                    
-                    
-                    
-                    
-                    
-                    // override the liberation with a defense percentage if defending
-                    if let defensePercentage = defensePercentages[planetName] {
-                        
-                        currentDataPoint.status?.liberation = defensePercentage
-                    }
-                    
-                    
-                    
-                    
-                    planetHistory[planetName, default: []].append(currentDataPoint)
-                }
-                
-            } catch {
-                // print("Error fetching file data: \(error)")
-                continue // skip file, couldve been rated limited
-            }
-        }
-        
-        for key in planetHistory.keys {
-            planetHistory[key]?.sort(by: { $0.timestamp < $1.timestamp })
-        }
-        
-        return (planetHistory, eventHistory)
-        
-    }
-    
+        var planetHistory: [String: [UpdatedPlanetDataPoint]] = [:]
+           
+           for file in files {
+               guard let fileURL = URL(string: file.downloadUrl) else {
+                   continue
+               }
+               do {
+                         let (fileData, _) = try await URLSession.shared.data(from: fileURL)
+                         let decodedResponse = try decoder.decode([UpdatedPlanet].self, from: fileData)
+                         
+                         for planet in decodedResponse {
+                             let fileTimestamp = extractTimestamp(from: file.name)
+                             let dataPoint = UpdatedPlanetDataPoint(timestamp: fileTimestamp, planet: planet)
+                             
+                             planetHistory[planet.name, default: []].append(dataPoint)
+                         }
+                     } catch {
+                         continue // skip file on error
+                     }
+                 }
+                 
+                 for key in planetHistory.keys {
+                     planetHistory[key]?.sort(by: { $0.timestamp < $1.timestamp })
+                 }
+                 
+                 return planetHistory
+             }
     
     func extractTimestamp(from filename: String) -> Date {
         let dateFormatter = ISO8601DateFormatter()
@@ -280,6 +233,7 @@ class PlanetsViewModel: ObservableObject {
         let timestampString = String(filename.prefix(upTo: endOfTimestampIndex))
         return dateFormatter.date(from: timestampString) ?? Date()
     }
+
     
     func fetchMajorOrder(for season: String? = nil, with planets: [UpdatedPlanet]? = nil, completion: @escaping ([UpdatedPlanet], MajorOrder?) -> Void) {
         
@@ -395,8 +349,12 @@ class PlanetsViewModel: ObservableObject {
                 
                 // for first call set default selected planet for map view
                 
-                // set default selected planet for map, grab first planet in campaigns
-                self?.selectedPlanet = campaigns.first?.planet
+                // set default selected planet for map, grab first planet in campaigns, only if it hasnt been set already
+                if !(self?.hasSetSelectedPlanet ?? false) {
+                    
+                    self?.selectedPlanet = campaigns.first?.planet
+                    self?.hasSetSelectedPlanet = true
+                }
                 
             }
             
@@ -407,10 +365,10 @@ class PlanetsViewModel: ObservableObject {
                 }// fetching in here so planets is populated to associate major order planets with tasks
                 
             }
-
-            self?.fetchPlanetStatusTimeSeries { error in
+            
+            self?.fetchUpdatedPlanetTimeSeries { error in
                 if let error = error {
-                    print("Error updating planet status time series: \(error)")
+                    print("Error updating planet time series: \(error)")
                 }
             }
         }
@@ -467,7 +425,7 @@ class PlanetsViewModel: ObservableObject {
                         
                     }
                     
-
+                    
                     
                 }
                 
@@ -483,7 +441,7 @@ class PlanetsViewModel: ObservableObject {
         cacheTimer = Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { [weak self] _ in
             
             
-            self?.fetchPlanetStatusTimeSeries { error in
+            self?.fetchUpdatedPlanetTimeSeries { error in
                 if let error = error {
                     print("Error updating planet status time series: \(error)")
                 }
@@ -530,48 +488,7 @@ class PlanetsViewModel: ObservableObject {
         // only show with more than 1000 planets and a liberation status less than 100%
         return planetStatus.players > 1000 && planetStatus.liberation < 100
     }
-    
-    // optional, because if we cant reach this endpoint then we dont want to overwrite the fetched planet statuses with nothing when we call this
-    func fetchPlanetDetailsAndUpdateStatuses(for planetStatuses: [PlanetStatus], completion: @escaping ([PlanetStatus]?) -> Void) {
-        // helldivers 2 training manual api additional planet info is called in a github action, and cached there. if it ever goes down, at least we have this static info that we could update manually if it came to it.
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/planets/additionalPlanetInfo.json"
-        
-        guard let url = URL(string: urlString) else {
-            print("Invalid URL")
-            completion(nil)
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let data = data, error == nil else {
-                print("Network request failed: \(error?.localizedDescription ?? "Unknown error")")
-                completion(nil)
-                return
-            }
-            
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            
-            do {
-                let planetDetailsDictionary = try decoder.decode([String: PlanetAdditionalInfo].self, from: data)
-                
-                for planetDetail in planetDetailsDictionary {
-                    print("when decoding, \(planetDetail.key) has: \(planetDetail.value.environmentals)")
-                }
-                
-                DispatchQueue.main.async {
-                    
-                    let updatedWithAdditionalInfoPlanetStatuses = self?.updatePlanetStatusesWithAdditionalInfo(planetStatuses, with: planetDetailsDictionary)
-                    
-                    print("Decoding success for training manual api!")
-                    completion(updatedWithAdditionalInfoPlanetStatuses)
-                }
-            } catch {
-                print("Decoding failed: \(error)")
-                completion(nil)
-            }
-        }.resume()
-    }
+
     
     func fetchPlanetDetailsAndUpdatePlanets(for planets: [UpdatedPlanet], completion: @escaping ([UpdatedPlanet]?) -> Void) {
         // helldivers 2 training manual api additional planet info is called in a github action, and cached there. if it ever goes down, at least we have this static info that we could update manually if it came to it.
@@ -639,26 +556,7 @@ class PlanetsViewModel: ObservableObject {
         
     }
     
-    // adds additional info to planet status' planets from training manual api
-    private func updatePlanetStatusesWithAdditionalInfo(_ statuses: [PlanetStatus]?, with planetDetails: [String: PlanetAdditionalInfo]) -> [PlanetStatus] {
-        guard let statuses = statuses else { return [] }
-        
-        
-        print("additional info got called")
-        return statuses.map { status in
-            var updatedStatus = status
-            
-            // find planet details by matching name
-            if let planetDetail = planetDetails.values.first(where: { $0.name.lowercased() == status.planet.name.lowercased() }) {
-                print("current planet: \(updatedStatus.planet.name) and enviros are: \(planetDetail.environmentals)")
-                updatedStatus.planet.environmentals = planetDetail.environmentals
-                updatedStatus.planet.biome = planetDetail.biome
-                updatedStatus.planet.sector = planetDetail.sector
-            }
-            return updatedStatus
-        }
-    }
-    
+    // TODO: GET RID OF THIS AND USE ACTUAL DEFENSE TIME REMAINING FROM DEALLOCS NEW API
     // gets defense expiration times from a cache from helldiverstrainingmanual api
     func fetchExpirationTimes(completion: @escaping ([PlanetExpiration]) -> Void) {
         
@@ -724,6 +622,17 @@ class PlanetsViewModel: ObservableObject {
                 
                 var decodedResponse = try decoder.decode([UpdatedCampaign].self, from: data)
                 
+                self?.fetchExpirationTimes { expirationTimes in
+                    
+                    let planetExpirationMap = Dictionary(uniqueKeysWithValues: expirationTimes.map { ($0.planetIndex, $0.expireDateTime) })
+
+                    for index in decodedResponse.indices {
+                        if let expirationTime = planetExpirationMap[decodedResponse[index].planet.index] {
+                            let expireDate = Date(timeIntervalSince1970: expirationTime ?? 0.0)
+                            decodedResponse[index].planet.event?.expireTimeDate = expireDate
+                        }
+                    }
+                
                 self?.fetchPlanetDetailsAndUpdatePlanets(for: decodedResponse.map { $0.planet }) { updatedPlanets in
                     
                     // use updated planets if available, otherwise use original planets without additional info added
@@ -749,12 +658,15 @@ class PlanetsViewModel: ObservableObject {
                     }
                     
                     let defenseCampaigns = sortedCampaigns.filter { $0.planet.event != nil }
-                    
+
                     DispatchQueue.main.async {
                         self?.updatedCampaigns = sortedCampaigns
                         self?.updatedDefenseCampaigns = defenseCampaigns
                         completion(sortedCampaigns, defenseCampaigns)
                     }
+                    
+                }
+                    
                 }
                 
                 
@@ -785,27 +697,34 @@ class PlanetsViewModel: ObservableObject {
         
         var request = URLRequest(url: url)
         request.addValue("WarMonitoriOS/2.1", forHTTPHeaderField: "User-Agent")
-        request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Application-Contact")
+        request.addValue("I am sorry for so many calls I am testing the ui rate limited warning! james@pooledigital.com", forHTTPHeaderField: "X-Application-Contact")
         
         URLSession.shared.dataTask(with: request){ [weak self] data, response, error in
             
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                       completion([])
-                       return
-                   }
-
-                   if httpResponse.statusCode == 429 {
-                       if let retryAfter = httpResponse.value(forHTTPHeaderField: "Retry-After"),
-                          let retryAfterSeconds = Double(retryAfter) {
-                           print("retry after seconds is: \(retryAfterSeconds)")
-                           // retry after specified number of seconds in the response header
-                           DispatchQueue.global().asyncAfter(deadline: .now() + retryAfterSeconds) {
-                               self?.fetchUpdatedPlanets(completion: completion)
-                           }
-                           return
-                       }
-                   }
+                completion([])
+                return
+            }
+            
+            if httpResponse.statusCode == 429 {
+                if let retryAfter = httpResponse.value(forHTTPHeaderField: "Retry-After"),
+                   let retryAfterSeconds = Double(retryAfter) {
+                    let retryDate = Date().addingTimeInterval(retryAfterSeconds + 20) // add 20 extra seconds to be safe
+                    print("retry after seconds is: \(retryAfterSeconds)")
+                    
+                    DispatchQueue.main.async {
+                        self?.nextFetchTime = retryDate
+                    }
+                    
+                    // retry after specified number of seconds in the response header, give an extra 15s to be safe
+                    DispatchQueue.global().asyncAfter(deadline: .now() + retryAfterSeconds) {
+                        self?.fetchUpdatedPlanets(completion: completion)
+                        self?.nextFetchTime = nil // no longer waiting for fetch
+                    }
+                    return
+                }
+            }
             
             
             guard let data = data else {
@@ -909,15 +828,15 @@ class PlanetsViewModel: ObservableObject {
         
     }
     
-    
+        /*
     func eventExpirationDate(from endTimeString: String?) -> Date? {
-            guard let endTimeString = endTimeString else { return nil }
-
-            let formatter = ISO8601DateFormatter()
-            formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-            return formatter.date(from: endTimeString)
-        }
-    
+        guard let endTimeString = endTimeString else { return nil }
+        
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter.date(from: endTimeString)
+    }
+    */
     
 }
 

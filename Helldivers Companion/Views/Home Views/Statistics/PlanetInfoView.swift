@@ -16,8 +16,8 @@ struct PlanetInfoView: View {
     
     var planet: UpdatedPlanet? = nil
     
-    private var planetData: [PlanetDataPoint] {
-        viewModel.planetHistory[planet?.name ?? ""] ?? []
+    private var planetData: [UpdatedPlanetDataPoint] {
+        viewModel.updatedPlanetHistory[planet?.name ?? ""] ?? []
     }
     
     private var liberationType: LiberationType {
@@ -72,7 +72,7 @@ struct PlanetInfoView: View {
                     CustomSegmentedPicker(selection: $infoType, items: InfoType.allCases)
                         .frame(maxWidth: .infinity)
                     
-                        .padding(.bottom, 34)
+                        .padding(.bottom, 40)
                     
                 }
                 
@@ -88,7 +88,7 @@ struct PlanetInfoView: View {
                         
                         if defenseEvent {
                             
-                            let eventExpirationTime = viewModel.eventExpirationDate(from: planet?.event?.endTime)
+                            let eventExpirationTime = planet?.event?.expireTimeDate
                             
                             // must be a defending event, use defense percent
                             
