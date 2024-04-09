@@ -40,6 +40,8 @@ struct PlanetStatusProvider: TimelineProvider {
                     if let defenseEvent = defenseCampaigns.first(where: { $0.planet.index == highestPlanet.index }) {
                         
                         let eventExpirationTime = highestPlanet.event?.expireTimeDate
+
+                        
                         
                         // faction always humans when defending, so put event faction here manually because we cant access the extra conditions in the view models faction image or color functions
                         
@@ -54,7 +56,7 @@ struct PlanetStatusProvider: TimelineProvider {
                             factionColor = .blue
                         }
 
-                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime)
+                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: defenseEvent.planet.event?.percentage ?? highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime)
                         entries.append(entry)
                         
                     } else {
