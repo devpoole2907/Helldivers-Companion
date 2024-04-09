@@ -167,6 +167,7 @@ let helldiverImageSize: CGFloat = 25
                                 Text(eventExpirationTime, style: .timer)
                                     .font(Font.custom("FS Sinclair", size: mediumFont))
                                     .multilineTextAlignment(.center)
+                                    .foregroundStyle(.white)
                                 // .frame(maxWidth: .infinity)
                             }
                         }.padding(.vertical, 6)
