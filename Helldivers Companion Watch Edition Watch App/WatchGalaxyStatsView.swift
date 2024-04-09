@@ -72,7 +72,7 @@ struct WatchGalaxyStatsView: View {
                                 
                             } header: {
                                 VStack(alignment: .leading, spacing: 5) {
-                                    Text("\(sector) Sector").font(Font.custom("FS Sinclair", size: largeFont))
+                                    Text("\(sector) Sector").font(Font.custom("FS Sinclair Bold", size: largeFont))
                                     RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)         .padding(.bottom, 4)
                                 }.padding(.top)
                                 
@@ -89,7 +89,7 @@ struct WatchGalaxyStatsView: View {
             
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
-                        Text("\(titleForTab(currentTab))").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 18))
+                        Text("\(titleForTab(currentTab))").textCase(.uppercase)  .font(Font.custom("FS Sinclair Bold", size: 18))
                     }
                 }
             

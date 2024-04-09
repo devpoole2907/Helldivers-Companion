@@ -48,7 +48,7 @@ struct WatchOrdersView: View {
 
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("MAJOR ORDER").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont))
+                    Text("MAJOR ORDER").textCase(.uppercase)  .font(Font.custom("FS Sinclair Bold", size: largeFont))
                 }
             }
        

@@ -160,7 +160,7 @@
 		7C5D5F592BAFD74900B644B9 /* WatchConnectivityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */; };
 		7C5D5F5A2BAFD83F00B644B9 /* WatchConnectivityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */; };
 		7C63130B2BBBDA8D00C84C13 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
-		7C63130E2BBC01C800C84C13 /* GalaxyMapTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63130D2BBC01C800C84C13 /* GalaxyMapTesting.swift */; };
+		7C63130E2BBC01C800C84C13 /* GalaxyMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63130D2BBC01C800C84C13 /* GalaxyMapView.swift */; };
 		7C80F3EC2BC13F890058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
 		7C80F3ED2BC1425B0058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
 		7C80F3EE2BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
@@ -239,6 +239,8 @@
 		7CF6D2EE2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
 		7CF6D2EF2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
 		7CF6D2F02BC412EA00107663 /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
+		7CF6D2F22BC524C300107663 /* GalaxyMapRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2F12BC524C300107663 /* GalaxyMapRootView.swift */; };
+		7CF6D2F42BC524ED00107663 /* DraggablePlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2F32BC524ED00107663 /* DraggablePlanetView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -393,7 +395,7 @@
 		7C587F4D2BA6DBBB00C66643 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7C587F612BA6E8AE00C66643 /* Helldivers-Companion-Watch-Edition-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Helldivers-Companion-Watch-Edition-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityProvider.swift; sourceTree = "<group>"; };
-		7C63130D2BBC01C800C84C13 /* GalaxyMapTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyMapTesting.swift; sourceTree = "<group>"; };
+		7C63130D2BBC01C800C84C13 /* GalaxyMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyMapView.swift; sourceTree = "<group>"; };
 		7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Version Check View Modifiers.swift"; sourceTree = "<group>"; };
 		7C8C5F2F2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion Major Order WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C8C5F332BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Major_Order_WidgetBundle.swift; sourceTree = "<group>"; };
@@ -422,6 +424,8 @@
 		7CF6D2E52BC2AF1C00107663 /* PlanetPositions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetPositions.swift; sourceTree = "<group>"; };
 		7CF6D2E72BC401B800107663 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FS Sinclair Regular.otf"; sourceTree = "<group>"; };
+		7CF6D2F12BC524C300107663 /* GalaxyMapRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyMapRootView.swift; sourceTree = "<group>"; };
+		7CF6D2F32BC524ED00107663 /* DraggablePlanetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggablePlanetView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -662,7 +666,9 @@
 		7C63130C2BBC01BA00C84C13 /* Galaxy Map */ = {
 			isa = PBXGroup;
 			children = (
-				7C63130D2BBC01C800C84C13 /* GalaxyMapTesting.swift */,
+				7C63130D2BBC01C800C84C13 /* GalaxyMapView.swift */,
+				7CF6D2F12BC524C300107663 /* GalaxyMapRootView.swift */,
+				7CF6D2F32BC524ED00107663 /* DraggablePlanetView.swift */,
 			);
 			path = "Galaxy Map";
 			sourceTree = "<group>";
@@ -1143,6 +1149,7 @@
 				7C45D46E2BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
 				7C0DF6372BB987FB0062AB9B /* PlanetInfoDetailRow.swift in Sources */,
 				7C319F972BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift in Sources */,
+				7CF6D2F22BC524C300107663 /* GalaxyMapRootView.swift in Sources */,
 				7CF6D2E82BC401B800107663 /* CircularProgressView.swift in Sources */,
 				7CE97D3B2BB51DE9008329BA /* CentrePopup.swift in Sources */,
 				7C80F3EC2BC13F890058BF39 /* Version Check View Modifiers.swift in Sources */,
@@ -1168,7 +1175,7 @@
 				7CE97D3D2BB53D2E008329BA /* TipJarView.swift in Sources */,
 				7C45D4652BABEE6E0013A632 /* AngledLinesShape.swift in Sources */,
 				7CE97D402BB5414C008329BA /* GalaxyStatsView.swift in Sources */,
-				7C63130E2BBC01C800C84C13 /* GalaxyMapTesting.swift in Sources */,
+				7C63130E2BBC01C800C84C13 /* GalaxyMapView.swift in Sources */,
 				7C45D4612BABEE3D0013A632 /* RewardView.swift in Sources */,
 				7C3A9EC92BA9724E00F26307 /* NewsFeedModel.swift in Sources */,
 				7C45D46C2BABEE980013A632 /* WatchOrdersView.swift in Sources */,
@@ -1180,6 +1187,7 @@
 				7C0C994C2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift in Sources */,
 				7C0DF61F2BB9319C0062AB9B /* NavigationPather.swift in Sources */,
 				7C0C995F2BA2C7BC00CF7C91 /* PlanetView.swift in Sources */,
+				7CF6D2F42BC524ED00107663 /* DraggablePlanetView.swift in Sources */,
 				7CF6D2E62BC2AF1C00107663 /* PlanetPositions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1421,7 +1429,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1479,7 +1487,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -1511,7 +1519,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1549,7 +1557,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

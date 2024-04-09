@@ -29,7 +29,7 @@ struct GameViewWatch: View {
                     Button(action: {
                         viewModel.showGameSheet.toggle()
                     }){
-                        Text("Start Game").font(Font.custom("FS Sinclair", size: 14))
+                        Text("Start Game").font(Font.custom("FS Sinclair Bold", size: 14))
                             .multilineTextAlignment(.center)
                     }
      
@@ -55,7 +55,7 @@ struct GameViewWatch: View {
             
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("Stratagem Hero").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont))
+                    Text("Stratagem Hero").textCase(.uppercase)  .font(Font.custom("FS Sinclair Bold", size: largeFont))
                 }
             }
             
@@ -105,7 +105,7 @@ struct GameViewWatch: View {
                                     VStack {
                                         if viewModel.gameState == .notStarted || viewModel.gameState == .roundEnded {
                                             Rectangle().frame(height: 1).foregroundStyle(.gray)
-                                            Text("Swipe in any direction to Start!") .font(Font.custom("FS Sinclair", size: 14))
+                                            Text("Swipe in any direction to Start!") .font(Font.custom("FS Sinclair Bold", size: 14))
                                                 .foregroundStyle(.yellow)
                                                 .multilineTextAlignment(.center)
                                                 .lineLimit(2, reservesSpace: true)
@@ -219,9 +219,9 @@ struct GameViewWatch: View {
                         if viewModel.gameState == .started {
                             ToolbarItem(placement: .topBarTrailing){
                                 HStack(spacing: -4) {
-                                    Text("R") .font(Font.custom("FS Sinclair", size: 20))
+                                    Text("R") .font(Font.custom("FS Sinclair Bold", size: 20))
                                     
-                                    Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair", size: 20))
+                                    Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair Bold", size: 20))
                                         .foregroundStyle(.yellow)
                                 }
                             }
@@ -269,9 +269,9 @@ struct GameViewWatch: View {
     var scoreView: some View {
         
         HStack {
-                Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair", size: 20))
+                Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair Bold", size: 20))
                 .foregroundStyle(viewModel.timeRemaining >= 2 ? .yellow : .red)
-                Text("PTs").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 20))
+                Text("PTs").textCase(.uppercase) .font(Font.custom("FS Sinclair Bold", size: 20))
             
             
             
@@ -282,9 +282,9 @@ struct GameViewWatch: View {
     var highScoreView: some View {
         VStack {
      
-            Text("High Score").textCase(.uppercase).font(Font.custom("FS Sinclair", size: 20))
+            Text("High Score").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: 20))
             
-            Text("\(viewModel.highScore)").textCase(.uppercase).font(Font.custom("FS Sinclair", size: 20))
+            Text("\(viewModel.highScore)").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: 20))
                 .foregroundStyle(.yellow)
        
         }
@@ -293,12 +293,12 @@ struct GameViewWatch: View {
     var gameOverView: some View {
         VStack(spacing: -5) {
             Text("GAME OVER").textCase(.uppercase)
-                .font(Font.custom("FS Sinclair", size: 20))
+                .font(Font.custom("FS Sinclair Bold", size: 20))
             
-            Text("Your final score") .font(Font.custom("FS Sinclair", size: 16)).textCase(.uppercase)
-            Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair", size: 18)).foregroundStyle(.yellow)
+            Text("Your final score") .font(Font.custom("FS Sinclair Bold", size: 16)).textCase(.uppercase)
+            Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair Bold", size: 18)).foregroundStyle(.yellow)
             
-            Text("Swipe in any direction to Continue!") .font(Font.custom("FS Sinclair", size: 14))
+            Text("Swipe in any direction to Continue!") .font(Font.custom("FS Sinclair Bold", size: 14))
                 .foregroundStyle(.yellow)
                 .multilineTextAlignment(.center)
                 .lineLimit(2, reservesSpace: true)
@@ -312,26 +312,26 @@ struct GameViewWatch: View {
         VStack(spacing: -5) {
             Spacer().frame(maxHeight: 35)
             HStack {
-                Text("R Bonus").font(Font.custom("FS Sinclair", size: 14))
+                Text("R Bonus").font(Font.custom("FS Sinclair Bold", size: 14))
                 Spacer()
-                Text("\(viewModel.roundBonus)").font(Font.custom("FS Sinclair", size: 16))
+                Text("\(viewModel.roundBonus)").font(Font.custom("FS Sinclair Bold", size: 16))
                     .foregroundStyle(.yellow)
             }
             HStack {
-                Text("Time Bonus").font(Font.custom("FS Sinclair", size: 14))
+                Text("Time Bonus").font(Font.custom("FS Sinclair Bold", size: 14))
                 Spacer()
-                Text("\(viewModel.timeBonus)").font(Font.custom("FS Sinclair", size: 16))
+                Text("\(viewModel.timeBonus)").font(Font.custom("FS Sinclair Bold", size: 16))
                     .foregroundStyle(.yellow)
             }
             HStack {
-                Text("Perfect Bonus").font(Font.custom("FS Sinclair", size: 14))
+                Text("Perfect Bonus").font(Font.custom("FS Sinclair Bold", size: 14))
                 Spacer()
-                Text("\(viewModel.perfectBonus)").font(Font.custom("FS Sinclair", size: 16)).foregroundStyle(.yellow)
+                Text("\(viewModel.perfectBonus)").font(Font.custom("FS Sinclair Bold", size: 16)).foregroundStyle(.yellow)
             }
             HStack {
-                Text("Total").font(Font.custom("FS Sinclair", size: 14))
+                Text("Total").font(Font.custom("FS Sinclair Bold", size: 14))
                 Spacer()
-                Text("\(viewModel.totalScore)").font(Font.custom("FS Sinclair", size: 16))
+                Text("\(viewModel.totalScore)").font(Font.custom("FS Sinclair Bold", size: 16))
                     .foregroundStyle(.yellow)
             }
         }//.padding(.horizontal, 70)
@@ -342,11 +342,11 @@ struct GameViewWatch: View {
         
         VStack(spacing: -5) {
             Text("Get Ready").textCase(.uppercase)
-                .font(Font.custom("FS Sinclair", size: 20))
+                .font(Font.custom("FS Sinclair Bold", size: 20))
                 .padding(.vertical)
             
-            Text("Round") .font(Font.custom("FS Sinclair", size: 14))
-            Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair", size: 26))
+            Text("Round") .font(Font.custom("FS Sinclair Bold", size: 14))
+            Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair Bold", size: 26))
                 .foregroundStyle(viewModel.timeRemaining >= 2 ? Color.yellow : Color.red)
             
         }
@@ -386,7 +386,7 @@ struct GameViewWatch: View {
                         .textCase(.uppercase)
                         .allowsTightening(true)
                         .lineLimit(1)
-                        .font(Font.custom("FS Sinclair", size: 14))
+                        .font(Font.custom("FS Sinclair Bold", size: 14))
                         .padding(.horizontal)
                         .background {
                            viewModel.timeRemaining >= 2 ? Color.yellow : Color.red

@@ -63,7 +63,7 @@ struct RootView: View {
                     .tag(Tab.stats)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
-                MapRootViewTest().environmentObject(viewModel)
+                GalaxyMapRootView().environmentObject(viewModel)
                     .tag(Tab.map)
                     .toolbarBackground(.hidden, for: .tabBar)
                 
@@ -178,7 +178,7 @@ struct RootView: View {
             
                 .presentationDetents([.fraction(0.65), .fraction(0.8), .large])
             .presentationDragIndicator(.visible)
-            .presentationBackground(.thinMaterial)
+            .customSheetBackground(ultraThin: false)
             
         }
         

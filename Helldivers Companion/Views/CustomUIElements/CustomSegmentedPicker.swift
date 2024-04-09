@@ -59,7 +59,7 @@ let pickerFontSize: CGFloat = 24
                                     .frame(minWidth: geo.size.width / CGFloat(items.count), maxWidth: .infinity)
                             case .text(let text):
                                 Text(text)
-                                    .font(Font.custom("FS Sinclair", size: pickerFontSize))
+                                    .font(Font.custom("FS Sinclair Bold", size: pickerFontSize))
                                     .foregroundStyle(selection == item ? .black : .yellow)
                                     .frame(minWidth: geo.size.width / CGFloat(items.count), maxWidth: .infinity)
                                     .padding(.top, 2)
@@ -161,7 +161,7 @@ struct CustomTogglePicker: View {
                         }
                     }) {
                         Text("Disabled")
-                            .font(Font.custom("FS Sinclair", size: 18))
+                            .font(Font.custom("FS Sinclair Bold", size: 18))
                             .foregroundStyle(selection ? iconColor : .black)
                             .frame(width: geo.size.width / 2, height: 30)
                     }
@@ -172,7 +172,7 @@ struct CustomTogglePicker: View {
                         }
                     }) {
                         Text("Enabled")
-                            .font(Font.custom("FS Sinclair", size: 18))
+                            .font(Font.custom("FS Sinclair Bold", size: 18))
                             .foregroundStyle(selection ? .black : iconColor)
                             .frame(width: geo.size.width / 2, height: 30)
                     }

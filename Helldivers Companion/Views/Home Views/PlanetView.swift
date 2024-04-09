@@ -346,14 +346,14 @@ struct ChartAnnotationView: View {
             VStack(alignment: .leading, spacing: -5){
                 
                 Text("TOTAL")
-                    .font(Font.custom("FS Sinclair", size: smallFont))
+                    .font(Font.custom("FS Sinclair Bold", size: smallFont))
                     .foregroundStyle(.gray)
                     .padding(.top, 1)
                 
                 Text(value)
                 
                     .foregroundStyle(factionColor)
-                    .font(Font.custom("FS Sinclair", size: valueFont))
+                    .font(Font.custom("FS Sinclair Bold", size: valueFont))
                 
                 Text(date)
                     .foregroundColor(.gray)

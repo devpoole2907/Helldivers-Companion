@@ -129,14 +129,6 @@ struct PlanetInfoView: View {
                 
                 
             }  .padding(.horizontal, horizPadding)
-            Text("Data provided from Helldivers Training Manual API")
-                .multilineTextAlignment(.center)
-                .textCase(.uppercase)
-                .foregroundStyle(.gray)
-                .opacity(0.5)
-                .foregroundStyle(.gray)
-                .font(Font.custom("FS Sinclair", size: smallFont))
-                .padding()
             
             Spacer(minLength: 150)
             
@@ -291,29 +283,40 @@ struct PlanetInfoView: View {
         ZStack(alignment: .bottomLeading) {
             Image(formattedPlanetImageName).resizable().aspectRatio(contentMode: .fit)
             
+            LinearGradient(
+                gradient: Gradient(colors: [.clear, .black]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .blendMode(.multiply)
+            
+            .frame(maxHeight: 80)
+            
             
             if let sector = planet?.sector {
                 HStack(spacing: 6) {
                     Text(sector).foregroundStyle(viewModel.getColorForPlanet(planet: planet))
 #if os(watchOS)
-    .textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
-#endif
+    .textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: mediumFont))
+#else
+    .textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: largeFont))
+                    #endif
                   
                     Text("Sector")
                     #if os(watchOS)
                         .textCase(.uppercase).font(Font.custom("FS Sinclair", size: smallFont))
+                    #else
+                        .textCase(.uppercase).font(Font.custom("FS Sinclair", size: largeFont))
                     #endif
                     
                     
                     
                     
                     Spacer()
-                }        .textCase(.uppercase).font(Font.custom("FS Sinclair", size: largeFont))
+                }
                     .padding(5)
                     .padding(.leading, 5)
-                    .background {
-                        Color.black.opacity(0.6)
-                    }
+                  
             }
             
         }   .border(Color.white)
@@ -327,7 +330,7 @@ struct PlanetInfoView: View {
     var biomeDescription: some View {
         VStack(alignment: .leading, spacing: 5){
             
-            Text(planet?.biome?.slug ?? "").textCase(.uppercase).font(Font.custom("FS Sinclair", size: largeFont))
+            Text(planet?.biome?.slug ?? "").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: largeFont))
             
             RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
             
@@ -344,7 +347,7 @@ struct PlanetInfoView: View {
         
         VStack(alignment: .leading, spacing: 5) {
             
-            Text("Environment").textCase(.uppercase).font(Font.custom("FS Sinclair", size: largeFont))
+            Text("Environment").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: largeFont))
             
             RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
             

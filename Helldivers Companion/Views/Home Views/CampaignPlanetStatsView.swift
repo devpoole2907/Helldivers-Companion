@@ -96,7 +96,7 @@ let helldiverImageSize: CGFloat = 25
                             }
                         }
                     }
-                    if let liberationRate = viewModel.averageLiberationRate(for: planetName) {
+                    if let liberationRate = viewModel.averageLiberationRate(for: planetName), viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) {
                         Spacer()
                         HStack(alignment: .top, spacing: 4) {
                             Image(systemName: "chart.line.uptrend.xyaxis")

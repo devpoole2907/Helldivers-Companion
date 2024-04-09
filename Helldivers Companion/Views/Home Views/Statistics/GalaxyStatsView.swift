@@ -67,7 +67,7 @@ struct GalaxyStatsView: View {
                             
                         } header: {
                             VStack(alignment: .leading, spacing: 5) {
-                                Text("\(sector) Sector").font(Font.custom("FS Sinclair", size: largeFont))
+                                Text("\(sector) Sector").font(Font.custom("FS Sinclair Bold", size: largeFont))
                                 RoundedRectangle(cornerRadius: 25).frame(width: 250, height: 2)         .padding(.bottom, 4)
                             }.padding(.top)
                             
@@ -145,8 +145,8 @@ struct GalaxyStatsView: View {
             let inlineFontSize: CGFloat = UIFont.preferredFont(forTextStyle: .body).pointSize
             
             // default to sf system font
-            let largeFont = UIFont(name: "FS Sinclair", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
-            let inlineFont = UIFont(name: "FS Sinclair", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
+            let largeFont = UIFont(name: "FS Sinclair Bold", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
+            let inlineFont = UIFont(name: "FS Sinclair Bold", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
             
             
             let largeAttributes: [NSAttributedString.Key: Any] = [

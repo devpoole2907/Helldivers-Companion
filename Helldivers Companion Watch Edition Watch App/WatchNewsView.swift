@@ -59,7 +59,7 @@ struct WatchNewsView: View {
             
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("STROHMANN NEWS").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 18))
+                    Text("STROHMANN NEWS").textCase(.uppercase)  .font(Font.custom("FS Sinclair Bold", size: 18))
                 }
                 
             }

@@ -58,7 +58,7 @@ struct GalaxyInfoView: View {
                     Spacer()
                     VStack(alignment: .trailing, spacing: -10) {
                         Text("\(missionsWon)").textCase(.uppercase).font(Font.custom("FS Sinclair", size: missionsWonSize))
-                        Text("Missions won").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                        Text("Missions won").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: mediumFont))
                             .foregroundStyle(.cyan)
                     }
                 }
@@ -69,7 +69,7 @@ struct GalaxyInfoView: View {
                     Spacer()
                     VStack(alignment: .trailing, spacing: -8) {
                         Text("\(missionsLost)").textCase(.uppercase).font(Font.custom("FS Sinclair", size: missionsLostSize))
-                        Text("Missions lost").textCase(.uppercase).font(Font.custom("FS Sinclair", size: missionsLostTextSize))
+                        Text("Missions lost").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: missionsLostTextSize))
                             .foregroundStyle(.red)
                     }
                 }
@@ -80,7 +80,7 @@ struct GalaxyInfoView: View {
                     Spacer()
                     VStack(alignment: .trailing, spacing: -6) {
                         Text("\(successRate)%").textCase(.uppercase).font(Font.custom("FS Sinclair", size: successRateSize))
-                        Text("Success rate").textCase(.uppercase).font(Font.custom("FS Sinclair", size: successRateTextSize))
+                        Text("Success rate").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: successRateTextSize))
                             .foregroundStyle(.cyan)
                     }
                 }
@@ -94,7 +94,7 @@ struct GalaxyInfoView: View {
                     Spacer()
                     VStack(alignment: .trailing, spacing: bugKillsStackSpacing) {
                         Text("\(bugKills)").textCase(.uppercase).font(Font.custom("FS Sinclair", size: killsSize))
-                        Text("Terminids killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                        Text("Terminids killed").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: mediumFont))
                             .foregroundStyle(.yellow)
                     }
                 }
@@ -105,7 +105,7 @@ struct GalaxyInfoView: View {
                     Spacer()
                     VStack(alignment: .trailing, spacing: automatonKillsStackSpacing) {
                         Text("\(automatonKills)").textCase(.uppercase).font(Font.custom("FS Sinclair", size: killsSize))
-                        Text("Automatons killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                        Text("Automatons killed").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: mediumFont))
                             .foregroundStyle(.red)
                     }
                 }
@@ -116,7 +116,7 @@ struct GalaxyInfoView: View {
                     Spacer()
                     VStack(alignment: .trailing, spacing: illuminateKillsStackSpacing) {
                         Text("\(illuminateKills)").textCase(.uppercase).font(Font.custom("FS Sinclair", size: killsSize))
-                        Text("Illuminates killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                        Text("Illuminates killed").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: mediumFont))
                             .foregroundStyle(.cyan)
                     }
                 }
@@ -125,11 +125,11 @@ struct GalaxyInfoView: View {
             RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)
                 .padding(.bottom, 4)
             
-            if let bulletsFied = galaxyStats?.bulletsFired {
+            if let bulletsFired = galaxyStats?.bulletsFired {
                 HStack {
                     Text("Bullets\(extraStatSplitter)Fired").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
                     Spacer()
-                    Text("\(bulletsFied)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(bulletsFired)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             

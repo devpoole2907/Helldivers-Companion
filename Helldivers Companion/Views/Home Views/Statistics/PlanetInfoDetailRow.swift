@@ -22,10 +22,22 @@ struct PlanetInfoDetailRow: View {
     
     var body: some View {
       
-            ZStack(alignment: .bottomLeading) {
+            ZStack(alignment: .bottom) {
                 Image(formattedPlanetImageName)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
+                
+                
+                LinearGradient(
+                    gradient: Gradient(colors: [.clear, .black]),
+                    startPoint: .bottom,
+                    endPoint: .top
+                )
+                .blendMode(.multiply)
+                
+                .frame(maxHeight: 80)
+                
+            
                 
                 HStack(spacing: 4) {
                     Text(planet?.name ?? "Unknown")
@@ -65,9 +77,7 @@ struct PlanetInfoDetailRow: View {
                     
                 }
                 .frame(maxWidth: .infinity)
-                .background{
-                    Color.black.opacity(0.5)
-                }
+              
             }
  
             

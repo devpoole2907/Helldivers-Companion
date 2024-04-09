@@ -92,7 +92,7 @@ struct ContentView: View {
                 Text("Pull to Refresh").textCase(.uppercase)
                     .opacity(0.5)
                     .foregroundStyle(.gray)
-                    .font(Font.custom("FS Sinclair", size: smallFont))
+                    .font(Font.custom("FS Sinclair Bold", size: smallFont))
                     .padding()
                 
                 
@@ -115,7 +115,7 @@ struct ContentView: View {
                     AboutView()
                     
                         .presentationDragIndicator(.visible)
-                        .presentationBackground(.thinMaterial)
+                        .customSheetBackground(ultraThin: false)
                     
                 }
             
@@ -144,7 +144,7 @@ struct ContentView: View {
                         
                         
                             Text("UPDATED: \(viewModel.lastUpdatedDate.formatted(date: .omitted, time: .shortened))")
-                                .font(Font.custom("FS Sinclair", size: 24))
+                                .font(Font.custom("FS Sinclair Bold", size: 24))
                         
                         
                         
@@ -179,8 +179,8 @@ struct ContentView: View {
             let inlineFontSize: CGFloat = UIFont.preferredFont(forTextStyle: .body).pointSize
 
             // default to sf system font
-            let largeFont = UIFont(name: "FS Sinclair", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
-               let inlineFont = UIFont(name: "FS Sinclair", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
+            let largeFont = UIFont(name: "FS Sinclair Bold", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
+               let inlineFont = UIFont(name: "FS Sinclair Bold", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
 
             
             let largeAttributes: [NSAttributedString.Key: Any] = [

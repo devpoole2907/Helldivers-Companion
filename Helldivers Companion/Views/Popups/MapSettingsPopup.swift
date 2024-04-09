@@ -12,6 +12,7 @@ struct MapSettingsPopup: CentrePopup {
     
     @Binding var showSupplyLines: Bool
     @Binding var showAllPlanets: Bool
+    @Binding var showPlanetNames: Bool
     
     func configurePopup(popup: CentrePopupConfig) -> CentrePopupConfig {
         popup.horizontalPadding(28)
@@ -29,7 +30,7 @@ struct MapSettingsPopup: CentrePopup {
                 
                 
                 
-                Text("MAP SETTINGS").font(Font.custom("FS Sinclair", size: 28))
+                Text("MAP SETTINGS").font(Font.custom("FS Sinclair Bold", size: 28))
                     .multilineTextAlignment(.center)
                     .padding()
                     .padding(.top, 3)
@@ -61,6 +62,24 @@ struct MapSettingsPopup: CentrePopup {
                     .frame(height: 30)
                 
                     .frame(maxWidth: 200)
+                
+            }
+            
+            
+            VStack(spacing: 6) {
+                Text("PLANET NAMES").font(Font.custom("FS Sinclair", size: 24))
+                    .foregroundStyle(.gray)
+                
+                CustomTogglePicker(selection: $showPlanetNames)
+                    .frame(height: 30)
+                
+                    .frame(maxWidth: 200)
+                
+                Text("Several Super Earth scientists were prosecuted for the planet name feature due to its democracy shattering performance impact.").font(Font.custom("FS Sinclair", size: 12))
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.gray)
+                    .padding()
+                
                 
             }.padding(.bottom, 25)
             

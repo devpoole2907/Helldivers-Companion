@@ -24,7 +24,7 @@ struct NewsItemView: View {
         VStack(alignment: .leading, spacing: 4) {
             
             if let title = newsTitle {
-                Text(title).textCase(.uppercase) .font(Font.custom("FS Sinclair", size: mediumFont)).foregroundStyle(Color.yellow)
+                Text(title).textCase(.uppercase) .font(Font.custom("FS Sinclair Bold", size: mediumFont)).foregroundStyle(Color.yellow)
 #if os(watchOS)
                     .lineLimit(nil)
 #elseif os(iOS)
@@ -77,9 +77,9 @@ struct NewsItemView: View {
                         Text(isExpanded ? "Less" : "More")
                             .foregroundStyle(.yellow)
 #if os(iOS)
-                            .font(Font.custom("FS Sinclair", size: smallFont))
+                            .font(Font.custom("FS Sinclair Bold", size: smallFont))
 #elseif os(watchOS)
-                            .font(Font.custom("FS Sinclair", size: mediumFont))
+                            .font(Font.custom("FS Sinclair Bold", size: mediumFont))
 #endif
                             .padding([.top, .bottom], 2)
                     }

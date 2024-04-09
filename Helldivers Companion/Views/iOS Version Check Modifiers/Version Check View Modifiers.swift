@@ -123,3 +123,25 @@ extension View {
     
 }
 
+struct CustomSheetBackgroundModifier: ViewModifier {
+    
+    var ultraThin: Bool = true
+    
+    func body(content: Content) -> some View {
+        if #available(iOS 16.4, *) {
+            content
+                .presentationBackground(ultraThin ? .ultraThinMaterial : .thinMaterial)
+        } else {
+            content
+        }
+    }
+    
+    
+}
+
+
+extension View {
+    func customSheetBackground(ultraThin: Bool = true) -> some View {
+        self.modifier(CustomSheetBackgroundModifier(ultraThin: ultraThin))
+    }
+}

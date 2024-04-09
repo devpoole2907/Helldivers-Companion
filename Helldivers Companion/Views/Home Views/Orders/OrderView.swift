@@ -22,7 +22,7 @@ struct OrderView: View {
             
             
             VStack(spacing: 12) {
-                Text(viewModel.majorOrder?.setting.taskDescription ?? "Stand by.").font(Font.custom("FS Sinclair", size: 24))
+                Text(viewModel.majorOrder?.setting.taskDescription ?? "Stand by.").font(Font.custom("FS Sinclair Bold", size: 24))
                     .foregroundStyle(Color.yellow).textCase(.uppercase)
                     .multilineTextAlignment(.center)
                 
@@ -46,22 +46,16 @@ struct OrderView: View {
             }
             
         }.padding(.top, 40)
-                .padding()  .background {
+                .padding() 
+            #if os(iOS)
+                .frame(width: UIScreen.main.bounds.width - 40)
+                .frame(minHeight: 300)
+            #endif
+                .background {
             Color.black
         }
             
-        //  .padding(.horizontal)
-            
-            ZStack(alignment: .center) {
-                
-                
-                
-                
-               
-                
-            
-                
-            }
+      
         
     }
         .border(Color.white)

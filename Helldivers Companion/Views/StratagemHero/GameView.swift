@@ -46,7 +46,7 @@ struct GameView: View {
                         Rectangle().frame(height: 6).foregroundStyle(.gray)
                         VStack {
                             if viewModel.gameState == .notStarted || viewModel.gameState == .roundEnded {
-                                Text("Enter any Stratagem Input to Start!") .font(Font.custom("FS Sinclair", size: 18))
+                                Text("Enter any Stratagem Input to Start!") .font(Font.custom("FS Sinclair Bold", size: 18))
                                     .foregroundStyle(.yellow)
                                     .multilineTextAlignment(.center)
                             } else if viewModel.gameState == .roundStarting {
@@ -87,7 +87,7 @@ struct GameView: View {
                         ToolbarItem(placement: gameCenterManager.isAuthenticated ? .principal : .topBarLeading) {
                             
                             Text("Stratagem Hero").textCase(.uppercase)
-                                .font(Font.custom("FS Sinclair", size: 28))
+                                .font(Font.custom("FS Sinclair Bold", size: 28))
                         }
                         
                         ToolbarItem(placement: .topBarLeading) {
@@ -123,7 +123,7 @@ struct GameView: View {
                                 }
                             }) {
                                 Text("Sign In").textCase(.uppercase)
-                                    .font(Font.custom("FS Sinclair", size: 16))
+                                    .font(Font.custom("FS Sinclair Bold", size: 16))
                                     .accessibility(label: Text("Game Center"))
                             }
                           //  .buttonStyle(.bordered)
@@ -191,17 +191,17 @@ struct GameView: View {
         
         HStack {
             VStack(spacing: -5) {
-                Text("Round") .font(Font.custom("FS Sinclair", size: 22))
+                Text("Round") .font(Font.custom("FS Sinclair Bold", size: 22))
                 
-                Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair", size: 36))
+                Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair Bold", size: 36))
                     .foregroundStyle(viewModel.timeRemaining >= 2 ? .yellow : .red)
             }
             Spacer()
             
             VStack(alignment: .trailing, spacing: -14) {
-                Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair", size: 36))
+                Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair Bold", size: 36))
                     .foregroundStyle(viewModel.timeRemaining >= 2 ? .yellow : .red)
-                Text("Score").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 22))
+                Text("Score").textCase(.uppercase) .font(Font.custom("FS Sinclair Bold", size: 22))
             }
             
             
@@ -212,9 +212,9 @@ struct GameView: View {
     var highScoreView: some View {
         VStack {
      
-            Text("High Score").textCase(.uppercase).font(Font.custom("FS Sinclair", size: 22))
+            Text("High Score").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: 22))
             
-            Text("\(viewModel.highScore)").textCase(.uppercase).font(Font.custom("FS Sinclair", size: 36))
+            Text("\(viewModel.highScore)").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: 36))
                 .foregroundStyle(.yellow)
        
         }
@@ -223,23 +223,23 @@ struct GameView: View {
     var gameOverView: some View {
         VStack(spacing: -5) {
             Text("GAME OVER").textCase(.uppercase)
-                .font(Font.custom("FS Sinclair", size: 36))
+                .font(Font.custom("FS Sinclair Bold", size: 36))
                
             if viewModel.topScores.count > 0 {
-                Text("High Scores").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 18))
+                Text("High Scores").textCase(.uppercase) .font(Font.custom("FS Sinclair Bold", size: 18))
                 
                 ForEach(viewModel.topScores, id: \.self) { score in
                     
                     Text("\(score.rank). \(score.player.displayName) | \(score.score.formatted(.number))")
-                        .textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 16))
+                        .textCase(.uppercase) .font(Font.custom("FS Sinclair Bold", size: 16))
                         .padding(.bottom, 5)
                 }
             }
             
-            Text("Your final score") .font(Font.custom("FS Sinclair", size: 18)).textCase(.uppercase)
-            Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair", size: 22)).foregroundStyle(.yellow)
+            Text("Your final score") .font(Font.custom("FS Sinclair Bold", size: 18)).textCase(.uppercase)
+            Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair Bold", size: 22)).foregroundStyle(.yellow)
             
-            Text("Enter any Stratagem Input to Continue!") .font(Font.custom("FS Sinclair", size: 18))
+            Text("Enter any Stratagem Input to Continue!") .font(Font.custom("FS Sinclair Bold", size: 18))
                 .foregroundStyle(.yellow)
                 .multilineTextAlignment(.center)
                 .padding(.top)
@@ -251,26 +251,26 @@ struct GameView: View {
     var roundEndView: some View {
         VStack(spacing: -5) {
             HStack {
-                Text("Round Bonus").font(Font.custom("FS Sinclair", size: 18))
+                Text("Round Bonus").font(Font.custom("FS Sinclair Bold", size: 18))
                 Spacer()
-                Text("\(viewModel.roundBonus)").font(Font.custom("FS Sinclair", size: 26))
+                Text("\(viewModel.roundBonus)").font(Font.custom("FS Sinclair Bold", size: 26))
                     .foregroundStyle(.yellow)
             }
             HStack {
-                Text("Time Bonus").font(Font.custom("FS Sinclair", size: 18))
+                Text("Time Bonus").font(Font.custom("FS Sinclair Bold", size: 18))
                 Spacer()
-                Text("\(viewModel.timeBonus)").font(Font.custom("FS Sinclair", size: 26))
+                Text("\(viewModel.timeBonus)").font(Font.custom("FS Sinclair Bold", size: 26))
                     .foregroundStyle(.yellow)
             }
             HStack {
-                Text("Perfect Bonus").font(Font.custom("FS Sinclair", size: 18))
+                Text("Perfect Bonus").font(Font.custom("FS Sinclair Bold", size: 18))
                 Spacer()
-                Text("\(viewModel.perfectBonus)").font(Font.custom("FS Sinclair", size: 26)).foregroundStyle(.yellow)
+                Text("\(viewModel.perfectBonus)").font(Font.custom("FS Sinclair Bold", size: 26)).foregroundStyle(.yellow)
             }
             HStack {
-                Text("Total Score").font(Font.custom("FS Sinclair", size: 18))
+                Text("Total Score").font(Font.custom("FS Sinclair Bold", size: 18))
                 Spacer()
-                Text("\(viewModel.totalScore)").font(Font.custom("FS Sinclair", size: 26))
+                Text("\(viewModel.totalScore)").font(Font.custom("FS Sinclair Bold", size: 26))
                     .foregroundStyle(.yellow)
             }
         }.padding(.horizontal, 70)
@@ -282,11 +282,11 @@ struct GameView: View {
         
         VStack(spacing: -5) {
             Text("Get Ready").textCase(.uppercase)
-                .font(Font.custom("FS Sinclair", size: 36))
+                .font(Font.custom("FS Sinclair Bold", size: 36))
                 .padding(.vertical)
             
-            Text("Round") .font(Font.custom("FS Sinclair", size: 18))
-            Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair", size: 26))
+            Text("Round") .font(Font.custom("FS Sinclair Bold", size: 18))
+            Text("\(viewModel.currentRound)") .font(Font.custom("FS Sinclair Bold", size: 26))
                 .foregroundStyle(.yellow)
             
         }
@@ -324,7 +324,7 @@ struct GameView: View {
                     Text(stratagem.name).foregroundStyle(.black)
                         .textCase(.uppercase)
                         .lineLimit(1)
-                        .font(Font.custom("FS Sinclair", size: 22))
+                        .font(Font.custom("FS Sinclair Bold", size: 22))
                         .frame(minWidth: UIScreen.main.bounds.width - 100)
                         .background {
                             viewModel.timeRemaining >= 2 ? Color.yellow : Color.red

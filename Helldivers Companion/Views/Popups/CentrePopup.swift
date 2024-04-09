@@ -23,7 +23,7 @@ struct CentrePopup_MoreFeatures: CentrePopup {
         
         ZStack(alignment: .top) {
             OrderView().environmentObject(viewModel)
-                .frame(maxWidth: UIScreen.main.bounds.width - 35)
+         
                 .offset(CGSize(width: 7, height: 0))
             
             Image("MajorOrdersBanner").resizable()
@@ -39,7 +39,7 @@ struct CentrePopup_MoreFeatures: CentrePopup {
             HStack(alignment: .firstTextBaseline, spacing: 3) {
                 Image(systemName: "scope").bold()
                 
-                Text("MAJOR ORDER").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 24))
+                Text("MAJOR ORDER").textCase(.uppercase) .font(Font.custom("FS Sinclair Bold", size: 24))
                 
             }.padding(.top, 5)
             
@@ -75,6 +75,8 @@ struct CentrePopup_MoreFeatures: CentrePopup {
             
             
         }    .offset(CGSize(width: -7, height: 0))
+        
+        
         
           
     }

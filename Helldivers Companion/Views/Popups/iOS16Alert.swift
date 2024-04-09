@@ -26,7 +26,7 @@ struct iOS16AlertPopup: CentrePopup {
                 
                 
                 
-                Text("ALERT").font(Font.custom("FS Sinclair", size: 28))
+                Text("ALERT").font(Font.custom("FS Sinclair Bold", size: 28))
                     .multilineTextAlignment(.center)
                     .padding()
                     .padding(.top, 3)
@@ -41,7 +41,7 @@ struct iOS16AlertPopup: CentrePopup {
             
             
             VStack(spacing: 6) {
-                Text("Zooming the galactic map has issues on iOS 16. If possible, it is highly suggested by Super Earth scientists to update your device to iOS 17 for a more enhanced experience.").font(Font.custom("FS Sinclair", size: 18))
+                Text("Zooming the galactic map has issues on iOS 16. If possible, it is highly suggested by Super Earth scientists to update your device to iOS 17 for a more enhanced experience. If iOS 17 is unavailable, try double tapping to zoom accurately instead.").font(Font.custom("FS Sinclair", size: 18))
                     .foregroundStyle(.white)
                     .multilineTextAlignment(.center)
                 

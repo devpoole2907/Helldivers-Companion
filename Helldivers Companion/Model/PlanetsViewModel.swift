@@ -896,7 +896,7 @@ class PlanetsViewModel: ObservableObject {
 enum Tab: String, CaseIterable {
     case home = "War"
     case news = "News"
-    case game = "Game"
+    case game = "Hero"
     case about = "About"
     case orders = "Orders"
     case stats = "Stats"
