@@ -53,6 +53,13 @@ class PlanetsViewModel: ObservableObject {
         timer?.invalidate()
     }
     
+    func stopUpdating() {
+        
+        timer?.invalidate()
+        cacheTimer?.invalidate()
+        
+        }
+    
     func getColorForPlanet(planet: UpdatedPlanet?) -> Color {
         guard let planet = planet else {
             return .gray // default color if no matching planet found
