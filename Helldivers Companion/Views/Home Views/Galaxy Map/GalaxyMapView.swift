@@ -125,7 +125,7 @@ struct GalaxyMapView: View {
                     
                     // determine if in an active campaign,
                     let activeCampaign = viewModel.updatedCampaigns.first(where: { $0.planet.index == planet.index })
-                    let isDefending = viewModel.updatedDefenseCampaigns.contains(where: { $0.planet.index == planet.index })
+                    let isDefending = viewModel.updatedDefenseCampaigns.first(where: { $0.planet.index == planet.index })
                     
                     // change size of circle, if its in a campaign or selected it should be larger
                     let circleSize = viewModel.selectedPlanet?.index == planet.index ? 10 :
@@ -142,7 +142,22 @@ struct GalaxyMapView: View {
                                     getColorForPlanet(planetPosition: planet)
                                 )
                             
-                            if let percentage = activeCampaign?.planet.percentage {
+                        
+                        if let defenseCampaign = isDefending {
+                            
+                            if let percentage = defenseCampaign.planet.event?.percentage {
+                                let progress = percentage / 100.0
+                                
+                                CircularProgressView(progress: progress, color: getColorForPlanet(planetPosition: planet))
+                                    .frame(width: viewModel.selectedPlanet?.index == planet.index ? 8 : viewModel.selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 6 : 4), height: viewModel.selectedPlanet?.index == planet.index ? 8 : viewModel.selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 6 : 4))
+                                    .position(planetPosition)
+                                
+                            }
+                            
+                            
+                        }
+                        
+                            else if let percentage = activeCampaign?.planet.percentage {
                                 let progress = percentage / 100.0
                                 
                                 CircularProgressView(progress: progress, color: getColorForPlanet(planetPosition: planet))
