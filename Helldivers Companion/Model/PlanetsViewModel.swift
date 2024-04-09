@@ -100,7 +100,7 @@ class PlanetsViewModel: ObservableObject {
             return "human"
         }
         
-        if planet.currentOwner == "humans" {
+        if planet.currentOwner == "Humans" {
             if updatedDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
                 let campaign = updatedDefenseCampaigns.first { $0.planet.index == planet.index }
                 switch campaign?.planet.event?.faction {

@@ -153,7 +153,7 @@ let helldiverImageSize: CGFloat = 25
                         
                     } else {
                         VStack(spacing: -5) {
-                            Text("DEFEND") .font(Font.custom("FS Sinclair", size: largeFont))
+                            Text("DEFEND") .font(Font.custom("FS Sinclair", size: largeFont)).bold()
                             
                             // defense is important, so pulsate
                                 .foregroundStyle(isWidget ? .red : (pulsate ? .red : .white))
