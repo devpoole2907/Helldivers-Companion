@@ -160,7 +160,7 @@ struct RectangularPlanetWidgetView: View {
                 
                 Image(entry.faction ?? PlanetsViewModel().getImageNameForPlanet(entry.planet)).resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                     .padding(.bottom, 2)
-                Text(entry.planetName) .font(Font.custom("FS Sinclair Bold", size: 16))
+                Text(entry.planetName) .font(Font.custom("FS Sinclair", size: 16)).bold()
                 
                 
                 Image(systemName: entry.liberationType == .defense ? "shield.lefthalf.filled" : "target")

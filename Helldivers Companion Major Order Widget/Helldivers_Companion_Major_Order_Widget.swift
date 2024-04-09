@@ -240,11 +240,11 @@ struct RectangularOrdersTimeLeftView: View {
         if let timeRemaining = timeRemaining {
             HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Major Order Bold").font(Font.custom("FS Sinclair", size: 16))
+                Text("Major Order").font(Font.custom("FS Sinclair", size: 16)).bold()
                 RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)
                 HStack(spacing: 4) {
                     Text("Ends in").padding(.top, 1).font(Font.custom("FS Sinclair", size: 14))
-                    Text("\(formatDuration(seconds: timeRemaining))").font(Font.custom("FS Sinclair", size: 12))
+                    Text("\(formatDuration(seconds: timeRemaining))").font(Font.custom("FS Sinclair", size: 12)).bold()
 #if os(watchOS)
                         .padding(.top, 1.7)
 #endif
@@ -259,7 +259,7 @@ struct RectangularOrdersTimeLeftView: View {
             Spacer()
         }
         } else {
-            Text("No Current\nMajor Order").padding(.trailing, 6).font(Font.custom("FS Sinclair Bold", size: 18))
+            Text("No Current\nMajor Order").padding(.trailing, 6).font(Font.custom("FS Sinclair", size: 18)).bold()
                 .multilineTextAlignment(.center)
         }
     }
