@@ -86,7 +86,7 @@ struct AboutView: View {
 #endif
 #if os(watchOS)
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("ABOUT").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont))
+                    Text("ABOUT").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont)).bold()
                 }
 #endif
                 
