@@ -8,42 +8,6 @@
 import Foundation
 import SwiftUI
 
-struct WarStatusResponse: Decodable {
-    let campaigns: [Campaign]
-    var planetStatus: [PlanetStatus]
-    var planetEvents: [PlanetEvent]
-    let snapshotAt: String
-    let startedAt: String // date war started
-    let warId: Int
-    
-    
-    func convertStartedAtToDate() -> Date? {
-        let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        
-        print("Attempting to convert date: \(startedAt)")
-        return dateFormatter.date(from: startedAt)
-    }
-    
-    
-}
-
-struct Campaign: Decodable {
-    
-    let count: Int
-    let id: Int
-    let planet: Planet
-    let type: Int
-}
-
-struct PlanetDataPoint {
-    let timestamp: Date
-    var status: PlanetStatus?
-    var event: PlanetEvent?
-    var liberationRate: Double?
-    
-}
-
 enum EnemyType: String {
     
     case terminid
@@ -59,63 +23,6 @@ enum Faction: String {
     case human
     case illuminate
     
-}
-
-struct PlanetStatus: Decodable, Hashable {
-    static func == (lhs: PlanetStatus, rhs: PlanetStatus) -> Bool {
-        return lhs.planet.index == rhs.planet.index
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(planet.index)
-    }
-    
-    
-    let health: Int
-    var liberation: Double
-    var owner: String
-    var planet: Planet
-    let players: Int
-    let regenPerSecond: Double
-    var defensePercentage: Double?
-    
-}
-
-struct PlanetEvent: Decodable {
-    let planet: Planet
-    let health: Int
-    let maxHealth: Int
-    let race: String
-    var planetStatus: PlanetStatus?
-    
-    var expireTimeDate: Date?
-    
-    // computed property, calcs defense percent
-    var defensePercentage: Double {
-        maxHealth > 0 ? (1 - (Double(health) / Double(maxHealth))) * 100 : 0
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case planet
-        case health
-        case maxHealth
-        case race
-    }
-}
-
-struct Planet: Decodable {
-    let disabled: Bool
-    let hash: UInt
-    let index: Int
-    let initialOwner: String
-    let maxHealth: Int
-    let name: String
-    let position: Position
-    var sector: String // this can be overriden from helldiverstrainingmanual api
-    let waypoints: [Int]
-    var environmentals: [Environmental]? // data comes from helldiverstrainingmanual api
-    var biome: Biome? // data comes from helldiverstrainingmanual api
-    var stats: PlanetStats? // data comes from official api
 }
 
 

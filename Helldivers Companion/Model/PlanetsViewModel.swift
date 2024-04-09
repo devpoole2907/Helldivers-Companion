@@ -25,10 +25,7 @@ class PlanetsViewModel: ObservableObject {
     @Published var currentSeason: String = ""
     @Published var majorOrder: MajorOrder? = nil
     @Published var galaxyStats: GalaxyStats? = nil
-    @Published var warStatusResponse: WarStatusResponse? = nil
     @Published var lastUpdatedDate: Date = Date()
-    // planetstatuses with tasks in the major order (e.g need to be liberated)
-    @Published var taskPlanets: [PlanetStatus] = []
     
     @Published var selectedPlanet: UpdatedPlanet? = nil // for map view selection
     
@@ -621,12 +618,6 @@ class PlanetsViewModel: ObservableObject {
             
         }.resume()
     }
-    
-    func isActive(planetStatus: PlanetStatus) -> Bool {
-        // only show with more than 1000 planets and a liberation status less than 100%
-        return planetStatus.players > 1000 && planetStatus.liberation < 100
-    }
-    
     
     func fetchPlanetDetailsAndUpdatePlanets(for planets: [UpdatedPlanet], completion: @escaping ([UpdatedPlanet]?) -> Void) {
         // helldivers 2 training manual api additional planet info is called in a github action, and cached there. if it ever goes down, at least we have this static info that we could update manually if it came to it.
