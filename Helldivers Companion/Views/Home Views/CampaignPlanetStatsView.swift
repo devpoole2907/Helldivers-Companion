@@ -21,7 +21,7 @@ struct CampaignPlanetStatsView: View {
     var factionColor: Color // color is passed to this view as widgets dont have the required state to calculate the color from the view model
     var factionImage: String // same reason as above
     
-    var playerCount: Int = 347246
+    var playerCount: Int64 = 347246
     
     var isWidget = false
     

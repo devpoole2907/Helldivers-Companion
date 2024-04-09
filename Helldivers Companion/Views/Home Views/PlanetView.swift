@@ -18,7 +18,7 @@ struct PlanetView: View {
     var planetName = "Meridia"
     var liberation = 24.13020
     var rate = 0.0
-    var playerCount: Int = 347246
+    var playerCount: Int64 = 347246
     var planet: UpdatedPlanet? = nil
     var factionName: String? = nil // this is for widgets as they cannot access some conditions in the planets view model image function
     var factionColor: Color? = nil // this is for widgets as they cannot access some conditions in the planets view model color function

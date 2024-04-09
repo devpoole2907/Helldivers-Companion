@@ -227,7 +227,7 @@ struct GalaxyStats: Decodable {
 }
 // for planet stats in the galaxy stats response
 struct PlanetStats: Decodable {
-    let planetIndex: Int64
+    let planetIndex: Int
     let missionsWon: Int64
     let missionsLost: Int64
     let missionTime: Int64
@@ -287,11 +287,11 @@ struct UpdatedPlanet: Decodable, Hashable {
     var index: Int
     var name: String
     var sector: String
-    var hash: Int
+    var hash: Int64
     var position: Position
     var waypoints: [Int]
-    var maxHealth: Int
-    var health: Int
+    var maxHealth: Int64
+    var health: Int64
     var disabled: Bool
     var initialOwner: String
     var currentOwner: String
@@ -315,14 +315,14 @@ struct UpdatedPlanet: Decodable, Hashable {
 struct UpdatedPlanetEvent: Decodable {
     
     var id: Int
-    var eventType: Int
+    var eventType: Int64
     var faction: String
-    var health: Int
-    var maxHealth: Int
+    var health: Int64
+    var maxHealth: Int64
     var startTime: String
     var endTime: String
-    var campaignId: Int
-    var jointOperationIds: [Int]
+    var campaignId: Int64
+    var jointOperationIds: [Int64]
     
     // computed prop for defense
     var percentage: Double {
@@ -336,21 +336,21 @@ struct UpdatedPlanetEvent: Decodable {
 }
 
 struct UpdatedPlanetStatistics: Decodable {
-    var missionsWon: Int
-    var missionsLost: Int
-    var missionTime: Int
-    var terminidKills: Int
-    var automatonKills: Int
-    var illuminateKills: Int
-    var bulletsFired: Int
-    var bulletsHit: Int
-    var timePlayed: Int
-    var deaths: Int
-    var revives: Int
-    var friendlies: Int
-    var missionSuccessRate: Int
-    var accuracy: Int
-    var playerCount: Int
+    var missionsWon: Int64
+    var missionsLost: Int64
+    var missionTime: Int64
+    var terminidKills: Int64
+    var automatonKills: Int64
+    var illuminateKills: Int64
+    var bulletsFired: Int64
+    var bulletsHit: Int64
+    var timePlayed: Int64
+    var deaths: Int64
+    var revives: Int64
+    var friendlies: Int64
+    var missionSuccessRate: Int64
+    var accuracy: Int64
+    var playerCount: Int64
 }
 
 struct UpdatedCampaign: Decodable, Hashable {
@@ -366,8 +366,8 @@ struct UpdatedCampaign: Decodable, Hashable {
     
     var id: Int
     var planet: UpdatedPlanet
-    var type: Int
-    var count: Int
+    var type: Int64
+    var count: Int64
 }
 
 struct UpdatedPlanetDataPoint {

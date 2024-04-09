@@ -83,7 +83,7 @@ struct SimplePlanetStatus: TimelineEntry {
     var date: Date
     var planetName: String
     var liberation: Double
-    var playerCount: Int
+    var playerCount: Int64
     var planet: UpdatedPlanet? = nil
     var liberationType: LiberationType = .liberation
     var faction: String? // optional for the same reasons below
