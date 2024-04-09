@@ -48,7 +48,7 @@ struct OrderView: View {
         }.padding(.top, 40)
                 .padding() 
             #if os(iOS)
-                .frame(width: UIScreen.main.bounds.width - 40)
+                .frame(width: UIScreen.main.bounds.width - 44)
                 .frame(minHeight: 300)
             #endif
                 .background {

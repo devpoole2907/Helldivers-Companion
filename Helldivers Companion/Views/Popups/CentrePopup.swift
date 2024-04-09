@@ -8,7 +8,7 @@
 import SwiftUI
 import MijickPopupView
 
-struct CentrePopup_MoreFeatures: CentrePopup {
+struct MajorOrderPopup: CentrePopup {
     
     @ObservedObject var viewModel: PlanetsViewModel
     

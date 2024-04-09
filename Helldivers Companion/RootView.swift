@@ -51,8 +51,6 @@ struct RootView: View {
                 ContentView().environmentObject(viewModel).environmentObject(contentNavPather)
                     .tag(Tab.home)
                 
-                    .toolbarBackground(.hidden, for: .tabBar)
-                
                     .task {
                         await notificationManager.request()
                     }
@@ -61,19 +59,15 @@ struct RootView: View {
                 
                 GalaxyStatsView().environmentObject(viewModel).environmentObject(statsNavPather)
                     .tag(Tab.stats)
-                    .toolbarBackground(.hidden, for: .tabBar)
                 
                 GalaxyMapRootView().environmentObject(viewModel)
                     .tag(Tab.map)
-                    .toolbarBackground(.hidden, for: .tabBar)
                 
                 NewsView().environmentObject(newsNavPather).environmentObject(viewModel)
                     .tag(Tab.news)
-                    .toolbarBackground(.hidden, for: .tabBar)
                 
                 GameView()
                     .tag(Tab.game)
-                    .toolbarBackground(.hidden, for: .tabBar)
                 
               
                 
@@ -93,6 +87,7 @@ struct RootView: View {
             await notificationManager.getAuthStatus()
         }
             
+        .ignoresSafeArea()
         .ignoresSafeArea(.keyboard)
             
             // deeplink from planet widget to the view of the planet
@@ -125,7 +120,7 @@ struct RootView: View {
                     // wait 2 seconds to fetch orders info
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         
-                        CentrePopup_MoreFeatures(viewModel: viewModel)
+                        MajorOrderPopup(viewModel: viewModel)
                         
                             .showAndStack()
                         
@@ -171,17 +166,6 @@ struct RootView: View {
                         updateMajorOrderButtonVisibility()
                     }
         
-        .sheet(isPresented: $viewModel.showOrders) {
-            
-            ordersSheet
-            
-            
-                .presentationDetents([.fraction(0.65), .fraction(0.8), .large])
-            .presentationDragIndicator(.visible)
-            .customSheetBackground(ultraThin: false)
-            
-        }
-        
         .onAppear {
             
             viewModel.startUpdating()
@@ -190,7 +174,7 @@ struct RootView: View {
             
 #if os(iOS)
             if showMajorOrderButton {
-                majorOrderButton.padding(.bottom, 85) 
+                majorOrderButton.padding(.bottom, 60)
                     .transition(.opacity)
             }
         
@@ -208,7 +192,7 @@ struct RootView: View {
         
         Button(action: {
             
-            CentrePopup_MoreFeatures(viewModel: viewModel)
+            MajorOrderPopup(viewModel: viewModel)
             
                         .showAndStack()
             
@@ -226,64 +210,12 @@ struct RootView: View {
             
         }.padding()
         
-            .background {
-                Color.black.opacity(0.8)
-            }
+            .background(Material.thin)
             .clipShape(RoundedRectangle(cornerRadius: 12))
-        
-            .padding()
+            .shadow(radius: 3)
+            .padding(10)
         
 
-        
-    }
-    
-    var ordersSheet: some View {
-        
-        NavigationStack {
-            ScrollView {
-                OrderView().environmentObject(viewModel).padding(.horizontal)
-
-            Spacer()
-            
-#if os(iOS)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                 
-                    ZStack(alignment: .leading) {
-                        Image("MajorOrdersBanner").resizable()
-                            .frame(width: getRect().width + 50, height: 60).ignoresSafeArea()
-                            .offset(CGSize(width: 0, height: 0))
-                            .border(Color.white, width: 2)
-                            .padding(.bottom)
-                            .opacity(0.8)
-                          
-                        
-                        HStack(alignment: .firstTextBaseline, spacing: 3) {
-                            Image(systemName: "scope").bold()
-                           
-                            Text("MAJOR ORDER").textCase(.uppercase) .font(Font.custom("FS Sinclair", size: 24))
-                                    
-                        }.padding(.leading, 70)
-                    }
-                    
-                
-                        
-                }
-            }
-            #endif
-            
-        }.scrollContentBackground(.hidden)
-     
-            .toolbarBackground(.hidden, for: .navigationBar)
-            
-          
-            
-            .navigationBarTitleDisplayMode(.inline)
-        }
-        
-      
-
-        
         
     }
     
@@ -374,15 +306,17 @@ struct RootView: View {
               
               
             }
-            .padding(.top, (UIScreen.main.bounds.height) == 667 || (UIScreen.main.bounds.height) == 736 ? 10 : 15)
-            .padding(.bottom, (UIScreen.main.bounds.height) == 667 || (UIScreen.main.bounds.height) == 736 ? 10 : 0)
+
+            .padding(.bottom, (UIScreen.main.bounds.height) == 667 || (UIScreen.main.bounds.height) == 736 ? 0 : isIpad ? 8 : 26)
             .ignoresSafeArea(.keyboard)
         }.ignoresSafeArea(.keyboard)
+        
     }
     
     @ViewBuilder
     func TabButton(tab: Tab, action: (() -> Void)? = nil) -> some View {
         
+        let frameSize: CGFloat = (UIScreen.main.bounds.height) == 667 || (UIScreen.main.bounds.height) == 736 ? 20 : 23
         
         
         Button(action: {
@@ -390,30 +324,28 @@ struct RootView: View {
                 action()
             }
         }){
-            VStack(spacing: -10) {
+            VStack(spacing: 4) {
                 if let systemImage = tab.systemImage {
                     Image(systemName: systemImage)
                         .resizable()
                         .renderingMode(.template)
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 24, height: 24)
+                        .frame(width: frameSize, height: frameSize)
                         .foregroundColor(viewModel.currentTab == tab ? .accentColor : .gray)
-                        .padding()
+                     //   .padding()
  
                 }
                 
-                Text(tab.rawValue).textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: 16))
+                Text(tab.rawValue).textCase(.uppercase)  .font(Font.custom("FS Sinclair Bold", size: 15))
                     .dynamicTypeSize(.medium ... .large)
                     .foregroundColor(viewModel.currentTab == tab ? .accentColor : .gray)
             }.padding(.horizontal, 10)
-                .padding(.bottom, 10)
-                .frame(width: 74)
-                .background {
-                    Color.black.opacity(0.8)
-                }
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .frame(width: 64)
+           
+              
+             
         } .frame(maxWidth: .infinity)
-        
+            .shadow(radius: 3)
         
     }
 }

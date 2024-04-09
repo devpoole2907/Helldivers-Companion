@@ -96,7 +96,7 @@ struct ContentView: View {
                     .padding()
                 
                 
-                Spacer(minLength: 150)
+                Spacer(minLength: 30)
                 
             } 
 #if os(iOS)

@@ -112,6 +112,15 @@ struct GalaxyMapRootView: View {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
                 
+                LinearGradient(
+                    gradient: Gradient(colors: [.clear, .clear, .black]),
+                    startPoint: .center,
+                    endPoint: .bottom
+                )
+                .blendMode(.multiply)
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+                
                 if let selectedPlanet = viewModel.selectedPlanet {
                     
                     
@@ -121,7 +130,7 @@ struct GalaxyMapRootView: View {
                     
                     PlanetView(planetName: selectedPlanet.name, liberation: liberationPercentage, rate: selectedPlanet.regenPerSecond, playerCount: selectedPlanet.statistics.playerCount, planet: selectedPlanet, liberationType: isDefending ? .defense : .liberation, eventExpirationTime: eventExpirationTime, isInMapView: true, isActive: isActive).environmentObject(viewModel)
                         .padding(.horizontal)
-                        .frame(maxHeight: 300)
+                        .frame(maxWidth: 460, maxHeight: 300)
                         .animation(.bouncy, value: isActive)
                     
                     // wrapping the planet view as a nav link directly doesnt work, but overlaying a clear view that is the nav link does! ebic hax
@@ -185,6 +194,8 @@ struct GalaxyMapRootView: View {
             .navigationBarTitleDisplayMode(.inline)
             
         }
+        .navigationViewStyle(StackNavigationViewStyle())
+        
         // set custom nav title front
         .introspect(.navigationView(style: .stack), on: .iOS(.v16, .v17)) { controller in
             print("I am introspecting!")

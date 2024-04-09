@@ -15,9 +15,18 @@ struct GameView: View {
     
     var body: some View {
         NavigationStack {
-           
+            
+            ZStack(alignment: .bottom) {
                 
-                
+                LinearGradient(
+                    gradient: Gradient(colors: [.clear, .clear, .black]),
+                    startPoint: .center,
+                    endPoint: .bottom
+                )
+                .blendMode(.multiply)
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+            
             VStack(spacing: getRect().height == 667 ? 0 : 30) {
                 Group {
                     switch viewModel.gameState {
@@ -70,12 +79,16 @@ struct GameView: View {
                     }
                 }.frame(maxHeight: .infinity)
                 
-          
+                
                 buttons.padding(.bottom, getRect().height == 667 ? 30 : 0)
-                    
+                
                 Spacer()
-                    
-                }
+                
+            }
+            
+        }
+            
+            .persistentSystemOverlays(.hidden)
             
             .background {
                 Image("BackgroundImage").blur(radius: 14).ignoresSafeArea()
