@@ -509,7 +509,7 @@ struct HistoryChart: View {
     private func chartRuleMark(for dataPoint: UpdatedPlanetDataPoint, _ planet: UpdatedPlanet) -> some ChartContent {
         
         let ruleMark = RuleMark(x: .value("Time", chartSelection!))
-        let annotationValue = chartType != .players ? "\(String(format: "%.2f%%", planet.percentage))" : "\(planet.statistics.playerCount)"
+        let annotationValue = chartType != .players ? "\(String(format: "%.2f%%", planet.event?.percentage ?? planet.percentage))" : "\(planet.statistics.playerCount)"
         
         let annotationView = ChartAnnotationView(factionColor: factionColor, value: annotationValue, date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
         if #available(iOS 17, *), #available(watchOS 10, *) {
