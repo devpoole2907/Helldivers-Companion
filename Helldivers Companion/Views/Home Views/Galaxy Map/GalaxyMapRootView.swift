@@ -50,8 +50,15 @@ struct GalaxyMapRootView: View {
     var liberationPercentage: Double {
         
         if let selectedPlanet = viewModel.selectedPlanet {
-            if isDefending || isActive {
+            if isDefending {
+                
+                return selectedPlanet.event?.percentage ?? 0.0
+                
+            } else if isActive {
+                
                 return selectedPlanet.percentage
+                
+            
             } else if selectedPlanet.currentOwner == "Humans" {
                 
                 return 100
@@ -122,8 +129,9 @@ struct GalaxyMapRootView: View {
                 
                 if let selectedPlanet = viewModel.selectedPlanet {
                     
+                    let defenseCampaign = viewModel.updatedDefenseCampaigns.first(where: { $0.planet.index == selectedPlanet.index })
                     
-                    let eventExpirationTime = selectedPlanet.event?.expireTimeDate
+                    let eventExpirationTime = defenseCampaign?.planet.event?.expireTimeDate
                     
                     
                     
