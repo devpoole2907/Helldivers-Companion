@@ -145,3 +145,24 @@ extension View {
         self.modifier(CustomSheetBackgroundModifier(ultraThin: ultraThin))
     }
 }
+
+struct ConditionalNavigationViewModifier: ViewModifier {
+    func body(content: Content) -> some View {
+
+        #if os(iOS)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+           content.navigationViewStyle(StackNavigationViewStyle())
+        } else {
+            content
+        }
+        #else
+            content
+        #endif
+    }
+}
+
+extension View {
+    func conditionalNavigationViewStyle() -> some View {
+        self.modifier(ConditionalNavigationViewModifier())
+    }
+}

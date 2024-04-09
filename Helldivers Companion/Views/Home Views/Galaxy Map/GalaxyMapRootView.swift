@@ -12,6 +12,7 @@ import SwiftUIIntrospect
 struct GalaxyMapRootView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var navPather: NavigationPather
     
     @State var planetName: String = ""
     @State var position: String = ""
@@ -72,9 +73,7 @@ struct GalaxyMapRootView: View {
     
     var body: some View {
         
-        // deprecated navview used here instead of stack, stack doesnt work with the zoomable modifier/package - leads to strange zooming to the upper left corner
-        // nav is needed to be able to tap planets
-        NavigationView {
+        NavigationStack(path: $navPather.navigationPath) {
             
             ZStack(alignment: .top) {
                 
@@ -128,20 +127,12 @@ struct GalaxyMapRootView: View {
                     
                     
                     
-                    PlanetView(planetName: selectedPlanet.name, liberation: liberationPercentage, rate: selectedPlanet.regenPerSecond, playerCount: selectedPlanet.statistics.playerCount, planet: selectedPlanet, liberationType: isDefending ? .defense : .liberation, eventExpirationTime: eventExpirationTime, isInMapView: true, isActive: isActive).environmentObject(viewModel)
+                    PlanetView(planetName: selectedPlanet.name, liberation: liberationPercentage, rate: selectedPlanet.regenPerSecond, playerCount: selectedPlanet.statistics.playerCount, planet: selectedPlanet, liberationType: isDefending ? .defense : .liberation, eventExpirationTime: eventExpirationTime, isActive: isActive).environmentObject(viewModel)
                         .padding(.horizontal)
                         .frame(maxWidth: 460, maxHeight: 300)
                         .animation(.bouncy, value: isActive)
                     
-                    // wrapping the planet view as a nav link directly doesnt work, but overlaying a clear view that is the nav link does! ebic hax
-                        .contentShape(Rectangle())
-                        .overlay {
-                            NavigationLink(destination: PlanetInfoView(planet: selectedPlanet)) {
-                                
-                                Color.clear
-                                
-                            }
-                        }
+                  
                     
                     
                 }
@@ -193,11 +184,15 @@ struct GalaxyMapRootView: View {
             
             .navigationBarTitleDisplayMode(.inline)
             
+            .navigationDestination(for: UpdatedPlanet.self) { planet in
+                PlanetInfoView(planet: planet)
+            }
+            
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+
         
-        // set custom nav title front
-        .introspect(.navigationView(style: .stack), on: .iOS(.v16, .v17)) { controller in
+        // set custom nav title font
+        .introspect(.navigationStack, on: .iOS(.v16, .v17)) { controller in
             print("I am introspecting!")
             
             

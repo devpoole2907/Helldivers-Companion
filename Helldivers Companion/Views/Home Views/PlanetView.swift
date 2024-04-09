@@ -118,7 +118,7 @@ struct PlanetView: View {
                 // show chart if tapped anywhere
                 // showChartToggler()
                 // nav to planet info view if tapped anywhere
-                if let planet = planet, viewModel.currentTab == .home {
+                if let planet = planet {
                     navPather.navigationPath.append(planet)
                 } else {
                     // showChartToggler()
@@ -236,7 +236,7 @@ struct PlanetView: View {
                 HStack(alignment: .center) {
                     
 #if os(iOS)
-                    if isWidget || isInMapView {
+                    if isWidget {
                         planetNameAndIcon
                     }  else {
                         NavigationLink(value: planet) {
