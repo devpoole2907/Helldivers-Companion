@@ -84,7 +84,7 @@ struct PlanetInfoView: View {
                     HistoryChart(liberationType: liberationType, planetData: planetData, factionColor: viewModel.getColorForPlanet(planet: planet)).environmentObject(viewModel)
                         .shadow(radius: 5.0)
                     
-                    if let liberation = planet?.percentage, let planetName = planet?.name, let players = planet?.statistics.playerCount {
+                    if var liberation = planet?.percentage, let planetName = planet?.name, let players = planet?.statistics.playerCount {
                         
                         if defenseEvent {
                             
@@ -92,7 +92,7 @@ struct PlanetInfoView: View {
                             
                             // must be a defending event, use defense percent
                             
-                            CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: true, planetName: planetName, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: players, isWidget: false, eventExpirationTime: eventExpirationTime)
+                            CampaignPlanetStatsView(liberation: planet?.event?.percentage ?? liberation, liberationType: liberationType, showExtraStats: true, planetName: planetName, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: players, isWidget: false, eventExpirationTime: eventExpirationTime)
                                .shadow(radius: 5.0)
                             
                             
