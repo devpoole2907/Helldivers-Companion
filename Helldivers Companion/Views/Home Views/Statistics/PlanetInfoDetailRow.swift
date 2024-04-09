@@ -30,12 +30,12 @@ struct PlanetInfoDetailRow: View {
                 
                 LinearGradient(
                     gradient: Gradient(colors: [.clear, .black]),
-                    startPoint: .bottom,
-                    endPoint: .top
+                    startPoint: .top,
+                    endPoint: .bottom
                 )
                 .blendMode(.multiply)
                 
-                .frame(maxHeight: 80)
+        
                 
             
                 
