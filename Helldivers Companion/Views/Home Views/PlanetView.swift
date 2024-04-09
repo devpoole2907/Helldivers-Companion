@@ -141,7 +141,7 @@ struct PlanetView: View {
     
     var planetNameAndIcon: some View {
         return Group {
-            Image(viewModel.getImageNameForPlanet(planet)).resizable().aspectRatio(contentMode: .fit)
+            Image(factionImage).resizable().aspectRatio(contentMode: .fit)
                 .frame(width: raceIconSize, height: raceIconSize)
                 .shadow(radius: 3)
             HStack(spacing: 2){
