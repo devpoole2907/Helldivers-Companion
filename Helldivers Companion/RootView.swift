@@ -10,6 +10,8 @@ import MijickPopupView
 
 struct RootView: View {
     
+    @Environment(\.scenePhase) var scenePhase
+    
     @StateObject private var notificationManager = NotificationManager()
     
     @StateObject var viewModel = PlanetsViewModel()
@@ -143,6 +145,24 @@ struct RootView: View {
             
             
         }
+        
+        // to refresh the view after backgrounding
+        // TODO: use the last updated variable, only call this if its been long enough since the last update
+        
+        .onChange(of: scenePhase) { newPhase in
+            
+            switch scenePhase {
+                
+                case .active:
+                    viewModel.startUpdating()
+                case .background:
+                    viewModel.stopUpdating()
+                default:
+                    break
+                
+                }
+            
+            }
             
         .onChange(of: viewModel.currentTab) { _ in
                         updateMajorOrderButtonVisibility()
