@@ -30,8 +30,8 @@ struct PlanetInfoView: View {
         
     }
     // to determine if it is currently defending
-    private var defenseEvent: Bool {
-        viewModel.updatedDefenseCampaigns.contains(where: { $0.planet.name == planet?.name })
+    private var defenseEvent: UpdatedCampaign? {
+        viewModel.updatedDefenseCampaigns.first(where: { $0.planet.name == planet?.name })
     }
     
     // to determine if it is currently in a campaign
@@ -84,11 +84,11 @@ struct PlanetInfoView: View {
                     HistoryChart(liberationType: liberationType, planetData: planetData, factionColor: viewModel.getColorForPlanet(planet: planet)).environmentObject(viewModel)
                         .shadow(radius: 5.0)
                     
-                    if var liberation = planet?.percentage, let planetName = planet?.name, let players = planet?.statistics.playerCount {
+                    if let liberation = planet?.percentage, let planetName = planet?.name, let players = planet?.statistics.playerCount {
                         
-                        if defenseEvent {
+                        if let defenseEvent = defenseEvent {
                             
-                            let eventExpirationTime = planet?.event?.expireTimeDate
+                            let eventExpirationTime = defenseEvent.planet.event?.expireTimeDate
                             
                             // must be a defending event, use defense percent
                             

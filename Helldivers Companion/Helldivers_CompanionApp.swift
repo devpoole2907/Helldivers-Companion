@@ -35,7 +35,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         }
         
         // subscribe to the liberation notifications topic
-        Messaging.messaging().subscribe(toTopic: "newMessages") { error in
+        Messaging.messaging().subscribe(toTopic: "testMessages") { error in
             if let error = error {
                 print("Error subscribing to new messages topic: \(error)")
             } else {

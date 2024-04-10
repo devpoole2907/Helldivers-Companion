@@ -50,12 +50,14 @@ class PlanetsViewModel: ObservableObject {
         timer?.invalidate()
     }
     
-    func stopUpdating() {
-        
+    func stopUpdating(completion: @escaping () -> Void) {
         timer?.invalidate()
+        timer = nil
         cacheTimer?.invalidate()
-        
-        }
+        cacheTimer = nil
+        completion()
+    }
+
     
     func getColorForPlanet(planet: UpdatedPlanet?) -> Color {
         guard let planet = planet else {
@@ -133,49 +135,53 @@ class PlanetsViewModel: ObservableObject {
         return "human"
     }
     
-    // temporarily adjusted to get closest to 1 hour ago datapoint to compare with (thanks gpt)
     func averageLiberationRate(for planetName: String) -> Double? {
-        guard let dataPoints = updatedPlanetHistory[planetName], dataPoints.count >= 2 else {
+        guard let dataPoints = updatedPlanetHistory[planetName] else {
             return nil
         }
         
-        // Exclude 100 because 100 will only show if a planet has become part of a recent event
-        let filteredDataPoints = dataPoints.filter {
-            if let event = $0.planet?.event {
-                return event.percentage != 100.0
-            } else {
-                return $0.planet?.percentage != 100.0
-            }
+        // exclude 100 because 100 will only show if a planet has become part of a recent event
+        let filteredDataPoints = dataPoints.filter { dataPoint in
+            let percentage = self.updatedDefenseCampaigns.contains(where: { $0.planet == dataPoint.planet }) ?
+                dataPoint.planet?.event?.percentage : dataPoint.planet?.percentage
+            return percentage != 100.0
         }
-        guard let lastDataPoint = filteredDataPoints.last else {
+        
+        // must be at least 2 data points
+        guard filteredDataPoints.count >= 2 else {
             return nil
         }
         
-        // Find the data point closest to 1 hour before the last data point
-        var closestDataPoint: (timeInterval: Double, percentage: Double)? = nil
-        for dataPoint in filteredDataPoints where dataPoint.timestamp < lastDataPoint.timestamp {
-            let timeInterval = lastDataPoint.timestamp.timeIntervalSince(dataPoint.timestamp)
-            let dataPointPercentage = dataPoint.planet?.event?.percentage ?? dataPoint.planet?.percentage ?? 0
-            if closestDataPoint == nil || abs(timeInterval - 3600) < abs(closestDataPoint!.timeInterval - 3600) {
-                closestDataPoint = (timeInterval, dataPointPercentage)
+        var totalRate: Double = 0
+        var count: Double = 0
+        
+        for i in 1..<filteredDataPoints.count {
+            let timeInterval = filteredDataPoints[i].timestamp.timeIntervalSince(filteredDataPoints[i - 1].timestamp) / 3600
+            if timeInterval > 0 {
+                let currentPercentage = self.updatedDefenseCampaigns.contains(where: { $0.planet == filteredDataPoints[i].planet }) ?
+                    filteredDataPoints[i].planet?.event?.percentage : filteredDataPoints[i].planet?.percentage
+                let previousPercentage = self.updatedDefenseCampaigns.contains(where: { $0.planet == filteredDataPoints[i - 1].planet }) ?
+                    filteredDataPoints[i - 1].planet?.event?.percentage : filteredDataPoints[i - 1].planet?.percentage
+                
+                if let lastLiberation = currentPercentage, let previousLiberation = previousPercentage {
+                    let rate = (lastLiberation - previousLiberation) / timeInterval
+                    totalRate += rate
+                    count += 1
+                }
             }
         }
         
-        // Ensure we have a valid closest data point and calculate the rate
-        if let closest = closestDataPoint,
-           let lastPercentage = lastDataPoint.planet?.event?.percentage ?? lastDataPoint.planet?.percentage,
-           closest.timeInterval > 0 {
-            let rate = (lastPercentage - closest.percentage) / (closest.timeInterval / 3600)
-            return rate
-        }
-        
-        return nil
+        // average liberation rate calculation
+        let averageRate = count > 0 ? totalRate / count : nil
+        return averageRate
     }
+
+
     
     
     
     
-    func fetchUpdatedPlanetTimeSeries(completion: @escaping (Error?) -> Void) {
+    func fetchUpdatedPlanetTimeSeries(completion: @escaping ([String: [UpdatedPlanetDataPoint]]) -> Void) {
         
         Task {
             do {
@@ -194,12 +200,12 @@ class PlanetsViewModel: ObservableObject {
                  }*/
                 
                 DispatchQueue.main.async {
-                    self.updatedPlanetHistory = localHistory
-                    completion(nil)
+             //       self.updatedPlanetHistory = localHistory
+                    completion(localHistory)
                 }
             } catch {
                 print("Error fetching planet status time series: \(error)")
-                completion(error)
+                completion([:])
             }
         }
         
@@ -287,6 +293,41 @@ class PlanetsViewModel: ObservableObject {
         
         URLSession.shared.dataTask(with: request){ [weak self] data, response, error in
             
+        
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion([], [])
+                return
+            }
+            
+            if httpResponse.statusCode == 429 {
+                if let retryAfter = httpResponse.value(forHTTPHeaderField: "Retry-After"),
+                   let retryAfterSeconds = Double(retryAfter) {
+                    let retryDate = Date().addingTimeInterval(retryAfterSeconds + 10) // add 10 extra seconds to be safe
+                    print("retry after seconds is: \(retryAfterSeconds)")
+                    
+                    DispatchQueue.main.async {
+                        self?.nextFetchTime = retryDate
+                    }
+                    
+                    // retry after specified number of seconds in the response header, give an extra 15s to be safe
+                    DispatchQueue.global().asyncAfter(deadline: .now() + retryAfterSeconds + 10) {
+                        completion([], [])
+                        
+                        self?.stopUpdating {
+                            
+                            self?.nextFetchTime = nil
+                            
+                            self?.startUpdating()
+                            
+                        }
+                        
+                        // no longer waiting for fetch
+                    }
+                    return
+                }
+            }
+            
             guard let data = data else {
                 completion([], [])
                 return
@@ -346,6 +387,11 @@ class PlanetsViewModel: ObservableObject {
                         let defenseCampaigns = sortedCampaigns.filter { $0.planet.event != nil }
                         
                         DispatchQueue.main.async {
+                            
+                            self?.objectWillChange.send()
+                            
+                            self?.lastUpdatedDate = Date()
+                            
                             self?.updatedCampaigns = sortedCampaigns
                             self?.updatedDefenseCampaigns = defenseCampaigns
                             completion(sortedCampaigns, defenseCampaigns)
@@ -491,6 +537,12 @@ class PlanetsViewModel: ObservableObject {
                     self?.hasSetSelectedPlanet = true
                 }
                 
+                self?.fetchUpdatedPlanetTimeSeries { history in
+                    DispatchQueue.main.async {
+                        self?.updatedPlanetHistory = history
+                    }
+                }
+                
             }
             
             self?.fetchUpdatedPlanets { _ in
@@ -499,13 +551,12 @@ class PlanetsViewModel: ObservableObject {
                     print("fetched major order")
                 }// fetching in here so planets is populated to associate major order planets with tasks
                 
+                
+                
+                
             }
             
-            self?.fetchUpdatedPlanetTimeSeries { error in
-                if let error = error {
-                    print("Error updating planet time series: \(error)")
-                }
-            }
+          
         }
         
         
@@ -576,10 +627,8 @@ class PlanetsViewModel: ObservableObject {
         cacheTimer = Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { [weak self] _ in
             
             
-            self?.fetchUpdatedPlanetTimeSeries { error in
-                if let error = error {
-                    print("Error updating planet status time series: \(error)")
-                }
+            self?.fetchUpdatedPlanetTimeSeries { history in
+                self?.updatedPlanetHistory = history
             }
             
             self?.fetchUpdatedGalaxyStats {
@@ -742,7 +791,7 @@ class PlanetsViewModel: ObservableObject {
                 return
             }
             
-            if httpResponse.statusCode == 429 {
+          /*  if httpResponse.statusCode == 429 {
                 if let retryAfter = httpResponse.value(forHTTPHeaderField: "Retry-After"),
                    let retryAfterSeconds = Double(retryAfter) {
                     let retryDate = Date().addingTimeInterval(retryAfterSeconds + 20) // add 20 extra seconds to be safe
@@ -754,12 +803,17 @@ class PlanetsViewModel: ObservableObject {
                     
                     // retry after specified number of seconds in the response header, give an extra 15s to be safe
                     DispatchQueue.global().asyncAfter(deadline: .now() + retryAfterSeconds) {
-                        self?.fetchUpdatedPlanets(completion: completion)
+                        completion([])
+                        
+                        self?.stopUpdating()
+                        
+                        self?.startUpdating()
+                        
                         self?.nextFetchTime = nil // no longer waiting for fetch
                     }
                     return
                 }
-            }
+            }*/
             
             
             guard let data = data else {
@@ -800,9 +854,13 @@ class PlanetsViewModel: ObservableObject {
                     
                     DispatchQueue.main.async {
                         
+                        self?.objectWillChange.send()
+                        
                         self?.updatedPlanets = decodedResponse
                         self?.updatedSortedSectors = sortedSectors
                         self?.updatedGroupedBySectorPlanets = groupedBySector
+                        
+                       
                         
                         completion(decodedResponse)
                     }

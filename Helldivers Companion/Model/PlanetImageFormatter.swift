@@ -21,7 +21,7 @@ class PlanetImageFormatter {
         return "Vandalon IV"
     case "Meissa", "Mantes", "Meridia", "Caph", "East Iridium Trading Bay", "Clasa", "Gaellivare", "Irulta", "Rogue 5", "Oasis", "Spherion", "Regnus", "Baldrick Prime", "Navi VII", "Alta V", "Zegema Paradise", "Gar Haren", "Primordia", "Pollux 31", "Nublaria I", "Fornskogur II", "Kirrik", "Klaka 5":
         return "Mantes"
-    case "Malevelon Creek", "Peacock", "Brink-2", "Gemma", "Siemnot", "Veld", "Seasse", "Chort Bay", "Nabatea Secundus", "Atrama", "Alairt III", "Prosperity Falls", "New Haven":
+    case "Malevelon Creek", "Peacock", "Brink-2", "Gemma", "Siemnot", "Veld", "Seasse", "Nabatea Secundus", "Atrama", "Alairt III", "Prosperity Falls", "New Haven":
         return "Malevelon Creek"
     case "Fenrir III", "Zosma", "Euphoria III", "Rd-4", "Sirius", "Maia", "Widow's Harbor":
         return "Fenrir III"
@@ -39,6 +39,9 @@ class PlanetImageFormatter {
         return "Ustotu"
     case "Durgen", "Viridia Prime", "Moradesh", "Zzaniah Prime", "Heze Bay", "Ratch", "Phact Bay", "Caramoor", "Diaspora X", "Propus", "Mastia", "Zagon Prime", "Setia", "Outpost 32", "Osupsam", "Lastofe", "Klen Dahth II", "Keid":
         return "Durgen"
+        case "Chort Bay", "Charbal-VII", "Wilford Station", "Darrowsport", "Darius II", "Slif", "Esker", "Botein", "Vernen Wells", "Wraith", "Leng Secundus", "Rirga Bay", "Skaash", "Merak", "Shete", "Wasat":
+        return "Merak"
+    
     case "Tien Kwan":
         return "Tien Kwan"
     default:

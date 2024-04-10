@@ -157,8 +157,8 @@ let helldiverImageSize: CGFloat = 25
                             
                             // defense is important, so pulsate
                                 .foregroundStyle(isWidget ? .red : (pulsate ? .red : .white))
-                                .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.0))
-                                .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: pulsate)
+                                .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.4))
+                                .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: pulsate)
                             
                                 .onAppear {
                                     pulsate = true
