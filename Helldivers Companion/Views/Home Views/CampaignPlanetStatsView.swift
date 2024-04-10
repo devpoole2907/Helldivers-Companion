@@ -34,7 +34,7 @@ struct CampaignPlanetStatsView: View {
     @EnvironmentObject var viewModel: PlanetsViewModel
     
 #if os(iOS)
-let helldiverImageSize: CGFloat = 25
+    let helldiverImageSize: CGFloat = 25
     let raceIconSize: CGFloat = 25
     let spacingSize: CGFloat = 10
     
@@ -43,11 +43,11 @@ let helldiverImageSize: CGFloat = 25
     let raceIconSize: CGFloat = 20
     let spacingSize: CGFloat = 4
     
-    #endif
+#endif
     
     var body: some View {
         
-
+        
         VStack(spacing: 0) {
             
             VStack {
@@ -96,16 +96,20 @@ let helldiverImageSize: CGFloat = 25
                             }
                         }
                     }
-                    if let liberationRate = viewModel.averageLiberationRate(for: planetName), viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) {
-                        Spacer()
-                        HStack(alignment: .top, spacing: 4) {
-                            Image(systemName: "chart.line.uptrend.xyaxis")
-                                .padding(.top, 2)
-                            Text("\(liberationRate, specifier: "%.2f")% / h")
-                                .foregroundStyle(.white)
-                                .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
-                                .multilineTextAlignment(.trailing)
+                    
+                    if !isWidget {
+                        if let liberationRate = viewModel.averageLiberationRate(for: planetName), viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) {
+                            Spacer()
+                            HStack(alignment: .top, spacing: 4) {
+                                Image(systemName: "chart.line.uptrend.xyaxis")
+                                    .padding(.top, 2)
+                                Text("\(liberationRate, specifier: "%.2f")% / h")
+                                    .foregroundStyle(.white)
+                                    .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
+                                    .multilineTextAlignment(.trailing)
+                            }
                         }
+                        
                     }
                     
                 }   .padding(.horizontal)
@@ -125,87 +129,87 @@ let helldiverImageSize: CGFloat = 25
         .padding(4)
         .border(Color.gray)
         
-    
+        
         
         
         if showExtraStats {
             HStack {
                 
                 if isActive { // dont show this section if planet isnt in a campaign (accessed via galaxy map)
-                
-                HStack(alignment: .center, spacing: spacingSize) {
                     
-                    if liberationType == .liberation {
+                    HStack(alignment: .center, spacing: spacingSize) {
                         
-                        Image(factionImage).resizable().aspectRatio(contentMode: .fit)
-                            .frame(width: raceIconSize, height: raceIconSize)
-                        
-                        if let regenPerSecond = planet?.regenPerSecond, let maxHealth = planet?.maxHealth {
-                           
-                            let regenPerHour = regenPerSecond * 3600.0
-                            let regenPercent = (regenPerHour / Double(maxHealth)) * 100
-                            Text(String(format: "-%.1f%% / h", regenPercent))
-                                .foregroundStyle(factionColor).bold()
-                                .font(Font.custom("FS Sinclair", size: mediumFont))
-                                .padding(.top, 3)
+                        if liberationType == .liberation {
+                            
+                            Image(factionImage).resizable().aspectRatio(contentMode: .fit)
+                                .frame(width: raceIconSize, height: raceIconSize)
+                            
+                            if let regenPerSecond = planet?.regenPerSecond, let maxHealth = planet?.maxHealth {
+                                
+                                let regenPerHour = regenPerSecond * 3600.0
+                                let regenPercent = (regenPerHour / Double(maxHealth)) * 100
+                                Text(String(format: "-%.1f%% / h", regenPercent))
+                                    .foregroundStyle(factionColor).bold()
+                                    .font(Font.custom("FS Sinclair", size: mediumFont))
+                                    .padding(.top, 3)
+                                
+                            }
+                            
+                        } else {
+                            VStack(spacing: -5) {
+                                Text("DEFEND") .font(Font.custom("FS Sinclair", size: largeFont)).bold()
+                                
+                                // defense is important, so pulsate
+                                    .foregroundStyle(isWidget ? .red : (pulsate ? .red : .white))
+                                    .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.4))
+                                    .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: pulsate)
+                                
+                                    .onAppear {
+                                        pulsate = true
+                                    }
+                                if let eventExpirationTime = eventExpirationTime {
+                                    Text(eventExpirationTime, style: .timer)
+                                        .font(Font.custom("FS Sinclair", size: mediumFont))
+                                        .multilineTextAlignment(.center)
+                                        .foregroundStyle(.white)
+                                    // .frame(maxWidth: .infinity)
+                                }
+                            }.padding(.vertical, 6)
                             
                         }
                         
-                    } else {
-                        VStack(spacing: -5) {
-                            Text("DEFEND") .font(Font.custom("FS Sinclair", size: largeFont)).bold()
-                            
-                            // defense is important, so pulsate
-                                .foregroundStyle(isWidget ? .red : (pulsate ? .red : .white))
-                                .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.4))
-                                .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: pulsate)
-                            
-                                .onAppear {
-                                    pulsate = true
-                                }
-                            if let eventExpirationTime = eventExpirationTime {
-                                Text(eventExpirationTime, style: .timer)
-                                    .font(Font.custom("FS Sinclair", size: mediumFont))
-                                    .multilineTextAlignment(.center)
-                                    .foregroundStyle(.white)
-                                // .frame(maxWidth: .infinity)
-                            }
-                        }.padding(.vertical, 6)
-                        
-                    }
+                    }.frame(maxWidth: .infinity)
                     
-                }.frame(maxWidth: .infinity)
+                    Rectangle().frame(width: 1, height: 30).foregroundStyle(Color.white)
+                        .padding(.vertical, 10)
+                    
+                }
                 
-                Rectangle().frame(width: 1, height: 30).foregroundStyle(Color.white)
-                    .padding(.vertical, 10)
+                HStack(spacing: spacingSize) {
+                    
+                    
+                    Image("diver").resizable().aspectRatio(contentMode: .fit)
+                        .frame(width: helldiverImageSize, height: helldiverImageSize)
+                    Text("\(playerCount)").textCase(.uppercase)
+                        .foregroundStyle(.white).bold()
+                        .font(Font.custom("FS Sinclair", size: mediumFont))
+                        .padding(.top, 3)
+                    
+                }  .padding(.vertical, 10)
+                    .frame(maxWidth: .infinity, minHeight: 30)
+                
                 
             }
             
-            HStack(spacing: spacingSize) {
-                
-                
-                Image("diver").resizable().aspectRatio(contentMode: .fit)
-                    .frame(width: helldiverImageSize, height: helldiverImageSize)
-                Text("\(playerCount)").textCase(.uppercase)
-                    .foregroundStyle(.white).bold()
-                    .font(Font.custom("FS Sinclair", size: mediumFont))
-                    .padding(.top, 3)
-                
-            }  .padding(.vertical, 10)
-            .frame(maxWidth: .infinity, minHeight: 30)
-            
+            .background {
+                //  Color.black
+            }
+            .padding(.horizontal)
+            .border(Color.white)
+            .padding(4)
+            .border(Color.gray)
             
         }
-        
-        .background {
-          //  Color.black
-        }
-        .padding(.horizontal)
-        .border(Color.white)
-        .padding(4)
-        .border(Color.gray)
-        
-    }
         
         
     }
