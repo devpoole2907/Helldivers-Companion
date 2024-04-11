@@ -27,7 +27,7 @@ class PlanetImageFormatter {
         return "Fenrir III"
     case "Estanu", "Krakatwo", "Martyr's Bay", "Deneb Secundus", "Krakabos", "Igla", "Inari", "Lesath", "Halies Port", "Barabos", "Eukoria", "Stor Tha Prime", "Grafmere", "Oslo Station", "Choepessa IV", "Acrux IX", "Mekbuda":
         return "Estanu"
-    case "Omicron", "Angel's Venture", "Demiurg", "Aurora Bay":
+    case "Omicron", "Angel's Venture", "Demiurg", "Aurora Bay", "Martale":
         return "Omicron"
     case "Vindemitarix Prime", "Turing", "Zefia", "Shallus", "Tibit", "Iridica", "Mordia 9", "Sulfura", "Seyshel Beach":
         return "Turing"
