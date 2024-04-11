@@ -104,7 +104,11 @@ struct GalaxyMapView: View {
                                         path.move(to: startPoint)
                                         path.addLine(to: endPoint)
                                     }
-                                    .stroke(Color.white.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [2, 1]))
+                                    
+                                    .stroke(
+                                        viewModel.updatedDefenseCampaigns.contains(where: { $0.planet.index == updatedPlanet.index }) ? Color.cyan.opacity(0.5) : getColorForPlanet(planetPosition: PlanetPosition(name: updatedPlanet.name, index: updatedPlanet.index, xMultiplier: 0, yMultiplier: 0)).opacity(0.5),
+                                                                       style: StrokeStyle(lineWidth: 1, dash: [2, 1])
+                                                                   )
                                     .allowsHitTesting(false)
                                 }
                             }

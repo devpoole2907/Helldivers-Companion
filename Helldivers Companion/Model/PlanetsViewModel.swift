@@ -46,6 +46,28 @@ class PlanetsViewModel: ObservableObject {
     private var timer: Timer?
     private var cacheTimer: Timer?
     
+    var totalPlayerCount: Int64 {
+        updatedPlanets.reduce(0) { $0 + $1.statistics.playerCount }
+    }
+    
+    var formattedPlayerCount: String {
+        formatNumber(totalPlayerCount)
+    }
+    
+    private func formatNumber(_ number: Int64) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 1
+        let number = NSNumber(value: number)
+        
+        if number.intValue >= 1000 {
+            let thousands = Double(number.intValue) / 1000.0
+            return "\(formatter.string(from: NSNumber(value: thousands))!)K"
+        } else {
+            return formatter.string(from: number) ?? "\(number)"
+        }
+    }
+    
     deinit {
         timer?.invalidate()
     }
@@ -57,7 +79,7 @@ class PlanetsViewModel: ObservableObject {
         cacheTimer = nil
         completion()
     }
-
+    
     
     func getColorForPlanet(planet: UpdatedPlanet?) -> Color {
         guard let planet = planet else {
@@ -143,7 +165,7 @@ class PlanetsViewModel: ObservableObject {
         // exclude 100 because 100 will only show if a planet has become part of a recent event
         let filteredDataPoints = dataPoints.filter { dataPoint in
             let percentage = self.updatedDefenseCampaigns.contains(where: { $0.planet == dataPoint.planet }) ?
-                dataPoint.planet?.event?.percentage : dataPoint.planet?.percentage
+            dataPoint.planet?.event?.percentage : dataPoint.planet?.percentage
             return percentage != 100.0
         }
         
@@ -159,9 +181,9 @@ class PlanetsViewModel: ObservableObject {
             let timeInterval = filteredDataPoints[i].timestamp.timeIntervalSince(filteredDataPoints[i - 1].timestamp) / 3600
             if timeInterval > 0 {
                 let currentPercentage = self.updatedDefenseCampaigns.contains(where: { $0.planet == filteredDataPoints[i].planet }) ?
-                    filteredDataPoints[i].planet?.event?.percentage : filteredDataPoints[i].planet?.percentage
+                filteredDataPoints[i].planet?.event?.percentage : filteredDataPoints[i].planet?.percentage
                 let previousPercentage = self.updatedDefenseCampaigns.contains(where: { $0.planet == filteredDataPoints[i - 1].planet }) ?
-                    filteredDataPoints[i - 1].planet?.event?.percentage : filteredDataPoints[i - 1].planet?.percentage
+                filteredDataPoints[i - 1].planet?.event?.percentage : filteredDataPoints[i - 1].planet?.percentage
                 
                 if let lastLiberation = currentPercentage, let previousLiberation = previousPercentage {
                     let rate = (lastLiberation - previousLiberation) / timeInterval
@@ -175,8 +197,8 @@ class PlanetsViewModel: ObservableObject {
         let averageRate = count > 0 ? totalRate / count : nil
         return averageRate
     }
-
-
+    
+    
     
     
     
@@ -200,7 +222,7 @@ class PlanetsViewModel: ObservableObject {
                  }*/
                 
                 DispatchQueue.main.async {
-             //       self.updatedPlanetHistory = localHistory
+                    //       self.updatedPlanetHistory = localHistory
                     completion(localHistory)
                 }
             } catch {
@@ -293,7 +315,7 @@ class PlanetsViewModel: ObservableObject {
         
         URLSession.shared.dataTask(with: request){ [weak self] data, response, error in
             
-        
+            
             
             guard let httpResponse = response as? HTTPURLResponse else {
                 completion([], [])
@@ -556,7 +578,7 @@ class PlanetsViewModel: ObservableObject {
                 
             }
             
-          
+            
         }
         
         
@@ -791,29 +813,29 @@ class PlanetsViewModel: ObservableObject {
                 return
             }
             
-          /*  if httpResponse.statusCode == 429 {
-                if let retryAfter = httpResponse.value(forHTTPHeaderField: "Retry-After"),
-                   let retryAfterSeconds = Double(retryAfter) {
-                    let retryDate = Date().addingTimeInterval(retryAfterSeconds + 20) // add 20 extra seconds to be safe
-                    print("retry after seconds is: \(retryAfterSeconds)")
-                    
-                    DispatchQueue.main.async {
-                        self?.nextFetchTime = retryDate
-                    }
-                    
-                    // retry after specified number of seconds in the response header, give an extra 15s to be safe
-                    DispatchQueue.global().asyncAfter(deadline: .now() + retryAfterSeconds) {
-                        completion([])
-                        
-                        self?.stopUpdating()
-                        
-                        self?.startUpdating()
-                        
-                        self?.nextFetchTime = nil // no longer waiting for fetch
-                    }
-                    return
-                }
-            }*/
+            /*  if httpResponse.statusCode == 429 {
+             if let retryAfter = httpResponse.value(forHTTPHeaderField: "Retry-After"),
+             let retryAfterSeconds = Double(retryAfter) {
+             let retryDate = Date().addingTimeInterval(retryAfterSeconds + 20) // add 20 extra seconds to be safe
+             print("retry after seconds is: \(retryAfterSeconds)")
+             
+             DispatchQueue.main.async {
+             self?.nextFetchTime = retryDate
+             }
+             
+             // retry after specified number of seconds in the response header, give an extra 15s to be safe
+             DispatchQueue.global().asyncAfter(deadline: .now() + retryAfterSeconds) {
+             completion([])
+             
+             self?.stopUpdating()
+             
+             self?.startUpdating()
+             
+             self?.nextFetchTime = nil // no longer waiting for fetch
+             }
+             return
+             }
+             }*/
             
             
             guard let data = data else {
@@ -860,7 +882,7 @@ class PlanetsViewModel: ObservableObject {
                         self?.updatedSortedSectors = sortedSectors
                         self?.updatedGroupedBySectorPlanets = groupedBySector
                         
-                       
+                        
                         
                         completion(decodedResponse)
                     }

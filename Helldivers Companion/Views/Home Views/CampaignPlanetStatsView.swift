@@ -187,6 +187,7 @@ struct CampaignPlanetStatsView: View {
                 
                 HStack(spacing: spacingSize) {
                     
+                   
                     
                     Image("diver").resizable().aspectRatio(contentMode: .fit)
                         .frame(width: helldiverImageSize, height: helldiverImageSize)
@@ -194,6 +195,27 @@ struct CampaignPlanetStatsView: View {
                         .foregroundStyle(.white).bold()
                         .font(Font.custom("FS Sinclair", size: mediumFont))
                         .padding(.top, 3)
+                        .dynamicTypeSize(.small)
+                        
+                        
+                  
+                    
+               /*     #if os(iOS)
+                    // show player count % if greater than 0
+                   if let playerCount = planet?.statistics.playerCount, playerCount > 0, viewModel.totalPlayerCount > 0 {
+                       HStack(spacing: 2) {
+                          
+                           Spacer()
+                           
+                           let playerPercent = (Double(playerCount) / Double(viewModel.totalPlayerCount)) * 100
+                           
+                           Text("\(String(format: "%.0f", 99.9))%")  .font(Font.custom("FS Sinclair", size: smallFont))
+                               .dynamicTypeSize(.small)
+                       }         .frame(alignment: .trailing)
+                        
+                    }
+                    #endif
+                    */
                     
                 }  .padding(.vertical, 10)
                     .frame(maxWidth: .infinity, minHeight: 30)

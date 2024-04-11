@@ -270,6 +270,7 @@ struct PlanetView: View {
                                 .font(Font.custom("FS Sinclair", size: smallFont))
                                 .padding(.top, 3)
                             
+                            
                         }.padding(.trailing, 4)
                     }
                     

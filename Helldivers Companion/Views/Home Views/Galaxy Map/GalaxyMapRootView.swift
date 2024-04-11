@@ -185,6 +185,10 @@ struct GalaxyMapRootView: View {
                     }
                     
                     
+                } else { // else display player count here too on ios 17+
+                    ToolbarItem(placement: .topBarTrailing) {
+                        PlayerCountView().environmentObject(viewModel)
+                    }
                 }
                 
                 

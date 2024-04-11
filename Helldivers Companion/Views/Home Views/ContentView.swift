@@ -127,13 +127,18 @@ struct ContentView: View {
             
                 .toolbar {
 #if os(iOS)
-                    ToolbarItem(placement: .topBarTrailing) {
+                    ToolbarItem(placement: .topBarLeading) {
                         Button(action: {
                             viewModel.showInfo.toggle()
                         }){
                             Image(systemName: "info.circle")
                         }.foregroundStyle(.white)
                             .bold()
+                    }
+                    
+                    
+                    ToolbarItem(placement: .topBarTrailing) {
+                        PlayerCountView().environmentObject(viewModel)
                     }
         
                     
@@ -144,9 +149,9 @@ struct ContentView: View {
                         
                         
                             Text("UPDATED: \(viewModel.lastUpdatedDate.formatted(date: .omitted, time: .shortened))")
-                                .font(Font.custom("FS Sinclair Bold", size: 24))
+                                .font(Font.custom("FS Sinclair Bold", size: 22))
                         
-                        
+                                .dynamicTypeSize(.small)
                         
                     }
                     
@@ -231,3 +236,5 @@ extension View {
     }
     
 }
+
+
