@@ -21,7 +21,7 @@ struct AboutView: View {
            
                 
                 VStack(spacing: 20) {
-                    Text("This application utilizes the unofficial Helldivers 2 API developed by dealloc, available at https://github.com/dealloc/helldivers2-api, to fetch and display the latest data from the ongoing galactic war in the Helldivers 2 universe.")
+                    Text("This application utilizes the unofficial Helldivers 2 API, a collaborative project lead by dealloc available at https://github.com/helldivers-2/api, to fetch and display the latest data from the ongoing galactic war in the Helldivers 2 universe.")
                         .font(Font.custom("FS Sinclair", size: 18))
                     
                     Text("This application also utilizes the Helldivers Training Manual API developed by Mitchel Jager, available at https://helldiverstrainingmanual.com, to fetch and display additional information such as planetary environmental effects.")
