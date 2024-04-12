@@ -10,6 +10,7 @@ import MijickPopupView
 
 struct RootView: View {
     
+    @Environment(\.accessibilityShowButtonShapes) var buttonShapesEnabled // to reduce tab bar padding if button shapes active
     @Environment(\.scenePhase) var scenePhase
     
     @StateObject private var notificationManager = NotificationManager()
@@ -57,19 +58,21 @@ struct RootView: View {
                         await notificationManager.request()
                     }
                 
+                GalaxyMapRootView().environmentObject(viewModel).environmentObject(mapNavPather)
+                    .tag(Tab.map)
               
+                GameView()
+                    .tag(Tab.game)
                 
                 GalaxyStatsView().environmentObject(viewModel).environmentObject(statsNavPather)
                     .tag(Tab.stats)
                 
-                GalaxyMapRootView().environmentObject(viewModel).environmentObject(mapNavPather)
-                    .tag(Tab.map)
+              
                 
                 NewsView().environmentObject(newsNavPather).environmentObject(viewModel)
                     .tag(Tab.news)
                 
-                GameView()
-                    .tag(Tab.game)
+             
                 
               
                 
@@ -335,8 +338,8 @@ struct RootView: View {
                 Text(tab.rawValue).textCase(.uppercase)  .font(Font.custom("FS Sinclair Bold", size: 15))
                     .dynamicTypeSize(.medium ... .large)
                     .foregroundColor(viewModel.currentTab == tab ? .accentColor : .gray)
-            }.padding(.horizontal, 10)
-                .frame(width: 64)
+            }.padding(.horizontal, buttonShapesEnabled ? 0 : 10)
+                .frame(width: buttonShapesEnabled ? 54 : 64)
            
               
              

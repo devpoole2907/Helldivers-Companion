@@ -11,15 +11,35 @@ struct GalaxyMapView: View {
     @Binding var selectedPlanet: UpdatedPlanet?
     @State var planetLocation: CGPoint = CGPoint(x: 100, y: 100)
     
-    @Binding var position: String
     @Binding var showSupplyLines: Bool
     @Binding var showAllPlanets: Bool
     @Binding var showPlanetNames: Bool
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    var planets: [UpdatedPlanet]?
+    var campaigns: [UpdatedCampaign]?
+    var defenseCampaigns: [UpdatedCampaign]?
     
+    var isWidget: Bool = false // to use a different sector image file thats smaller than 4k x 4k (a pdf)
+
+    // computed prop, either use passed planets array if a widget otherwise go straight to viewmodel's published prop
+    var allPlanets: [UpdatedPlanet] {
+        return planets ?? viewModel.updatedPlanets
+    }
+    
+    // computed prop, either use passed campaign planets array if a widget otherwise go straight to viewmodel's published prop
+    var allCampaigns: [UpdatedCampaign] {
+        return campaigns ?? viewModel.updatedCampaigns
+    }
+    
+    // computed prop, either use passed defense campaign planets array if a widget otherwise go straight to viewmodel's published prop
+    var allDefenseCampaigns: [UpdatedCampaign] {
+        return defenseCampaigns ?? viewModel.updatedDefenseCampaigns
+    }
+    
+    @EnvironmentObject var viewModel: PlanetsViewModel
+
     func updatedPlanet(for position: PlanetPosition) -> UpdatedPlanet? {
-        viewModel.updatedPlanets.first(where: { $0.index == position.index })
+        allPlanets.first(where: { $0.index == position.index })
     }
     
     // to get position for planet so we can draw supply lines
@@ -39,8 +59,8 @@ struct GalaxyMapView: View {
         
         
         if planet.currentOwner == "Humans" {
-            if viewModel.updatedDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
-                let campaign = viewModel.updatedDefenseCampaigns.first { $0.planet.index == planet.index }
+            if allDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
+                let campaign = allDefenseCampaigns.first { $0.planet.index == planet.index }
                 switch campaign?.planet.event?.faction {
                 case "Terminids": return .yellow
                 case "Automaton": return .red
@@ -50,8 +70,8 @@ struct GalaxyMapView: View {
             } else {
                 return .cyan
             }
-        } else if viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet.index }) {
-            if !viewModel.updatedDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
+        } else if allCampaigns.contains(where: { $0.planet.index == planet.index }) {
+            if !allDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
                 switch planet.currentOwner {
                 case "Automaton": return .red
                 case "Terminids": return .yellow
@@ -88,15 +108,19 @@ struct GalaxyMapView: View {
         GeometryReader { geometry in
             let imageSize = geometry.size
             ZStack {
-                Image("sectorMap")
+                
+                
+             
+                Image(isWidget ? "sectorMap800" : "sectorMap")
                     .resizable()
                     .frame(width: imageSize.width, height: imageSize.height)
                     .opacity(0.4)
                 
+         
                 if showSupplyLines {
                     
                     // for supply lines, lines between each planet using the planets waypoints variable
-                    ForEach(viewModel.updatedPlanets, id: \.index) { updatedPlanet in
+                    ForEach(allPlanets, id: \.index) { updatedPlanet in
                         if let startPoint = position(forPlanetIndex: updatedPlanet.index, in: imageSize) {
                             ForEach(updatedPlanet.waypoints, id: \.self) { waypointIndex in
                                 if let endPoint = position(forPlanetIndex: waypointIndex, in: imageSize) {
@@ -106,7 +130,7 @@ struct GalaxyMapView: View {
                                     }
                                     
                                     .stroke(
-                                        viewModel.updatedDefenseCampaigns.contains(where: { $0.planet.index == updatedPlanet.index }) ? Color.cyan.opacity(0.5) : getColorForPlanet(planetPosition: PlanetPosition(name: updatedPlanet.name, index: updatedPlanet.index, xMultiplier: 0, yMultiplier: 0)).opacity(0.5),
+                                       allDefenseCampaigns.contains(where: { $0.planet.index == updatedPlanet.index }) ? Color.cyan.opacity(0.5) : getColorForPlanet(planetPosition: PlanetPosition(name: updatedPlanet.name, index: updatedPlanet.index, xMultiplier: 0, yMultiplier: 0)).opacity(0.5),
                                                                        style: StrokeStyle(lineWidth: 1, dash: [2, 1])
                                                                    )
                                     .allowsHitTesting(false)
@@ -118,7 +142,7 @@ struct GalaxyMapView: View {
                 }
                 
                 ForEach(planetPositions.filter { planet in
-                    showAllPlanets || viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet.index })
+                    showAllPlanets || allCampaigns.contains(where: { $0.planet.index == planet.index })
                 }, id: \.index) { planet in
                     
                     let planetPosition = CGPoint(
@@ -128,17 +152,17 @@ struct GalaxyMapView: View {
                     
                     
                     // determine if in an active campaign,
-                    let activeCampaign = viewModel.updatedCampaigns.first(where: { $0.planet.index == planet.index })
-                    let isDefending = viewModel.updatedDefenseCampaigns.first(where: { $0.planet.index == planet.index })
+                    let activeCampaign = allCampaigns.first(where: { $0.planet.index == planet.index })
+                    let isDefending = allDefenseCampaigns.first(where: { $0.planet.index == planet.index })
                     
                     // change size of circle, if its in a campaign or selected it should be larger
-                    let circleSize = viewModel.selectedPlanet?.index == planet.index ? 10 :
+                    let circleSize = selectedPlanet?.index == planet.index ? 10 :
                     ((activeCampaign != nil) ? 8 : 6)
                     
                     ZStack {
             
                             Circle()
-                                .frame(width: viewModel.selectedPlanet?.index == planet.index ? 10 : viewModel.selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 8 : 6), height: viewModel.selectedPlanet?.index == planet.index ? 10 : viewModel.selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 8 : 6))
+                                .frame(width: selectedPlanet?.index == planet.index ? 10 : selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 8 : 6), height: selectedPlanet?.index == planet.index ? 10 : selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 8 : 6))
                                 .position(planetPosition)
                             
                             
@@ -153,7 +177,7 @@ struct GalaxyMapView: View {
                                 let progress = percentage / 100.0
                                 
                                 CircularProgressView(progress: progress, color: getColorForPlanet(planetPosition: planet))
-                                    .frame(width: viewModel.selectedPlanet?.index == planet.index ? 8 : viewModel.selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 6 : 4), height: viewModel.selectedPlanet?.index == planet.index ? 8 : viewModel.selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 6 : 4))
+                                    .frame(width: selectedPlanet?.index == planet.index ? 8 : selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 6 : 4), height: selectedPlanet?.index == planet.index ? 8 : selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 6 : 4))
                                     .position(planetPosition)
                                 
                             }
@@ -165,12 +189,12 @@ struct GalaxyMapView: View {
                                 let progress = percentage / 100.0
                                 
                                 CircularProgressView(progress: progress, color: getColorForPlanet(planetPosition: planet))
-                                    .frame(width: viewModel.selectedPlanet?.index == planet.index ? 8 : viewModel.selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 6 : 4), height: viewModel.selectedPlanet?.index == planet.index ? 8 : viewModel.selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 6 : 4))
+                                    .frame(width: selectedPlanet?.index == planet.index ? 8 : selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 6 : 4), height: selectedPlanet?.index == planet.index ? 8 : selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 6 : 4))
                                     .position(planetPosition)
                                 
                             }
                         
-                        if showPlanetNames && viewModel.selectedPlanet?.index != planet.index {
+                        if showPlanetNames && selectedPlanet?.index != planet.index {
                            // dont show floating planet name if they have tapped on it, thats duplicate info in the ui they can see it already
                            Text("\(planet.name)")
                                 .shadow(radius: 3)
@@ -193,7 +217,7 @@ struct GalaxyMapView: View {
                     
                         .overlay(
                             Group {
-                                if viewModel.selectedPlanet?.index == planet.index {
+                                if selectedPlanet?.index == planet.index {
                                     Circle()
                                         .stroke(Color.white, lineWidth: 0.6)
                                         .frame(width: 12, height: 12)
@@ -206,7 +230,7 @@ struct GalaxyMapView: View {
                         .onTapGesture {
                             print("\(planet.name) tapped")
                             withAnimation(.bouncy) {
-                                viewModel.selectedPlanet = viewModel.updatedPlanets.first(where: { $0.index == planet.index })
+                                selectedPlanet = allPlanets.first(where: { $0.index == planet.index })
                                 
                             }
                             
@@ -223,4 +247,3 @@ struct GalaxyMapView: View {
         }
     }
 }
-

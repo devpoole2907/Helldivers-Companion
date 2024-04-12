@@ -4,15 +4,20 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Helldivers Companion Galaxy Map WidgetExtension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
 		<key>Helldivers Companion Major Order Watch WidgetExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>6</integer>
+			<integer>7</integer>
 		</dict>
 		<key>Helldivers Companion Major Order WidgetExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>7</integer>
+			<integer>8</integer>
 		</dict>
 		<key>Helldivers Companion News WidgetExtension.xcscheme_^#shared#^_</key>
 		<dict>
@@ -74,14 +79,14 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>7</integer>
+			<integer>9</integer>
 		</dict>
 		<key>Promises (Playground) 2.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>8</integer>
+			<integer>10</integer>
 		</dict>
 		<key>Promises (Playground).xcscheme</key>
 		<dict>
@@ -128,7 +133,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>7C44B7DC2BC944420097C29B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>7C587F432BA6DBB400C66643</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7C8C5F2E2BAEF91200C4FBD2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7C8C5F4C2BAF0AD100C4FBD2</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -91,7 +91,7 @@ struct GalaxyMapRootView: View {
                     
                     Spacer(minLength: 300)
                 
-                    GalaxyMapView(selectedPlanet: $viewModel.selectedPlanet, position: $position, showSupplyLines: $showSupplyLines, showAllPlanets: $showAllPlanets, showPlanetNames: $showPlanetNames).environmentObject(viewModel)
+                    GalaxyMapView(selectedPlanet: $viewModel.selectedPlanet, showSupplyLines: $showSupplyLines, showAllPlanets: $showAllPlanets, showPlanetNames: $showPlanetNames).environmentObject(viewModel)
                 
                     .frame(width: 300, height: 300)
                     .contentShape(Rectangle())
