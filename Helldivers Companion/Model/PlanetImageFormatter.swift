@@ -10,39 +10,39 @@ import Foundation
 class PlanetImageFormatter {
     
     static func formattedPlanetImageName(for planetName: String) -> String {
-        switch planetName {
-    case "Alaraph", "Veil", "Bashyr", "Solghast", "Alderidge Cove", "Ain-5", "Aesir Pass", "Pandion-XXIV", "Penta", "Haka", "Nivel 43", "Cirrus", "Troost", "Skat Bay", "X-45":
+        switch planetName.lowercased() {
+        case "alaraph", "veil", "bashyr", "solghast", "alderidge cove", "ain-5", "aesir pass", "pandion-xxiv", "penta", "haka", "nivel 43", "cirrus", "troost", "skat bay", "x-45":
         return "Troost"
-    case "Ubanea", "Fort Sanctuary", "Freedom Peak", "Crimsica", "Kharst", "Minchir", "Elysian Meadows", "Providence", "Valgaard", "Gatria", "Enuliale", "Liberty Ridge", "Stout", "Genesis Prime", "Valmox", "Gunvald", "Overgoe Prime", "Kuper", "Acrab XI", "Ingmar", "Yed Prior":
+    case "ubanea", "fort sanctuary", "freedom peak", "crimsica", "kharst", "minchir", "elysian meadows", "providence", "valgaard", "gatria", "enuliale", "liberty ridge", "stout", "genesis prime", "valmox", "gunvald", "overgoe prime", "kuper", "acrab xi", "ingmar", "yed prior":
         return "Ingmar"
-    case "Wezen", "Pöpli IX", "Imber", "Partion", "Karlia", "Hellmire", "Menkent", "Blistica", "Adhara", "Grand Errant", "Bore Rock", "Marre IV", "Kneth Port", "Asperoth Prime":
+    case "wezen", "pöpli ix", "imber", "partion", "karlia", "hellmire", "menkent", "blistica", "adhara", "grand errant", "bore rock", "marre iv", "kneth port", "asperoth prime":
         return "Hellmire"
-    case "Alathfar XI", "Marfark", "Arkturus", "Kelvinor", "Ivis", "Hadar", "Okul VI", "Khandark", "New Stockholm", "New Kiruna", "Epsilon Phoencis VI", "Tarsh", "Mog", "Julheim", "Heeth", "Parsh", "Hesoe Prime", "Borea", "Vog-sojoth", "Merga IV", "Vandalon IV", "Vega Bay":
+    case "alathfar xi", "marfark", "arkturus", "kelvinor", "ivis", "hadar", "okul vi", "khandark", "new stockholm", "new kiruna", "epsilon phoencis vi", "tarsh", "mog", "julheim", "heeth", "parsh", "hesoe prime", "borea", "vog-sojoth", "merga iv", "vandalon iv", "vega bay":
         return "Vandalon IV"
-    case "Meissa", "Mantes", "Meridia", "Caph", "East Iridium Trading Bay", "Clasa", "Gaellivare", "Irulta", "Rogue 5", "Oasis", "Spherion", "Regnus", "Baldrick Prime", "Navi VII", "Alta V", "Zegema Paradise", "Gar Haren", "Primordia", "Pollux 31", "Nublaria I", "Fornskogur II", "Kirrik", "Klaka 5":
+    case "meissa", "mantes", "meridia", "caph", "east iridium trading bay", "clasa", "gaellivare", "irulta", "rogue 5", "oasis", "spherion", "regnus", "baldrick prime", "navi vii", "alta v", "zegema paradise", "gar haren", "primordia", "pollux 31", "nublaria i", "fornskogur ii", "kirrik", "klaka 5":
         return "Mantes"
-    case "Malevelon Creek", "Peacock", "Brink-2", "Gemma", "Siemnot", "Veld", "Seasse", "Nabatea Secundus", "Atrama", "Alairt III", "Prosperity Falls", "New Haven":
+    case "malevelon creek", "peacock", "brink-2", "gemma", "siemnot", "veld", "seasse", "nabatea secundus", "atrama", "alairt iii", "prosperity falls", "new haven":
         return "Malevelon Creek"
-    case "Fenrir III", "Zosma", "Euphoria III", "Rd-4", "Sirius", "Maia", "Widow's Harbor":
+    case "fenrir iii", "zosma", "euphoria iii", "rd-4", "sirius", "maia", "widow's harbor":
         return "Fenrir III"
-    case "Estanu", "Krakatwo", "Martyr's Bay", "Deneb Secundus", "Krakabos", "Igla", "Inari", "Lesath", "Halies Port", "Barabos", "Eukoria", "Stor Tha Prime", "Grafmere", "Oslo Station", "Choepessa IV", "Acrux IX", "Mekbuda":
+    case "estanu", "krakatwo", "martyr's bay", "deneb secundus", "krakabos", "igla", "inari", "lesath", "halies port", "barabos", "eukoria", "stor tha prime", "grafmere", "oslo station", "choepessa iv", "acrux ix", "mekbuda":
         return "Estanu"
-    case "Omicron", "Angel's Venture", "Demiurg", "Aurora Bay", "Martale":
+    case "omicron", "angel's venture", "demiurg", "aurora bay", "martale":
         return "Omicron"
-    case "Vindemitarix Prime", "Turing", "Zefia", "Shallus", "Tibit", "Iridica", "Mordia 9", "Sulfura", "Seyshel Beach":
+    case "vindemitarix prime", "turing", "zefia", "shallus", "tibit", "iridica", "mordia 9", "sulfura", "seyshel beach":
         return "Turing"
-    case "Emeria", "Kraz", "Pioneer II", "Hydrofall Prime", "Achird III", "Effluvia", "Fori Prime", "Prasa", "Kuma", "Myrium", "Senge 23", "Azterra", "Calypso", "Castor", "Cyberstan":
+    case "emeria", "kraz", "pioneer ii", "hydrofall prime", "achird iii", "effluvia", "fori prime", "prasa", "kuma", "myrium", "senge 23", "azterra", "calypso", "castor", "cyberstan":
         return "Fori Prime"
-    case "Draupnir", "Varylia 5", "The Weir", "Reaf", "Iro", "Termadon", "Fort Union", "Oshaune", "Fenmire", "Gemstone Bluffs", "Volterra", "Acamar IV", "Skitter", "Bellatrix", "Mintoria", "Afoyay Bay", "Pherkad Secundus", "Obari", "Achernar Secundus", "Electra Bay", "Matar Bay", "Pathfinder V":
+    case "draupnir", "varylia 5", "the weir", "reaf", "iro", "termadon", "fort union", "oshaune", "fenmire", "gemstone bluffs", "volterra", "acamar iv", "skitter", "bellatrix", "mintoria", "afoyay bay", "pherkad secundus", "obari", "achernar secundus", "electra bay", "matar bay", "pathfinder v":
         return "Draupnir"
-        case "Ustotu", "Pilen V", "Mortax Prime", "Erata Prime", "Cerberus IIIc", "Erson Sands", "Polaris Prime", "Zea Rugosia", "Myradesh", "Choohe", "Hydrobius", "Azur Secundus", "Canopus":
+        case "ustotu", "pilen v", "mortax prime", "erata prime", "cerberus iiic", "erson sands", "polaris prime", "zea rugosia", "myradesh", "choohe", "hydrobius", "azur secundus", "canopus":
         return "Ustotu"
-    case "Durgen", "Viridia Prime", "Moradesh", "Zzaniah Prime", "Heze Bay", "Ratch", "Phact Bay", "Caramoor", "Diaspora X", "Propus", "Mastia", "Zagon Prime", "Setia", "Outpost 32", "Osupsam", "Lastofe", "Klen Dahth II", "Keid":
+    case "durgen", "viridia prime", "moradesh", "zzaniah prime", "heze bay", "ratch", "phact bay", "caramoor", "diaspora x", "propus", "mastia", "zagon prime", "setia", "outpost 32", "osupsam", "lastofe", "klen dahth ii", "keid":
         return "Durgen"
-        case "Chort Bay", "Charbal-VII", "Wilford Station", "Darrowsport", "Darius II", "Slif", "Esker", "Botein", "Vernen Wells", "Wraith", "Leng Secundus", "Rirga Bay", "Skaash", "Merak", "Shete", "Wasat":
+        case "chort bay", "charbal-vii", "wilford station", "darrowsport", "darius ii", "slif", "esker", "botein", "vernen wells", "wraith", "leng secundus", "rirga bay", "skaash", "merak", "shete", "wasat":
         return "Merak"
     
-    case "Tien Kwan":
+    case "tien kwan":
         return "Tien Kwan"
     default:
         return "MissingPlanetImage"
