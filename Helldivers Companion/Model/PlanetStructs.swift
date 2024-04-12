@@ -311,7 +311,7 @@ struct UpdatedPlanet: Decodable, Hashable {
     var taskProgress: Int? = nil
     
 }
-// TODO: CHECK IF PLANET EVENTS HEALTH IS SEPERATE FROM THE PLANET ITSELF DURING AN EVENT
+
 struct UpdatedPlanetEvent: Decodable {
     
     var id: Int
@@ -327,6 +327,20 @@ struct UpdatedPlanetEvent: Decodable {
     // computed prop for defense
     var percentage: Double {
         maxHealth > 0 ? (1 - (Double(health) / Double(maxHealth))) * 100 : 0
+    }
+    // computed prop to get event duration
+    var totalDuration: Double? {
+        
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime]
+        
+        if let startTime = dateFormatter.date(from: startTime), let endTime = dateFormatter.date(from: endTime) {
+            return endTime.timeIntervalSince(startTime)
+        }
+        
+      return nil
+        
+        
     }
     
     // TODO: USE ACTUAL EXPIRY TIME FROM DEALLOCS NEW API INSTEAD OF TRAINING MANUAL

@@ -51,17 +51,30 @@ struct CampaignPlanetStatsView: View {
         VStack(spacing: 0) {
             
             VStack {
-                HStack {
+                VStack(spacing: 4) {
                     
                     // health bar
                     
-                    RectangleProgressBar(value: liberation / 100, secondaryColor: factionColor)
+                    RectangleProgressBar(value: liberation / 100, secondaryColor: eventExpirationTime != nil ? .black : factionColor, height: eventExpirationTime != nil ? 8 : 20)
                     
                         .padding(.horizontal, 6)
                         .padding(.trailing, 2)
                     
+                    // defense remaining bar
+                    if let defenseTime = planet?.event?.totalDuration, let eventExpirationTime = eventExpirationTime {
+                        
+                        let remainingTime = eventExpirationTime.timeIntervalSince(Date())
+                        
+                        let percentageRemaining = (remainingTime / defenseTime)
+                        
+                        RectangleProgressBar(value: 1 - percentageRemaining, primaryColor: factionColor, secondaryColor: .black, height: 8)
+                            .padding(.horizontal, 6)
+                            .padding(.trailing, 2)
+                    }
                     
-                }.frame(height: showExtraStats ? 34 : 30)
+                    
+                }
+                .frame(height: showExtraStats ? 34 : 30)
                     .foregroundStyle(Color.clear)
                     .border(Color.orange, width: 2)
                     .padding(.horizontal, 4)

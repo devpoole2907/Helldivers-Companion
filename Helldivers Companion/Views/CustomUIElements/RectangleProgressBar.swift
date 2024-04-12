@@ -9,14 +9,15 @@ import SwiftUI
 
 struct RectangleProgressBar: View {
     var value: Double // Expected to be between 0.0 and 1.0
-    
+    var primaryColor: Color = .blue
     var secondaryColor: Color
+    var height: CGFloat = 20
 
     var body: some View {
         GeometryReader { geometry in
             HStack(spacing: 2) {
                 Rectangle()
-                    .fill(Color.blue)
+                    .fill(primaryColor)
                     .frame(width: min(CGFloat(self.value)*geometry.size.width, geometry.size.width))
                 
                 Rectangle()
@@ -25,7 +26,7 @@ struct RectangleProgressBar: View {
             }
        
         }
-        .frame(height: 20)
+        .frame(height: height)
     }
 }
 
