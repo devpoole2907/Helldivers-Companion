@@ -21,6 +21,17 @@ struct StratagemGlossaryView: View {
            self.stratagems = Dictionary(grouping: globalStratagems, by: { $0.type })
        }
     
+    #if os(iOS)
+    
+    let buttonTextSize: CGFloat = 18
+    
+    #else
+    
+    let buttonTextSize: CGFloat = 10
+    
+    
+    #endif
+    
     
     var body: some View {
         
@@ -74,7 +85,7 @@ struct StratagemGlossaryView: View {
                     }
                 }){
                     HStack(spacing: 4) {
-                        Text(viewModel.selectedStratagems.isEmpty ? "SELECT ALL" : "DESELECT ALL") .font(Font.custom("FS Sinclair Bold", size: 18))
+                        Text(viewModel.selectedStratagems.isEmpty ? "SELECT ALL" : "DESELECT ALL") .font(Font.custom("FS Sinclair Bold", size: buttonTextSize))
                             .padding(.top, 2)
                         
                     }
@@ -100,13 +111,27 @@ struct StratagemGlossaryView: View {
                             }
                     )
                     .tint(.white)
+                #if os(iOS)
                     .padding()
+                #endif
+                    .buttonStyle(PlainButtonStyle())
         }
             
-                .navigationTitle("STRATAGEMS")
             
             #if os(iOS)
+            
+                .navigationTitle("STRATAGEMS")
                 .inlineLargeTitleiOS17()
+            #else
+            
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Text("STRATAGEMS").font(Font.custom("FS Sinclair Bold", size: 14))
+                        
+                    }
+                }
+            
+            
             #endif
             
         }  
@@ -163,6 +188,17 @@ struct StratagemInfoRow: View {
         self.stratagem = stratagem
     }
     
+    #if os(iOS)
+    
+    let fontSize: CGFloat = 20
+    let imageSize: CGFloat = 30
+    #else
+    
+    let fontSize: CGFloat = 10
+    let imageSize: CGFloat = 25
+    
+    #endif
+    
     var body: some View {
 
         ZStack(alignment: .trailing) {
@@ -172,10 +208,10 @@ struct StratagemInfoRow: View {
                 Image(stratagem.name)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 30, height: 30)
+                    .frame(width: imageSize, height: imageSize)
                 
                 Text(stratagem.name.uppercased())
-                    .font(Font.custom("FS Sinclair Bold", size: 20))
+                    .font(Font.custom("FS Sinclair Bold", size: fontSize))
                     .padding(.top, 2)
                 Spacer()
             }.frame(maxWidth: .infinity)

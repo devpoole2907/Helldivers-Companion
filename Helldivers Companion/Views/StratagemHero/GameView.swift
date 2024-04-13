@@ -248,33 +248,7 @@ struct GameView: View {
                     .foregroundStyle(.yellow)
             }
 
-                Button(action: {
-                    viewModel.showGlossary.toggle()
-                }){
-                    HStack(spacing: 4) {
-                        Text("Stratagem Glossary".uppercased()) .font(Font.custom("FS Sinclair Bold", size: 18))
-                            .padding(.top, 2)
-                        
-                    }
-                }.padding(5)
-                    .padding(.horizontal, 5)
-                    .shadow(radius: 3)
-                
-                    .background(
-                        AngledLinesShape()
-                            .stroke(lineWidth: 3)
-                            .foregroundColor(.white)
-                            .opacity(0.2)
-                            .clipped()
-                        
-                            .background {
-                                Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
-                                    .foregroundStyle(.gray)
-                                    .opacity(0.9)
-                                    .shadow(radius: 3)
-                            }
-                    )
-                    .tint(.white)
+              glossaryButton
        
         }
     }
@@ -332,6 +306,9 @@ struct GameView: View {
                 Text("\(viewModel.totalScore)").font(Font.custom("FS Sinclair Bold", size: 26))
                     .foregroundStyle(.yellow)
             }
+
+            glossaryButton.padding(.top)
+            
         }.padding(.horizontal, 70)
           //  .frame(maxHeight: 90)
         
@@ -424,6 +401,38 @@ struct GameView: View {
     
     }
 
+    var glossaryButton: some View {
+        
+        Button(action: {
+            viewModel.showGlossary.toggle()
+        }){
+            HStack(spacing: 4) {
+                Text("Stratagem Glossary".uppercased()) .font(Font.custom("FS Sinclair Bold", size: 18))
+                    .padding(.top, 2)
+                
+            }
+        }.padding(5)
+            .padding(.horizontal, 5)
+            .shadow(radius: 3)
+        
+            .background(
+                AngledLinesShape()
+                    .stroke(lineWidth: 3)
+                    .foregroundColor(.white)
+                    .opacity(0.2)
+                    .clipped()
+                
+                    .background {
+                        Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                            .foregroundStyle(.gray)
+                            .opacity(0.9)
+                            .shadow(radius: 3)
+                    }
+            )
+            .tint(.white)
+        
+        
+    }
     
     var buttons: some View {
         

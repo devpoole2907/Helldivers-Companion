@@ -105,11 +105,14 @@ struct GameViewWatch: View {
                                     VStack {
                                         if viewModel.gameState == .notStarted || viewModel.gameState == .roundEnded {
                                             Rectangle().frame(height: 1).foregroundStyle(.gray)
-                                            Text("Swipe in any direction to Start!") .font(Font.custom("FS Sinclair Bold", size: 14))
+                                            Text(viewModel.selectedStratagems.isEmpty ? "Select some Stratagems from the Glossary first!" : "Swipe in any direction to Start!") .font(Font.custom("FS Sinclair Bold", size: 14))
                                                 .foregroundStyle(.yellow)
                                                 .multilineTextAlignment(.center)
                                                 .lineLimit(2, reservesSpace: true)
                                             Rectangle().frame(height: 1).foregroundStyle(.gray)
+                                            
+                                            glossaryButton
+                                            
                                         } else if viewModel.gameState == .roundStarting {
                                             
                                             roundStartView
@@ -164,6 +167,10 @@ struct GameViewWatch: View {
                     }.gesture(
                         DragGesture(minimumDistance: 50, coordinateSpace: .local)
                             .onEnded { value in
+                                
+                                // dont allow swipes if no selected strats
+                                if !viewModel.selectedStratagems.isEmpty {
+                                
                                 let horizontalAmount = value.translation.width as CGFloat
                                 let verticalAmount = value.translation.height as CGFloat
                                 
@@ -192,6 +199,9 @@ struct GameViewWatch: View {
                                         print("Swiped down")
                                     }
                                 }
+                                
+                                
+                            }
                             }
                     )
                     
@@ -261,6 +271,48 @@ struct GameViewWatch: View {
         }
         
  
+        
+    }
+    
+    var glossaryButton: some View {
+        
+        Button(action: {
+            viewModel.showGlossary.toggle()
+        }){
+            HStack(spacing: 4) {
+                Text("Stratagem Glossary".uppercased()) .font(Font.custom("FS Sinclair Bold", size: 14))
+                    .padding(.top, 2)
+                
+            }
+        }.padding(5)
+            .padding(.horizontal, 5)
+            .shadow(radius: 3)
+        
+            .background(
+                AngledLinesShape()
+                    .stroke(lineWidth: 3)
+                    .foregroundColor(.white)
+                    .opacity(0.2)
+                    .clipped()
+                
+                    .background {
+                        Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                            .foregroundStyle(.gray)
+                            .opacity(0.9)
+                            .shadow(radius: 3)
+                    }
+            )
+            .tint(.white)
+            .buttonStyle(PlainButtonStyle())
+        
+            .sheet(isPresented: $viewModel.showGlossary) {
+                
+                StratagemGlossaryView().environmentObject(viewModel)
+                
+                    .customSheetBackground()
+                
+            }
+        
         
     }
     
