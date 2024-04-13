@@ -47,3 +47,5 @@ func migrateUserDefaults() {
         }
     }
 }
+
+let dashPattern: [CGFloat] = [CGFloat.random(in: 50...70), CGFloat.random(in: 5...20)]

@@ -246,6 +246,8 @@
 		7CA240D92BCA50A2007F685C /* Stratagem_Hero_High_Score_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA240B82BCA33FC007F685C /* Stratagem_Hero_High_Score_Widget.swift */; };
 		7CA240DB2BCA54BD007F685C /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
 		7CA240DC2BCA54BF007F685C /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
+		7CA240DE2BCA5D51007F685C /* StratagemGlossaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA240DD2BCA5D51007F685C /* StratagemGlossaryView.swift */; };
+		7CA240DF2BCA5D51007F685C /* StratagemGlossaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA240DD2BCA5D51007F685C /* StratagemGlossaryView.swift */; };
 		7CC0AE722BA7F31400802D9F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
 		7CC0AE742BA7F31400802D9F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
 		7CC0AE772BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE762BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift */; };
@@ -492,6 +494,7 @@
 		7CA240D02BCA5083007F685C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CA240D22BCA5083007F685C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7CA240DA2BCA521A007F685C /* Stratagem Hero High Score Watch WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Stratagem Hero High Score Watch WidgetExtension.entitlements"; sourceTree = "<group>"; };
+		7CA240DD2BCA5D51007F685C /* StratagemGlossaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StratagemGlossaryView.swift; sourceTree = "<group>"; };
 		7CBDDC872BB02F0900EAD9F0 /* Helldivers Companion Watch Edition Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Helldivers Companion Watch Edition Watch App.entitlements"; sourceTree = "<group>"; };
 		7CC0AE6F2BA7F31400802D9F /* Helldivers Companion WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion WidgetsExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CC0AE712BA7F31400802D9F /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -894,6 +897,7 @@
 			isa = PBXGroup;
 			children = (
 				7C4589BF2BA5551F0019B00E /* GameView.swift */,
+				7CA240DD2BCA5D51007F685C /* StratagemGlossaryView.swift */,
 			);
 			path = StratagemHero;
 			sourceTree = "<group>";
@@ -1431,6 +1435,7 @@
 				7CE97D3D2BB53D2E008329BA /* TipJarView.swift in Sources */,
 				7C45D4652BABEE6E0013A632 /* AngledLinesShape.swift in Sources */,
 				7CE97D402BB5414C008329BA /* GalaxyStatsView.swift in Sources */,
+				7CA240DE2BCA5D51007F685C /* StratagemGlossaryView.swift in Sources */,
 				7C63130E2BBC01C800C84C13 /* GalaxyMapView.swift in Sources */,
 				7C45D4612BABEE3D0013A632 /* RewardView.swift in Sources */,
 				7C3A9EC92BA9724E00F26307 /* NewsFeedModel.swift in Sources */,
@@ -1541,6 +1546,7 @@
 				7C0DF6422BBA35770062AB9B /* WatchNewsView.swift in Sources */,
 				7C3DE9722BA80A1A00C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7C0DF6382BB987FB0062AB9B /* PlanetInfoDetailRow.swift in Sources */,
+				7CA240DF2BCA5D51007F685C /* StratagemGlossaryView.swift in Sources */,
 				7C587F562BA6DBFD00C66643 /* PlanetsViewModel.swift in Sources */,
 				7C587F5E2BA6DD2500C66643 /* RectangleProgressBar.swift in Sources */,
 				7C319F952BAAEF7F0075A1E4 /* NewsItemView.swift in Sources */,

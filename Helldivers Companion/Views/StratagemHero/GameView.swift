@@ -27,7 +27,7 @@ struct GameView: View {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
             
-            VStack(spacing: getRect().height == 667 ? 0 : 30) {
+            VStack(spacing: getRect().height == 667 ? 2 : 30) {
                 Group {
                     switch viewModel.gameState {
                     case .started:
@@ -55,9 +55,12 @@ struct GameView: View {
                         Rectangle().frame(height: 6).foregroundStyle(.gray)
                         VStack {
                             if viewModel.gameState == .notStarted || viewModel.gameState == .roundEnded {
-                                Text("Enter any Stratagem Input to Start!") .font(Font.custom("FS Sinclair Bold", size: 18))
+                                Text(viewModel.selectedStratagems.isEmpty ? "Select some Stratagems from the Glossary first!" : "Enter any Stratagem Input to Start!") .font(Font.custom("FS Sinclair Bold", size: 18))
                                     .foregroundStyle(.yellow)
                                     .multilineTextAlignment(.center)
+                               
+                                
+                                
                             } else if viewModel.gameState == .roundStarting {
                                 
                                 roundStartView
@@ -76,13 +79,18 @@ struct GameView: View {
                         
                         Rectangle().frame(height: 6).foregroundStyle(.gray)
                         
+                        
+                        
                     }
+                    
                 }.frame(maxHeight: .infinity)
+                 
+            
+    
+                    buttons.padding(.bottom, getRect().height == 667 ? 30 : 0)
                 
                 
-                buttons.padding(.bottom, getRect().height == 667 ? 30 : 0)
-                
-                Spacer()
+               // Spacer()
                 
             }
             
@@ -151,6 +159,14 @@ struct GameView: View {
             
             
             .navigationBarTitleDisplayMode(.inline)
+            
+            .sheet(isPresented: $viewModel.showGlossary) {
+                
+                StratagemGlossaryView().environmentObject(viewModel)
+                
+                    .customSheetBackground()
+                
+            }
             
     } 
         
@@ -223,12 +239,42 @@ struct GameView: View {
     }
     
     var highScoreView: some View {
-        VStack {
+        VStack(spacing: 2) {
      
-            Text("High Score").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: 22))
-            
-            Text("\(viewModel.highScore)").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: 36))
-                .foregroundStyle(.yellow)
+            VStack {
+                Text("High Score").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: 22))
+                
+                Text("\(viewModel.highScore)").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: 36))
+                    .foregroundStyle(.yellow)
+            }
+
+                Button(action: {
+                    viewModel.showGlossary.toggle()
+                }){
+                    HStack(spacing: 4) {
+                        Text("Stratagem Glossary".uppercased()) .font(Font.custom("FS Sinclair Bold", size: 18))
+                            .padding(.top, 2)
+                        
+                    }
+                }.padding(5)
+                    .padding(.horizontal, 5)
+                    .shadow(radius: 3)
+                
+                    .background(
+                        AngledLinesShape()
+                            .stroke(lineWidth: 3)
+                            .foregroundColor(.white)
+                            .opacity(0.2)
+                            .clipped()
+                        
+                            .background {
+                                Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                                    .foregroundStyle(.gray)
+                                    .opacity(0.9)
+                                    .shadow(radius: 3)
+                            }
+                    )
+                    .tint(.white)
        
         }
     }
@@ -460,7 +506,8 @@ struct GameView: View {
             
         
         
-        }.tint(.yellow)
+        }.tint(viewModel.selectedStratagems.isEmpty ? .gray : .yellow)
+            .disabled(viewModel.selectedStratagems.isEmpty)
             .shadow(radius: 3)
         
         
