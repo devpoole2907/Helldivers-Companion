@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import WatchConnectivity
+import WidgetKit
 #if os(iOS)
 import GameKit
 #endif
@@ -67,7 +68,11 @@ class StratagemHeroModel: ObservableObject {
         @Published var perfectBonus: Int = 0
         @Published var totalScore: Int = 0
     
-    @AppStorage("highScore") var highScore = 0 // store high score
+    @AppStorage("highScore") var highScore = 0 {
+        didSet {
+            WidgetCenter.shared.reloadAllTimelines()
+        }
+    }// store high score
     
     @Published var arrowShakeTimes = 0
     

@@ -235,16 +235,26 @@ struct RectangularOrdersTimeLeftView: View {
     
     var timeRemaining: Int64?
     
+#if os(iOS)
+let headersFont: CGFloat = 16
+let secondFont: CGFloat = 14
+    let durationFont: CGFloat = 12
+#else
+let headersFont: CGFloat = 22
+let secondFont: CGFloat = 18
+    let durationFont: CGFloat = 14
+#endif
+    
     var body: some View {
 
         if let timeRemaining = timeRemaining {
             HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Major Order").font(Font.custom("FS Sinclair", size: 16)).bold()
+                Text("Major Order").font(Font.custom("FS Sinclair", size: headersFont)).bold()
                 RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)
                 HStack(spacing: 4) {
-                    Text("Ends in").padding(.top, 1).font(Font.custom("FS Sinclair", size: 14))
-                    Text("\(formatDuration(seconds: timeRemaining))").font(Font.custom("FS Sinclair", size: 12)).bold()
+                    Text("Ends in").padding(.top, 1).font(Font.custom("FS Sinclair", size: secondFont))
+                    Text("\(formatDuration(seconds: timeRemaining))").font(Font.custom("FS Sinclair", size: durationFont)).bold()
 #if os(watchOS)
                         .padding(.top, 1.7)
 #endif
@@ -253,7 +263,7 @@ struct RectangularOrdersTimeLeftView: View {
 #endif
                     
                     
-                }.font(Font.custom("FS Sinclair", size: 14))
+                }.font(Font.custom("FS Sinclair", size: secondFont))
             }
             
             Spacer()

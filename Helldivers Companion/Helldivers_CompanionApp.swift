@@ -21,6 +21,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
         
+        migrateUserDefaults() // migrate users to new user defaults so they dont lose their high score in stratagem hero if they aren't signed in
+        
         return true
     }
     
@@ -34,7 +36,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
             print("fcm", fcm)
         }
         
-        // subscribe to the liberation notifications topic
+        // subscribe to notifications topic
         Messaging.messaging().subscribe(toTopic: "newMessages") { error in
             if let error = error {
                 print("Error subscribing to new messages topic: \(error)")
@@ -63,6 +65,7 @@ struct Helldivers_CompanionApp: App {
         WindowGroup {
             
             RootView().preferredColorScheme(.dark).implementPopupView()
+                .defaultAppStorage(UserDefaults(suiteName: "group.com.poole.james.HelldiversCompanion") ?? .standard)
             
         }
     }

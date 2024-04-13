@@ -16,23 +16,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7C8C5F4C2BAF0AD100C4FBD2"
-               BuildableName = "Helldivers Companion Major Order Watch WidgetExtension.appex"
-               BlueprintName = "Helldivers Companion Major Order Watch WidgetExtension"
-               ReferencedContainer = "container:Helldivers Companion.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7C0C99472BA2BA8F00CF7C91"
-               BuildableName = "Helldivers Companion.app"
-               BlueprintName = "Helldivers Companion"
+               BlueprintIdentifier = "7CA240C92BCA5082007F685C"
+               BuildableName = "Stratagem Hero High Score Watch WidgetExtension.appex"
+               BlueprintName = "Stratagem Hero High Score Watch WidgetExtension"
                ReferencedContainer = "container:Helldivers Companion.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,6 +33,20 @@
                BlueprintIdentifier = "7C587F432BA6DBB400C66643"
                BuildableName = "Helldivers Companion Watch Edition Watch App.app"
                BlueprintName = "Helldivers Companion Watch Edition Watch App"
+               ReferencedContainer = "container:Helldivers Companion.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7C0C99472BA2BA8F00CF7C91"
+               BuildableName = "Helldivers Companion.app"
+               BlueprintName = "Helldivers Companion"
                ReferencedContainer = "container:Helldivers Companion.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -75,9 +75,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7C8C5F4C2BAF0AD100C4FBD2"
-            BuildableName = "Helldivers Companion Major Order Watch WidgetExtension.appex"
-            BlueprintName = "Helldivers Companion Major Order Watch WidgetExtension"
+            BlueprintIdentifier = "7CA240C92BCA5082007F685C"
+            BuildableName = "Stratagem Hero High Score Watch WidgetExtension.appex"
+            BlueprintName = "Stratagem Hero High Score Watch WidgetExtension"
             ReferencedContainer = "container:Helldivers Companion.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -103,7 +103,7 @@
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "_XCWidgetFamily"
-            value = "systemMedium"
+            value = "accessoryRectangular"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
@@ -118,9 +118,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7C8C5F4C2BAF0AD100C4FBD2"
-            BuildableName = "Helldivers Companion Major Order Watch WidgetExtension.appex"
-            BlueprintName = "Helldivers Companion Major Order Watch WidgetExtension"
+            BlueprintIdentifier = "7CA240C92BCA5082007F685C"
+            BuildableName = "Stratagem Hero High Score Watch WidgetExtension.appex"
+            BlueprintName = "Stratagem Hero High Score Watch WidgetExtension"
             ReferencedContainer = "container:Helldivers Companion.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

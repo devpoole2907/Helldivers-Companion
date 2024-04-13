@@ -26,3 +26,24 @@ func formatDuration<T: BinaryInteger>(seconds: T) -> String {
     
    
 }
+
+// so people dont lose high scores, have migrated to new user defaults instance for app groups/high score widget
+func migrateUserDefaults() {
+    let oldUserDefaults = UserDefaults.standard
+    if let newUserDefaults = UserDefaults(suiteName: "group.com.poole.james.HelldiversCompanion") {
+
+ 
+    let keysToMigrate = ["highScore"]
+
+    // check if migration needed
+        if oldUserDefaults.bool(forKey: "isMigrationDone") == false {
+            for key in keysToMigrate {
+                if let value = oldUserDefaults.object(forKey: key) {
+                    newUserDefaults.set(value, forKey: key)
+                }
+            }
+            newUserDefaults.set(true, forKey: "isMigrationDone")
+            newUserDefaults.synchronize()
+        }
+    }
+}

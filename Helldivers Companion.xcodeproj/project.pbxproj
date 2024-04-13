@@ -230,6 +230,22 @@
 		7C8C5F622BAF0C1900C4FBD2 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589B62BA546B00019B00E /* OrderView.swift */; };
 		7C8C5F632BAF0C1D00C4FBD2 /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
 		7C8C5F642BAF0C2900C4FBD2 /* AngledLinesShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4642BABEE6E0013A632 /* AngledLinesShape.swift */; };
+		7CA240B32BCA33FC007F685C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
+		7CA240B42BCA33FC007F685C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
+		7CA240B72BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA240B62BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift */; };
+		7CA240B92BCA33FC007F685C /* Stratagem_Hero_High_Score_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA240B82BCA33FC007F685C /* Stratagem_Hero_High_Score_Widget.swift */; };
+		7CA240BB2BCA33FD007F685C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CA240BA2BCA33FD007F685C /* Assets.xcassets */; };
+		7CA240BF2BCA33FD007F685C /* Stratagem Hero High Score WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7CA240B22BCA33FC007F685C /* Stratagem Hero High Score WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7CA240C32BCA3629007F685C /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
+		7CA240C42BCA362B007F685C /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
+		7CA240CB2BCA5082007F685C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
+		7CA240CC2BCA5082007F685C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
+		7CA240CF2BCA5082007F685C /* Stratagem_Hero_High_Score_Watch_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA240CE2BCA5082007F685C /* Stratagem_Hero_High_Score_Watch_Widget.swift */; };
+		7CA240D12BCA5083007F685C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CA240D02BCA5083007F685C /* Assets.xcassets */; };
+		7CA240D52BCA5083007F685C /* Stratagem Hero High Score Watch WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7CA240CA2BCA5082007F685C /* Stratagem Hero High Score Watch WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7CA240D92BCA50A2007F685C /* Stratagem_Hero_High_Score_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA240B82BCA33FC007F685C /* Stratagem_Hero_High_Score_Widget.swift */; };
+		7CA240DB2BCA54BD007F685C /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
+		7CA240DC2BCA54BF007F685C /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
 		7CC0AE722BA7F31400802D9F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
 		7CC0AE742BA7F31400802D9F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
 		7CC0AE772BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE762BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift */; };
@@ -315,6 +331,20 @@
 			remoteGlobalIDString = 7C8C5F4C2BAF0AD100C4FBD2;
 			remoteInfo = "Helldivers Companion Major Order Watch WidgetExtension";
 		};
+		7CA240BD2BCA33FD007F685C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7C0C99402BA2BA8F00CF7C91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7CA240B12BCA33FC007F685C;
+			remoteInfo = "Stratagem Hero High Score WidgetExtension";
+		};
+		7CA240D32BCA5083007F685C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7C0C99402BA2BA8F00CF7C91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7CA240C92BCA5082007F685C;
+			remoteInfo = "Stratagem Hero High Score Watch WidgetExtension";
+		};
 		7CC0AE7D2BA7F31500802D9F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7C0C99402BA2BA8F00CF7C91 /* Project object */;
@@ -331,6 +361,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				7CA240D52BCA5083007F685C /* Stratagem Hero High Score Watch WidgetExtension.appex in Embed Foundation Extensions */,
 				7C3DE9822BA80B3E00C95B84 /* Helldivers Companion Watch WidgetsExtension.appex in Embed Foundation Extensions */,
 				7C8C5F582BAF0AD200C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension.appex in Embed Foundation Extensions */,
 			);
@@ -358,6 +389,7 @@
 				7C8C5F3C2BAEF91300C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex in Embed Foundation Extensions */,
 				7CC0AE7F2BA7F31500802D9F /* Helldivers Companion WidgetsExtension.appex in Embed Foundation Extensions */,
 				7C1B8C1D2BAD705700944823 /* Helldivers Companion News WidgetExtension.appex in Embed Foundation Extensions */,
+				7CA240BF2BCA33FD007F685C /* Stratagem Hero High Score WidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,6 +481,17 @@
 		7C8C5F512BAF0AD100C4FBD2 /* Helldivers_Companion_Major_Order_Watch_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Major_Order_Watch_Widget.swift; sourceTree = "<group>"; };
 		7C8C5F532BAF0AD200C4FBD2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C8C5F552BAF0AD200C4FBD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CA240B22BCA33FC007F685C /* Stratagem Hero High Score WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Stratagem Hero High Score WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CA240B62BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stratagem_Hero_High_Score_WidgetBundle.swift; sourceTree = "<group>"; };
+		7CA240B82BCA33FC007F685C /* Stratagem_Hero_High_Score_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stratagem_Hero_High_Score_Widget.swift; sourceTree = "<group>"; };
+		7CA240BA2BCA33FD007F685C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7CA240BC2BCA33FD007F685C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CA240C52BCA37C7007F685C /* Stratagem Hero High Score WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Stratagem Hero High Score WidgetExtension.entitlements"; sourceTree = "<group>"; };
+		7CA240CA2BCA5082007F685C /* Stratagem Hero High Score Watch WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Stratagem Hero High Score Watch WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CA240CE2BCA5082007F685C /* Stratagem_Hero_High_Score_Watch_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stratagem_Hero_High_Score_Watch_Widget.swift; sourceTree = "<group>"; };
+		7CA240D02BCA5083007F685C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7CA240D22BCA5083007F685C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CA240DA2BCA521A007F685C /* Stratagem Hero High Score Watch WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Stratagem Hero High Score Watch WidgetExtension.entitlements"; sourceTree = "<group>"; };
 		7CBDDC872BB02F0900EAD9F0 /* Helldivers Companion Watch Edition Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Helldivers Companion Watch Edition Watch App.entitlements"; sourceTree = "<group>"; };
 		7CC0AE6F2BA7F31400802D9F /* Helldivers Companion WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion WidgetsExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CC0AE712BA7F31400802D9F /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -546,6 +589,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7CA240AF2BCA33FC007F685C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CA240B42BCA33FC007F685C /* SwiftUI.framework in Frameworks */,
+				7CA240B32BCA33FC007F685C /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CA240C72BCA5082007F685C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CA240CC2BCA5082007F685C /* SwiftUI.framework in Frameworks */,
+				7CA240CB2BCA5082007F685C /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7CC0AE6C2BA7F31400802D9F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -579,6 +640,8 @@
 		7C0C993F2BA2BA8F00CF7C91 = {
 			isa = PBXGroup;
 			children = (
+				7CA240DA2BCA521A007F685C /* Stratagem Hero High Score Watch WidgetExtension.entitlements */,
+				7CA240C52BCA37C7007F685C /* Stratagem Hero High Score WidgetExtension.entitlements */,
 				7C0C994A2BA2BA8F00CF7C91 /* Helldivers Companion */,
 				7C587F452BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App */,
 				7CC0AE752BA7F31400802D9F /* Helldivers Companion Widgets */,
@@ -587,6 +650,8 @@
 				7C8C5F322BAEF91300C4FBD2 /* Helldivers Companion Major Order Widget */,
 				7C8C5F502BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch Widget */,
 				7C44B7E02BC944420097C29B /* Helldivers Companion Galaxy Map Widget */,
+				7CA240B52BCA33FC007F685C /* Stratagem Hero High Score Widget */,
+				7CA240CD2BCA5082007F685C /* Stratagem Hero High Score Watch Widget */,
 				7CC0AE702BA7F31400802D9F /* Frameworks */,
 				7C0C99492BA2BA8F00CF7C91 /* Products */,
 			);
@@ -603,6 +668,8 @@
 				7C8C5F2F2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex */,
 				7C8C5F4D2BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension.appex */,
 				7C44B7DD2BC944420097C29B /* Helldivers Companion Galaxy Map WidgetExtension.appex */,
+				7CA240B22BCA33FC007F685C /* Stratagem Hero High Score WidgetExtension.appex */,
+				7CA240CA2BCA5082007F685C /* Stratagem Hero High Score Watch WidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -769,6 +836,27 @@
 			path = "Helldivers Companion Major Order Watch Widget";
 			sourceTree = "<group>";
 		};
+		7CA240B52BCA33FC007F685C /* Stratagem Hero High Score Widget */ = {
+			isa = PBXGroup;
+			children = (
+				7CA240B62BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift */,
+				7CA240B82BCA33FC007F685C /* Stratagem_Hero_High_Score_Widget.swift */,
+				7CA240BA2BCA33FD007F685C /* Assets.xcassets */,
+				7CA240BC2BCA33FD007F685C /* Info.plist */,
+			);
+			path = "Stratagem Hero High Score Widget";
+			sourceTree = "<group>";
+		};
+		7CA240CD2BCA5082007F685C /* Stratagem Hero High Score Watch Widget */ = {
+			isa = PBXGroup;
+			children = (
+				7CA240CE2BCA5082007F685C /* Stratagem_Hero_High_Score_Watch_Widget.swift */,
+				7CA240D02BCA5083007F685C /* Assets.xcassets */,
+				7CA240D22BCA5083007F685C /* Info.plist */,
+			);
+			path = "Stratagem Hero High Score Watch Widget";
+			sourceTree = "<group>";
+		};
 		7CC0AE702BA7F31400802D9F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -883,6 +971,7 @@
 				7C1B8C1C2BAD705700944823 /* PBXTargetDependency */,
 				7C8C5F3B2BAEF91300C4FBD2 /* PBXTargetDependency */,
 				7C44B7E92BC944430097C29B /* PBXTargetDependency */,
+				7CA240BE2BCA33FD007F685C /* PBXTargetDependency */,
 			);
 			name = "Helldivers Companion";
 			packageProductDependencies = (
@@ -970,6 +1059,7 @@
 			dependencies = (
 				7C3DE9812BA80B3E00C95B84 /* PBXTargetDependency */,
 				7C8C5F572BAF0AD200C4FBD2 /* PBXTargetDependency */,
+				7CA240D42BCA5083007F685C /* PBXTargetDependency */,
 			);
 			name = "Helldivers Companion Watch Edition Watch App";
 			packageProductDependencies = (
@@ -1015,6 +1105,40 @@
 			name = "Helldivers Companion Major Order Watch WidgetExtension";
 			productName = "Helldivers Companion Major Order Watch WidgetExtension";
 			productReference = 7C8C5F4D2BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		7CA240B12BCA33FC007F685C /* Stratagem Hero High Score WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7CA240C22BCA33FD007F685C /* Build configuration list for PBXNativeTarget "Stratagem Hero High Score WidgetExtension" */;
+			buildPhases = (
+				7CA240AE2BCA33FC007F685C /* Sources */,
+				7CA240AF2BCA33FC007F685C /* Frameworks */,
+				7CA240B02BCA33FC007F685C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Stratagem Hero High Score WidgetExtension";
+			productName = "Stratagem Hero High Score WidgetExtension";
+			productReference = 7CA240B22BCA33FC007F685C /* Stratagem Hero High Score WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		7CA240C92BCA5082007F685C /* Stratagem Hero High Score Watch WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7CA240D62BCA5083007F685C /* Build configuration list for PBXNativeTarget "Stratagem Hero High Score Watch WidgetExtension" */;
+			buildPhases = (
+				7CA240C62BCA5082007F685C /* Sources */,
+				7CA240C72BCA5082007F685C /* Frameworks */,
+				7CA240C82BCA5082007F685C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Stratagem Hero High Score Watch WidgetExtension";
+			productName = "Stratagem Hero High Score Watch WidgetExtension";
+			productReference = 7CA240CA2BCA5082007F685C /* Stratagem Hero High Score Watch WidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		7CC0AE6E2BA7F31400802D9F /* Helldivers Companion WidgetsExtension */ = {
@@ -1068,6 +1192,12 @@
 					7C8C5F4C2BAF0AD100C4FBD2 = {
 						CreatedOnToolsVersion = 15.3;
 					};
+					7CA240B12BCA33FC007F685C = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					7CA240C92BCA5082007F685C = {
+						CreatedOnToolsVersion = 15.3;
+					};
 					7CC0AE6E2BA7F31400802D9F = {
 						CreatedOnToolsVersion = 15.3;
 					};
@@ -1101,6 +1231,8 @@
 				7C8C5F2E2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension */,
 				7C8C5F4C2BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension */,
 				7C44B7DC2BC944420097C29B /* Helldivers Companion Galaxy Map WidgetExtension */,
+				7CA240B12BCA33FC007F685C /* Stratagem Hero High Score WidgetExtension */,
+				7CA240C92BCA5082007F685C /* Stratagem Hero High Score Watch WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -1203,6 +1335,26 @@
 				7CD554922BB73EDF008D4267 /* Assets.xcassets in Resources */,
 				7CF6D2F02BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
 				7C8C5F542BAF0AD200C4FBD2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CA240B02BCA33FC007F685C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CA240C32BCA3629007F685C /* FS Sinclair Regular.otf in Resources */,
+				7CA240C42BCA362B007F685C /* FS Sinclair Bold.otf in Resources */,
+				7CA240BB2BCA33FD007F685C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CA240C82BCA5082007F685C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CA240DB2BCA54BD007F685C /* FS Sinclair Bold.otf in Resources */,
+				7CA240D12BCA5083007F685C /* Assets.xcassets in Resources */,
+				7CA240DC2BCA54BF007F685C /* FS Sinclair Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1446,6 +1598,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7CA240AE2BCA33FC007F685C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CA240B72BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift in Sources */,
+				7CA240B92BCA33FC007F685C /* Stratagem_Hero_High_Score_Widget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CA240C62BCA5082007F685C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CA240CF2BCA5082007F685C /* Stratagem_Hero_High_Score_Watch_Widget.swift in Sources */,
+				7CA240D92BCA50A2007F685C /* Stratagem_Hero_High_Score_Widget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7CC0AE6B2BA7F31400802D9F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1503,6 +1673,16 @@
 			isa = PBXTargetDependency;
 			target = 7C8C5F4C2BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension */;
 			targetProxy = 7C8C5F562BAF0AD200C4FBD2 /* PBXContainerItemProxy */;
+		};
+		7CA240BE2BCA33FD007F685C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7CA240B12BCA33FC007F685C /* Stratagem Hero High Score WidgetExtension */;
+			targetProxy = 7CA240BD2BCA33FD007F685C /* PBXContainerItemProxy */;
+		};
+		7CA240D42BCA5083007F685C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7CA240C92BCA5082007F685C /* Stratagem Hero High Score Watch WidgetExtension */;
+			targetProxy = 7CA240D32BCA5083007F685C /* PBXContainerItemProxy */;
 		};
 		7CC0AE7E2BA7F31500802D9F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1659,7 +1839,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1697,7 +1877,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1727,7 +1907,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-News-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1755,7 +1935,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-News-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1783,7 +1963,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Watch-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1813,7 +1993,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Watch-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1843,7 +2023,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Galaxy-Map-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1871,7 +2051,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Galaxy-Map-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1903,7 +2083,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1937,7 +2117,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1967,7 +2147,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Major-Order-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1995,7 +2175,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Major-Order-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2023,7 +2203,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Major-Order-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2053,7 +2233,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Major-Order-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2062,6 +2242,126 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		7CA240C02BCA33FD007F685C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "Stratagem Hero High Score WidgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Stratagem Hero High Score Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Stratagem Hero High Score Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.2.2;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Stratagem-Hero-High-Score-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7CA240C12BCA33FD007F685C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "Stratagem Hero High Score WidgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Stratagem Hero High Score Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Stratagem Hero High Score Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.2.2;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Stratagem-Hero-High-Score-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7CA240D72BCA5083007F685C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "Stratagem Hero High Score Watch WidgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Stratagem Hero High Score Watch Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Stratagem Hero High Score Watch Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 2.2.2;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Stratagem-Hero-High-Score-Watch-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.4;
+			};
+			name = Debug;
+		};
+		7CA240D82BCA5083007F685C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "Stratagem Hero High Score Watch WidgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Stratagem Hero High Score Watch Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Stratagem Hero High Score Watch Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 2.2.2;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Stratagem-Hero-High-Score-Watch-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.4;
 			};
 			name = Release;
 		};
@@ -2083,7 +2383,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2111,7 +2411,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2192,6 +2492,24 @@
 			buildConfigurations = (
 				7C8C5F5A2BAF0AD200C4FBD2 /* Debug */,
 				7C8C5F5B2BAF0AD200C4FBD2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7CA240C22BCA33FD007F685C /* Build configuration list for PBXNativeTarget "Stratagem Hero High Score WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CA240C02BCA33FD007F685C /* Debug */,
+				7CA240C12BCA33FD007F685C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7CA240D62BCA5083007F685C /* Build configuration list for PBXNativeTarget "Stratagem Hero High Score Watch WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CA240D72BCA5083007F685C /* Debug */,
+				7CA240D82BCA5083007F685C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
