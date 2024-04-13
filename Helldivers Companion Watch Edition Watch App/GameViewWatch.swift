@@ -48,7 +48,9 @@ struct GameViewWatch: View {
                         Image(systemName: viewModel.enableSound ? "speaker.fill" : "speaker.slash.fill")
                     }.foregroundStyle(viewModel.enableSound ? .accent : .gray)
                     
-                    VolumeView()
+                    if !viewModel.showGlossary {
+                        VolumeView()
+                    }
                 }.padding(.horizontal, 5)
                 
             }
