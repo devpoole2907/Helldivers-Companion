@@ -687,9 +687,9 @@ let globalStratagems: [Stratagem] = [
     Stratagem(name: "Patriot Exosuit", sequence: [.left, .down, .right, .up, .left, .down, .down], type: .workshop),
     Stratagem(name: "Quasar Cannon", sequence: [.down, .down, .up, .left, .right], type: .engineering),
     Stratagem(name: "Heavy Machine Gun", sequence: [.down, .left, .up, .down, .down], type: .admin),
-    Stratagem(name: "Resupply", sequence: [.down, .down, .up, .right], type: .workshop),
-    Stratagem(name: "Prospecting Drill", sequence: [.down, .down, .left, .right, .down, .down], type: .workshop),
-    Stratagem(name: "Seismic Probe", sequence: [.up, .up, .left, .right, .down, .down], type: .workshop),
-    Stratagem(name: "SEAF Artillery", sequence: [.right, .up, .up, .down], type: .workshop),
-    Stratagem(name: "Orbital Illumination Flare", sequence: [.right, .right, .left, .left], type: .workshop)
+    Stratagem(name: "Resupply", sequence: [.down, .down, .up, .right], type: .mission),
+    Stratagem(name: "Prospecting Drill", sequence: [.down, .down, .left, .right, .down, .down], type: .mission),
+    Stratagem(name: "Seismic Probe", sequence: [.up, .up, .left, .right, .down, .down], type: .mission),
+    Stratagem(name: "SEAF Artillery", sequence: [.right, .up, .up, .down], type: .mission),
+    Stratagem(name: "Orbital Illumination Flare", sequence: [.right, .right, .left, .left], type: .mission)
 ]
