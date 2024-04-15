@@ -38,6 +38,20 @@ struct StratagemGlossaryView: View {
         NavigationStack {
             ZStack(alignment: .bottom) {
             ScrollView {
+                
+                #if os(watchOS)
+
+                if viewModel.isCustomGame {
+                    Text("ALERT: High Score is not saved with a custom Stratagem loadout selected.")
+                        .font(Font.custom("FS Sinclair Bold", size: 10))
+                        .foregroundStyle(.yellow)
+                        .multilineTextAlignment(.center)
+                        .shadow(radius: 3)
+                        .padding(.horizontal)
+                }
+                
+                #endif
+                
                 LazyVStack(alignment: .leading) {
                     
                     ForEach(StratagemType.allCases, id: \.self) { type in

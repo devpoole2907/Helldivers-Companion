@@ -55,10 +55,19 @@ struct GameView: View {
                         Rectangle().frame(height: 6).foregroundStyle(.gray)
                         VStack {
                             if viewModel.gameState == .notStarted || viewModel.gameState == .roundEnded {
-                                Text(viewModel.selectedStratagems.isEmpty ? "Select some Stratagems from the Glossary first!" : "Enter any Stratagem Input to Start!") .font(Font.custom("FS Sinclair Bold", size: 18))
-                                    .foregroundStyle(.yellow)
-                                    .multilineTextAlignment(.center)
-                               
+                                VStack(spacing: 4) {
+                                    Text(viewModel.selectedStratagems.isEmpty ? "Select some Stratagems from the Glossary first!" : "Enter any Stratagem Input to Start!") .font(Font.custom("FS Sinclair Bold", size: 18))
+                                        .foregroundStyle(.yellow)
+                                        .multilineTextAlignment(.center)
+                                    if viewModel.isCustomGame {
+                                        Text("ALERT: High Score is not saved with a custom Stratagem loadout selected.")
+                                            .font(Font.custom("FS Sinclair Bold", size: 12))
+                                                .foregroundStyle(.yellow)
+                                                .multilineTextAlignment(.center)
+                                                .shadow(radius: 3)
+                                                .padding(.horizontal)
+                                    }
+                                }
                                 
                                 
                             } else if viewModel.gameState == .roundStarting {
@@ -272,10 +281,22 @@ struct GameView: View {
             Text("Your final score") .font(Font.custom("FS Sinclair Bold", size: 18)).textCase(.uppercase)
             Text("\(viewModel.totalScore)") .font(Font.custom("FS Sinclair Bold", size: 22)).foregroundStyle(.yellow)
             
-            Text("Enter any Stratagem Input to Continue!") .font(Font.custom("FS Sinclair Bold", size: 18))
-                .foregroundStyle(.yellow)
-                .multilineTextAlignment(.center)
-                .padding(.top)
+            VStack(spacing: 2) {
+                Text("Enter any Stratagem Input to Continue!") .font(Font.custom("FS Sinclair Bold", size: 18))
+                    .foregroundStyle(.yellow)
+                    .multilineTextAlignment(.center)
+                    .padding(.top)
+                
+                if viewModel.isCustomGame {
+                    Text("ALERT: High Score is not saved with a custom Stratagem loadout selected.")
+                        .font(Font.custom("FS Sinclair Bold", size: 12))
+                        .foregroundStyle(.yellow)
+                        .multilineTextAlignment(.center)
+                        .shadow(radius: 3)
+                        .padding(.horizontal)
+                }
+                
+            }
                
             
         }

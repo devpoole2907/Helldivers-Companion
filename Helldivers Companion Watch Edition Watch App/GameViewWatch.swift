@@ -278,6 +278,7 @@ struct GameViewWatch: View {
     
     var glossaryButton: some View {
         
+        VStack(spacing: 4) {
         Button(action: {
             viewModel.showGlossary.toggle()
         }){
@@ -314,7 +315,18 @@ struct GameViewWatch: View {
                     .customSheetBackground()
                 
             }
+            
+            
+            if viewModel.isCustomGame {
+                Text("Custom loadout selected.")
+                    .font(Font.custom("FS Sinclair Bold", size: 10))
+                    .foregroundStyle(.yellow)
+                    .multilineTextAlignment(.center)
+                    .shadow(radius: 3)
+                   // .padding(.horizontal)
+            }
         
+    }
         
     }
     

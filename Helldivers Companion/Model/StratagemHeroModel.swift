@@ -72,6 +72,13 @@ class StratagemHeroModel: ObservableObject {
     private let timeBonusPointsPerSecond = 10
     private let perfectBonusPoints = 50
     
+    // to determine if custom stratagems are selected
+     var isCustomGame: Bool {
+        
+        selectedStratagems.count != globalStratagems.count
+        
+    }
+    
     @Published var roundScore: Int = 0
         @Published var roundBonus: Int = 0
         @Published var timeBonus: Int = 0
@@ -410,15 +417,18 @@ class StratagemHeroModel: ObservableObject {
     }
     
     func recordHighScore() {
-        if totalScore > highScore {
-            highScore = totalScore
-        }
-        #if os(iOS)
-        // report high score to game center leaderboard
-        gameCenterManager.reportScore(score: highScore, leaderboardID: leaderboardId)
-        #endif
-        if WCSession.isSupported() {
-            watchConnectivity.sendHighScore(highScore: highScore)
+        
+        if !isCustomGame { // dont set high score if its a custom game
+            if totalScore > highScore {
+                highScore = totalScore
+            }
+#if os(iOS)
+            // report high score to game center leaderboard
+            gameCenterManager.reportScore(score: highScore, leaderboardID: leaderboardId)
+#endif
+            if WCSession.isSupported() {
+                watchConnectivity.sendHighScore(highScore: highScore)
+            }
         }
     }
     
