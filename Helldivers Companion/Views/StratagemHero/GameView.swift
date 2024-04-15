@@ -294,6 +294,7 @@ struct GameView: View {
                         .multilineTextAlignment(.center)
                         .shadow(radius: 3)
                         .padding(.horizontal)
+                        .lineLimit(2, reservesSpace: true)
                 }
                 
             }
@@ -425,10 +426,18 @@ struct GameView: View {
     var glossaryButton: some View {
         
         Button(action: {
-            viewModel.showGlossary.toggle()
+            
+            if viewModel.gameState == .notStarted {
+                
+                viewModel.showGlossary.toggle()
+                
+            } else {
+                viewModel.gameOver()
+            }
+            
         }){
             HStack(spacing: 4) {
-                Text("Stratagem Glossary".uppercased()) .font(Font.custom("FS Sinclair Bold", size: 18))
+                Text(viewModel.gameState == .notStarted ? "Stratagem Glossary".uppercased() : "End Game") .font(Font.custom("FS Sinclair Bold", size: 18))
                     .padding(.top, 2)
                 
             }

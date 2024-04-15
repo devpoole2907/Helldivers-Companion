@@ -279,43 +279,54 @@ struct GameViewWatch: View {
     var glossaryButton: some View {
         
         VStack(spacing: 4) {
-        Button(action: {
-            viewModel.showGlossary.toggle()
-        }){
-            HStack(spacing: 4) {
-                Text("Stratagem Glossary".uppercased()) .font(Font.custom("FS Sinclair Bold", size: 14))
-                    .padding(.top, 2)
-                
-            }
-        }.padding(5)
-            .padding(.horizontal, 5)
-            .shadow(radius: 3)
         
-            .background(
-                AngledLinesShape()
-                    .stroke(lineWidth: 3)
-                    .foregroundColor(.white)
-                    .opacity(0.2)
-                    .clipped()
+            Button(action: {
                 
-                    .background {
-                        Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
-                            .foregroundStyle(.gray)
-                            .opacity(0.9)
-                            .shadow(radius: 3)
-                    }
-            )
-            .tint(.white)
-            .buttonStyle(PlainButtonStyle())
-        
-            .sheet(isPresented: $viewModel.showGlossary) {
+                if viewModel.gameState == .notStarted {
+                    
+                    viewModel.showGlossary.toggle()
+                    
+                } else {
+                    viewModel.gameOver()
+                }
                 
-                StratagemGlossaryView().environmentObject(viewModel)
                 
-                    .customSheetBackground()
-                
-            }
+            }){
+                HStack(spacing: 4) {
+                    Text(viewModel.gameState == .notStarted ? "Stratagem Glossary".uppercased() : "End Game") .font(Font.custom("FS Sinclair Bold", size: 14))
+                        .padding(.top, 2)
+                    
+                }
+            }.padding(5)
+                .padding(.horizontal, 5)
+                .shadow(radius: 3)
             
+                .background(
+                    AngledLinesShape()
+                        .stroke(lineWidth: 3)
+                        .foregroundColor(.white)
+                        .opacity(0.2)
+                        .clipped()
+                    
+                        .background {
+                            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                                .foregroundStyle(.gray)
+                                .opacity(0.9)
+                                .shadow(radius: 3)
+                        }
+                )
+                .tint(.white)
+                .buttonStyle(PlainButtonStyle())
+            
+                .sheet(isPresented: $viewModel.showGlossary) {
+                    
+                    StratagemGlossaryView().environmentObject(viewModel)
+                    
+                        .customSheetBackground()
+                    
+                }
+            
+        
             
             if viewModel.isCustomGame {
                 Text("Custom loadout selected.")
