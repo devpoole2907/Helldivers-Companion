@@ -114,6 +114,7 @@ class StratagemHeroModel: ObservableObject {
         loadSelectedStratagems()
         
       //  loadStratagems(forRound: currentRound)
+        // might be redundant now that we prep it in the sound manager
         prepareAudioPlayer()
     }
     

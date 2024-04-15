@@ -427,7 +427,7 @@ struct GameView: View {
         
         Button(action: {
             
-            if viewModel.gameState == .notStarted {
+            if viewModel.gameState == .notStarted || viewModel.gameState == .gameOver {
                 
                 viewModel.showGlossary.toggle()
                 
@@ -437,7 +437,8 @@ struct GameView: View {
             
         }){
             HStack(spacing: 4) {
-                Text(viewModel.gameState == .notStarted ? "Stratagem Glossary".uppercased() : "End Game") .font(Font.custom("FS Sinclair Bold", size: 18))
+              
+                Text(viewModel.gameState == .notStarted || viewModel.gameState == .gameOver ? "Stratagem Glossary".uppercased() : "End Game") .font(Font.custom("FS Sinclair Bold", size: 18))
                     .padding(.top, 2)
                 
             }

@@ -21,10 +21,26 @@ class SoundPoolManager {
     
     // preload sounds, watches really struggle with sound loading
     // has completion, so ui can update (will say loading assets...)
+#if os(iOS)
+    private func configureAudioSession() {
+        do {
+           
+            try AVAudioSession.sharedInstance().setCategory(.ambient)
+          
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("Failed to set audio session category: \(error)")
+        }
+    }
+#endif
     
     
     
     func preloadAllSounds(completion: @escaping () -> Void) {
+        
+#if os(iOS)
+        configureAudioSession()
+        #endif
         
         // loaded on main thread, causes longer initial app load on the watch but worth it to "obscure" the loading of the sounds
         self.preloadSound(soundName: "Stratagem Hero Input Sound")
