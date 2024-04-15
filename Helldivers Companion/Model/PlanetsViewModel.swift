@@ -374,10 +374,10 @@ class PlanetsViewModel: ObservableObject {
                         }
                     }
                     
-                    self?.fetchPlanetDetailsAndUpdatePlanets(for: decodedResponse.map { $0.planet }) { updatedPlanets in
+               
                         
                         // use updated planets if available, otherwise use original planets without additional info added
-                        let finalPlanets = updatedPlanets ?? decodedResponse.map { $0.planet }
+                        let finalPlanets = decodedResponse.map { $0.planet }
                         
                         for planet in finalPlanets {
                             
@@ -419,7 +419,7 @@ class PlanetsViewModel: ObservableObject {
                             completion(sortedCampaigns, defenseCampaigns)
                         }
                         
-                    }
+                    
                     
                 }
                 
@@ -690,72 +690,6 @@ class PlanetsViewModel: ObservableObject {
         }.resume()
     }
     
-    func fetchPlanetDetailsAndUpdatePlanets(for planets: [UpdatedPlanet], completion: @escaping ([UpdatedPlanet]?) -> Void) {
-        // helldivers 2 training manual api additional planet info is called in a github action, and cached there. if it ever goes down, at least we have this static info that we could update manually if it came to it.
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/planets/additionalPlanetInfo.json"
-        
-        // failures result in planet array simply passed back with no changes
-        
-        guard let url = URL(string: urlString) else {
-            print("Invalid URL")
-            completion(planets)
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let data = data, error == nil else {
-                print("Network request failed: \(error?.localizedDescription ?? "Unknown error")")
-                completion(planets)
-                return
-            }
-            
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            
-            do {
-                let planetDetailsDictionary = try decoder.decode([String: PlanetAdditionalInfo].self, from: data)
-                
-                for planetDetail in planetDetailsDictionary {
-                    print("when decoding, \(planetDetail.key) has: \(planetDetail.value.environmentals)")
-                }
-                
-                DispatchQueue.main.async {
-                    
-                    let updatedWithAdditionalInfoPlanets = self?.updatePlanetsWithAdditionalInfo(planets, with: planetDetailsDictionary)
-                    
-                    print("Decoding success for training manual api!")
-                    completion(updatedWithAdditionalInfoPlanets)
-                }
-            } catch {
-                print("Decoding failed: \(error)")
-                completion(planets)
-            }
-        }.resume()
-        
-        
-        
-        
-    }
-    
-    private func updatePlanetsWithAdditionalInfo(_ planets: [UpdatedPlanet]?, with planetDetails: [String: PlanetAdditionalInfo]) -> [UpdatedPlanet] {
-        guard let planets = planets else { return [] }
-        
-        print("additional info got called")
-        return planets.map { planet in
-            var updatedPlanet = planet
-            
-            // find planet details by matching name
-            if let planetDetail = planetDetails.values.first(where: { $0.name.lowercased() == planet.name.lowercased() }) {
-                print("current planet: \(updatedPlanet.name) and enviros are: \(planetDetail.environmentals)")
-                updatedPlanet.environmentals = planetDetail.environmentals
-                updatedPlanet.biome = planetDetail.biome
-                updatedPlanet.sector = planetDetail.sector
-            }
-            return updatedPlanet
-        }
-        
-    }
-    
     // TODO: GET RID OF THIS AND USE ACTUAL DEFENSE TIME REMAINING FROM DEALLOCS NEW API
     // gets defense expiration times from a cache from helldiverstrainingmanual api
     func fetchExpirationTimes(completion: @escaping ([PlanetExpiration]) -> Void) {
@@ -850,15 +784,7 @@ class PlanetsViewModel: ObservableObject {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 
                 var decodedResponse = try decoder.decode([UpdatedPlanet].self, from: data)
-                
-                
-                
-                self?.fetchPlanetDetailsAndUpdatePlanets(for: decodedResponse) { updatedPlanets in
-                    // update planet statuses with additional info from training manual api if possible
-                    if let updatedPlanets = updatedPlanets {
-                        decodedResponse = updatedPlanets
-                    }
-                    
+
                     // group planets by sector
                     let groupedBySector = Dictionary(grouping: decodedResponse) { $0.sector }
                     
@@ -887,7 +813,7 @@ class PlanetsViewModel: ObservableObject {
                         completion(decodedResponse)
                     }
                     
-                }
+                
                 
                 
             } catch {

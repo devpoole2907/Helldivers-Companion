@@ -105,12 +105,12 @@ struct PlanetInfoView: View {
                     }
                 } else {
                     
-                    if let _ = planet?.biome?.slug {
+                    if let _ = planet?.biome.name {
                         biomeDescription
                         
                     }
                     
-                    if let environmentals = planet?.environmentals, !environmentals.isEmpty {
+                    if let environmentals = planet?.hazards, !environmentals.isEmpty {
                         environmentsList
                         
                     }
@@ -330,11 +330,11 @@ struct PlanetInfoView: View {
     var biomeDescription: some View {
         VStack(alignment: .leading, spacing: 5){
             
-            Text(planet?.biome?.slug ?? "").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: largeFont))
+            Text(planet?.biome.name ?? "").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: largeFont))
             
             RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
             
-            if let biomeDescript = planet?.biome?.description {
+            if let biomeDescript = planet?.biome.description {
                 Text(biomeDescript)
                     .font(Font.custom("FS Sinclair", size: smallFont))
                 
@@ -351,7 +351,7 @@ struct PlanetInfoView: View {
             
             RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
             
-            if let weathers = planet?.environmentals {
+            if let weathers = planet?.hazards {
                 ForEach(weathers, id: \.name) { weather in
                     
                     HStack(spacing: 12) {

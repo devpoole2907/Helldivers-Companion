@@ -179,27 +179,16 @@ let weatherIconSize: CGFloat = 8
 
 #endif
 
-// for weather effects, data comes from helldiverstrainingmanual api
 struct Environmental: Decodable {
     var name: String
     var description: String
 }
-// for biomes, data comes from helldiverstrainingmanual api
+
 struct Biome: Decodable {
-    var slug: String?
-    var description: String?
-}
-// for planets containing the data above, this additional data comes from helldiverstrainingmanual api
-struct PlanetAdditionalInfo: Decodable {
     var name: String
-    var sector: String
-    var biome: Biome?
-    var environmentals: [Environmental]
+    var description: String
 }
 
-struct AdditionalPlanetsInfoResponse: Decodable {
-    var planets: [String: PlanetAdditionalInfo]
-}
 // for galaxy statistics reponse
 struct GalaxyStats: Decodable {
     let missionsWon: Int64
@@ -287,6 +276,8 @@ struct UpdatedPlanet: Decodable, Hashable {
     var index: Int
     var name: String
     var sector: String
+    var biome: Biome
+    var hazards: [Environmental]
     var hash: Int64
     var position: Position
     var waypoints: [Int]
@@ -298,9 +289,6 @@ struct UpdatedPlanet: Decodable, Hashable {
     var regenPerSecond: Double
     var event: UpdatedPlanetEvent?
     var statistics: UpdatedPlanetStatistics
-    
-    var environmentals: [Environmental]? // data comes from helldiverstrainingmanual api
-    var biome: Biome? // data comes from helldiverstrainingmanual api
     
     
     // computed prop for liberation

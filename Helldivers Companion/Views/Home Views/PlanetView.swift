@@ -201,7 +201,7 @@ struct PlanetView: View {
                         }
                         
                         // show weather icons
-                        if let weathers = planet?.environmentals {
+                        if let weathers = planet?.hazards {
                             
                          
                             

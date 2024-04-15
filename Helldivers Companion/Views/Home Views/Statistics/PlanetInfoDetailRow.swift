@@ -54,7 +54,7 @@ struct PlanetInfoDetailRow: View {
                         .padding(.bottom, 1.7)
                     Spacer()
                     
-                    if let weathers = planet?.environmentals {
+                    if let weathers = planet?.hazards {
                        
                         HStack(spacing: 6) {
                             ForEach(weathers, id: \.name) { weather in
