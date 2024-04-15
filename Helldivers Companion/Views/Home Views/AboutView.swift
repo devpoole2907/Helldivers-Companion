@@ -24,7 +24,7 @@ struct AboutView: View {
                     Text("This application utilizes the unofficial Helldivers 2 API, a collaborative project lead by dealloc available at https://github.com/helldivers-2/api, to fetch and display the latest data from the ongoing galactic war in the Helldivers 2 universe.")
                         .font(Font.custom("FS Sinclair", size: 18))
                     
-                    Text("This application also utilizes the Helldivers Training Manual API developed by Mitchel Jager, available at https://helldiverstrainingmanual.com, to fetch and display additional information such as planetary environmental effects.")
+                    Text("This application also utilizes the Helldivers Training Manual API developed by Mitchel Jager, available at https://helldiverstrainingmanual.com, to fetch and display additional information such as defense expiration times.")
                         .font(Font.custom("FS Sinclair", size: 18))
                     
                     Text("This application is not affiliated with, endorsed by, or in any way officially connected to Arrowhead Game Studios or Sony. All game content, including images and trademarks, are the property of their respective owners. The use of such content within this app falls under fair use for informational purposes and does not imply any association with the game developers or publishers.")

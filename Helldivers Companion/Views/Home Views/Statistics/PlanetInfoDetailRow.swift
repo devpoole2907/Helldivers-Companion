@@ -59,14 +59,16 @@ struct PlanetInfoDetailRow: View {
                         HStack(spacing: 6) {
                             ForEach(weathers, id: \.name) { weather in
                                 
-                                Image(weather.name).resizable().aspectRatio(contentMode: .fit)
-                                
-                                    .frame(width: 13, height: 13)
-                                    .padding(4)
-                                    .background{
-                                        Circle().foregroundStyle(Color.white)
-                                            .shadow(radius: 3.0)
-                                    }
+                                if weather.name.lowercased() != "none" {
+                                    Image(weather.name).resizable().aspectRatio(contentMode: .fit)
+                                    
+                                        .frame(width: 13, height: 13)
+                                        .padding(4)
+                                        .background{
+                                            Circle().foregroundStyle(Color.white)
+                                                .shadow(radius: 3.0)
+                                        }
+                                }
                             }
                         }.opacity(0.7)
                             

@@ -362,6 +362,7 @@ struct PlanetInfoView: View {
                             .background{
                                 Circle().foregroundStyle(Color.white)
                                     .shadow(radius: 3.0)
+                                    .opacity(weather.name.lowercased() == "none" ? 0.4 : 1.0)
                             }
                         
                         VStack(alignment: .leading) {

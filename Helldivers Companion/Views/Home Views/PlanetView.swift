@@ -207,15 +207,16 @@ struct PlanetView: View {
                             
                             HStack(spacing: 8) {
                                 ForEach(weathers, id: \.name) { weather in
-                                    
-                                    Image(weather.name).resizable().aspectRatio(contentMode: .fit)
-                                    
-                                        .frame(width: weatherIconSize, height: weatherIconSize)
-                                      .padding(4)
-                                        .background{
-                                            Circle().foregroundStyle(Color.white)
-                                                .shadow(radius: 3.0)
-                                        }
+                                    if weather.name.lowercased() != "none" {
+                                        Image(weather.name).resizable().aspectRatio(contentMode: .fit)
+                                        
+                                            .frame(width: weatherIconSize, height: weatherIconSize)
+                                            .padding(4)
+                                            .background{
+                                                Circle().foregroundStyle(Color.white)
+                                                    .shadow(radius: 3.0)
+                                            }
+                                    }
                                 }
                             }.opacity(0.7)
                             
