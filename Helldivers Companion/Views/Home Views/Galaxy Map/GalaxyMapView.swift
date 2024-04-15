@@ -58,7 +58,7 @@ struct GalaxyMapView: View {
         }
         
         
-        if planet.currentOwner == "Humans" {
+        if planet.currentOwner.lowercased() == "humans" {
             if allDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
                 let campaign = allDefenseCampaigns.first { $0.planet.index == planet.index }
                 switch campaign?.planet.event?.faction {
@@ -72,19 +72,19 @@ struct GalaxyMapView: View {
             }
         } else if allCampaigns.contains(where: { $0.planet.index == planet.index }) {
             if !allDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
-                switch planet.currentOwner {
-                case "Automaton": return .red
-                case "Terminids": return .yellow
-                case "Illuminate": return .blue
+                switch planet.currentOwner.lowercased() {
+                case "automaton": return .red
+                case "terminids": return .yellow
+                case "illuminate": return .blue
                 default: return .gray // default color if currentOwner dont match any known factions
                 }
             }
         } else {
             // planet musnt be part of any campaigns, colour it based on current owner
-            switch planet.currentOwner {
-            case "Automaton": return .red
-            case "Terminids": return .yellow
-            case "Illuminate": return .blue
+            switch planet.currentOwner.lowercased() {
+            case "automaton": return .red
+            case "terminids": return .yellow
+            case "illuminate": return .blue
             default: return .gray
             }
         }
@@ -123,7 +123,9 @@ struct GalaxyMapView: View {
                     ForEach(allPlanets, id: \.index) { updatedPlanet in
                         if let startPoint = position(forPlanetIndex: updatedPlanet.index, in: imageSize) {
                             ForEach(updatedPlanet.waypoints, id: \.self) { waypointIndex in
-                                if let endPoint = position(forPlanetIndex: waypointIndex, in: imageSize) {
+                                if let endPoint = position(forPlanetIndex: waypointIndex, in: imageSize),
+                                                   (showAllPlanets || allCampaigns.contains(where: { $0.planet.index == updatedPlanet.index || $0.planet.index == waypointIndex }) ||
+                                                    allPlanets.first(where: { $0.index == updatedPlanet.index })?.currentOwner.lowercased() != "humans"){
                                     Path { path in
                                         path.move(to: startPoint)
                                         path.addLine(to: endPoint)
@@ -140,9 +142,27 @@ struct GalaxyMapView: View {
                     }
                     
                 }
-                
-                ForEach(planetPositions.filter { planet in
-                    showAllPlanets || allCampaigns.contains(where: { $0.planet.index == planet.index })
+                // this can be improved.. A LOT, but at least for now itll do, gets the feat out the door until i can return with a fresh brain
+                ForEach(planetPositions.filter { planetPosition in
+                    if showAllPlanets {
+                        return true
+                    } else {
+                        let currentPlanet = allPlanets.first { $0.index == planetPosition.index }
+                        let isOwnerNotHuman = currentPlanet?.currentOwner.lowercased() != "humans"
+                        let isInCampaign = allCampaigns.contains(where: { $0.planet.index == planetPosition.index })
+                        
+                        // check if any waypoints from this planet lead to a campaign planet
+                        let hasWaypointToCampaign = currentPlanet?.waypoints.contains(where: { waypointIndex in
+                            allCampaigns.contains(where: { $0.planet.index == waypointIndex })
+                        }) ?? false
+                        
+                        let isTargetOfCampaign = allPlanets.contains { planet in
+                                    planet.waypoints.contains(planetPosition.index) &&
+                                    allCampaigns.contains(where: { $0.planet.index == planet.index })
+                                }
+                        
+                        return isInCampaign || isOwnerNotHuman || hasWaypointToCampaign || isTargetOfCampaign
+                    }
                 }, id: \.index) { planet in
                     
                     let planetPosition = CGPoint(
