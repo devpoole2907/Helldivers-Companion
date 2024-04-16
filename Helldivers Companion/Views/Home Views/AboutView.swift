@@ -38,7 +38,7 @@ struct AboutView: View {
                                 }
                         )
                     
-                    Text("War Monitor for Helldivers 2 supports partial localisations. If enabled, any data received from the API will be displayed in your local language if supported, otherwise it will be presented in English.")
+                    Text("War Monitor for Helldivers 2 supports partial localisations. If enabled, any data received from the API will be displayed in your local language if supported, otherwise it will be presented in English. Recommend to restart the app after changing this setting.")
                         .font(Font.custom("FS Sinclair", size: 14))
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.gray)
@@ -63,7 +63,7 @@ struct AboutView: View {
                     
                     Text("ABOUT").font(Font.custom("FS Sinclair", size: 18)).bold()
                         .padding()
-                        .padding(.horizontal)
+                        .padding(.horizontal, 40)
                         .padding(.top, 3)
                         .background(
                             AngledLinesShape()

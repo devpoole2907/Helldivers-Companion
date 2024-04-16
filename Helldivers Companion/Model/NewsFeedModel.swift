@@ -14,9 +14,7 @@ class NewsFeedModel: ObservableObject {
     @Published var news: [NewsFeed] = []
     private var timer: Timer?
     
-    @AppStorage("enableLocalization") var enableLocalization = true
-    
-    func fetchNewsFeed(completion: @escaping ([NewsFeed]) -> Void) {
+    func fetchNewsFeed(_ enableLocalization: Bool, completion: @escaping ([NewsFeed]) -> Void) {
           let feedURLString = "https://helldivers-2-dotnet.fly.dev/raw/api/NewsFeed/801?maxLimit=1024"
         
         guard let url = URL(string: feedURLString) else { return }
@@ -24,9 +22,9 @@ class NewsFeedModel: ObservableObject {
         var request = URLRequest(url: url)
         request.addValue("WarMonitoriOS/2.1", forHTTPHeaderField: "User-Agent")
         request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Application-Contact")
-        if enableLocalization {
-            request.addValue(apiSupportedLanguage, forHTTPHeaderField: "Accept-Language")
-        }
+        
+        request.addValue(enableLocalization ? apiSupportedLanguage : "en-US", forHTTPHeaderField: "Accept-Language")
+       
         
         
         URLSession.shared.dataTask(with: request){ [weak self] data, response, error in
@@ -65,18 +63,18 @@ class NewsFeedModel: ObservableObject {
       }
     
     // fetch news feed every 1 min
-    func startUpdating() {
+    func startUpdating(_ enableLocalization: Bool) {
            timer?.invalidate()
            
         
-        fetchNewsFeed { _ in
+        fetchNewsFeed(enableLocalization) { _ in
             print("fetched news feed")
         }
            
            timer = Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { [weak self] _ in
                
                
-               self?.fetchNewsFeed { _ in
+               self?.fetchNewsFeed(enableLocalization) { _ in
                    print("fetched news feed")
                }
                

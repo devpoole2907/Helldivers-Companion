@@ -86,6 +86,10 @@
 		7C1B8C3A2BAD78CD00944823 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7C1B8C392BAD78CD00944823 /* FirebaseMessaging */; };
 		7C1B8C3B2BAD790500944823 /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
 		7C1B8C602BAD85B200944823 /* GameViewWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1B8C5F2BAD85B200944823 /* GameViewWatch.swift */; };
+		7C297D172BCE845D00D884DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C297D162BCE845D00D884DD /* GoogleService-Info.plist */; };
+		7C297D182BCE845D00D884DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C297D162BCE845D00D884DD /* GoogleService-Info.plist */; };
+		7C297D192BCE845D00D884DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C297D162BCE845D00D884DD /* GoogleService-Info.plist */; };
+		7C297D1A2BCE845D00D884DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C297D162BCE845D00D884DD /* GoogleService-Info.plist */; };
 		7C319F942BAAE91E0075A1E4 /* NewsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */; };
 		7C319F952BAAEF7F0075A1E4 /* NewsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */; };
 		7C319F972BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
@@ -167,10 +171,6 @@
 		7C45D4792BAC142C0013A632 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4772BAC142C0013A632 /* Tab.swift */; };
 		7C45D47A2BAC142C0013A632 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4772BAC142C0013A632 /* Tab.swift */; };
 		7C45D47B2BAC142C0013A632 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4772BAC142C0013A632 /* Tab.swift */; };
-		7C50CEE62BA8295E009094AE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C50CEE52BA8295E009094AE /* GoogleService-Info.plist */; };
-		7C50CEE72BA8295E009094AE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C50CEE52BA8295E009094AE /* GoogleService-Info.plist */; };
-		7C50CEE82BA8295E009094AE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C50CEE52BA8295E009094AE /* GoogleService-Info.plist */; };
-		7C50CEE92BA8295E009094AE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C50CEE52BA8295E009094AE /* GoogleService-Info.plist */; };
 		7C587F3F2BA6A7DA00C66643 /* CustomSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */; };
 		7C587F472BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F462BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift */; };
 		7C587F492BA6DBB400C66643 /* ContentViewWatchVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F482BA6DBB400C66643 /* ContentViewWatchVersion.swift */; };
@@ -436,6 +436,7 @@
 		7C1B8C182BAD705700944823 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C1B8C1A2BAD705700944823 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C1B8C5F2BAD85B200944823 /* GameViewWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewWatch.swift; sourceTree = "<group>"; };
+		7C297D162BCE845D00D884DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemView.swift; sourceTree = "<group>"; };
 		7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlobalFunctions+Extensions.swift"; sourceTree = "<group>"; };
 		7C3A9EC52BA944BE00F26307 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
@@ -466,7 +467,6 @@
 		7C45D46D2BABEECF0013A632 /* MajorOrderTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MajorOrderTimeView.swift; sourceTree = "<group>"; };
 		7C45D4722BABF47C0013A632 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		7C45D4772BAC142C0013A632 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
-		7C50CEE52BA8295E009094AE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedPicker.swift; sourceTree = "<group>"; };
 		7C587F442BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Helldivers Companion Watch Edition Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C587F462BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Watch_EditionApp.swift; sourceTree = "<group>"; };
@@ -687,7 +687,7 @@
 				7CE4AE382BA832660033D4AF /* Views */,
 				7C4589C52BA5840A0019B00E /* Helldivers Companion.entitlements */,
 				7C4589BA2BA54C140019B00E /* Helldivers-Companion-Info.plist */,
-				7C50CEE52BA8295E009094AE /* GoogleService-Info.plist */,
+				7C297D162BCE845D00D884DD /* GoogleService-Info.plist */,
 				7C0C99592BA2BAC000CF7C91 /* Model */,
 				7C0C994B2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift */,
 				7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */,
@@ -1253,13 +1253,13 @@
 				7C4589B92BA54C030019B00E /* FS Sinclair Bold.otf in Resources */,
 				7C018FF02BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 in Resources */,
 				7C018FFD2BBA68C9001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 in Resources */,
-				7C50CEE62BA8295E009094AE /* GoogleService-Info.plist in Resources */,
 				7C0190052BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */,
 				7C018FED2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 in Resources */,
 				7C0190022BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 in Resources */,
 				7C018FFF2BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 in Resources */,
 				7C018FF62BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */,
 				7C0C99532BA2BA9000CF7C91 /* Preview Assets.xcassets in Resources */,
+				7C297D172BCE845D00D884DD /* GoogleService-Info.plist in Resources */,
 				7C018FEA2BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 in Resources */,
 				7CF6D2EA2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
 				7C018FF32BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 in Resources */,
@@ -1285,7 +1285,7 @@
 			files = (
 				7C3DE9872BA80B5000C95B84 /* FS Sinclair Bold.otf in Resources */,
 				7CF6D2ED2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
-				7C50CEE92BA8295E009094AE /* GoogleService-Info.plist in Resources */,
+				7C297D1A2BCE845D00D884DD /* GoogleService-Info.plist in Resources */,
 				7C3DE9882BA80B8100C95B84 /* Assets.xcassets in Resources */,
 				7C3DE97E2BA80B3E00C95B84 /* Assets.xcassets in Resources */,
 			);
@@ -1309,13 +1309,13 @@
 				7C587F602BA6E25500C66643 /* FS Sinclair Bold.otf in Resources */,
 				7C018FF12BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 in Resources */,
 				7C018FFC2BBA679F001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 in Resources */,
-				7C50CEE72BA8295E009094AE /* GoogleService-Info.plist in Resources */,
 				7C0190062BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */,
 				7C018FEE2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 in Resources */,
 				7C0190032BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 in Resources */,
 				7C0190002BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 in Resources */,
 				7C018FF72BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */,
 				7C587F4E2BA6DBBB00C66643 /* Preview Assets.xcassets in Resources */,
+				7C297D182BCE845D00D884DD /* GoogleService-Info.plist in Resources */,
 				7C018FEB2BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 in Resources */,
 				7CF6D2EB2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
 				7C018FF42BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 in Resources */,
@@ -1372,7 +1372,7 @@
 			files = (
 				7CC0AE892BA7F76600802D9F /* Assets.xcassets in Resources */,
 				7CF6D2EC2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
-				7C50CEE82BA8295E009094AE /* GoogleService-Info.plist in Resources */,
+				7C297D192BCE845D00D884DD /* GoogleService-Info.plist in Resources */,
 				7CC0AE8A2BA7F79800802D9F /* FS Sinclair Bold.otf in Resources */,
 				7CC0AE7B2BA7F31500802D9F /* Assets.xcassets in Resources */,
 			);
@@ -1853,6 +1853,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.2.4;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1891,6 +1892,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.2.4;
+				OTHER_LDFLAGS = "-ObjC";
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

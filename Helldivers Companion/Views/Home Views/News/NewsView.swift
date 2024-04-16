@@ -55,7 +55,7 @@ struct NewsView: View {
                 feedModel.stopUpdating()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    feedModel.startUpdating()
+                    feedModel.startUpdating(viewModel.enableLocalization)
                 }
             }
 #if os(iOS)
@@ -69,14 +69,6 @@ struct NewsView: View {
             }
             
             .scrollContentBackground(.hidden)
-            .refreshable {
-                feedModel.fetchNewsFeed { _ in
-                    
-                    print("fetching news")
-                    
-                    
-                }
-            }
             
             .navigationBarTitleDisplayMode(.inline)
             
@@ -112,7 +104,7 @@ struct NewsView: View {
 #endif
             
         }.onAppear {
-            feedModel.startUpdating()
+            feedModel.startUpdating(viewModel.enableLocalization)
         }
         
         

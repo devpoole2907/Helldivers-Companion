@@ -65,7 +65,7 @@ struct WatchNewsView: View {
             }
             
         }.onAppear {
-            feedModel.startUpdating()
+            feedModel.startUpdating(viewModel.enableLocalization)
         }
         
         
