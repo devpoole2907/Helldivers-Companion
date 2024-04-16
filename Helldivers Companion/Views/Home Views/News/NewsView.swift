@@ -74,9 +74,12 @@ struct NewsView: View {
             
 #if os(iOS)
             .background {
-                Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
-                
-                
+                if viewModel.darkMode {
+                    Color.black.ignoresSafeArea()
+                } else {
+                    Image("BackgroundImage").blur(radius: 10).ignoresSafeArea()
+                }
+            }
                     .toolbar {
                         ToolbarItem(placement: .principal) {
                             
@@ -91,7 +94,7 @@ struct NewsView: View {
                 
                 
                 
-            }
+            
 #elseif os(watchOS)
             
             .toolbar {

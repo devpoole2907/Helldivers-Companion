@@ -58,6 +58,43 @@ struct AboutView: View {
                         }
                     
                 }.padding()
+                #if os(iOS)
+                VStack(spacing: 20){
+                    
+                    Text("Dark Mode").font(Font.custom("FS Sinclair", size: 18)).bold()
+                        .padding()
+                        .padding(.horizontal)
+                        .padding(.top, 3)
+                        .background(
+                            AngledLinesShape()
+                                .stroke(lineWidth: 3)
+                                .foregroundColor(.white)
+                                .opacity(0.2)
+                                .clipped()
+                                .background {
+                                    Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                                        .foregroundStyle(.gray)
+                                        .opacity(0.9)
+                                        .shadow(radius: 3)
+                                }
+                        )
+                    
+                    Text("Disables blurred backgrounds.")
+                        .font(Font.custom("FS Sinclair", size: 14))
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.gray)
+                    CustomTogglePicker(selection: $viewModel.darkMode)
+                    
+                    
+                        .frame(height: 30)
+                        .padding(4)
+                        .border(Color.white)
+                        .padding(4)
+                        .border(Color.gray)
+                    
+                }.padding()
+                
+                #endif
                 
                 VStack(spacing: 20) {
                     

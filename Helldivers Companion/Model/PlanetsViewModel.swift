@@ -32,6 +32,7 @@ class PlanetsViewModel: ObservableObject {
     @AppStorage("viewCount") var viewCount = 0
     
     @AppStorage("enableLocalization") var enableLocalization = true
+    @AppStorage("darkMode") var darkMode = false
     
     private var apiToken: String? = ProcessInfo.processInfo.environment["GITHUB_API_KEY"]
     

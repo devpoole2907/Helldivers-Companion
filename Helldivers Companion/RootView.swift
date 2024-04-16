@@ -61,7 +61,7 @@ struct RootView: View {
                 GalaxyMapRootView().environmentObject(viewModel).environmentObject(mapNavPather)
                     .tag(Tab.map)
               
-                GameView()
+                GameView().environmentObject(viewModel)
                     .tag(Tab.game)
                 
                 GalaxyStatsView().environmentObject(viewModel).environmentObject(statsNavPather)

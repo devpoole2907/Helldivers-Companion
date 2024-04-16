@@ -13,6 +13,10 @@ struct GameView: View {
     @StateObject var gameCenterManager = GameCenterManager()
     @ObservedObject var watchConnectivity = WatchConnectivityProvider.shared
     
+    #if os(iOS)
+    @EnvironmentObject var planetModel: PlanetsViewModel
+    #endif
+    
     var body: some View {
         NavigationStack {
             
@@ -108,8 +112,13 @@ struct GameView: View {
             .persistentSystemOverlays(.hidden)
             
             .background {
-                Image("BackgroundImage").blur(radius: 14).ignoresSafeArea()
+                if planetModel.darkMode {
+                    Color.black.ignoresSafeArea()
+                } else {
+                    Image("BackgroundImage").blur(radius: 10).ignoresSafeArea()
+                }
             }
+            
             
             .padding(.top)
 #if os(iOS)

@@ -115,7 +115,11 @@ struct ContentView: View {
             
 #if os(iOS)
                 .background {
-                    Image("BackgroundImage").blur(radius: 10).ignoresSafeArea()
+                    if viewModel.darkMode {
+                        Color.black.ignoresSafeArea()
+                    } else {
+                        Image("BackgroundImage").blur(radius: 10).ignoresSafeArea()
+                    }
                 }
 #endif
             

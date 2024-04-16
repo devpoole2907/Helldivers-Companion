@@ -104,9 +104,13 @@ struct GalaxyStatsView: View {
                         .offset(x: 0, y: -45)
                     , alignment: .topTrailing)*/
             
-                .background {
+            .background {
+                if viewModel.darkMode {
+                    Color.black.ignoresSafeArea()
+                } else {
                     Image("BackgroundImage").blur(radius: 10).ignoresSafeArea()
                 }
+            }
             
                 .inlineLargeTitleiOS17()
 #endif

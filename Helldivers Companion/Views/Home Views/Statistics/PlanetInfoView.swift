@@ -135,10 +135,15 @@ struct PlanetInfoView: View {
         }
 #if os(iOS)
         
-        
         .background {
-            Image("helldivers2planet").resizable().aspectRatio(contentMode: .fill).offset(CGSize(width: -400, height: 0)).blur(radius: 20.0).ignoresSafeArea()
+            if viewModel.darkMode {
+                Color.black.ignoresSafeArea()
+            } else {
+                Image("helldivers2planet").resizable().aspectRatio(contentMode: .fill).offset(CGSize(width: -400, height: 0)).blur(radius: 20.0).ignoresSafeArea()
+            }
         }
+        
+
         
         .overlay(
             
