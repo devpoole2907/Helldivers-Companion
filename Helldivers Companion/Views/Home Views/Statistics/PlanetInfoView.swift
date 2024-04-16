@@ -26,7 +26,7 @@ struct PlanetInfoView: View {
     
     private var formattedPlanetImageName: String {
         
-        PlanetImageFormatter.formattedPlanetImageName(for: planet?.name ?? "")
+        PlanetImageFormatter.formattedPlanetImageName(for: planet)
         
     }
     // to determine if it is currently defending

@@ -13,7 +13,7 @@ struct PlanetInfoDetailRow: View {
     
     private var formattedPlanetImageName: String {
         
-        PlanetImageFormatter.formattedPlanetImageName(for: planet?.name ?? "Fori Prime")
+        PlanetImageFormatter.formattedPlanetImageName(for: planet)
     
         }
     

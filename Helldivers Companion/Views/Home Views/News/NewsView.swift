@@ -26,7 +26,7 @@ struct NewsView: View {
                     LazyVStack(spacing: 15) {
                         ForEach(feedModel.news, id: \.id) { news in
                             
-                            if let message = news.message, !message.isEmpty, let published = news.published {
+                            if let message = news.message, !message.isEmpty, message != "void msg", let published = news.published {
                                 NewsItemView(newsTitle: news.title, newsMessage: message, published: published, configData: viewModel.configData)
                                     .padding(.horizontal)
                                 // set id as 0 if first news item to programmatic scroll to top
@@ -34,14 +34,29 @@ struct NewsView: View {
                             }
                             
                         }
-                        Spacer(minLength: 150)
+                      
                     }.padding()
 #if os(iOS)
                         .scrollTargetLayoutiOS17()
 #endif
                 }
                 
+                Text("Pull to Refresh").textCase(.uppercase)
+                    .opacity(0.5)
+                    .foregroundStyle(.gray)
+                    .font(Font.custom("FS Sinclair Bold", size: smallFont))
+                    .padding()
                 
+                
+                Spacer(minLength: 30)
+                
+                
+            }.refreshable {
+                feedModel.stopUpdating()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    feedModel.startUpdating()
+                }
             }
 #if os(iOS)
             

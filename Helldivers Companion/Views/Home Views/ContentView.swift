@@ -22,6 +22,8 @@ struct ContentView: View {
     @Environment(\.requestReview) var requestReview
     #endif
     
+    let appUrl = URL(string: "https://apps.apple.com/us/app/war-monitor-for-helldivers-2/id6479404407")
+    
     var body: some View {
         
         NavigationStack(path: $navPather.navigationPath) {
@@ -31,14 +33,6 @@ struct ContentView: View {
                 //     Text("Current war season: \(viewModel.currentSeason)")
                 
                 LazyVStack(spacing: 20) {
-                    
-                    // some preview planets for when editing
-                    
-                    
-                    /*  PlanetView().padding(.horizontal).environmentObject(viewModel)
-                     PlanetView().padding(.horizontal)
-                     PlanetView().padding(.horizontal)
-                     PlanetView().padding(.horizontal)*/
                     
                     if let alert = viewModel.configData.prominentAlert {
                         
@@ -131,10 +125,22 @@ struct ContentView: View {
                         Button(action: {
                             viewModel.showInfo.toggle()
                         }){
-                            Image(systemName: "info.circle")
+                            Image(systemName: "gearshape.fill")
                         }.foregroundStyle(.white)
                             .bold()
                     }
+                 /*   if let appUrl = appUrl {
+                    ToolbarItem(placement: .topBarLeading) {
+                        
+                    
+                            
+                            ShareLink(item: appUrl) {
+                                Image(systemName: "square.and.arrow.up.fill")
+                            }
+                            
+                        }
+                        
+                    }*/
                     
                     
                     ToolbarItem(placement: .topBarTrailing) {

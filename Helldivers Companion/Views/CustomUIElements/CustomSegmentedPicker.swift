@@ -74,11 +74,7 @@ let pickerFontSize: CGFloat = 24
                                 .frame(height: 30)
                                 
                             }
-                            .frame(maxHeight: 30)
-                            .padding(4)
-                            .border(Color.white)
-                            .padding(4)
-                            .border(Color.gray)
+                         
                             
                         }
         .frame(maxWidth: 300).padding(.trailing, 14)
@@ -181,5 +177,8 @@ struct CustomTogglePicker: View {
             .frame(height: 30)
         }
         .frame(maxWidth: 300)
+        
+        
+        
     }
 }

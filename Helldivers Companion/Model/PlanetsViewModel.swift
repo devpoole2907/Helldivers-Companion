@@ -31,6 +31,8 @@ class PlanetsViewModel: ObservableObject {
     
     @AppStorage("viewCount") var viewCount = 0
     
+    @AppStorage("enableLocalization") var enableLocalization = true
+    
     private var apiToken: String? = ProcessInfo.processInfo.environment["GITHUB_API_KEY"]
     
     
@@ -45,6 +47,10 @@ class PlanetsViewModel: ObservableObject {
     
     private var timer: Timer?
     private var cacheTimer: Timer?
+
+
+    
+    
     
     var totalPlayerCount: Int64 {
         updatedPlanets.reduce(0) { $0 + $1.statistics.playerCount }
@@ -311,7 +317,10 @@ class PlanetsViewModel: ObservableObject {
         var request = URLRequest(url: url)
         request.addValue("WarMonitoriOS/2.1", forHTTPHeaderField: "User-Agent")
         request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Application-Contact")
-        
+        if enableLocalization {
+            request.addValue(apiSupportedLanguage, forHTTPHeaderField: "Accept-Language")
+        }
+      
         
         URLSession.shared.dataTask(with: request){ [weak self] data, response, error in
             
@@ -447,7 +456,9 @@ class PlanetsViewModel: ObservableObject {
             return }
         
         var request = URLRequest(url: url)
-        request.addValue("en", forHTTPHeaderField: "Accept-Language")
+        if enableLocalization {
+            request.addValue(apiSupportedLanguage, forHTTPHeaderField: "Accept-Language")
+        }
         
         URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             
@@ -738,6 +749,9 @@ class PlanetsViewModel: ObservableObject {
         var request = URLRequest(url: url)
         request.addValue("WarMonitoriOS/2.1", forHTTPHeaderField: "User-Agent")
         request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Application-Contact")
+        if enableLocalization {
+            request.addValue(apiSupportedLanguage, forHTTPHeaderField: "Accept-Language")
+        }
         
         URLSession.shared.dataTask(with: request){ [weak self] data, response, error in
             
@@ -891,7 +905,7 @@ class PlanetsViewModel: ObservableObject {
 }
 
 enum Tab: String, CaseIterable {
-    case home = "War"
+    case home = "War" /*String(localized: "War")*/
     case news = "News"
     case game = "Hero"
     case about = "About"
@@ -899,6 +913,10 @@ enum Tab: String, CaseIterable {
     case stats = "Stats"
     case map = "Map"
     case tipJar = "Tip Jar"
+    
+    var localizedName: String {
+            String(localized: "\(self.rawValue)")
+        }
     
     var systemImage: String? {
         switch self {

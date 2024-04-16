@@ -14,14 +14,22 @@ class NewsFeedModel: ObservableObject {
     @Published var news: [NewsFeed] = []
     private var timer: Timer?
     
+    @AppStorage("enableLocalization") var enableLocalization = true
+    
     func fetchNewsFeed(completion: @escaping ([NewsFeed]) -> Void) {
-          let feedURLString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/feed/news.json"
-          guard let feedURL = URL(string: feedURLString) else {
-              print("Bad URL")
-              return
-          }
+          let feedURLString = "https://helldivers-2-dotnet.fly.dev/raw/api/NewsFeed/801?maxLimit=1024"
         
-        URLSession.shared.dataTask(with: feedURL){ [weak self] data, response, error in
+        guard let url = URL(string: feedURLString) else { return }
+        
+        var request = URLRequest(url: url)
+        request.addValue("WarMonitoriOS/2.1", forHTTPHeaderField: "User-Agent")
+        request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Application-Contact")
+        if enableLocalization {
+            request.addValue(apiSupportedLanguage, forHTTPHeaderField: "Accept-Language")
+        }
+        
+        
+        URLSession.shared.dataTask(with: request){ [weak self] data, response, error in
             
             guard let feedData = data else {
                 completion([])
@@ -38,7 +46,7 @@ class NewsFeedModel: ObservableObject {
                 DispatchQueue.main.async {
     
                     newsFeed.sort { $0.id > $1.id }
-                    
+                    // uniqued in case dupes
                     let newsItems = Array(newsFeed.uniqued())
                     withAnimation(.bouncy)  {
                         self?.news = newsItems
@@ -56,7 +64,7 @@ class NewsFeedModel: ObservableObject {
 
       }
     
-    // fetch news feed every 5 min
+    // fetch news feed every 1 min
     func startUpdating() {
            timer?.invalidate()
            
@@ -75,6 +83,11 @@ class NewsFeedModel: ObservableObject {
                
            }
        }
+    
+    func stopUpdating() {
+        timer?.invalidate()
+        timer = nil
+    }
 
 
     

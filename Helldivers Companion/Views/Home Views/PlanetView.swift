@@ -56,7 +56,7 @@ struct PlanetView: View {
     
     private var formattedPlanetImageName: String {
         
-        PlanetImageFormatter.formattedPlanetImageName(for: planetName)
+        PlanetImageFormatter.formattedPlanetImageName(for: planet)
         
     }
     

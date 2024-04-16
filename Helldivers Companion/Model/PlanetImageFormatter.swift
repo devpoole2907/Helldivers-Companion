@@ -8,41 +8,40 @@
 import Foundation
 
 class PlanetImageFormatter {
-    
-    static func formattedPlanetImageName(for planetName: String) -> String {
-        switch planetName.lowercased() {
-        case "alaraph", "veil", "bashyr", "solghast", "alderidge cove", "ain-5", "aesir pass", "pandion-xxiv", "penta", "haka", "nivel 43", "cirrus", "troost", "skat bay", "x-45":
+    // change to not optional eventually
+    static func formattedPlanetImageName(for planet: UpdatedPlanet?) -> String {
+        switch planet?.biome.name.lowercased() {
+        case "swamp":
         return "Troost"
-    case "ubanea", "fort sanctuary", "freedom peak", "crimsica", "kharst", "minchir", "elysian meadows", "providence", "valgaard", "gatria", "enuliale", "liberty ridge", "stout", "genesis prime", "valmox", "gunvald", "overgoe prime", "kuper", "acrab xi", "ingmar", "yed prior":
+    case "crimsonmoor":
         return "Ingmar"
-    case "wezen", "pöpli ix", "imber", "partion", "karlia", "hellmire", "menkent", "blistica", "adhara", "grand errant", "bore rock", "marre iv", "kneth port", "asperoth prime":
+    case "desolate":
         return "Hellmire"
-    case "alathfar xi", "marfark", "arkturus", "kelvinor", "ivis", "hadar", "okul vi", "khandark", "new stockholm", "new kiruna", "epsilon phoencis vi", "tarsh", "mog", "julheim", "heeth", "parsh", "hesoe prime", "borea", "vog-sojoth", "merga iv", "vandalon iv", "vega bay":
+    case "winter":
         return "Vandalon IV"
-    case "meissa", "mantes", "meridia", "caph", "east iridium trading bay", "clasa", "gaellivare", "irulta", "rogue 5", "oasis", "spherion", "regnus", "baldrick prime", "navi vii", "alta v", "zegema paradise", "gar haren", "primordia", "pollux 31", "nublaria i", "fornskogur ii", "kirrik", "klaka 5":
+    case "jungle":
         return "Mantes"
-    case "malevelon creek", "peacock", "brink-2", "gemma", "siemnot", "veld", "seasse", "nabatea secundus", "atrama", "alairt iii", "prosperity falls", "new haven":
+    case "rainforest":
         return "Malevelon Creek"
-    case "fenrir iii", "zosma", "euphoria iii", "rd-4", "sirius", "maia", "widow's harbor":
+    case "moon":
         return "Fenrir III"
-    case "estanu", "krakatwo", "martyr's bay", "deneb secundus", "krakabos", "igla", "inari", "lesath", "halies port", "barabos", "eukoria", "stor tha prime", "grafmere", "oslo station", "choepessa iv", "acrux ix", "mekbuda":
+    case "icemoss":
         return "Estanu"
-    case "omicron", "angel's venture", "demiurg", "aurora bay", "martale":
+    case "tundra":
         return "Omicron"
-    case "vindemitarix prime", "turing", "zefia", "shallus", "tibit", "iridica", "mordia 9", "sulfura", "seyshel beach":
+    case "ethereal":
         return "Turing"
-    case "emeria", "kraz", "pioneer ii", "hydrofall prime", "achird iii", "effluvia", "fori prime", "prasa", "kuma", "myrium", "senge 23", "azterra", "calypso", "castor", "cyberstan":
+    case "canyon":
         return "Fori Prime"
-    case "draupnir", "varylia 5", "the weir", "reaf", "iro", "termadon", "fort union", "oshaune", "fenmire", "gemstone bluffs", "volterra", "acamar iv", "skitter", "bellatrix", "mintoria", "afoyay bay", "pherkad secundus", "obari", "achernar secundus", "electra bay", "matar bay", "pathfinder v":
+    case "highlands":
         return "Draupnir"
-        case "ustotu", "pilen v", "mortax prime", "erata prime", "cerberus iiic", "erson sands", "polaris prime", "zea rugosia", "myradesh", "choohe", "hydrobius", "azur secundus", "canopus":
+        case "desert":
         return "Ustotu"
-    case "durgen", "viridia prime", "moradesh", "zzaniah prime", "heze bay", "ratch", "phact bay", "caramoor", "diaspora x", "propus", "mastia", "zagon prime", "setia", "outpost 32", "osupsam", "lastofe", "klen dahth ii", "keid":
+    case "mesa":
         return "Durgen"
-        case "chort bay", "charbal-vii", "wilford station", "darrowsport", "darius ii", "slif", "esker", "botein", "vernen wells", "wraith", "leng secundus", "rirga bay", "skaash", "merak", "shete", "wasat":
+        case "toxic":
         return "Merak"
-    
-    case "tien kwan":
+    case "icemoss special":
         return "Tien Kwan"
     default:
         return "MissingPlanetImage"

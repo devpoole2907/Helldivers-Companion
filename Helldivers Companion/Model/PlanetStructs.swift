@@ -89,6 +89,13 @@ struct NewsFeed: Decodable, Hashable {
     let tagIds: [Int]
     let type: Int
     
+    func removeHTMLTags(from string: String) -> String? {
+        let pattern = "<[^>]*>"
+        let regex = try? NSRegularExpression(pattern: pattern, options: [])
+        let range = NSRange(string.startIndex..<string.endIndex, in: string)
+        return regex?.stringByReplacingMatches(in: string, options: [], range: range, withTemplate: "")
+    }
+    
     private enum CodingKeys: String, CodingKey {
         case id, message, published, tagIds, type
     }
@@ -102,13 +109,13 @@ struct NewsFeed: Decodable, Hashable {
         type = try container.decode(Int.self, forKey: .type)
         message = try container.decode(String.self, forKey: .message)
         
-        // processing into title/message
-        if let msg = message {
+        // processing into title/message, sanitise html tags
+        if let msg = message, let sanitisedMessage = removeHTMLTags(from: msg) {
             // check for new line in message
-            if let newlineIndex = msg.firstIndex(of: "\n") {
+            if let newlineIndex = sanitisedMessage.firstIndex(of: "\n") {
                 // if we find a new line in the message then seperate to title/message
-                title = String(msg[..<newlineIndex])
-                message = String(msg[msg.index(after: newlineIndex)...])
+                title = String(sanitisedMessage[..<newlineIndex])
+                message = String(sanitisedMessage[sanitisedMessage.index(after: newlineIndex)...])
             }
         }
     }

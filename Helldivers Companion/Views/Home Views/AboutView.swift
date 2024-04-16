@@ -19,8 +19,66 @@ struct AboutView: View {
         NavigationStack {
             ScrollView {
            
+                VStack(spacing: 20){
+                    
+                    Text("Language Localisation").font(Font.custom("FS Sinclair", size: 18)).bold()
+                        .padding()
+                        .padding(.top, 3)
+                        .background(
+                            AngledLinesShape()
+                                .stroke(lineWidth: 3)
+                                .foregroundColor(.white)
+                                .opacity(0.2)
+                                .clipped()
+                                .background {
+                                    Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                                        .foregroundStyle(.gray)
+                                        .opacity(0.9)
+                                        .shadow(radius: 3)
+                                }
+                        )
+                    
+                    Text("War Monitor for Helldivers 2 supports partial localisations. If enabled, any data received from the API will be displayed in your local language if supported, otherwise it will be presented in English.")
+                        .font(Font.custom("FS Sinclair", size: 14))
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.gray)
+                    CustomTogglePicker(selection: $viewModel.enableLocalization)
+                    
+                    
+                        .frame(height: 30)
+                        .padding(4)
+                        .border(Color.white)
+                        .padding(4)
+                        .border(Color.gray)
+                    
+                        .onChange(of: viewModel.enableLocalization) { _ in
+                            
+                            viewModel.refresh()
+                            
+                        }
+                    
+                }.padding()
                 
                 VStack(spacing: 20) {
+                    
+                    Text("ABOUT").font(Font.custom("FS Sinclair", size: 18)).bold()
+                        .padding()
+                        .padding(.horizontal)
+                        .padding(.top, 3)
+                        .background(
+                            AngledLinesShape()
+                                .stroke(lineWidth: 3)
+                                .foregroundColor(.white)
+                                .opacity(0.2)
+                                .clipped()
+                                .background {
+                                    Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                                        .foregroundStyle(.gray)
+                                        .opacity(0.9)
+                                        .shadow(radius: 3)
+                                }
+                        )
+                    
                     Text("This application utilizes the unofficial Helldivers 2 API, a collaborative project lead by dealloc available at https://github.com/helldivers-2/api, to fetch and display the latest data from the ongoing galactic war in the Helldivers 2 universe.")
                         .font(Font.custom("FS Sinclair", size: 18))
                     
@@ -69,8 +127,8 @@ struct AboutView: View {
               
                     
                     ToolbarItem(placement: .principal) {
-                        Text("About").textCase(.uppercase)
-                            .font(Font.custom("FS Sinclair", size: 24))
+                        Text("Settings").textCase(.uppercase)
+                            .font(Font.custom("FS Sinclair Bold", size: 24))
                     }
                 
                 ToolbarItem(placement: .topBarLeading) {
@@ -86,7 +144,7 @@ struct AboutView: View {
 #endif
 #if os(watchOS)
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("ABOUT").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont)).bold()
+                    Text("SETTINGS").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont)).bold()
                 }
 #endif
                 

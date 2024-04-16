@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 // format major order remaining seconds, using binary integer to support int64 also
 func formatDuration<T: BinaryInteger>(seconds: T) -> String {
@@ -49,3 +50,36 @@ func migrateUserDefaults() {
 }
 
 let dashPattern: [CGFloat] = [CGFloat.random(in: 50...70), CGFloat.random(in: 5...20)]
+
+
+
+
+    
+    // computed prop for api language fetching, determine whether
+    var apiSupportedLanguage: String {
+        // List of fully localized languages in the API with their corresponding full locales
+        let languageToLocaleMapping = [
+            "de": "de-DE",
+            "en": "en-US",
+            "es": "es-ES",
+            "fr": "fr-FR",
+            "it": "it-IT",
+            "pl": "pl-PL",
+            "ru": "ru-RU"
+        ]
+
+        // Get the preferred language code from the system settings
+        let preferredLanguageCode = Locale.preferredLanguages.first?.prefix(2) ?? "en"
+
+        // Check if the preferred language prefix is supported
+        if let fullLocale = languageToLocaleMapping[String(preferredLanguageCode)] {
+            return fullLocale
+        }
+
+        // Default to English (United States) if the preferred language is not fully supported
+        return "en-US"
+    }
+    
+
+
+
