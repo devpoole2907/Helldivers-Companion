@@ -165,7 +165,7 @@ struct CustomTogglePicker: View {
                             .font(Font.custom("FSSinclair-Bold", size: 18))
                             .foregroundStyle(selection ? iconColor : .black)
                             .frame(width: geo.size.width / 2, height: 30)
-                    }
+                    }.buttonStyle(PlainButtonStyle())
                     
                     Button(action: {
                         withAnimation(.spring().speed(1.5)) {
@@ -176,7 +176,7 @@ struct CustomTogglePicker: View {
                             .font(Font.custom("FSSinclair-Bold", size: 18))
                             .foregroundStyle(selection ? .black : iconColor)
                             .frame(width: geo.size.width / 2, height: 30)
-                    }
+                    }.buttonStyle(PlainButtonStyle())
                 }
             }
             .frame(height: 30)
