@@ -43,7 +43,7 @@ struct MajorOrderTimeView: View {
 #endif
             }
             Text("\(formatDuration(seconds: timeRemaining))").padding(.top, 2).padding(.horizontal, 16).background(Color.yellow).foregroundStyle(Color.black)
-        }.font(Font.custom("FS Sinclair", size: nameSize))
+        }.font(Font.custom("FSSinclair", size: nameSize))
     }
 }
 

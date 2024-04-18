@@ -1,5 +1,5 @@
 {
-  "originHash" : "360dde00c165cfd7e8fb62419deded2a9429ecaca946665f728bf2663733a1a4",
+  "originHash" : "000007b1f87f0c37df98c5127ab3220a0639d3b04b5abb078a304cd0eeb89149",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -143,6 +143,15 @@
       "state" : {
         "revision" : "65e8f29b2d63c4e38e736b25c27b83e012159be8",
         "version" : "1.25.2"
+      }
+    },
+    {
+      "identity" : "swiftui-haptics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/LiYanan2004/SwiftUI-Haptics",
+      "state" : {
+        "revision" : "3f150a46e01b5ebb40324dc28c0062c52b0e94da",
+        "version" : "2.0.0"
       }
     },
     {

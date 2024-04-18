@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Haptics
 
 struct CustomSegmentedPicker<Item: SegmentedItem>: View {
     
@@ -59,7 +60,7 @@ let pickerFontSize: CGFloat = 24
                                     .frame(minWidth: geo.size.width / CGFloat(items.count), maxWidth: .infinity)
                             case .text(let text):
                                 Text(text)
-                                    .font(Font.custom("FS Sinclair Bold", size: pickerFontSize))
+                                    .font(Font.custom("FSSinclair-Bold", size: pickerFontSize))
                                     .foregroundStyle(selection == item ? .black : .yellow)
                                     .frame(minWidth: geo.size.width / CGFloat(items.count), maxWidth: .infinity)
                                     .padding(.top, 2)
@@ -80,7 +81,7 @@ let pickerFontSize: CGFloat = 24
                                        .padding(4)
                                        .border(Color.gray)
                             
-                        }
+        }.hapticFeedback(.selection, trigger: selection)
         .frame(maxWidth: 300).padding(.trailing, 14)
         
         
@@ -161,7 +162,7 @@ struct CustomTogglePicker: View {
                         }
                     }) {
                         Text("Disabled")
-                            .font(Font.custom("FS Sinclair Bold", size: 18))
+                            .font(Font.custom("FSSinclair-Bold", size: 18))
                             .foregroundStyle(selection ? iconColor : .black)
                             .frame(width: geo.size.width / 2, height: 30)
                     }
@@ -172,14 +173,14 @@ struct CustomTogglePicker: View {
                         }
                     }) {
                         Text("Enabled")
-                            .font(Font.custom("FS Sinclair Bold", size: 18))
+                            .font(Font.custom("FSSinclair-Bold", size: 18))
                             .foregroundStyle(selection ? .black : iconColor)
                             .frame(width: geo.size.width / 2, height: 30)
                     }
                 }
             }
             .frame(height: 30)
-        }
+        }.hapticFeedback(.selection, trigger: selection)
         .frame(maxWidth: 300)
         
         

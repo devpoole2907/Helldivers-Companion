@@ -96,16 +96,16 @@ struct StratagemHeroHighScoreSmallWidgetView: View {
             VStack(spacing: 4) {
                 
                 Text("STRATAGEM HERO").foregroundStyle(.yellow).bold()
-                    .font(Font.custom("FS Sinclair", size: 16))
+                    .font(Font.custom("FSSinclair", size: 16))
                 RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)
                     .foregroundStyle(.gray)
                 
                 Text("High Score".uppercased()).foregroundStyle(.white)
-                    .font(Font.custom("FS Sinclair", size: 16))
+                    .font(Font.custom("FSSinclair", size: 16))
                     .padding(.top, 10)
                 
                 Text("\(entry.highScore)").foregroundStyle(.yellow)
-                    .font(Font.custom("FS Sinclair", size: 26))
+                    .font(Font.custom("FSSinclair", size: 26))
                 
                 
             }
@@ -137,16 +137,16 @@ struct HighScoreRectangularView: View {
             VStack(alignment: .leading, spacing: 0) {
                 
                 Text("STRATAGEM HERO").bold()
-                    .font(Font.custom("FS Sinclair", size: headersFont))
+                    .font(Font.custom("FSSinclair", size: headersFont))
                 RoundedRectangle(cornerRadius: 25).frame(width: rectWidth, height: 2)
                     .foregroundStyle(.gray)
                 VStack(alignment: .leading, spacing: -4) {
                     Text("High Score".uppercased())
-                        .font(Font.custom("FS Sinclair", size: headersFont))
+                        .font(Font.custom("FSSinclair", size: headersFont))
                     
                     
                     Text("\(entry.highScore)")
-                        .font(Font.custom("FS Sinclair", size: scoreFont)).bold()
+                        .font(Font.custom("FSSinclair", size: scoreFont)).bold()
                     #if os(watchOS)
                     
                         .foregroundStyle(.yellow)

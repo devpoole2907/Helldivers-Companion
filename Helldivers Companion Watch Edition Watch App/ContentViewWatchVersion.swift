@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Haptics
 
 struct ContentViewWatchVersion: View {
     
@@ -51,6 +52,9 @@ struct ContentViewWatchVersion: View {
         }.background {
             Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
         }
+        
+        .hapticFeedback(.selection, trigger: contentNavPather.navigationPath)
+            .hapticFeedback(.selection, trigger: statsNavPather.navigationPath)
    
         
         .onAppear {

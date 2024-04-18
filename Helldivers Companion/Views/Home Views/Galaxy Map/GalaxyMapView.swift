@@ -219,7 +219,7 @@ struct GalaxyMapView: View {
                            Text("\(planet.name)")
                                 .shadow(radius: 3)
                                .multilineTextAlignment(.center)
-                               .font(Font.custom("FS Sinclair Bold", size: 50))
+                               .font(Font.custom("FSSinclair", size: 50)).bold()
                                .scaleEffect(0.04)
                                .position(planetPosition)
                                .offset(x: 4, y: 5)
@@ -250,8 +250,13 @@ struct GalaxyMapView: View {
                         .onTapGesture {
                             print("\(planet.name) tapped")
                             withAnimation(.bouncy) {
-                                selectedPlanet = allPlanets.first(where: { $0.index == planet.index })
-                                
+                                if selectedPlanet?.index == planet.index {
+                                            // deselect planet if same tapped
+                                            selectedPlanet = nil
+                                        } else {
+                                       // otherwise select
+                                            selectedPlanet = allPlanets.first(where: { $0.index == planet.index })
+                                        }
                             }
                             
                         }

@@ -24,7 +24,7 @@ struct NewsItemView: View {
         VStack(alignment: .leading, spacing: 4) {
             
             if let title = newsTitle {
-                Text(title).textCase(.uppercase) .font(Font.custom("FS Sinclair Bold", size: mediumFont)).foregroundStyle(Color.yellow)
+                Text(title).textCase(.uppercase) .font(Font.custom("FSSinclair-Bold", size: mediumFont)).foregroundStyle(Color.yellow)
 #if os(watchOS)
                     .lineLimit(nil)
 #elseif os(iOS)
@@ -32,7 +32,7 @@ struct NewsItemView: View {
 #endif
             }
             // replace only first found new line
-            Text(newsMessage.replacingOccurrences(of: "\n", with: "", options: [], range: newsMessage.range(of: "\n"))).font(Font.custom("FS Sinclair", size: isWidget ? 14 : mediumFont)).foregroundStyle(Color.white)
+            Text(newsMessage.replacingOccurrences(of: "\n", with: "", options: [], range: newsMessage.range(of: "\n"))).font(Font.custom("FSSinclair", size: isWidget ? 14 : mediumFont)).foregroundStyle(Color.white)
             //  #if os(iOS)
 #if os(iOS)
                 .lineLimit(isWidget ? (widgetFamily != .systemMedium ? 10 : 4) : (isExpanded ? nil : 3))
@@ -56,11 +56,11 @@ struct NewsItemView: View {
                     let daysDifference = components.day ?? 0
 
                     if daysDifference > 0 {
-                        Text("\(daysDifference) day\(daysDifference > 1 ? "s" : "") ago").font(Font.custom("FS Sinclair", size: smallFont))
+                        Text("\(daysDifference) day\(daysDifference > 1 ? "s" : "") ago").font(Font.custom("FSSinclair", size: smallFont))
                             .foregroundStyle(.gray)
                     } else {
                         Text("\(hoursDifference) hour\(hoursDifference > 1 ? "s" : "") ago")
-                            .font(Font.custom("FS Sinclair", size: smallFont))
+                            .font(Font.custom("FSSinclair", size: smallFont))
                             .foregroundStyle(.gray)
                     }
                 }
@@ -77,9 +77,9 @@ struct NewsItemView: View {
                         Text(isExpanded ? "Less" : "More")
                             .foregroundStyle(.yellow)
 #if os(iOS)
-                            .font(Font.custom("FS Sinclair Bold", size: smallFont))
+                            .font(Font.custom("FSSinclair-Bold", size: smallFont))
 #elseif os(watchOS)
-                            .font(Font.custom("FS Sinclair Bold", size: mediumFont))
+                            .font(Font.custom("FSSinclair-Bold", size: mediumFont))
 #endif
                             .padding([.top, .bottom], 2)
                     }

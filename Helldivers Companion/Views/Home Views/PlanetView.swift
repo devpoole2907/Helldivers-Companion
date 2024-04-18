@@ -9,6 +9,8 @@ import SwiftUI
 import Charts
 import WidgetKit
 
+// this is now used for the widgets only, it needs to be cleaned up a LOTTT of old code lying around
+
 struct PlanetView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
@@ -32,12 +34,11 @@ struct PlanetView: View {
     
     var isInMapView = false // map view uses navigation view not navigationstack, due to the zoomable package/modifier not working in stack. so this is a workaround that allows us to change the navigationlink styling to the older deprecated way if we are in the map view
     
-    var isActive = true // map view needs this, as it shows planet view for all planets even if they arent actively in a campaign. used to hide additional info such as liberation %
-    
     @State private var showChart = false
     
     @State private var chartType: ChartType = .players
     
+
 #if os(iOS)
     let raceIconSize: CGFloat = 25
     let spacingSize: CGFloat = 10
@@ -107,22 +108,12 @@ struct PlanetView: View {
                 
          
                     
-                CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, isActive: isActive)
+                CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime)
                     
                 
                 
                 
                 
-                
-            }.onTapGesture {
-                // show chart if tapped anywhere
-                // showChartToggler()
-                // nav to planet info view if tapped anywhere
-                if let planet = planet {
-                    navPather.navigationPath.append(planet)
-                } else {
-                    // showChartToggler()
-                }
                 
             }
             
@@ -146,7 +137,7 @@ struct PlanetView: View {
                 .shadow(radius: 3)
             HStack(spacing: 2){
                 Text(planetName).textCase(.uppercase).foregroundStyle(foreColor)
-                    .font(Font.custom("FS Sinclair", size: largeFont))
+                    .font(Font.custom("FSSinclair", size: largeFont))
                     .padding(.top, 3)
                 #if os(iOS)
                     .lineLimit(2)
@@ -239,17 +230,13 @@ struct PlanetView: View {
 #if os(iOS)
                     if isWidget {
                         planetNameAndIcon
-                    }  else {
-                        NavigationLink(value: planet) {
-                            planetNameAndIcon
-                        }
-                    }
+                    } 
                     // map view isnt coming to the watch so no need to change the nav link method there
 #else
                     
                     Button(action: {
                         if let planet = planet {
-                            navPather.navigationPath.append(planet)
+                            navPather.navigationPath.append(planet.index)
                         }
                         
                     }){
@@ -268,7 +255,7 @@ struct PlanetView: View {
                                 .frame(width: 16, height: 16)
                             Text("\(playerCount)").textCase(.uppercase)
                                 .foregroundStyle(.white).bold()
-                                .font(Font.custom("FS Sinclair", size: smallFont))
+                                .font(Font.custom("FSSinclair", size: smallFont))
                                 .padding(.top, 3)
                             
                             
@@ -348,18 +335,18 @@ struct ChartAnnotationView: View {
             VStack(alignment: .leading, spacing: -5){
                 
                 Text("TOTAL")
-                    .font(Font.custom("FS Sinclair Bold", size: smallFont))
+                    .font(Font.custom("FSSinclair-Bold", size: smallFont))
                     .foregroundStyle(.gray)
                     .padding(.top, 1)
                 
                 Text(value)
                 
                     .foregroundStyle(factionColor)
-                    .font(Font.custom("FS Sinclair Bold", size: valueFont))
+                    .font(Font.custom("FSSinclair-Bold", size: valueFont))
                 
                 Text(date)
                     .foregroundColor(.gray)
-                    .font(Font.custom("FS Sinclair", size: smallFont))
+                    .font(Font.custom("FSSinclair", size: smallFont))
                 
                 
             }.padding(.leading, 8)

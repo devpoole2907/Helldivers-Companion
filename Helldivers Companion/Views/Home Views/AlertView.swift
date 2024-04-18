@@ -17,10 +17,10 @@ struct AlertView: View {
                 Image("helldiverIcon").resizable().aspectRatio(contentMode: .fit)
                     .frame(width: 35, height: 35)
                 Text("ALERT").foregroundStyle(Color.yellow)
-                    .font(Font.custom("FS Sinclair Bold", size: largeFont))
+                    .font(Font.custom("FSSinclair-Bold", size: largeFont))
             }
             
-            Text(alert) .font(Font.custom("FS Sinclair Bold", size: mediumFont))
+            Text(alert) .font(Font.custom("FSSinclair-Bold", size: mediumFont))
           
         } .padding() .frame(maxWidth: .infinity)
             .background {

@@ -8,6 +8,7 @@
 import SwiftUI
 import Zoomable
 import SwiftUIIntrospect
+import Haptics
 
 struct GalaxyMapRootView: View {
     
@@ -20,63 +21,6 @@ struct GalaxyMapRootView: View {
     @State var showSupplyLines = true
     @State var showAllPlanets = true
     @State var showPlanetNames = false
-    
-    // to determine if it is actively in a campaign
-    var isActive: Bool {
-        
-        if let selectedPlanet = viewModel.selectedPlanet {
-            
-            viewModel.updatedCampaigns.contains(where: { $0.planet.index == selectedPlanet.index })
-            
-        } else {
-            false
-        }
-        
-    }
-    // to determine if it is actively in a defense campaign
-    var isDefending: Bool {
-        
-        if let selectedPlanet = viewModel.selectedPlanet {
-            
-            viewModel.updatedDefenseCampaigns.contains(where: { $0.planet.index == selectedPlanet.index })
-            
-        } else {
-            false
-        }
-        
-        
-    }
-    
-    var liberationPercentage: Double {
-        
-        if let selectedPlanet = viewModel.selectedPlanet {
-            if isDefending {
-                
-                return selectedPlanet.event?.percentage ?? 0.0
-                
-            } else if isActive {
-                
-                return selectedPlanet.percentage
-                
-            
-            } else if selectedPlanet.currentOwner == "Humans" {
-                
-                return 100
-                
-                
-            } else {
-                // must be owned by another faction and not actively in campaign so 0
-                return 0
-            }
-            
-            
-        }
-        
-        return 0
-        
-        
-        
-    }
     
     var body: some View {
         
@@ -127,18 +71,11 @@ struct GalaxyMapRootView: View {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
                 
-                if let selectedPlanet = viewModel.selectedPlanet {
-                    
-                    let defenseCampaign = viewModel.updatedDefenseCampaigns.first(where: { $0.planet.index == selectedPlanet.index })
-                    
-                    let eventExpirationTime = defenseCampaign?.planet.event?.expireTimeDate
-                    
-                    
-                    
-                    PlanetView(planetName: selectedPlanet.name, liberation: liberationPercentage, rate: selectedPlanet.regenPerSecond, playerCount: selectedPlanet.statistics.playerCount, planet: selectedPlanet, liberationType: isDefending ? .defense : .liberation, eventExpirationTime: eventExpirationTime, isActive: isActive).environmentObject(viewModel)
+                if let selectedPlanetIndex = viewModel.selectedPlanet?.index {
+        
+                    UpdatedPlanetView(planetIndex: selectedPlanetIndex)
                         .padding(.horizontal)
                         .frame(maxWidth: 460, maxHeight: 300)
-                        .animation(.bouncy, value: isActive)
                     
                   
                     
@@ -170,7 +107,7 @@ struct GalaxyMapRootView: View {
                 
                 ToolbarItem(placement: .principal) {
                     Text("GALAXY MAP")
-                        .font(Font.custom("FS Sinclair Bold", size: 24))
+                        .font(Font.custom("FSSinclair", size: 24)).bold()
                 }
                 
                 if #unavailable(iOS 17.0) {
@@ -200,11 +137,11 @@ struct GalaxyMapRootView: View {
             
             .navigationBarTitleDisplayMode(.inline)
             
-            .navigationDestination(for: UpdatedPlanet.self) { planet in
-                PlanetInfoView(planet: planet)
+            .navigationDestination(for: Int.self) { index in
+                PlanetInfoView(planetIndex: index)
             }
             
-        }
+        }.hapticFeedback(.selection, trigger: viewModel.selectedPlanet)
 
         
         // set custom nav title font
@@ -216,8 +153,8 @@ struct GalaxyMapRootView: View {
             let inlineFontSize: CGFloat = UIFont.preferredFont(forTextStyle: .body).pointSize
             
             // default to sf system font
-            let largeFont = UIFont(name: "FS Sinclair Bold", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
-            let inlineFont = UIFont(name: "FS Sinclair Bold", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
+            let largeFont = UIFont(name: "FSSinclair-Bold", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
+            let inlineFont = UIFont(name: "FSSinclair-Bold", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
             
             
             let largeAttributes: [NSAttributedString.Key: Any] = [

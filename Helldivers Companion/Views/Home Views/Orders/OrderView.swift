@@ -22,11 +22,11 @@ struct OrderView: View {
             
             
             VStack(spacing: 12) {
-                Text(viewModel.majorOrder?.setting.taskDescription ?? "Stand by.").font(Font.custom("FS Sinclair Bold", size: 24))
+                Text(viewModel.majorOrder?.setting.taskDescription ?? "Stand by.").font(Font.custom("FSSinclair-Bold", size: 24))
                     .foregroundStyle(Color.yellow).textCase(.uppercase)
                     .multilineTextAlignment(.center)
                 
-                Text(viewModel.majorOrder?.setting.overrideBrief ?? "Await further orders from Super Earth High Command.").font(Font.custom("FS Sinclair", size: 18))
+                Text(viewModel.majorOrder?.setting.overrideBrief ?? "Await further orders from Super Earth High Command.").font(Font.custom("FSSinclair", size: 18))
                     .foregroundStyle(Color(red: 164, green: 177, blue: 183))
                     .padding(5)
                     .multilineTextAlignment(.center)
@@ -102,7 +102,7 @@ struct TasksView: View {
                     HStack {
                         Rectangle().frame(width: boxSize, height: boxSize).foregroundStyle(planet.taskProgress == 1 ? Color.yellow : Color.black)
                             .border(planet.taskProgress == 1 ? Color.black : Color.yellow)
-                        Text(planet.name).font(Font.custom("FS Sinclair", size: nameSize)).foregroundStyle(.white)
+                        Text(planet.name).font(Font.custom("FSSinclair", size: nameSize)).foregroundStyle(.white)
                     }
                               
                 

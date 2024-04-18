@@ -164,6 +164,36 @@ class PlanetsViewModel: ObservableObject {
         return "human"
     }
     
+    func currentLiberationRate(for planetName: String) -> Double? {
+        guard let dataPoints = updatedPlanetHistory[planetName], dataPoints.count >= 3 else {
+            return nil
+        }
+        
+        // get the second and third last data points, latest ones are wrong need to be fixed somethings incorrect somewhere
+        let secondLastPoint = dataPoints[dataPoints.count - 3]
+        let thirdLastPoint = dataPoints[dataPoints.count - 2]
+        
+  
+        let timeInterval = thirdLastPoint.timestamp.timeIntervalSince(secondLastPoint.timestamp) / 3600
+        if timeInterval <= 0 {
+            return nil
+        }
+        
+        let secondLastPercentage = self.updatedDefenseCampaigns.contains(where: { $0.planet == secondLastPoint.planet }) ?
+            secondLastPoint.planet?.event?.percentage : secondLastPoint.planet?.percentage
+        let thirdLastPercentage = self.updatedDefenseCampaigns.contains(where: { $0.planet == thirdLastPoint.planet }) ?
+            thirdLastPoint.planet?.event?.percentage : thirdLastPoint.planet?.percentage
+        
+        guard let lastLiberation = thirdLastPercentage, let previousLiberation = secondLastPercentage else {
+            return nil
+        }
+        
+        let rate = (lastLiberation - previousLiberation) / timeInterval
+        
+        return rate
+    }
+
+    
     func averageLiberationRate(for planetName: String) -> Double? {
         guard let dataPoints = updatedPlanetHistory[planetName] else {
             return nil
@@ -202,6 +232,9 @@ class PlanetsViewModel: ObservableObject {
         
         // average liberation rate calculation
         let averageRate = count > 0 ? totalRate / count : nil
+        
+        print("THE LAST PERCENT IN HISTORY IS \(dataPoints.last?.planet?.percentage)")
+        
         return averageRate
     }
     
@@ -217,16 +250,6 @@ class PlanetsViewModel: ObservableObject {
                 var history = try await fetchUpdatedCachedPlanetData()
                 
                 var localHistory = history
-                // this breaks lib rates, youre tired not thinking properly... need to come back to this
-                /*
-                 // append current data to the historical data
-                 for campaign in self.updatedCampaigns {
-                 let planet = campaign.planet
-                 let currentTimestamp = Date() // Use the current date-time as the timestamp
-                 let dataPoint = UpdatedPlanetDataPoint(timestamp: currentTimestamp, planet: planet)
-                 
-                 history[planet.name, default: []].append(dataPoint)
-                 }*/
                 
                 DispatchQueue.main.async {
                     //       self.updatedPlanetHistory = localHistory
@@ -242,58 +265,57 @@ class PlanetsViewModel: ObservableObject {
         
     }
     
-    func fetchUpdatedCachedPlanetData() async throws -> ([String: [UpdatedPlanetDataPoint]]) {
-        
+    func fetchUpdatedCachedPlanetData() async throws -> [String: [UpdatedPlanetDataPoint]] {
         let apiURLString = "https://api.github.com/repos/devpoole2907/helldivers-api-cache/contents/newData"
         guard let apiURL = URL(string: apiURLString) else {
             throw URLError(.badURL)
         }
         
         var request = URLRequest(url: apiURL)
-        
-        if let apiToken = apiToken { // unauthenticated for deployed versions
-            
+        if let apiToken = apiToken {
             request.addValue("token \(apiToken)", forHTTPHeaderField: "Authorization")
         }
         
+        let (apiData, _) = try await URLSession.shared.data(for: request)
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
-        let (apiData, _) = try await URLSession.shared.data(for: request)
-        
         let files = try decoder.decode([GitHubFile].self, from: apiData)
+        
+        let manager = PlanetHistoryManager()
+        
         print("Fetched files count: \(files.count)")
-        
-        var planetHistory: [String: [UpdatedPlanetDataPoint]] = [:]
-        
-        for file in files {
-            print("Processing file: \(file.name)")
-            guard let fileURL = URL(string: file.downloadUrl) else {
-                continue
-            }
-            do {
-                let (fileData, _) = try await URLSession.shared.data(from: fileURL)
-                let decodedResponse = try decoder.decode([UpdatedPlanet].self, from: fileData)
-                
-                for planet in decodedResponse {
-                    let fileTimestamp = extractTimestamp(from: file.name)
-                    print("Timestamp for \(planet.name): \(fileTimestamp)")
-                    let dataPoint = UpdatedPlanetDataPoint(timestamp: fileTimestamp, planet: planet)
-                    
-                    planetHistory[planet.name, default: []].append(dataPoint)
+
+        // async let to fetch and decode files in parallel
+        await withTaskGroup(of: Void.self) { group in
+            for file in files {
+                group.addTask {
+                    do {
+                        print("Processing file: \(file.name)")
+                        guard let fileURL = URL(string: file.downloadUrl) else { return }
+                        let (fileData, _) = try await URLSession.shared.data(from: fileURL)
+                        let decodedResponse = try decoder.decode([UpdatedPlanet].self, from: fileData)
+                        
+                        for planet in decodedResponse {
+                            let fileTimestamp = self.extractTimestamp(from: file.name)
+                            let dataPoint = UpdatedPlanetDataPoint(timestamp: fileTimestamp, planet: planet)
+                            await manager.append(planet: planet.name, dataPoint: dataPoint)
+                        }
+                    } catch {
+                        print("Error decoding data for file \(file.name): \(error)")
+                    }
                 }
-            } catch {
-                print("Error decoding data for file \(file.name): \(error)")
-                continue // skip file on error
             }
         }
         
-        for key in planetHistory.keys {
-            planetHistory[key]?.sort(by: { $0.timestamp < $1.timestamp })
+        // retrieve + sort the planet history
+        var finalHistory = await manager.getHistory()
+        for key in finalHistory.keys {
+            finalHistory[key]?.sort(by: { $0.timestamp < $1.timestamp })
         }
         
-        return planetHistory
+        return finalHistory
     }
+
     
     func extractTimestamp(from filename: String) -> Date {
         let dateFormatter = ISO8601DateFormatter()
@@ -423,9 +445,10 @@ class PlanetsViewModel: ObservableObject {
                             self?.objectWillChange.send()
                             
                             self?.lastUpdatedDate = Date()
-                            
-                            self?.updatedCampaigns = sortedCampaigns
-                            self?.updatedDefenseCampaigns = defenseCampaigns
+                            withAnimation(.bouncy) {
+                                self?.updatedCampaigns = sortedCampaigns
+                                self?.updatedDefenseCampaigns = defenseCampaigns
+                            }
                             completion(sortedCampaigns, defenseCampaigns)
                         }
                         
@@ -612,7 +635,7 @@ class PlanetsViewModel: ObservableObject {
         
         refresh()
         
-        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 45, repeats: true) { [weak self] _ in
             
             // fetch planet data
             
@@ -818,8 +841,9 @@ class PlanetsViewModel: ObservableObject {
                     DispatchQueue.main.async {
                         
                         self?.objectWillChange.send()
-                        
-                        self?.updatedPlanets = decodedResponse
+                        withAnimation(.bouncy) {
+                            self?.updatedPlanets = decodedResponse
+                        }
                         self?.updatedSortedSectors = sortedSectors
                         self?.updatedGroupedBySectorPlanets = groupedBySector
                         
@@ -941,6 +965,14 @@ enum Tab: String, CaseIterable {
     }
 }
 
-
-
-
+actor PlanetHistoryManager {
+    var history: [String: [UpdatedPlanetDataPoint]] = [:]
+    
+    func append(planet: String, dataPoint: UpdatedPlanetDataPoint) {
+        history[planet, default: []].append(dataPoint)
+    }
+    
+    func getHistory() -> [String: [UpdatedPlanetDataPoint]] {
+        return history
+    }
+}

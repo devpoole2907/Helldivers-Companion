@@ -179,7 +179,7 @@ struct OrdersWidgetView: View {
     var body: some View {
         VStack {
             VStack(spacing: 6) {
-                Text(title ?? "Stand by.").font(Font.custom("FS Sinclair", size: titleSize))
+                Text(title ?? "Stand by.").font(Font.custom("FSSinclair", size: titleSize))
                     .foregroundStyle(Color.yellow).textCase(.uppercase)
                     .multilineTextAlignment(.center)
                     .lineLimit(widgetFamily != .systemMedium ? 3 : 2)
@@ -188,7 +188,7 @@ struct OrdersWidgetView: View {
                 // dont show descript on medium widget
                 if let description = description {
                     if widgetFamily != .systemMedium {
-                        Text(description).font(Font.custom("FS Sinclair", size: 14))
+                        Text(description).font(Font.custom("FSSinclair", size: 14))
                             .foregroundStyle(Color.cyan)
                             .padding(5)
                             .padding(.horizontal)
@@ -200,7 +200,7 @@ struct OrdersWidgetView: View {
                     
                 } else {
                     // but do show it if theres no major order right now
-                    Text("Await further orders from Super Earth High Command.").font(Font.custom("FS Sinclair", size: 14))
+                    Text("Await further orders from Super Earth High Command.").font(Font.custom("FSSinclair", size: 14))
                         .foregroundStyle(Color.cyan)
                         .padding(5)
                     
@@ -250,11 +250,11 @@ let secondFont: CGFloat = 18
         if let timeRemaining = timeRemaining {
             HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Major Order").font(Font.custom("FS Sinclair", size: headersFont)).bold()
+                Text("Major Order").font(Font.custom("FSSinclair", size: headersFont)).bold()
                 RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)
                 HStack(spacing: 4) {
-                    Text("Ends in").padding(.top, 1).font(Font.custom("FS Sinclair", size: secondFont))
-                    Text("\(formatDuration(seconds: timeRemaining))").font(Font.custom("FS Sinclair", size: durationFont)).bold()
+                    Text("Ends in").padding(.top, 1).font(Font.custom("FSSinclair", size: secondFont))
+                    Text("\(formatDuration(seconds: timeRemaining))").font(Font.custom("FSSinclair", size: durationFont)).bold()
 #if os(watchOS)
                         .padding(.top, 1.7)
 #endif
@@ -263,13 +263,13 @@ let secondFont: CGFloat = 18
 #endif
                     
                     
-                }.font(Font.custom("FS Sinclair", size: secondFont))
+                }.font(Font.custom("FSSinclair", size: secondFont))
             }
             
             Spacer()
         }
         } else {
-            Text("No Current\nMajor Order").padding(.trailing, 6).font(Font.custom("FS Sinclair", size: 18)).bold()
+            Text("No Current\nMajor Order").padding(.trailing, 6).font(Font.custom("FSSinclair", size: 18)).bold()
                 .multilineTextAlignment(.center)
         }
     }
@@ -288,10 +288,10 @@ struct InlineOrdersTimeLeftWidget: View {
                 Text("\(formatDuration(seconds: timeRemaining))")
                     
                 
-            }.font(Font.custom("FS Sinclair", size: 14))
+            }.font(Font.custom("FSSinclair", size: 14))
             
         } else {
-            Text("Stand by.").font(Font.custom("FS Sinclair", size: 16))
+            Text("Stand by.").font(Font.custom("FSSinclair", size: 16))
         }
         
     }

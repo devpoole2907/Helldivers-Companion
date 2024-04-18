@@ -19,13 +19,13 @@ struct WatchOrdersView: View {
                     Text(viewModel.majorOrder?.setting.taskDescription ?? "Stand by.").bold()
                         .padding(.horizontal)
                         .multilineTextAlignment(.center)
-                        .font(Font.custom("FS Sinclair", size: 18))
+                        .font(Font.custom("FSSinclair", size: 18))
                         .foregroundStyle(.yellow)
                     
                     Text(viewModel.majorOrder?.setting.overrideBrief ?? "Await further orders from Super Earth High Command.").bold()
                         .padding(.horizontal)
                         .multilineTextAlignment(.center)
-                        .font(Font.custom("FS Sinclair", size: 16))
+                        .font(Font.custom("FSSinclair", size: 16))
 
                     if !viewModel.updatedTaskPlanets.isEmpty {
                         TasksView(taskPlanets: viewModel.updatedTaskPlanets)
@@ -48,7 +48,7 @@ struct WatchOrdersView: View {
 
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("MAJOR ORDER").textCase(.uppercase)  .font(Font.custom("FS Sinclair Bold", size: largeFont))
+                    Text("MAJOR ORDER").textCase(.uppercase)  .font(Font.custom("FSSinclair-Bold", size: largeFont))
                 }
             }
        

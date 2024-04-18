@@ -58,7 +58,7 @@ struct GalaxyStatsView: View {
                             ForEach(isSectorMatch ? planets : filteredPlanets, id: \.index) { planet in
                                 
                                 
-                                NavigationLink(value: planet) {
+                                NavigationLink(value: planet.index) {
                                     PlanetInfoDetailRow(planet: planet)
                                 }.padding(.vertical, 8)
                                 
@@ -67,7 +67,7 @@ struct GalaxyStatsView: View {
                             
                         } header: {
                             VStack(alignment: .leading, spacing: 5) {
-                                Text("\(sector) Sector").font(Font.custom("FS Sinclair Bold", size: largeFont))
+                                Text("\(sector) Sector").font(Font.custom("FSSinclair-Bold", size: largeFont))
                                 RoundedRectangle(cornerRadius: 25).frame(width: 250, height: 2)         .padding(.bottom, 4)
                             }.padding(.top)
                             
@@ -117,8 +117,8 @@ struct GalaxyStatsView: View {
             
                 .navigationTitle("Galaxy Statistics".uppercased())
             
-                .navigationDestination(for: UpdatedPlanet.self) { planet in
-                    PlanetInfoView(planet: planet)
+                .navigationDestination(for: Int.self) { index in
+                    PlanetInfoView(planetIndex: index)
                 }
             
                 .toolbar {
@@ -149,8 +149,8 @@ struct GalaxyStatsView: View {
             let inlineFontSize: CGFloat = UIFont.preferredFont(forTextStyle: .body).pointSize
             
             // default to sf system font
-            let largeFont = UIFont(name: "FS Sinclair Bold", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
-            let inlineFont = UIFont(name: "FS Sinclair Bold", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
+            let largeFont = UIFont(name: "FSSinclair-Bold", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
+            let inlineFont = UIFont(name: "FSSinclair-Bold", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
             
             
             let largeAttributes: [NSAttributedString.Key: Any] = [

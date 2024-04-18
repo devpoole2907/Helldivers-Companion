@@ -43,7 +43,7 @@ struct StratagemGlossaryView: View {
 
                 if viewModel.isCustomGame {
                     Text("ALERT: High Score is not saved with a custom Stratagem loadout selected.")
-                        .font(Font.custom("FS Sinclair Bold", size: 10))
+                        .font(Font.custom("FSSinclair-Bold", size: 10))
                         .foregroundStyle(.yellow)
                         .multilineTextAlignment(.center)
                         .shadow(radius: 3)
@@ -65,7 +65,7 @@ struct StratagemGlossaryView: View {
                                 }
                             } header: {
                                 Text(type.title.uppercased())
-                                    .font(Font.custom("FS Sinclair Bold", size: 16))
+                                    .font(Font.custom("FSSinclair-Bold", size: 16))
                                     .foregroundStyle(.gray)
                                     .padding(.horizontal)
                                     .padding(.bottom, -8)
@@ -99,7 +99,7 @@ struct StratagemGlossaryView: View {
                     }
                 }){
                     HStack(spacing: 4) {
-                        Text(viewModel.selectedStratagems.isEmpty ? "SELECT ALL" : "DESELECT ALL") .font(Font.custom("FS Sinclair Bold", size: buttonTextSize))
+                        Text(viewModel.selectedStratagems.isEmpty ? "SELECT ALL" : "DESELECT ALL") .font(Font.custom("FSSinclair-Bold", size: buttonTextSize))
                             .padding(.top, 2)
                         
                     }
@@ -140,7 +140,7 @@ struct StratagemGlossaryView: View {
             
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        Text("STRATAGEMS").font(Font.custom("FS Sinclair Bold", size: 14))
+                        Text("STRATAGEMS").font(Font.custom("FSSinclair-Bold", size: 14))
                         
                     }
                 }
@@ -158,8 +158,8 @@ struct StratagemGlossaryView: View {
             let inlineFontSize: CGFloat = UIFont.preferredFont(forTextStyle: .body).pointSize
             
             // default to sf system font
-            let largeFont = UIFont(name: "FS Sinclair Bold", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
-            let inlineFont = UIFont(name: "FS Sinclair Bold", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
+            let largeFont = UIFont(name: "FSSinclair-Bold", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
+            let inlineFont = UIFont(name: "FSSinclair-Bold", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
             
             
             let largeAttributes: [NSAttributedString.Key: Any] = [
@@ -225,7 +225,7 @@ struct StratagemInfoRow: View {
                     .frame(width: imageSize, height: imageSize)
                 
                 Text(stratagem.name.uppercased())
-                    .font(Font.custom("FS Sinclair Bold", size: fontSize))
+                    .font(Font.custom("FSSinclair-Bold", size: fontSize))
                     .padding(.top, 2)
                 Spacer()
             }.frame(maxWidth: .infinity)

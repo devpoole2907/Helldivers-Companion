@@ -14,14 +14,10 @@ struct PlanetInfoView: View {
     
     @State private var infoType: InfoType = .warEffort
     
-    var planet: UpdatedPlanet? = nil
+    let planetIndex: Int
     
     private var planetData: [UpdatedPlanetDataPoint] {
         viewModel.updatedPlanetHistory[planet?.name ?? ""] ?? []
-    }
-    
-    private var liberationType: LiberationType {
-        viewModel.updatedDefenseCampaigns.contains(where: { $0.planet.index == planet?.index }) ? .defense : .liberation
     }
     
     private var formattedPlanetImageName: String {
@@ -29,14 +25,52 @@ struct PlanetInfoView: View {
         PlanetImageFormatter.formattedPlanetImageName(for: planet)
         
     }
-    // to determine if it is currently defending
-    private var defenseEvent: UpdatedCampaign? {
-        viewModel.updatedDefenseCampaigns.first(where: { $0.planet.name == planet?.name })
-    }
     
     // to determine if it is currently in a campaign
     private var campaign: Bool {
         viewModel.updatedCampaigns.contains(where: { $0.planet.name == planet?.name })
+    }
+    
+    private var planet: UpdatedPlanet? {
+            viewModel.updatedPlanets.first(where: { $0.index == planetIndex })
+        }
+    
+    private var defenseCampaign: UpdatedCampaign? {
+            guard let planet = planet else { return nil }
+            return viewModel.updatedDefenseCampaigns.first(where: { $0.planet.index == planet.index })
+        }
+        
+        private var eventExpirationTime: Date? {
+            defenseCampaign?.planet.event?.expireTimeDate
+        }
+    
+    private var liberationType: LiberationType {
+        
+        (defenseCampaign != nil) ? .defense : .liberation
+        
+    }
+    
+    private var liberationPercentage: Double? {
+        defenseCampaign?.planet.event?.percentage ?? planet?.percentage
+    }
+    
+    private var liberationTimeRemaining: Date? {
+        
+        guard let planet = planet else { return nil }
+        
+        let currentLiberation = planet.event?.percentage ?? planet.percentage
+        
+        guard let liberationRate = viewModel.currentLiberationRate(for: planet.name), liberationRate > 0 else {
+            return nil
+        }
+        
+        let remainingPercentage = 100.0 - currentLiberation
+            let timeRemaining = (remainingPercentage / liberationRate) * 3600
+          
+        let liberationDate = Date().addingTimeInterval(timeRemaining)
+        
+        return liberationDate
+          
     }
     
     #if os(watchOS)
@@ -83,26 +117,22 @@ struct PlanetInfoView: View {
                 if campaign && infoType == .warEffort {
                     HistoryChart(liberationType: liberationType, planetData: planetData, factionColor: viewModel.getColorForPlanet(planet: planet)).environmentObject(viewModel)
                         .shadow(radius: 5.0)
-                    
-                    if let liberation = planet?.percentage, let planetName = planet?.name, let players = planet?.statistics.playerCount {
-                        
-                        if let defenseEvent = defenseEvent {
-                            
-                            let eventExpirationTime = defenseEvent.planet.event?.expireTimeDate
-                            
-                            // must be a defending event, use defense percent
-                            
-                            CampaignPlanetStatsView(liberation: planet?.event?.percentage ?? liberation, liberationType: liberationType, showExtraStats: true, planetName: planetName, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: players, isWidget: false, eventExpirationTime: eventExpirationTime)
-                               .shadow(radius: 5.0)
-                            
-                            
-                        } else {
-                            // not defending
-                            
-                            CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: true, planetName: planetName, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: players, isWidget: false)
+                    VStack(alignment: .center, spacing: 2) {
+                        if let timeRemaining = liberationTimeRemaining {
+                            Group {
+                                Text("\(liberationType == .defense ? "DEFENDED" : "LIBERATION") IN: ")
+                                + Text(timeRemaining, style: .relative)
+                                
+                                
+                            }.font(Font.custom("FSSinclair-Bold", size: smallFont))
+                                .foregroundStyle(.white)
                                 .shadow(radius: 5.0)
+                            
                         }
+                        CampaignPlanetStatsView(liberation: liberationPercentage ?? 0.0, liberationType: liberationType, planetName: planet?.name, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: planet?.statistics.playerCount, eventExpirationTime: eventExpirationTime)
+                            .shadow(radius: 5.0)
                     }
+
                 } else {
                     
                     if let _ = planet?.biome.name {
@@ -165,7 +195,7 @@ struct PlanetInfoView: View {
 
         .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Text(planet?.name.capitalized ?? "UNKNOWN").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont))
+                    Text(planet?.name.capitalized ?? "UNKNOWN").textCase(.uppercase)  .font(Font.custom("FSSinclair", size: largeFont))
                 }
 
         }
@@ -179,26 +209,26 @@ struct PlanetInfoView: View {
         VStack(alignment: .leading) {
             if let missionsWon = planet?.statistics.missionsWon {
                 HStack {
-                    Text("Missions\(extraStatSplitter)won").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Missions\(extraStatSplitter)won").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(missionsWon)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(missionsWon)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
             if let missionsLost = planet?.statistics.missionsLost {
                 HStack {
-                    Text("Missions\(extraStatSplitter)lost").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Missions\(extraStatSplitter)lost").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(missionsLost)").font(Font.custom("FS Sinclair", size: smallFont))
+                    Text("\(missionsLost)").font(Font.custom("FSSinclair", size: smallFont))
                         .multilineTextAlignment(.trailing)
                 }
             }
             
             if let successRate = planet?.statistics.missionSuccessRate {
                 HStack {
-                    Text("Success rate").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Success rate").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(successRate)%").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(successRate)%").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
@@ -207,25 +237,25 @@ struct PlanetInfoView: View {
             
             if let terminidKills = planet?.statistics.terminidKills {
                 HStack {
-                    Text("Terminids\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Terminids\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(terminidKills)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(terminidKills)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
             if let automatonKills = planet?.statistics.automatonKills {
                 HStack {
-                    Text("Automatons\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Automatons\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(automatonKills)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(automatonKills)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
             if let illuminateKills = planet?.statistics.illuminateKills, viewModel.configData.showIlluminate {
                 HStack {
-                    Text("Illuminates\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Illuminates\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(illuminateKills)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(illuminateKills)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
@@ -235,25 +265,25 @@ struct PlanetInfoView: View {
             
             if let bulletsFired = planet?.statistics.bulletsFired {
                 HStack {
-                    Text("Bullets\(extraStatSplitter)Fired").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Bullets\(extraStatSplitter)Fired").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(bulletsFired)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(bulletsFired)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
             if let bulletsHit = planet?.statistics.bulletsHit {
                 HStack {
-                    Text("Bullets\(extraStatSplitter)Hit").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Bullets\(extraStatSplitter)Hit").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(bulletsHit)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(bulletsHit)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
             if let accuracy = planet?.statistics.accuracy {
                 HStack {
-                    Text("Accuracy").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Accuracy").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(accuracy)%").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(accuracy)%").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
@@ -261,17 +291,17 @@ struct PlanetInfoView: View {
             
             if let helldiversLost = planet?.statistics.deaths {
                 HStack {
-                    Text("Helldivers\(extraStatSplitter)Lost").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Helldivers\(extraStatSplitter)Lost").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(helldiversLost)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(helldiversLost)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
             if let friendlyKills = planet?.statistics.friendlies {
                 HStack {
-                    Text("Friendly\(extraStatSplitter)Kills").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Friendly\(extraStatSplitter)Kills").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(friendlyKills)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(friendlyKills)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
@@ -302,16 +332,16 @@ struct PlanetInfoView: View {
                 HStack(spacing: 6) {
                     Text(sector).foregroundStyle(viewModel.getColorForPlanet(planet: planet))
 #if os(watchOS)
-    .textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: mediumFont))
+    .textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: mediumFont))
 #else
-    .textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: largeFont))
+    .textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: largeFont))
                     #endif
                   
                     Text("Sector")
                     #if os(watchOS)
-                        .textCase(.uppercase).font(Font.custom("FS Sinclair", size: smallFont))
+                        .textCase(.uppercase).font(Font.custom("FSSinclair", size: smallFont))
                     #else
-                        .textCase(.uppercase).font(Font.custom("FS Sinclair", size: largeFont))
+                        .textCase(.uppercase).font(Font.custom("FSSinclair", size: largeFont))
                     #endif
                     
                     
@@ -335,13 +365,13 @@ struct PlanetInfoView: View {
     var biomeDescription: some View {
         VStack(alignment: .leading, spacing: 5){
             
-            Text(planet?.biome.name ?? "").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: largeFont))
+            Text(planet?.biome.name ?? "").textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: largeFont))
             
             RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
             
             if let biomeDescript = planet?.biome.description {
                 Text(biomeDescript)
-                    .font(Font.custom("FS Sinclair", size: smallFont))
+                    .font(Font.custom("FSSinclair", size: smallFont))
                 
             }
             
@@ -352,7 +382,7 @@ struct PlanetInfoView: View {
         
         VStack(alignment: .leading, spacing: 5) {
             
-            Text("Environment").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: largeFont))
+            Text("Environment").textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: largeFont))
             
             RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
             
@@ -372,10 +402,10 @@ struct PlanetInfoView: View {
                         
                         VStack(alignment: .leading) {
                             Text(weather.name).textCase(.uppercase)
-                                .font(Font.custom("FS Sinclair", size: mediumFont))
+                                .font(Font.custom("FSSinclair", size: mediumFont))
                             if !weather.description.isEmpty {
                                 Text(weather.description)
-                                    .font(Font.custom("FS Sinclair", size: smallFont))
+                                    .font(Font.custom("FSSinclair", size: smallFont))
                             }
                         }
                         
@@ -394,12 +424,6 @@ struct PlanetInfoView: View {
     }
     
     
-}
-
-#Preview {
-    NavigationStack{
-        PlanetInfoView().environmentObject(PlanetsViewModel()).environmentObject(NavigationPather())
-    }
 }
 
 struct FactionImageView: View {

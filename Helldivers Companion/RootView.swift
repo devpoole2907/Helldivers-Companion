@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MijickPopupView
+import Haptics
 
 struct RootView: View {
     
@@ -106,20 +107,20 @@ struct RootView: View {
                         if !contentNavPather.navigationPath.isEmpty {
                             contentNavPather.navigationPath.removeLast() // remove anything if somethings on the stack already
                         }
-                        contentNavPather.navigationPath.append(selectedPlanet)
+                        contentNavPather.navigationPath.append(selectedPlanet.index)
                     } else if viewModel.currentTab == .stats {
                         
                         if !statsNavPather.navigationPath.isEmpty {
                             statsNavPather.navigationPath.removeLast()
                         }
-                        statsNavPather.navigationPath.append(selectedPlanet)
+                        statsNavPather.navigationPath.append(selectedPlanet.index)
                         
                     }
                     
                     else {
                         // change tab to home, nav to the planet
                         viewModel.currentTab = .home
-                        contentNavPather.navigationPath.append(selectedPlanet)
+                        contentNavPather.navigationPath.append(selectedPlanet.index)
                     }
                 } else if url.host == "orders" {
                     // wait 2 seconds to fetch orders info
@@ -167,8 +168,9 @@ struct RootView: View {
         
                 
                 #endif
-        }
-        
+        }.hapticFeedback(.selection, trigger: contentNavPather.navigationPath)
+            .hapticFeedback(.selection, trigger: statsNavPather.navigationPath)
+            .hapticFeedback(.selection, trigger: mapNavPather.navigationPath)
   
         
        
@@ -187,7 +189,7 @@ struct RootView: View {
         }){
             VStack(alignment: .trailing, spacing: 2){
                 Text("Major Order").textCase(.uppercase).tint(.white).fontWeight(.heavy)
-                    .font(Font.custom("FS Sinclair", size: 20))
+                    .font(Font.custom("FSSinclair", size: 20))
                 
                 if let timeRemaining = viewModel.majorOrder?.expiresIn {
                     MajorOrderTimeView(timeRemaining: timeRemaining, isMini: true)
@@ -335,7 +337,7 @@ struct RootView: View {
  
                 }
                 
-                Text(tab.rawValue).textCase(.uppercase)  .font(Font.custom("FS Sinclair Bold", size: 15))
+                Text(tab.rawValue).textCase(.uppercase)  .font(Font.custom("FSSinclair-Bold", size: 15))
                     .dynamicTypeSize(.medium ... .large)
                     .foregroundColor(viewModel.currentTab == tab ? .accentColor : .gray)
             }.padding(.horizontal, buttonShapesEnabled ? 0 : 10)

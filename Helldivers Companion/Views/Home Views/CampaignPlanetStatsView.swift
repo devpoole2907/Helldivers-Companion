@@ -12,16 +12,16 @@ struct CampaignPlanetStatsView: View {
     var liberation: Double
     var liberationType: LiberationType
     
-    var showExtraStats: Bool
+    var showExtraStats: Bool = true
     
-    var planetName: String
+    var planetName: String?
     
     var planet: UpdatedPlanet? = nil
     
     var factionColor: Color // color is passed to this view as widgets dont have the required state to calculate the color from the view model
     var factionImage: String // same reason as above
     
-    var playerCount: Int64 = 347246
+    var playerCount: Int64?
     
     var isWidget = false
     
@@ -91,7 +91,7 @@ struct CampaignPlanetStatsView: View {
                         HStack {
                             Text("\(liberation, specifier: "%.3f")% \(liberationType == .liberation ? "Liberated" : "Defended")").textCase(.uppercase)
                                 .foregroundStyle(.white).bold()
-                                .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
+                                .font(Font.custom("FSSinclair", size: showExtraStats ? mediumFont : smallFont))
                                 .multilineTextAlignment(.leading)
                             if isWidget && !showExtraStats, let _ = eventExpirationTime {
                                 Spacer()
@@ -102,7 +102,7 @@ struct CampaignPlanetStatsView: View {
                             HStack {
                                 Spacer()
                                 Text(eventExpirationTime, style: .timer)
-                                    .font(Font.custom("FS Sinclair", size: smallFont))
+                                    .font(Font.custom("FSSinclair", size: smallFont))
                                     .foregroundStyle(.red)
                                     .monospacedDigit()
                                     .multilineTextAlignment(.trailing)
@@ -111,14 +111,14 @@ struct CampaignPlanetStatsView: View {
                     }
                     
                     if !isWidget {
-                        if let liberationRate = viewModel.averageLiberationRate(for: planetName), viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) {
+                        if let liberationRate = viewModel.currentLiberationRate(for: planetName ?? ""), viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) {
                             Spacer()
                             HStack(alignment: .top, spacing: 4) {
                                 Image(systemName: "chart.line.uptrend.xyaxis")
                                     .padding(.top, 2)
                                 Text("\(liberationRate, specifier: "%.2f")% / h")
                                     .foregroundStyle(.white)
-                                    .font(Font.custom("FS Sinclair", size: showExtraStats ? mediumFont : smallFont))
+                                    .font(Font.custom("FSSinclair", size: showExtraStats ? mediumFont : smallFont))
                                     .multilineTextAlignment(.trailing)
                             }
                         }
@@ -163,7 +163,7 @@ struct CampaignPlanetStatsView: View {
                                 let regenPercent = (regenPerHour / Double(maxHealth)) * 100
                                 Text(String(format: "-%.1f%% / h", regenPercent))
                                     .foregroundStyle(factionColor).bold()
-                                    .font(Font.custom("FS Sinclair", size: mediumFont))
+                                    .font(Font.custom("FSSinclair", size: mediumFont))
                                     .padding(.top, 2)
                                     .dynamicTypeSize(.small)
                                 
@@ -172,7 +172,7 @@ struct CampaignPlanetStatsView: View {
                         } else {
                             Spacer()
                             VStack(spacing: -5) {
-                                Text("DEFEND") .font(Font.custom("FS Sinclair", size: mediumFont)).bold()
+                                Text("DEFEND") .font(Font.custom("FSSinclair", size: mediumFont)).bold()
                                 
                                 // defense is important, so pulsate
                                     .foregroundStyle(isWidget ? .red : (pulsate ? .red : .white))
@@ -184,7 +184,7 @@ struct CampaignPlanetStatsView: View {
                                     }
                                 if let eventExpirationTime = eventExpirationTime {
                                     Text(eventExpirationTime, style: .timer)
-                                        .font(Font.custom("FS Sinclair", size: mediumFont))
+                                        .font(Font.custom("FSSinclair", size: mediumFont))
                                         .multilineTextAlignment(.center)
                                         .foregroundStyle(.white)
                                         .dynamicTypeSize(.small)
@@ -210,9 +210,9 @@ struct CampaignPlanetStatsView: View {
                     
                     Image("diver").resizable().aspectRatio(contentMode: .fit)
                         .frame(width: helldiverImageSize, height: helldiverImageSize)
-                    Text("\(playerCount)").textCase(.uppercase)
+                    Text("\(planet?.statistics.playerCount ?? 0)").textCase(.uppercase)
                         .foregroundStyle(.white).bold()
-                        .font(Font.custom("FS Sinclair", size: mediumFont))
+                        .font(Font.custom("FSSinclair", size: mediumFont))
                         .padding(.top, 2)
                         .dynamicTypeSize(.small)
                     
@@ -232,7 +232,7 @@ struct CampaignPlanetStatsView: View {
            
            let playerPercent = (Double(playerCount) / Double(viewModel.totalPlayerCount)) * 100
            
-           Text("\(String(format: "%.0f", playerPercent))%")  .font(Font.custom("FS Sinclair", size: smallFont))
+           Text("\(String(format: "%.0f", playerPercent))%")  .font(Font.custom("FSSinclair", size: smallFont))
                .dynamicTypeSize(.small)
                .padding(.top, 2)
         

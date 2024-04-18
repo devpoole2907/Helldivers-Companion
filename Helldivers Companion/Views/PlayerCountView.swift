@@ -22,7 +22,7 @@ struct PlayerCountView: View {
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .foregroundStyle(.white)
-                .font(Font.custom("FS Sinclair Bold", size: 14))
+                .font(Font.custom("FSSinclair-Bold", size: 14))
             
         }
     }

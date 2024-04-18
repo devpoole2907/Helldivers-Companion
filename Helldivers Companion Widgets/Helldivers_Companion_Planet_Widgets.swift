@@ -162,7 +162,7 @@ struct RectangularPlanetWidgetView: View {
                 
                 Image(entry.faction ?? PlanetsViewModel().getImageNameForPlanet(entry.planet)).resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                     .padding(.bottom, 2)
-                Text(entry.planetName) .font(Font.custom("FS Sinclair", size: 16)).bold()
+                Text(entry.planetName) .font(Font.custom("FSSinclair", size: 16)).bold()
                 
                 
                 Image(systemName: entry.liberationType == .defense ? "shield.lefthalf.filled" : "target")
@@ -176,13 +176,13 @@ struct RectangularPlanetWidgetView: View {
                 HStack(spacing: 3) {
                     Image("diver").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                         .padding(.bottom, 2)
-                    Text("\(entry.playerCount)") .font(Font.custom("FS Sinclair", size: 16))
+                    Text("\(entry.playerCount)") .font(Font.custom("FSSinclair", size: 16))
                     Spacer()
                 }.padding(.leading, 5)
                 HStack(spacing: 3) {
                     Image(systemName: "chart.xyaxis.line").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                         .padding(.bottom, 2)
-                    Text("\(entry.liberation)%") .font(Font.custom("FS Sinclair", size: 16))
+                    Text("\(entry.liberation)%") .font(Font.custom("FSSinclair", size: 16))
                     Spacer()
                 }.padding(.leading, 5)
             }.padding(.top, 2)
@@ -236,10 +236,10 @@ struct InlinePlanetWidgetView: View {
         HStack(spacing: 3) {
             Image(entry.faction ?? "terminid").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                 .padding(.bottom, 2)
-            Text("\(entry.planetName)") .font(Font.custom("FS Sinclair", size: 16))
+            Text("\(entry.planetName)") .font(Font.custom("FSSinclair", size: 16))
             Image(systemName: entry.liberationType == .defense ? "shield.lefthalf.filled" : "target")
                 .font(.footnote)
-            Text("\(String(format: "%.2f%%", entry.liberation))") .font(Font.custom("FS Sinclair", size: 16))
+            Text("\(String(format: "%.2f%%", entry.liberation))") .font(Font.custom("FSSinclair", size: 16))
         }
         
     }

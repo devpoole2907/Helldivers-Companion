@@ -20,7 +20,7 @@ struct RewardView: View {
     
     var body: some View {
         VStack(spacing: widgetMode ? 2 : 6) {
-            Text("Reward").textCase(.uppercase).font(Font.custom("FS Sinclair", size: widgetMode ? 14 : 18)).foregroundStyle(.white)
+            Text("Reward").textCase(.uppercase).font(Font.custom("FSSinclair", size: widgetMode ? 14 : 18)).foregroundStyle(.white)
             
             HStack(spacing: 4) {
                 
@@ -29,13 +29,13 @@ struct RewardView: View {
                         .frame(width: imageSize, height: imageSize)
                 } else {
                     VStack(spacing: 2){
-                        Text("R").font(Font.custom("FS Sinclair", size: smallFont)).padding(.horizontal, 4).foregroundStyle(Color.black).background(Color.yellow)
+                        Text("R").font(Font.custom("FSSinclair", size: smallFont)).padding(.horizontal, 4).foregroundStyle(Color.black).background(Color.yellow)
                         Rectangle().frame(width: 18, height: 4)
                             .foregroundStyle(Color.yellow)
                     }
                 }
                 
-                Text("\(rewardValue)").font(Font.custom("FS Sinclair", size: widgetMode ? 20 : 26))
+                Text("\(rewardValue)").font(Font.custom("FSSinclair", size: widgetMode ? 20 : 26))
                     .foregroundStyle(rewardType == 1 ? .white : .yellow)
                 
             }

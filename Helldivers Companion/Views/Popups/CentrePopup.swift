@@ -39,7 +39,7 @@ struct MajorOrderPopup: CentrePopup {
             HStack(alignment: .firstTextBaseline, spacing: 3) {
                 Image(systemName: "scope").bold()
                 
-                Text("MAJOR ORDER").textCase(.uppercase) .font(Font.custom("FS Sinclair Bold", size: 24))
+                Text("MAJOR ORDER").textCase(.uppercase) .font(Font.custom("FSSinclair", size: 24)).bold()
                 
             }.padding(.top, 5)
             

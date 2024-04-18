@@ -21,7 +21,7 @@ struct AboutView: View {
            
                 VStack(spacing: 20){
                     
-                    Text("Language Localisation").font(Font.custom("FS Sinclair", size: 18)).bold()
+                    Text("Language Localisation").font(Font.custom("FSSinclair", size: 18)).bold()
                         .padding()
                         .padding(.top, 3)
                         .background(
@@ -39,7 +39,7 @@ struct AboutView: View {
                         )
                     
                     Text("War Monitor for Helldivers 2 supports partial localisations. If enabled, any data received from the API will be displayed in your local language if supported, otherwise it will be presented in English. Recommend to restart the app after changing this setting.")
-                        .font(Font.custom("FS Sinclair", size: 14))
+                        .font(Font.custom("FSSinclair", size: 14))
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.gray)
                     CustomTogglePicker(selection: $viewModel.enableLocalization)
@@ -61,7 +61,7 @@ struct AboutView: View {
                 #if os(iOS)
                 VStack(spacing: 20){
                     
-                    Text("Dark Mode").font(Font.custom("FS Sinclair", size: 18)).bold()
+                    Text("Dark Mode").font(Font.custom("FSSinclair", size: 18)).bold()
                         .padding()
                         .padding(.horizontal)
                         .padding(.top, 3)
@@ -80,7 +80,7 @@ struct AboutView: View {
                         )
                     
                     Text("Disables blurred backgrounds.")
-                        .font(Font.custom("FS Sinclair", size: 14))
+                        .font(Font.custom("FSSinclair", size: 14))
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.gray)
                     CustomTogglePicker(selection: $viewModel.darkMode)
@@ -98,7 +98,7 @@ struct AboutView: View {
                 
                 VStack(spacing: 20) {
                     
-                    Text("ABOUT").font(Font.custom("FS Sinclair", size: 18)).bold()
+                    Text("ABOUT").font(Font.custom("FSSinclair", size: 18)).bold()
                         .padding()
                         .padding(.horizontal, 40)
                         .padding(.top, 3)
@@ -117,22 +117,22 @@ struct AboutView: View {
                         )
                     
                     Text("This application utilizes the unofficial Helldivers 2 API, a collaborative project lead by dealloc available at https://github.com/helldivers-2/api, to fetch and display the latest data from the ongoing galactic war in the Helldivers 2 universe.")
-                        .font(Font.custom("FS Sinclair", size: 18))
+                        .font(Font.custom("FSSinclair", size: 18))
                     
                     Text("This application also utilizes the Helldivers Training Manual API developed by Mitchel Jager, available at https://helldiverstrainingmanual.com, to fetch and display additional information such as defense expiration times.")
-                        .font(Font.custom("FS Sinclair", size: 18))
+                        .font(Font.custom("FSSinclair", size: 18))
                     
                     Text("This application is not affiliated with, endorsed by, or in any way officially connected to Arrowhead Game Studios or Sony. All game content, including images and trademarks, are the property of their respective owners. The use of such content within this app falls under fair use for informational purposes and does not imply any association with the game developers or publishers.")
-                        .font(Font.custom("FS Sinclair", size: 18))
+                        .font(Font.custom("FSSinclair", size: 18))
                     
                     Text("Sector map backdrop created by Shalzuth. Check out https://helldivers.io!")
-                        .font(Font.custom("FS Sinclair", size: 16))
+                        .font(Font.custom("FSSinclair", size: 16))
                     
                     Text("Credit for the backgrounds goes to u/IMann110 on Reddit.")
-                        .font(Font.custom("FS Sinclair", size: 16))
+                        .font(Font.custom("FSSinclair", size: 16))
                     
                     if let alert = viewModel.configData.alert {
-                        Text(alert)      .font(Font.custom("FS Sinclair Bold", size: 18))
+                        Text(alert)      .font(Font.custom("FSSinclair-Bold", size: 18))
                             .foregroundStyle(Color.yellow)
                     }
                     
@@ -144,7 +144,7 @@ struct AboutView: View {
                 
                 if let supportUrl = URL(string: supportUrl) {
                     Link(destination: supportUrl, label: {
-                        Text("Support") .font(Font.custom("FS Sinclair", size: 20))
+                        Text("Support") .font(Font.custom("FSSinclair", size: 20))
                             .underline()
                     }).padding()
                 }
@@ -165,7 +165,7 @@ struct AboutView: View {
                     
                     ToolbarItem(placement: .principal) {
                         Text("Settings").textCase(.uppercase)
-                            .font(Font.custom("FS Sinclair Bold", size: 24))
+                            .font(Font.custom("FSSinclair-Bold", size: 24))
                     }
                 
                 ToolbarItem(placement: .topBarLeading) {
@@ -181,7 +181,7 @@ struct AboutView: View {
 #endif
 #if os(watchOS)
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("SETTINGS").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont)).bold()
+                    Text("SETTINGS").textCase(.uppercase)  .font(Font.custom("FSSinclair", size: largeFont)).bold()
                 }
 #endif
                 

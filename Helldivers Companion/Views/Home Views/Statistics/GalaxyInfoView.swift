@@ -57,8 +57,8 @@ struct GalaxyInfoView: View {
                 HStack {
                     Spacer()
                     VStack(alignment: .trailing, spacing: -10) {
-                        Text("\(missionsWon)").textCase(.uppercase).font(Font.custom("FS Sinclair", size: missionsWonSize))
-                        Text("Missions won").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: mediumFont))
+                        Text("\(missionsWon)").textCase(.uppercase).font(Font.custom("FSSinclair", size: missionsWonSize))
+                        Text("Missions won").textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: mediumFont))
                             .foregroundStyle(.cyan)
                     }
                 }
@@ -68,8 +68,8 @@ struct GalaxyInfoView: View {
                 HStack {
                     Spacer()
                     VStack(alignment: .trailing, spacing: -8) {
-                        Text("\(missionsLost)").textCase(.uppercase).font(Font.custom("FS Sinclair", size: missionsLostSize))
-                        Text("Missions lost").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: missionsLostTextSize))
+                        Text("\(missionsLost)").textCase(.uppercase).font(Font.custom("FSSinclair", size: missionsLostSize))
+                        Text("Missions lost").textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: missionsLostTextSize))
                             .foregroundStyle(.red)
                     }
                 }
@@ -79,8 +79,8 @@ struct GalaxyInfoView: View {
                 HStack {
                     Spacer()
                     VStack(alignment: .trailing, spacing: -6) {
-                        Text("\(successRate)%").textCase(.uppercase).font(Font.custom("FS Sinclair", size: successRateSize))
-                        Text("Success rate").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: successRateTextSize))
+                        Text("\(successRate)%").textCase(.uppercase).font(Font.custom("FSSinclair", size: successRateSize))
+                        Text("Success rate").textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: successRateTextSize))
                             .foregroundStyle(.cyan)
                     }
                 }
@@ -93,8 +93,8 @@ struct GalaxyInfoView: View {
                 HStack {
                     Spacer()
                     VStack(alignment: .trailing, spacing: bugKillsStackSpacing) {
-                        Text("\(bugKills)").textCase(.uppercase).font(Font.custom("FS Sinclair", size: killsSize))
-                        Text("Terminids killed").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: mediumFont))
+                        Text("\(bugKills)").textCase(.uppercase).font(Font.custom("FSSinclair", size: killsSize))
+                        Text("Terminids killed").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont)).bold()
                             .foregroundStyle(.yellow)
                     }
                 }
@@ -104,8 +104,8 @@ struct GalaxyInfoView: View {
                 HStack {
                     Spacer()
                     VStack(alignment: .trailing, spacing: automatonKillsStackSpacing) {
-                        Text("\(automatonKills)").textCase(.uppercase).font(Font.custom("FS Sinclair", size: killsSize))
-                        Text("Automatons killed").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: mediumFont))
+                        Text("\(automatonKills)").textCase(.uppercase).font(Font.custom("FSSinclair", size: killsSize))
+                        Text("Automatons killed").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont)).bold()
                             .foregroundStyle(.red)
                     }
                 }
@@ -115,8 +115,8 @@ struct GalaxyInfoView: View {
                 HStack {
                     Spacer()
                     VStack(alignment: .trailing, spacing: illuminateKillsStackSpacing) {
-                        Text("\(illuminateKills)").textCase(.uppercase).font(Font.custom("FS Sinclair", size: killsSize))
-                        Text("Illuminates killed").textCase(.uppercase).font(Font.custom("FS Sinclair Bold", size: mediumFont))
+                        Text("\(illuminateKills)").textCase(.uppercase).font(Font.custom("FSSinclair", size: killsSize))
+                        Text("Illuminates killed").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont)).bold()
                             .foregroundStyle(.cyan)
                     }
                 }
@@ -127,25 +127,25 @@ struct GalaxyInfoView: View {
             
             if let bulletsFired = galaxyStats?.bulletsFired {
                 HStack {
-                    Text("Bullets\(extraStatSplitter)Fired").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Bullets\(extraStatSplitter)Fired").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(bulletsFired)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(bulletsFired)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
             if let bulletsHit = galaxyStats?.bulletsHit {
                 HStack {
-                    Text("Bullets\(extraStatSplitter)Hit").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Bullets\(extraStatSplitter)Hit").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(bulletsHit)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(bulletsHit)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
             if let accuracy = galaxyStats?.accuracy {
                 HStack {
-                    Text("Accuracy").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Accuracy").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(accuracy)%").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(accuracy)%").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
@@ -153,17 +153,17 @@ struct GalaxyInfoView: View {
             
             if let helldiversLost = galaxyStats?.deaths {
                 HStack {
-                    Text("Helldivers\(extraStatSplitter)Lost").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Helldivers\(extraStatSplitter)Lost").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(helldiversLost)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(helldiversLost)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             
             if let friendlyKills = galaxyStats?.friendlies {
                 HStack {
-                    Text("Friendly\(extraStatSplitter)Kills").textCase(.uppercase).font(Font.custom("FS Sinclair", size: mediumFont))
+                    Text("Friendly\(extraStatSplitter)Kills").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
                     Spacer()
-                    Text("\(friendlyKills)").font(Font.custom("FS Sinclair", size: smallFont))     .multilineTextAlignment(.trailing)
+                    Text("\(friendlyKills)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
             }
             

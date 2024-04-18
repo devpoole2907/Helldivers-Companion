@@ -110,7 +110,7 @@ struct GalaxyMapWidgetView: View {
                 
                 Text("Last Updated: \(Date().formatted(date: .omitted, time: .shortened))").textCase(.uppercase)
                     
-                    .font(Font.custom("FS Sinclair", size: 16)).bold()
+                    .font(Font.custom("FSSinclair", size: 16)).bold()
                     .foregroundStyle(.yellow)
                 
             }

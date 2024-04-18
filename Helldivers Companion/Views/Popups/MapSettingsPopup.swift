@@ -30,7 +30,7 @@ struct MapSettingsPopup: CentrePopup {
                 
                 
                 
-                Text("MAP SETTINGS").font(Font.custom("FS Sinclair Bold", size: 28))
+            Text("MAP SETTINGS").font(Font.custom("FSSinclair", size: 28)).bold()
                     .multilineTextAlignment(.center)
                     .padding()
                     .padding(.top, 3)
@@ -45,7 +45,7 @@ struct MapSettingsPopup: CentrePopup {
             
             
             VStack(spacing: 6) {
-                Text("SUPPLY LINES").font(Font.custom("FS Sinclair", size: 24))
+                Text("SUPPLY LINES").font(Font.custom("FSSinclair", size: 24))
                     .foregroundStyle(.gray)
                 
                 CustomTogglePicker(selection: $showSupplyLines)
@@ -55,7 +55,7 @@ struct MapSettingsPopup: CentrePopup {
             }
             
             VStack(spacing: 6) {
-                Text("ALL PLANETS").font(Font.custom("FS Sinclair", size: 24))
+                Text("ALL PLANETS").font(Font.custom("FSSinclair", size: 24))
                     .foregroundStyle(.gray)
                 
                 CustomTogglePicker(selection: $showAllPlanets)
@@ -67,7 +67,7 @@ struct MapSettingsPopup: CentrePopup {
             
             
             VStack(spacing: 6) {
-                Text("PLANET NAMES").font(Font.custom("FS Sinclair", size: 24))
+                Text("PLANET NAMES").font(Font.custom("FSSinclair", size: 24))
                     .foregroundStyle(.gray)
                 
                 CustomTogglePicker(selection: $showPlanetNames)
@@ -75,7 +75,7 @@ struct MapSettingsPopup: CentrePopup {
                 
                     .frame(maxWidth: 200)
                 
-                Text("Several Super Earth scientists were prosecuted for the planet name feature due to its democracy shattering performance impact.").font(Font.custom("FS Sinclair", size: 12))
+                Text("Several Super Earth scientists were prosecuted for the planet name feature due to its democracy shattering performance impact.").font(Font.custom("FSSinclair", size: 12))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.gray)
                     .padding()

@@ -43,7 +43,7 @@ struct PlanetInfoDetailRow: View {
                     Text(planet?.name ?? "Unknown")
                         .padding(.vertical, 4)
                         .textCase(.uppercase)
-                        .font(Font.custom("FS Sinclair", size: largeFont))
+                        .font(Font.custom("FSSinclair", size: largeFont))
                         .foregroundStyle(.white)
                         .padding(.leading)
                     Image(systemName: "chevron.right")

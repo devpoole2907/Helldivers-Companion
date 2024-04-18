@@ -11,6 +11,7 @@ import StoreKit
 #if os(iOS)
 import SwiftUIIntrospect
 #endif
+import Haptics
 
 struct ContentView: View {
     
@@ -42,22 +43,11 @@ struct ContentView: View {
                     
                     
                     ForEach(Array(viewModel.updatedCampaigns.enumerated()), id: \.element) { (index, campaign) in
-                        // check if planet is defending
-                        if let defenseCampaign = viewModel.updatedDefenseCampaigns.first(where: { $0.planet.index == campaign.planet.index }) {
-                            
-                            let eventExpirationTime = campaign.planet.event?.expireTimeDate
-                            
-                            // uses faction from event instead, use event health/percentage instead
-                            PlanetView(planetName: campaign.planet.name, liberation: campaign.planet.event?.percentage ?? 0.0, rate: campaign.planet.regenPerSecond, playerCount: campaign.planet.statistics.playerCount, planet: campaign.planet, liberationType: .defense, eventExpirationTime: eventExpirationTime).environmentObject(viewModel)
-                                .padding(.horizontal)
-                                .id(index)
-                            
-                            
-                        } else {
-                            PlanetView(planetName: campaign.planet.name, liberation: campaign.planet.percentage, rate: campaign.planet.regenPerSecond, playerCount: campaign.planet.statistics.playerCount, planet: campaign.planet, liberationType: .liberation).environmentObject(viewModel)
-                                .padding(.horizontal)
-                                .id(index)
-                        }
+                        
+                        UpdatedPlanetView(planetIndex: campaign.planet.index)
+                            .id(index)
+                            .padding(.horizontal)
+                      
                     }
                     
                 }
@@ -71,13 +61,13 @@ struct ContentView: View {
                         Text("Failed to connect to Super Earth High Command. Retrying in:")
                             .opacity(0.5)
                             .foregroundStyle(.gray)
-                            .font(Font.custom("FS Sinclair", size: smallFont))
+                            .font(Font.custom("FSSinclair", size: smallFont))
                             .multilineTextAlignment(.center)
                        
                         Text(failedFetchTimeRemaining, style: .timer)
                             .opacity(0.5)
                             .foregroundStyle(.gray)
-                            .font(Font.custom("FS Sinclair", size: largeFont))
+                            .font(Font.custom("FSSinclair", size: largeFont))
                             .padding()
                         
                     }      .padding()
@@ -86,7 +76,7 @@ struct ContentView: View {
                 Text("Pull to Refresh").textCase(.uppercase)
                     .opacity(0.5)
                     .foregroundStyle(.gray)
-                    .font(Font.custom("FS Sinclair Bold", size: smallFont))
+                    .font(Font.custom("FSSinclair-Bold", size: smallFont))
                     .padding()
                 
                 
@@ -156,10 +146,12 @@ struct ContentView: View {
                     
                     
                     ToolbarItem(placement: .principal) {
-                        
-                        
-                            Text("UPDATED: \(viewModel.lastUpdatedDate.formatted(date: .omitted, time: .shortened))")
-                                .font(Font.custom("FS Sinclair Bold", size: 22))
+                        Group {
+                            Text("UPDATED: ")
+                            + Text(viewModel.lastUpdatedDate, style: .relative)
+                            + Text(" ago")
+                        }
+                        .font(Font.custom("FSSinclair", size: 20)).bold()
                         
                                 .dynamicTypeSize(.small)
                         
@@ -169,7 +161,7 @@ struct ContentView: View {
                     
 #if os(watchOS)
                     ToolbarItem(placement: .topBarLeading) {
-                        Text("WAR").textCase(.uppercase)  .font(Font.custom("FS Sinclair", size: largeFont)).bold()
+                        Text("WAR").textCase(.uppercase)  .font(Font.custom("FSSinclair", size: largeFont)).bold()
                     }
 #endif
                     
@@ -178,8 +170,8 @@ struct ContentView: View {
             
                 .navigationBarTitleDisplayMode(.inline)
             
-                .navigationDestination(for: UpdatedPlanet.self) { planet in
-                    PlanetInfoView(planet: planet)
+                .navigationDestination(for: Int.self) { index in
+                    PlanetInfoView(planetIndex: index)
                 }
             
             
@@ -194,8 +186,8 @@ struct ContentView: View {
             let inlineFontSize: CGFloat = UIFont.preferredFont(forTextStyle: .body).pointSize
 
             // default to sf system font
-            let largeFont = UIFont(name: "FS Sinclair Bold", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
-               let inlineFont = UIFont(name: "FS Sinclair Bold", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
+            let largeFont = UIFont(name: "FSSinclair-Bold", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
+               let inlineFont = UIFont(name: "FSSinclair-Bold", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
 
             
             let largeAttributes: [NSAttributedString.Key: Any] = [

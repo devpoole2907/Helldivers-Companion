@@ -44,7 +44,7 @@ struct NewsView: View {
                 Text("Pull to Refresh").textCase(.uppercase)
                     .opacity(0.5)
                     .foregroundStyle(.gray)
-                    .font(Font.custom("FS Sinclair Bold", size: smallFont))
+                    .font(Font.custom("FSSinclair-Bold", size: smallFont))
                     .padding()
                 
                 
@@ -84,7 +84,7 @@ struct NewsView: View {
                         ToolbarItem(placement: .principal) {
                             
                             Text("STROHMANN NEWS")
-                                .font(Font.custom("FS Sinclair Bold", size: 24))
+                                .font(Font.custom("FSSinclair", size: 24)).bold()
                             
                         }
                         
@@ -99,7 +99,7 @@ struct NewsView: View {
             
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("STROHMANN NEWS").textCase(.uppercase)  .font(Font.custom("FS Sinclair Bold", size: 18))
+                    Text("STROHMANN NEWS").textCase(.uppercase)  .font(Font.custom("FSSinclair", size: 18)).bold()
                 }
                 
             }
