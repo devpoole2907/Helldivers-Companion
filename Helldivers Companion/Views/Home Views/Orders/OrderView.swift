@@ -31,21 +31,21 @@ struct OrderView: View {
                     .padding(5)
                     .multilineTextAlignment(.center)
                 
-                if !viewModel.updatedTaskPlanets.isEmpty {
-                    TasksView(taskPlanets: viewModel.updatedTaskPlanets)
-                } else if let isEradication = viewModel.majorOrder?.isEradicateType, let eradicationProgress = viewModel.majorOrder?.eradicationProgress, let barColor = viewModel.majorOrder?.faction.color, let progressString = viewModel.majorOrder?.progressString {
+                if let isEradication = viewModel.majorOrder?.isEradicateType, let eradicationProgress = viewModel.majorOrder?.eradicationProgress, let barColor = viewModel.majorOrder?.faction?.color, let progressString = viewModel.majorOrder?.progressString {
                     
                     
                     // eradicate campaign
-                    ZStack {
-                        RectangleProgressBar(value: eradicationProgress, primaryColor: .cyan, secondaryColor: barColor)
-                            .frame(height: 16)
-                        
-                        Text("\(progressString)").font(Font.custom("FSSinclair", size: 16)).foregroundStyle(.black)
-                        
-                        
-                    }.padding(.bottom, 10)
-                        .padding(.horizontal, 14)
+                   
+                   MajorOrderBarProgressView(progress: eradicationProgress, barColor: barColor, progressString: progressString)
+
+                } else if let isDefenseType = viewModel.majorOrder?.isDefenseType, let defenseProgress = viewModel.majorOrder?.defenseProgress, let progressString = viewModel.majorOrder?.progressString {       // defense campaign
+                    
+                    MajorOrderBarProgressView(progress: defenseProgress, barColor: .white, progressString: progressString)
+                    
+              
+
+                }  else if !viewModel.updatedTaskPlanets.isEmpty { // liberation/type 11
+                    TasksView(taskPlanets: viewModel.updatedTaskPlanets)
                 }
                 
                 
@@ -127,4 +127,37 @@ struct TasksView: View {
         }
         
     }
+}
+
+struct MajorOrderBarProgressView: View {
+    
+    
+    var progress: Double
+    var barColor: Color
+    var progressString: String
+    var isWidget = false
+    
+    var body: some View {
+        
+        ZStack {
+            RectangleProgressBar(value: progress, primaryColor: .cyan, secondaryColor: barColor)
+                .frame(height: 16)
+            
+            Text("\(progressString)")
+            #if os(iOS)
+                .font(Font.custom("FSSinclair", size: isWidget ? 8 : 16))
+            #else
+                .font(Font.custom("FSSinclair", size: 10))
+            
+            #endif
+                
+                .foregroundStyle(.black)
+                .minimumScaleFactor(0.6)
+            
+        }.padding(.bottom, 10)
+            .padding(.horizontal, 14)
+        
+        
+    }
+    
 }

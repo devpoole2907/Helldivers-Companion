@@ -27,21 +27,19 @@ struct WatchOrdersView: View {
                         .multilineTextAlignment(.center)
                         .font(Font.custom("FSSinclair", size: 16))
 
-                    if !viewModel.updatedTaskPlanets.isEmpty {
-                        TasksView(taskPlanets: viewModel.updatedTaskPlanets)
-                    } else if let isEradication = viewModel.majorOrder?.isEradicateType, let eradicationProgress = viewModel.majorOrder?.eradicationProgress, let barColor = viewModel.majorOrder?.faction.color, let progressString = viewModel.majorOrder?.progressString {
-                        
-                        
+                    if let isEradication = viewModel.majorOrder?.isEradicateType, let eradicationProgress = viewModel.majorOrder?.eradicationProgress, let barColor = viewModel.majorOrder?.faction?.color, let progressString = viewModel.majorOrder?.progressString {
+
                         // eradicate campaign
-                        ZStack {
-                            RectangleProgressBar(value: eradicationProgress, primaryColor: .cyan, secondaryColor: barColor)
-                                .frame(height: 16)
-                            
-                            Text("\(progressString)").font(Font.custom("FSSinclair", size: 10)).foregroundStyle(.black)
-                            
-                            
-                        }.padding(.bottom, 10)
-                            .padding(.horizontal, 14)
+                        MajorOrderBarProgressView(progress: eradicationProgress, barColor: barColor, progressString: progressString)
+
+                    } else if let isDefenseType = viewModel.majorOrder?.isDefenseType, let defenseProgress = viewModel.majorOrder?.defenseProgress, let progressString = viewModel.majorOrder?.progressString {       // defense campaign
+                        
+                        MajorOrderBarProgressView(progress: defenseProgress, barColor: .white, progressString: progressString)
+                        
+                  
+
+                    } else if !viewModel.updatedTaskPlanets.isEmpty { // lib type
+                        TasksView(taskPlanets: viewModel.updatedTaskPlanets)
                     }
                     
                 }.frame(maxHeight: .infinity)

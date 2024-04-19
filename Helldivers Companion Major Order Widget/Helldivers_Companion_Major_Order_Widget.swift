@@ -13,11 +13,11 @@ struct MajorOrderProvider: TimelineProvider {
     var planetsModel = PlanetsViewModel()
     
     func placeholder(in context: Context) -> MajorOrderEntry {
-        MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], eradicationProgress: nil, factionColor: .yellow, progressString: nil)
+        MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (MajorOrderEntry) -> ()) {
-        let entry = MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], eradicationProgress: nil, factionColor: .yellow, progressString: nil)
+        let entry = MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil)
         completion(entry)
     }
 
@@ -35,7 +35,7 @@ struct MajorOrderProvider: TimelineProvider {
                 
                 planetsModel.fetchMajorOrder(for: config?.season ?? "801", with: planets) { taskPlanets, order in
                     
-                    let entry = MajorOrderEntry(date: Date(), majorOrder: order, taskPlanets: taskPlanets, eradicationProgress: order?.eradicationProgress, factionColor: order?.faction.color, progressString: order?.progressString)
+                    let entry = MajorOrderEntry(date: Date(), majorOrder: order, taskPlanets: taskPlanets, taskProgress: order?.eradicationProgress ?? order?.defenseProgress, factionColor: order?.faction?.color, progressString: order?.progressString)
                     
                     print("apending entry, this many planets: \(planets.count)")
                     
@@ -61,7 +61,7 @@ struct MajorOrderEntry: TimelineEntry {
     let date: Date
     let majorOrder: MajorOrder?
     let taskPlanets: [UpdatedPlanet]
-    let eradicationProgress: Double?
+    let taskProgress: Double?
     let factionColor: Color?
     let progressString: String?
 }
@@ -101,7 +101,7 @@ struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
                     .inset(by: 4)
                     .fill(Color.black)
                 
-                OrdersWidgetView(title: entry.majorOrder?.setting.taskDescription, description: entry.majorOrder?.setting.overrideBrief, taskPlanets: entry.taskPlanets, rewardValue: entry.majorOrder?.setting.reward.amount, rewardType: entry.majorOrder?.setting.reward.type, timeRemaining: entry.majorOrder?.expiresIn, eradicationProgress: entry.eradicationProgress, factionColor: entry.factionColor, progressString: entry.progressString)
+                OrdersWidgetView(title: entry.majorOrder?.setting.taskDescription, description: entry.majorOrder?.setting.overrideBrief, taskPlanets: entry.taskPlanets, rewardValue: entry.majorOrder?.setting.reward.amount, rewardType: entry.majorOrder?.setting.reward.type, timeRemaining: entry.majorOrder?.expiresIn, taskProgress: entry.taskProgress, factionColor: entry.factionColor, progressString: entry.progressString)
                 
                 
             }
@@ -150,7 +150,7 @@ struct Helldivers_Companion_Major_Order_Widget: Widget {
 #Preview(as: .systemSmall) {
     Helldivers_Companion_Major_Order_Widget()
 } timeline: {
-    MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], eradicationProgress: nil, factionColor: .yellow, progressString: nil)
+    MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil)
 }
 
 // this needs to be rewritten more in line with the different types of major orders
@@ -165,7 +165,7 @@ struct OrdersWidgetView: View {
     var rewardValue: Int?
     var rewardType: Int?
     var timeRemaining: Int64?
-    var eradicationProgress: Double?
+    var taskProgress: Double?
     var factionColor: Color?
     var progressString: String?
     
@@ -187,6 +187,7 @@ struct OrdersWidgetView: View {
                     .multilineTextAlignment(.center)
                     .lineLimit(widgetFamily != .systemMedium ? 3 : 2)
                     .padding(.horizontal)
+                    .minimumScaleFactor(0.7)
                 
                 // dont show descript on medium widget
                 if let description = description {
@@ -199,6 +200,7 @@ struct OrdersWidgetView: View {
                         if let majorOrderTimeRemaining = timeRemaining,  majorOrderTimeRemaining > 0 {
                             MajorOrderTimeView(timeRemaining: majorOrderTimeRemaining, isWidget: true)
                                 .padding(.bottom, widgetFamily != .systemMedium ? 6 : 0)
+                                .minimumScaleFactor(0.7)
                         }
                     
                 } else {
@@ -213,26 +215,24 @@ struct OrdersWidgetView: View {
                     if let majorOrderRewardValue = rewardValue, majorOrderRewardValue > 0 {
                         RewardView(rewardType: rewardType, rewardValue: majorOrderRewardValue, widgetMode: true)
                             .frame(maxWidth: 200)
+                            .minimumScaleFactor(0.7)
+                       
                     }
-                    
-                    if !taskPlanets.isEmpty {
-                        TasksView(taskPlanets: taskPlanets, isWidget: true)
-                            .frame(maxWidth: .infinity)
-                    }  else if let eradicationProgress = eradicationProgress, let barColor = factionColor, let progressString = progressString {
-                        
+                    // must be eradicating to use faction color
+                    if let eradicationProgress = taskProgress, let barColor = factionColor, let progressString = progressString {
                         
                         // eradicate campaign
-                        ZStack {
-                            RectangleProgressBar(value: eradicationProgress, primaryColor: .cyan, secondaryColor: barColor)
-                                .frame(height: 16)
-                            
-                            Text("\(progressString)").font(Font.custom("FSSinclair", size: 8)).foregroundStyle(.black)
-                                .allowsTightening(true)
-                                
-                            
-                            
-                        }.padding(.bottom, 10)
-                            .padding(.horizontal, 14)
+                        MajorOrderBarProgressView(progress: eradicationProgress, barColor: barColor, progressString: progressString, isWidget: true)
+                       
+                    }  else if let defenseProgress = taskProgress, let progressString = progressString {       // defense campaign
+                        
+                        MajorOrderBarProgressView(progress: defenseProgress, barColor: .white, progressString: progressString, isWidget: true)
+                        
+                  
+
+                    } else if !taskPlanets.isEmpty { // lib campaign
+                        TasksView(taskPlanets: taskPlanets, isWidget: true)
+                            .frame(maxWidth: .infinity)
                     }
                   
                    

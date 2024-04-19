@@ -482,9 +482,9 @@ class PlanetsViewModel: ObservableObject {
             return }
         
         var request = URLRequest(url: url)
-     /*   if enableLocalization {
+        if enableLocalization {
             request.addValue(apiSupportedLanguage, forHTTPHeaderField: "Accept-Language")
-        }*/
+        }
         
         URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             

@@ -49,6 +49,10 @@ struct MajorOrder: Decodable {
     var isEradicateType: Bool {
             setting.tasks.first?.type == 3
         }
+    // defense x number of planets types
+    var isDefenseType: Bool {
+        setting.tasks.first?.type == 12
+    }
     
     // if an eradication type major order
     
@@ -60,24 +64,38 @@ struct MajorOrder: Decodable {
             }
             return Double(currentProgress) / Double(totalGoal)
         }
+    
+    var defenseProgress: Double? {
         
-    // for the eradicate major orders overlay
+        guard isDefenseType, let currentProgress = progress.first, let totalGoal = setting.tasks.first?.values.first else {
+            return nil
+        }
+        
+        return Double(currentProgress) / Double(totalGoal)
+        
+        
+    }
+    
+    
+        
+    // for the eradicate/defend major orders overlay
         var progressString: String? {
             
-            guard isEradicateType else { return nil }
-            
-            if let eradicationProgress = eradicationProgress {
+            if isEradicateType, let eradicationProgress = eradicationProgress {
                 let percentage = eradicationProgress * 100
                 return "\(progress.first!)/\(setting.tasks.first!.values[2]) (\(String(format: "%.1f", percentage))%)"
+            } else if isDefenseType, let defenseProgress = defenseProgress {
+                let percentage = defenseProgress * 100
+                return "\(progress.first!)/\(setting.tasks.first!.values.first!) (\(String(format: "%.1f", percentage))%)"
             }
             
             return nil
             
         }
     
-    var faction: Faction {
-            guard let factionIndex = setting.tasks.first?.values[0] else {
-                return .unknown
+    var faction: Faction? {
+            guard isEradicateType, let factionIndex = setting.tasks.first?.values[0] else {
+                return nil
             }
             return Faction(rawValue: factionIndex) ?? .unknown
         }
