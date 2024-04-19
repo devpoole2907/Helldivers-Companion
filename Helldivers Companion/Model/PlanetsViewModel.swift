@@ -473,9 +473,9 @@ class PlanetsViewModel: ObservableObject {
     
     func fetchMajorOrder(for season: String? = nil, with planets: [UpdatedPlanet]? = nil, completion: @escaping ([UpdatedPlanet], MajorOrder?) -> Void) {
         
-     //   let urlString = "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(season ?? configData.season)"
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(season ?? configData.season)"
         
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/MOtesting.json"
+      //  let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/MOtesting.json"
         
         print("made url")
         guard let url = URL(string: urlString) else { print("mission failed")
