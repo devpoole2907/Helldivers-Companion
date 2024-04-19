@@ -53,7 +53,7 @@ struct PlanetStatusProvider: TimelineProvider {
                             factionColor = .red
                         } else if defenseEvent.planet.event?.faction == "Illuminate" {
                             enemyType = "illuminate"
-                            factionColor = .blue
+                            factionColor = .purple
                         }
 
                         let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: defenseEvent.planet.event?.percentage ?? highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime)

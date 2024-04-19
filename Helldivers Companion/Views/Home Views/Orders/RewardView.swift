@@ -36,12 +36,19 @@ struct RewardView: View {
                 }
                 
                 Text("\(rewardValue)").font(Font.custom("FSSinclair", size: widgetMode ? 20 : 26))
+                #if os(watchOS)
+                    .bold()
+                    .shadow(radius: 3)
+                #endif
                     .foregroundStyle(rewardType == 1 ? .white : .yellow)
                 
-            }.padding(.vertical, 10)
+            }
+            #if os(iOS)
+            .padding(.vertical, 10)
                 .padding(.horizontal, 30).background {
                     Color.black
             }
+            #endif
             
         }
         .frame(maxWidth: .infinity)

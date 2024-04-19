@@ -29,6 +29,19 @@ struct WatchOrdersView: View {
 
                     if !viewModel.updatedTaskPlanets.isEmpty {
                         TasksView(taskPlanets: viewModel.updatedTaskPlanets)
+                    } else if let isEradication = viewModel.majorOrder?.isEradicateType, let eradicationProgress = viewModel.majorOrder?.eradicationProgress, let barColor = viewModel.majorOrder?.faction.color, let progressString = viewModel.majorOrder?.progressString {
+                        
+                        
+                        // eradicate campaign
+                        ZStack {
+                            RectangleProgressBar(value: eradicationProgress, primaryColor: .cyan, secondaryColor: barColor)
+                                .frame(height: 16)
+                            
+                            Text("\(progressString)").font(Font.custom("FSSinclair", size: 10)).foregroundStyle(.black)
+                            
+                            
+                        }.padding(.bottom, 10)
+                            .padding(.horizontal, 14)
                     }
                     
                 }.frame(maxHeight: .infinity)

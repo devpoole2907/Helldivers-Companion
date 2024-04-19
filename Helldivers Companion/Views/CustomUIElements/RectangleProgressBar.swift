@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RectangleProgressBar: View {
     var value: Double // Expected to be between 0.0 and 1.0
-    var primaryColor: Color = .blue
+    var primaryColor: Color = .cyan
     var secondaryColor: Color
     var height: CGFloat = 20
 

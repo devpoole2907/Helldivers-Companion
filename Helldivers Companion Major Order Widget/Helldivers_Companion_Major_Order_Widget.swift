@@ -13,11 +13,11 @@ struct MajorOrderProvider: TimelineProvider {
     var planetsModel = PlanetsViewModel()
     
     func placeholder(in context: Context) -> MajorOrderEntry {
-        MajorOrderEntry(date: Date(), title: "Stand by.", description: "Await further orders from Super Earth High Command.", taskPlanets: [], rewardValue: 35, rewardType: 1, timeRemaining: 129600)
+        MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], eradicationProgress: nil, factionColor: .yellow, progressString: nil)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (MajorOrderEntry) -> ()) {
-        let entry = MajorOrderEntry(date: Date(), title: "Stand by.", description: "Await further orders from Super Earth High Command.", taskPlanets: [], rewardValue: 35, rewardType: 1, timeRemaining: 129600)
+        let entry = MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], eradicationProgress: nil, factionColor: .yellow, progressString: nil)
         completion(entry)
     }
 
@@ -35,7 +35,7 @@ struct MajorOrderProvider: TimelineProvider {
                 
                 planetsModel.fetchMajorOrder(for: config?.season ?? "801", with: planets) { taskPlanets, order in
                     
-                    let entry = MajorOrderEntry(date: Date(), title: order?.setting.taskDescription, description: order?.setting.overrideBrief, taskPlanets: taskPlanets, rewardValue: order?.setting.reward.amount, rewardType: order?.setting.reward.type, timeRemaining: order?.expiresIn)
+                    let entry = MajorOrderEntry(date: Date(), majorOrder: order, taskPlanets: taskPlanets, eradicationProgress: order?.eradicationProgress, factionColor: order?.faction.color, progressString: order?.progressString)
                     
                     print("apending entry, this many planets: \(planets.count)")
                     
@@ -59,12 +59,11 @@ struct MajorOrderProvider: TimelineProvider {
 
 struct MajorOrderEntry: TimelineEntry {
     let date: Date
-    let title: String?
-    let description: String?
+    let majorOrder: MajorOrder?
     let taskPlanets: [UpdatedPlanet]
-    let rewardValue: Int?
-    let rewardType: Int?
-    let timeRemaining: Int64?
+    let eradicationProgress: Double?
+    let factionColor: Color?
+    let progressString: String?
 }
 
 struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
@@ -78,7 +77,7 @@ struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
         switch widgetFamily {
             
         case .accessoryRectangular:
-            RectangularOrdersTimeLeftView(timeRemaining: entry.timeRemaining)
+            RectangularOrdersTimeLeftView(timeRemaining: entry.majorOrder?.expiresIn)
                 .widgetAccentable()
                 
                 .padding(.leading, 5)
@@ -89,7 +88,7 @@ struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
                 #endif
             
         case .accessoryInline:
-            InlineOrdersTimeLeftWidget(timeRemaining: entry.timeRemaining)
+            InlineOrdersTimeLeftWidget(timeRemaining: entry.majorOrder?.expiresIn)
                 .widgetAccentable()
         
         default:
@@ -102,7 +101,7 @@ struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
                     .inset(by: 4)
                     .fill(Color.black)
                 
-                OrdersWidgetView(title: entry.title, description: entry.description, taskPlanets: entry.taskPlanets, rewardValue: entry.rewardValue, rewardType: entry.rewardType, timeRemaining: entry.timeRemaining)
+                OrdersWidgetView(title: entry.majorOrder?.setting.taskDescription, description: entry.majorOrder?.setting.overrideBrief, taskPlanets: entry.taskPlanets, rewardValue: entry.majorOrder?.setting.reward.amount, rewardType: entry.majorOrder?.setting.reward.type, timeRemaining: entry.majorOrder?.expiresIn, eradicationProgress: entry.eradicationProgress, factionColor: entry.factionColor, progressString: entry.progressString)
                 
                 
             }
@@ -151,20 +150,24 @@ struct Helldivers_Companion_Major_Order_Widget: Widget {
 #Preview(as: .systemSmall) {
     Helldivers_Companion_Major_Order_Widget()
 } timeline: {
-    MajorOrderEntry(date: Date(), title: "Stand by.", description: "Await further orders from Super Earth High Command.", taskPlanets: [], rewardValue: 35, rewardType: 1, timeRemaining: 129600)
+    MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], eradicationProgress: nil, factionColor: .yellow, progressString: nil)
 }
 
-
+// this needs to be rewritten more in line with the different types of major orders
 struct OrdersWidgetView: View {
     
     @Environment(\.widgetFamily) var widgetFamily
     
     var title: String?
     var description: String?
+    var majorOrder: MajorOrder?
     var taskPlanets: [UpdatedPlanet]
     var rewardValue: Int?
     var rewardType: Int?
     var timeRemaining: Int64?
+    var eradicationProgress: Double?
+    var factionColor: Color?
+    var progressString: String?
     
     var titleSize: CGFloat {
         switch widgetFamily {
@@ -215,6 +218,21 @@ struct OrdersWidgetView: View {
                     if !taskPlanets.isEmpty {
                         TasksView(taskPlanets: taskPlanets, isWidget: true)
                             .frame(maxWidth: .infinity)
+                    }  else if let eradicationProgress = eradicationProgress, let barColor = factionColor, let progressString = progressString {
+                        
+                        
+                        // eradicate campaign
+                        ZStack {
+                            RectangleProgressBar(value: eradicationProgress, primaryColor: .cyan, secondaryColor: barColor)
+                                .frame(height: 16)
+                            
+                            Text("\(progressString)").font(Font.custom("FSSinclair", size: 8)).foregroundStyle(.black)
+                                .allowsTightening(true)
+                                
+                            
+                            
+                        }.padding(.bottom, 10)
+                            .padding(.horizontal, 14)
                     }
                   
                    

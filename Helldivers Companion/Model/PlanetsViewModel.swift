@@ -99,7 +99,7 @@ class PlanetsViewModel: ObservableObject {
                 switch campaign?.planet.event?.faction {
                 case "Terminids": return .yellow
                 case "Automaton": return .red
-                case "Illuminate": return .blue
+                case "Illuminate": return .purple
                 default: return .cyan
                 }
             } else {
@@ -110,7 +110,7 @@ class PlanetsViewModel: ObservableObject {
                 switch planet.currentOwner {
                 case "Automaton": return .red
                 case "Terminids": return .yellow
-                case "Illuminate": return .blue
+                case "Illuminate": return .purple
                 default: return .gray // default color if currentOwner doesn't match any known factions
                 }
             }
@@ -118,7 +118,7 @@ class PlanetsViewModel: ObservableObject {
             switch planet.currentOwner {
             case "Automaton": return .red
             case "Terminids": return .yellow
-            case "Illuminate": return .blue
+            case "Illuminate": return .purple
             default: return .gray // default color if currentOwner doesn't match any known factions
             }
         }
@@ -473,9 +473,9 @@ class PlanetsViewModel: ObservableObject {
     
     func fetchMajorOrder(for season: String? = nil, with planets: [UpdatedPlanet]? = nil, completion: @escaping ([UpdatedPlanet], MajorOrder?) -> Void) {
         
-        let urlString = "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(season ?? configData.season)"
+     //   let urlString = "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(season ?? configData.season)"
         
-     //   let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/MOtesting.json"
+        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/MOtesting.json"
         
         print("made url")
         guard let url = URL(string: urlString) else { print("mission failed")
