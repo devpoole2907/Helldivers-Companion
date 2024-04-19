@@ -117,7 +117,7 @@ struct GalaxyInfoView: View {
                     VStack(alignment: .trailing, spacing: illuminateKillsStackSpacing) {
                         Text("\(illuminateKills)").textCase(.uppercase).font(Font.custom("FSSinclair", size: killsSize))
                         Text("Illuminates killed").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont)).bold()
-                            .foregroundStyle(.cyan)
+                            .foregroundStyle(.purple)
                     }
                 }
             }

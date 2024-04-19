@@ -171,6 +171,8 @@
 		7C45D4792BAC142C0013A632 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4772BAC142C0013A632 /* Tab.swift */; };
 		7C45D47A2BAC142C0013A632 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4772BAC142C0013A632 /* Tab.swift */; };
 		7C45D47B2BAC142C0013A632 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4772BAC142C0013A632 /* Tab.swift */; };
+		7C4A6A992BD25D7800727FEC /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
+		7C4A6A9A2BD25D7900727FEC /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
 		7C587F3F2BA6A7DA00C66643 /* CustomSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */; };
 		7C587F472BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F462BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift */; };
 		7C587F492BA6DBB400C66643 /* ContentViewWatchVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F482BA6DBB400C66643 /* ContentViewWatchVersion.swift */; };
@@ -1609,6 +1611,7 @@
 				7C8C5F442BAEF98100C4FBD2 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C8C5F432BAEF97600C4FBD2 /* MajorOrderTimeView.swift in Sources */,
 				7C80F3F12BC142C30058BF39 /* Version Check View Modifiers.swift in Sources */,
+				7C4A6A992BD25D7800727FEC /* RectangleProgressBar.swift in Sources */,
 				7C8C5F412BAEF96C00C4FBD2 /* PlanetStructs.swift in Sources */,
 				7C8C5F422BAEF97200C4FBD2 /* RewardView.swift in Sources */,
 				7C0DF6272BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
@@ -1628,6 +1631,7 @@
 				7C8C5F5D2BAF0B5C00C4FBD2 /* PlanetsViewModel.swift in Sources */,
 				7C8C5F5E2BAF0B5E00C4FBD2 /* PlanetStructs.swift in Sources */,
 				7C80F3F22BC142C40058BF39 /* Version Check View Modifiers.swift in Sources */,
+				7C4A6A9A2BD25D7900727FEC /* RectangleProgressBar.swift in Sources */,
 				7C8C5F622BAF0C1900C4FBD2 /* OrderView.swift in Sources */,
 				7C8C5F5C2BAF0B1800C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */,
 				7C0DF6282BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,

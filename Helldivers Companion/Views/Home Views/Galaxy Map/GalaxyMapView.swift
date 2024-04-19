@@ -64,7 +64,7 @@ struct GalaxyMapView: View {
                 switch campaign?.planet.event?.faction {
                 case "Terminids": return .yellow
                 case "Automaton": return .red
-                case "Illuminate": return .blue
+                case "Illuminate": return .purple
                 default: return .cyan
                 }
             } else {
@@ -75,7 +75,7 @@ struct GalaxyMapView: View {
                 switch planet.currentOwner.lowercased() {
                 case "automaton": return .red
                 case "terminids": return .yellow
-                case "illuminate": return .blue
+                case "illuminate": return .purple
                 default: return .gray // default color if currentOwner dont match any known factions
                 }
             }
@@ -84,7 +84,7 @@ struct GalaxyMapView: View {
             switch planet.currentOwner.lowercased() {
             case "automaton": return .red
             case "terminids": return .yellow
-            case "illuminate": return .blue
+            case "illuminate": return .purple
             default: return .gray
             }
         }

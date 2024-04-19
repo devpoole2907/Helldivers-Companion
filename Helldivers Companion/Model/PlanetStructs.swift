@@ -45,6 +45,67 @@ struct MajorOrder: Decodable {
     let expiresIn: Int64 // this must be int64 to run on watchOS!
     let setting: Setting
     
+    // tired, this will do for type 3 major orders for now i need to get this feat out the door
+    var isEradicateType: Bool {
+            setting.tasks.first?.type == 3
+        }
+    
+    // if an eradication type major order
+    
+    var eradicationProgress: Double? {
+            guard isEradicateType,
+                  let currentProgress = progress.first,
+                  let totalGoal = setting.tasks.first?.values[2] else {
+                return nil
+            }
+            return Double(currentProgress) / Double(totalGoal)
+        }
+        
+    // for the eradicate major orders overlay
+        var progressString: String? {
+            
+            guard isEradicateType else { return nil }
+            
+            if let eradicationProgress = eradicationProgress {
+                let percentage = eradicationProgress * 100
+                return "\(progress.first!)/\(setting.tasks.first!.values[2]) (\(String(format: "%.1f", percentage))%)"
+            }
+            
+            return nil
+            
+        }
+    
+    var faction: Faction {
+            guard let factionIndex = setting.tasks.first?.values[0] else {
+                return .unknown
+            }
+            return Faction(rawValue: factionIndex) ?? .unknown
+        }
+    
+    // this could become global, but most of our api responses come from the dealloc endpoints not the official. for now the MO comes from the official endpoint, in hopes/possibility that deallocs major order endpoint may be upgraded
+    enum Faction: Int {
+            case human = 1
+            case terminid = 2
+            case automaton = 3
+            case illuminate = 4
+            case unknown
+
+            var color: Color {
+                switch self {
+                case .human:
+                    return Color.cyan
+                case .terminid:
+                    return Color.yellow
+                case .automaton:
+                    return Color.red
+                case .illuminate:
+                    return Color.purple
+                case .unknown:
+                    return Color.white
+                }
+            }
+        }
+    
     enum CodingKeys: String, CodingKey {
         case id32
         case progress

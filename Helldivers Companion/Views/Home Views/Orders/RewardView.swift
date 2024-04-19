@@ -15,7 +15,7 @@ struct RewardView: View {
     var widgetMode = false
     
     var imageSize: CGFloat {
-        return widgetMode ? 20 : 30
+        return widgetMode ? 20 : 26
     }
     
     var body: some View {
@@ -38,6 +38,9 @@ struct RewardView: View {
                 Text("\(rewardValue)").font(Font.custom("FSSinclair", size: widgetMode ? 20 : 26))
                     .foregroundStyle(rewardType == 1 ? .white : .yellow)
                 
+            }.padding(.vertical, 10)
+                .padding(.horizontal, 30).background {
+                    Color.black
             }
             
         }

@@ -475,14 +475,16 @@ class PlanetsViewModel: ObservableObject {
         
         let urlString = "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(season ?? configData.season)"
         
+     //   let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/MOtesting.json"
+        
         print("made url")
         guard let url = URL(string: urlString) else { print("mission failed")
             return }
         
         var request = URLRequest(url: url)
-        if enableLocalization {
+     /*   if enableLocalization {
             request.addValue(apiSupportedLanguage, forHTTPHeaderField: "Accept-Language")
-        }
+        }*/
         
         URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             
