@@ -173,6 +173,9 @@
 		7C45D47B2BAC142C0013A632 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4772BAC142C0013A632 /* Tab.swift */; };
 		7C4A6A992BD25D7800727FEC /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
 		7C4A6A9A2BD25D7900727FEC /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
+		7C4A9E282BD336D60014FCCD /* DashPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A9E272BD336D60014FCCD /* DashPattern.swift */; };
+		7C4A9E292BD336D60014FCCD /* DashPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A9E272BD336D60014FCCD /* DashPattern.swift */; };
+		7C4A9E2B2BD33FC10014FCCD /* TogglePickerPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A9E2A2BD33FC10014FCCD /* TogglePickerPopup.swift */; };
 		7C587F3F2BA6A7DA00C66643 /* CustomSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */; };
 		7C587F472BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F462BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift */; };
 		7C587F492BA6DBB400C66643 /* ContentViewWatchVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F482BA6DBB400C66643 /* ContentViewWatchVersion.swift */; };
@@ -478,6 +481,8 @@
 		7C45D46D2BABEECF0013A632 /* MajorOrderTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MajorOrderTimeView.swift; sourceTree = "<group>"; };
 		7C45D4722BABF47C0013A632 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		7C45D4772BAC142C0013A632 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
+		7C4A9E272BD336D60014FCCD /* DashPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashPattern.swift; sourceTree = "<group>"; };
+		7C4A9E2A2BD33FC10014FCCD /* TogglePickerPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TogglePickerPopup.swift; sourceTree = "<group>"; };
 		7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedPicker.swift; sourceTree = "<group>"; };
 		7C587F442BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Helldivers Companion Watch Edition Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C587F462BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Watch_EditionApp.swift; sourceTree = "<group>"; };
@@ -909,6 +914,7 @@
 				7CE4AE3A2BA8327C0033D4AF /* CustomUIElements */,
 				7CE4AE392BA8326B0033D4AF /* StratagemHero */,
 				7C44B7D62BC800790097C29B /* PlayerCountView.swift */,
+				7C4A9E272BD336D60014FCCD /* DashPattern.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -959,6 +965,7 @@
 				7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */,
 				7CF6D2DF2BC290EC00107663 /* MapSettingsPopup.swift */,
 				7CF6D2E12BC29BCD00107663 /* iOS16Alert.swift */,
+				7C4A9E2A2BD33FC10014FCCD /* TogglePickerPopup.swift */,
 			);
 			path = Popups;
 			sourceTree = "<group>";
@@ -1446,6 +1453,7 @@
 				7C45D4732BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C0C994E2BA2BA8F00CF7C91 /* ContentView.swift in Sources */,
 				7C45D4782BAC142C0013A632 /* Tab.swift in Sources */,
+				7C4A9E282BD336D60014FCCD /* DashPattern.swift in Sources */,
 				7C0C99612BA2FA0600CF7C91 /* RectangleProgressBar.swift in Sources */,
 				7C4589C02BA5551F0019B00E /* GameView.swift in Sources */,
 				7C3A9EC62BA944BE00F26307 /* NewsView.swift in Sources */,
@@ -1466,6 +1474,7 @@
 				7CE97D3D2BB53D2E008329BA /* TipJarView.swift in Sources */,
 				7C45D4652BABEE6E0013A632 /* AngledLinesShape.swift in Sources */,
 				7CE97D402BB5414C008329BA /* GalaxyStatsView.swift in Sources */,
+				7C4A9E2B2BD33FC10014FCCD /* TogglePickerPopup.swift in Sources */,
 				7CA240DE2BCA5D51007F685C /* StratagemGlossaryView.swift in Sources */,
 				7C63130E2BBC01C800C84C13 /* GalaxyMapView.swift in Sources */,
 				7C45D4612BABEE3D0013A632 /* RewardView.swift in Sources */,
@@ -1591,6 +1600,7 @@
 				7C44B7D82BC800790097C29B /* PlayerCountView.swift in Sources */,
 				7C8C5F272BADD17000C4FBD2 /* ShakeModifier.swift in Sources */,
 				7C0DF6302BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */,
+				7C4A9E292BD336D60014FCCD /* DashPattern.swift in Sources */,
 				7C587F5B2BA6DD0800C66643 /* PlanetView.swift in Sources */,
 				7C45D4692BABEE7C0013A632 /* RewardView.swift in Sources */,
 				7C3A9EC72BA9528A00F26307 /* NewsView.swift in Sources */,

@@ -18,6 +18,8 @@ struct ContentViewWatchVersion: View {
     
     @StateObject var newsNavPather = NavigationPather()
     
+    @StateObject var settingsNavPather = NavigationPather()
+    
     @StateObject var gameModel = StratagemHeroModel()
     
     @State private var currentTab: Tab = .home
@@ -26,7 +28,7 @@ struct ContentViewWatchVersion: View {
        
         TabView(selection: $currentTab) {
             
-            AboutView().environmentObject(viewModel)
+            AboutView().environmentObject(viewModel).environmentObject(settingsNavPather)
             
                 .tag(Tab.about)
             
@@ -50,7 +52,11 @@ struct ContentViewWatchVersion: View {
                 .navigationBarTitleDisplayMode(.inline)
             
         }.background {
-            Image("BackgroundImage").blur(radius: 5).ignoresSafeArea()
+            if viewModel.darkMode {
+                Color.black.ignoresSafeArea()
+            } else {
+                Image("BackgroundImage").blur(radius: 8).ignoresSafeArea()
+            }
         }
         
         .hapticFeedback(.selection, trigger: contentNavPather.navigationPath)

@@ -10,92 +10,88 @@ import SwiftUI
 struct AboutView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var navPather: NavigationPather
     
     let gitUrl = "https://github.com/devpoole2907/Helldivers-Companion"
     let supportUrl = "https://devpoole2907.github.io/helldivers-companion-support/"
     let discordUrl = "https://discord.gg/3zMFwyyWPc"
+    let shareUrl = "https://apps.apple.com/us/app/war-monitor-for-helldivers-2/id6479404407"
+    
+    @State private var showLanguageOptions = false
+    @State private var showDarkModeOptions = false
+    @State private var showAbout = false
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navPather.navigationPath) {
             ScrollView {
            
                 VStack(spacing: 20){
                     
-                    Text("Language Localisation").font(Font.custom("FSSinclair", size: 18)).bold()
-                        .padding()
-                        .padding(.top, 3)
-                        .background(
-                            AngledLinesShape()
-                                .stroke(lineWidth: 3)
-                                .foregroundColor(.white)
-                                .opacity(0.2)
-                                .clipped()
-                                .background {
-                                    Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
-                                        .foregroundStyle(.gray)
-                                        .opacity(0.9)
-                                        .shadow(radius: 3)
-                                }
-                        )
+                    if let url = URL(string: shareUrl) {
+                        ShareLink(item: url) {
+                            SettingsRow(settingTitle: "Share War Monitor", image: "square.and.arrow.up.fill", dashPattern: [67, 6])
+                        }.buttonStyle(PlainButtonStyle())
+                        
+                    }
+#if os(iOS)
+                    if let url = URL(string: discordUrl) {
+                        
+                        Link(destination: url) {
+                            SettingsRow(settingTitle: "Discord", image: "discordLogoSmall", dashPattern: [62, 15], systemImage: false)
+                        }.tint(.white)
+
+                    }
                     
-                    Text("War Monitor for Helldivers 2 supports partial localisations. If enabled, any data received from the API will be displayed in your local language if supported, otherwise it will be presented in English. Recommend to restart the app after changing this setting.")
-                        .font(Font.custom("FSSinclair", size: 14))
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(.gray)
-                    CustomTogglePicker(selection: $viewModel.enableLocalization)
+                    if let url = URL(string: supportUrl) {
+                        
+                        Link(destination: url) {
+                            SettingsRow(settingTitle: "Support", image: "hammer.fill", dashPattern: [69, 19])
+                        }.tint(.white)
+
+                    }
+                    #endif
+                    SettingsRow(settingTitle: "Language", image: "globe", selected: $viewModel.enableLocalization, dashPattern: [54, 18])
+                        .onTapGesture {
+                            showLanguageOptions.toggle()
+                        }
                     
+                    SettingsRow(settingTitle: "Dark Mode", image: "circle.lefthalf.filled", selected: $viewModel.darkMode, dashPattern: [51, 11])
+                        .onTapGesture {
+                            showDarkModeOptions.toggle()
+                        }
                     
-                        .frame(height: 30)
-                        .padding(4)
-                        .border(Color.white)
-                        .padding(4)
-                        .border(Color.gray)
-                    
-                        .onChange(of: viewModel.enableLocalization) { _ in
-                            
-                            viewModel.refresh()
-                            
+                    SettingsRow(settingTitle: "About", image: "info.circle.fill", dashPattern: [59, 5])
+                        .onTapGesture {
+                            showAbout.toggle()
                         }
                     
                 }.padding()
-                #if os(iOS)
-                VStack(spacing: 20){
-                    
-                    Text("Dark Mode").font(Font.custom("FSSinclair", size: 18)).bold()
-                        .padding()
-                        .padding(.horizontal)
-                        .padding(.top, 3)
-                        .background(
-                            AngledLinesShape()
-                                .stroke(lineWidth: 3)
-                                .foregroundColor(.white)
-                                .opacity(0.2)
-                                .clipped()
-                                .background {
-                                    Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
-                                        .foregroundStyle(.gray)
-                                        .opacity(0.9)
-                                        .shadow(radius: 3)
-                                }
-                        )
-                    
-                    Text("Disables blurred backgrounds.")
-                        .font(Font.custom("FSSinclair", size: 14))
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(.gray)
-                    CustomTogglePicker(selection: $viewModel.darkMode)
-                    
-                    
-                        .frame(height: 30)
-                        .padding(4)
-                        .border(Color.white)
-                        .padding(4)
-                        .border(Color.gray)
-                    
-                }.padding()
+            
                 
-                #endif
+            }
+            
+            .onChange(of: viewModel.enableLocalization) { _ in
                 
+                viewModel.refresh()
+                
+            }
+            
+            .sheet(isPresented: $showLanguageOptions) {
+                
+                SettingsSheet(selection: $viewModel.enableLocalization, settingTitle: "Language", settingSubtitle: "War Monitor for Helldivers 2 supports partial localisations. If enabled, any data received from the API will be displayed in your local language if supported, otherwise it will be presented in English. Recommend to restart the app after changing this setting.")
+                
+             
+            }
+            
+            .sheet(isPresented: $showDarkModeOptions) {
+                
+                SettingsSheet(selection: $viewModel.darkMode, settingTitle: "Dark Mode", settingSubtitle: "Disables blurred backgrounds.")
+
+            }
+            
+            .sheet(isPresented: $showAbout) {
+                
+                ScrollView {
                 VStack(spacing: 20) {
                     
                     Text("ABOUT").font(Font.custom("FSSinclair", size: 18)).bold()
@@ -136,26 +132,17 @@ struct AboutView: View {
                             .foregroundStyle(Color.yellow)
                     }
                     
+                    Spacer()
+                    
                 }.padding(.horizontal)
                     .padding(.top)
                     .multilineTextAlignment(.center)
                 
-                #if os(iOS)
+            }.scrollContentBackground(.hidden)
                 
-                if let supportUrl = URL(string: supportUrl) {
-                    Link(destination: supportUrl, label: {
-                        Text("Support") .font(Font.custom("FSSinclair", size: 20))
-                            .underline()
-                    }).padding()
-                }
-                
-           
-                
-                #endif
-                
-                
-                Spacer()
-                
+                    .presentationDetents([.medium, .large])
+                    .customSheetBackground()
+             
             }
             
             
@@ -167,15 +154,6 @@ struct AboutView: View {
                         Text("Settings").textCase(.uppercase)
                             .font(Font.custom("FSSinclair-Bold", size: 24))
                     }
-                
-                ToolbarItem(placement: .topBarLeading) {
-                    if let discordUrl = URL(string: discordUrl) {
-                        Link(destination: discordUrl, label: {
-                            Image("discordLogo").resizable().aspectRatio(contentMode: .fit)
-                                .frame(width: 100, height: 100)
-                        })
-                    }
-                }
                     
                 
 #endif
@@ -191,10 +169,171 @@ struct AboutView: View {
             
             .navigationBarTitleDisplayMode(.inline)
             
-        }
+        }.presentationDetents([.fraction(0.8), .large])
     }
 }
 
 #Preview {
     AboutView()
+}
+
+struct SettingsRow: View {
+    
+    @EnvironmentObject var viewModel: PlanetsViewModel
+    
+    let settingTitle: String
+    let image: String
+    var systemImage: Bool
+    
+    @Binding var selected: Bool
+    let dashPattern: [CGFloat]
+    #if os(iOS)
+    
+    let fontSize: CGFloat = 20
+    let imageSize: CGFloat = 30
+    #else
+    
+    let fontSize: CGFloat = 10
+    let imageSize: CGFloat = 25
+    
+    #endif
+    
+    init(settingTitle: String, image: String, selected: Binding<Bool> = .constant(false), dashPattern: [CGFloat], systemImage: Bool = true) {
+        self.settingTitle = settingTitle
+        self.image = image
+        _selected = selected
+        self.dashPattern = dashPattern
+        self.systemImage = systemImage
+    }
+    
+    var body: some View {
+
+        ZStack(alignment: .trailing) {
+            Color.gray.opacity(0.16)
+                .shadow(radius: 3)
+            HStack(spacing: 12) {
+                
+                if systemImage {
+                    
+                    
+                    Image(systemName: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: imageSize, height: imageSize)
+                } else {
+                    Image(image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: imageSize, height: imageSize)
+                }
+                Text(settingTitle.uppercased())
+                    .font(Font.custom("FSSinclair-Bold", size: fontSize))
+                    .padding(.top, 2)
+                Spacer()
+            }.frame(maxWidth: .infinity)
+                .padding(.leading, 10)
+                .padding(.vertical, 8)
+            
+    
+            
+        }
+        
+        .background {
+            
+            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                .foregroundStyle(.gray)
+                .opacity(0.5)
+                .shadow(radius: 3)
+            
+        }
+        
+        .overlay(
+                       GeometryReader { geometry in
+                           HStack {
+                               Spacer()
+                               if selected {
+                               ZStack {
+                                   Triangle()
+                                       .fill(Color.green)
+                                       .frame(width: geometry.size.height - 2, height: geometry.size.height - 2)
+                                       .alignmentGuide(.trailing) { d in d[.trailing] }
+                                   
+                                   Image(systemName: "checkmark").font(.callout)
+                                       .bold()
+                                       .foregroundStyle(.white)
+                                       .padding(.leading, 22)
+                                       .padding(.bottom)
+                                   
+                               }.shadow(radius: 3)
+                           }
+                           }
+                       },
+                       alignment: .trailing
+                   )
+    
+        
+    }
+    
+}
+
+struct SettingsSheet: View {
+    
+    @Binding var selection: Bool
+    let settingTitle: String
+    let settingSubtitle: String
+    
+    
+    var body: some View {
+        
+        ScrollView {
+        VStack(spacing: 6) {
+            
+            Text(settingTitle.uppercased()).font(Font.custom("FSSinclair", size: 28)).bold()
+                .multilineTextAlignment(.center)
+                .padding()
+                .padding(.top, 3)
+                .background(
+                    AngledLinesShape()
+                        .stroke(lineWidth: 3)
+                        .foregroundColor(.white)
+                        .opacity(0.2)
+                        .clipped()
+                )
+                .padding(.top)
+            
+            
+            
+            
+            Text(settingSubtitle)
+                .font(Font.custom("FSSinclair", size: 14))
+                .multilineTextAlignment(.center)
+                .foregroundStyle(.gray)
+                .padding()
+                .shadow(radius: 3)
+            
+            CustomTogglePicker(selection: $selection)
+            
+            
+                .frame(height: 30)
+                .padding(4)
+                .border(Color.white)
+                .padding(4)
+                .border(Color.gray)
+            
+            
+            
+            Spacer()
+            
+        }
+        
+    }.scrollContentBackground(.hidden)
+        
+        .presentationDetents([.fraction(0.4)])
+        .customSheetBackground(ultraThin: true)
+        .presentationDragIndicator(.visible)
+        
+        
+    }
+    
+    
 }

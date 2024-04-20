@@ -41,13 +41,13 @@ struct ContentView: View {
                             .padding(.horizontal)
                     }
                     
-                    
-                    ForEach(Array(viewModel.updatedCampaigns.enumerated()), id: \.element) { (index, campaign) in
+                    ForEach(viewModel.updatedCampaigns, id: \.planet.index) { campaign in
                         
                         UpdatedPlanetView(planetIndex: campaign.planet.index)
-                            .id(index)
+                            .id(campaign == viewModel.updatedCampaigns.first ? 0 : campaign.planet.index)
                             .padding(.horizontal)
-                      
+                        
+                        
                     }
                     
                 }
@@ -140,9 +140,6 @@ struct ContentView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         PlayerCountView().environmentObject(viewModel)
                     }
-        
-                    
-                    
                     
                     
                     ToolbarItem(placement: .principal) {
