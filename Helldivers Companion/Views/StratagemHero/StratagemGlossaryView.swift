@@ -203,11 +203,11 @@ struct StratagemInfoRow: View {
     }
     
     #if os(iOS)
-    
+    let stackSpacing: CGFloat = 6
     let fontSize: CGFloat = 20
     let imageSize: CGFloat = 30
     #else
-    
+    let stackSpacing: CGFloat = 2
     let fontSize: CGFloat = 10
     let imageSize: CGFloat = 25
     
@@ -223,10 +223,40 @@ struct StratagemInfoRow: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: imageSize, height: imageSize)
-                
-                Text(stratagem.name.uppercased())
-                    .font(Font.custom("FSSinclair-Bold", size: fontSize))
-                    .padding(.top, 2)
+                VStack(alignment: .leading, spacing: 0){
+                    Text(stratagem.name.uppercased())
+                        .font(Font.custom("FSSinclair-Bold", size: fontSize))
+                        .padding(.top, 2)
+                    
+                    HStack(spacing: stackSpacing) {
+                        
+                        ForEach(stratagem.sequence, id: \.self) { input in
+                            
+                            
+                            if #available(iOS 17.0, *) {
+                                Image(systemName: "arrowshape.\(input).fill")
+                                    .foregroundStyle(.white)
+                                    .shadow(radius: 3)
+                                
+                            } else {
+                                Image(systemName: "arrowtriangle.\(input).fill")
+                                    .foregroundStyle(.white)
+                                    .shadow(radius: 3)
+                                
+                            }
+                            
+                            
+                        }
+                        
+                        
+                    }.opacity(0.8)
+                    #if os(iOS)
+                        .font(.caption)
+                    #else
+                        .font(.system(size: fontSize))
+                    #endif
+                    
+                }
                 Spacer()
             }.frame(maxWidth: .infinity)
                 .padding(.leading, 10)
