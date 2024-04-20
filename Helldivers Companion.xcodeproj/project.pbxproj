@@ -176,6 +176,31 @@
 		7C4A9E282BD336D60014FCCD /* DashPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A9E272BD336D60014FCCD /* DashPattern.swift */; };
 		7C4A9E292BD336D60014FCCD /* DashPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A9E272BD336D60014FCCD /* DashPattern.swift */; };
 		7C4A9E2B2BD33FC10014FCCD /* TogglePickerPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A9E2A2BD33FC10014FCCD /* TogglePickerPopup.swift */; };
+		7C4A9E312BD355EF0014FCCD /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
+		7C4A9E322BD355EF0014FCCD /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
+		7C4A9E352BD355EF0014FCCD /* War_Monitor_Total_Player_Count_WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A9E342BD355EF0014FCCD /* War_Monitor_Total_Player_Count_WidgetBundle.swift */; };
+		7C4A9E372BD355EF0014FCCD /* War_Monitor_Total_Player_Count_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A9E362BD355EF0014FCCD /* War_Monitor_Total_Player_Count_Widget.swift */; };
+		7C4A9E392BD355F00014FCCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C4A9E382BD355F00014FCCD /* Assets.xcassets */; };
+		7C4A9E3D2BD355F00014FCCD /* War Monitor Total Player Count WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7C4A9E302BD355EF0014FCCD /* War Monitor Total Player Count WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7C4A9E462BD356860014FCCD /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
+		7C4A9E472BD356860014FCCD /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
+		7C4A9E4A2BD356860014FCCD /* War_Monitor_Total_Player_Count_Watch_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A9E492BD356860014FCCD /* War_Monitor_Total_Player_Count_Watch_Widget.swift */; };
+		7C4A9E4C2BD356870014FCCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C4A9E4B2BD356870014FCCD /* Assets.xcassets */; };
+		7C4A9E502BD356870014FCCD /* War Monitor Total Player Count Watch WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7C4A9E452BD356860014FCCD /* War Monitor Total Player Count Watch WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7C4A9E542BD356910014FCCD /* War_Monitor_Total_Player_Count_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A9E362BD355EF0014FCCD /* War_Monitor_Total_Player_Count_Widget.swift */; };
+		7C4A9E552BD3571E0014FCCD /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
+		7C4A9E562BD3571F0014FCCD /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
+		7C4A9E572BD357220014FCCD /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
+		7C4A9E582BD357230014FCCD /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
+		7C4A9E592BD358100014FCCD /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
+		7C4A9E5A2BD358100014FCCD /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
+		7C4A9E5C2BD35AAA0014FCCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
+		7C4A9E5D2BD35AB10014FCCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C587F4A2BA6DBBB00C66643 /* Assets.xcassets */; };
+		7C4A9E5E2BD35AB30014FCCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C587F4A2BA6DBBB00C66643 /* Assets.xcassets */; };
+		7C4A9E5F2BD35D020014FCCD /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
+		7C4A9E602BD35D020014FCCD /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
+		7C4A9E612BD35D040014FCCD /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
+		7C4A9E622BD35D050014FCCD /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
 		7C587F3F2BA6A7DA00C66643 /* CustomSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */; };
 		7C587F472BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F462BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift */; };
 		7C587F492BA6DBB400C66643 /* ContentViewWatchVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F482BA6DBB400C66643 /* ContentViewWatchVersion.swift */; };
@@ -329,6 +354,20 @@
 			remoteGlobalIDString = 7C44B7DC2BC944420097C29B;
 			remoteInfo = "Helldivers Companion Galaxy Map WidgetExtension";
 		};
+		7C4A9E3B2BD355F00014FCCD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7C0C99402BA2BA8F00CF7C91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7C4A9E2F2BD355EF0014FCCD;
+			remoteInfo = "War Monitor Total Player Count WidgetExtension";
+		};
+		7C4A9E4E2BD356870014FCCD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7C0C99402BA2BA8F00CF7C91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7C4A9E442BD356860014FCCD;
+			remoteInfo = "War Monitor Total Player Count Watch WidgetExtension";
+		};
 		7C587F4F2BA6DBBB00C66643 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7C0C99402BA2BA8F00CF7C91 /* Project object */;
@@ -382,6 +421,7 @@
 			files = (
 				7CA240D52BCA5083007F685C /* Stratagem Hero High Score Watch WidgetExtension.appex in Embed Foundation Extensions */,
 				7C3DE9822BA80B3E00C95B84 /* Helldivers Companion Watch WidgetsExtension.appex in Embed Foundation Extensions */,
+				7C4A9E502BD356870014FCCD /* War Monitor Total Player Count Watch WidgetExtension.appex in Embed Foundation Extensions */,
 				7C8C5F582BAF0AD200C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
@@ -405,6 +445,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				7C44B7EA2BC944430097C29B /* Helldivers Companion Galaxy Map WidgetExtension.appex in Embed Foundation Extensions */,
+				7C4A9E3D2BD355F00014FCCD /* War Monitor Total Player Count WidgetExtension.appex in Embed Foundation Extensions */,
 				7C8C5F3C2BAEF91300C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex in Embed Foundation Extensions */,
 				7CC0AE7F2BA7F31500802D9F /* Helldivers Companion WidgetsExtension.appex in Embed Foundation Extensions */,
 				7C1B8C1D2BAD705700944823 /* Helldivers Companion News WidgetExtension.appex in Embed Foundation Extensions */,
@@ -483,6 +524,15 @@
 		7C45D4772BAC142C0013A632 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		7C4A9E272BD336D60014FCCD /* DashPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashPattern.swift; sourceTree = "<group>"; };
 		7C4A9E2A2BD33FC10014FCCD /* TogglePickerPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TogglePickerPopup.swift; sourceTree = "<group>"; };
+		7C4A9E302BD355EF0014FCCD /* War Monitor Total Player Count WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "War Monitor Total Player Count WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C4A9E342BD355EF0014FCCD /* War_Monitor_Total_Player_Count_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = War_Monitor_Total_Player_Count_WidgetBundle.swift; sourceTree = "<group>"; };
+		7C4A9E362BD355EF0014FCCD /* War_Monitor_Total_Player_Count_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = War_Monitor_Total_Player_Count_Widget.swift; sourceTree = "<group>"; };
+		7C4A9E382BD355F00014FCCD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7C4A9E3A2BD355F00014FCCD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C4A9E452BD356860014FCCD /* War Monitor Total Player Count Watch WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "War Monitor Total Player Count Watch WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C4A9E492BD356860014FCCD /* War_Monitor_Total_Player_Count_Watch_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = War_Monitor_Total_Player_Count_Watch_Widget.swift; sourceTree = "<group>"; };
+		7C4A9E4B2BD356870014FCCD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7C4A9E4D2BD356870014FCCD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedPicker.swift; sourceTree = "<group>"; };
 		7C587F442BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Helldivers Companion Watch Edition Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C587F462BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Watch_EditionApp.swift; sourceTree = "<group>"; };
@@ -585,6 +635,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7C4A9E2D2BD355EF0014FCCD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C4A9E322BD355EF0014FCCD /* SwiftUI.framework in Frameworks */,
+				7C4A9E312BD355EF0014FCCD /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7C4A9E422BD356860014FCCD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C4A9E472BD356860014FCCD /* SwiftUI.framework in Frameworks */,
+				7C4A9E462BD356860014FCCD /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7C587F412BA6DBB400C66643 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -680,6 +748,8 @@
 				7C44B7E02BC944420097C29B /* Helldivers Companion Galaxy Map Widget */,
 				7CA240B52BCA33FC007F685C /* Stratagem Hero High Score Widget */,
 				7CA240CD2BCA5082007F685C /* Stratagem Hero High Score Watch Widget */,
+				7C4A9E332BD355EF0014FCCD /* War Monitor Total Player Count Widget */,
+				7C4A9E482BD356860014FCCD /* War Monitor Total Player Count Watch Widget */,
 				7CC0AE702BA7F31400802D9F /* Frameworks */,
 				7C0C99492BA2BA8F00CF7C91 /* Products */,
 			);
@@ -698,6 +768,8 @@
 				7C44B7DD2BC944420097C29B /* Helldivers Companion Galaxy Map WidgetExtension.appex */,
 				7CA240B22BCA33FC007F685C /* Stratagem Hero High Score WidgetExtension.appex */,
 				7CA240CA2BCA5082007F685C /* Stratagem Hero High Score Watch WidgetExtension.appex */,
+				7C4A9E302BD355EF0014FCCD /* War Monitor Total Player Count WidgetExtension.appex */,
+				7C4A9E452BD356860014FCCD /* War Monitor Total Player Count Watch WidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -798,6 +870,27 @@
 				7C45D46D2BABEECF0013A632 /* MajorOrderTimeView.swift */,
 			);
 			path = Orders;
+			sourceTree = "<group>";
+		};
+		7C4A9E332BD355EF0014FCCD /* War Monitor Total Player Count Widget */ = {
+			isa = PBXGroup;
+			children = (
+				7C4A9E342BD355EF0014FCCD /* War_Monitor_Total_Player_Count_WidgetBundle.swift */,
+				7C4A9E362BD355EF0014FCCD /* War_Monitor_Total_Player_Count_Widget.swift */,
+				7C4A9E382BD355F00014FCCD /* Assets.xcassets */,
+				7C4A9E3A2BD355F00014FCCD /* Info.plist */,
+			);
+			path = "War Monitor Total Player Count Widget";
+			sourceTree = "<group>";
+		};
+		7C4A9E482BD356860014FCCD /* War Monitor Total Player Count Watch Widget */ = {
+			isa = PBXGroup;
+			children = (
+				7C4A9E492BD356860014FCCD /* War_Monitor_Total_Player_Count_Watch_Widget.swift */,
+				7C4A9E4B2BD356870014FCCD /* Assets.xcassets */,
+				7C4A9E4D2BD356870014FCCD /* Info.plist */,
+			);
+			path = "War Monitor Total Player Count Watch Widget";
 			sourceTree = "<group>";
 		};
 		7C587F452BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App */ = {
@@ -1004,6 +1097,7 @@
 				7C8C5F3B2BAEF91300C4FBD2 /* PBXTargetDependency */,
 				7C44B7E92BC944430097C29B /* PBXTargetDependency */,
 				7CA240BE2BCA33FD007F685C /* PBXTargetDependency */,
+				7C4A9E3C2BD355F00014FCCD /* PBXTargetDependency */,
 			);
 			name = "Helldivers Companion";
 			packageProductDependencies = (
@@ -1082,6 +1176,40 @@
 			productReference = 7C44B7DD2BC944420097C29B /* Helldivers Companion Galaxy Map WidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		7C4A9E2F2BD355EF0014FCCD /* War Monitor Total Player Count WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C4A9E3E2BD355F00014FCCD /* Build configuration list for PBXNativeTarget "War Monitor Total Player Count WidgetExtension" */;
+			buildPhases = (
+				7C4A9E2C2BD355EF0014FCCD /* Sources */,
+				7C4A9E2D2BD355EF0014FCCD /* Frameworks */,
+				7C4A9E2E2BD355EF0014FCCD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "War Monitor Total Player Count WidgetExtension";
+			productName = "War Monitor Total Player Count WidgetExtension";
+			productReference = 7C4A9E302BD355EF0014FCCD /* War Monitor Total Player Count WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		7C4A9E442BD356860014FCCD /* War Monitor Total Player Count Watch WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C4A9E512BD356870014FCCD /* Build configuration list for PBXNativeTarget "War Monitor Total Player Count Watch WidgetExtension" */;
+			buildPhases = (
+				7C4A9E412BD356860014FCCD /* Sources */,
+				7C4A9E422BD356860014FCCD /* Frameworks */,
+				7C4A9E432BD356860014FCCD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "War Monitor Total Player Count Watch WidgetExtension";
+			productName = "War Monitor Total Player Count Watch WidgetExtension";
+			productReference = 7C4A9E452BD356860014FCCD /* War Monitor Total Player Count Watch WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		7C587F432BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7C587F522BA6DBBB00C66643 /* Build configuration list for PBXNativeTarget "Helldivers Companion Watch Edition Watch App" */;
@@ -1097,6 +1225,7 @@
 				7C3DE9812BA80B3E00C95B84 /* PBXTargetDependency */,
 				7C8C5F572BAF0AD200C4FBD2 /* PBXTargetDependency */,
 				7CA240D42BCA5083007F685C /* PBXTargetDependency */,
+				7C4A9E4F2BD356870014FCCD /* PBXTargetDependency */,
 			);
 			name = "Helldivers Companion Watch Edition Watch App";
 			packageProductDependencies = (
@@ -1222,6 +1351,12 @@
 					7C44B7DC2BC944420097C29B = {
 						CreatedOnToolsVersion = 15.3;
 					};
+					7C4A9E2F2BD355EF0014FCCD = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					7C4A9E442BD356860014FCCD = {
+						CreatedOnToolsVersion = 15.3;
+					};
 					7C587F432BA6DBB400C66643 = {
 						CreatedOnToolsVersion = 15.3;
 					};
@@ -1274,6 +1409,8 @@
 				7C44B7DC2BC944420097C29B /* Helldivers Companion Galaxy Map WidgetExtension */,
 				7CA240B12BCA33FC007F685C /* Stratagem Hero High Score WidgetExtension */,
 				7CA240C92BCA5082007F685C /* Stratagem Hero High Score Watch WidgetExtension */,
+				7C4A9E2F2BD355EF0014FCCD /* War Monitor Total Player Count WidgetExtension */,
+				7C4A9E442BD356860014FCCD /* War Monitor Total Player Count Watch WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -1332,6 +1469,29 @@
 				7C44B8022BC95AA30097C29B /* FS Sinclair Bold.otf in Resources */,
 				7C44B8032BC95AA60097C29B /* FS Sinclair Regular.otf in Resources */,
 				7C44B7E62BC944430097C29B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7C4A9E2E2BD355EF0014FCCD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C4A9E5C2BD35AAA0014FCCD /* Assets.xcassets in Resources */,
+				7C4A9E612BD35D040014FCCD /* FS Sinclair Regular.otf in Resources */,
+				7C4A9E5E2BD35AB30014FCCD /* Assets.xcassets in Resources */,
+				7C4A9E5F2BD35D020014FCCD /* FS Sinclair Bold.otf in Resources */,
+				7C4A9E392BD355F00014FCCD /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7C4A9E432BD356860014FCCD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C4A9E5D2BD35AB10014FCCD /* Assets.xcassets in Resources */,
+				7C4A9E602BD35D020014FCCD /* FS Sinclair Bold.otf in Resources */,
+				7C4A9E622BD35D050014FCCD /* FS Sinclair Regular.otf in Resources */,
+				7C4A9E4C2BD356870014FCCD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1562,6 +1722,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7C4A9E2C2BD355EF0014FCCD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C4A9E352BD355EF0014FCCD /* War_Monitor_Total_Player_Count_WidgetBundle.swift in Sources */,
+				7C4A9E552BD3571E0014FCCD /* PlanetsViewModel.swift in Sources */,
+				7C4A9E572BD357220014FCCD /* PlanetStructs.swift in Sources */,
+				7C4A9E372BD355EF0014FCCD /* War_Monitor_Total_Player_Count_Widget.swift in Sources */,
+				7C4A9E592BD358100014FCCD /* GlobalFunctions+Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7C4A9E412BD356860014FCCD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C4A9E4A2BD356860014FCCD /* War_Monitor_Total_Player_Count_Watch_Widget.swift in Sources */,
+				7C4A9E562BD3571F0014FCCD /* PlanetsViewModel.swift in Sources */,
+				7C4A9E582BD357230014FCCD /* PlanetStructs.swift in Sources */,
+				7C4A9E542BD356910014FCCD /* War_Monitor_Total_Player_Count_Widget.swift in Sources */,
+				7C4A9E5A2BD358100014FCCD /* GlobalFunctions+Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7C587F402BA6DBB400C66643 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1713,6 +1897,16 @@
 			isa = PBXTargetDependency;
 			target = 7C44B7DC2BC944420097C29B /* Helldivers Companion Galaxy Map WidgetExtension */;
 			targetProxy = 7C44B7E82BC944430097C29B /* PBXContainerItemProxy */;
+		};
+		7C4A9E3C2BD355F00014FCCD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7C4A9E2F2BD355EF0014FCCD /* War Monitor Total Player Count WidgetExtension */;
+			targetProxy = 7C4A9E3B2BD355F00014FCCD /* PBXContainerItemProxy */;
+		};
+		7C4A9E4F2BD356870014FCCD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7C4A9E442BD356860014FCCD /* War Monitor Total Player Count Watch WidgetExtension */;
+			targetProxy = 7C4A9E4E2BD356870014FCCD /* PBXContainerItemProxy */;
 		};
 		7C587F502BA6DBBB00C66643 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2119,6 +2313,122 @@
 			};
 			name = Release;
 		};
+		7C4A9E3F2BD355F00014FCCD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "War Monitor Total Player Count Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "War Monitor Total Player Count Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.War-Monitor-Total-Player-Count-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7C4A9E402BD355F00014FCCD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "War Monitor Total Player Count Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "War Monitor Total Player Count Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.War-Monitor-Total-Player-Count-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7C4A9E522BD356870014FCCD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "War Monitor Total Player Count Watch Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "War Monitor Total Player Count Watch Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.War-Monitor-Total-Player-Count-Watch-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		7C4A9E532BD356870014FCCD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L9DB7QA9DE;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "War Monitor Total Player Count Watch Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "War Monitor Total Player Count Watch Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.War-Monitor-Total-Player-Count-Watch-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
 		7C587F532BA6DBBB00C66643 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2316,7 +2626,7 @@
 				INFOPLIST_FILE = "Stratagem Hero High Score Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Stratagem Hero High Score Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2345,7 +2655,7 @@
 				INFOPLIST_FILE = "Stratagem Hero High Score Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Stratagem Hero High Score Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2388,7 +2698,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Debug;
 		};
@@ -2419,7 +2729,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
@@ -2523,6 +2833,24 @@
 			buildConfigurations = (
 				7C44B7EC2BC944430097C29B /* Debug */,
 				7C44B7ED2BC944430097C29B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7C4A9E3E2BD355F00014FCCD /* Build configuration list for PBXNativeTarget "War Monitor Total Player Count WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C4A9E3F2BD355F00014FCCD /* Debug */,
+				7C4A9E402BD355F00014FCCD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7C4A9E512BD356870014FCCD /* Build configuration list for PBXNativeTarget "War Monitor Total Player Count Watch WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C4A9E522BD356870014FCCD /* Debug */,
+				7C4A9E532BD356870014FCCD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
