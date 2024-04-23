@@ -182,8 +182,14 @@ struct RectangularPlanetWidgetView: View {
                 HStack(spacing: 3) {
                     Image(systemName: "chart.xyaxis.line").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                         .padding(.bottom, 2)
-                    Text("\(entry.liberation)%") .font(Font.custom("FSSinclair", size: 16))
+                    Text(String(format: entry.eventExpirationTime != nil ? "%.0f%%" : "%.4f%%", entry.liberation))
+                        .font(Font.custom("FSSinclair", size: 16))
                     Spacer()
+                    if let expireTime = entry.eventExpirationTime {
+                        Text(expireTime, style: .timer)
+                            .font(Font.custom("FSSinclair", size: 12))
+                    }
+                    
                 }.padding(.leading, 5)
             }.padding(.top, 2)
             

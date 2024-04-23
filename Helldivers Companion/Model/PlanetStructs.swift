@@ -406,10 +406,18 @@ struct UpdatedPlanetEvent: Decodable {
     var totalDuration: Double? {
         
         let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withInternetDateTime]
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         
         if let startTime = dateFormatter.date(from: startTime), let endTime = dateFormatter.date(from: endTime) {
             return endTime.timeIntervalSince(startTime)
+        } else {
+            // try parsing without fractional seconds if first attempt fails
+            dateFormatter.formatOptions = [.withInternetDateTime]
+            if let startTime = dateFormatter.date(from: startTime),
+               let endTime = dateFormatter.date(from: endTime) {
+                return endTime.timeIntervalSince(startTime)
+            }
+            
         }
         
       return nil
@@ -417,8 +425,26 @@ struct UpdatedPlanetEvent: Decodable {
         
     }
     
-    // TODO: USE ACTUAL EXPIRY TIME FROM DEALLOCS NEW API INSTEAD OF TRAINING MANUAL
-    var expireTimeDate: Date?
+    var expireTimeDate: Date? {
+        
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        
+        if let endTime = dateFormatter.date(from: endTime) {
+            return endTime
+            
+        } else {
+            // same as above
+            dateFormatter.formatOptions = [.withInternetDateTime]
+            if let endTime = dateFormatter.date(from: endTime) {
+                return endTime
+            }
+        }
+        
+        return nil
+        
+        
+    }
     
     
 }

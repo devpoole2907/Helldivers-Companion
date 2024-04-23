@@ -394,21 +394,8 @@ class PlanetsViewModel: ObservableObject {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 
                 var decodedResponse = try decoder.decode([UpdatedCampaign].self, from: data)
-                
-                self?.fetchExpirationTimes { expirationTimes in
-                    
-                    let planetExpirationMap = Dictionary(uniqueKeysWithValues: expirationTimes.map { ($0.planetIndex, $0.expireDateTime) })
-                    
-                    for index in decodedResponse.indices {
-                        if let expirationTime = planetExpirationMap[decodedResponse[index].planet.index] {
-                            let expireDate = Date(timeIntervalSince1970: expirationTime ?? 0.0)
-                            decodedResponse[index].planet.event?.expireTimeDate = expireDate
-                        }
-                    }
-                    
-               
                         
-                        // use updated planets if available, otherwise use original planets without additional info added
+                  
                         let finalPlanets = decodedResponse.map { $0.planet }
                         
                         for planet in finalPlanets {
@@ -454,7 +441,7 @@ class PlanetsViewModel: ObservableObject {
                         
                     
                     
-                }
+                
                 
                 
                 
@@ -725,40 +712,6 @@ class PlanetsViewModel: ObservableObject {
             
             
         }.resume()
-    }
-    
-    // TODO: GET RID OF THIS AND USE ACTUAL DEFENSE TIME REMAINING FROM DEALLOCS NEW API
-    // gets defense expiration times from a cache from helldiverstrainingmanual api
-    func fetchExpirationTimes(completion: @escaping ([PlanetExpiration]) -> Void) {
-        
-        
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/planets/campaignInfo.json"
-        
-        guard let url = URL(string: urlString) else {
-            print("Invalid URL")
-            completion([])
-            return
-        }
-        
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else {
-                print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
-                completion([])
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let decodedResponse = try decoder.decode([PlanetExpiration].self, from: data)
-                completion(decodedResponse)
-            } catch {
-                print("Decoding error: \(error)")
-                completion([])
-            }
-        }.resume()
-        
-        
     }
     
     func fetchUpdatedPlanets(using url: String? = nil, completion: @escaping ([UpdatedPlanet]) -> Void) {
