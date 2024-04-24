@@ -22,6 +22,8 @@ class PlanetsViewModel: ObservableObject {
     
     @Published var currentTab: Tab = .home
     
+    var dashPatterns: [UUID: [CGFloat]] = [:]
+    
     @Published var currentSeason: String = ""
     @Published var majorOrder: MajorOrder? = nil
     @Published var galaxyStats: GalaxyStats? = nil
@@ -86,6 +88,17 @@ class PlanetsViewModel: ObservableObject {
         cacheTimer = nil
         completion()
     }
+    // TODO: move me at some point, just dupicated here so strat rows in db can get strokes im moving quick
+    func dashPattern(for stratagem: Stratagem) -> [CGFloat] {
+            if let pattern = dashPatterns[stratagem.id] {
+                return pattern
+            } else {
+                // Create a new pattern if not exists
+                let newPattern = [CGFloat.random(in: 50...70), CGFloat.random(in: 5...20)]
+                dashPatterns[stratagem.id] = newPattern
+                return newPattern
+            }
+        }
     
     
     func getColorForPlanet(planet: UpdatedPlanet?) -> Color {
@@ -890,7 +903,7 @@ enum Tab: String, CaseIterable {
     case game = "Hero"
     case about = "About"
     case orders = "Orders"
-    case stats = "Stats"
+    case stats = "Data"
     case map = "Map"
     case tipJar = "Tip Jar"
     

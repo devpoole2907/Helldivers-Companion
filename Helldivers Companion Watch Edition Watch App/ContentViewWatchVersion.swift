@@ -51,13 +51,8 @@ struct ContentViewWatchVersion: View {
                 
                 .navigationBarTitleDisplayMode(.inline)
             
-        }.background {
-            if viewModel.darkMode {
-                Color.black.ignoresSafeArea()
-            } else {
-                Image("BackgroundImage").blur(radius: 8).ignoresSafeArea()
-            }
-        }
+        }.conditionalBackground(viewModel: viewModel)
+        
         
         .hapticFeedback(.selection, trigger: contentNavPather.navigationPath)
             .hapticFeedback(.selection, trigger: statsNavPather.navigationPath)

@@ -488,3 +488,113 @@ struct UpdatedPlanetDataPoint {
     let timestamp: Date
     var planet: UpdatedPlanet?
 }
+
+struct DecodedStratagemData: Codable {
+    let data: [DecodedStratagem]
+}
+
+// for stratagems displayed from hellhub api
+struct DecodedStratagem: Codable {
+    let id: Int
+    let codename: String?
+    let name: String
+    let keys: [String]
+    let uses: String
+    let cooldown: Int?
+    let activation: Int?
+    let groupId: Int
+
+}
+
+struct Stratagem: Equatable, Codable, Hashable {
+    var id: UUID = UUID()
+    var name: String = ""
+    var sequence: [StratagemInput] // arrow key sequence
+    var type: StratagemType
+}
+
+enum StratagemInput: Codable {
+    
+    case up
+    case down
+    case left
+    case right
+    
+}
+
+enum StratagemType: CaseIterable, Codable {
+    
+    case admin
+    
+    case orbital
+    
+    case hangar
+    
+    case bridge
+    
+    case engineering
+    
+    case workshop
+    
+    case mission
+    
+    var title: String {
+            switch self {
+            case .admin:
+                return "Patriotic Administration Center"
+            case .orbital:
+                return "Orbital Cannons"
+            case .hangar:
+                return "Hangar"
+            case .bridge:
+                return "Bridge"
+            case .engineering:
+                return "Engineering Bay"
+            case .workshop:
+                return "Robotics Workshop"
+            case .mission:
+                return "Mission Stratagems"
+            }
+        }
+    
+    
+}
+
+struct Weapon: Codable, Hashable {
+    var name: String
+    var description: String
+    var type: Int? // only for primaries-
+    var damage: Int
+    var capacity: Int
+    var recoil: Int
+    var fireRate: Int
+    var fireMode: [Int]
+    var traits: [Int]
+}
+
+struct Grenade: Codable, Hashable {
+    
+    var name: String
+    var description: String
+    var damage: Int
+    var penetration: Int?
+    var outerRadius: Int?
+    var fuseTime: Double?
+    
+    
+}
+
+struct WeaponType: Codable {
+    var id: Int
+    var name: String
+}
+
+struct Trait: Codable {
+    var id: Int
+    var description: String
+}
+
+struct FireMode: Codable {
+    var id: Int
+    var mode: String
+}

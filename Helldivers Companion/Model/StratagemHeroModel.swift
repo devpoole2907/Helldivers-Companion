@@ -588,60 +588,6 @@ class StratagemHeroModel: ObservableObject {
     }
 }
 
-struct Stratagem: Equatable, Codable {
-    var id: UUID = UUID()
-    var name: String = ""
-    var sequence: [StratagemInput] // arrow key sequence
-    var type: StratagemType
-}
-
-enum StratagemInput: Codable {
-    
-    case up
-    case down
-    case left
-    case right
-    
-}
-
-enum StratagemType: CaseIterable, Codable {
-    
-    case admin
-    
-    case orbital
-    
-    case hangar
-    
-    case bridge
-    
-    case engineering
-    
-    case workshop
-    
-    case mission
-    
-    var title: String {
-            switch self {
-            case .admin:
-                return "Patriotic Administration Center"
-            case .orbital:
-                return "Orbital Cannons"
-            case .hangar:
-                return "Hangar"
-            case .bridge:
-                return "Bridge"
-            case .engineering:
-                return "Engineering Bay"
-            case .workshop:
-                return "Robotics Workshop"
-            case .mission:
-                return "Mission Stratagems"
-            }
-        }
-    
-    
-}
-
 let globalStratagems: [Stratagem] = [
     Stratagem(name: "Machine Gun", sequence: [.down, .left, .down, .up, .right], type: .admin),
     Stratagem(name: "Anti-Materiel Rifle", sequence: [.down, .left, .right, .up, .down], type: .admin),
@@ -657,7 +603,7 @@ let globalStratagems: [Stratagem] = [
     Stratagem(name: "Orbital 120MM HE Barrage", sequence: [.right, .right, .down, .left, .right, .down], type: .orbital),
     Stratagem(name: "Orbital 380MM HE Barrage", sequence: [.right, .down, .up, .up, .left, .down, .down], type: .orbital),
     Stratagem(name: "Orbital Walking Barrage", sequence: [.right, .down, .right, .down, .right, .down], type: .orbital),
-    Stratagem(name: "Orbital Laser Strike", sequence: [.right, .down, .up, .right, .down], type: .orbital),
+    Stratagem(name: "Orbital Laser", sequence: [.right, .down, .up, .right, .down], type: .orbital),
     Stratagem(name: "Orbital Railcannon Strike", sequence: [.right, .up, .down, .down, .right], type: .orbital),
     Stratagem(name: "Eagle Strafing Run", sequence: [.up, .right, .right], type: .hangar),
     Stratagem(name: "Eagle Airstrike", sequence: [.up, .right, .down, .right], type: .hangar),

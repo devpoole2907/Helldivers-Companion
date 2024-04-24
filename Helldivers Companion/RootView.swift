@@ -18,6 +18,8 @@ struct RootView: View {
     
     @StateObject var viewModel = PlanetsViewModel()
     
+    @StateObject var dbModel = DatabaseModel()
+    
     @StateObject var contentNavPather = NavigationPather()
     
     @StateObject var statsNavPather = NavigationPather()
@@ -67,7 +69,7 @@ struct RootView: View {
                 GameView().environmentObject(viewModel)
                     .tag(Tab.game)
                 
-                GalaxyStatsView().environmentObject(viewModel).environmentObject(statsNavPather)
+                GalaxyStatsView().environmentObject(viewModel).environmentObject(statsNavPather).environmentObject(dbModel)
                     .tag(Tab.stats)
                 
               

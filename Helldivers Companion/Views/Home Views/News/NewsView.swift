@@ -73,13 +73,9 @@ struct NewsView: View {
             .navigationBarTitleDisplayMode(.inline)
             
 #if os(iOS)
-            .background {
-                if viewModel.darkMode {
-                    Color.black.ignoresSafeArea()
-                } else {
-                    Image("BackgroundImage").blur(radius: 10).ignoresSafeArea()
-                }
-            }
+            .conditionalBackground(viewModel: viewModel)
+            
+            
                     .toolbar {
                         ToolbarItem(placement: .principal) {
                             

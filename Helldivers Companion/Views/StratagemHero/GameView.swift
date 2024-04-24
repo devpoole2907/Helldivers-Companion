@@ -111,13 +111,7 @@ struct GameView: View {
             
             .persistentSystemOverlays(.hidden)
             
-            .background {
-                if planetModel.darkMode {
-                    Color.black.ignoresSafeArea()
-                } else {
-                    Image("BackgroundImage").blur(radius: 10).ignoresSafeArea()
-                }
-            }
+            .conditionalBackground(viewModel: planetModel)
             
             
             .padding(.top)

@@ -14,66 +14,49 @@ struct GalaxyStatsView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
     @EnvironmentObject var navPather: NavigationPather
-    
-    @State private var searchText = ""
+    @EnvironmentObject var dbModel: DatabaseModel
     
     var body: some View {
         NavigationStack(path: $navPather.navigationPath) {
             
             ScrollView {
-                LazyVStack(alignment: .leading) {
+                VStack(alignment: .leading) {
                     
               
-                    #if os(iOS)
-                    if searchText.isEmpty {
+               
                         Section {
                             
                             GalaxyInfoView(galaxyStats: viewModel.galaxyStats, showIlluminate: viewModel.configData.showIlluminate)
                         }
                         
                         .id(0)
-                    }
-                    #endif
+               
                     
-                    
-                    
-                    // displays the planets grouped by sector
-                    
-                        // this isnt technically ordered, but it doesnt matter because index of 0 will be marked for the statistics at the top, so if scroll position has any value then bring us back to 0 at the top :-)
-                    ForEach(viewModel.updatedSortedSectors.indices, id: \.self) { index in
+                    Section {
                         
-                     
-                        
-                        
-                        let sector = viewModel.updatedSortedSectors[index]
-                        let planets = viewModel.updatedGroupedBySectorPlanets[sector] ?? []
-                        let filteredPlanets = planets.filter { searchText.isEmpty || $0.name.lowercased().contains(searchText.lowercased()) }
-                        let isSectorMatch = sector.localizedCaseInsensitiveContains(searchText)
-                     
-                        // show all planets when no search term, show only search matching planets when there is and their respective sector heading
-                        
-                        if searchText.isEmpty || isSectorMatch || !filteredPlanets.isEmpty {
-                        Section{
+                        NavigationLink(value: DatabasePage.planetList) {
                             
-                            ForEach(isSectorMatch ? planets : filteredPlanets, id: \.index) { planet in
-                                
-                                
-                                NavigationLink(value: planet.index) {
-                                    PlanetInfoDetailRow(planet: planet)
-                                }.padding(.vertical, 8)
-                                
-                            }
+                            DatabaseRow(title: "Planets", dashPattern: [51, 19])
+                            
+                        }.padding(.vertical, 5)
+                        
+                        NavigationLink(value: DatabasePage.stratList) {
                             
                             
-                        } header: {
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text("\(sector) Sector").font(Font.custom("FSSinclair-Bold", size: largeFont))
-                                RoundedRectangle(cornerRadius: 25).frame(width: 250, height: 2)         .padding(.bottom, 4)
-                            }.padding(.top)
+                            DatabaseRow(title: "Stratagems", dashPattern: [54, 13])
                             
-                        }.id(index + 1)
+                            
+                        }.padding(.vertical, 5)
                         
-                    }
+                        NavigationLink(value: DatabasePage.weaponList) {
+                            
+                            
+                            DatabaseRow(title: "Weapons", dashPattern: [58, 17])
+                            
+                            
+                        }.padding(.vertical, 5)
+                        
+                        
                         
                     }
                     
@@ -83,18 +66,14 @@ struct GalaxyStatsView: View {
                 }.padding(.horizontal)
                 
                 Spacer(minLength: 150)
+
                 
-                
-                  //  .scrollTargetLayout()
-                
-            }//.scrollPosition(id: $navPather.scrollPosition)
+            }
             
 
             
             
 #if os(iOS)
-            // searching only on ios
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Planets").disableAutocorrection(true)
 
             // overlay conflicts with searchable
              /*   .overlay(
@@ -104,18 +83,36 @@ struct GalaxyStatsView: View {
                         .offset(x: 0, y: -45)
                     , alignment: .topTrailing)*/
             
-            .background {
-                if viewModel.darkMode {
-                    Color.black.ignoresSafeArea()
-                } else {
-                    Image("BackgroundImage").blur(radius: 10).ignoresSafeArea()
-                }
-            }
+            .conditionalBackground(viewModel: viewModel)
             
                 .inlineLargeTitleiOS17()
 #endif
             
-                .navigationTitle("Galaxy Statistics".uppercased())
+                .navigationTitle("Database".uppercased())
+            
+                .navigationDestination(for: DatabasePage.self) { value in
+                    
+                    
+                    switch value {
+                        
+                    case .planetList:
+                        PlanetsList()
+                    case .stratList:
+                        StratagemsList().environmentObject(dbModel)
+                    case .armorList:
+                        Text("Armor")
+                    case .weaponList:
+                        WeaponsList()
+                    case .boosterList:
+                        Text("Boosters")
+                        
+                    }
+                   
+                 
+                    
+                }
+            
+            
             
                 .navigationDestination(for: Int.self) { index in
                     PlanetInfoView(planetIndex: index)
@@ -133,8 +130,9 @@ struct GalaxyStatsView: View {
                     
 #endif
                 }
-            
-            
+            #if os(iOS)
+                .toolbarRole(.editor)
+            #endif
             
         }
         
@@ -179,3 +177,65 @@ struct GalaxyStatsView: View {
     GalaxyStatsView().environmentObject(PlanetsViewModel()).environmentObject(NavigationPather())
 }
 
+enum DatabasePage: String, CaseIterable {
+    
+    case planetList = "Planets"
+    case stratList = "Stratagems"
+    case armorList = "Armor"
+    case weaponList = "Weapons"
+    case boosterList = "Boosters"
+    
+    
+    
+}
+
+struct DatabaseRow: View {
+    
+    let title: String
+    let dashPattern: [CGFloat]
+    
+    var body: some View {
+        
+        ZStack(alignment: .trailing) {
+            Color.gray.opacity(0.2)
+                .shadow(radius: 3)
+            HStack {
+                VStack(alignment: .leading, spacing: 0){
+                    Text(title.uppercased())
+                        .font(Font.custom("FSSinclair-Bold", size: 18))
+                        .padding(.top, 2)
+                    
+                }.tint(.white)
+                
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(.gray)
+                    .opacity(0.5)
+                    .bold()
+                
+                Spacer()
+                
+            
+                
+            }.frame(maxWidth: .infinity)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 8)
+            
+    
+            
+        }
+        
+        .background {
+            
+            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                .foregroundStyle(.gray)
+                .opacity(0.5)
+                .shadow(radius: 3)
+            
+        }
+    }
+    
+    
+    
+    
+}
