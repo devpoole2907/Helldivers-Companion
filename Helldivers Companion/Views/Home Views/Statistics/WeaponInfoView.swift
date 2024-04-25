@@ -38,6 +38,30 @@ struct WeaponInfoView: View {
         
     }
     
+    var isGrenade: Bool {
+        
+        if grenade != nil {
+            return true
+        }  
+        
+        return false
+        
+        
+    }
+    
+    var description: String? {
+        
+        if let weaponDescription = weapon?.description {
+            return weaponDescription
+        }
+        
+        if let grenadeDescription = grenade?.description {
+            return grenadeDescription
+        }
+        
+        return nil
+    }
+    
     var body: some View {
         ScrollView {
             
@@ -45,7 +69,9 @@ struct WeaponInfoView: View {
                 //spray and pray weapon name is truncated in the json
                 
                 ZStack {
-                    Color.gray
+                    if !isGrenade {
+                        Color.gray
+                    }
                     Image(weaponName)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -54,9 +80,10 @@ struct WeaponInfoView: View {
                 }
                 .frame(width: 240)
                 .frame(maxHeight: 200)
-                .border(Color.white)
+                .offset(x: isGrenade ? -5 : 0)
+                .border(isGrenade ? Color.clear : Color.white)
                 .padding(4)
-                .border(Color.gray)
+                .border(isGrenade ? Color.clear : Color.gray)
                 .padding(4)
                 
                 
@@ -73,124 +100,139 @@ struct WeaponInfoView: View {
                             Text("\(weaponType.name)").foregroundStyle(.gray).bold()
                             
                         }
-                        
-                        Text("\(weapon?.description ?? "Unknown")").foregroundStyle(.white)
+                        if let description = description {
+                            Text(description).foregroundStyle(.white)
+                            
+                        }
                         
                         
                     }.font(Font.custom("FSSinclair", size: 20))
                     
                 }.padding()
-                    
-                    ZStack(alignment: .topLeading) {
-                        Color.gray.opacity(0.2)
-                                .shadow(radius: 3)
+                
+                ZStack(alignment: .topLeading) {
+                    Color.gray.opacity(0.2)
+                        .shadow(radius: 3)
                     VStack(spacing: 24) {
-                        HStack {
-                            Text("DAMAGE").foregroundStyle(.gray)
-                            
-                            Spacer()
-                            Text("\(weapon?.damage ?? 0)")         .foregroundStyle(.white).bold()
-                            
+                        
+                        if let weaponDamage = weapon?.damage {
+                            WeaponStatRow(title: "DAMAGE", value: Double(weaponDamage))
                         }
                         
-                       
-                            HStack {
-                                Text("CAPACITY").foregroundStyle(.gray)
+                        if let capacity = weapon?.capacity {
+                            WeaponStatRow(title: "CAPACITY", value: Double(capacity))
+                        }
+                        
+                        
+                        if let recoil = weapon?.recoil {
+                            WeaponStatRow(title: "RECOIL", value: Double(recoil))
+                        }
+                        
+                        if let fireRate = weapon?.fireRate {
+                            WeaponStatRow(title: "FIRE RATE", value: Double(fireRate))
+                        }
+                        
+                        if let grenadeDamage = grenade?.damage {
+                            WeaponStatRow(title: "DAMAGE", value: Double(grenadeDamage))
+                        }
+                        
+                        if let penetration = grenade?.penetration {
+                            WeaponStatRow(title: "PENETRATION", value: Double(penetration))
+                        }
+                        
+                        if let outerRadius = grenade?.outerRadius {
+                            WeaponStatRow(title: "OUTER RADIUS", value: Double(outerRadius))
+                        }
+                        
+                        if let fuseTime = grenade?.fuseTime {
+                            WeaponStatRow(title: "FUSE TIME", value: fuseTime)
+                        }
+                        
+                    }  .font(Font.custom("FSSinclair", size: 20))
+                    
+                        .padding()
+                    
+                    
+                        .background {
+                            
+                            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern, dashPhase: 30))
+                                .foregroundStyle(.gray)
+                                .opacity(0.5)
+                                .shadow(radius: 3)
+                            
+                        }
+                    
+                    Text("STATS").offset(x: 20, y: -12).font(Font.custom("FSSinclair", size: 20)).bold().foregroundStyle(.white).opacity(0.8).shadow(radius: 5.0)
+                    
+                }.shadow(radius: 3.0)
+                    .padding()
+                
+                if !isGrenade {
+                
+                ZStack(alignment: .topLeading) {
+                    Color.gray.opacity(0.2)
+                        .shadow(radius: 3)
+                    VStack(alignment: .leading, spacing: 24) {
+                        
+                        if let traits = weapon?.traits {
+                            ForEach(traits, id: \.self) { trait in
                                 
-                                Spacer()
-                                Text("\(weapon?.capacity ?? 0)")
-                                    .foregroundStyle(.white).bold()
+                                if let trait = dbModel.traits.first(where: { $0.id == trait }) {
+                                    HStack {
+                                        
+                                        RoundedRectangle(cornerRadius: 14)
+                                            .foregroundStyle(.white)
+                                            .frame(width: 2)
+                                        
+                                        Text(trait.description).foregroundStyle(.white).bold()
+                                        
+                                        Spacer()
+                                        
+                                    }
+                                }
                                 
                             }
-                        
-                        
-                        HStack {
-                            Text("RECOIL").foregroundStyle(.gray)
-                            
-                            Spacer()
-                            Text("\(weapon?.recoil ?? 0)")     .foregroundStyle(.white).bold()
-                            
-                        }
-                        
-                        HStack {
-                            Text("FIRE RATE").foregroundStyle(.gray)
-                            
-                            Spacer()
-                            Text("\(weapon?.fireRate ?? 0)")       .foregroundStyle(.white).bold()
                             
                         }
                         
                     }  .font(Font.custom("FSSinclair", size: 20))
                     
-                    .padding()
+                        .padding()
                     
                     
-                    .background {
-                        
-                        Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern, dashPhase: 30))
-                            .foregroundStyle(.gray)
-                            .opacity(0.5)
-                            .shadow(radius: 3)
-                        
-                    }
-                        
-                        Text("STATS").offset(x: 20, y: -12).font(Font.custom("FSSinclair", size: 20)).bold().foregroundStyle(.gray).shadow(radius: 5.0)
-                    
-                    }.shadow(radius: 3.0)
-                    .padding()
-                    
-                    
-                ZStack(alignment: .topLeading) {
-                    Color.gray.opacity(0.2)
-                            .shadow(radius: 3)
-                    VStack(alignment: .leading, spacing: 24) {
-                    
-                    if let traits = weapon?.traits {
-                        ForEach(traits, id: \.self) { trait in
+                        .background {
                             
-                            if let trait = dbModel.traits.first(where: { $0.id == trait }) {
-                                HStack {
-                                    
-                                    RoundedRectangle(cornerRadius: 14)
-                                        .foregroundStyle(.white)
-                                        .frame(width: 2)
-                                    
-                                    Text(trait.description).foregroundStyle(.white).bold()
-                                    
-                                    Spacer()
-                                    
-                                }
-                            }
+                            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern, dashPhase: 30))
+                                .foregroundStyle(.gray)
+                                .opacity(0.5)
+                                .shadow(radius: 3)
                             
                         }
-                        
-                    }
                     
-                }  .font(Font.custom("FSSinclair", size: 20))
-                
-                .padding()
-                
-                
-                .background {
+                    Text("WEAPON TRAITS").offset(x: 20, y: -12).font(Font.custom("FSSinclair", size: 20)).bold().foregroundStyle(.white).opacity(0.8).shadow(radius: 5.0)
                     
-                    Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern, dashPhase: 30))
-                        .foregroundStyle(.gray)
-                        .opacity(0.5)
-                        .shadow(radius: 3)
-                    
-                }
-                    
-                    Text("WEAPON TRAITS").offset(x: 20, y: -12).font(Font.custom("FSSinclair", size: 20)).bold().foregroundStyle(.gray).shadow(radius: 5.0)
-                
                 }.shadow(radius: 3.0)
-                .padding()
-              
+                    .padding()
                 
+            }
                 
                 
                 
             }.padding()
 
+        }
+        
+        .toolbar {
+            
+            if grenade != nil {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Image(weaponName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                }
+            }
+            
         }
         
         .conditionalBackground(viewModel: viewModel)
@@ -201,3 +243,20 @@ struct WeaponInfoView: View {
     }
 }
 
+struct WeaponStatRow: View {
+    
+    let title: String
+    let value: Double
+    
+    var body: some View {
+        HStack {
+            Text(title).foregroundStyle(.white).opacity(0.8)
+            
+            Spacer()
+            Text("\(String(format: "%.1f", value))")         .foregroundStyle(.white).bold()
+            
+        }
+    }
+    
+    
+}
