@@ -289,6 +289,7 @@
 		7CA240DC2BCA54BF007F685C /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
 		7CA240DE2BCA5D51007F685C /* StratagemGlossaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA240DD2BCA5D51007F685C /* StratagemGlossaryView.swift */; };
 		7CA240DF2BCA5D51007F685C /* StratagemGlossaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA240DD2BCA5D51007F685C /* StratagemGlossaryView.swift */; };
+		7CBC0E3A2BDA1DBB008ED950 /* BoostersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBC0E392BDA1DBB008ED950 /* BoostersList.swift */; };
 		7CC0AE722BA7F31400802D9F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
 		7CC0AE742BA7F31400802D9F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
 		7CC0AE772BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE762BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift */; };
@@ -341,7 +342,7 @@
 		7CC284A02BD8DA570036EBFD /* Orbital 120MM HE Barrage.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2844A2BD8DA560036EBFD /* Orbital 120MM HE Barrage.mp4 */; };
 		7CC284A22BD8DA570036EBFD /* Expendable Anti-Tank.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2844B2BD8DA560036EBFD /* Expendable Anti-Tank.mp4 */; };
 		7CC284A42BD8DA570036EBFD /* Shield Generator Pack.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2844C2BD8DA560036EBFD /* Shield Generator Pack.mp4 */; };
-		7CC284A62BD8DA570036EBFD /* Orbital Laser Strike.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2844D2BD8DA560036EBFD /* Orbital Laser Strike.mp4 */; };
+		7CC284A62BD8DA570036EBFD /* Orbital Laser.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2844D2BD8DA560036EBFD /* Orbital Laser.mp4 */; };
 		7CC284A82BD8DA570036EBFD /* Arc Thrower.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2844E2BD8DA560036EBFD /* Arc Thrower.mp4 */; };
 		7CC284AA2BD8DA570036EBFD /* Rocket Sentry.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2844F2BD8DA560036EBFD /* Rocket Sentry.mp4 */; };
 		7CC284AC2BD8DA570036EBFD /* Eagle 500KG Bomb.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284502BD8DA560036EBFD /* Eagle 500KG Bomb.mp4 */; };
@@ -624,6 +625,7 @@
 		7CA240D22BCA5083007F685C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7CA240DA2BCA521A007F685C /* Stratagem Hero High Score Watch WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Stratagem Hero High Score Watch WidgetExtension.entitlements"; sourceTree = "<group>"; };
 		7CA240DD2BCA5D51007F685C /* StratagemGlossaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StratagemGlossaryView.swift; sourceTree = "<group>"; };
+		7CBC0E392BDA1DBB008ED950 /* BoostersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoostersList.swift; sourceTree = "<group>"; };
 		7CBDDC872BB02F0900EAD9F0 /* Helldivers Companion Watch Edition Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Helldivers Companion Watch Edition Watch App.entitlements"; sourceTree = "<group>"; };
 		7CC0AE6F2BA7F31400802D9F /* Helldivers Companion WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion WidgetsExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CC0AE712BA7F31400802D9F /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -671,7 +673,7 @@
 		7CC2844A2BD8DA560036EBFD /* Orbital 120MM HE Barrage.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbital 120MM HE Barrage.mp4"; sourceTree = "<group>"; };
 		7CC2844B2BD8DA560036EBFD /* Expendable Anti-Tank.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Expendable Anti-Tank.mp4"; sourceTree = "<group>"; };
 		7CC2844C2BD8DA560036EBFD /* Shield Generator Pack.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Shield Generator Pack.mp4"; sourceTree = "<group>"; };
-		7CC2844D2BD8DA560036EBFD /* Orbital Laser Strike.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbital Laser Strike.mp4"; sourceTree = "<group>"; };
+		7CC2844D2BD8DA560036EBFD /* Orbital Laser.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbital Laser.mp4"; sourceTree = "<group>"; };
 		7CC2844E2BD8DA560036EBFD /* Arc Thrower.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Arc Thrower.mp4"; sourceTree = "<group>"; };
 		7CC2844F2BD8DA560036EBFD /* Rocket Sentry.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rocket Sentry.mp4"; sourceTree = "<group>"; };
 		7CC284502BD8DA560036EBFD /* Eagle 500KG Bomb.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Eagle 500KG Bomb.mp4"; sourceTree = "<group>"; };
@@ -1154,7 +1156,7 @@
 				7CC284512BD8DA560036EBFD /* Orbital EMS Strike.mp4 */,
 				7CC284422BD8DA540036EBFD /* Orbital Gas Strike.mp4 */,
 				7CC284532BD8DA570036EBFD /* Orbital Gatling Barrage.mp4 */,
-				7CC2844D2BD8DA560036EBFD /* Orbital Laser Strike.mp4 */,
+				7CC2844D2BD8DA560036EBFD /* Orbital Laser.mp4 */,
 				7CC284472BD8DA550036EBFD /* Orbital Precision Strike.mp4 */,
 				7CC2842A2BD8DA520036EBFD /* Orbital Railcannon Strike.mp4 */,
 				7CC2842C2BD8DA520036EBFD /* Orbital Smoke Strike.mp4 */,
@@ -1261,6 +1263,7 @@
 				7CC284CA2BD90F630036EBFD /* ArmorList.swift */,
 				7CC284CC2BD92B2E0036EBFD /* WeaponsList.swift */,
 				7CC284CE2BD9310A0036EBFD /* WeaponInfoView.swift */,
+				7CBC0E392BDA1DBB008ED950 /* BoostersList.swift */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -1674,7 +1677,7 @@
 				7CC284782BD8DA570036EBFD /* Eagle Smoke Strike.mp4 in Resources */,
 				7CC284A82BD8DA570036EBFD /* Arc Thrower.mp4 in Resources */,
 				7CC284922BD8DA570036EBFD /* Railgun.mp4 in Resources */,
-				7CC284A62BD8DA570036EBFD /* Orbital Laser Strike.mp4 in Resources */,
+				7CC284A62BD8DA570036EBFD /* Orbital Laser.mp4 in Resources */,
 				7CC284702BD8DA570036EBFD /* Quasar Cannon.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1854,6 +1857,7 @@
 				7C45D4732BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C0C994E2BA2BA8F00CF7C91 /* ContentView.swift in Sources */,
 				7C45D4782BAC142C0013A632 /* Tab.swift in Sources */,
+				7CBC0E3A2BDA1DBB008ED950 /* BoostersList.swift in Sources */,
 				7C4A9E282BD336D60014FCCD /* DashPattern.swift in Sources */,
 				7C0C99612BA2FA0600CF7C91 /* RectangleProgressBar.swift in Sources */,
 				7CC284CB2BD90F630036EBFD /* ArmorList.swift in Sources */,

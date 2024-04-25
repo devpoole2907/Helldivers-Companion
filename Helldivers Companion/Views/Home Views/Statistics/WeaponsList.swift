@@ -139,11 +139,10 @@ struct WeaponsList: View {
                            
                        }
                    }
-            
-            #if os(iOS)
+
             .toolbarRole(.editor)
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Weapons").disableAutocorrection(true)
-            #endif
+    
         
             .navigationDestination(for: Weapon.self) { weapon in
                 

@@ -56,6 +56,14 @@ struct GalaxyStatsView: View {
                             
                         }.padding(.vertical, 5)
                         
+                        NavigationLink(value: DatabasePage.boosterList) {
+                            
+                            
+                            DatabaseRow(title: "Boosters", dashPattern: [64, 12])
+                            
+                            
+                        }.padding(.vertical, 5)
+                        
                         
                         
                     }
@@ -104,7 +112,7 @@ struct GalaxyStatsView: View {
                     case .weaponList:
                         WeaponsList()
                     case .boosterList:
-                        Text("Boosters")
+                        BoostersList().environmentObject(dbModel)
                         
                     }
                    

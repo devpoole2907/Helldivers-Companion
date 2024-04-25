@@ -43,6 +43,26 @@ struct StratagemDetailView: View {
                 
                     .frame(width: UIScreen.main.bounds.width - 60)
                 
+                HStack(spacing: 18) {
+                    
+                    RoundedRectangle(cornerRadius: 25)
+                        .foregroundStyle(.yellow)
+                        .frame(width: 4)
+                    
+                    VStack(alignment: .leading) {
+                        
+                       
+                        Text("\(stratagem.type.title)").foregroundStyle(.white).opacity(0.8).bold()
+                            
+
+                        
+                        
+                    }.font(Font.custom("FSSinclair", size: 20))
+                    
+                    Spacer()
+                    
+                }.padding()
+                
                 HStack {
                     ForEach(stratagem.sequence, id: \.self) { input in
                         
@@ -115,7 +135,7 @@ struct StratagemStatView: View {
                     .shadow(radius: 3)
         VStack(spacing: 24) {
             HStack {
-                Text("CALL-IN TIME").foregroundStyle(.gray)
+                Text("CALL-IN TIME").foregroundStyle(.white).opacity(0.8)
                 
                 Spacer()
                 Text("\(activation ?? 0) SEC")         .foregroundStyle(.white).bold()
@@ -124,7 +144,7 @@ struct StratagemStatView: View {
             
             if let uses = uses {
                 HStack {
-                    Text("USES").foregroundStyle(.gray)
+                    Text("USES").foregroundStyle(.white).opacity(0.8)
                     
                     Spacer()
                     Text(uses)
@@ -134,7 +154,7 @@ struct StratagemStatView: View {
             }
             
             HStack {
-                Text("COOLDOWN TIME").foregroundStyle(.gray)
+                Text("COOLDOWN TIME").foregroundStyle(.white).opacity(0.8)
                 
                 Spacer()
                 Text("\(cooldown ?? 0) SEC")         .foregroundStyle(.white).bold()
@@ -155,7 +175,7 @@ struct StratagemStatView: View {
             
         }
             
-            Text("STATS").offset(x: 20, y: -12).font(Font.custom("FSSinclair", size: 20)).bold().foregroundStyle(.gray).shadow(radius: 5.0)
+            Text("STATS").offset(x: 20, y: -12).font(Font.custom("FSSinclair", size: 20)).bold().foregroundStyle(.white).opacity(0.8).shadow(radius: 5.0)
         
         }.shadow(radius: 3.0)
         

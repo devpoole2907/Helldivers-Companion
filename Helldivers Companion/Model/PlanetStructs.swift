@@ -598,3 +598,14 @@ struct FireMode: Codable {
     var id: Int
     var mode: String
 }
+
+struct Booster: Codable {
+    
+    var name: String
+    var description: String
+    
+}
+
+
+
+
