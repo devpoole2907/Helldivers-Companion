@@ -56,7 +56,7 @@ struct RootView: View {
         ZStack(alignment: .bottom){
             TabView(selection: $viewModel.currentTab) {
                 
-                ContentView().environmentObject(viewModel).environmentObject(contentNavPather)
+                ContentView().environmentObject(viewModel).environmentObject(contentNavPather).environmentObject(dbModel)
                     .tag(Tab.home)
                 
                     .task {
@@ -166,8 +166,17 @@ struct RootView: View {
             
 #if os(iOS)
             if showMajorOrderButton {
-                majorOrderButton.padding(.bottom, 60)
+                VStack(alignment: .trailing, spacing: 10) {
+                    
+                    
+                    
+                    majorOrderButton
+                    superStoreButton
+                    
+                }.padding(.bottom, 60)
+                    .padding(.trailing, 10)
                     .transition(.opacity)
+                
             }
         
                 
@@ -176,8 +185,52 @@ struct RootView: View {
             .hapticFeedback(.selection, trigger: statsNavPather.navigationPath)
             .hapticFeedback(.selection, trigger: mapNavPather.navigationPath)
   
-        
+            .onAppear {
+                dbModel.loadData()
+            }
        
+        
+    }
+    
+    var superStoreButton: some View {
+        
+        Button(action: {
+            
+                // append super store view to nav path
+            
+            contentNavPather.navigationPath.append(ContentViewPage.superStore)
+            
+        }){
+            HStack(spacing: 6){
+     
+                    Image(systemName: "cart.fill")
+                        .bold()
+                        .font(.callout)
+                        .padding(.bottom, 2)
+                    
+                    Text("Super Store").textCase(.uppercase).tint(.white).fontWeight(.heavy)
+                        .font(Font.custom("FSSinclair", size: 16))
+                
+                    if let expireDate = dbModel.storeRotation?.expireTime {
+                        let timeRemaining = expireDate.timeIntervalSince(Date())
+                        MajorOrderTimeView(timeRemaining: Int64(timeRemaining), isMini: true)
+                            .padding(.bottom, 2)
+                    }
+                    
+                }
+            
+            
+            
+        }.padding(.horizontal)
+            .padding(.vertical, 5)
+            .frame(height: 40)
+            .background(Material.thin)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .shadow(radius: 3)
+   
+            .disabled(dbModel.storeRotation == nil)
+        
+        
         
     }
     
@@ -191,23 +244,25 @@ struct RootView: View {
             
             
         }){
-            VStack(alignment: .trailing, spacing: 2){
+            HStack(spacing: 6){
                 Text("Major Order").textCase(.uppercase).tint(.white).fontWeight(.heavy)
-                    .font(Font.custom("FSSinclair", size: 20))
+                    .font(Font.custom("FSSinclair", size: 16))
                 
                 if let timeRemaining = viewModel.majorOrder?.expiresIn {
                     MajorOrderTimeView(timeRemaining: timeRemaining, isMini: true)
+                        .padding(.bottom, 2)
                 }
             }
             
             
-        }.padding()
-        
+        }.padding(.horizontal)
+            .padding(.vertical, 5)
+            .frame(height: 40)
             .background(Material.thin)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .shadow(radius: 3)
-            .padding(10)
-        
+         
+       
 
         
     }
@@ -359,6 +414,10 @@ struct RootView: View {
     RootView()
 }
 
+public enum ContentViewPage: String, CaseIterable {
+    
+    case superStore = "Super Store"
 
+}
 
 

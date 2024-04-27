@@ -253,7 +253,7 @@ class PlanetsViewModel: ObservableObject {
     
     
     
-    
+
     
     
     func fetchUpdatedPlanetTimeSeries(completion: @escaping ([String: [UpdatedPlanetDataPoint]]) -> Void) {
@@ -618,6 +618,8 @@ class PlanetsViewModel: ObservableObject {
             
         }
         
+  
+        
         
         
         
@@ -693,6 +695,8 @@ class PlanetsViewModel: ObservableObject {
             self?.fetchUpdatedGalaxyStats {
                 
             }
+            
+        
             
             
             
@@ -834,6 +838,8 @@ class PlanetsViewModel: ObservableObject {
         
         
     }
+    
+ 
     
     
     func fetchUpdatedGalaxyStats(completion: @escaping () -> Void) {

@@ -40,10 +40,10 @@ struct GalaxyStatsView: View {
                             
                         }.padding(.vertical, 5)
                         
-                        NavigationLink(value: DatabasePage.stratList) {
+                        NavigationLink(value: DatabasePage.armourList) {
                             
                             
-                            DatabaseRow(title: "Stratagems", dashPattern: [54, 13])
+                            DatabaseRow(title: "Armoury [BETA]", dashPattern: [69, 16])
                             
                             
                         }.padding(.vertical, 5)
@@ -56,6 +56,16 @@ struct GalaxyStatsView: View {
                             
                         }.padding(.vertical, 5)
                         
+                        NavigationLink(value: DatabasePage.stratList) {
+                            
+                            
+                            DatabaseRow(title: "Stratagems", dashPattern: [54, 13])
+                            
+                            
+                        }.padding(.vertical, 5)
+                        
+                       
+                        
                         NavigationLink(value: DatabasePage.boosterList) {
                             
                             
@@ -64,6 +74,13 @@ struct GalaxyStatsView: View {
                             
                         }.padding(.vertical, 5)
                         
+                        NavigationLink(value: DatabasePage.warbondsList) {
+                            
+                            
+                            DatabaseRow(title: "Warbonds", dashPattern: [54, 13])
+                            
+                            
+                        }.padding(.vertical, 5)
                         
                         
                     }
@@ -107,19 +124,41 @@ struct GalaxyStatsView: View {
                         PlanetsList()
                     case .stratList:
                         StratagemsList().environmentObject(dbModel)
-                    case .armorList:
-                        Text("Armor")
+                    case .armourList:
+                        ArmourList()
                     case .weaponList:
                         WeaponsList()
                     case .boosterList:
                         BoostersList().environmentObject(dbModel)
-                        
+                    case .warbondsList:
+                        WarBondsList().environmentObject(dbModel)
                     }
                    
                  
                     
                 }
             
+                .navigationDestination(for: Weapon.self) { weapon in
+                    
+                    ItemDetailView(weapon: weapon)
+                    
+                }
+            
+                .navigationDestination(for: Armour.self) { armour in
+                    
+                    ItemDetailView(armour: armour)
+                    
+                }
+            
+                .navigationDestination(for: Grenade.self) { grenade in
+                    
+                    ItemDetailView(grenade: grenade)
+                    
+                }
+            
+                .navigationDestination(for: FixedWarBond.self) { warbond in
+                    WarbondsItemsList(warbond: warbond)
+                }
             
             
                 .navigationDestination(for: Int.self) { index in
@@ -189,9 +228,10 @@ enum DatabasePage: String, CaseIterable {
     
     case planetList = "Planets"
     case stratList = "Stratagems"
-    case armorList = "Armor"
+    case armourList = "Armour"
     case weaponList = "Weapons"
     case boosterList = "Boosters"
+    case warbondsList = "Warbonds"
     
     
     
@@ -202,12 +242,22 @@ struct DatabaseRow: View {
     let title: String
     let dashPattern: [CGFloat]
     
+    var imageName: String?
+    
     var body: some View {
         
         ZStack(alignment: .trailing) {
             Color.gray.opacity(0.2)
                 .shadow(radius: 3)
             HStack {
+                
+                if let validImageName = imageName, UIImage(named: validImageName) != nil {
+                                   Image(uiImage: UIImage(named: validImageName)!)
+                                       .resizable()
+                                       .aspectRatio(contentMode: .fit)
+                                       .frame(width: 30, height: 30)
+                               }
+                
                 VStack(alignment: .leading, spacing: 0){
                     Text(title.uppercased())
                         .font(Font.custom("FSSinclair-Bold", size: 18))

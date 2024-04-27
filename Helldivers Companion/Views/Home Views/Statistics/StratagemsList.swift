@@ -10,8 +10,7 @@ import SwiftUI
 struct StratagemsList: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
-    
-    @State private var searchText = ""
+    @EnvironmentObject var dbModel: DatabaseModel
     
     
     let stratagems: [StratagemType: [Stratagem]]
@@ -33,10 +32,10 @@ struct StratagemsList: View {
                     ForEach(StratagemType.allCases.indices, id: \.self) { index in
                                             let type = StratagemType.allCases[index]
                                             let stratagemsOfType = stratagems[type] ?? []
-                                            let filteredStratagems = stratagemsOfType.filter { searchText.isEmpty || $0.name.localizedCaseInsensitiveContains(searchText) }
+                        let filteredStratagems = stratagemsOfType.filter { dbModel.searchText.isEmpty || $0.name.localizedCaseInsensitiveContains(dbModel.searchText) }
                                             
                                             // display section if no search text or there are matching stratagems
-                                            if searchText.isEmpty || !filteredStratagems.isEmpty {
+                        if dbModel.searchText.isEmpty || !filteredStratagems.isEmpty {
                                                 Section {
                                                     ForEach(filteredStratagems, id: \.id) { stratagem in
                                                         NavigationLink(value: stratagem) {
@@ -48,7 +47,7 @@ struct StratagemsList: View {
                                                 } header: {
                                                     Text(type.title.uppercased())
                                                         .font(Font.custom("FSSinclair-Bold", size: 16))
-                                                        .foregroundStyle(.gray)
+                                                        .foregroundStyle(.white).opacity(0.8)
                                                         .padding(.horizontal)
                                                         .padding(.bottom, -8)
                                                         .minimumScaleFactor(0.8)
@@ -66,13 +65,13 @@ struct StratagemsList: View {
 
         }
         
-            .conditionalBackground(viewModel: viewModel)
+            .conditionalBackground(viewModel: viewModel, grayscale: true, opacity: 0.6)
             
             .toolbarRole(.editor)
                 .navigationTitle("STRATAGEMS")
                 .inlineLargeTitleiOS17()
         
-                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Stratagems").disableAutocorrection(true)
+                .searchable(text: $dbModel.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Stratagems").disableAutocorrection(true)
         
                 .navigationDestination(for: Stratagem.self) { strat in
                     
@@ -111,7 +110,7 @@ struct StratagemDetailRow: View {
             Color.gray.opacity(0.2)
                 .shadow(radius: 3)
             HStack {
-                Image(stratagem.name)
+                Image(uiImage: getImage(named: stratagem.name))
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: imageSize, height: imageSize)
@@ -154,3 +153,5 @@ struct StratagemDetailRow: View {
     }
     
 }
+
+

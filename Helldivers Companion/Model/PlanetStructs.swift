@@ -511,56 +511,49 @@ struct Stratagem: Equatable, Codable, Hashable {
     var name: String = ""
     var sequence: [StratagemInput] // arrow key sequence
     var type: StratagemType
+    var imageUrl: String?
 }
 
-enum StratagemInput: Codable {
-    
-    case up
-    case down
-    case left
-    case right
-    
+enum StratagemInput: String, Codable {
+    case up = "up"
+    case down = "down"
+    case left = "left"
+    case right = "right"
 }
 
-enum StratagemType: CaseIterable, Codable {
-    
-    case admin
-    
-    case orbital
-    
-    case hangar
-    
-    case bridge
-    
-    case engineering
-    
-    case workshop
-    
-    case mission
+
+enum StratagemType: String, Codable, CaseIterable {
+    case admin = "admin"
+    case orbital = "orbital"
+    case hangar = "hangar"
+    case bridge = "bridge"
+    case engineering = "engineering"
+    case workshop = "workshop"
+    case mission = "mission"
     
     var title: String {
-            switch self {
-            case .admin:
-                return "Patriotic Administration Center"
-            case .orbital:
-                return "Orbital Cannons"
-            case .hangar:
-                return "Hangar"
-            case .bridge:
-                return "Bridge"
-            case .engineering:
-                return "Engineering Bay"
-            case .workshop:
-                return "Robotics Workshop"
-            case .mission:
-                return "Mission Stratagems"
-            }
+        switch self {
+        case .admin:
+            return "Patriotic Administration Center"
+        case .orbital:
+            return "Orbital Cannons"
+        case .hangar:
+            return "Hangar"
+        case .bridge:
+            return "Bridge"
+        case .engineering:
+            return "Engineering Bay"
+        case .workshop:
+            return "Robotics Workshop"
+        case .mission:
+            return "Mission Stratagems"
         }
-    
-    
+    }
 }
 
-struct Weapon: Codable, Hashable {
+
+struct Weapon: Codable, Hashable, DetailItem {
+    let id: String
     var name: String
     var description: String
     var type: Int? // only for primaries-
@@ -570,10 +563,26 @@ struct Weapon: Codable, Hashable {
     var fireRate: Int
     var fireMode: [Int]
     var traits: [Int]
+    
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let idKey = container.codingPath.last!.stringValue
+        id = idKey
+        name = try container.decode(String.self, forKey: .name)
+        description = try container.decode(String.self, forKey: .description)
+        type = try container.decodeIfPresent(Int.self, forKey: .type)
+        damage = try container.decode(Int.self, forKey: .damage)
+        capacity = try container.decode(Int.self, forKey: .capacity)
+        recoil = try container.decode(Int.self, forKey: .recoil)
+        fireRate = try container.decode(Int.self, forKey: .fireRate)
+        fireMode = try container.decode([Int].self, forKey: .fireMode)
+        traits = try container.decode([Int].self, forKey: .traits)
+    }
 }
 
-struct Grenade: Codable, Hashable {
-    
+struct Grenade: Codable, Hashable, DetailItem {
+    let id: String
     var name: String
     var description: String
     var damage: Int
@@ -581,8 +590,25 @@ struct Grenade: Codable, Hashable {
     var outerRadius: Int?
     var fuseTime: Double?
     
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let idKey = container.codingPath.last!.stringValue
+        id = idKey
+        name = try container.decode(String.self, forKey: .name)
+        description = try container.decode(String.self, forKey: .description)
+        damage = try container.decode(Int.self, forKey: .damage)
+        penetration = try container.decode(Int.self, forKey: .penetration)
+        outerRadius = try container.decode(Int.self, forKey: .outerRadius)
+        fuseTime = try container.decode(Double.self, forKey: .fuseTime)
+    }
     
 }
+
+protocol DetailItem {
+    var id: String { get }
+    var name: String { get }
+}
+
 
 struct WeaponType: Codable {
     var id: Int
@@ -599,13 +625,161 @@ struct FireMode: Codable {
     var mode: String
 }
 
-struct Booster: Codable {
-    
+struct Booster: Codable, DetailItem {
+    let id: String
     var name: String
     var description: String
     
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let idKey = container.codingPath.last!.stringValue
+        id = idKey
+        name = try container.decode(String.self, forKey: .name)
+        description = try container.decode(String.self, forKey: .description)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case name, description
+    }
+    
 }
 
+struct Armour: Codable, Hashable, DetailItem {
+    let id: String
+    let name: String
+    let description: String
+    let type: Int
+    let slot: Int
+    let armourRating: Int
+    let speed: Int
+    let staminaRegen: Int
+    let passive: Int
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let idKey = container.codingPath.last!.stringValue
+        id = idKey
+        name = try container.decode(String.self, forKey: .name)
+        description = try container.decode(String.self, forKey: .description)
+        type = try container.decode(Int.self, forKey: .type)
+        slot = try container.decode(Int.self, forKey: .slot)
+        armourRating = try container.decode(Int.self, forKey: .armourRating)
+        speed = try container.decode(Int.self, forKey: .speed)
+        staminaRegen = try container.decode(Int.self, forKey: .staminaRegen)
+        passive = try container.decode(Int.self, forKey: .passive)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case name, description, type, slot, armourRating = "armor_rating", speed, staminaRegen = "stamina_regen", passive
+    }
+}
 
+struct ArmourSlot: Codable {
+    
+    var id: Int
+    var name: String
+    
+}
 
+struct Passive: Codable, Identifiable {
+    var id: Int
+    let name: String
+    let description: String
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        let idKey = container.codingPath.last!.stringValue
+        
+        guard let id = Int(idKey) else {
+                    throw DecodingError.dataCorruptedError(forKey: .id,
+                      in: container,
+                      debugDescription: "ID not an int")
+                }
+                self.id = id
+        
+        self.name = try container.decode(String.self, forKey: .name)
+        self.description = try container.decode(String.self, forKey: .description)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+            case id, name, description
+        }
+    
+}
 
+struct WarBond: Hashable {
+    static func == (lhs: WarBond, rhs: WarBond) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    var id = UUID()
+    var name: WarBondName?
+    var medalsToUnlock: Int
+    var items: [WarBondItem]
+    
+}
+
+struct WarBondSection: Hashable {
+    var sectionId: Int
+    var medalsToUnlock: Int
+    var items: [WarBondItem]
+}
+
+enum WarBondName: String, CaseIterable, Hashable {
+    case cuttingEdge = "Cutting Edge"
+    case steeledVeterans = "Steeled Veterans"
+    case helldiversMobilize = "Helldivers Mobilize"
+    case democraticDetonation = "Democratic Detonation"
+}
+
+struct WarBondDetails: Decodable {
+    var medalsToUnlock: Int
+    var items: [WarBondItem]
+}
+
+struct WarBondItem: Decodable, Hashable {
+    var itemId: Int
+    var medalCost: Int
+}
+
+struct FixedWarBond: Hashable {
+    
+    var id = UUID()
+    var warbondPages: [WarBond]
+    
+    
+}
+
+struct SuperStoreResponse: Decodable {
+    var expireTime: Date
+    var items: [StoreItem]
+}
+
+struct StoreItem: Codable {
+    var name: String
+    var description: String
+    var type: String
+    var slot: String
+    var armorRating: Int
+    var speed: Int
+    var staminaRegen: Int
+    var passive: StoreItemPassive
+    var storeCost: Int
+}
+
+struct StoreItemPassive: Codable {
+    var name: String
+    var description: String
+}
+
+extension DateFormatter {
+    static let iso8601Full: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MMM-yyyy HH:mm"
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter
+    }()
+}

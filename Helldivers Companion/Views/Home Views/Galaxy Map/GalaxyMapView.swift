@@ -15,6 +15,8 @@ struct GalaxyMapView: View {
     @Binding var showAllPlanets: Bool
     @Binding var showPlanetNames: Bool
     
+    @State private var isScaled = false // for defense planets pulsing scale
+    
     var planets: [UpdatedPlanet]?
     var campaigns: [UpdatedCampaign]?
     var defenseCampaigns: [UpdatedCampaign]?
@@ -180,13 +182,29 @@ struct GalaxyMapView: View {
                     ((activeCampaign != nil) ? 8 : 6)
                     
                     ZStack {
+                        
+                        if (isDefending != nil) {
+                            Circle()
+                                .scaleEffect(isScaled ? 2.0 : 0.8)
+                                .opacity(isScaled ? 0 : 1.0)
+                                           .animation(
+                                               .easeInOut(duration: 1).repeatForever(autoreverses: false),
+                                               value: isScaled
+                                           )
+                                        
+                                .frame(width: selectedPlanet?.index == planet.index ? 10 : selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 8 : 6), height: selectedPlanet?.index == planet.index ? 10 : selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 8 : 6))
+                                .position(planetPosition)
+                                .foregroundStyle(.red)
+                               
+                            
+                        }
             
                             Circle()
                                 .frame(width: selectedPlanet?.index == planet.index ? 10 : selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 8 : 6), height: selectedPlanet?.index == planet.index ? 10 : selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 8 : 6))
                                 .position(planetPosition)
                             
                             
-                                .foregroundColor(
+                                .foregroundStyle(
                                     getColorForPlanet(planetPosition: planet)
                                 )
                             
@@ -234,6 +252,10 @@ struct GalaxyMapView: View {
                      /*   */
                         
                     }
+                    
+                    .onAppear {
+                                   isScaled = true
+                               }
                     
                         .overlay(
                             Group {

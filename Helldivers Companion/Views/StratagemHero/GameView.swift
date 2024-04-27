@@ -362,7 +362,11 @@ struct GameView: View {
                 ScrollView(.horizontal, showsIndicators: false){
                 HStack(spacing: 10) {
                     
-                    Image(stratagem.name)
+                  //  Image(stratagem.name)
+                    
+                    Image(uiImage: getImage(named: stratagem.name))
+                    
+                    
                         .resizable()
                         .scaledToFit()
                         .frame(width: 100) // Adjust the size as needed
@@ -370,7 +374,7 @@ struct GameView: View {
                         .border(viewModel.timeRemaining >= 2 ? .yellow : .red)
                     
                     ForEach(viewModel.stratagems.prefix(3), id: \.id) { stratagem in // shows the next 3 stratagems
-                        Image(stratagem.name)
+                        Image(uiImage: getImage(named: stratagem.name))
                             .resizable()
                             .scaledToFit()
                             .frame(width: 60)
@@ -441,7 +445,7 @@ struct GameView: View {
         }){
             HStack(spacing: 4) {
               
-                Text(viewModel.gameState == .notStarted || viewModel.gameState == .gameOver ? "Stratagem Glossary".uppercased() : "End Game") .font(Font.custom("FSSinclair-Bold", size: 18))
+                Text(viewModel.gameState == .notStarted || viewModel.gameState == .gameOver ? "Loadout".uppercased() : "End Game") .font(Font.custom("FSSinclair-Bold", size: 18))
                     .padding(.top, 2)
                 
             }

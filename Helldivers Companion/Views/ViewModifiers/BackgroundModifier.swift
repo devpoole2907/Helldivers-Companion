@@ -10,6 +10,10 @@ import SwiftUI
 struct ConditionalBackgroundModifier: ViewModifier {
     
     @ObservedObject var viewModel: PlanetsViewModel
+    
+    var grayscale = false
+    
+    var opacity = 1.0
 
     func body(content: Content) -> some View {
         
@@ -19,6 +23,8 @@ struct ConditionalBackgroundModifier: ViewModifier {
                 Color.black.ignoresSafeArea()
             } else {
                 Image("BackgroundImage").blur(radius: 10).ignoresSafeArea()
+                    .grayscale(grayscale ? 1.0 : 0.0)
+                    .opacity(opacity)
             }
         }
         
@@ -28,7 +34,7 @@ struct ConditionalBackgroundModifier: ViewModifier {
 }
 
 extension View {
-    func conditionalBackground(viewModel: PlanetsViewModel) -> some View {
-            modifier(ConditionalBackgroundModifier(viewModel: viewModel))
+    func conditionalBackground(viewModel: PlanetsViewModel, grayscale: Bool = false, opacity: CGFloat = 1.0) -> some View {
+            modifier(ConditionalBackgroundModifier(viewModel: viewModel, grayscale: grayscale, opacity: opacity))
         }
 }

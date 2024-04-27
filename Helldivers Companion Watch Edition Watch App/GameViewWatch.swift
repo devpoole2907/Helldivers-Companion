@@ -293,7 +293,7 @@ struct GameViewWatch: View {
                 
             }){
                 HStack(spacing: 4) {
-                    Text(viewModel.gameState == .notStarted ? "Stratagem Glossary".uppercased() : "End Game") .font(Font.custom("FSSinclair-Bold", size: 14))
+                    Text(viewModel.gameState == .notStarted ? "Loadout".uppercased() : "End Game") .font(Font.custom("FSSinclair-Bold", size: 14))
                         .padding(.top, 2)
                     
                 }
@@ -438,7 +438,7 @@ struct GameViewWatch: View {
                 ScrollView(.horizontal, showsIndicators: false){
                 HStack(spacing: 10) {
                     
-                    Image(stratagem.name)
+                    Image(uiImage: getImage(named: stratagem.name))
                      
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -447,7 +447,7 @@ struct GameViewWatch: View {
                         .border(viewModel.timeRemaining >= 2 ? .yellow : .red)
                     
                     ForEach(viewModel.stratagems.prefix(3), id: \.id) { stratagem in // shows the next 3 stratagems
-                        Image(stratagem.name)
+                        Image(uiImage: getImage(named: stratagem.name))
                             .resizable()
                             .scaledToFit()
                             .frame(width: 30, height: 30)

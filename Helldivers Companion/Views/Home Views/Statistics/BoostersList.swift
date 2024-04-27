@@ -12,8 +12,6 @@ struct BoostersList: View {
     @EnvironmentObject var dbModel: DatabaseModel
     @EnvironmentObject var viewModel: PlanetsViewModel
     
-    @State private var searchText = ""
-    
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading) {
@@ -21,7 +19,7 @@ struct BoostersList: View {
               
                     Section {
                         ForEach(dbModel.boosters.filter { booster in
-                            searchText.isEmpty || booster.name.localizedCaseInsensitiveContains(searchText)
+                            dbModel.searchText.isEmpty || booster.name.localizedCaseInsensitiveContains(dbModel.searchText)
                         }, id: \.name) { booster in
                             
                          
@@ -41,13 +39,13 @@ struct BoostersList: View {
             Spacer(minLength: 150)
             
             
-        }      .conditionalBackground(viewModel: viewModel)
+        }            .conditionalBackground(viewModel: viewModel, grayscale: true, opacity: 0.6)
         
         
             .navigationTitle("Boosters".uppercased())
         
             .toolbarRole(.editor)
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Boosters").disableAutocorrection(true)
+            .searchable(text: $dbModel.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Boosters").disableAutocorrection(true)
         
         
     }
@@ -55,8 +53,11 @@ struct BoostersList: View {
 
 struct BoosterRow: View {
     
+    @EnvironmentObject var dbModel: DatabaseModel
+    
     let booster: Booster
     let dashPattern: [CGFloat]
+    var showWarBondName = true
     
     var body: some View {
         
@@ -66,10 +67,24 @@ struct BoosterRow: View {
                 .shadow(radius: 3)
             HStack {
                 
-                Image(booster.name)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 50, height: 50)
+                VStack(spacing: 4) {
+                    Image(booster.name)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                    
+                    if let id = Int(booster.id), let cost = dbModel.itemMedalCost(for: id) {
+                        HStack(spacing: 2) {
+                            Image("medalSymbol")
+                                .resizable().aspectRatio(contentMode: .fit)
+                                .frame(width: 15, height: 15)
+                                .padding(.bottom, 1)
+                            Text("\(cost)")         .foregroundStyle(.white).bold()
+                                .font(Font.custom("FSSinclair-Bold", size: 16))
+                        }
+                    }
+                    
+                }
                 
                 RoundedRectangle(cornerRadius: 25)
                     .foregroundStyle(.yellow)
@@ -80,11 +95,16 @@ struct BoosterRow: View {
                         .font(Font.custom("FSSinclair-Bold", size: 18))
                         .padding(.top, 2)
                         .tint(.white)
-                   
+                
+                    if showWarBondName, let id = Int(booster.id), let warbondName = dbModel.warBond(for: id)?.name?.rawValue {
+                        Text(warbondName.uppercased())
+                            .font(Font.custom("FSSinclair", size: 14))
+                            .foregroundStyle(Color.white).opacity(0.8)
+                    }
                     
                     Text(booster.description)
                         .font(Font.custom("FSSinclair", size: 12))
-                        .foregroundStyle(Color.white).opacity(0.8)
+                        .foregroundStyle(Color.white).opacity(0.7)
                     
                 }.padding(.leading, 6)
                     .multilineTextAlignment(.leading)

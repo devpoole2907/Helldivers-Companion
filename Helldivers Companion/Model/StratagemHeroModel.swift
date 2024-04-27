@@ -111,13 +111,34 @@ class StratagemHeroModel: ObservableObject {
 
     init() {
         
-        loadSelectedStratagems()
+
+            
+        self.updateStratagemsIfNeeded { 
+                
+            self.loadAndInitializeStratagems {
+                    
+                self.loadSelectedStratagems()
+                    
+                }
+            }
         
       //  loadStratagems(forRound: currentRound)
         // might be redundant now that we prep it in the sound manager
         prepareAudioPlayer()
     }
     
+    // to load remotely saved new stratagems
+    func loadAndInitializeStratagems(completion: @escaping () -> Void) {
+        let savedStratagems = loadStratagemsFromUserDefaults()
+        for stratagem in savedStratagems {
+            if !globalStratagems.contains(where: { $0.name == stratagem.name }) {
+                globalStratagems.append(stratagem)
+            }
+        }
+        completion()
+    }
+
+
     
     // to persist what stratagems are selected across launch
     
@@ -586,9 +607,105 @@ class StratagemHeroModel: ObservableObject {
             
         }
     }
+    
+    // for adding additional stratagems remotely
+    
+    func fetchStratagems(completion: @escaping ([Stratagem]) -> Void) {
+      
+                
+                guard let url = URL(string: "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/stratagems/newStratagems.json") else {
+                        print("Invalid URL for image")
+                    completion([])
+                        return
+                    }
+                
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error fetching stratagems: \(error!)")
+                completion([])
+                return
+            }
+            
+            do {
+                let stratagems = try JSONDecoder().decode([Stratagem].self, from: data)
+                completion(stratagems)
+            } catch {
+                print("Error decoding stratagems: \(error)")
+                completion([])
+            }
+        }
+        task.resume()
+    }
+
+    func updateStratagemsIfNeeded(completion: @escaping () -> Void ) {
+        fetchStratagems { [self] fetchedStratagems in
+            var currentStratagems = loadStratagemsFromUserDefaults()
+            
+            print("updating stratagems")
+            
+            var isNewDataAvailable = false
+            for stratagem in fetchedStratagems {
+                if !currentStratagems.contains(where: { $0.name == stratagem.name }) {
+                    print("adding stratagem: \(stratagem.name)")
+                    downloadAndCacheImage(for: stratagem)
+                    currentStratagems.append(stratagem)
+                    isNewDataAvailable = true
+                }
+            }
+            
+            if isNewDataAvailable {
+                saveStratagemsToUserDefaults(stratagems: currentStratagems)
+            }
+            
+            completion()
+            
+        }
+    }
+
+    
+    func downloadAndCacheImage(for stratagem: Stratagem) {
+        guard let url = stratagem.imageUrl, let imageUrl = URL(string: url) else {
+            print("Invalid URL for image")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: imageUrl) { data, _, error in
+            guard let data = data, error == nil else {
+                print("Error downloading image: \(error?.localizedDescription ?? "unknown error")")
+                return
+            }
+            guard let image = UIImage(data: data) else {
+                print("Error decoding image data")
+                return
+            }
+            CacheManager.cache(image: image, for: stratagem.name)
+        }
+        task.resume()
+    }
+
+    func saveStratagemsToUserDefaults(stratagems: [Stratagem]) {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(stratagems) {
+            UserDefaults.standard.set(encoded, forKey: "stratagems")
+        }
+    }
+
+    func loadStratagemsFromUserDefaults() -> [Stratagem] {
+        let decoder = JSONDecoder()
+        if let data = UserDefaults.standard.data(forKey: "stratagems"),
+           let stratagems = try? decoder.decode([Stratagem].self, from: data) {
+            return stratagems
+        }
+        return []
+    }
+
+    
+    
+    
+    
 }
 
-let globalStratagems: [Stratagem] = [
+var globalStratagems: [Stratagem] = [
     Stratagem(name: "Machine Gun", sequence: [.down, .left, .down, .up, .right], type: .admin),
     Stratagem(name: "Anti-Materiel Rifle", sequence: [.down, .left, .right, .up, .down], type: .admin),
     Stratagem(name: "Stalwart", sequence: [.down, .left, .down, .up, .up, .left], type: .admin),
@@ -650,3 +767,6 @@ let globalStratagems: [Stratagem] = [
     Stratagem(name: "SEAF Artillery", sequence: [.right, .up, .up, .down], type: .mission),
     Stratagem(name: "Orbital Illumination Flare", sequence: [.right, .right, .left, .left], type: .mission)
 ]
+
+
+

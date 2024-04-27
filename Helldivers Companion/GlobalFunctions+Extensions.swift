@@ -81,5 +81,12 @@ let dashPattern: [CGFloat] = [CGFloat.random(in: 50...70), CGFloat.random(in: 5.
     }
     
 
-
-
+func getImage(named name: String) -> UIImage {
+    // try get image from cache if its a new stratagem
+    if let cachedImage = CacheManager.getImage(for: name) {
+        return cachedImage
+    }
+    
+    // if not found in cache, fall back to the asset library
+    return UIImage(named: name) ?? UIImage()
+}

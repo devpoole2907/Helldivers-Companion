@@ -15,14 +15,14 @@ struct GalaxyInfoView: View {
     
     
     #if os(iOS)
-    let missionsWonSize: CGFloat = 50
-    let missionsLostSize: CGFloat = 40
-    let successRateSize: CGFloat = 30
+    let missionsWonSize: CGFloat = 45
+    let missionsLostSize: CGFloat = 35
+    let successRateSize: CGFloat = 25
     let dividerWidth: CGFloat = 300
-    let missionsLostTextSize: CGFloat = 16
-    let successRateTextSize: CGFloat = 14
+    let missionsLostTextSize: CGFloat = 12
+    let successRateTextSize: CGFloat = 10
     
-    let killsSize: CGFloat = 40
+    let killsSize: CGFloat = 35
     
     let bugKillsStackSpacing: CGFloat = -10
     let automatonKillsStackSpacing: CGFloat = -8
@@ -51,7 +51,7 @@ struct GalaxyInfoView: View {
     
     
     var body: some View {
-        VStack(alignment: .trailing, spacing: 5) {
+        VStack(alignment: .trailing, spacing: 4) {
             
             if let missionsWon = galaxyStats?.missionsWon {
                 HStack {

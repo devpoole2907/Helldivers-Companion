@@ -98,13 +98,13 @@ struct StratagemDetailView: View {
 
         }
         
-        .conditionalBackground(viewModel: viewModel)
+        .conditionalBackground(viewModel: viewModel, grayscale: true, opacity: 0.6)
         
         .toolbar {
             
             
             ToolbarItem(placement: .topBarTrailing) {
-                Image(stratagem.name)
+                Image(uiImage: getImage(named: stratagem.name))
                     .resizable()
                     .scaledToFit()
                     .frame(width: 30, height: 30)

@@ -219,7 +219,7 @@ struct StratagemInfoRow: View {
             Color.gray.opacity(0.16)
                 .shadow(radius: 3)
             HStack {
-                Image(stratagem.name)
+                Image(uiImage: getImage(named: stratagem.name))
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: imageSize, height: imageSize)

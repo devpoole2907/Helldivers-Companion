@@ -18,8 +18,10 @@ struct ContentView: View {
     @EnvironmentObject var viewModel: PlanetsViewModel
     
     @EnvironmentObject var navPather: NavigationPather
+    
 
     #if os(iOS)
+    @EnvironmentObject var dbModel: DatabaseModel
     @Environment(\.requestReview) var requestReview
     #endif
     
@@ -165,6 +167,11 @@ struct ContentView: View {
                     PlanetInfoView(planetIndex: index)
                 }
             
+            #if os(iOS)
+                .navigationDestination(for: ContentViewPage.self) { _ in
+                    SuperStoreList().environmentObject(dbModel)
+                }
+            #endif
             
         }
         
