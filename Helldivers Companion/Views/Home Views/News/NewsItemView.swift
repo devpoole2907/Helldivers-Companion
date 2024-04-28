@@ -21,6 +21,11 @@ struct NewsItemView: View {
     
     var body: some View {
         
+        ZStack {
+            #if os(iOS)
+                Color.gray.opacity(0.2)
+            #endif
+            
         VStack(alignment: .leading, spacing: 4) {
             
             if let title = newsTitle {
@@ -54,7 +59,7 @@ struct NewsItemView: View {
                     let components = Calendar.current.dateComponents([.hour, .day], from: publishedDate, to: now)
                     let hoursDifference = components.hour ?? 0
                     let daysDifference = components.day ?? 0
-
+                    
                     if daysDifference > 0 {
                         Text("\(daysDifference) day\(daysDifference > 1 ? "s" : "") ago").font(Font.custom("FSSinclair", size: smallFont))
                             .foregroundStyle(.gray)
@@ -64,7 +69,7 @@ struct NewsItemView: View {
                             .foregroundStyle(.gray)
                     }
                 }
-
+                
                 
                 Spacer()
 #if os(iOS)
@@ -104,21 +109,32 @@ struct NewsItemView: View {
             
             //   #endif
         }
-#if os(iOS)
+            #if os(iOS)
         .padding()
+            #endif
+        
+    }
+#if os(iOS)
+        
+   
+        .background {
+            
+            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: [57, 19], dashPhase: 30))
+                .foregroundStyle(.gray)
+                .opacity(0.5)
+                .shadow(radius: 3)
+            
+        }
+        
+  
 #else
         .padding(.horizontal)
 #endif
         .frame(maxWidth: .infinity)
         
         
-        
-        // dont show background on watchos
-#if os(iOS)
-        .background {
-            Color.black
-        }.border(Color.blue.opacity(isWidget ? 0 : 0.4), width: 6)
-#else
+
+#if os(watchOS)
         
         // show shadows on watchos because the text is on opaque backgorund
         

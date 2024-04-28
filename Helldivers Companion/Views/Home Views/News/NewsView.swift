@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+#if os(iOS)
+import SwiftUIIntrospect
+#endif
 
 struct NewsView: View {
     
     @StateObject var feedModel = NewsFeedModel()
     @EnvironmentObject var navPather: NavigationPather
     @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var dbModel: DatabaseModel
     
     var body: some View {
         
@@ -73,13 +77,13 @@ struct NewsView: View {
             .navigationBarTitleDisplayMode(.inline)
             
 #if os(iOS)
-            .conditionalBackground(viewModel: viewModel)
+            .conditionalBackground(viewModel: viewModel, grayscale: true, opacity: 0.6)
             
             
                     .toolbar {
                         ToolbarItem(placement: .principal) {
                             
-                            Text("STROHMANN NEWS")
+                            Text("DISPATCH")
                                 .font(Font.custom("FSSinclair", size: 24)).bold()
                             
                         }
@@ -87,7 +91,15 @@ struct NewsView: View {
                  
                         
                     }
+            
+    .navigationDestination(for: ContentViewPage.self) { _ in
+        SuperStoreList().environmentObject(dbModel)
+    }
                 
+            
+  
+        
+
                 
                 
             
@@ -95,7 +107,7 @@ struct NewsView: View {
             
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("STROHMANN NEWS").textCase(.uppercase)  .font(Font.custom("FSSinclair", size: 18)).bold()
+                    Text("DISPATCH").textCase(.uppercase)  .font(Font.custom("FSSinclair", size: 18)).bold()
                 }
                 
             }
@@ -105,6 +117,36 @@ struct NewsView: View {
         }.onAppear {
             feedModel.startUpdating(viewModel.enableLocalization)
         }
+        
+        #if os(iOS)
+        .introspect(.navigationStack, on: .iOS(.v16, .v17)) { controller in
+            print("I am introspecting!")
+
+            
+            let largeFontSize: CGFloat = UIFont.preferredFont(forTextStyle: .largeTitle).pointSize
+            let inlineFontSize: CGFloat = UIFont.preferredFont(forTextStyle: .body).pointSize
+
+            // default to sf system font
+            let largeFont = UIFont(name: "FSSinclair-Bold", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
+               let inlineFont = UIFont(name: "FSSinclair-Bold", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
+
+            
+            let largeAttributes: [NSAttributedString.Key: Any] = [
+                .font: largeFont
+            ]
+
+            let inlineAttributes: [NSAttributedString.Key: Any] = [
+                .font: inlineFont
+            ]
+                                
+            controller.navigationBar.titleTextAttributes = inlineAttributes
+            
+            controller.navigationBar.largeTitleTextAttributes = largeAttributes
+            
+            
+       
+        }
+        #endif
         
         
         

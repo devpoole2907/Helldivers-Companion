@@ -74,7 +74,7 @@ struct RootView: View {
                 
               
                 
-                NewsView().environmentObject(newsNavPather).environmentObject(viewModel)
+                NewsView().environmentObject(newsNavPather).environmentObject(viewModel).environmentObject(dbModel)
                     .tag(Tab.news)
                 
              
@@ -198,7 +198,15 @@ struct RootView: View {
             
                 // append super store view to nav path
             
-            contentNavPather.navigationPath.append(ContentViewPage.superStore)
+            if viewModel.currentTab == .home {
+                contentNavPather.navigationPath.append(ContentViewPage.superStore)
+            }
+            
+            
+            if viewModel.currentTab == .news {
+                newsNavPather.navigationPath.append(ContentViewPage.superStore)
+            
+            }
             
         }){
             HStack(spacing: 6){
