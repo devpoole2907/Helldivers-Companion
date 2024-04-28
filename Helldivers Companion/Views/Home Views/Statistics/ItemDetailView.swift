@@ -264,7 +264,7 @@ struct ItemDetailView: View {
                     .padding()
                 
                 
-                if itemType != .grenade {
+                if (itemType == .armour && passive != nil) || (itemType == .weapon && weapon?.traits != nil) {
                 ZStack(alignment: .topLeading) {
                     Color.gray.opacity(0.2)
                         .shadow(radius: 3)

@@ -90,3 +90,17 @@ func getImage(named name: String) -> UIImage {
     // if not found in cache, fall back to the asset library
     return UIImage(named: name) ?? UIImage()
 }
+
+extension View {
+    
+    var isIpad: Bool {
+#if !os(watchOS)
+        UIDevice.current.userInterfaceIdiom == .pad
+#else
+        
+        return false
+        
+#endif
+    }
+    
+}

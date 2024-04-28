@@ -23,7 +23,9 @@ struct NewsItemView: View {
         
         ZStack {
             #if os(iOS)
+            if !isWidget {
                 Color.gray.opacity(0.2)
+            }
             #endif
             
         VStack(alignment: .leading, spacing: 4) {
@@ -119,10 +121,15 @@ struct NewsItemView: View {
    
         .background {
             
-            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: [57, 19], dashPhase: 30))
-                .foregroundStyle(.gray)
-                .opacity(0.5)
-                .shadow(radius: 3)
+            if !isWidget { Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: [57, 19], dashPhase: 30))
+                    .foregroundStyle(.gray)
+                    .opacity(0.5)
+                    .shadow(radius: 3)
+                
+            } else {
+                Rectangle().foregroundStyle(Color.clear)
+                
+            }
             
         }
         

@@ -27,6 +27,11 @@ struct ContentView: View {
     
     let appUrl = URL(string: "https://apps.apple.com/us/app/war-monitor-for-helldivers-2/id6479404407")
     
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+       ]
+    
     var body: some View {
         
         NavigationStack(path: $navPather.navigationPath) {
@@ -35,27 +40,58 @@ struct ContentView: View {
                 
                 //     Text("Current war season: \(viewModel.currentSeason)")
                 
-                LazyVStack(spacing: 20) {
-                    
+                if isIpad {
                     if let alert = viewModel.configData.prominentAlert {
                         
                         AlertView(alert: alert)
                             .padding(.horizontal)
                     }
                     
-                    ForEach(viewModel.updatedCampaigns, id: \.planet.index) { campaign in
+                    LazyVGrid(columns: columns) {
+                        ForEach(viewModel.updatedCampaigns, id: \.planet.index) { campaign in
+                            
+                            UpdatedPlanetView(planetIndex: campaign.planet.index)
+                                .id(campaign == viewModel.updatedCampaigns.first ? 0 : campaign.planet.index)
+                                .padding()
+                            
+                            
+                        }
+                    }
+#if os(iOS)
+                    .scrollTargetLayoutiOS17()
+#endif
+                    
+                } else {
+                    
+                    
+                    
+                    
+                    
+                    
+                    LazyVStack(spacing: 20) {
                         
-                        UpdatedPlanetView(planetIndex: campaign.planet.index)
-                            .id(campaign == viewModel.updatedCampaigns.first ? 0 : campaign.planet.index)
-                            .padding(.horizontal)
+                        if let alert = viewModel.configData.prominentAlert {
+                            
+                            AlertView(alert: alert)
+                                .padding(.horizontal)
+                        }
+                        
+                        ForEach(viewModel.updatedCampaigns, id: \.planet.index) { campaign in
+                            
+                            UpdatedPlanetView(planetIndex: campaign.planet.index)
+                                .id(campaign == viewModel.updatedCampaigns.first ? 0 : campaign.planet.index)
+                                .padding(.horizontal)
+                            
+                            
+                        }
                         
                         
                     }
+#if os(iOS)
+                    .scrollTargetLayoutiOS17()
+#endif
                     
                 }
-                #if os(iOS)
-                .scrollTargetLayoutiOS17()
-                #endif
                 
                 if let failedFetchTimeRemaining = viewModel.nextFetchTime {
                     VStack(spacing: 0) {
@@ -223,18 +259,6 @@ struct ContentView: View {
 }
 
 
-extension View {
-    
-    var isIpad: Bool {
-#if !os(watchOS)
-        UIDevice.current.userInterfaceIdiom == .pad
-#else
-        
-        return false
-        
-#endif
-    }
-    
-}
+
 
 

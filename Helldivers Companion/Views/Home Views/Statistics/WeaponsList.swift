@@ -168,6 +168,7 @@ struct ItemDetailRowView: View {
                                 .font(Font.custom("FSSinclair-Bold", size: 18))
                                 .tint(.white)
                                 .padding(.top, 2)
+                                .multilineTextAlignment(.leading)
                             
                          
                             
@@ -183,6 +184,7 @@ struct ItemDetailRowView: View {
                         }
                         if showWarBondName, let id = Int(item.id), let warBondName = dbModel.warBond(for: id)?.name?.rawValue {
                             Text(warBondName.uppercased()).foregroundStyle(.white).opacity(0.8)  .font(Font.custom("FSSinclair", size: 14))
+                                .multilineTextAlignment(.leading)
                         }
                         
                         

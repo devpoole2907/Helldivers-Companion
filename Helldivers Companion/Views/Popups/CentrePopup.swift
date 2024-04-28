@@ -28,7 +28,7 @@ struct MajorOrderPopup: CentrePopup {
             
             Image("MajorOrdersBanner").resizable()
 #if os(iOS)
-                .frame(width: UIScreen.main.bounds.width - 5, height: 45)
+                .frame(width: isIpad ? 600 : UIScreen.main.bounds.width - 5, height: 45)
 #endif
                 .offset(CGSize(width: 0, height: -4))
            //     .clipShape(Rectangle())
