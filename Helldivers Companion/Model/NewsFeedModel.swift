@@ -15,13 +15,15 @@ class NewsFeedModel: ObservableObject {
     private var timer: Timer?
     
     func fetchNewsFeed(_ enableLocalization: Bool, completion: @escaping ([NewsFeed]) -> Void) {
-          let feedURLString = "https://helldivers-2-dotnet.fly.dev/raw/api/NewsFeed/801?maxLimit=1024"
+          let feedURLString = "https://api.helldivers2.dev/raw/api/NewsFeed/801?maxLimit=1024"
         
         guard let url = URL(string: feedURLString) else { return }
         
         var request = URLRequest(url: url)
         request.addValue("WarMonitoriOS/2.1", forHTTPHeaderField: "User-Agent")
-        request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Application-Contact")
+        request.addValue("WarMonitoriOS/2.1", forHTTPHeaderField: "X-Super-Client")
+         request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Application-Contact")
+         request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Super-Contact")
         
         request.addValue(enableLocalization ? apiSupportedLanguage : "en-US", forHTTPHeaderField: "Accept-Language")
        
