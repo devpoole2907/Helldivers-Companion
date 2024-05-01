@@ -351,8 +351,9 @@ class PlanetsViewModel: ObservableObject {
         guard let url = URL(string: urlString) else { return }
         
         var request = URLRequest(url: url)
-        request.addValue("WarMonitoriOS/2.1", forHTTPHeaderField: "User-Agent")
-        request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Application-Contact")
+        request.addValue("WarMonitoriOS/3.1", forHTTPHeaderField: "X-Super-Client")
+         request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Application-Contact")
+         request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Super-Contact")
         if enableLocalization {
             request.addValue(apiSupportedLanguage, forHTTPHeaderField: "Accept-Language")
         }
@@ -743,8 +744,9 @@ class PlanetsViewModel: ObservableObject {
         guard let url = URL(string: urlString) else { return }
         
         var request = URLRequest(url: url)
-        request.addValue("WarMonitoriOS/2.1", forHTTPHeaderField: "User-Agent")
+        request.addValue("WarMonitoriOS/3.1", forHTTPHeaderField: "X-Super-Client")
         request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Application-Contact")
+        request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Super-Contact")
         if enableLocalization {
             request.addValue(apiSupportedLanguage, forHTTPHeaderField: "Accept-Language")
         }
