@@ -97,7 +97,7 @@ class DatabaseModel: ObservableObject {
     
     func fetchStoreRotation(completion: @escaping () -> Void) {
         
-        let urlString = "https://api.diveharder.com/v1/store_rotation"
+        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/storeRotation.json"
         
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
@@ -105,12 +105,23 @@ class DatabaseModel: ObservableObject {
             return
         }
         
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+        var request = URLRequest(url: url)
+        request.addValue("WarMonitoriOS/3.1", forHTTPHeaderField: "User-Agent")
+        request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Application-Contact")
+        request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Super-Contact")
+        
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             guard let data = data, error == nil else {
                 print("Network request failed: \(error?.localizedDescription ?? "Unknown error")")
                 completion()
                 return
             }
+            
+            if let jsonString = String(data: data, encoding: .utf8) {
+                        print("Received JSON: \(jsonString)")
+                    }
+            
+            
             
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)

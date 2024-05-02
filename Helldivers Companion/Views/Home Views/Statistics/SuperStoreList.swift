@@ -27,7 +27,7 @@ struct SuperStoreList: View {
         ScrollView {
             LazyVStack(alignment: .leading) {
                 
-                AlertView(alert: "The Super Store is currently under development. Please be aware that you may encounter some issues. We appreciate your patience and welcome any feedback.")
+               // AlertView(alert: "The Super Store is currently under development - please be aware that you may encounter some issues. We appreciate your patience, and welcome any feedback!")
          
  
                                         ForEach(filteredArmour, id: \.id) { armour in

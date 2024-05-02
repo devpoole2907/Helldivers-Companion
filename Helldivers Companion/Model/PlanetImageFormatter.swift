@@ -22,7 +22,7 @@ class PlanetImageFormatter {
     case "jungle":
         return "Mantes"
     case "rainforest":
-        return "Malevelon Creek"
+        return "Veld"
     case "moon":
         return "Fenrir III"
     case "icemoss":
@@ -34,7 +34,7 @@ class PlanetImageFormatter {
     case "canyon":
         return "Fori Prime"
     case "highlands":
-        return "Draupnir"
+        return "Oshaune"
         case "desert":
         return "Ustotu"
     case "mesa":
@@ -44,7 +44,23 @@ class PlanetImageFormatter {
     case "icemoss special":
         return "Tien Kwan"
     default:
-        return "MissingPlanetImage"
+            
+            switch planet?.name.lowercased() {
+                
+            case "meridia":
+                return "Meridia"
+                
+            case "super earth":
+                return "Super Earth"
+            
+            case "tien kwan": // backup in case tien kwan biome name is changed in api
+                return "Tien Kwan"
+                
+            default:
+                return "MissingPlanetImage"
+            }
+            
+       
     }
     
 }

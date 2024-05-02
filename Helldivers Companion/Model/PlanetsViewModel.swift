@@ -29,6 +29,10 @@ class PlanetsViewModel: ObservableObject {
     @Published var galaxyStats: GalaxyStats? = nil
     @Published var lastUpdatedDate: Date = Date()
     
+    @Published var showIlluminateUI: Bool = false
+    
+    @Published var redactedShakeTimes = 0 // for redacting illuminate info animation
+    
     @Published var selectedPlanet: UpdatedPlanet? = nil // for map view selection
     
     @AppStorage("viewCount") var viewCount = 0
@@ -720,6 +724,7 @@ class PlanetsViewModel: ObservableObject {
                 if let decodedResponse = try? JSONDecoder().decode(RemoteConfigDetails.self, from: data) {
                     DispatchQueue.main.async {
                         self.configData = decodedResponse
+                        self.showIlluminateUI = decodedResponse.showIlluminate
                         completion(decodedResponse)
                     }
                 }

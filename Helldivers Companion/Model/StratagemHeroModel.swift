@@ -707,6 +707,7 @@ class StratagemHeroModel: ObservableObject {
 
 var globalStratagems: [Stratagem] = [
     Stratagem(name: "Machine Gun", sequence: [.down, .left, .down, .up, .right], type: .admin),
+    Stratagem(name: "Airburst Rocket Launcher", sequence: [.down, .up, .up, .left, .right], type: .admin),
     Stratagem(name: "Anti-Materiel Rifle", sequence: [.down, .left, .right, .up, .down], type: .admin),
     Stratagem(name: "Stalwart", sequence: [.down, .left, .down, .up, .up, .left], type: .admin),
     Stratagem(name: "Expendable Anti-Tank", sequence: [.down, .down, .left, .up, .right], type: .admin),

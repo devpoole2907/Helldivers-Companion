@@ -14,6 +14,9 @@ struct PlanetInfoView: View {
     
     @State private var infoType: InfoType = .warEffort
     
+    @State var showIlluminateStats = true // for redacted animation
+    @State var showRedactedText = false
+    
     let planetIndex: Int
     
     private var planetData: [UpdatedPlanetDataPoint] {
@@ -251,12 +254,38 @@ struct PlanetInfoView: View {
                 }
             }
             
-            if let illuminateKills = planet?.statistics.illuminateKills, viewModel.configData.showIlluminate {
+            if let illuminateKills = planet?.statistics.illuminateKills, showIlluminateStats {
                 HStack {
-                    Text("Illuminates\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
+                    Text(!showRedactedText ? "Illuminates\(extraStatSplitter)Killed" : "[REDACTED]\(extraStatSplitter)killed").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
+                        .foregroundStyle(showRedactedText ? .red : .white)
+                        .shake(times: CGFloat(viewModel.redactedShakeTimes))
                     Spacer()
                     Text("\(illuminateKills)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
                 }
+                
+                .onAppear {
+                    // redact the info if the illuminates are not enabled in the config
+                    if !viewModel.showIlluminateUI {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        
+                        withAnimation(.bouncy(duration: 0.3)) {
+                            viewModel.redactedShakeTimes += 1 
+                            showRedactedText = true
+                        }
+                        
+                    }
+                    
+               
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            // hide illuminate
+                            withAnimation(.bouncy(duration: 0.5)) {
+                                showIlluminateStats = false
+                            }
+                        }
+                    }
+                    
+                }
+                
             }
             
           

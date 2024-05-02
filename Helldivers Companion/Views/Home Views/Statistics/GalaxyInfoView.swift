@@ -9,10 +9,16 @@ import SwiftUI
 
 struct GalaxyInfoView: View {
     
-    var galaxyStats: GalaxyStats? = nil
+    var galaxyStats: GalaxyStats? {
+        
+        return viewModel.galaxyStats
+
+    }
     
-    let showIlluminate: Bool
+    @EnvironmentObject var viewModel: PlanetsViewModel
     
+    @State var showIlluminateStats = true // for redacted animation
+    @State var showRedactedText = false
     
     #if os(iOS)
     let missionsWonSize: CGFloat = 45
@@ -111,15 +117,40 @@ struct GalaxyInfoView: View {
                 }
             }
             
-            if let illuminateKills = galaxyStats?.illuminateKills, showIlluminate {
+            if let illuminateKills = galaxyStats?.illuminateKills, showIlluminateStats {
                 HStack {
                     Spacer()
                     VStack(alignment: .trailing, spacing: illuminateKillsStackSpacing) {
                         Text("\(illuminateKills)").textCase(.uppercase).font(Font.custom("FSSinclair", size: killsSize))
-                        Text("Illuminates killed").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont)).bold()
-                            .foregroundStyle(.purple)
+                        Text(!showRedactedText ? "Illuminates killed" : "[REDACTED] killed").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont)).bold()
+                            .foregroundStyle(showRedactedText ? .red : .purple)
+                            .shake(times: CGFloat(viewModel.redactedShakeTimes))
                     }
                 }
+                
+                .onAppear {
+                    // redact the info if the illuminates are not enabled in the config
+                    if !viewModel.showIlluminateUI {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        
+                        withAnimation(.bouncy(duration: 0.3)) {
+                            viewModel.redactedShakeTimes += 1 
+                            showRedactedText = true
+                        }
+                        
+                    }
+                    
+               
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            // hide illuminate
+                            withAnimation(.bouncy(duration: 0.5)) {
+                                showIlluminateStats = false
+                            }
+                        }
+                    }
+                    
+                }
+                
             }
             
             RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)
@@ -174,8 +205,4 @@ struct GalaxyInfoView: View {
         }.shadow(radius: 3.0)
         
     }
-}
-
-#Preview {
-    GalaxyInfoView(showIlluminate: true)
 }

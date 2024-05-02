@@ -752,7 +752,7 @@ struct FixedWarBond: Hashable {
 }
 
 struct SuperStoreResponse: Decodable {
-    var expireTime: Date
+    var expireTime: Date?
     var items: [StoreItem]
 }
 

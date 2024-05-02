@@ -85,6 +85,22 @@
 		7C1B8C3A2BAD78CD00944823 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7C1B8C392BAD78CD00944823 /* FirebaseMessaging */; };
 		7C1B8C3B2BAD790500944823 /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
 		7C1B8C602BAD85B200944823 /* GameViewWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1B8C5F2BAD85B200944823 /* GameViewWatch.swift */; };
+		7C274A482BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
+		7C274A492BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
+		7C274A4A2BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
+		7C274A4B2BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
+		7C274A4C2BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
+		7C274A4D2BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
+		7C274A4E2BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
+		7C274A4F2BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
+		7C274A502BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
+		7C274A512BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
+		7C274A522BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
+		7C274A532BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
+		7C274A552BE42ED600F90369 /* Airburst Rocket Launcher.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A542BE42ED600F90369 /* Airburst Rocket Launcher.mp4 */; };
+		7C274A562BE436B400F90369 /* ShakeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C32BA574B20019B00E /* ShakeModifier.swift */; };
+		7C274A572BE436B900F90369 /* ShakeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C32BA574B20019B00E /* ShakeModifier.swift */; };
+		7C274A582BE436C500F90369 /* ShakeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C32BA574B20019B00E /* ShakeModifier.swift */; };
 		7C297D172BCE845D00D884DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C297D162BCE845D00D884DD /* GoogleService-Info.plist */; };
 		7C297D182BCE845D00D884DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C297D162BCE845D00D884DD /* GoogleService-Info.plist */; };
 		7C297D192BCE845D00D884DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C297D162BCE845D00D884DD /* GoogleService-Info.plist */; };
@@ -566,6 +582,8 @@
 		7C1B8C182BAD705700944823 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C1B8C1A2BAD705700944823 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C1B8C5F2BAD85B200944823 /* GameViewWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewWatch.swift; sourceTree = "<group>"; };
+		7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		7C274A542BE42ED600F90369 /* Airburst Rocket Launcher.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Airburst Rocket Launcher.mp4"; sourceTree = "<group>"; };
 		7C297D162BCE845D00D884DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemView.swift; sourceTree = "<group>"; };
 		7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlobalFunctions+Extensions.swift"; sourceTree = "<group>"; };
@@ -873,6 +891,7 @@
 		7C0C993F2BA2BA8F00CF7C91 = {
 			isa = PBXGroup;
 			children = (
+				7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */,
 				7CA240DA2BCA521A007F685C /* Stratagem Hero High Score Watch WidgetExtension.entitlements */,
 				7CA240C52BCA37C7007F685C /* Stratagem Hero High Score WidgetExtension.entitlements */,
 				7C0C994A2BA2BA8F00CF7C91 /* Helldivers Companion */,
@@ -1141,6 +1160,7 @@
 		7CC284252BD8DA320036EBFD /* StratagemVideos */ = {
 			isa = PBXGroup;
 			children = (
+				7C274A542BE42ED600F90369 /* Airburst Rocket Launcher.mp4 */,
 				7CC284522BD8DA570036EBFD /* Anti-Materiel Rifle.mp4 */,
 				7CC284492BD8DA550036EBFD /* Anti-Personnel Minefield.mp4 */,
 				7CC2844E2BD8DA560036EBFD /* Arc Thrower.mp4 */,
@@ -1647,6 +1667,7 @@
 				7CC284802BD8DA570036EBFD /* Shield Generator Relay.mp4 in Resources */,
 				7CC2849A2BD8DA570036EBFD /* Orbital Precision Strike.mp4 in Resources */,
 				7CC284582BD8DA570036EBFD /* Orbital Walking Barrage.mp4 in Resources */,
+				7C274A482BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */,
 				7C018FFD2BBA68C9001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 in Resources */,
 				7CC284942BD8DA570036EBFD /* Machine Gun.mp4 in Resources */,
 				7C0190052BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */,
@@ -1694,6 +1715,7 @@
 				7CC284822BD8DA570036EBFD /* Tesla Tower.mp4 in Resources */,
 				7CC284A22BD8DA570036EBFD /* Expendable Anti-Tank.mp4 in Resources */,
 				7CC284862BD8DA570036EBFD /* Orbital Airburst Strike.mp4 in Resources */,
+				7C274A552BE42ED600F90369 /* Airburst Rocket Launcher.mp4 in Resources */,
 				7CC284722BD8DA570036EBFD /* Orbital 380MM HE Barrage.mp4 in Resources */,
 				7CC284782BD8DA570036EBFD /* Eagle Smoke Strike.mp4 in Resources */,
 				7CC284A82BD8DA570036EBFD /* Arc Thrower.mp4 in Resources */,
@@ -1710,6 +1732,7 @@
 				7C1B8C302BAD71C800944823 /* FS Sinclair Bold.otf in Resources */,
 				7CD554912BB73EDE008D4267 /* Assets.xcassets in Resources */,
 				7CF6D2EE2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
+				7C274A4C2BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */,
 				7C1B8C192BAD705700944823 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1718,6 +1741,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C274A4B2BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */,
 				7C3DE9872BA80B5000C95B84 /* FS Sinclair Bold.otf in Resources */,
 				7CF6D2ED2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
 				7C297D1A2BCE845D00D884DD /* GoogleService-Info.plist in Resources */,
@@ -1733,6 +1757,7 @@
 				7C44B8012BC948A20097C29B /* Assets.xcassets in Resources */,
 				7C44B8022BC95AA30097C29B /* FS Sinclair Bold.otf in Resources */,
 				7C44B8032BC95AA60097C29B /* FS Sinclair Regular.otf in Resources */,
+				7C274A4F2BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */,
 				7C44B7E62BC944430097C29B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1741,6 +1766,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C274A522BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */,
 				7C4A9E5C2BD35AAA0014FCCD /* Assets.xcassets in Resources */,
 				7C4A9E612BD35D040014FCCD /* FS Sinclair Regular.otf in Resources */,
 				7C4A9E5E2BD35AB30014FCCD /* Assets.xcassets in Resources */,
@@ -1756,6 +1782,7 @@
 				7C4A9E5D2BD35AB10014FCCD /* Assets.xcassets in Resources */,
 				7C4A9E602BD35D020014FCCD /* FS Sinclair Bold.otf in Resources */,
 				7C4A9E622BD35D050014FCCD /* FS Sinclair Regular.otf in Resources */,
+				7C274A532BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */,
 				7C4A9E4C2BD356870014FCCD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1770,6 +1797,7 @@
 				7C0190062BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */,
 				7C018FEE2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 in Resources */,
 				7C0190032BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 in Resources */,
+				7C274A492BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */,
 				7C0190002BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 in Resources */,
 				7C018FF72BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */,
 				7C587F4E2BA6DBBB00C66643 /* Preview Assets.xcassets in Resources */,
@@ -1789,6 +1817,7 @@
 				7C8C5F452BAEFC9A00C4FBD2 /* FS Sinclair Bold.otf in Resources */,
 				7C8C5F462BAEFCB500C4FBD2 /* Assets.xcassets in Resources */,
 				7CF6D2EF2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
+				7C274A4D2BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */,
 				7C8C5F382BAEF91300C4FBD2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1800,6 +1829,7 @@
 				7C8C5F5F2BAF0B8600C4FBD2 /* FS Sinclair Bold.otf in Resources */,
 				7CD554922BB73EDF008D4267 /* Assets.xcassets in Resources */,
 				7CF6D2F02BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
+				7C274A4E2BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */,
 				7C8C5F542BAF0AD200C4FBD2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1810,6 +1840,7 @@
 			files = (
 				7CA240C32BCA3629007F685C /* FS Sinclair Regular.otf in Resources */,
 				7CA240C42BCA362B007F685C /* FS Sinclair Bold.otf in Resources */,
+				7C274A502BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */,
 				7CA240BB2BCA33FD007F685C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1820,6 +1851,7 @@
 			files = (
 				7CA240DB2BCA54BD007F685C /* FS Sinclair Bold.otf in Resources */,
 				7CA240D12BCA5083007F685C /* Assets.xcassets in Resources */,
+				7C274A512BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */,
 				7CA240DC2BCA54BF007F685C /* FS Sinclair Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1828,6 +1860,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C274A4A2BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */,
 				7CC0AE892BA7F76600802D9F /* Assets.xcassets in Resources */,
 				7CF6D2EC2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
 				7C297D192BCE845D00D884DD /* GoogleService-Info.plist in Resources */,
@@ -1954,6 +1987,7 @@
 			files = (
 				7C8C5F282BAE80D300C4FBD2 /* PlanetView.swift in Sources */,
 				7C45D4682BABEE770013A632 /* AngledLinesShape.swift in Sources */,
+				7C274A572BE436B900F90369 /* ShakeModifier.swift in Sources */,
 				7C0DF6252BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7C3DE9892BA80B9600C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7CF6D2DE2BC2820E00107663 /* PlanetInfoView.swift in Sources */,
@@ -1981,6 +2015,7 @@
 			files = (
 				7C44B7E22BC944420097C29B /* Helldivers_Companion_Galaxy_Map_WidgetBundle.swift in Sources */,
 				7C44B7F72BC945710097C29B /* PlayerCountView.swift in Sources */,
+				7C274A582BE436C500F90369 /* ShakeModifier.swift in Sources */,
 				7C44B8002BC945EC0097C29B /* Version Check View Modifiers.swift in Sources */,
 				7C44B7F22BC944630097C29B /* PlanetStructs.swift in Sources */,
 				7C44B7FC2BC945B00097C29B /* PlanetPositions.swift in Sources */,
@@ -2149,6 +2184,7 @@
 			files = (
 				7C45D4672BABEE770013A632 /* AngledLinesShape.swift in Sources */,
 				7CC0AE792BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
+				7C274A562BE436B400F90369 /* ShakeModifier.swift in Sources */,
 				7C0DF6242BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7CC0AE882BA7F63100802D9F /* RectangleProgressBar.swift in Sources */,
 				7CF6D2DD2BC2820D00107663 /* PlanetInfoView.swift in Sources */,

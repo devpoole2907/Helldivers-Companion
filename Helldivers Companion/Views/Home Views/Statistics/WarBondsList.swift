@@ -11,6 +11,8 @@ struct WarBondsList: View {
     @EnvironmentObject var dbModel: DatabaseModel
     @EnvironmentObject var viewModel: PlanetsViewModel
     
+    // TODO: WAR BOND FETCHES SHOULD BE DYNAMIC
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -18,8 +20,9 @@ struct WarBondsList: View {
                     
                 if let cuttingEdge = dbModel.cuttingEdge {
                     NavigationLink(value: cuttingEdge) {
+                        //  different for cuttting edge due to image issue, duct tape fix
                         if let warbondName = cuttingEdge.warbondPages.first?.name?.rawValue {
-                            WarBondRow(warbondName: warbondName.lowercased())
+                            WarBondRow(warBondImageName: "cuttingedge")
                         }
                     }
                 }
@@ -27,7 +30,7 @@ struct WarBondsList: View {
                 if let steeledVeterans = dbModel.steeledVeterans {
                     NavigationLink(value: steeledVeterans) {
                         if let warbondName = steeledVeterans.warbondPages.first?.name?.rawValue {
-                            WarBondRow(warbondName: warbondName.lowercased())
+                            WarBondRow(warBondImageName: warbondName.lowercased())
                         }
                     }
                 }
@@ -35,7 +38,7 @@ struct WarBondsList: View {
                 if let helldiversMobilize = dbModel.helldiversMobilize {
                     NavigationLink(value: helldiversMobilize) {
                         if let warbondName = helldiversMobilize.warbondPages.first?.name?.rawValue {
-                            WarBondRow(warbondName: warbondName.lowercased())
+                            WarBondRow(warBondImageName: warbondName.lowercased())
                         }
                     }
                 }
@@ -43,7 +46,7 @@ struct WarBondsList: View {
                 if let democraticDetonation = dbModel.democraticDetonation {
                     NavigationLink(value: democraticDetonation) {
                         if let warbondName = democraticDetonation.warbondPages.first?.name?.rawValue {
-                            WarBondRow(warbondName: warbondName.lowercased())
+                            WarBondRow(warBondImageName: warbondName.lowercased())
                         }
                     }
                 }
@@ -70,10 +73,10 @@ struct WarBondsList: View {
 
 struct WarBondRow: View {
     
-    let warbondName: String
+    let warBondImageName: String
     
     var body: some View {
-        Image(warbondName)
+        Image(warBondImageName)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(maxWidth: .infinity)

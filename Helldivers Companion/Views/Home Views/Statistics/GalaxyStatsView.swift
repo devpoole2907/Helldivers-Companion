@@ -26,7 +26,7 @@ struct GalaxyStatsView: View {
                
                         Section {
                             
-                            GalaxyInfoView(galaxyStats: viewModel.galaxyStats, showIlluminate: viewModel.configData.showIlluminate)
+                            GalaxyInfoView()
                         }
                         
                         .id(0)
