@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Haptics
-
+@available(watchOS 9.0, *)
 struct ContentViewWatchVersion: View {
     
     @StateObject var viewModel = PlanetsViewModel()
@@ -80,7 +80,4 @@ struct ContentViewWatchVersion: View {
     }
 }
 
-#Preview {
-    ContentViewWatchVersion()
-}
 

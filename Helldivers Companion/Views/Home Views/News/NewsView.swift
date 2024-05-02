@@ -9,7 +9,7 @@ import SwiftUI
 #if os(iOS)
 import SwiftUIIntrospect
 #endif
-
+@available(watchOS 9.0, *)
 struct NewsView: View {
     
     @StateObject var feedModel = NewsFeedModel()
@@ -156,6 +156,3 @@ struct NewsView: View {
     }
 }
 
-#Preview {
-    NewsView()
-}

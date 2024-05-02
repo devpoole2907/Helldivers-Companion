@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+@available(watchOS 9.0, *)
 struct AboutView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
@@ -177,11 +177,7 @@ struct AboutView: View {
         }.presentationDetents([.fraction(0.8), .large])
     }
 }
-
-#Preview {
-    AboutView()
-}
-
+@available(watchOS 9.0, *)
 struct SettingsRow: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
@@ -280,7 +276,7 @@ struct SettingsRow: View {
     }
     
 }
-
+@available(watchOS 9.0, *)
 struct SettingsSheet: View {
     
     @Binding var selection: Bool

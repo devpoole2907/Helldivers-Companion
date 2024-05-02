@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+@available(watchOS 9.0, *)
 struct WatchOrdersView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
@@ -69,8 +69,4 @@ struct WatchOrdersView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
     }
-}
-
-#Preview {
-    WatchOrdersView()
 }

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+@available(watchOS 9.0, *)
 struct PlanetInfoDetailRow: View {
     
     var planet: UpdatedPlanet? = nil
@@ -94,6 +94,3 @@ struct PlanetInfoDetailRow: View {
     }
 }
 
-#Preview {
-    PlanetInfoDetailRow()
-}

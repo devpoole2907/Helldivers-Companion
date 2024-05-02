@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+@available(watchOS 9.0, *)
 struct PlanetInfoView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel

@@ -216,6 +216,7 @@
 		7C4A9E602BD35D020014FCCD /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
 		7C4A9E612BD35D040014FCCD /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
 		7C4A9E622BD35D050014FCCD /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
+		7C5382E52BE44B2200EA66F8 /* WatchOS8ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5382E42BE44B2200EA66F8 /* WatchOS8ContentView.swift */; };
 		7C587F3F2BA6A7DA00C66643 /* CustomSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */; };
 		7C587F472BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F462BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift */; };
 		7C587F492BA6DBB400C66643 /* ContentViewWatchVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F482BA6DBB400C66643 /* ContentViewWatchVersion.swift */; };
@@ -626,6 +627,7 @@
 		7C4A9E492BD356860014FCCD /* War_Monitor_Total_Player_Count_Watch_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = War_Monitor_Total_Player_Count_Watch_Widget.swift; sourceTree = "<group>"; };
 		7C4A9E4B2BD356870014FCCD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C4A9E4D2BD356870014FCCD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C5382E42BE44B2200EA66F8 /* WatchOS8ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchOS8ContentView.swift; sourceTree = "<group>"; };
 		7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedPicker.swift; sourceTree = "<group>"; };
 		7C587F442BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Helldivers Companion Watch Edition Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C587F462BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Watch_EditionApp.swift; sourceTree = "<group>"; };
@@ -1065,6 +1067,7 @@
 				7C1B8C5F2BAD85B200944823 /* GameViewWatch.swift */,
 				7C0DF63A2BB9A7DE0062AB9B /* WatchGalaxyStatsView.swift */,
 				7C0DF6412BBA35770062AB9B /* WatchNewsView.swift */,
+				7C5382E42BE44B2200EA66F8 /* WatchOS8ContentView.swift */,
 			);
 			path = "Helldivers Companion Watch Edition Watch App";
 			sourceTree = "<group>";
@@ -2082,6 +2085,7 @@
 				7C587F492BA6DBB400C66643 /* ContentViewWatchVersion.swift in Sources */,
 				7C45D4742BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C45D4792BAC142C0013A632 /* Tab.swift in Sources */,
+				7C5382E52BE44B2200EA66F8 /* WatchOS8ContentView.swift in Sources */,
 				7C80F3ED2BC1425B0058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C45D45B2BABEB370013A632 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C587F5D2BA6DD2200C66643 /* CustomSegmentedPicker.swift in Sources */,
@@ -2327,7 +2331,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
@@ -2384,7 +2388,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};
@@ -2785,7 +2789,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
@@ -2819,7 +2823,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};

@@ -10,7 +10,7 @@ import Charts
 import WidgetKit
 
 // this is used for the app only (not widgets), it needs to be cleaned up a LOTTT of old code lying around from the original planetview
-
+@available(watchOS 9.0, *)
 struct UpdatedPlanetView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel

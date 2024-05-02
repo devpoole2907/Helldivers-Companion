@@ -9,7 +9,7 @@ import SwiftUI
 #if os(iOS)
 import SwiftUIIntrospect
 #endif
-
+@available(watchOS 9.0, *)
 struct StratagemGlossaryView: View {
     
     @EnvironmentObject var viewModel: StratagemHeroModel
@@ -180,11 +180,8 @@ struct StratagemGlossaryView: View {
         #endif
     }
 }
-@available(iOS 17.0, *)
-#Preview {
-    StratagemGlossaryView()
-}
 
+@available(watchOS 9.0, *)
 struct StratagemInfoRow: View {
     
     @EnvironmentObject var viewModel: StratagemHeroModel

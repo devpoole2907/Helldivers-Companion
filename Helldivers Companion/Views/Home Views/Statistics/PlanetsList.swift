@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+@available(watchOS 9.0, *)
 struct PlanetsList: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
@@ -79,6 +79,3 @@ struct PlanetsList: View {
     }
 }
 
-#Preview {
-    PlanetsList()
-}

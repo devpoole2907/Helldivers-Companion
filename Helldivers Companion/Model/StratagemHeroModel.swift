@@ -87,7 +87,11 @@ class StratagemHeroModel: ObservableObject {
     
     @AppStorage("highScore") var highScore = 0 {
         didSet {
-            WidgetCenter.shared.reloadAllTimelines()
+            if #available(watchOS 9.0, *) {
+                WidgetCenter.shared.reloadAllTimelines()
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }// store high score
     

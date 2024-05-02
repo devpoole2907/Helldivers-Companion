@@ -10,7 +10,7 @@ import Charts
 import WidgetKit
 
 // this is now used for the widgets only, it needs to be cleaned up a LOTTT of old code lying around
-
+@available(watchOS 9.0, *)
 struct PlanetView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
@@ -285,10 +285,6 @@ struct PlanetView: View {
     
 }
 
-#Preview {
-    
-    PlanetView().environmentObject(PlanetsViewModel())
-}
 
 enum ChartType: String, SegmentedItem {
     case liberation = "Liberation"
@@ -362,7 +358,7 @@ struct ChartAnnotationView: View {
         .background{ Color.black}
     }
 }
-
+@available(watchOS 9.0, *)
 struct HistoryChart: View {
     @EnvironmentObject var viewModel: PlanetsViewModel
     var liberationType: LiberationType

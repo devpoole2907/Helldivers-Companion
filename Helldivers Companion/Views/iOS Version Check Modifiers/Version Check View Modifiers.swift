@@ -90,6 +90,7 @@ extension View {
     }
 }
 
+@available(watchOS 9.0, *)
 struct CustomChartOverlayModifier<V: View>: ViewModifier {
 
     let overlayContent: (ChartProxy) -> V
@@ -112,7 +113,7 @@ struct CustomChartOverlayModifier<V: View>: ViewModifier {
     
     
 }
-
+@available(watchOS 9.0, *)
 extension View {
     
     func chartOverlayiOS16<V: View>(content: @escaping (ChartProxy) -> V) -> some View {

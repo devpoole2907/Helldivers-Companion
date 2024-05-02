@@ -7,7 +7,7 @@
 
 import WidgetKit
 import SwiftUI
-
+@available(watchOS 9.0, *)
 struct PlanetStatusProvider: TimelineProvider {
     typealias Entry = SimplePlanetStatus
     
@@ -93,7 +93,7 @@ struct SimplePlanetStatus: TimelineEntry {
     var eventExpirationTime: Date? = nil
 }
 
-
+@available(watchOS 9.0, *)
 struct Helldivers_Companion_WidgetsEntryView : View {
     
     @Environment(\.widgetFamily) var widgetFamily
@@ -149,7 +149,7 @@ struct Helldivers_Companion_WidgetsEntryView : View {
         
     }
 }
-
+@available(watchOS 9.0, *)
 struct RectangularPlanetWidgetView: View {
     
     var entry: PlanetStatusProvider.Entry
@@ -204,6 +204,7 @@ struct RectangularPlanetWidgetView: View {
     }
 }
 #if os(watchOS)
+@available(watchOS 9.0, *)
 struct CornerPlanetWidgetView: View {
     var entry: PlanetStatusProvider.Entry
     var body: some View {
@@ -233,7 +234,7 @@ struct CornerPlanetWidgetView: View {
     }
 }
 #endif
-
+@available(watchOS 9.0, *)
 struct InlinePlanetWidgetView: View {
     
     var entry: PlanetStatusProvider.Entry
@@ -250,7 +251,7 @@ struct InlinePlanetWidgetView: View {
         
     }
 }
-
+@available(watchOS 9.0, *)
 struct Helldivers_Companion_Planet_Widgets: Widget {
     let kind: String = "Helldivers_Companion_Widgets"
     

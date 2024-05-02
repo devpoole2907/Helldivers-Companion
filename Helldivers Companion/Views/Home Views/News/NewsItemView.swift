@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(watchOS 9.0, *)
 struct NewsItemView: View {
     
     @Environment(\.widgetFamily) var widgetFamily
@@ -156,6 +157,3 @@ struct NewsItemView: View {
     
 }
 
-#Preview {
-    NewsItemView(published: 4444974)
-}

@@ -1,14 +1,47 @@
 //
-//  GameViewWatch.swift
+//  WatchOS8ContentView.swift
 //  Helldivers Companion Watch Edition Watch App
 //
-//  Created by James Poole on 22/03/2024.
+//  Created by James Poole on 03/05/2024.
 //
 
 import SwiftUI
 import AVFoundation
-@available(watchOS 9.0, *)
-struct GameViewWatch: View {
+
+struct WatchOS8ContentView: View {
+    
+    @StateObject var gameModel = StratagemHeroModel()
+    
+    @State private var currentTab: Tab = .game
+    
+    var body: some View {
+        TabView(selection: $currentTab) {
+            
+            ScrollView {
+                Text("This version for watchOS 8 is limited and unsupported, but for those who just want Stratagem Hero I've made it available :) Update to watchOS 10.0 for the complete War Monitor experience!")
+                    .multilineTextAlignment(.center)
+            }
+                .tag(Tab.about)
+            
+            
+            GameViewWatchOS8().environmentObject(gameModel)
+                .tag(Tab.game)
+
+            
+            
+        }
+        
+        .onAppear {
+            gameModel.preloadAssets()
+        }
+    }
+}
+
+#Preview {
+    WatchOS8ContentView()
+}
+
+struct GameViewWatchOS8: View {
     
     // viewmodel must be enviro as root will load the game sounds
     @EnvironmentObject var viewModel: StratagemHeroModel
@@ -20,7 +53,7 @@ struct GameViewWatch: View {
         
         
         
-        NavigationStack {
+    
             VStack {
                 
                 highScoreView
@@ -55,16 +88,7 @@ struct GameViewWatch: View {
                 
             }
             
-            .toolbar {
-                if #available(watchOS 10, *) {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Text("Stratagem Hero").textCase(.uppercase)  .font(Font.custom("FSSinclair-Bold", size: largeFont))
-                    }
-                }
-            }
-            
-            .navigationBarTitleDisplayMode(.inline)
-        }
+
         
         
         
@@ -76,7 +100,7 @@ struct GameViewWatch: View {
             
          
             
-                NavigationStack {
+           
                     // if preloading is done show the game, or if sound is disabled, dont bother waiting for it to load as the sounds are not called
                     if viewModel.isPreLoadingDone || !viewModel.enableSound {
                     ZStack {
@@ -112,10 +136,9 @@ struct GameViewWatch: View {
                                             Text(viewModel.selectedStratagems.isEmpty ? "Select some Stratagems from the Glossary first!" : "Swipe in any direction to Start!") .font(Font.custom("FSSinclair-Bold", size: 14))
                                                 .foregroundStyle(.yellow)
                                                 .multilineTextAlignment(.center)
-                                                .lineLimit(2, reservesSpace: true)
+                       
                                             Rectangle().frame(height: 1).foregroundStyle(.gray)
                                             
-                                            glossaryButton
                                             
                                         } else if viewModel.gameState == .roundStarting {
                                             
@@ -228,21 +251,7 @@ struct GameViewWatch: View {
                         }
                     }
                     
-                    
-                    .toolbar {
-                        if #available(watchOS 10, *) {
-                            if viewModel.gameState == .started {
-                                ToolbarItem(placement: .topBarTrailing){
-                                    HStack(spacing: -4) {
-                                        Text("R") .font(Font.custom("FSSinclair-Bold", size: 20))
-                                        
-                                        Text("\(viewModel.currentRound)") .font(Font.custom("FSSinclair-Bold", size: 20))
-                                            .foregroundStyle(.yellow)
-                                    }
-                                }
-                            }
-                        }
-                    }
+
                     
                     
                     
@@ -259,18 +268,8 @@ struct GameViewWatch: View {
                         
                     }
                 
-            }
-            .dynamicTypeSize(.small)
-            .interactiveDismissDisabled()
             
-            
-            
-            .onChange(of: viewModel.gameEndCount) { value in
-                
-               
-                
-                
-            }
+     
             
           
             
@@ -280,70 +279,6 @@ struct GameViewWatch: View {
         
     }
     
-    var glossaryButton: some View {
-        
-        VStack(spacing: 4) {
-        
-            Button(action: {
-                
-                if viewModel.gameState == .notStarted {
-                    
-                    viewModel.showGlossary.toggle()
-                    
-                } else {
-                    viewModel.gameOver()
-                }
-                
-                
-            }){
-                HStack(spacing: 4) {
-                    Text(viewModel.gameState == .notStarted ? "Loadout".uppercased() : "End Game") .font(Font.custom("FSSinclair-Bold", size: 14))
-                        .padding(.top, 2)
-                    
-                }
-            }.padding(5)
-                .padding(.horizontal, 5)
-                .shadow(radius: 3)
-            
-                .background(
-                    AngledLinesShape()
-                        .stroke(lineWidth: 3)
-                        .foregroundColor(.white)
-                        .opacity(0.2)
-                        .clipped()
-                    
-                        .background {
-                            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
-                                .foregroundStyle(.gray)
-                                .opacity(0.9)
-                                .shadow(radius: 3)
-                        }
-                )
-                .tint(.white)
-                .buttonStyle(PlainButtonStyle())
-            
-                .sheet(isPresented: $viewModel.showGlossary) {
-                    
-                    StratagemGlossaryView().environmentObject(viewModel)
-                    
-                        .customSheetBackground()
-                    
-                }
-            
-        
-            
-            if viewModel.isCustomGame {
-                Text("Custom loadout selected.")
-                    .font(Font.custom("FSSinclair-Bold", size: 10))
-                    .foregroundStyle(.yellow)
-                    .multilineTextAlignment(.center)
-                    .shadow(radius: 3)
-                   // .padding(.horizontal)
-            }
-        
-    }
-        
-    }
     
     
     
@@ -382,7 +317,6 @@ struct GameViewWatch: View {
             Text("Swipe in any direction to Continue!") .font(Font.custom("FSSinclair-Bold", size: 14))
                 .foregroundStyle(.yellow)
                 .multilineTextAlignment(.center)
-                .lineLimit(2, reservesSpace: true)
                 .padding(.top)
                
             
@@ -459,7 +393,7 @@ struct GameViewWatch: View {
                     }
                 }
                 
-                }.scrollDisabled(true)
+                }.allowsHitTesting(false)
                     
                     
                     
@@ -510,47 +444,3 @@ struct GameViewWatch: View {
     }
     
 }
-
-
-struct WatchTimerBarView: View {
-    @Binding var timeRemaining: Double
-    let totalTime: Double
-
-    var body: some View {
-        GeometryReader { geometry in
-            ZStack(alignment: .leading) {
-                Rectangle()
-                    .frame(width: geometry.size.width, height: 10)
-                    .foregroundStyle(.gray)
-
-                Rectangle()
-                    .frame(width: (geometry.size.width * CGFloat(timeRemaining / totalTime)), height: 10)
-                    .foregroundStyle(timeRemaining >= 2 ? Color.yellow : Color.red)
-            }
-        }
-        .frame(height: 5)
-    }
-}
-
-struct VolumeView: WKInterfaceObjectRepresentable {
-    typealias WKInterfaceObjectType = WKInterfaceVolumeControl
-
-
-    func makeWKInterfaceObject(context: Self.Context) -> WKInterfaceVolumeControl {
-        let view = WKInterfaceVolumeControl(origin: .local)
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak view] timer in
-            if let view = view {
-                view.focus()
-            } else {
-                timer.invalidate()
-            }
-        }
-        DispatchQueue.main.async {
-            view.focus()
-        }
-        return view
-    }
-    func updateWKInterfaceObject(_ wkInterfaceObject: WKInterfaceVolumeControl, context: WKInterfaceObjectRepresentableContext<VolumeView>) {
-    }
-}
-
