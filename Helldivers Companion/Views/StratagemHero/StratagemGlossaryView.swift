@@ -139,9 +139,11 @@ struct StratagemGlossaryView: View {
             #else
             
                 .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Text("STRATAGEMS").font(Font.custom("FSSinclair-Bold", size: 14))
-                        
+                    if #available(watchOS 10, *) {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Text("STRATAGEMS").font(Font.custom("FSSinclair-Bold", size: 14))
+                            
+                        }
                     }
                 }
             

@@ -235,13 +235,24 @@ class StratagemHeroModel: ObservableObject {
        }
     
     func arrowName(for direction: SwipeDirection) -> String {
-           switch direction {
-               case .up: return "arrowshape.up.fill"
-               case .down: return "arrowshape.down.fill"
-               case .left: return "arrowshape.left.fill"
-               case .right: return "arrowshape.right.fill"
-               case .none: return ""
-           }
+        
+        if #available(watchOS 10.0, *) {
+            switch direction {
+            case .up: return "arrowshape.up.fill"
+            case .down: return "arrowshape.down.fill"
+            case .left: return "arrowshape.left.fill"
+            case .right: return "arrowshape.right.fill"
+            case .none: return ""
+            }
+        } else {
+            switch direction {
+            case .up: return "arrowtriangle.up.fill"
+            case .down: return "arrowtriangle.down.fill"
+            case .left: return "arrowtriangle.left.fill"
+            case .right: return "arrowtriangle.right.fill"
+            case .none: return ""
+            }
+        }
        }
     
     

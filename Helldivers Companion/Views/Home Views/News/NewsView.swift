@@ -106,8 +106,10 @@ struct NewsView: View {
 #elseif os(watchOS)
             
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Text("DISPATCH").textCase(.uppercase)  .font(Font.custom("FSSinclair", size: 18)).bold()
+                if #available(watchOS 10, *) {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Text("DISPATCH").textCase(.uppercase)  .font(Font.custom("FSSinclair", size: 18)).bold()
+                    }
                 }
                 
             }

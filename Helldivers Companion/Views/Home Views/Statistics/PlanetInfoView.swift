@@ -197,9 +197,11 @@ struct PlanetInfoView: View {
 #else
 
         .toolbar {
+            if #available(watchOS 10, *) {
                 ToolbarItem(placement: .topBarTrailing) {
                     Text(planet?.name.capitalized ?? "UNKNOWN").textCase(.uppercase)  .font(Font.custom("FSSinclair", size: largeFont))
                 }
+            }
 
         }
         

@@ -128,7 +128,7 @@ struct CustomSheetBackgroundModifier: ViewModifier {
     var ultraThin: Bool = true
     
     func body(content: Content) -> some View {
-        if #available(iOS 16.4, *) {
+        if #available(iOS 16.4, *), #available(watchOS 10, *) {
             content
                 .presentationBackground(ultraThin ? .ultraThinMaterial : .thinMaterial)
         } else {

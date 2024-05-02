@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(watchOS 10.0, *)
 struct WatchNewsView: View {
     
     @StateObject var feedModel = NewsFeedModel()
@@ -72,9 +73,4 @@ struct WatchNewsView: View {
         
         
     }
-}
-
-
-#Preview {
-    WatchNewsView()
 }

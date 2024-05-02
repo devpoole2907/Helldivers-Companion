@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(watchOS 10.0, *)
 struct WatchGalaxyStatsView: View {
     
     @EnvironmentObject var viewModel: PlanetsViewModel
@@ -94,8 +95,4 @@ struct WatchGalaxyStatsView: View {
     }
    
     }
-}
-
-#Preview {
-    WatchGalaxyStatsView()
 }

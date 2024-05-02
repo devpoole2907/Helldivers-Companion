@@ -58,8 +58,10 @@ struct WatchOrdersView: View {
             
 
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Text("MAJOR ORDER").textCase(.uppercase)  .font(Font.custom("FSSinclair-Bold", size: largeFont))
+                if #available(watchOS 10, *) {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Text("MAJOR ORDER").textCase(.uppercase)  .font(Font.custom("FSSinclair-Bold", size: largeFont))
+                    }
                 }
             }
        

@@ -263,7 +263,7 @@ struct Helldivers_Companion_Planet_Widgets: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: PlanetStatusProvider()) { entry in
             
-            if #available(iOS 17.0, *) {
+            if #available(iOS 17.0, *), #available(watchOS 10, *) { 
                 Helldivers_Companion_WidgetsEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
                 // for deeplinking to info of planet view
@@ -279,10 +279,5 @@ struct Helldivers_Companion_Planet_Widgets: Widget {
         .contentMarginsDisabled()
     }
 }
-@available(iOS 17.0, *)
-#Preview(as: .accessoryRectangular) {
-    Helldivers_Companion_Planet_Widgets()
-} timeline: {
-    SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, faction: "terminid")
-}
+
 

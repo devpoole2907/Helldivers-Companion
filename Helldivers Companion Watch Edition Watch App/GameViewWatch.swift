@@ -56,8 +56,10 @@ struct GameViewWatch: View {
             }
             
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Text("Stratagem Hero").textCase(.uppercase)  .font(Font.custom("FSSinclair-Bold", size: largeFont))
+                if #available(watchOS 10, *) {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Text("Stratagem Hero").textCase(.uppercase)  .font(Font.custom("FSSinclair-Bold", size: largeFont))
+                    }
                 }
             }
             
@@ -228,13 +230,15 @@ struct GameViewWatch: View {
                     
                     
                     .toolbar {
-                        if viewModel.gameState == .started {
-                            ToolbarItem(placement: .topBarTrailing){
-                                HStack(spacing: -4) {
-                                    Text("R") .font(Font.custom("FSSinclair-Bold", size: 20))
-                                    
-                                    Text("\(viewModel.currentRound)") .font(Font.custom("FSSinclair-Bold", size: 20))
-                                        .foregroundStyle(.yellow)
+                        if #available(watchOS 10, *) {
+                            if viewModel.gameState == .started {
+                                ToolbarItem(placement: .topBarTrailing){
+                                    HStack(spacing: -4) {
+                                        Text("R") .font(Font.custom("FSSinclair-Bold", size: 20))
+                                        
+                                        Text("\(viewModel.currentRound)") .font(Font.custom("FSSinclair-Bold", size: 20))
+                                            .foregroundStyle(.yellow)
+                                    }
                                 }
                             }
                         }
@@ -473,12 +477,26 @@ struct GameViewWatch: View {
                     
                     ForEach(Array(stratagem.sequence.enumerated()), id: \.offset) { index, input in
                         
-                        Image(systemName: "arrowshape.\(input).fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .scaledToFit()
-                            .foregroundStyle(viewModel.showError ? .red.opacity(0.8) : (index < viewModel.inputSequence.count ? .yellow : Color(red: 189, green: 185, blue: 185)))
-                            .shadow(radius: 3)
+                        if #available(watchOS 10.0, *) {
+                            Image(systemName: "arrowshape.\(input).fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .scaledToFit()
+                                .foregroundStyle(viewModel.showError ? .red.opacity(0.8) : (index < viewModel.inputSequence.count ? .yellow : Color(red: 189, green: 185, blue: 185)))
+                                .shadow(radius: 3)
+                            
+                        } else {
+                            
+                            Image(systemName: "arrowtriangle.\(input).fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .scaledToFit()
+                                .foregroundStyle(viewModel.showError ? .red.opacity(0.8) : (index < viewModel.inputSequence.count ? .yellow : Color(red: 189, green: 185, blue: 185)))
+                                .shadow(radius: 3)
+                            
+                            
+                            
+                        }
                             
                     }.animation(.none) // needs to ignore the animation system otherwise it gets buggy visually when changing stratagems
 

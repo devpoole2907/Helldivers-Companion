@@ -189,8 +189,10 @@ struct ContentView: View {
 #endif
                     
 #if os(watchOS)
-                    ToolbarItem(placement: .topBarLeading) {
-                        Text("WAR").textCase(.uppercase)  .font(Font.custom("FSSinclair", size: largeFont)).bold()
+                    if #available(watchOS 10, *) {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Text("WAR").textCase(.uppercase)  .font(Font.custom("FSSinclair", size: largeFont)).bold()
+                        }
                     }
 #endif
                     
