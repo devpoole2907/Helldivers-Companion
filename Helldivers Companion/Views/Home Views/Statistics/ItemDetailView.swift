@@ -300,6 +300,27 @@ struct ItemDetailView: View {
                 
             }
                 
+                if let enemy = enemy, !enemy.recommendedStratagems.isEmpty {
+                    
+                    VStack(alignment: .leading, spacing: 6) {
+                        
+                        Text("RECOMMENDED STRATAGEMS").font(Font.custom("FSSinclair", size: 20)).bold().foregroundStyle(.white).opacity(0.8).shadow(radius: 5.0)
+                            .padding(.horizontal)
+                        ForEach(enemy.recommendedStratagems, id: \.id) { stratagem in
+                            NavigationLink(value: stratagem) {
+                                StratagemDetailRow(stratagem)
+                            }
+                            
+                                .padding(.horizontal)
+                                .padding(.vertical, 5)
+                        }
+                        
+                        
+                    }
+                    
+                    
+                }
+                
                 if let weapon = weapon {
                     
                     

@@ -149,6 +149,12 @@ struct GalaxyStatsView: View {
                     
                 }
             
+                .navigationDestination(for: Stratagem.self) { strat in
+                    
+                    StratagemDetailView(stratagem: strat)
+                    
+                }
+            
                 .navigationDestination(for: Weapon.self) { weapon in
                     
                     ItemDetailView(weapon: weapon)

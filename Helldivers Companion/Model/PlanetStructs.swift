@@ -788,10 +788,88 @@ struct Enemy: Codable, Identifiable, Hashable {
     let id: UUID = UUID()
     let name: String
     var description: String
-    var recommendedStratagems: [String]
+    var recommendedStratagems: [Stratagem]
 
     enum CodingKeys: String, CodingKey {
         case name, description, recommendedStratagems
     }
+    
+    // custom decoder to map string names to stratagems
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.description = try container.decode(String.self, forKey: .description)
+        
+        // decode array of stratagem names
+        let stratagemNames = try container.decode([String].self, forKey: .recommendedStratagems)
+        
+        // map names to global stratagems
+        self.recommendedStratagems = stratagemNames.compactMap { name in
+            globalStratagems.first { $0.name == name }
+        }
+    }
 }
 
+var globalStratagems: [Stratagem] = [
+    Stratagem(name: "Machine Gun", sequence: [.down, .left, .down, .up, .right], type: .admin),
+    Stratagem(name: "Airburst Rocket Launcher", sequence: [.down, .up, .up, .left, .right], type: .admin),
+    Stratagem(name: "Anti-Materiel Rifle", sequence: [.down, .left, .right, .up, .down], type: .admin),
+    Stratagem(name: "Stalwart", sequence: [.down, .left, .down, .up, .up, .left], type: .admin),
+    Stratagem(name: "Expendable Anti-Tank", sequence: [.down, .down, .left, .up, .right], type: .admin),
+    Stratagem(name: "Recoilless Rifle", sequence: [.down, .left, .right, .right, .left], type: .admin),
+    Stratagem(name: "Flamethrower", sequence: [.down, .left, .up, .down, .up], type: .admin),
+    Stratagem(name: "Autocannon", sequence: [.down, .left, .down, .up, .up, .right], type: .admin),
+    Stratagem(name: "Railgun", sequence: [.down, .right, .down, .up, .left, .right], type: .admin),
+    Stratagem(name: "Spear", sequence: [.down, .down, .up, .down, .down], type: .admin),
+    Stratagem(name: "Orbital Gatling Barrage", sequence: [.right, .down, .left, .up, .up], type: .orbital),
+    Stratagem(name: "Orbital Airburst Strike", sequence: [.right, .right, .right], type: .orbital),
+    Stratagem(name: "Orbital 120MM HE Barrage", sequence: [.right, .right, .down, .left, .right, .down], type: .orbital),
+    Stratagem(name: "Orbital 380MM HE Barrage", sequence: [.right, .down, .up, .up, .left, .down, .down], type: .orbital),
+    Stratagem(name: "Orbital Walking Barrage", sequence: [.right, .down, .right, .down, .right, .down], type: .orbital),
+    Stratagem(name: "Orbital Laser", sequence: [.right, .down, .up, .right, .down], type: .orbital),
+    Stratagem(name: "Orbital Railcannon Strike", sequence: [.right, .up, .down, .down, .right], type: .orbital),
+    Stratagem(name: "Eagle Strafing Run", sequence: [.up, .right, .right], type: .hangar),
+    Stratagem(name: "Eagle Airstrike", sequence: [.up, .right, .down, .right], type: .hangar),
+    Stratagem(name: "Eagle Cluster Bomb", sequence: [.up, .right, .down, .down, .right], type: .hangar),
+    Stratagem(name: "Eagle Napalm Airstrike", sequence: [.up, .right, .down, .up], type: .hangar),
+    Stratagem(name: "Jump Pack", sequence: [.down, .up, .up, .down, .up], type: .hangar),
+    Stratagem(name: "Eagle Smoke Strike", sequence: [.up, .right, .up, .down], type: .hangar),
+    Stratagem(name: "Eagle 110MM Rocket Pods", sequence: [.up, .right, .up, .left], type: .hangar),
+    Stratagem(name: "Eagle 500KG Bomb", sequence: [.up, .right, .down, .down, .down], type: .hangar),
+    Stratagem(name: "Orbital Precision Strike", sequence: [.right, .right, .up], type: .bridge),
+    Stratagem(name: "Orbital Gas Strike", sequence: [.right, .right, .down, .right], type: .bridge),
+    Stratagem(name: "Orbital EMS Strike", sequence: [.right, .right, .left, .down], type: .bridge),
+    Stratagem(name: "Orbital Smoke Strike", sequence: [.right, .right, .down, .up], type: .bridge),
+    Stratagem(name: "HMG Emplacement", sequence: [.down, .up, .left, .right, .right, .left], type: .bridge),
+    Stratagem(name: "Shield Generator Relay", sequence: [.down, .down, .left, .right, .left, .right], type: .bridge),
+    Stratagem(name: "Tesla Tower", sequence: [.down, .up, .right, .up, .left, .right], type: .bridge),
+    Stratagem(name: "Anti-Personnel Minefield", sequence: [.down, .left, .up, .right], type: .engineering),
+    Stratagem(name: "Supply Pack", sequence: [.down, .left, .down, .up, .up, .down], type: .engineering),
+    Stratagem(name: "Grenade Launcher", sequence: [.down, .left, .up, .left, .down], type: .engineering),
+    Stratagem(name: "Laser Cannon", sequence: [.down, .left, .down, .up, .left], type: .engineering),
+    Stratagem(name: "Incendiary Mines", sequence: [.down, .left, .left, .down], type: .engineering),
+    Stratagem(name: "Guard Dog Rover", sequence: [.down, .up, .left, .up, .right, .right], type: .engineering),
+    Stratagem(name: "Ballistic Shield Backpack", sequence: [.down, .left, .down, .down, .up, .left], type: .engineering),
+    Stratagem(name: "Arc Thrower", sequence: [.down, .right, .down, .up, .left, .left], type: .engineering),
+    Stratagem(name: "Shield Generator Pack", sequence: [.down, .up, .left, .right, .left, .right], type: .engineering),
+    Stratagem(name: "Machine Gun Sentry", sequence: [.down, .up, .right, .right, .up], type: .workshop),
+    Stratagem(name: "Gatling Sentry", sequence: [.down, .up, .right, .left], type: .workshop),
+    Stratagem(name: "Mortar Sentry", sequence: [.down, .up, .right, .right, .down], type: .workshop),
+    Stratagem(name: "Guard Dog", sequence: [.down, .up, .left, .up, .right, .down], type: .workshop),
+    Stratagem(name: "Autocannon Sentry", sequence: [.down, .up, .right, .up, .left, .up], type: .workshop),
+    Stratagem(name: "Rocket Sentry", sequence: [.down, .up, .right, .right, .left], type: .workshop),
+    Stratagem(name: "EMS Mortar Sentry", sequence: [.down, .up, .right, .down, .right], type: .workshop),
+    Stratagem(name: "Reinforce", sequence: [.up, .down, .right, .left, .up], type: .mission),
+    Stratagem(name: "SOS Beacon", sequence: [.up, .down, .right, .up], type: .mission),
+    Stratagem(name: "Super Earth Flag", sequence: [.down, .up, .down, .up], type: .mission),
+    Stratagem(name: "Upload Data", sequence: [.left, .right, .up, .up, .up], type: .mission),
+    Stratagem(name: "Hellbomb", sequence: [.down, .up, .left, .down, .up, .right, .down, .up], type: .mission),
+    Stratagem(name: "Patriot Exosuit", sequence: [.left, .down, .right, .up, .left, .down, .down], type: .workshop),
+    Stratagem(name: "Quasar Cannon", sequence: [.down, .down, .up, .left, .right], type: .engineering),
+    Stratagem(name: "Heavy Machine Gun", sequence: [.down, .left, .up, .down, .down], type: .admin),
+    Stratagem(name: "Resupply", sequence: [.down, .down, .up, .right], type: .mission),
+    Stratagem(name: "Prospecting Drill", sequence: [.down, .down, .left, .right, .down, .down], type: .mission),
+    Stratagem(name: "Seismic Probe", sequence: [.up, .up, .left, .right, .down, .down], type: .mission),
+    Stratagem(name: "SEAF Artillery", sequence: [.right, .up, .up, .down], type: .mission),
+    Stratagem(name: "Orbital Illumination Flare", sequence: [.right, .right, .left, .left], type: .mission)
+]

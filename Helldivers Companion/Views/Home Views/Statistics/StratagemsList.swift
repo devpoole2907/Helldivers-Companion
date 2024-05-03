@@ -73,11 +73,7 @@ struct StratagemsList: View {
         
                 .searchable(text: $dbModel.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search Stratagems").disableAutocorrection(true)
         
-                .navigationDestination(for: Stratagem.self) { strat in
-                    
-                    StratagemDetailView(stratagem: strat)
-                    
-                }
+             
 
             
 
