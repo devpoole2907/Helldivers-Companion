@@ -37,7 +37,7 @@ struct GalaxyStatsView: View {
                         NavigationLink(value: DatabasePage.bestiary) {
                             
                             
-                            DatabaseRow(title: "Bestiary [ALPHA]", dashPattern: [54, 13])
+                            DatabaseRow(title: "Bestiary [PREVIEW]", dashPattern: [54, 13])
                             
                             
                         }.padding(.vertical, 5)
