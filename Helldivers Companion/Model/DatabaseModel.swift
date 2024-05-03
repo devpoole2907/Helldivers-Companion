@@ -53,6 +53,10 @@ class DatabaseModel: ObservableObject {
        @Published var helldiversMobilize: FixedWarBond?
        @Published var democraticDetonation: FixedWarBond?
     
+    //enemies for bestiary
+    @Published var automatonEnemies: [Enemy] = []
+    @Published var terminidsEnemies: [Enemy] = []
+    
 
     private var timer: Timer?
     
@@ -69,8 +73,15 @@ class DatabaseModel: ObservableObject {
         fetchArmours()
         fetchPassives()
         fetchWarBonds()
-        
+        fetchEnemies()
         startUpdating()
+    }
+    
+    func fetchEnemies() {
+        
+        fetchAutomatonEnemies()
+        fetchTerminidsEnemies()
+        
     }
     
     
@@ -458,6 +469,52 @@ class DatabaseModel: ObservableObject {
             }.resume()
         }
     }
+    
+    func fetchAutomatonEnemies() {
+            guard let url = URL(string: "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/automatonEnemies.json") else {
+                print("Invalid URL")
+                return
+            }
+
+            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let data = data, error == nil else {
+                    print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+
+                do {
+                    let decodedEnemies = try JSONDecoder().decode([Enemy].self, from: data)
+                    DispatchQueue.main.async {
+                        self?.automatonEnemies = decodedEnemies
+                    }
+                } catch {
+                    print("Error decoding JSON: \(error)")
+                }
+            }.resume()
+        }
+    
+    func fetchTerminidsEnemies() {
+            guard let url = URL(string: "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/terminidEnemies.json") else {
+                print("Invalid URL")
+                return
+            }
+
+            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let data = data, error == nil else {
+                    print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+
+                do {
+                    let decodedEnemies = try JSONDecoder().decode([Enemy].self, from: data)
+                    DispatchQueue.main.async {
+                        self?.terminidsEnemies = decodedEnemies
+                    }
+                } catch {
+                    print("Error decoding JSON: \(error)")
+                }
+            }.resume()
+        }
 
     
     func fetchStrats() {

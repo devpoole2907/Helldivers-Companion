@@ -20,6 +20,8 @@ struct ItemDetailView: View {
     
     var armour: Armour? = nil
     
+    var enemy: Enemy? = nil
+    
     var itemName: String {
         
         if let weapon = weapon {
@@ -28,6 +30,8 @@ struct ItemDetailView: View {
             return grenade.name
         } else if let armour = armour {
             return armour.name
+        } else if let enemy = enemy {
+            return enemy.name
         }
         
         return "Error"
@@ -120,6 +124,10 @@ struct ItemDetailView: View {
             return armourDescription
         }
         
+        if let enemyDescription = enemy?.description {
+            return enemyDescription
+        }
+        
         return nil
     }
     
@@ -135,15 +143,45 @@ struct ItemDetailView: View {
            return dbModel.itemMedalCost(for: id)
        }
     
+    var itemImage: String? {
+        
+        if let enemy = enemy {
+            return enemy.name
+        }
+        
+        if let weapon = weapon {
+            return weapon.id
+        }
+        
+        if let grenade = grenade {
+            return grenade.id
+        }
+        
+        if let armour = armour {
+            return armour.id
+        }
+        
+        return nil
+        
+    }
+    
     var body: some View {
         ScrollView {
             
             VStack(alignment: .center) {
                 
-                if UIImage(named: itemType != .armour ? itemName : armour?.id ?? "") != nil {
+                
+                
+                if UIImage(named: itemName ?? "") != nil {
+                    Image(itemName ?? "")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
                     
-                    
-                    Image(itemType != .armour ? itemName : armour?.id ?? "")
+                        .frame(width: itemType == .armour ? 200 : 240)
+                        .frame(maxHeight: itemType == .armour ? 160 : 200)
+                        .offset(x: itemType == .grenade ? -5 : 0)
+                } else if UIImage(named: itemImage ?? "") != nil {
+                    Image(itemImage ?? "")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                     
@@ -178,7 +216,7 @@ struct ItemDetailView: View {
                     }.font(Font.custom("FSSinclair", size: 20))
                     
                 }.padding()
-
+                
                 if let warBond = warBond, let itemMedalCost = itemMedalCost {
                     
                     
@@ -189,10 +227,7 @@ struct ItemDetailView: View {
                     ItemDetailCostView(name: "Super Store", image: "superCredit", cost: itemCreditCost)
                 }
                 
-   
-                
-            
-                
+                if enemy == nil {
                 
                 ZStack(alignment: .topLeading) {
                     Color.gray.opacity(0.2)
@@ -262,6 +297,53 @@ struct ItemDetailView: View {
                     
                 }.shadow(radius: 3.0)
                     .padding()
+                
+            }
+                
+                if let weapon = weapon {
+                    
+                    
+                    ZStack(alignment: .topLeading) {
+                        Color.gray.opacity(0.2)
+                            .shadow(radius: 3)
+                        VStack(spacing: 12) {
+                            
+                            ForEach(weapon.fireMode, id: \.self) { fireMode in
+                                
+                                if let mode = dbModel.fireModes.first(where: { $0.id == fireMode }) {
+                                    HStack {
+                                        
+                                        Spacer()
+                                        
+                                        Text("\(mode.mode)")
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
+                            
+                        }  .font(Font.custom("FSSinclair", size: 20))
+                        
+                            .padding()
+                        
+                        
+                            .background {
+                                
+                                Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern, dashPhase: 30))
+                                    .foregroundStyle(.gray)
+                                    .opacity(0.5)
+                                    .shadow(radius: 3)
+                                
+                            }
+                        
+                        Text("FIRING MODES").offset(x: 20, y: -12).font(Font.custom("FSSinclair", size: 20)).bold().foregroundStyle(.white).opacity(0.8).shadow(radius: 5.0)
+                        
+                    }.shadow(radius: 3.0)
+                        .padding()
+                    
+                    
+                }
                 
                 
                 if (itemType == .armour && passive != nil) || (itemType == .weapon && weapon?.traits != nil) {
@@ -348,16 +430,22 @@ struct ItemDetailView: View {
         }
         
         .toolbar {
+     
             
-            if UIImage(named: itemType != .armour ? itemName : armour?.id ?? "") != nil {
-                
+            if UIImage(named: itemName ?? "") != nil {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Image(itemType == .armour ? itemId ?? "" : itemName)
+                    Image(uiImage: UIImage(named: itemName ?? "")!)
                         .resizable()
-                        .scaledToFit()
+                        .aspectRatio(contentMode: .fit)
                         .frame(width: 30, height: 30)
                 }
-                
+            } else if UIImage(named: itemImage ?? "") != nil {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Image(uiImage: UIImage(named: itemImage ?? "")!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 30, height: 30)
+                }
             }
             
             

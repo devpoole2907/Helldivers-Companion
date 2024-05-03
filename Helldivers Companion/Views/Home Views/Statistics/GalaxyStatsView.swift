@@ -34,6 +34,14 @@ struct GalaxyStatsView: View {
                     
                     Section {
                         
+                        NavigationLink(value: DatabasePage.bestiary) {
+                            
+                            
+                            DatabaseRow(title: "Bestiary [ALPHA]", dashPattern: [54, 13])
+                            
+                            
+                        }.padding(.vertical, 5)
+                        
                         NavigationLink(value: DatabasePage.planetList) {
                             
                             DatabaseRow(title: "Planets", dashPattern: [51, 19])
@@ -43,7 +51,7 @@ struct GalaxyStatsView: View {
                         NavigationLink(value: DatabasePage.armourList) {
                             
                             
-                            DatabaseRow(title: "Armoury [BETA]", dashPattern: [69, 16])
+                            DatabaseRow(title: "Armoury", dashPattern: [69, 16])
                             
                             
                         }.padding(.vertical, 5)
@@ -132,6 +140,9 @@ struct GalaxyStatsView: View {
                         BoostersList().environmentObject(dbModel)
                     case .warbondsList:
                         WarBondsList().environmentObject(dbModel)
+                    case .bestiary:
+                        EnemiesList().environmentObject(dbModel)
+                    
                     }
                    
                  
@@ -141,6 +152,12 @@ struct GalaxyStatsView: View {
                 .navigationDestination(for: Weapon.self) { weapon in
                     
                     ItemDetailView(weapon: weapon)
+                    
+                }
+            
+                .navigationDestination(for: Enemy.self) { enemy in
+                    
+                    ItemDetailView(enemy: enemy)
                     
                 }
             
@@ -232,6 +249,7 @@ enum DatabasePage: String, CaseIterable {
     case weaponList = "Weapons"
     case boosterList = "Boosters"
     case warbondsList = "Warbonds"
+    case bestiary = "Bestiary"
     
     
     

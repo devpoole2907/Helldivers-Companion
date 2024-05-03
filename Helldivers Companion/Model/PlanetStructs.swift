@@ -783,3 +783,15 @@ extension DateFormatter {
         return formatter
     }()
 }
+
+struct Enemy: Codable, Identifiable, Hashable {
+    let id: UUID = UUID()
+    let name: String
+    var description: String
+    var recommendedStratagems: [String]
+
+    enum CodingKeys: String, CodingKey {
+        case name, description, recommendedStratagems
+    }
+}
+

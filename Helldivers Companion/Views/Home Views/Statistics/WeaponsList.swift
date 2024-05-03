@@ -158,6 +158,11 @@ struct ItemDetailRowView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 30, height: 30)
+                } else if UIImage(named: item.id) != nil {
+                    Image(uiImage: UIImage(named: item.id)!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 30, height: 30)
                 }
                 
                 VStack(alignment: .leading, spacing: 2) {
