@@ -59,9 +59,11 @@ struct TogglePickerPopup: CentrePopup {
                 
             }
             
+        
+            
             
         }.frame(minWidth: 260)
-        
+            .padding()
             .background {
                 Color.black
             }

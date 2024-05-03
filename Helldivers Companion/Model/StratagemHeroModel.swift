@@ -35,6 +35,8 @@ class StratagemHeroModel: ObservableObject {
     // mutes sounds
     @AppStorage("enableGameSound") var enableSound = true
     
+    @AppStorage("swipeGestures") var enableSwipeGestures = true
+    
     // for watch os to determine if game sound loaded yet
     @Published var isPreLoadingDone = false
     
@@ -48,13 +50,13 @@ class StratagemHeroModel: ObservableObject {
     #endif
    
     // used on watchos, display a sheet with interactive dismiss disabled so the gestures for playing dont interact with the tab view
-    #if os(watchOS)
+   
     @Published var showGameSheet = false
     @Published var showArrow = false
     @Published var swipeDirection: SwipeDirection = .none
     @Published var arrowOffset: CGSize = .zero
     @Published var arrows: [Arrow] = []
-    #endif
+
     
     #if os(iOS)
     let gameCenterManager = GameCenterManager()
@@ -211,8 +213,7 @@ class StratagemHeroModel: ObservableObject {
         }
     
     
-    // for swipe gestures on watch
-    #if os(watchOS)
+    // for swipe gestures
     enum SwipeDirection {
             case up, down, left, right, none
         }
@@ -240,7 +241,7 @@ class StratagemHeroModel: ObservableObject {
     
     func arrowName(for direction: SwipeDirection) -> String {
         
-        if #available(watchOS 10.0, *) {
+        if #available(watchOS 10.0, *), #available(iOS 10.0, *) {
             switch direction {
             case .up: return "arrowshape.up.fill"
             case .down: return "arrowshape.down.fill"
@@ -288,7 +289,7 @@ class StratagemHeroModel: ObservableObject {
             }
         }
     
-    #endif
+ 
     
     #if os(iOS)
     // Assuming `gameCenterManager` is already initialized and available

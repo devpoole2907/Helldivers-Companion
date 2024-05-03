@@ -10,41 +10,7 @@ import Foundation
 class PlanetImageFormatter {
     // change to not optional eventually
     static func formattedPlanetImageName(for planet: UpdatedPlanet?) -> String {
-        switch planet?.biome.name.lowercased() {
-        case "swamp":
-        return "Troost"
-    case "crimsonmoor":
-        return "Ingmar"
-    case "desolate":
-        return "Hellmire"
-    case "winter":
-        return "Vandalon IV"
-    case "jungle":
-        return "Mantes"
-    case "rainforest":
-        return "Veld"
-    case "moon":
-        return "Fenrir III"
-    case "icemoss":
-        return "Estanu"
-    case "tundra":
-        return "Omicron"
-    case "ethereal":
-        return "Turing"
-    case "canyon":
-        return "Fori Prime"
-    case "highlands":
-        return "Oshaune"
-        case "desert":
-        return "Ustotu"
-    case "mesa":
-        return "Durgen"
-        case "toxic":
-        return "Merak"
-    case "icemoss special":
-        return "Tien Kwan"
-    default:
-            
+
             switch planet?.name.lowercased() {
                 
             case "meridia":
@@ -57,7 +23,42 @@ class PlanetImageFormatter {
                 return "Tien Kwan"
                 
             default:
-                return "MissingPlanetImage"
+                switch planet?.biome.name.lowercased() {
+                case "swamp":
+                return "Troost"
+            case "crimsonmoor":
+                return "Ingmar"
+            case "desolate":
+                return "Hellmire"
+            case "winter":
+                return "Vandalon IV"
+            case "jungle":
+                return "Mantes"
+            case "rainforest":
+                return "Veld"
+            case "moon":
+                return "Fenrir III"
+            case "icemoss":
+                return "Estanu"
+            case "tundra":
+                return "Omicron"
+            case "ethereal":
+                return "Turing"
+            case "canyon":
+                return "Fori Prime"
+            case "highlands":
+                return "Oshaune"
+                case "desert":
+                return "Ustotu"
+            case "mesa":
+                return "Durgen"
+                case "toxic":
+                return "Merak"
+            case "icemoss special":
+                return "Tien Kwan"
+  
+                default:
+                    return "MissingPlanetImage"
             }
             
        

@@ -20,6 +20,7 @@ struct GameView: View {
     var body: some View {
         NavigationStack {
             
+       
             ZStack(alignment: .bottom) {
                 
                 LinearGradient(
@@ -30,84 +31,171 @@ struct GameView: View {
                 .blendMode(.multiply)
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
-            
-            VStack(spacing: getRect().height == 667 ? 2 : 30) {
-                Group {
-                    switch viewModel.gameState {
-                    case .started:
-                        scoreView
-                    case .notStarted:
-                        highScoreView
-                    case .roundEnded:
-                        roundEndView
-                    case .roundStarting:
-                        roundEndView
-                    case .gameOver:
-                        highScoreView
-                    }
-                }  .padding(.top, getRect().height == 667 ? 30 : 10)
                 
-                ZStack {
+                VStack(spacing: getRect().height == 667 ? 2 : 30) {
+                    Group {
+                        switch viewModel.gameState {
+                        case .started:
+                            scoreView
+                        case .notStarted:
+                            highScoreView
+                        case .roundEnded:
+                            roundEndView
+                        case .roundStarting:
+                            roundEndView
+                        case .gameOver:
+                            highScoreView
+                        }
+                    }  .padding(.top, getRect().height == 667 ? 30 : 10)
+                        .contentShape(Rectangle())
                     
-                    VStack {
+                    ZStack {
                         
-                        Image("superEarth").resizable().aspectRatio(contentMode: .fit).frame(width: 160, height: 160).opacity(0.15)
-                        
-                    }
-                    VStack {
-                        
-                        Rectangle().frame(height: 6).foregroundStyle(.gray)
                         VStack {
-                            if viewModel.gameState == .notStarted || viewModel.gameState == .roundEnded {
-                                VStack(spacing: 4) {
-                                    Text(viewModel.selectedStratagems.isEmpty ? "Select some Stratagems from the Glossary first!" : "Enter any Stratagem Input to Start!") .font(Font.custom("FSSinclair-Bold", size: 18))
-                                        .foregroundStyle(.yellow)
-                                        .multilineTextAlignment(.center)
-                                    if viewModel.isCustomGame {
-                                        Text("ALERT: High Score is not saved with a custom Stratagem loadout selected.")
-                                            .font(Font.custom("FSSinclair-Bold", size: 12))
+                            
+                            Image("superEarth").resizable().aspectRatio(contentMode: .fit).frame(width: 160, height: 160).opacity(0.15)
+                            
+                        }
+                        VStack {
+                            
+                            Rectangle().frame(height: 6).foregroundStyle(.gray)
+                            VStack {
+                                if viewModel.gameState == .notStarted || viewModel.gameState == .roundEnded {
+                                    VStack(spacing: 4) {
+                                        Text(viewModel.selectedStratagems.isEmpty ? "Select some Stratagems from the Glossary first!" : "Enter any Stratagem Input to Start!") .font(Font.custom("FSSinclair-Bold", size: 18))
+                                            .foregroundStyle(.yellow)
+                                            .multilineTextAlignment(.center)
+                                        if viewModel.isCustomGame {
+                                            Text("ALERT: High Score is not saved with a custom Stratagem loadout selected.")
+                                                .font(Font.custom("FSSinclair-Bold", size: 12))
                                                 .foregroundStyle(.yellow)
                                                 .multilineTextAlignment(.center)
                                                 .shadow(radius: 3)
                                                 .padding(.horizontal)
+                                        }
                                     }
+                                    
+                                    
+                                } else if viewModel.gameState == .roundStarting {
+                                    
+                                    roundStartView
+                                    
+                                } else if viewModel.gameState == .gameOver {
+                                    
+                                    gameOverView
+                                    
+                                } else {
+                                    // game view
+                                    centerView
+                                    
                                 }
                                 
-                                
-                            } else if viewModel.gameState == .roundStarting {
-                                
-                                roundStartView
-                                
-                            } else if viewModel.gameState == .gameOver {
-                                
-                                gameOverView
-                                
-                            } else {
-                                // game view
-                                centerView
-                                
-                            }
+                            }.frame(minHeight: 175)
                             
-                        }.frame(minHeight: 175)
+                            Rectangle().frame(height: 6).foregroundStyle(.gray)
+                            
+                            
+                            
+                        }
                         
-                        Rectangle().frame(height: 6).foregroundStyle(.gray)
-                        
-                        
-                        
-                    }
+                    }.frame(maxHeight: .infinity)
+                        .contentShape(Rectangle())
                     
-                }.frame(maxHeight: .infinity)
-                 
-            
-    
-                    buttons.padding(.bottom, getRect().height == 667 ? 30 : 0)
+                    if !viewModel.enableSwipeGestures {
+                        buttons.padding(.bottom, getRect().height == 667 ? 30 : 0)
+                  
+                        
+                    } else {
+                        ZStack {
+                            
+                            Text("Swipe Here!").textCase(.uppercase)
+                                .font(Font.custom("FSSinclair-Bold", size: 28))
+                            
+                            Rectangle().foregroundStyle(Color.clear)
+                                .contentShape(Rectangle())
+                            
+                                .highPriorityGesture(
+                                    DragGesture(minimumDistance: 50, coordinateSpace: .local)
+                                        .onEnded { value in
+                                            
+                                            // dont allow swipes if no selected strats
+                                            if !viewModel.selectedStratagems.isEmpty {
+                                                
+                                                let horizontalAmount = value.translation.width as CGFloat
+                                                let verticalAmount = value.translation.height as CGFloat
+                                                
+                                                if abs(horizontalAmount) > abs(verticalAmount) {
+                                                    if horizontalAmount < 0 {
+                                                        // Left swipe
+                                                        viewModel.buttonInput(input: .left)
+                                                        viewModel.addArrow(direction: .left)
+                                                        print("Swiped left")
+                                                    } else {
+                                                        // Right swipe
+                                                        viewModel.buttonInput(input: .right)
+                                                        viewModel.addArrow(direction: .right)
+                                                        print("Swiped right")
+                                                    }
+                                                } else {
+                                                    if verticalAmount < 0 {
+                                                        // Up swipe
+                                                        viewModel.buttonInput(input: .up)
+                                                        viewModel.addArrow(direction: .up)
+                                                        print("Swiped up")
+                                                    } else {
+                                                        // Down swipe
+                                                        viewModel.buttonInput(input: .down)
+                                                        viewModel.addArrow(direction: .down)
+                                                        print("Swiped down")
+                                                    }
+                                                }
+                                                
+                                                
+                                            }
+                                        }
+                                )
+                            
+                            ForEach(viewModel.arrows, id: \.id) { arrow in
+                                Image(systemName: viewModel.arrowName(for: arrow.direction))
+                                    .font(.system(size: 100))
+                                    .opacity(arrow.opacity)
+                                    .foregroundStyle(viewModel.showError ? .red : .accent)
+                                    .offset(arrow.offset)
+                                    .animation(.easeOut(duration: 0.5), value: arrow.offset)
+                                    .animation(.easeOut(duration: 0.5), value: arrow.opacity)
+                                    .onAppear {
+                                        withAnimation {
+                                            viewModel.moveArrow(id: arrow.id, to: viewModel.movementOffset(for: arrow.direction))
+                                        }
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                            withAnimation {
+                                                viewModel.fadeOutArrow(id: arrow.id)
+                                            }
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                viewModel.removeArrow(id: arrow.id)
+                                            }
+                                        }
+                                    }
+                            }.allowsHitTesting(false)
+                            
+                        }.padding(.bottom, getRect().height == 667 ? 30 : 0)
+                            
+                    }
+                    // Spacer()
+                    
+                }
                 
                 
-               // Spacer()
+                
+                
                 
             }
+                
+             
             
-        }
+        
+            
+          
             
             .persistentSystemOverlays(.hidden)
             
@@ -122,22 +210,34 @@ struct GameView: View {
                             Text("Stratagem Hero").textCase(.uppercase)
                                 .font(Font.custom("FSSinclair-Bold", size: 28))
                         }
+                
                         
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button(action: {
-                                viewModel.enableSound.toggle()
-                                
-                                if !viewModel.enableSound {
-                                    viewModel.stopBackgroundSound()
-                                } else if viewModel.gameState == .started {
-                                            viewModel.playBackgroundSound()
+                        ToolbarItemGroup(placement: .topBarLeading) {
+                            HStack(spacing: 6) {
+                                Button(action: {
+                                    withAnimation {
+                                        viewModel.enableSwipeGestures.toggle()
                                     }
-                            }) {
-                                Image(systemName: viewModel.enableSound ? "speaker.fill" : "speaker.slash.fill")
-                            }.foregroundStyle(viewModel.enableSound ? .accent : .gray)
-                         
+                                }) {
+                                    Image(systemName: viewModel.enableSwipeGestures ? "hand.draw.fill" : "hand.draw")
+                                }.foregroundStyle(viewModel.enableSwipeGestures ? .accent : .gray)
+                                
+                                Button(action: {
+                                    viewModel.enableSound.toggle()
+                                    
+                                    if !viewModel.enableSound {
+                                        viewModel.stopBackgroundSound()
+                                    } else if viewModel.gameState == .started {
+                                                viewModel.playBackgroundSound()
+                                        }
+                                }) {
+                                    Image(systemName: viewModel.enableSound ? "speaker.fill" : "speaker.slash.fill")
+                                }.foregroundStyle(viewModel.enableSound ? .accent : .gray)
+                             
+                                
+                            }
                         }
-                        
+
                         // show login button if not authenticated for game center
                         if !gameCenterManager.isAuthenticated && !gameCenterManager.hasSignedInBefore {
                         ToolbarItem(placement: .topBarTrailing) {
@@ -382,7 +482,7 @@ struct GameView: View {
                     }
                 }
                 
-            }
+                }.allowsHitTesting(false)
                     
                     
                     
@@ -427,6 +527,10 @@ struct GameView: View {
                     TimerBarView(timeRemaining: $viewModel.timeRemaining, totalTime: 10)
             }
             } .frame(maxWidth: getRect().width - 100)
+        
+        
+            
+        
     
     }
 
