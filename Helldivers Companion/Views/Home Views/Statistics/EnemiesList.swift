@@ -16,11 +16,13 @@ struct EnemiesList: View {
         ScrollView {
             LazyVStack(alignment: .leading) {
                 
-                AlertView(alert: "The Bestiary is still under development and will be expanded in the near future, with tactics and recommended Stratagems.")
+                AlertView(alert: "The Bestiary is still under development and will be continuously expanded on in the near future.")
                 
                 
                 Section{
-                    ForEach(dbModel.automatonEnemies, id: \.id) { enemy in
+                    ForEach(dbModel.automatonEnemies.filter { enemy in
+                        dbModel.searchText.isEmpty || enemy.name.localizedCaseInsensitiveContains(dbModel.searchText) || "automaton".hasPrefix(dbModel.searchText.lowercased()) }
+                    , id: \.id) { enemy in
                         
                         NavigationLink(value: enemy) {
                             EnemyDetailRow(dashPattern: [57, 13], enemy: enemy)
@@ -37,7 +39,9 @@ struct EnemiesList: View {
                                 }
                 
                 Section{
-                    ForEach(dbModel.terminidsEnemies, id: \.id) { enemy in
+                    ForEach(dbModel.terminidsEnemies.filter { enemy in
+                        dbModel.searchText.isEmpty || enemy.name.localizedCaseInsensitiveContains(dbModel.searchText)
+                        || "terminids".hasPrefix(dbModel.searchText.lowercased()) }, id: \.id) { enemy in
                         NavigationLink(value: enemy) {
                             EnemyDetailRow(dashPattern: [57, 13], enemy: enemy)
                         }

@@ -452,23 +452,38 @@ struct ItemDetailView: View {
         
         .toolbar {
      
-            
-            if UIImage(named: itemName ?? "") != nil {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Image(uiImage: UIImage(named: itemName ?? "")!)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 30, height: 30)
-                }
-            } else if UIImage(named: itemImage ?? "") != nil {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Image(uiImage: UIImage(named: itemImage ?? "")!)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 30, height: 30)
+            if let enemy = enemy {
+                
+          
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Image(dbModel.automatonEnemies.contains(enemy) ? "automaton" : "terminid")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                    }
+                
+                
+                
+                
+                
+            } else {
+                
+                if UIImage(named: itemName ?? "") != nil {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Image(uiImage: UIImage(named: itemName ?? "")!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                    }
+                } else if UIImage(named: itemImage ?? "") != nil {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Image(uiImage: UIImage(named: itemImage ?? "")!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                    }
                 }
             }
-            
             
         }
         
