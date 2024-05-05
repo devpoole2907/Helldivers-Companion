@@ -22,6 +22,12 @@ class PlanetsViewModel: ObservableObject {
     
     @Published var currentTab: Tab = .home
     
+    
+    // FOR DEBUGGING
+    @Published var lastError: String?
+    
+    @Published var lastCampaignsError: String?
+    
     var dashPatterns: [UUID: [CGFloat]] = [:]
     
     @Published var currentSeason: String = ""
@@ -365,12 +371,21 @@ class PlanetsViewModel: ObservableObject {
         
         URLSession.shared.dataTask(with: request){ [weak self] data, response, error in
             
-            
-            
             guard let httpResponse = response as? HTTPURLResponse else {
-                completion([], [])
-                return
-            }
+                           DispatchQueue.main.async {
+                               self?.lastCampaignsError = "No HTTP response"
+                           }
+                           completion([], [])
+                           return
+                       }
+
+                       guard httpResponse.statusCode == 200 else {
+                           DispatchQueue.main.async {
+                               self?.lastCampaignsError = "HTTP Error \(httpResponse.statusCode)"
+                           }
+                           completion([], [])
+                           return
+                       }
             
             if httpResponse.statusCode == 429 {
                 if let retryAfter = httpResponse.value(forHTTPHeaderField: "Retry-After"),
@@ -662,7 +677,7 @@ class PlanetsViewModel: ObservableObject {
                     
                     self?.fetchUpdatedPlanets { planets in
                         
-                        print("fetched \(planets.count) planets from new api")
+                       print("fetched \(planets.count) planets from new api")
                         
                         self?.lastUpdatedDate = Date()
                         
@@ -757,12 +772,21 @@ class PlanetsViewModel: ObservableObject {
         }
         
         URLSession.shared.dataTask(with: request){ [weak self] data, response, error in
-            
-            
             guard let httpResponse = response as? HTTPURLResponse else {
-                completion([])
-                return
-            }
+                           DispatchQueue.main.async {
+                               self?.lastError = "No HTTP response"
+                           }
+                           completion([])
+                           return
+                       }
+
+                       guard httpResponse.statusCode == 200 else {
+                           DispatchQueue.main.async {
+                               self?.lastError = "HTTP Error \(httpResponse.statusCode)"
+                           }
+                           completion([])
+                           return
+                       }
             
             /*  if httpResponse.statusCode == 429 {
              if let retryAfter = httpResponse.value(forHTTPHeaderField: "Retry-After"),
