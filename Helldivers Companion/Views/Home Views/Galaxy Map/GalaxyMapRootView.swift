@@ -19,7 +19,7 @@ struct GalaxyMapRootView: View {
     @State var position: String = ""
     
     @AppStorage("showSupplyLines") var showSupplyLines = true
-    @AppStorage("showAllPlanets") var showAllPlanets = true
+    @AppStorage("showAllPlanets") var showAllPlanets = false
     @AppStorage("showPlanetNames") var showPlanetNames = false
     
     var body: some View {
