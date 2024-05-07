@@ -202,7 +202,7 @@ struct StratagemVideoPlayer: View {
     
     var body: some View {
        
-            if let player = player 
+            if let player = player {
 
          GeometryReader { geometry in
                 VideoPlayer(player: player)
