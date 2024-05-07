@@ -201,15 +201,23 @@ struct StratagemVideoPlayer: View {
         }
     
     var body: some View {
-        GeometryReader { geometry in
-            if let player = player {
+       
+            if let player = player 
+
+         GeometryReader { geometry in
                 VideoPlayer(player: player)
                     .aspectRatio(contentMode: .fill) 
                     .frame(width: geometry.size.width, height: geometry.size.height)
                     .clipped()
                 
                 
-          
+
+
+                 }.frame(width: UIScreen.main.bounds.width - 40, height: 120)
+            .border(Color.white)
+            .padding(4)
+            .border(Color.gray)
+            .padding(4)
               
                     .onAppear {
                         player.play()
@@ -217,14 +225,13 @@ struct StratagemVideoPlayer: View {
                     .onDisappear {
                         player.pause()
                     }
+
+
+                
             } else {
                 EmptyView()
             }
-        }.frame(width: UIScreen.main.bounds.width - 40, height: 120)
-            .border(Color.white)
-            .padding(4)
-            .border(Color.gray)
-            .padding(4)
+       
     }
     
     
