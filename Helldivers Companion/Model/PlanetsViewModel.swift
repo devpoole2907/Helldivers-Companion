@@ -351,7 +351,7 @@ class PlanetsViewModel: ObservableObject {
     // completion gives both campaigns and campaigns with an event
     func fetchUpdatedCampaigns(using url: String? = nil, completion: @escaping ([UpdatedCampaign], [UpdatedCampaign]) -> Void) {
         
-        var urlString = "\(configData.apiAddress)campaigns"
+        var urlString = "\(configData.apiAddress)api/v1/campaigns"
         
         // override url with provided url, must be a widget requesting data from the github cache instead
         if let url = url {
@@ -727,7 +727,7 @@ class PlanetsViewModel: ObservableObject {
     }
     // update bug rates via github json file so the app doesnt need an update every change, or an alert string to present in the about page to update remotely
     func fetchConfig(completion: @escaping (RemoteConfigDetails?) -> Void) {
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/config/newApiConfig.json"
+        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/config/mayApiConfig.json"
         
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
@@ -754,7 +754,7 @@ class PlanetsViewModel: ObservableObject {
     
     func fetchUpdatedPlanets(using url: String? = nil, completion: @escaping ([UpdatedPlanet]) -> Void) {
         
-        var urlString = "\(configData.apiAddress)planets"
+        var urlString = "\(configData.apiAddress)api/v1/planets"
         
         // override url with provided url, must be a widget requesting data from the github cache instead
         if let url = url {

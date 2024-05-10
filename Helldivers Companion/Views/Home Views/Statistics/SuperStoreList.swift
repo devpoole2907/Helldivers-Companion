@@ -13,11 +13,11 @@ struct SuperStoreList: View {
     @EnvironmentObject var dbModel: DatabaseModel
     
     var filteredArmour: [Armour] {
-            // Fetch names from superStoreItems that exist in allArmours
-        let superStoreNames = dbModel.storeRotation?.items.map { $0.name } // Assuming superStoreItems is available in viewModel and contains names of items
+         
+        let superStoreNames = dbModel.storeRotation?.items.map { $0.name }
             
         if let names = superStoreNames {
-            // Filter allArmour to include only those whose names are in the fetched superStoreNames
+     
             return dbModel.allArmour.uniqued().filter { names.contains($0.name) }
         }
         return []
@@ -27,9 +27,18 @@ struct SuperStoreList: View {
         ScrollView {
             LazyVStack(alignment: .leading) {
                 
-               // AlertView(alert: "The Super Store is currently under development - please be aware that you may encounter some issues. We appreciate your patience, and welcome any feedback!")
+                AlertView(alert: "The Super Store is currently under development - please be aware that you may encounter some issues. We appreciate your patience, and welcome any feedback!")
          
- 
+           /*     if let storeItems = dbModel.storeRotation?.items {
+                                   ForEach(storeItems, id: \.name) { item in
+                                       Text(item.name)
+                                           .padding(.vertical, 2)
+                                   }
+                               } else {
+                                   Text("No items in store rotation.")
+                               }
+                
+ */
                                         ForEach(filteredArmour, id: \.id) { armour in
                                             NavigationLink(value: armour) {
                                                 ArmourDetailRow(dashPattern: [57, 19], armour: armour, showWarBondName: false)

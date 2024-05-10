@@ -208,7 +208,7 @@ struct GameView: View {
                         ToolbarItem(placement: gameCenterManager.isAuthenticated ? .principal : .topBarLeading) {
                             
                             Text("Stratagem Hero").textCase(.uppercase)
-                                .font(Font.custom("FSSinclair-Bold", size: 28))
+                                .font(Font.custom("FSSinclair-Bold", size: 24))
                         }
                 
                         

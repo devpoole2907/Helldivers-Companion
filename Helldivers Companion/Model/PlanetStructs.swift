@@ -765,7 +765,7 @@ struct StoreItem: Codable {
     var speed: Int
     var staminaRegen: Int
     var passive: StoreItemPassive
-    var storeCost: Int
+    var storeCost: Int?
 }
 
 struct StoreItemPassive: Codable {

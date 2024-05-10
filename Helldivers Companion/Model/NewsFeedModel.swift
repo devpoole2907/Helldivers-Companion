@@ -14,8 +14,12 @@ class NewsFeedModel: ObservableObject {
     @Published var news: [NewsFeed] = []
     private var timer: Timer?
     
-    func fetchNewsFeed(_ enableLocalization: Bool, completion: @escaping ([NewsFeed]) -> Void) {
-          let feedURLString = "https://api.helldivers2.dev/raw/api/NewsFeed/801?maxLimit=1024" // TODO: update me to come from remote config like the rest of the fetch funcs
+    func fetchNewsFeed(config: RemoteConfigDetails?, _ enableLocalization: Bool, completion: @escaping ([NewsFeed]) -> Void) {
+        
+        
+        
+        
+        let feedURLString = "\(config?.apiAddress ?? "https://api.helldivers2.dev/raw/api/")raw/api/NewsFeed/801?maxLimit=1024"
         
         guard let url = URL(string: feedURLString) else { return }
         
@@ -65,23 +69,25 @@ class NewsFeedModel: ObservableObject {
     
     // fetch news feed every 1 min
     func startUpdating(_ enableLocalization: Bool) {
-           timer?.invalidate()
-           
+        timer?.invalidate()
         
-        fetchNewsFeed(enableLocalization) { _ in
-            print("fetched news feed")
+        PlanetsViewModel().fetchConfig { config in
+            self.fetchNewsFeed(config: config, enableLocalization) { _ in
+                print("fetched news feed")
+            }
+            
+            self.timer = Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { [weak self] _ in
+                
+                
+                self?.fetchNewsFeed(config: config, enableLocalization) { _ in
+                    print("fetched news feed")
+                }
+                
+                
+            }
         }
-           
-           timer = Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { [weak self] _ in
-               
-               
-               self?.fetchNewsFeed(enableLocalization) { _ in
-                   print("fetched news feed")
-               }
-               
-               
-           }
-       }
+        
+    }
     
     func stopUpdating() {
         timer?.invalidate()

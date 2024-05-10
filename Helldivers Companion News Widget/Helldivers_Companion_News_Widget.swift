@@ -27,7 +27,7 @@ struct Provider: TimelineProvider {
         var entries: [NewsItemEntry] = []
         
         planetsModel.fetchConfig() { config in
-                newsModel.fetchNewsFeed(false) { news in
+            newsModel.fetchNewsFeed(config: config, false) { news in
                     
                     print("fetching news")
                     
