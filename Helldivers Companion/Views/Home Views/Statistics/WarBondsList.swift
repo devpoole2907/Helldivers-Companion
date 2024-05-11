@@ -16,6 +16,21 @@ struct WarBondsList: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
+                
+                ZStack(alignment: .bottom) {
+                    WarBondRow(warBondImageName: "polar patriots")
+                    LinearGradient(
+                        gradient: Gradient(colors: [.clear, .black]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .blendMode(.multiply)
+                    Text("COMING SOON").foregroundStyle(.white).bold()
+                        .font(Font.custom("FSSinclair-Bold", size: 24))
+                        .padding(10)
+                    
+                    
+                }
          
                     
                 if let cuttingEdge = dbModel.cuttingEdge {

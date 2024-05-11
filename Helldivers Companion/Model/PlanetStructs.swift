@@ -669,6 +669,18 @@ struct Armour: Codable, Hashable, DetailItem {
         passive = try container.decode(Int.self, forKey: .passive)
     }
     
+    init(id: String, name: String, description: String, type: Int, slot: Int, armourRating: Int, speed: Int, staminaRegen: Int, passive: Int) {
+            self.id = id
+            self.name = name
+            self.description = description
+            self.type = type
+            self.slot = slot
+            self.armourRating = armourRating
+            self.speed = speed
+            self.staminaRegen = staminaRegen
+            self.passive = passive
+        }
+    
     enum CodingKeys: String, CodingKey {
         case name, description, type, slot, armourRating = "armor_rating", speed, staminaRegen = "stamina_regen", passive
     }
@@ -756,7 +768,12 @@ struct SuperStoreResponse: Decodable {
     var items: [StoreItem]
 }
 
-struct StoreItem: Codable {
+struct StoreItem: Codable, Identifiable {
+    static func == (lhs: StoreItem, rhs: StoreItem) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    let id: UUID
     var name: String
     var description: String
     var type: String
@@ -766,6 +783,33 @@ struct StoreItem: Codable {
     var staminaRegen: Int
     var passive: StoreItemPassive
     var storeCost: Int?
+    
+    enum CodingKeys: String, CodingKey {
+           case name
+           case description
+           case type
+           case slot
+           case armorRating
+           case speed
+           case staminaRegen
+           case passive
+           case storeCost
+       }
+       
+       init(from decoder: Decoder) throws {
+           let container = try decoder.container(keyedBy: CodingKeys.self)
+           name = try container.decode(String.self, forKey: .name)
+           description = try container.decode(String.self, forKey: .description)
+           type = try container.decode(String.self, forKey: .type)
+           slot = try container.decode(String.self, forKey: .slot)
+           armorRating = try container.decode(Int.self, forKey: .armorRating)
+           speed = try container.decode(Int.self, forKey: .speed)
+           staminaRegen = try container.decode(Int.self, forKey: .staminaRegen)
+           passive = try container.decode(StoreItemPassive.self, forKey: .passive)
+           storeCost = try container.decodeIfPresent(Int.self, forKey: .storeCost)
+           id = UUID()
+       }
+    
 }
 
 struct StoreItemPassive: Codable {

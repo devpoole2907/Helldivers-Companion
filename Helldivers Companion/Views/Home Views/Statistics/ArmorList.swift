@@ -225,6 +225,7 @@ struct ArmourDetailRow: View {
     let dashPattern: [CGFloat]
     let armour: Armour
     var showWarBondName = true
+    var cost: Int? = nil
     
     var body: some View {
         

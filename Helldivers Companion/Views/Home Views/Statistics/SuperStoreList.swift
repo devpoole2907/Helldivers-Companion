@@ -27,27 +27,43 @@ struct SuperStoreList: View {
         ScrollView {
             LazyVStack(alignment: .leading) {
                 
-                AlertView(alert: "The Super Store is currently under development - please be aware that you may encounter some issues. We appreciate your patience, and welcome any feedback!")
-         
-           /*     if let storeItems = dbModel.storeRotation?.items {
-                                   ForEach(storeItems, id: \.name) { item in
-                                       Text(item.name)
-                                           .padding(.vertical, 2)
-                                   }
-                               } else {
-                                   Text("No items in store rotation.")
-                               }
+              /*  AlertView(alert: "The Super Store is currently under development - please be aware that you may encounter some issues. We appreciate your patience, and welcome any feedback!")*/
                 
- */
-                                        ForEach(filteredArmour, id: \.id) { armour in
-                                            NavigationLink(value: armour) {
-                                                ArmourDetailRow(dashPattern: [57, 19], armour: armour, showWarBondName: false)
-                                            }
-                                            .padding(.vertical, 5)
-                                        }
-                                        
-                               
-                                
+             
+                              let superStoreItems = dbModel.storeRotation?.items ?? []
+                
+                
+                ForEach(superStoreItems, id: \.id) { item in
+                    // try find matching armour in db
+                    if let armour = dbModel.allArmour.first(where: { $0.name == item.name }) {
+                        NavigationLink(value: armour) {
+                            ArmourDetailRow(dashPattern: [57, 19], armour: armour, showWarBondName: false)
+                        }
+                        .padding(.vertical, 5)
+                        
+                    } else {
+                        
+                        // create new unknown armour
+                        
+                        // try find passive id
+                        let passiveId = dbModel.passives.first(where: { $0.name.lowercased() == item.passive.name.lowercased() })?.id ?? -1
+                        
+                        //try find slot id
+                        
+                        let slotId = dbModel.armourSlots.first(where: { $0.name.lowercased() == item.slot.lowercased() })?.id ?? -1
+                  // type is not currently used
+                        let unknownArmour = Armour(id: UUID().uuidString, name: item.name, description: item.description, type: 0, slot: slotId, armourRating: item.armorRating, speed: item.speed, staminaRegen: item.staminaRegen, passive: passiveId)
+                        
+                        NavigationLink(value: unknownArmour) {
+                            ArmourDetailRow(dashPattern: [57, 19], armour: unknownArmour, showWarBondName: false)
+                        }
+                        .padding(.vertical, 5)
+                        
+                    }
+                    
+                }
+
+               
                 
                 
             }.padding(.horizontal)
