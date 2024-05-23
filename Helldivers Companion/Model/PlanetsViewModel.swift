@@ -552,7 +552,7 @@ class PlanetsViewModel: ObservableObject {
                         }
                         
                         taskPlanets = collectionOfPlanets.filter { planet in
-                            taskPlanetIndexes.contains(planet.index)
+                            taskPlanetIndexes.contains(Int64(planet.index))
                         }
                         
                         for (index, progressValue) in firstOrder.progress.enumerated() {

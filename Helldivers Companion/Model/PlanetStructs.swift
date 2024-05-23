@@ -41,7 +41,7 @@ struct WarSeason: Decodable {
 
 struct MajorOrder: Decodable {
     let id32: Int64 // this must be int64 to run on watchOS!
-    let progress: [Int]
+    let progress: [Int64]
     let expiresIn: Int64 // this must be int64 to run on watchOS!
     let setting: Setting
     
@@ -97,11 +97,11 @@ struct MajorOrder: Decodable {
             guard isEradicateType, let factionIndex = setting.tasks.first?.values[0] else {
                 return nil
             }
-            return Faction(rawValue: factionIndex) ?? .unknown
+           return Faction(rawValue: factionIndex) ?? .unknown
         }
     
     // this could become global, but most of our api responses come from the dealloc endpoints not the official. for now the MO comes from the official endpoint, in hopes/possibility that deallocs major order endpoint may be upgraded
-    enum Faction: Int {
+    enum Faction: Int64 { // must be int64 due to the possible massive task value
             case human = 1
             case terminid = 2
             case automaton = 3
@@ -142,7 +142,7 @@ struct MajorOrder: Decodable {
         
         struct Task: Decodable {
             let type: Int
-            let values: [Int]
+            let values: [Int64]
             let valueTypes: [Int]
         }
         
@@ -382,7 +382,7 @@ struct UpdatedPlanet: Decodable, Hashable {
         maxHealth > 0 ? (1 - (Double(health) / Double(maxHealth))) * 100 : 0
     }
     // if its associated with major order, put its task progress here
-    var taskProgress: Int? = nil
+    var taskProgress: Int64? = nil
     
 }
 
