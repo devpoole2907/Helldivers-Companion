@@ -52,6 +52,7 @@ class DatabaseModel: ObservableObject {
        @Published var steeledVeterans: FixedWarBond?
        @Published var helldiversMobilize: FixedWarBond?
        @Published var democraticDetonation: FixedWarBond?
+       @Published var polarPatriots: FixedWarBond?
     
     //enemies for bestiary
     @Published var automatonEnemies: [Enemy] = []
@@ -166,7 +167,7 @@ class DatabaseModel: ObservableObject {
     }
     
     func warBond(for itemId: Int) -> WarBond? {
-        let collections = [self.cuttingEdge, self.steeledVeterans, self.helldiversMobilize, self.democraticDetonation]
+        let collections = [self.cuttingEdge, self.steeledVeterans, self.helldiversMobilize, self.democraticDetonation, self.polarPatriots]
         for fixedWarBond in collections {
             for warBond in fixedWarBond?.warbondPages ?? [] {
                 if warBond.items.contains(where: { $0.itemId == itemId }) {
@@ -178,7 +179,7 @@ class DatabaseModel: ObservableObject {
     }
     
     func fixedWarBond(for itemId: Int) -> FixedWarBond? {
-        let collections = [self.cuttingEdge, self.steeledVeterans, self.helldiversMobilize, self.democraticDetonation]
+        let collections = [self.cuttingEdge, self.steeledVeterans, self.helldiversMobilize, self.democraticDetonation, self.polarPatriots]
         for fixedWarBond in collections {
             if fixedWarBond?.warbondPages.contains(where: { warBond in
                 warBond.items.contains(where: { $0.itemId == itemId })
@@ -201,10 +202,11 @@ class DatabaseModel: ObservableObject {
             "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/cutting_edge.json",
             "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/helldivers_mobilize.json",
             "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/democratic_detonation.json",
-            "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/steeled_veterans.json"
+            "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/steeled_veterans.json",
+            "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/polar_patriots.json"
         ]
         
-        let warBondNames: [WarBondName] = [.cuttingEdge, .helldiversMobilize, .democraticDetonation, .steeledVeterans]
+        let warBondNames: [WarBondName] = [.cuttingEdge, .helldiversMobilize, .democraticDetonation, .steeledVeterans, .polarPatriots]
         
         for (index, urlString) in urls.enumerated() {
             if let url = URL(string: urlString) {
@@ -257,6 +259,8 @@ class DatabaseModel: ObservableObject {
                 self.helldiversMobilize = fixedWarBond
             case .democraticDetonation:
                 self.democraticDetonation = fixedWarBond
+            case .polarPatriots:
+                self.polarPatriots = fixedWarBond
             }
         }
     }

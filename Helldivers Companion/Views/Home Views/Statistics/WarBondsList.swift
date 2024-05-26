@@ -17,20 +17,18 @@ struct WarBondsList: View {
         ScrollView {
             VStack(alignment: .leading) {
                 
-                ZStack(alignment: .bottom) {
-                    WarBondRow(warBondImageName: "polar patriots")
-                    LinearGradient(
-                        gradient: Gradient(colors: [.clear, .black]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .blendMode(.multiply)
-                    Text("COMING SOON").foregroundStyle(.white).bold()
-                        .font(Font.custom("FSSinclair-Bold", size: 24))
-                        .padding(10)
+                if let polarPatriots = dbModel.polarPatriots {
+                    
+                    NavigationLink(value: polarPatriots) {
+                        //  different for cuttting edge due to image issue, duct tape fix
+                        if let warbondName = polarPatriots.warbondPages.first?.name?.rawValue {
+                            WarBondRow(warBondImageName: "polar patriots")
+                        }
+                    }
                     
                     
                 }
+                
          
                     
                 if let cuttingEdge = dbModel.cuttingEdge {

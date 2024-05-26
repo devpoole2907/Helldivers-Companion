@@ -743,6 +743,7 @@ enum WarBondName: String, CaseIterable, Hashable {
     case steeledVeterans = "Steeled Veterans"
     case helldiversMobilize = "Helldivers Mobilize"
     case democraticDetonation = "Democratic Detonation"
+    case polarPatriots = "Polar Patriots"
 }
 
 struct WarBondDetails: Decodable {
