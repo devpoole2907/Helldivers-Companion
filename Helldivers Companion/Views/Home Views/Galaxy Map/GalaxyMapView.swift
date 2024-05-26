@@ -182,8 +182,8 @@ struct GalaxyMapView: View {
                     ((activeCampaign != nil) ? 8 : 6)
                     
                     ZStack {
-                        
-                        if (isDefending != nil) {
+                        // show red expanding ring around defense planets
+                        if (isDefending != nil || viewModel.updatedTaskPlanets.contains(where: { $0.index == planet.index })) {
                             Circle()
                                 .scaleEffect(isScaled ? 2.0 : 0.8)
                                 .opacity(isScaled ? 0 : 1.0)
@@ -194,7 +194,7 @@ struct GalaxyMapView: View {
                                         
                                 .frame(width: selectedPlanet?.index == planet.index ? 10 : selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 8 : 6), height: selectedPlanet?.index == planet.index ? 10 : selectedPlanet?.index == planet.index ? 8 : (activeCampaign != nil ? 8 : 6))
                                 .position(planetPosition)
-                                .foregroundStyle(.red)
+                                .foregroundStyle(isDefending != nil ? .red : .yellow)
                                
                             
                         }
