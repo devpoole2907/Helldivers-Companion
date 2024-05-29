@@ -910,6 +910,7 @@ var globalStratagems: [Stratagem] = [
     Stratagem(name: "Upload Data", sequence: [.left, .right, .up, .up, .up], type: .mission),
     Stratagem(name: "Hellbomb", sequence: [.down, .up, .left, .down, .up, .right, .down, .up], type: .mission),
     Stratagem(name: "Patriot Exosuit", sequence: [.left, .down, .right, .up, .left, .down, .down], type: .workshop),
+    Stratagem(name: "Emancipator Exosuit", sequence: [.left, .down, .right, .up, .left, .down, .up], type: .workshop),
     Stratagem(name: "Quasar Cannon", sequence: [.down, .down, .up, .left, .right], type: .engineering),
     Stratagem(name: "Heavy Machine Gun", sequence: [.down, .left, .up, .down, .down], type: .admin),
     Stratagem(name: "Resupply", sequence: [.down, .down, .up, .right], type: .mission),

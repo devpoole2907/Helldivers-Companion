@@ -292,7 +292,7 @@ struct ArmourDetailRow: View {
                     
                     // add armour row stat view with "superCredit" as the image
                     
-                    if let cost = dbModel.storeCost(for: armour.name) {
+                    if let cost = dbModel.storeCost(for: armour.name, slot: armour.slot) {
                         ArmourRowStatView(image: "superCredit", value: cost, isSystemImage: false).tint(.white).bold()
                                             }
                     

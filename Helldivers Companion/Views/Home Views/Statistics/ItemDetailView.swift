@@ -222,7 +222,7 @@ struct ItemDetailView: View {
                     
                     ItemDetailCostView(name: warBond.name?.rawValue, image: "medalSymbol", cost: itemMedalCost)
                     
-                } else if let itemCreditCost = dbModel.storeCost(for: itemName) {
+                } else if let itemCreditCost = dbModel.storeCost(for: itemName, slot: slot?.id ?? -1) {
                     
                     ItemDetailCostView(name: "Super Store", image: "superCredit", cost: itemCreditCost)
                 }

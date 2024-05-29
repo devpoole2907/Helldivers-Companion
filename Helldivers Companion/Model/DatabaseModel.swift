@@ -31,8 +31,8 @@ class DatabaseModel: ObservableObject {
         primaryWeapons + secondaryWeapons
     }
     // fetch item costs in the store
-    func storeCost(for itemName: String) -> Int? {
-        return storeRotation?.items.first { $0.name == itemName }?.storeCost
+    func storeCost(for itemName: String, slot: Int) -> Int? {
+        return storeRotation?.items.first { $0.name == itemName && $0.slot == String(slot) }?.storeCost
     }
     
     @Published var armourSlots: [ArmourSlot] = []
@@ -70,7 +70,7 @@ class DatabaseModel: ObservableObject {
         fetchTraits()
         fetchFireModes()
         fetchBoosters()
-        fetchSlots()
+      //  fetchSlots() // fetched before the store rotation fetch calls, to remap the store rotation slot values to Ints for consistency with armours
         fetchArmours()
         fetchPassives()
         fetchWarBonds()
@@ -86,20 +86,40 @@ class DatabaseModel: ObservableObject {
     }
     
     
+    func remapStoreRotationSlots() {
+        let slots = self.armourSlots
+        self.storeRotation?.items = self.storeRotation?.items.map { item in
+            var newItem = item
+            if let slot = slots.first(where: { $0.name.lowercased() == item.slot.lowercased() }) {
+                newItem.slot = String(slot.id)  // convert slot id to string, store items will hold their slots as strings
+            }
+            return newItem
+        } ?? []
+    }
+
+
+    
     func startUpdating() {
         
         timer?.invalidate()
         
-        self.fetchStoreRotation {
-            print("fetched store rotation")
+        self.fetchSlots {
+            print("fetched armour slots")
+            self.fetchStoreRotation {
+                print("fetched store rotation, remapping slots to match armour fetch")
+                self.remapStoreRotationSlots()
+            }
         }
         
         
         
         timer = Timer.scheduledTimer(withTimeInterval: 45, repeats: true) { [weak self] _ in
-            self?.fetchStoreRotation {
-                
-            }
+          // shouldnt need to re fetch slots again here, we got them earlier
+                self?.fetchStoreRotation {
+                    print("fetched store rotation, again remapping slots to match armour fetch")
+                    self?.remapStoreRotationSlots()
+                }
+            
             
         }
         
@@ -335,7 +355,7 @@ class DatabaseModel: ObservableObject {
         task.resume()
     }
     
-    func fetchSlots() {
+    func fetchSlots(completion: @escaping () -> Void) {
         
         if let url = URL(string: "https://raw.githubusercontent.com/helldivers-2/json/master/items/armor/slot.json") {
             URLSession.shared.dataTask(with: url) { data, response, error in
@@ -354,6 +374,7 @@ class DatabaseModel: ObservableObject {
                     }
                     DispatchQueue.main.async {
                         self.armourSlots = slots
+                        completion()
                     }
                 } catch {
                     print("Failed to decode JSON: \(error)")
