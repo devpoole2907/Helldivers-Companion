@@ -121,7 +121,7 @@ struct NewsView: View {
         }
         
         #if os(iOS)
-        .introspect(.navigationStack, on: .iOS(.v16, .v17)) { controller in
+        .introspect(.navigationStack, on: .iOS(.v16, .v17, .v18)) { controller in
             print("I am introspecting!")
 
             DispatchQueue.main.async {
