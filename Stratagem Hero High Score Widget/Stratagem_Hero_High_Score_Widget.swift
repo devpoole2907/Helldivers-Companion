@@ -9,6 +9,9 @@ import WidgetKit
 import SwiftUI
 
 struct Provider: TimelineProvider {
+    
+    typealias Entry = HighScoreEntry
+    
     func placeholder(in context: Context) -> HighScoreEntry {
         HighScoreEntry(date: Date(), highScore: 247331)
     }

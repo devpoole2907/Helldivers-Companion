@@ -321,7 +321,7 @@ struct ItemDetailView: View {
                     
                 }
                 
-                if let weapon = weapon {
+                if let weapon = weapon, !weapon.fireMode.isEmpty {
                     
                     
                     ZStack(alignment: .topLeading) {

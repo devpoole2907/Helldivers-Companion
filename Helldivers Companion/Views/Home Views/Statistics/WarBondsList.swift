@@ -17,6 +17,17 @@ struct WarBondsList: View {
         ScrollView {
             VStack(alignment: .leading) {
                 
+                if let viperCommandos = dbModel.viperCommandos {
+                    
+                    NavigationLink(value: viperCommandos) {
+                        if let warbondName = viperCommandos.warbondPages.first?.name?.rawValue {
+                            WarBondRow(warBondImageName: warbondName.lowercased())
+                        }
+                    }
+                    
+                    
+                }
+                
                 if let polarPatriots = dbModel.polarPatriots {
                     
                     NavigationLink(value: polarPatriots) {

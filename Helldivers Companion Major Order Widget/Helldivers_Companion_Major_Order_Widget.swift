@@ -10,6 +10,8 @@ import SwiftUI
 
 struct MajorOrderProvider: TimelineProvider {
     
+    typealias Entry = MajorOrderEntry
+    
     var planetsModel = PlanetsViewModel()
     
     func placeholder(in context: Context) -> MajorOrderEntry {

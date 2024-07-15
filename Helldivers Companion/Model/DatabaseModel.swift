@@ -24,8 +24,8 @@ class DatabaseModel: ObservableObject {
     @Published var chests: [Armour] = []
     
     var allArmour: [Armour] {
-         helmets + cloaks + chests
-       }
+        helmets + cloaks + chests
+    }
     
     var allWeapons: [Weapon] {
         primaryWeapons + secondaryWeapons
@@ -48,17 +48,18 @@ class DatabaseModel: ObservableObject {
     
     // war bonds
     // TODO: warbonds are totally screwed up here i misunderstood the data structures, for now ive duct taped it but its completely RINSED how all this works lmaoo
-       @Published var cuttingEdge: FixedWarBond?
-       @Published var steeledVeterans: FixedWarBond?
-       @Published var helldiversMobilize: FixedWarBond?
-       @Published var democraticDetonation: FixedWarBond?
-       @Published var polarPatriots: FixedWarBond?
+    @Published var cuttingEdge: FixedWarBond?
+    @Published var steeledVeterans: FixedWarBond?
+    @Published var helldiversMobilize: FixedWarBond?
+    @Published var democraticDetonation: FixedWarBond?
+    @Published var polarPatriots: FixedWarBond?
+    @Published var viperCommandos: FixedWarBond?
     
     //enemies for bestiary
     @Published var automatonEnemies: [Enemy] = []
     @Published var terminidsEnemies: [Enemy] = []
     
-
+    
     private var timer: Timer?
     
     func loadData() {
@@ -70,7 +71,7 @@ class DatabaseModel: ObservableObject {
         fetchTraits()
         fetchFireModes()
         fetchBoosters()
-      //  fetchSlots() // fetched before the store rotation fetch calls, to remap the store rotation slot values to Ints for consistency with armours
+        //  fetchSlots() // fetched before the store rotation fetch calls, to remap the store rotation slot values to Ints for consistency with armours
         fetchArmours()
         fetchPassives()
         fetchWarBonds()
@@ -96,8 +97,8 @@ class DatabaseModel: ObservableObject {
             return newItem
         } ?? []
     }
-
-
+    
+    
     
     func startUpdating() {
         
@@ -114,18 +115,18 @@ class DatabaseModel: ObservableObject {
         
         
         timer = Timer.scheduledTimer(withTimeInterval: 45, repeats: true) { [weak self] _ in
-          // shouldnt need to re fetch slots again here, we got them earlier
-                self?.fetchStoreRotation {
-                    print("fetched store rotation, again remapping slots to match armour fetch")
-                    self?.remapStoreRotationSlots()
-                }
+            // shouldnt need to re fetch slots again here, we got them earlier
+            self?.fetchStoreRotation {
+                print("fetched store rotation, again remapping slots to match armour fetch")
+                self?.remapStoreRotationSlots()
+            }
             
             
         }
         
         
     }
-
+    
     
     func fetchStoreRotation(completion: @escaping () -> Void) {
         
@@ -150,8 +151,8 @@ class DatabaseModel: ObservableObject {
             }
             
             if let jsonString = String(data: data, encoding: .utf8) {
-                        print("Received JSON: \(jsonString)")
-                    }
+                print("Received JSON: \(jsonString)")
+            }
             
             
             
@@ -187,7 +188,7 @@ class DatabaseModel: ObservableObject {
     }
     
     func warBond(for itemId: Int) -> WarBond? {
-        let collections = [self.cuttingEdge, self.steeledVeterans, self.helldiversMobilize, self.democraticDetonation, self.polarPatriots]
+        let collections = [self.cuttingEdge, self.steeledVeterans, self.helldiversMobilize, self.democraticDetonation, self.polarPatriots, self.viperCommandos]
         for fixedWarBond in collections {
             for warBond in fixedWarBond?.warbondPages ?? [] {
                 if warBond.items.contains(where: { $0.itemId == itemId }) {
@@ -199,7 +200,7 @@ class DatabaseModel: ObservableObject {
     }
     
     func fixedWarBond(for itemId: Int) -> FixedWarBond? {
-        let collections = [self.cuttingEdge, self.steeledVeterans, self.helldiversMobilize, self.democraticDetonation, self.polarPatriots]
+        let collections = [self.cuttingEdge, self.steeledVeterans, self.helldiversMobilize, self.democraticDetonation, self.polarPatriots, self.viperCommandos]
         for fixedWarBond in collections {
             if fixedWarBond?.warbondPages.contains(where: { warBond in
                 warBond.items.contains(where: { $0.itemId == itemId })
@@ -209,13 +210,13 @@ class DatabaseModel: ObservableObject {
         }
         return nil
     }
-
-
+    
+    
     func itemMedalCost(for itemId: Int) -> Int? {
         guard let warBond = warBond(for: itemId) else { return nil }
         return warBond.items.first { $0.itemId == itemId }?.medalCost
     }
-
+    
     
     func fetchWarBonds() {
         let urls = [
@@ -223,10 +224,11 @@ class DatabaseModel: ObservableObject {
             "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/helldivers_mobilize.json",
             "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/democratic_detonation.json",
             "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/steeled_veterans.json",
-            "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/polar_patriots.json"
+            "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/polar_patriots.json",
+            "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/viper_commandos.json"
         ]
         
-        let warBondNames: [WarBondName] = [.cuttingEdge, .helldiversMobilize, .democraticDetonation, .steeledVeterans, .polarPatriots]
+        let warBondNames: [WarBondName] = [.cuttingEdge, .helldiversMobilize, .democraticDetonation, .steeledVeterans, .polarPatriots, .viperCommandos]
         
         for (index, urlString) in urls.enumerated() {
             if let url = URL(string: urlString) {
@@ -236,7 +238,7 @@ class DatabaseModel: ObservableObject {
             }
         }
     }
-
+    
     
     func fetch<T: Decodable>(url: URL, completion: @escaping (T) -> Void) {
         URLSession.shared.dataTask(with: url) { data, response, error in
@@ -266,7 +268,7 @@ class DatabaseModel: ObservableObject {
             }
         }
     }
-
+    
     private func updateWarBondCollection(with warBonds: [WarBond], for warBondName: WarBondName) {
         let fixedWarBond = FixedWarBond(warbondPages: warBonds)
         DispatchQueue.main.async {
@@ -281,10 +283,12 @@ class DatabaseModel: ObservableObject {
                 self.democraticDetonation = fixedWarBond
             case .polarPatriots:
                 self.polarPatriots = fixedWarBond
+            case .viperCommandos:
+                self.viperCommandos = fixedWarBond
             }
         }
     }
-
+    
     
     
     func fetchPrimaryWeapons() {
@@ -345,7 +349,7 @@ class DatabaseModel: ObservableObject {
                     
                     self.cloaks = armours.filter({ $0.slot == 1 })
                     
-                   
+                    
                 } catch {
                     print("Failed to decode JSON: \(error)")
                 }
@@ -397,14 +401,14 @@ class DatabaseModel: ObservableObject {
                     
                     let passivesDict = try JSONDecoder().decode([String: Passive].self, from: data)
                     
-                   
+                    
                     
                     let passives = Array(passivesDict.values)
                     
                     self.passives = passives
                     
                     
-                   
+                    
                 } catch {
                     print("Failed to decode JSON: \(error)")
                 }
@@ -440,7 +444,7 @@ class DatabaseModel: ObservableObject {
             }.resume()
         }
     }
-
+    
     
     func fetchTraits() {
         if let url = URL(string: "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/traits.json") {
@@ -467,7 +471,7 @@ class DatabaseModel: ObservableObject {
             }.resume()
         }
     }
-
+    
     
     func fetchFireModes() {
         if let url = URL(string: "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/fire_modes.json") {
@@ -496,51 +500,51 @@ class DatabaseModel: ObservableObject {
     }
     
     func fetchAutomatonEnemies() {
-            guard let url = URL(string: "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/automatonEnemies.json") else {
-                print("Invalid URL")
+        guard let url = URL(string: "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/automatonEnemies.json") else {
+            print("Invalid URL")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let data = data, error == nil else {
+                print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
-
-            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-                guard let data = data, error == nil else {
-                    print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
-                    return
+            
+            do {
+                let decodedEnemies = try JSONDecoder().decode([Enemy].self, from: data)
+                DispatchQueue.main.async {
+                    self?.automatonEnemies = decodedEnemies
                 }
-
-                do {
-                    let decodedEnemies = try JSONDecoder().decode([Enemy].self, from: data)
-                    DispatchQueue.main.async {
-                        self?.automatonEnemies = decodedEnemies
-                    }
-                } catch {
-                    print("Error decoding JSON: \(error)")
-                }
-            }.resume()
-        }
+            } catch {
+                print("Error decoding JSON: \(error)")
+            }
+        }.resume()
+    }
     
     func fetchTerminidsEnemies() {
-            guard let url = URL(string: "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/terminidEnemies.json") else {
-                print("Invalid URL")
+        guard let url = URL(string: "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/terminidEnemies.json") else {
+            print("Invalid URL")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let data = data, error == nil else {
+                print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
-
-            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-                guard let data = data, error == nil else {
-                    print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
-                    return
+            
+            do {
+                let decodedEnemies = try JSONDecoder().decode([Enemy].self, from: data)
+                DispatchQueue.main.async {
+                    self?.terminidsEnemies = decodedEnemies
                 }
-
-                do {
-                    let decodedEnemies = try JSONDecoder().decode([Enemy].self, from: data)
-                    DispatchQueue.main.async {
-                        self?.terminidsEnemies = decodedEnemies
-                    }
-                } catch {
-                    print("Error decoding JSON: \(error)")
-                }
-            }.resume()
-        }
-
+            } catch {
+                print("Error decoding JSON: \(error)")
+            }
+        }.resume()
+    }
+    
     
     func fetchStrats() {
         
@@ -593,7 +597,7 @@ class DatabaseModel: ObservableObject {
         case staminaRegen = "Stamina Regen"
         case armourRating = "Armour Rating"
         case speed = "Speed"
-
+        
         var id: ArmourSortCriteria { self }
     }
     

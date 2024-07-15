@@ -10,6 +10,7 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     
+    typealias Entry = PlayerCountEntry
     
     var planetsModel = PlanetsViewModel()
     

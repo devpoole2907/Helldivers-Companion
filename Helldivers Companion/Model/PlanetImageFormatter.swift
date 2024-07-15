@@ -16,6 +16,9 @@ class PlanetImageFormatter {
             case "meridia":
                 return "Meridia"
                 
+            case "gacrux", "caph", "barabos", "bore rock", "x-45":
+                return "x45"
+                
             case "super earth":
                 return "Super Earth"
             
