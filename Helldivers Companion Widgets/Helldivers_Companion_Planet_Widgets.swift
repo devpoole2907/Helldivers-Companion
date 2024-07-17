@@ -104,7 +104,7 @@ struct Helldivers_Companion_WidgetsEntryView : View {
     
     @Environment(\.widgetFamily) var widgetFamily
     
-    let planetsModel = PlanetsDataModel()
+    @MainActor let planetsModel = PlanetsDataModel()
     
     var entry: PlanetStatusProvider.Entry
     
