@@ -96,7 +96,6 @@
 		7C274A512BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
 		7C274A522BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
 		7C274A532BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
-		7C274A552BE42ED600F90369 /* Airburst Rocket Launcher.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A542BE42ED600F90369 /* Airburst Rocket Launcher.mp4 */; };
 		7C274A562BE436B400F90369 /* ShakeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C32BA574B20019B00E /* ShakeModifier.swift */; };
 		7C274A572BE436B900F90369 /* ShakeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C32BA574B20019B00E /* ShakeModifier.swift */; };
 		7C274A582BE436C500F90369 /* ShakeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589C32BA574B20019B00E /* ShakeModifier.swift */; };
@@ -241,7 +240,6 @@
 		7C6C0F8A2BD0B93700BD73B2 /* Haptics in Frameworks */ = {isa = PBXBuildFile; productRef = 7C6C0F892BD0B93700BD73B2 /* Haptics */; };
 		7C6C0F8C2BD0B94200BD73B2 /* Haptics in Frameworks */ = {isa = PBXBuildFile; productRef = 7C6C0F8B2BD0B94200BD73B2 /* Haptics */; };
 		7C6C0F8E2BD0B95900BD73B2 /* Haptics in Frameworks */ = {isa = PBXBuildFile; productRef = 7C6C0F8D2BD0B95900BD73B2 /* Haptics */; };
-		7C6DE5152C472C2800077534 /* Emancipator Exosuit.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7C6DE5142C472C2800077534 /* Emancipator Exosuit.mp4 */; };
 		7C6DE5172C474A7200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
 		7C6DE5182C474A7200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
 		7C6DE5192C474D9200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
@@ -346,56 +344,6 @@
 		7CC0AE882BA7F63100802D9F /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
 		7CC0AE892BA7F76600802D9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
 		7CC0AE8A2BA7F79800802D9F /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
-		7CC284582BD8DA570036EBFD /* Orbital Walking Barrage.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284262BD8DA510036EBFD /* Orbital Walking Barrage.mp4 */; };
-		7CC2845A2BD8DA570036EBFD /* Spear.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284272BD8DA520036EBFD /* Spear.mp4 */; };
-		7CC2845C2BD8DA570036EBFD /* Gatling Sentry.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284282BD8DA520036EBFD /* Gatling Sentry.mp4 */; };
-		7CC2845E2BD8DA570036EBFD /* Eagle Napalm Airstrike.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284292BD8DA520036EBFD /* Eagle Napalm Airstrike.mp4 */; };
-		7CC284602BD8DA570036EBFD /* Orbital Railcannon Strike.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2842A2BD8DA520036EBFD /* Orbital Railcannon Strike.mp4 */; };
-		7CC284622BD8DA570036EBFD /* Ballistic Shield Backpack.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2842B2BD8DA520036EBFD /* Ballistic Shield Backpack.mp4 */; };
-		7CC284642BD8DA570036EBFD /* Orbital Smoke Strike.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2842C2BD8DA520036EBFD /* Orbital Smoke Strike.mp4 */; };
-		7CC284662BD8DA570036EBFD /* Eagle Cluster Bomb.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2842D2BD8DA520036EBFD /* Eagle Cluster Bomb.mp4 */; };
-		7CC284682BD8DA570036EBFD /* Eagle 110MM Rocket Pods.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2842E2BD8DA520036EBFD /* Eagle 110MM Rocket Pods.mp4 */; };
-		7CC2846A2BD8DA570036EBFD /* HMG Emplacement.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2842F2BD8DA520036EBFD /* HMG Emplacement.mp4 */; };
-		7CC2846C2BD8DA570036EBFD /* Heavy Machine Gun.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284302BD8DA520036EBFD /* Heavy Machine Gun.mp4 */; };
-		7CC2846E2BD8DA570036EBFD /* Guard Dog Rover.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284312BD8DA530036EBFD /* Guard Dog Rover.mp4 */; };
-		7CC284702BD8DA570036EBFD /* Quasar Cannon.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284322BD8DA530036EBFD /* Quasar Cannon.mp4 */; };
-		7CC284722BD8DA570036EBFD /* Orbital 380MM HE Barrage.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284332BD8DA530036EBFD /* Orbital 380MM HE Barrage.mp4 */; };
-		7CC284742BD8DA570036EBFD /* Jump Pack.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284342BD8DA530036EBFD /* Jump Pack.mp4 */; };
-		7CC284762BD8DA570036EBFD /* Autocannon.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284352BD8DA530036EBFD /* Autocannon.mp4 */; };
-		7CC284782BD8DA570036EBFD /* Eagle Smoke Strike.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284362BD8DA530036EBFD /* Eagle Smoke Strike.mp4 */; };
-		7CC2847A2BD8DA570036EBFD /* Eagle Airstrike.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284372BD8DA530036EBFD /* Eagle Airstrike.mp4 */; };
-		7CC2847C2BD8DA570036EBFD /* Machine Gun Sentry.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284382BD8DA530036EBFD /* Machine Gun Sentry.mp4 */; };
-		7CC2847E2BD8DA570036EBFD /* Eagle Strafing Run.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284392BD8DA530036EBFD /* Eagle Strafing Run.mp4 */; };
-		7CC284802BD8DA570036EBFD /* Shield Generator Relay.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2843A2BD8DA530036EBFD /* Shield Generator Relay.mp4 */; };
-		7CC284822BD8DA570036EBFD /* Tesla Tower.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2843B2BD8DA540036EBFD /* Tesla Tower.mp4 */; };
-		7CC284842BD8DA570036EBFD /* Laser Cannon.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2843C2BD8DA540036EBFD /* Laser Cannon.mp4 */; };
-		7CC284862BD8DA570036EBFD /* Orbital Airburst Strike.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2843D2BD8DA540036EBFD /* Orbital Airburst Strike.mp4 */; };
-		7CC284882BD8DA570036EBFD /* Stalwart.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2843E2BD8DA540036EBFD /* Stalwart.mp4 */; };
-		7CC2848A2BD8DA570036EBFD /* Incendiary Mines.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2843F2BD8DA540036EBFD /* Incendiary Mines.mp4 */; };
-		7CC2848C2BD8DA570036EBFD /* Grenade Launcher.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284402BD8DA540036EBFD /* Grenade Launcher.mp4 */; };
-		7CC2848E2BD8DA570036EBFD /* Patriot Exosuit.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284412BD8DA540036EBFD /* Patriot Exosuit.mp4 */; };
-		7CC284902BD8DA570036EBFD /* Orbital Gas Strike.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284422BD8DA540036EBFD /* Orbital Gas Strike.mp4 */; };
-		7CC284922BD8DA570036EBFD /* Railgun.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284432BD8DA550036EBFD /* Railgun.mp4 */; };
-		7CC284942BD8DA570036EBFD /* Machine Gun.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284442BD8DA550036EBFD /* Machine Gun.mp4 */; };
-		7CC284962BD8DA570036EBFD /* EMS Mortar Sentry.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284452BD8DA550036EBFD /* EMS Mortar Sentry.mp4 */; };
-		7CC284982BD8DA570036EBFD /* Autocannon Sentry.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284462BD8DA550036EBFD /* Autocannon Sentry.mp4 */; };
-		7CC2849A2BD8DA570036EBFD /* Orbital Precision Strike.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284472BD8DA550036EBFD /* Orbital Precision Strike.mp4 */; };
-		7CC2849C2BD8DA570036EBFD /* Supply Pack.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284482BD8DA550036EBFD /* Supply Pack.mp4 */; };
-		7CC2849E2BD8DA570036EBFD /* Anti-Personnel Minefield.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284492BD8DA550036EBFD /* Anti-Personnel Minefield.mp4 */; };
-		7CC284A02BD8DA570036EBFD /* Orbital 120MM HE Barrage.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2844A2BD8DA560036EBFD /* Orbital 120MM HE Barrage.mp4 */; };
-		7CC284A22BD8DA570036EBFD /* Expendable Anti-Tank.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2844B2BD8DA560036EBFD /* Expendable Anti-Tank.mp4 */; };
-		7CC284A42BD8DA570036EBFD /* Shield Generator Pack.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2844C2BD8DA560036EBFD /* Shield Generator Pack.mp4 */; };
-		7CC284A62BD8DA570036EBFD /* Orbital Laser.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2844D2BD8DA560036EBFD /* Orbital Laser.mp4 */; };
-		7CC284A82BD8DA570036EBFD /* Arc Thrower.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2844E2BD8DA560036EBFD /* Arc Thrower.mp4 */; };
-		7CC284AA2BD8DA570036EBFD /* Rocket Sentry.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC2844F2BD8DA560036EBFD /* Rocket Sentry.mp4 */; };
-		7CC284AC2BD8DA570036EBFD /* Eagle 500KG Bomb.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284502BD8DA560036EBFD /* Eagle 500KG Bomb.mp4 */; };
-		7CC284AE2BD8DA570036EBFD /* Orbital EMS Strike.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284512BD8DA560036EBFD /* Orbital EMS Strike.mp4 */; };
-		7CC284B02BD8DA570036EBFD /* Anti-Materiel Rifle.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284522BD8DA570036EBFD /* Anti-Materiel Rifle.mp4 */; };
-		7CC284B22BD8DA570036EBFD /* Orbital Gatling Barrage.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284532BD8DA570036EBFD /* Orbital Gatling Barrage.mp4 */; };
-		7CC284B42BD8DA570036EBFD /* Flamethrower.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284542BD8DA570036EBFD /* Flamethrower.mp4 */; };
-		7CC284B62BD8DA570036EBFD /* Mortar Sentry.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284552BD8DA570036EBFD /* Mortar Sentry.mp4 */; };
-		7CC284B82BD8DA570036EBFD /* Guard Dog.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284562BD8DA570036EBFD /* Guard Dog.mp4 */; };
-		7CC284BA2BD8DA570036EBFD /* Recoilless Rifle.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CC284572BD8DA570036EBFD /* Recoilless Rifle.mp4 */; };
 		7CC284BD2BD8DACF0036EBFD /* StratagemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC284BC2BD8DACF0036EBFD /* StratagemDetailView.swift */; };
 		7CC284C02BD8DB390036EBFD /* PlanetsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC284BF2BD8DB390036EBFD /* PlanetsList.swift */; };
 		7CC284C12BD8DB390036EBFD /* PlanetsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC284BF2BD8DB390036EBFD /* PlanetsList.swift */; };
@@ -595,7 +543,6 @@
 		7C1B8C1A2BAD705700944823 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C1B8C5F2BAD85B200944823 /* GameViewWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewWatch.swift; sourceTree = "<group>"; };
 		7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		7C274A542BE42ED600F90369 /* Airburst Rocket Launcher.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Airburst Rocket Launcher.mp4"; sourceTree = "<group>"; };
 		7C297D162BCE845D00D884DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemView.swift; sourceTree = "<group>"; };
 		7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlobalFunctions+Extensions.swift"; sourceTree = "<group>"; };
@@ -649,7 +596,6 @@
 		7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityProvider.swift; sourceTree = "<group>"; };
 		7C63130D2BBC01C800C84C13 /* GalaxyMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyMapView.swift; sourceTree = "<group>"; };
 		7C6C0F792BD0AEBC00BD73B2 /* UpdatedPlanetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPlanetView.swift; sourceTree = "<group>"; };
-		7C6DE5142C472C2800077534 /* Emancipator Exosuit.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Emancipator Exosuit.mp4"; sourceTree = "<group>"; };
 		7C6DE5162C474A6B00077534 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Version Check View Modifiers.swift"; sourceTree = "<group>"; };
 		7C8C5F2F2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion Major Order WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -686,56 +632,6 @@
 		7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Planet_Widgets.swift; sourceTree = "<group>"; };
 		7CC0AE7A2BA7F31500802D9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CC0AE7C2BA7F31500802D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7CC284262BD8DA510036EBFD /* Orbital Walking Barrage.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbital Walking Barrage.mp4"; sourceTree = "<group>"; };
-		7CC284272BD8DA520036EBFD /* Spear.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Spear.mp4; sourceTree = "<group>"; };
-		7CC284282BD8DA520036EBFD /* Gatling Sentry.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gatling Sentry.mp4"; sourceTree = "<group>"; };
-		7CC284292BD8DA520036EBFD /* Eagle Napalm Airstrike.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Eagle Napalm Airstrike.mp4"; sourceTree = "<group>"; };
-		7CC2842A2BD8DA520036EBFD /* Orbital Railcannon Strike.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbital Railcannon Strike.mp4"; sourceTree = "<group>"; };
-		7CC2842B2BD8DA520036EBFD /* Ballistic Shield Backpack.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ballistic Shield Backpack.mp4"; sourceTree = "<group>"; };
-		7CC2842C2BD8DA520036EBFD /* Orbital Smoke Strike.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbital Smoke Strike.mp4"; sourceTree = "<group>"; };
-		7CC2842D2BD8DA520036EBFD /* Eagle Cluster Bomb.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Eagle Cluster Bomb.mp4"; sourceTree = "<group>"; };
-		7CC2842E2BD8DA520036EBFD /* Eagle 110MM Rocket Pods.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Eagle 110MM Rocket Pods.mp4"; sourceTree = "<group>"; };
-		7CC2842F2BD8DA520036EBFD /* HMG Emplacement.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HMG Emplacement.mp4"; sourceTree = "<group>"; };
-		7CC284302BD8DA520036EBFD /* Heavy Machine Gun.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Heavy Machine Gun.mp4"; sourceTree = "<group>"; };
-		7CC284312BD8DA530036EBFD /* Guard Dog Rover.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Guard Dog Rover.mp4"; sourceTree = "<group>"; };
-		7CC284322BD8DA530036EBFD /* Quasar Cannon.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quasar Cannon.mp4"; sourceTree = "<group>"; };
-		7CC284332BD8DA530036EBFD /* Orbital 380MM HE Barrage.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbital 380MM HE Barrage.mp4"; sourceTree = "<group>"; };
-		7CC284342BD8DA530036EBFD /* Jump Pack.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Jump Pack.mp4"; sourceTree = "<group>"; };
-		7CC284352BD8DA530036EBFD /* Autocannon.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Autocannon.mp4; sourceTree = "<group>"; };
-		7CC284362BD8DA530036EBFD /* Eagle Smoke Strike.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Eagle Smoke Strike.mp4"; sourceTree = "<group>"; };
-		7CC284372BD8DA530036EBFD /* Eagle Airstrike.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Eagle Airstrike.mp4"; sourceTree = "<group>"; };
-		7CC284382BD8DA530036EBFD /* Machine Gun Sentry.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Machine Gun Sentry.mp4"; sourceTree = "<group>"; };
-		7CC284392BD8DA530036EBFD /* Eagle Strafing Run.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Eagle Strafing Run.mp4"; sourceTree = "<group>"; };
-		7CC2843A2BD8DA530036EBFD /* Shield Generator Relay.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Shield Generator Relay.mp4"; sourceTree = "<group>"; };
-		7CC2843B2BD8DA540036EBFD /* Tesla Tower.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Tesla Tower.mp4"; sourceTree = "<group>"; };
-		7CC2843C2BD8DA540036EBFD /* Laser Cannon.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Laser Cannon.mp4"; sourceTree = "<group>"; };
-		7CC2843D2BD8DA540036EBFD /* Orbital Airburst Strike.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbital Airburst Strike.mp4"; sourceTree = "<group>"; };
-		7CC2843E2BD8DA540036EBFD /* Stalwart.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Stalwart.mp4; sourceTree = "<group>"; };
-		7CC2843F2BD8DA540036EBFD /* Incendiary Mines.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Incendiary Mines.mp4"; sourceTree = "<group>"; };
-		7CC284402BD8DA540036EBFD /* Grenade Launcher.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Grenade Launcher.mp4"; sourceTree = "<group>"; };
-		7CC284412BD8DA540036EBFD /* Patriot Exosuit.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Patriot Exosuit.mp4"; sourceTree = "<group>"; };
-		7CC284422BD8DA540036EBFD /* Orbital Gas Strike.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbital Gas Strike.mp4"; sourceTree = "<group>"; };
-		7CC284432BD8DA550036EBFD /* Railgun.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Railgun.mp4; sourceTree = "<group>"; };
-		7CC284442BD8DA550036EBFD /* Machine Gun.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Machine Gun.mp4"; sourceTree = "<group>"; };
-		7CC284452BD8DA550036EBFD /* EMS Mortar Sentry.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EMS Mortar Sentry.mp4"; sourceTree = "<group>"; };
-		7CC284462BD8DA550036EBFD /* Autocannon Sentry.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Autocannon Sentry.mp4"; sourceTree = "<group>"; };
-		7CC284472BD8DA550036EBFD /* Orbital Precision Strike.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbital Precision Strike.mp4"; sourceTree = "<group>"; };
-		7CC284482BD8DA550036EBFD /* Supply Pack.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Supply Pack.mp4"; sourceTree = "<group>"; };
-		7CC284492BD8DA550036EBFD /* Anti-Personnel Minefield.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Anti-Personnel Minefield.mp4"; sourceTree = "<group>"; };
-		7CC2844A2BD8DA560036EBFD /* Orbital 120MM HE Barrage.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbital 120MM HE Barrage.mp4"; sourceTree = "<group>"; };
-		7CC2844B2BD8DA560036EBFD /* Expendable Anti-Tank.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Expendable Anti-Tank.mp4"; sourceTree = "<group>"; };
-		7CC2844C2BD8DA560036EBFD /* Shield Generator Pack.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Shield Generator Pack.mp4"; sourceTree = "<group>"; };
-		7CC2844D2BD8DA560036EBFD /* Orbital Laser.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbital Laser.mp4"; sourceTree = "<group>"; };
-		7CC2844E2BD8DA560036EBFD /* Arc Thrower.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Arc Thrower.mp4"; sourceTree = "<group>"; };
-		7CC2844F2BD8DA560036EBFD /* Rocket Sentry.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rocket Sentry.mp4"; sourceTree = "<group>"; };
-		7CC284502BD8DA560036EBFD /* Eagle 500KG Bomb.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Eagle 500KG Bomb.mp4"; sourceTree = "<group>"; };
-		7CC284512BD8DA560036EBFD /* Orbital EMS Strike.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbital EMS Strike.mp4"; sourceTree = "<group>"; };
-		7CC284522BD8DA570036EBFD /* Anti-Materiel Rifle.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Anti-Materiel Rifle.mp4"; sourceTree = "<group>"; };
-		7CC284532BD8DA570036EBFD /* Orbital Gatling Barrage.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbital Gatling Barrage.mp4"; sourceTree = "<group>"; };
-		7CC284542BD8DA570036EBFD /* Flamethrower.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Flamethrower.mp4; sourceTree = "<group>"; };
-		7CC284552BD8DA570036EBFD /* Mortar Sentry.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mortar Sentry.mp4"; sourceTree = "<group>"; };
-		7CC284562BD8DA570036EBFD /* Guard Dog.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Guard Dog.mp4"; sourceTree = "<group>"; };
-		7CC284572BD8DA570036EBFD /* Recoilless Rifle.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Recoilless Rifle.mp4"; sourceTree = "<group>"; };
 		7CC284BC2BD8DACF0036EBFD /* StratagemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StratagemDetailView.swift; sourceTree = "<group>"; };
 		7CC284BF2BD8DB390036EBFD /* PlanetsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetsList.swift; sourceTree = "<group>"; };
 		7CC284C32BD8DD790036EBFD /* BackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundModifier.swift; sourceTree = "<group>"; };
@@ -950,7 +846,6 @@
 		7C0C994A2BA2BA8F00CF7C91 /* Helldivers Companion */ = {
 			isa = PBXGroup;
 			children = (
-				7CC284252BD8DA320036EBFD /* StratagemVideos */,
 				7C018FD02BBA492A001AFB15 /* Sounds */,
 				7CE4AE382BA832660033D4AF /* Views */,
 				7C4589C52BA5840A0019B00E /* Helldivers Companion.entitlements */,
@@ -1174,65 +1069,6 @@
 				7CC0AE7C2BA7F31500802D9F /* Info.plist */,
 			);
 			path = "Helldivers Companion Widgets";
-			sourceTree = "<group>";
-		};
-		7CC284252BD8DA320036EBFD /* StratagemVideos */ = {
-			isa = PBXGroup;
-			children = (
-				7C274A542BE42ED600F90369 /* Airburst Rocket Launcher.mp4 */,
-				7CC284522BD8DA570036EBFD /* Anti-Materiel Rifle.mp4 */,
-				7CC284492BD8DA550036EBFD /* Anti-Personnel Minefield.mp4 */,
-				7CC2844E2BD8DA560036EBFD /* Arc Thrower.mp4 */,
-				7CC284462BD8DA550036EBFD /* Autocannon Sentry.mp4 */,
-				7CC284352BD8DA530036EBFD /* Autocannon.mp4 */,
-				7CC2842B2BD8DA520036EBFD /* Ballistic Shield Backpack.mp4 */,
-				7CC2842E2BD8DA520036EBFD /* Eagle 110MM Rocket Pods.mp4 */,
-				7CC284502BD8DA560036EBFD /* Eagle 500KG Bomb.mp4 */,
-				7CC284372BD8DA530036EBFD /* Eagle Airstrike.mp4 */,
-				7CC2842D2BD8DA520036EBFD /* Eagle Cluster Bomb.mp4 */,
-				7CC284292BD8DA520036EBFD /* Eagle Napalm Airstrike.mp4 */,
-				7CC284362BD8DA530036EBFD /* Eagle Smoke Strike.mp4 */,
-				7CC284392BD8DA530036EBFD /* Eagle Strafing Run.mp4 */,
-				7CC284452BD8DA550036EBFD /* EMS Mortar Sentry.mp4 */,
-				7CC2844B2BD8DA560036EBFD /* Expendable Anti-Tank.mp4 */,
-				7CC284542BD8DA570036EBFD /* Flamethrower.mp4 */,
-				7CC284282BD8DA520036EBFD /* Gatling Sentry.mp4 */,
-				7CC284402BD8DA540036EBFD /* Grenade Launcher.mp4 */,
-				7CC284312BD8DA530036EBFD /* Guard Dog Rover.mp4 */,
-				7CC284562BD8DA570036EBFD /* Guard Dog.mp4 */,
-				7CC284302BD8DA520036EBFD /* Heavy Machine Gun.mp4 */,
-				7CC2842F2BD8DA520036EBFD /* HMG Emplacement.mp4 */,
-				7CC2843F2BD8DA540036EBFD /* Incendiary Mines.mp4 */,
-				7CC284342BD8DA530036EBFD /* Jump Pack.mp4 */,
-				7C6DE5142C472C2800077534 /* Emancipator Exosuit.mp4 */,
-				7CC2843C2BD8DA540036EBFD /* Laser Cannon.mp4 */,
-				7CC284382BD8DA530036EBFD /* Machine Gun Sentry.mp4 */,
-				7CC284442BD8DA550036EBFD /* Machine Gun.mp4 */,
-				7CC284552BD8DA570036EBFD /* Mortar Sentry.mp4 */,
-				7CC2844A2BD8DA560036EBFD /* Orbital 120MM HE Barrage.mp4 */,
-				7CC284332BD8DA530036EBFD /* Orbital 380MM HE Barrage.mp4 */,
-				7CC2843D2BD8DA540036EBFD /* Orbital Airburst Strike.mp4 */,
-				7CC284512BD8DA560036EBFD /* Orbital EMS Strike.mp4 */,
-				7CC284422BD8DA540036EBFD /* Orbital Gas Strike.mp4 */,
-				7CC284532BD8DA570036EBFD /* Orbital Gatling Barrage.mp4 */,
-				7CC2844D2BD8DA560036EBFD /* Orbital Laser.mp4 */,
-				7CC284472BD8DA550036EBFD /* Orbital Precision Strike.mp4 */,
-				7CC2842A2BD8DA520036EBFD /* Orbital Railcannon Strike.mp4 */,
-				7CC2842C2BD8DA520036EBFD /* Orbital Smoke Strike.mp4 */,
-				7CC284262BD8DA510036EBFD /* Orbital Walking Barrage.mp4 */,
-				7CC284412BD8DA540036EBFD /* Patriot Exosuit.mp4 */,
-				7CC284322BD8DA530036EBFD /* Quasar Cannon.mp4 */,
-				7CC284432BD8DA550036EBFD /* Railgun.mp4 */,
-				7CC284572BD8DA570036EBFD /* Recoilless Rifle.mp4 */,
-				7CC2844F2BD8DA560036EBFD /* Rocket Sentry.mp4 */,
-				7CC2844C2BD8DA560036EBFD /* Shield Generator Pack.mp4 */,
-				7CC2843A2BD8DA530036EBFD /* Shield Generator Relay.mp4 */,
-				7CC284272BD8DA520036EBFD /* Spear.mp4 */,
-				7CC2843E2BD8DA540036EBFD /* Stalwart.mp4 */,
-				7CC284482BD8DA550036EBFD /* Supply Pack.mp4 */,
-				7CC2843B2BD8DA540036EBFD /* Tesla Tower.mp4 */,
-			);
-			path = StratagemVideos;
 			sourceTree = "<group>";
 		};
 		7CC284C22BD8DD6C0036EBFD /* ViewModifiers */ = {
@@ -1677,73 +1513,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C4589B92BA54C030019B00E /* FS Sinclair Bold.otf in Resources */,
-				7CC284622BD8DA570036EBFD /* Ballistic Shield Backpack.mp4 in Resources */,
-				7CC284AC2BD8DA570036EBFD /* Eagle 500KG Bomb.mp4 in Resources */,
-				7CC2847A2BD8DA570036EBFD /* Eagle Airstrike.mp4 in Resources */,
 				7C018FF02BBA600D001AFB15 /* Stratagem Hero Round Start Sound.mp3 in Resources */,
-				7CC2848E2BD8DA570036EBFD /* Patriot Exosuit.mp4 in Resources */,
-				7CC284B82BD8DA570036EBFD /* Guard Dog.mp4 in Resources */,
-				7CC284842BD8DA570036EBFD /* Laser Cannon.mp4 in Resources */,
-				7CC284882BD8DA570036EBFD /* Stalwart.mp4 in Resources */,
-				7CC284802BD8DA570036EBFD /* Shield Generator Relay.mp4 in Resources */,
-				7CC2849A2BD8DA570036EBFD /* Orbital Precision Strike.mp4 in Resources */,
-				7CC284582BD8DA570036EBFD /* Orbital Walking Barrage.mp4 in Resources */,
 				7C274A482BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */,
 				7C018FFD2BBA68C9001AFB15 /* Stratagem Hero Success Sound Apple Watch.mp3 in Resources */,
-				7CC284942BD8DA570036EBFD /* Machine Gun.mp4 in Resources */,
 				7C0190052BBA6B4D001AFB15 /* Stratagem Hero Round Start Sound Apple Watch.mp3 in Resources */,
 				7C018FED2BBA5FA8001AFB15 /* Stratagem Hero Game Music.mp3 in Resources */,
 				7C0190022BBA6A54001AFB15 /* Stratagem Hero Error Sound Apple Watch.mp3 in Resources */,
-				7CC284B62BD8DA570036EBFD /* Mortar Sentry.mp4 in Resources */,
-				7CC284A42BD8DA570036EBFD /* Shield Generator Pack.mp4 in Resources */,
-				7CC284902BD8DA570036EBFD /* Orbital Gas Strike.mp4 in Resources */,
 				7C018FFF2BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 in Resources */,
-				7CC284682BD8DA570036EBFD /* Eagle 110MM Rocket Pods.mp4 in Resources */,
-				7C6DE5152C472C2800077534 /* Emancipator Exosuit.mp4 in Resources */,
 				7C018FF62BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */,
-				7CC284B02BD8DA570036EBFD /* Anti-Materiel Rifle.mp4 in Resources */,
-				7CC2846E2BD8DA570036EBFD /* Guard Dog Rover.mp4 in Resources */,
 				7C0C99532BA2BA9000CF7C91 /* Preview Assets.xcassets in Resources */,
-				7CC2849C2BD8DA570036EBFD /* Supply Pack.mp4 in Resources */,
-				7CC284AA2BD8DA570036EBFD /* Rocket Sentry.mp4 in Resources */,
-				7CC2846A2BD8DA570036EBFD /* HMG Emplacement.mp4 in Resources */,
-				7CC284642BD8DA570036EBFD /* Orbital Smoke Strike.mp4 in Resources */,
-				7CC284762BD8DA570036EBFD /* Autocannon.mp4 in Resources */,
-				7CC284602BD8DA570036EBFD /* Orbital Railcannon Strike.mp4 in Resources */,
-				7CC284AE2BD8DA570036EBFD /* Orbital EMS Strike.mp4 in Resources */,
-				7CC284962BD8DA570036EBFD /* EMS Mortar Sentry.mp4 in Resources */,
 				7C297D172BCE845D00D884DD /* GoogleService-Info.plist in Resources */,
-				7CC2849E2BD8DA570036EBFD /* Anti-Personnel Minefield.mp4 in Resources */,
-				7CC2845A2BD8DA570036EBFD /* Spear.mp4 in Resources */,
-				7CC284B42BD8DA570036EBFD /* Flamethrower.mp4 in Resources */,
-				7CC2845E2BD8DA570036EBFD /* Eagle Napalm Airstrike.mp4 in Resources */,
-				7CC284982BD8DA570036EBFD /* Autocannon Sentry.mp4 in Resources */,
 				7C018FEA2BBA5CA6001AFB15 /* Stratagem Hero Input Sound.mp3 in Resources */,
-				7CC2847E2BD8DA570036EBFD /* Eagle Strafing Run.mp4 in Resources */,
-				7CC284662BD8DA570036EBFD /* Eagle Cluster Bomb.mp4 in Resources */,
-				7CC2845C2BD8DA570036EBFD /* Gatling Sentry.mp4 in Resources */,
-				7CC2848A2BD8DA570036EBFD /* Incendiary Mines.mp4 in Resources */,
 				7CF6D2EA2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */,
-				7CC284B22BD8DA570036EBFD /* Orbital Gatling Barrage.mp4 in Resources */,
-				7CC2848C2BD8DA570036EBFD /* Grenade Launcher.mp4 in Resources */,
 				7C018FF32BBA607B001AFB15 /* Stratagem Hero Round End Sound.mp3 in Resources */,
 				7C018FF92BBA6152001AFB15 /* Stratagem Hero Success Sound.mp3 in Resources */,
-				7CC284A02BD8DA570036EBFD /* Orbital 120MM HE Barrage.mp4 in Resources */,
-				7CC284BA2BD8DA570036EBFD /* Recoilless Rifle.mp4 in Resources */,
-				7CC2846C2BD8DA570036EBFD /* Heavy Machine Gun.mp4 in Resources */,
-				7CC284742BD8DA570036EBFD /* Jump Pack.mp4 in Resources */,
-				7CC2847C2BD8DA570036EBFD /* Machine Gun Sentry.mp4 in Resources */,
 				7C0C99502BA2BA9000CF7C91 /* Assets.xcassets in Resources */,
-				7CC284822BD8DA570036EBFD /* Tesla Tower.mp4 in Resources */,
-				7CC284A22BD8DA570036EBFD /* Expendable Anti-Tank.mp4 in Resources */,
-				7CC284862BD8DA570036EBFD /* Orbital Airburst Strike.mp4 in Resources */,
-				7C274A552BE42ED600F90369 /* Airburst Rocket Launcher.mp4 in Resources */,
-				7CC284722BD8DA570036EBFD /* Orbital 380MM HE Barrage.mp4 in Resources */,
-				7CC284782BD8DA570036EBFD /* Eagle Smoke Strike.mp4 in Resources */,
-				7CC284A82BD8DA570036EBFD /* Arc Thrower.mp4 in Resources */,
-				7CC284922BD8DA570036EBFD /* Railgun.mp4 in Resources */,
-				7CC284A62BD8DA570036EBFD /* Orbital Laser.mp4 in Resources */,
-				7CC284702BD8DA570036EBFD /* Quasar Cannon.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -38,7 +38,7 @@ struct StratagemDetailView: View {
             
             VStack(alignment: .center) {
                 
-                StratagemVideoPlayer(videoName: stratagem.name, videoType: "mp4")
+                StratagemVideoPlayer(stratagem: stratagem)
                    // .frame(maxWidth: .infinity)
                 
                     .frame(width: UIScreen.main.bounds.width - 60)
@@ -188,51 +188,100 @@ struct StratagemStatView: View {
 
 struct StratagemVideoPlayer: View {
     
-    private var player: AVPlayer?
+    @State private var player: AVPlayer?
+    @State private var isLoading = true
     
-    init(videoName: String, videoType: String) {
+    let stratagem: Stratagem
+    
+  /*  init(videoName: String, videoType: String) {
             if let path = Bundle.main.path(forResource: videoName, ofType: videoType) {
                 let url = URL(fileURLWithPath: path)
                 self.player = AVPlayer(url: url)
+                self.videoName = videoName
             } else {
                 self.player = nil
+                self.videoName = "not found"
                 print("Video file not found")
+                
             }
-        }
+        }*/
     
     var body: some View {
-       
-            if let player = player {
-
-         GeometryReader { geometry in
+        
+        VStack{
+        if isLoading {
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle())
+        } else if let player = player {
+            
+            GeometryReader { geometry in
                 VideoPlayer(player: player)
-                    .aspectRatio(contentMode: .fill) 
+                    .aspectRatio(contentMode: .fill)
                     .frame(width: geometry.size.width, height: geometry.size.height)
                     .clipped()
                 
                 
-
-
-                 }.frame(width: UIScreen.main.bounds.width - 40, height: 120)
-            .border(Color.white)
-            .padding(4)
-            .border(Color.gray)
-            .padding(4)
-              
-                    .onAppear {
-                        player.play()
-                    }
-                    .onDisappear {
-                        player.pause()
-                    }
-
-
                 
-            } else {
-                EmptyView()
-            }
+                
+            }.frame(width: UIScreen.main.bounds.width - 40, height: 120)
+                .border(Color.white)
+                .padding(4)
+                .border(Color.gray)
+                .padding(4)
+            
+                .onAppear {
+                    player.play()
+                }
+                .onDisappear {
+                    player.pause()
+                }
+            
+            
+            
+        } else {
+            Text("Video not available")
+                .font(Font.custom("FSSinclair-Bold", size: 14))
+        }
+        }
+            .task {
+                        await fetchVideo()
+                    }
        
     }
+    
+    private func fetchVideo() async {
+            let cacheDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+        let videoCacheURL = cacheDirectory.appendingPathComponent("\(stratagem.name.lowercased()).mp4")
+            
+            if FileManager.default.fileExists(atPath: videoCacheURL.path) {
+                withAnimation {
+                    player = AVPlayer(url: videoCacheURL)
+                    isLoading = false
+                }
+                print("fetched video from cache")
+                return
+            }
+            
+        guard let url = URL(string: stratagem.videoUrl ?? "") else {
+            withAnimation {
+                isLoading = false
+            }
+                return
+            }
+            
+            do {
+                let (data, _) = try await URLSession.shared.data(from: url)
+                try data.write(to: videoCacheURL)
+                withAnimation {
+                    player = AVPlayer(url: videoCacheURL)
+                }
+            } catch {
+                print("Failed to fetch video: \(error)")
+            }
+        withAnimation {
+            isLoading = false
+        }
+        }
     
     
 }
