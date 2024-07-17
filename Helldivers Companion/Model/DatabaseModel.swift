@@ -94,9 +94,9 @@ class DatabaseModel: ObservableObject {
             case .stratagems:
                 return "https://api-hellhub-collective.koyeb.app/api/stratagems?limit=100"
             case .automatons:
-                return "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/automatonEnemies.json"
+                return "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/automatonEnemiesUpdated.json"
             case .terminids:
-                return "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/terminidEnemies.json"
+                return "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/terminidEnemiesUpdated.json"
             case .traits:
                 return "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/traits.json"
             case .fireModes:

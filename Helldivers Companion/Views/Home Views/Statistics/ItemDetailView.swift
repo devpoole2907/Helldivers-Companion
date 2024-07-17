@@ -171,8 +171,10 @@ struct ItemDetailView: View {
             VStack(alignment: .center) {
                 
                 
-                
-                if UIImage(named: itemName ?? "") != nil {
+                if let enemy = enemy {
+                    AsyncImageView(imageUrl: enemy.imageUrl)
+                                       .frame(width: 240, height: 200)
+                               } else if UIImage(named: itemName ?? "") != nil {
                     Image(itemName ?? "")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -547,8 +549,6 @@ struct ItemDetailCostView: View {
     
     var body: some View {
         
-        
-        
         ZStack(alignment: .topLeading) {
             Color.gray.opacity(0.2)
                 .shadow(radius: 3)
@@ -582,4 +582,60 @@ struct ItemDetailCostView: View {
     
     
     
+}
+
+struct AsyncImageView: View {
+    
+    let imageUrl: String
+    @State private var image: UIImage? = nil
+    @State private var isLoading = true
+    
+    var body: some View {
+        VStack {
+            if isLoading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+            } else if let image = image {
+                Image(uiImage: image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            } else {
+                EmptyView()
+            }
+        }
+   
+        .task {
+            await fetchImage()
+        }
+    }
+    
+    private func fetchImage() async {
+           guard let url = URL(string: imageUrl) else {
+               print("Invalid URL")
+               isLoading = false
+               return
+           }
+           
+           let cacheDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+           let imageCacheURL = cacheDirectory.appendingPathComponent(url.lastPathComponent)
+           
+           if FileManager.default.fileExists(atPath: imageCacheURL.path) {
+               if let cachedImage = UIImage(contentsOfFile: imageCacheURL.path) {
+                   image = cachedImage
+                   isLoading = false
+                   return
+               }
+           }
+           
+           do {
+               let (data, _) = try await URLSession.shared.data(from: url)
+               try data.write(to: imageCacheURL)
+               if let fetchedImage = UIImage(data: data) {
+                   image = fetchedImage
+               }
+           } catch {
+               print("Failed to fetch image: \(error)")
+           }
+           isLoading = false
+       }
 }

@@ -828,9 +828,10 @@ struct Enemy: Codable, Identifiable, Hashable {
     let name: String
     var description: String
     var recommendedStratagems: [Stratagem]
+    var imageUrl: String
 
     enum CodingKeys: String, CodingKey {
-        case name, description, recommendedStratagems
+        case name, description, recommendedStratagems, imageUrl
     }
     
     // custom decoder to map string names to stratagems
@@ -846,6 +847,7 @@ struct Enemy: Codable, Identifiable, Hashable {
         self.recommendedStratagems = stratagemNames.compactMap { name in
             globalStratagems.first { $0.name == name }
         }
+        self.imageUrl = try container.decode(String.self, forKey: .imageUrl)
     }
 }
 

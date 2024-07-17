@@ -88,13 +88,11 @@ struct EnemyDetailRow: View {
             Color.gray.opacity(0.2).shadow(radius: 3)
             
             HStack {
-                // Display item image if exists
-                if UIImage(named: enemy.name) != nil {
-                    Image(uiImage: UIImage(named: enemy.name)!)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+        
+         
+                AsyncImageView(imageUrl: enemy.imageUrl)
                         .frame(width: 50, height: 50)
-                }
+                
                 
                 VStack(alignment: .leading, spacing: 2) {
                     VStack(alignment: .leading, spacing: 0){
