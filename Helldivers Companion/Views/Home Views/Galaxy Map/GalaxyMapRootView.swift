@@ -12,7 +12,7 @@ import Haptics
 
 struct GalaxyMapRootView: View {
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     @EnvironmentObject var navPather: NavigationPather
     
     @State var planetName: String = ""

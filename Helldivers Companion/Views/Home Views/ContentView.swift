@@ -15,7 +15,7 @@ import Haptics
 @available(watchOS 9.0, *)
 struct ContentView: View {
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     
     @EnvironmentObject var navPather: NavigationPather
     
@@ -143,7 +143,7 @@ struct ContentView: View {
             .scrollContentBackground(.hidden)
             
                 .refreshable {
-                    viewModel.refresh()
+                    viewModel.startUpdating()
                 }
             
             

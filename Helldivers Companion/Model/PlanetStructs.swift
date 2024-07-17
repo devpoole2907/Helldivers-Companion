@@ -682,7 +682,8 @@ struct Armour: Codable, Hashable, DetailItem {
         }
     
     enum CodingKeys: String, CodingKey {
-        case name, description, type, slot, armourRating = "armor_rating", speed, staminaRegen = "stamina_regen", passive
+        // NOTE: everything gets decoded from snake case, in the data the armour rating is actually armor_rating/stamina_regen etc
+        case name, description, type, slot, armourRating = "armorRating", speed, staminaRegen = "staminaRegen", passive
     }
 }
 
@@ -726,7 +727,7 @@ struct WarBond: Hashable {
     }
     
     var id = UUID()
-    var name: WarBondName?
+    var name: String
     var medalsToUnlock: Int
     var items: [WarBondItem]
     
@@ -736,15 +737,6 @@ struct WarBondSection: Hashable {
     var sectionId: Int
     var medalsToUnlock: Int
     var items: [WarBondItem]
-}
-
-enum WarBondName: String, CaseIterable, Hashable {
-    case cuttingEdge = "Cutting Edge"
-    case steeledVeterans = "Steeled Veterans"
-    case helldiversMobilize = "Helldivers Mobilize"
-    case democraticDetonation = "Democratic Detonation"
-    case polarPatriots = "Polar Patriots"
-    case viperCommandos = "Viper Commandos"
 }
 
 struct WarBondDetails: Decodable {

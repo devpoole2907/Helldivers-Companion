@@ -12,7 +12,7 @@ struct WatchNewsView: View {
     
     @StateObject var feedModel = NewsFeedModel()
     @EnvironmentObject var navPather: NavigationPather
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     
     
     var body: some View {

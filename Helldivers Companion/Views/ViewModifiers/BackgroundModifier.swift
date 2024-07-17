@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ConditionalBackgroundModifier: ViewModifier {
     
-    @ObservedObject var viewModel: PlanetsViewModel
+    @ObservedObject var viewModel: PlanetsDataModel
     
     var grayscale = false
     
@@ -34,7 +34,7 @@ struct ConditionalBackgroundModifier: ViewModifier {
 }
 
 extension View {
-    func conditionalBackground(viewModel: PlanetsViewModel, grayscale: Bool = false, opacity: CGFloat = 1.0) -> some View {
+    func conditionalBackground(viewModel: PlanetsDataModel, grayscale: Bool = false, opacity: CGFloat = 1.0) -> some View {
             modifier(ConditionalBackgroundModifier(viewModel: viewModel, grayscale: grayscale, opacity: opacity))
         }
 }

@@ -157,7 +157,9 @@ class StratagemHeroModel: ObservableObject {
     func loadSelectedStratagems() {
             if let stratagemsData = UserDefaults.standard.data(forKey: "SelectedStratagems"),
                let stratagems = try? JSONDecoder().decode([Stratagem].self, from: stratagemsData) {
-                selectedStratagems = stratagems
+                DispatchQueue.main.async {
+                    self.selectedStratagems = stratagems
+                }
             }
         }
     

@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 class DatabaseModel: ObservableObject {
     
     @Published var decodedStrats: [DecodedStratagem] = []
@@ -48,94 +49,240 @@ class DatabaseModel: ObservableObject {
     
     // war bonds
     // TODO: warbonds are totally screwed up here i misunderstood the data structures, for now ive duct taped it but its completely RINSED how all this works lmaoo
-    @Published var cuttingEdge: FixedWarBond?
-    @Published var steeledVeterans: FixedWarBond?
-    @Published var helldiversMobilize: FixedWarBond?
-    @Published var democraticDetonation: FixedWarBond?
-    @Published var polarPatriots: FixedWarBond?
-    @Published var viperCommandos: FixedWarBond?
+    // at least theyre dynamically fetched now
+    
+    @Published var warBondCollections: [String: FixedWarBond] = [:]
     
     //enemies for bestiary
     @Published var automatonEnemies: [Enemy] = []
     @Published var terminidsEnemies: [Enemy] = []
     
+    let netManager = NetworkManager.shared
+    
     
     private var timer: Timer?
     
-    func loadData() {
-        fetchStrats()
-        fetchPrimaryWeapons()
-        fetchSecondaryWeapons()
-        fetchGrenades()
-        fetchTypes()
-        fetchTraits()
-        fetchFireModes()
-        fetchBoosters()
-        //  fetchSlots() // fetched before the store rotation fetch calls, to remap the store rotation slot values to Ints for consistency with armours
-        fetchArmours()
-        fetchPassives()
-        fetchWarBonds()
-        fetchEnemies()
-        startUpdating()
-    }
-    
-    func fetchEnemies() {
+    enum ItemToFetch: CaseIterable {
+        case primaryWeapons
+        case secondaryWeapons
+        case grenades
+        case boosters
+        case passives
+        case armours
+        case stratagems
+        case automatons
+        case terminids
+        case traits
+        case fireModes
+        case weaponTypes
+        case armourSlots
         
-        fetchAutomatonEnemies()
-        fetchTerminidsEnemies()
-        
-    }
-    
-    
-    func remapStoreRotationSlots() {
-        let slots = self.armourSlots
-        self.storeRotation?.items = self.storeRotation?.items.map { item in
-            var newItem = item
-            if let slot = slots.first(where: { $0.name.lowercased() == item.slot.lowercased() }) {
-                newItem.slot = String(slot.id)  // convert slot id to string, store items will hold their slots as strings
+        var urlString: String {
+            switch self {
+            case .primaryWeapons:
+                return "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/primary.json"
+            case .secondaryWeapons:
+                return "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/secondary.json"
+            case .grenades:
+                return "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/grenades.json"
+            case .boosters:
+                return "https://raw.githubusercontent.com/helldivers-2/json/master/items/boosters.json"
+            case .passives:
+                return "https://raw.githubusercontent.com/helldivers-2/json/master/items/armor/passive.json"
+            case .armours:
+                return "https://raw.githubusercontent.com/helldivers-2/json/master/items/armor/armor.json"
+            case .stratagems:
+                return "https://api-hellhub-collective.koyeb.app/api/stratagems?limit=100"
+            case .automatons:
+                return "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/automatonEnemies.json"
+            case .terminids:
+                return "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/terminidEnemies.json"
+            case .traits:
+                return "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/traits.json"
+            case .fireModes:
+                return "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/fire_modes.json"
+            case .weaponTypes:
+                return "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/types.json"
+            case .armourSlots:
+                return "https://raw.githubusercontent.com/helldivers-2/json/master/items/armor/slot.json"
             }
-            return newItem
-        } ?? []
+        }
     }
     
+    func fetchItems(for type: ItemToFetch) async {
+        do {
+            switch type {
+            case .primaryWeapons:
+                let items: [Weapon] = try await fetchItems(from: type.urlString)
+                self.primaryWeapons = items
+            case .secondaryWeapons:
+                let items: [Weapon] = try await fetchItems(from: type.urlString)
+                self.secondaryWeapons = items
+            case .grenades:
+                let items: [Grenade] = try await fetchItems(from: type.urlString)
+                self.grenades = items
+            case .boosters:
+                let items: [Booster] = try await fetchItems(from: type.urlString)
+                self.boosters = items
+            case .passives:
+                let passives: [Passive] = try await fetchItems(from: type.urlString)
+                self.passives = passives
+            case .armours:
+                let armours: [Armour] = try await fetchItems(from: type.urlString)
+                self.helmets = armours.filter({ $0.slot == 0 })
+                self.chests = armours.filter({ $0.slot == 2 })
+                self.cloaks = armours.filter({ $0.slot == 1 })
+            case .stratagems:
+                let decodedData: DecodedStratagemData = try await netManager.fetchData(from: type.urlString)
+                self.decodedStrats = decodedData.data
+            case .automatons:
+                let enemies: [Enemy] = try await netManager.fetchData(from: type.urlString)
+                self.automatonEnemies = enemies
+            case .terminids:
+                let enemies: [Enemy] = try await netManager.fetchData(from: type.urlString)
+                self.terminidsEnemies = enemies
+            case .traits:
+                let traits = try await fetchWeaponData(from: type.urlString) { rawTraits in
+                    self.transformDictionaryToModel(rawData: rawTraits) { id, value in
+                        return Trait(id: id, description: value)
+                    }
+                }
+                self.traits = traits
+                print("Fetched weapon traits")
+            case .fireModes:
+                let fireModes = try await fetchWeaponData(from: type.urlString) { rawFireModes in
+                    self.transformDictionaryToModel(rawData: rawFireModes) { id, value in
+                        return FireMode(id: id, mode: value)
+                    }
+                    
+                }
+                self.fireModes = fireModes
+                print("Fetched firing modes")
+            case .weaponTypes:
+                let types = try await fetchWeaponData(from: type.urlString) { rawTypes in
+                    self.transformDictionaryToModel(rawData: rawTypes) { id, name in
+                        return WeaponType(id: id, name: name)
+                    }
+                }
+                self.types = types
+            case .armourSlots:
+                let slots = try await fetchWeaponData(from: type.urlString) { rawSlots in
+                    self.transformDictionaryToModel(rawData: rawSlots) { id, value in
+                        return ArmourSlot(id: id, name: value)
+                    }
+                    
+                }
+                self.armourSlots = slots
+                print("fetched armour slots")
+            }
+        } catch {
+            print("Failed to fetch \(type): \(error)")
+        }
+    }
     
     
     func startUpdating() {
         
-        timer?.invalidate()
-        
-        self.fetchSlots {
-            print("fetched armour slots")
-            self.fetchStoreRotation {
-                print("fetched store rotation, remapping slots to match armour fetch")
-                self.remapStoreRotationSlots()
+        Task {
+            do {
+                
+                await fetchItems(for: .armourSlots)
+                print("Fetched armour slots")
+                
+                let storeRotation = try await fetchAndRemapStoreRotation(with: self.armourSlots)
+                
+                await MainActor.run {
+                    withAnimation(.bouncy) {
+                        
+                        self.storeRotation = storeRotation
+                    }
+                }
+                
+                // fetch all data/items
+                // TODO: hmm this will fetch armour slots twice ...
+                for itemType in ItemToFetch.allCases {
+                    
+                    await fetchItems(for: itemType)
+                }
+                
+                await fetchAllWarBonds()
+                
+                
+                setupTimer()
+                
+            } catch {
+                print("Error fetching data: \(error)")
             }
         }
-        
-        
-        
-        timer = Timer.scheduledTimer(withTimeInterval: 45, repeats: true) { [weak self] _ in
-            // shouldnt need to re fetch slots again here, we got them earlier
-            self?.fetchStoreRotation {
-                print("fetched store rotation, again remapping slots to match armour fetch")
-                self?.remapStoreRotationSlots()
-            }
-            
-            
-        }
-        
         
     }
     
+    private func setupTimer() {
+        timer?.invalidate()
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 45, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            Task {
+                do {
+                    if let storeRotation = try await self.fetchAndRemapStoreRotation(with: self.armourSlots) {
+                        await MainActor.run {
+                            withAnimation(.bouncy) {
+                                self.storeRotation = storeRotation
+                            }
+                        }
+                        
+                    }
+                    
+                } catch {
+                    print("Error fetching data: \(error)")
+                }
+            }
+        }
+    }
     
-    func fetchStoreRotation(completion: @escaping () -> Void) {
+    
+    // FETCH AND TRANSFORM FUNCS
+    
+    func fetchItems<T: Decodable>(from urlString: String) async throws -> [T] {
+        let decodedData: [String: T] = try await netManager.fetchData(from: urlString)
+        return Array(decodedData.values)
+    }
+    
+    private func fetchWeaponData<T: Codable>(from urlString: String, transform: @escaping ([String: String]) -> [T]) async throws -> [T] {
+        let rawData: [String: String] = try await netManager.fetchData(from: urlString)
+        return transform(rawData)
+    }
+    
+    func transformDictionaryToModel<T: Codable>(rawData: [String: String], transform: @escaping (Int, String) -> T?) -> [T] {
+        return rawData.compactMap { (key, value) -> T? in
+            guard let id = Int(key) else {
+                print("Invalid key \(key), expected an integer")
+                return nil
+            }
+            return transform(id, value)
+        }
+    }
+    
+    
+    // STORE ROTATION
+    
+    private func fetchAndRemapStoreRotation(with slots: [ArmourSlot]) async throws -> SuperStoreResponse? {
+        
+        if var storeRotation = try await fetchStoreRotation() {
+            storeRotation.items = remapStoreRotationSlots(slots: slots, items: storeRotation.items)
+            print("Fetched store rotation, remapping slots to match armour fetch")
+            return storeRotation
+        }
+        return nil
+        
+    }
+    
+    func fetchStoreRotation() async throws -> SuperStoreResponse? {
         
         let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/storeRotation.json"
         
         guard let url = URL(string: urlString) else {
-            print("Invalid URL")
-            completion()
-            return
+            throw URLError(.badURL)
         }
         
         var request = URLRequest(url: url)
@@ -143,54 +290,81 @@ class DatabaseModel: ObservableObject {
         request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Application-Contact")
         request.addValue("james@pooledigital.com", forHTTPHeaderField: "X-Super-Contact")
         
-        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            guard let data = data, error == nil else {
-                print("Network request failed: \(error?.localizedDescription ?? "Unknown error")")
-                completion()
-                return
-            }
-            
-            if let jsonString = String(data: data, encoding: .utf8) {
-                print("Received JSON: \(jsonString)")
-            }
-            
-            
-            
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            
-            
-            do {
-                
-                let decodedResponse = try decoder.decode(SuperStoreResponse.self, from: data)
-                
-                DispatchQueue.main.async {
-                    
-                    withAnimation(.bouncy) {
-                        self?.storeRotation = decodedResponse
-                    }
-                    completion()
-                }
-                
-                
-                
-                
-            } catch {
-                print("Decoding error: \(error)")
-                completion()
-            }
-            
-            
-        }.resume()
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
+        let decodedResponse = try decoder.decode(SuperStoreResponse.self, from: data)
+        return decodedResponse
         
         
     }
     
+    private func remapStoreRotationSlots(slots: [ArmourSlot], items: [StoreItem]) -> [StoreItem] {
+        return items.map { item in
+            var newItem = item
+            if let slot = slots.first(where: { $0.name.lowercased() == item.slot.lowercased() }) {
+                newItem.slot = String(slot.id)  // convert slot id to string, store items will hold their slots as strings
+            }
+            return newItem
+        }
+    }
+    
+    
+    // WAR BONDS
+    
+    func fetchWarBondDetails(from urlString: String) async throws -> [String: WarBondDetails] {
+        return try await netManager.fetchData(from: urlString)
+    }
+    
+    func fetchAllWarBonds() async {
+        do {
+            let files = try await netManager.fetchFileList(from: "https://api.github.com/repos/helldivers-2/json/contents/warbonds")
+                    print("fetched war bond file list: \(files.count)")
+            print("fetched war bond file list: \(files.count)")
+            for file in files {
+                guard let url = URL(string: file.downloadUrl) else {
+                    print("Invalid URL: \(file.downloadUrl)")
+                    continue
+                }
+                
+                do {
+                    print("Fetching war bond details from URL: \(url)")
+                    let warBondDetails: [String: WarBondDetails] = try await fetchWarBondDetails(from: url.absoluteString)
+                    let warBonds = warBondDetails.map { (key, details) -> WarBond in
+                        let warBondName = file.name
+                            .replacingOccurrences(of: "_", with: " ")
+                            .replacingOccurrences(of: ".json", with: "")
+                            .capitalized
+                        return WarBond(name: warBondName, medalsToUnlock: details.medalsToUnlock, items: details.items)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.updateWarBondCollection(with: warBonds, for: file.name)
+                    }
+                } catch {
+                    print("Failed to fetch war bond details from \(url): \(error)")
+                }
+            }
+        } catch {
+            print("Failed to fetch war bonds: \(error)")
+        }
+    }
+    
+    private func updateWarBondCollection(with warBonds: [WarBond], for fileName: String) {
+        let fixedWarBond = FixedWarBond(warbondPages: warBonds)
+        DispatchQueue.main.async {
+            self.warBondCollections[fileName] = fixedWarBond
+        }
+    }
+    
+    
+    
+    
     func warBond(for itemId: Int) -> WarBond? {
-        let collections = [self.cuttingEdge, self.steeledVeterans, self.helldiversMobilize, self.democraticDetonation, self.polarPatriots, self.viperCommandos]
-        for fixedWarBond in collections {
-            for warBond in fixedWarBond?.warbondPages ?? [] {
+        for (_, fixedWarBond) in self.warBondCollections {
+            for warBond in fixedWarBond.warbondPages {
                 if warBond.items.contains(where: { $0.itemId == itemId }) {
                     return warBond
                 }
@@ -200,11 +374,10 @@ class DatabaseModel: ObservableObject {
     }
     
     func fixedWarBond(for itemId: Int) -> FixedWarBond? {
-        let collections = [self.cuttingEdge, self.steeledVeterans, self.helldiversMobilize, self.democraticDetonation, self.polarPatriots, self.viperCommandos]
-        for fixedWarBond in collections {
-            if fixedWarBond?.warbondPages.contains(where: { warBond in
+        for (_, fixedWarBond) in self.warBondCollections {
+            if fixedWarBond.warbondPages.contains(where: { warBond in
                 warBond.items.contains(where: { $0.itemId == itemId })
-            }) ?? false {
+            }) {
                 return fixedWarBond
             }
         }
@@ -215,364 +388,6 @@ class DatabaseModel: ObservableObject {
     func itemMedalCost(for itemId: Int) -> Int? {
         guard let warBond = warBond(for: itemId) else { return nil }
         return warBond.items.first { $0.itemId == itemId }?.medalCost
-    }
-    
-    
-    func fetchWarBonds() {
-        let urls = [
-            "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/cutting_edge.json",
-            "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/helldivers_mobilize.json",
-            "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/democratic_detonation.json",
-            "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/steeled_veterans.json",
-            "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/polar_patriots.json",
-            "https://raw.githubusercontent.com/helldivers-2/json/master/warbonds/viper_commandos.json"
-        ]
-        
-        let warBondNames: [WarBondName] = [.cuttingEdge, .helldiversMobilize, .democraticDetonation, .steeledVeterans, .polarPatriots, .viperCommandos]
-        
-        for (index, urlString) in urls.enumerated() {
-            if let url = URL(string: urlString) {
-                fetchWarBond(url: url, warBondName: warBondNames[index])
-            } else {
-                print("Invalid URL: \(urlString)")
-            }
-        }
-    }
-    
-    
-    func fetch<T: Decodable>(url: URL, completion: @escaping (T) -> Void) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else { return }
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let decodedData = try decoder.decode(T.self, from: data)
-                DispatchQueue.main.async {
-                    completion(decodedData)
-                }
-            } catch {
-                print("Failed to decode JSON: \(error)")
-            }
-        }.resume()
-    }
-    
-    func fetchWarBond(url: URL, warBondName: WarBondName) {
-        fetch(url: url) { [weak self] (result: [String: WarBondDetails]) in
-            var warBonds = [WarBond]()
-            for (_, details) in result {
-                let newWarBond = WarBond(name: warBondName, medalsToUnlock: details.medalsToUnlock, items: details.items)
-                warBonds.append(newWarBond)
-            }
-            DispatchQueue.main.async {
-                self?.updateWarBondCollection(with: warBonds, for: warBondName)
-            }
-        }
-    }
-    
-    private func updateWarBondCollection(with warBonds: [WarBond], for warBondName: WarBondName) {
-        let fixedWarBond = FixedWarBond(warbondPages: warBonds)
-        DispatchQueue.main.async {
-            switch warBondName {
-            case .cuttingEdge:
-                self.cuttingEdge = fixedWarBond
-            case .steeledVeterans:
-                self.steeledVeterans = fixedWarBond
-            case .helldiversMobilize:
-                self.helldiversMobilize = fixedWarBond
-            case .democraticDetonation:
-                self.democraticDetonation = fixedWarBond
-            case .polarPatriots:
-                self.polarPatriots = fixedWarBond
-            case .viperCommandos:
-                self.viperCommandos = fixedWarBond
-            }
-        }
-    }
-    
-    
-    
-    func fetchPrimaryWeapons() {
-        if let url = URL(string: "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/primary.json") {
-            fetch(url: url) { (weapons: [String: Weapon]) in
-                self.primaryWeapons = Array(weapons.values)
-                
-            }
-        }
-    }
-    
-    func fetchSecondaryWeapons() {
-        if let url = URL(string: "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/secondary.json") {
-            fetch(url: url) { (weapons: [String: Weapon]) in
-                self.secondaryWeapons = Array(weapons.values)
-                
-            }
-        }
-    }
-    
-    func fetchGrenades() {
-        if let url = URL(string: "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/grenades.json") {
-            fetch(url: url) { (grenades: [String: Grenade]) in
-                self.grenades = Array(grenades.values)
-                
-                
-            }
-        }
-    }
-    
-    func fetchBoosters() {
-        if let url = URL(string: "https://raw.githubusercontent.com/helldivers-2/json/master/items/boosters.json") {
-            fetch(url: url) { (boosters: [String: Booster]) in
-                self.boosters = Array(boosters.values)
-                
-                
-            }
-        }
-    }
-    
-    func fetchArmours() {
-        guard let url = URL(string: "https://raw.githubusercontent.com/helldivers-2/json/master/items/armor/armor.json") else {
-            print("Invalid URL")
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data {
-                do {
-                    // decode json into a dictionary
-                    let armoursDict = try JSONDecoder().decode([String: Armour].self, from: data)
-                    
-                    let armours = Array(armoursDict.values)
-                    
-                    self.helmets = armours.filter({ $0.slot == 0 })
-                    
-                    self.chests = armours.filter({ $0.slot == 2 })
-                    
-                    self.cloaks = armours.filter({ $0.slot == 1 })
-                    
-                    
-                } catch {
-                    print("Failed to decode JSON: \(error)")
-                }
-            }
-        }
-        
-        task.resume()
-    }
-    
-    func fetchSlots(completion: @escaping () -> Void) {
-        
-        if let url = URL(string: "https://raw.githubusercontent.com/helldivers-2/json/master/items/armor/slot.json") {
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                guard let data = data, error == nil else {
-                    print("Network or other error: \(error!.localizedDescription)")
-                    return
-                }
-                do {
-                    let rawSlots = try JSONDecoder().decode([String: String].self, from: data)
-                    let slots = rawSlots.compactMap { (key, value) -> ArmourSlot? in
-                        guard let id = Int(key) else {
-                            print("Invalid key \(key), expected an integer")
-                            return nil
-                        }
-                        return ArmourSlot(id: id, name: value)
-                    }
-                    DispatchQueue.main.async {
-                        self.armourSlots = slots
-                        completion()
-                    }
-                } catch {
-                    print("Failed to decode JSON: \(error)")
-                }
-            }.resume()
-        }
-        
-        
-    }
-    
-    func fetchPassives() {
-        if let url = URL(string: "https://raw.githubusercontent.com/helldivers-2/json/master/items/armor/passive.json") {
-            
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                guard let data = data, error == nil else {
-                    print("Network or other error: \(error!.localizedDescription)")
-                    return
-                }
-                do {
-                    
-                    let passivesDict = try JSONDecoder().decode([String: Passive].self, from: data)
-                    
-                    
-                    
-                    let passives = Array(passivesDict.values)
-                    
-                    self.passives = passives
-                    
-                    
-                    
-                } catch {
-                    print("Failed to decode JSON: \(error)")
-                }
-            }.resume()
-            
-        }
-        
-        
-    }
-    
-    func fetchTypes() {
-        if let url = URL(string: "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/types.json") {
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                guard let data = data, error == nil else {
-                    print("Network or other error: \(error!.localizedDescription)")
-                    return
-                }
-                do {
-                    let rawTypes = try JSONDecoder().decode([String: String].self, from: data)
-                    let types = rawTypes.compactMap { (key, value) -> WeaponType? in
-                        guard let id = Int(key) else {
-                            print("Invalid key \(key), expected an integer")
-                            return nil
-                        }
-                        return WeaponType(id: id, name: value)
-                    }
-                    DispatchQueue.main.async {
-                        self.types = types
-                    }
-                } catch {
-                    print("Failed to decode JSON: \(error)")
-                }
-            }.resume()
-        }
-    }
-    
-    
-    func fetchTraits() {
-        if let url = URL(string: "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/traits.json") {
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                guard let data = data, error == nil else {
-                    print("Network or other error: \(error!.localizedDescription)")
-                    return
-                }
-                do {
-                    let rawTraits = try JSONDecoder().decode([String: String].self, from: data)
-                    let traits = rawTraits.compactMap { (key, value) -> Trait? in
-                        guard let id = Int(key) else {
-                            print("Invalid key \(key), expected an integer")
-                            return nil
-                        }
-                        return Trait(id: id, description: value)
-                    }
-                    DispatchQueue.main.async {
-                        self.traits = traits
-                    }
-                } catch {
-                    print("Failed to decode JSON: \(error)")
-                }
-            }.resume()
-        }
-    }
-    
-    
-    func fetchFireModes() {
-        if let url = URL(string: "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/fire_modes.json") {
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                guard let data = data, error == nil else {
-                    print("Network or other error: \(error!.localizedDescription)")
-                    return
-                }
-                do {
-                    let rawFireModes = try JSONDecoder().decode([String: String].self, from: data)
-                    let fireModes = rawFireModes.compactMap { (key, value) -> FireMode? in
-                        guard let id = Int(key) else {
-                            print("Invalid key \(key), expected an integer")
-                            return nil
-                        }
-                        return FireMode(id: id, mode: value)
-                    }
-                    DispatchQueue.main.async {
-                        self.fireModes = fireModes
-                    }
-                } catch {
-                    print("Failed to decode JSON: \(error)")
-                }
-            }.resume()
-        }
-    }
-    
-    func fetchAutomatonEnemies() {
-        guard let url = URL(string: "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/automatonEnemies.json") else {
-            print("Invalid URL")
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let data = data, error == nil else {
-                print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
-                return
-            }
-            
-            do {
-                let decodedEnemies = try JSONDecoder().decode([Enemy].self, from: data)
-                DispatchQueue.main.async {
-                    self?.automatonEnemies = decodedEnemies
-                }
-            } catch {
-                print("Error decoding JSON: \(error)")
-            }
-        }.resume()
-    }
-    
-    func fetchTerminidsEnemies() {
-        guard let url = URL(string: "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/terminidEnemies.json") else {
-            print("Invalid URL")
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let data = data, error == nil else {
-                print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
-                return
-            }
-            
-            do {
-                let decodedEnemies = try JSONDecoder().decode([Enemy].self, from: data)
-                DispatchQueue.main.async {
-                    self?.terminidsEnemies = decodedEnemies
-                }
-            } catch {
-                print("Error decoding JSON: \(error)")
-            }
-        }.resume()
-    }
-    
-    
-    func fetchStrats() {
-        
-        let urlString = "https://api-hellhub-collective.koyeb.app/api/stratagems?limit=100"
-        
-        guard let url = URL(string: urlString) else { print("no strats :(")
-            return }
-        
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            
-            if let data = data, error == nil {
-                let decoder = JSONDecoder()
-                do {
-                    let decodedData = try decoder.decode(DecodedStratagemData.self, from: data)
-                    DispatchQueue.main.async {
-                        self?.decodedStrats = decodedData.data
-                    }
-                } catch {
-                    print("Error decoding data: \(error)")
-                }
-            } else if let error = error {
-                print("HTTP Request Failed \(error)")
-            }
-            
-            
-        }.resume()
-        
-        
     }
     
     enum WeaponCategory: String, CaseIterable, Identifiable {

@@ -34,7 +34,6 @@
 		7C0C99502BA2BA9000CF7C91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
 		7C0C99532BA2BA9000CF7C91 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C99522BA2BA9000CF7C91 /* Preview Assets.xcassets */; };
 		7C0C995B2BA2BAE800CF7C91 /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
-		7C0C995D2BA2BAFD00CF7C91 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C0C995F2BA2C7BC00CF7C91 /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */; };
 		7C0C99612BA2FA0600CF7C91 /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
 		7C0DF6192BB922230062AB9B /* PlanetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */; };
@@ -121,7 +120,6 @@
 		7C3DE9872BA80B5000C95B84 /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
 		7C3DE9882BA80B8100C95B84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
 		7C3DE9892BA80B9600C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift */; };
-		7C3DE98A2BA80C1900C95B84 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C3DE98B2BA80C1E00C95B84 /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
 		7C4110732BBCFED000A0008F /* Zoomable in Frameworks */ = {isa = PBXBuildFile; productRef = 7C4110722BBCFED000A0008F /* Zoomable */; };
 		7C44B7D32BC6A5100097C29B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 7C44B7D22BC6A5100097C29B /* FirebaseAnalyticsWithoutAdIdSupport */; };
@@ -136,7 +134,6 @@
 		7C44B7EA2BC944430097C29B /* Helldivers Companion Galaxy Map WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7C44B7DD2BC944420097C29B /* Helldivers Companion Galaxy Map WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7C44B7EE2BC944540097C29B /* GalaxyMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63130D2BBC01C800C84C13 /* GalaxyMapView.swift */; };
 		7C44B7F02BC9445B0097C29B /* DraggablePlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2F32BC524ED00107663 /* DraggablePlanetView.swift */; };
-		7C44B7F12BC944610097C29B /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C44B7F22BC944630097C29B /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
 		7C44B7F32BC945140097C29B /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */; };
 		7C44B7F42BC9451F0097C29B /* CampaignPlanetStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF62E2BB970E10062AB9B /* CampaignPlanetStatsView.swift */; };
@@ -203,8 +200,6 @@
 		7C4A9E4C2BD356870014FCCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C4A9E4B2BD356870014FCCD /* Assets.xcassets */; };
 		7C4A9E502BD356870014FCCD /* War Monitor Total Player Count Watch WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7C4A9E452BD356860014FCCD /* War Monitor Total Player Count Watch WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7C4A9E542BD356910014FCCD /* War_Monitor_Total_Player_Count_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A9E362BD355EF0014FCCD /* War_Monitor_Total_Player_Count_Widget.swift */; };
-		7C4A9E552BD3571E0014FCCD /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
-		7C4A9E562BD3571F0014FCCD /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C4A9E572BD357220014FCCD /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
 		7C4A9E582BD357230014FCCD /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
 		7C4A9E592BD358100014FCCD /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
@@ -223,7 +218,6 @@
 		7C587F4B2BA6DBBB00C66643 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C587F4A2BA6DBBB00C66643 /* Assets.xcassets */; };
 		7C587F4E2BA6DBBB00C66643 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C587F4D2BA6DBBB00C66643 /* Preview Assets.xcassets */; };
 		7C587F512BA6DBBB00C66643 /* Helldivers Companion Watch Edition Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 7C587F442BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		7C587F562BA6DBFD00C66643 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C587F572BA6DC2400C66643 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C994D2BA2BA8F00CF7C91 /* ContentView.swift */; };
 		7C587F582BA6DC7000C66643 /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
 		7C587F5A2BA6DCFC00C66643 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589B62BA546B00019B00E /* OrderView.swift */; };
@@ -237,7 +231,6 @@
 		7C5E450D2BCE420600A74212 /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
 		7C5E450E2BCE420700A74212 /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
 		7C5E450F2BCE420700A74212 /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
-		7C63130B2BBBDA8D00C84C13 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C63130E2BBC01C800C84C13 /* GalaxyMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63130D2BBC01C800C84C13 /* GalaxyMapView.swift */; };
 		7C6C0F7A2BD0AEBC00BD73B2 /* UpdatedPlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6C0F792BD0AEBC00BD73B2 /* UpdatedPlanetView.swift */; };
 		7C6C0F7B2BD0AEBC00BD73B2 /* UpdatedPlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6C0F792BD0AEBC00BD73B2 /* UpdatedPlanetView.swift */; };
@@ -248,6 +241,17 @@
 		7C6C0F8A2BD0B93700BD73B2 /* Haptics in Frameworks */ = {isa = PBXBuildFile; productRef = 7C6C0F892BD0B93700BD73B2 /* Haptics */; };
 		7C6C0F8C2BD0B94200BD73B2 /* Haptics in Frameworks */ = {isa = PBXBuildFile; productRef = 7C6C0F8B2BD0B94200BD73B2 /* Haptics */; };
 		7C6C0F8E2BD0B95900BD73B2 /* Haptics in Frameworks */ = {isa = PBXBuildFile; productRef = 7C6C0F8D2BD0B95900BD73B2 /* Haptics */; };
+		7C6DE5152C472C2800077534 /* Emancipator Exosuit.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7C6DE5142C472C2800077534 /* Emancipator Exosuit.mp4 */; };
+		7C6DE5172C474A7200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
+		7C6DE5182C474A7200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
+		7C6DE5192C474D9200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
+		7C6DE51A2C474D9200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
+		7C6DE51B2C474D9200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
+		7C6DE51C2C474D9200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
+		7C6DE51D2C474D9200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
+		7C6DE51E2C474D9200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
+		7C6DE51F2C474D9200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
+		7C6DE5202C474D9200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
 		7C80F3EC2BC13F890058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
 		7C80F3ED2BC1425B0058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
 		7C80F3EE2BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
@@ -265,7 +269,6 @@
 		7C8C5F362BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8C5F352BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift */; };
 		7C8C5F382BAEF91300C4FBD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C8C5F372BAEF91300C4FBD2 /* Assets.xcassets */; };
 		7C8C5F3C2BAEF91300C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7C8C5F2F2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		7C8C5F402BAEF96A00C4FBD2 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C8C5F412BAEF96C00C4FBD2 /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
 		7C8C5F422BAEF97200C4FBD2 /* RewardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4602BABEE3D0013A632 /* RewardView.swift */; };
 		7C8C5F432BAEF97600C4FBD2 /* MajorOrderTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D46D2BABEECF0013A632 /* MajorOrderTimeView.swift */; };
@@ -280,7 +283,6 @@
 		7C8C5F542BAF0AD200C4FBD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C8C5F532BAF0AD200C4FBD2 /* Assets.xcassets */; };
 		7C8C5F582BAF0AD200C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7C8C5F4D2BAF0AD100C4FBD2 /* Helldivers Companion Major Order Watch WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7C8C5F5C2BAF0B1800C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8C5F352BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift */; };
-		7C8C5F5D2BAF0B5C00C4FBD2 /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7C8C5F5E2BAF0B5E00C4FBD2 /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
 		7C8C5F5F2BAF0B8600C4FBD2 /* FS Sinclair Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */; };
 		7C8C5F602BAF0C1000C4FBD2 /* MajorOrderTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D46D2BABEECF0013A632 /* MajorOrderTimeView.swift */; };
@@ -306,6 +308,16 @@
 		7CA240DC2BCA54BF007F685C /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
 		7CA240DE2BCA5D51007F685C /* StratagemGlossaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA240DD2BCA5D51007F685C /* StratagemGlossaryView.swift */; };
 		7CA240DF2BCA5D51007F685C /* StratagemGlossaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA240DD2BCA5D51007F685C /* StratagemGlossaryView.swift */; };
+		7CAAFFD92C475C4000488CF9 /* PlanetsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAAFFD82C475C3400488CF9 /* PlanetsDataModel.swift */; };
+		7CAAFFDA2C475C4000488CF9 /* PlanetsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAAFFD82C475C3400488CF9 /* PlanetsDataModel.swift */; };
+		7CAAFFDB2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAAFFD82C475C3400488CF9 /* PlanetsDataModel.swift */; };
+		7CAAFFDC2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAAFFD82C475C3400488CF9 /* PlanetsDataModel.swift */; };
+		7CAAFFDD2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAAFFD82C475C3400488CF9 /* PlanetsDataModel.swift */; };
+		7CAAFFDE2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAAFFD82C475C3400488CF9 /* PlanetsDataModel.swift */; };
+		7CAAFFDF2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAAFFD82C475C3400488CF9 /* PlanetsDataModel.swift */; };
+		7CAAFFE02C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAAFFD82C475C3400488CF9 /* PlanetsDataModel.swift */; };
+		7CAAFFE12C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAAFFD82C475C3400488CF9 /* PlanetsDataModel.swift */; };
+		7CAAFFE22C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAAFFD82C475C3400488CF9 /* PlanetsDataModel.swift */; };
 		7CBC0E3A2BDA1DBB008ED950 /* BoostersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBC0E392BDA1DBB008ED950 /* BoostersList.swift */; };
 		7CBC0E3B2BDB26F1008ED950 /* DatabaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC284C82BD8F03F0036EBFD /* DatabaseModel.swift */; };
 		7CBC0E3D2BDCF728008ED950 /* WarBondsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBC0E3C2BDCF728008ED950 /* WarBondsList.swift */; };
@@ -328,7 +340,6 @@
 		7CC0AE792BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift */; };
 		7CC0AE7B2BA7F31500802D9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CC0AE7A2BA7F31500802D9F /* Assets.xcassets */; };
 		7CC0AE7F2BA7F31500802D9F /* Helldivers Companion WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7CC0AE6F2BA7F31400802D9F /* Helldivers Companion WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		7CC0AE842BA7F37D00802D9F /* PlanetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */; };
 		7CC0AE852BA7F38500802D9F /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
 		7CC0AE862BA7F59200802D9F /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */; };
 		7CC0AE872BA7F62900802D9F /* CustomSegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */; };
@@ -567,7 +578,6 @@
 		7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C0C99522BA2BA9000CF7C91 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetStructs.swift; sourceTree = "<group>"; };
-		7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetsViewModel.swift; sourceTree = "<group>"; };
 		7C0C995E2BA2C7BC00CF7C91 /* PlanetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetView.swift; sourceTree = "<group>"; };
 		7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleProgressBar.swift; sourceTree = "<group>"; };
 		7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetInfoView.swift; sourceTree = "<group>"; };
@@ -639,6 +649,8 @@
 		7C5D5F582BAFD74900B644B9 /* WatchConnectivityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityProvider.swift; sourceTree = "<group>"; };
 		7C63130D2BBC01C800C84C13 /* GalaxyMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyMapView.swift; sourceTree = "<group>"; };
 		7C6C0F792BD0AEBC00BD73B2 /* UpdatedPlanetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPlanetView.swift; sourceTree = "<group>"; };
+		7C6DE5142C472C2800077534 /* Emancipator Exosuit.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Emancipator Exosuit.mp4"; sourceTree = "<group>"; };
+		7C6DE5162C474A6B00077534 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Version Check View Modifiers.swift"; sourceTree = "<group>"; };
 		7C8C5F2F2BAEF91200C4FBD2 /* Helldivers Companion Major Order WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion Major Order WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C8C5F332BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Major_Order_WidgetBundle.swift; sourceTree = "<group>"; };
@@ -661,6 +673,7 @@
 		7CA240D22BCA5083007F685C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7CA240DA2BCA521A007F685C /* Stratagem Hero High Score Watch WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Stratagem Hero High Score Watch WidgetExtension.entitlements"; sourceTree = "<group>"; };
 		7CA240DD2BCA5D51007F685C /* StratagemGlossaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StratagemGlossaryView.swift; sourceTree = "<group>"; };
+		7CAAFFD82C475C3400488CF9 /* PlanetsDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetsDataModel.swift; sourceTree = "<group>"; };
 		7CBC0E392BDA1DBB008ED950 /* BoostersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoostersList.swift; sourceTree = "<group>"; };
 		7CBC0E3C2BDCF728008ED950 /* WarBondsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarBondsList.swift; sourceTree = "<group>"; };
 		7CBC0E3E2BDD26E9008ED950 /* SuperStoreList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperStoreList.swift; sourceTree = "<group>"; };
@@ -967,8 +980,9 @@
 		7C0C99592BA2BAC000CF7C91 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7CAAFFD82C475C3400488CF9 /* PlanetsDataModel.swift */,
+				7C6DE5162C474A6B00077534 /* NetworkManager.swift */,
 				7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */,
-				7C0C995C2BA2BAFD00CF7C91 /* PlanetsViewModel.swift */,
 				7C4589C12BA5554E0019B00E /* StratagemHeroModel.swift */,
 				7C4589C62BA5849F0019B00E /* GameCenterManager.swift */,
 				7CE4AE3C2BA832C40033D4AF /* NotificationManager.swift */,
@@ -1190,6 +1204,7 @@
 				7CC2842F2BD8DA520036EBFD /* HMG Emplacement.mp4 */,
 				7CC2843F2BD8DA540036EBFD /* Incendiary Mines.mp4 */,
 				7CC284342BD8DA530036EBFD /* Jump Pack.mp4 */,
+				7C6DE5142C472C2800077534 /* Emancipator Exosuit.mp4 */,
 				7CC2843C2BD8DA540036EBFD /* Laser Cannon.mp4 */,
 				7CC284382BD8DA530036EBFD /* Machine Gun Sentry.mp4 */,
 				7CC284442BD8DA550036EBFD /* Machine Gun.mp4 */,
@@ -1684,6 +1699,7 @@
 				7CC284902BD8DA570036EBFD /* Orbital Gas Strike.mp4 in Resources */,
 				7C018FFF2BBA69F3001AFB15 /* Stratagem Hero Round End Sound Apple Watch.mp3 in Resources */,
 				7CC284682BD8DA570036EBFD /* Eagle 110MM Rocket Pods.mp4 in Resources */,
+				7C6DE5152C472C2800077534 /* Emancipator Exosuit.mp4 in Resources */,
 				7C018FF62BBA6115001AFB15 /* Stratagem Hero Error Sound.mp3 in Resources */,
 				7CC284B02BD8DA570036EBFD /* Anti-Materiel Rifle.mp4 in Resources */,
 				7CC2846E2BD8DA570036EBFD /* Guard Dog Rover.mp4 in Resources */,
@@ -1913,7 +1929,6 @@
 				7CF6D2E82BC401B800107663 /* CircularProgressView.swift in Sources */,
 				7CE97D3B2BB51DE9008329BA /* CentrePopup.swift in Sources */,
 				7C80F3EC2BC13F890058BF39 /* Version Check View Modifiers.swift in Sources */,
-				7C0C995D2BA2BAFD00CF7C91 /* PlanetsViewModel.swift in Sources */,
 				7C45D4732BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C0C994E2BA2BA8F00CF7C91 /* ContentView.swift in Sources */,
 				7C45D4782BAC142C0013A632 /* Tab.swift in Sources */,
@@ -1924,9 +1939,11 @@
 				7CC284CD2BD92B2E0036EBFD /* WeaponsList.swift in Sources */,
 				7C4589C02BA5551F0019B00E /* GameView.swift in Sources */,
 				7C3A9EC62BA944BE00F26307 /* NewsView.swift in Sources */,
+				7C6DE5172C474A7200077534 /* NetworkManager.swift in Sources */,
 				7C0DF6222BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7C4589C72BA5849F0019B00E /* GameCenterManager.swift in Sources */,
 				7CE4AE3D2BA832C40033D4AF /* NotificationManager.swift in Sources */,
+				7CAAFFDA2C475C4000488CF9 /* PlanetsDataModel.swift in Sources */,
 				7CC284CF2BD9310A0036EBFD /* ItemDetailView.swift in Sources */,
 				7C4589C42BA574B20019B00E /* ShakeModifier.swift in Sources */,
 				7C018FE42BBA532C001AFB15 /* SoundManager.swift in Sources */,
@@ -1974,6 +1991,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C6DE51B2C474D9200077534 /* NetworkManager.swift in Sources */,
 				7C1B8C2F2BAD718500944823 /* NewsFeedModel.swift in Sources */,
 				7C1B8C152BAD705600944823 /* Helldivers_Companion_News_WidgetBundle.swift in Sources */,
 				7C0DF6262BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
@@ -1983,7 +2001,7 @@
 				7CBC0E452BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7C80F3F02BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C1B8C312BAD767400944823 /* PlanetStructs.swift in Sources */,
-				7C63130B2BBBDA8D00C84C13 /* PlanetsViewModel.swift in Sources */,
+				7CAAFFDD2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C1B8C2E2BAD718200944823 /* NewsItemView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1996,6 +2014,7 @@
 				7C45D4682BABEE770013A632 /* AngledLinesShape.swift in Sources */,
 				7C274A572BE436B900F90369 /* ShakeModifier.swift in Sources */,
 				7C0DF6252BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
+				7C6DE51A2C474D9200077534 /* NetworkManager.swift in Sources */,
 				7C3DE9892BA80B9600C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7CF6D2DE2BC2820E00107663 /* PlanetInfoView.swift in Sources */,
 				7C45D4762BABF47C0013A632 /* AlertView.swift in Sources */,
@@ -2004,8 +2023,8 @@
 				7C6C0F7D2BD0AEBC00BD73B2 /* UpdatedPlanetView.swift in Sources */,
 				7C45D46B2BABEE7D0013A632 /* RewardView.swift in Sources */,
 				7C0DF62A2BB96D460062AB9B /* NavigationPather.swift in Sources */,
-				7C3DE98A2BA80C1900C95B84 /* PlanetsViewModel.swift in Sources */,
 				7C8C5F2A2BAE811C00C4FBD2 /* RectangleProgressBar.swift in Sources */,
+				7CAAFFDC2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C45D45A2BABEB350013A632 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C80F3EF2BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C45D47B2BAC142C0013A632 /* Tab.swift in Sources */,
@@ -2024,6 +2043,7 @@
 				7C44B7F72BC945710097C29B /* PlayerCountView.swift in Sources */,
 				7C274A582BE436C500F90369 /* ShakeModifier.swift in Sources */,
 				7C44B8002BC945EC0097C29B /* Version Check View Modifiers.swift in Sources */,
+				7C6DE51E2C474D9200077534 /* NetworkManager.swift in Sources */,
 				7C44B7F22BC944630097C29B /* PlanetStructs.swift in Sources */,
 				7C44B7FC2BC945B00097C29B /* PlanetPositions.swift in Sources */,
 				7C44B7F32BC945140097C29B /* PlanetView.swift in Sources */,
@@ -2034,11 +2054,11 @@
 				7C44B7FA2BC945890097C29B /* NavigationPather.swift in Sources */,
 				7C44B7FE2BC945CB0097C29B /* AngledLinesShape.swift in Sources */,
 				7C44B7F82BC9457D0097C29B /* PlanetInfoView.swift in Sources */,
+				7CAAFFE02C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C44B7F42BC9451F0097C29B /* CampaignPlanetStatsView.swift in Sources */,
 				7C44B7F02BC9445B0097C29B /* DraggablePlanetView.swift in Sources */,
 				7C44B7FB2BC9459C0097C29B /* CustomSegmentedPicker.swift in Sources */,
 				7CBC0E482BDDB954008ED950 /* CacheManager.swift in Sources */,
-				7C44B7F12BC944610097C29B /* PlanetsViewModel.swift in Sources */,
 				7C44B7F52BC945630097C29B /* CircularProgressView.swift in Sources */,
 				7C44B7E42BC944420097C29B /* Helldivers_Companion_Galaxy_Map_Widget.swift in Sources */,
 			);
@@ -2049,8 +2069,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C4A9E352BD355EF0014FCCD /* War_Monitor_Total_Player_Count_WidgetBundle.swift in Sources */,
-				7C4A9E552BD3571E0014FCCD /* PlanetsViewModel.swift in Sources */,
 				7C4A9E572BD357220014FCCD /* PlanetStructs.swift in Sources */,
+				7CAAFFE12C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
+				7C6DE51F2C474D9200077534 /* NetworkManager.swift in Sources */,
 				7C4A9E372BD355EF0014FCCD /* War_Monitor_Total_Player_Count_Widget.swift in Sources */,
 				7CBC0E4B2BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7C4A9E592BD358100014FCCD /* GlobalFunctions+Extensions.swift in Sources */,
@@ -2062,8 +2083,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C4A9E4A2BD356860014FCCD /* War_Monitor_Total_Player_Count_Watch_Widget.swift in Sources */,
-				7C4A9E562BD3571F0014FCCD /* PlanetsViewModel.swift in Sources */,
 				7C4A9E582BD357230014FCCD /* PlanetStructs.swift in Sources */,
+				7CAAFFE22C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
+				7C6DE5202C474D9200077534 /* NetworkManager.swift in Sources */,
 				7C4A9E542BD356910014FCCD /* War_Monitor_Total_Player_Count_Widget.swift in Sources */,
 				7CBC0E4C2BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7C4A9E5A2BD358100014FCCD /* GlobalFunctions+Extensions.swift in Sources */,
@@ -2074,6 +2096,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C6DE5182C474A7200077534 /* NetworkManager.swift in Sources */,
 				7C0DF6202BB9319C0062AB9B /* NavigationPather.swift in Sources */,
 				7C45D46F2BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
 				7C5D5F5A2BAFD83F00B644B9 /* WatchConnectivityProvider.swift in Sources */,
@@ -2097,7 +2120,7 @@
 				7C3DE9722BA80A1A00C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7C0DF6382BB987FB0062AB9B /* PlanetInfoDetailRow.swift in Sources */,
 				7CA240DF2BCA5D51007F685C /* StratagemGlossaryView.swift in Sources */,
-				7C587F562BA6DBFD00C66643 /* PlanetsViewModel.swift in Sources */,
+				7CAAFFD92C475C4000488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C6C0F7B2BD0AEBC00BD73B2 /* UpdatedPlanetView.swift in Sources */,
 				7C587F5E2BA6DD2500C66643 /* RectangleProgressBar.swift in Sources */,
 				7C319F952BAAEF7F0075A1E4 /* NewsItemView.swift in Sources */,
@@ -2129,7 +2152,7 @@
 				7C8C5F482BAEFE8600C4FBD2 /* AngledLinesShape.swift in Sources */,
 				7C8C5F342BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_WidgetBundle.swift in Sources */,
 				7C8C5F472BAEFE1A00C4FBD2 /* OrderView.swift in Sources */,
-				7C8C5F402BAEF96A00C4FBD2 /* PlanetsViewModel.swift in Sources */,
+				7CAAFFDE2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C8C5F442BAEF98100C4FBD2 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C8C5F432BAEF97600C4FBD2 /* MajorOrderTimeView.swift in Sources */,
 				7CBC0E462BDDB954008ED950 /* CacheManager.swift in Sources */,
@@ -2138,6 +2161,7 @@
 				7C8C5F412BAEF96C00C4FBD2 /* PlanetStructs.swift in Sources */,
 				7C8C5F422BAEF97200C4FBD2 /* RewardView.swift in Sources */,
 				7C0DF6272BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
+				7C6DE51C2C474D9200077534 /* NetworkManager.swift in Sources */,
 				7C0DF62D2BB96D550062AB9B /* NavigationPather.swift in Sources */,
 				7C8C5F362BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */,
 			);
@@ -2150,8 +2174,8 @@
 				7C8C5F642BAF0C2900C4FBD2 /* AngledLinesShape.swift in Sources */,
 				7C8C5F632BAF0C1D00C4FBD2 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C8C5F522BAF0AD100C4FBD2 /* Helldivers_Companion_Major_Order_Watch_Widget.swift in Sources */,
+				7CAAFFDF2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C8C5F612BAF0C1500C4FBD2 /* RewardView.swift in Sources */,
-				7C8C5F5D2BAF0B5C00C4FBD2 /* PlanetsViewModel.swift in Sources */,
 				7C8C5F5E2BAF0B5E00C4FBD2 /* PlanetStructs.swift in Sources */,
 				7CBC0E472BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7C80F3F22BC142C40058BF39 /* Version Check View Modifiers.swift in Sources */,
@@ -2159,6 +2183,7 @@
 				7C8C5F622BAF0C1900C4FBD2 /* OrderView.swift in Sources */,
 				7C8C5F5C2BAF0B1800C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */,
 				7C0DF6282BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
+				7C6DE51D2C474D9200077534 /* NetworkManager.swift in Sources */,
 				7C0DF62C2BB96D540062AB9B /* NavigationPather.swift in Sources */,
 				7C8C5F602BAF0C1000C4FBD2 /* MajorOrderTimeView.swift in Sources */,
 			);
@@ -2194,6 +2219,7 @@
 				7CC0AE792BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7C274A562BE436B400F90369 /* ShakeModifier.swift in Sources */,
 				7C0DF6242BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
+				7C6DE5192C474D9200077534 /* NetworkManager.swift in Sources */,
 				7CC0AE882BA7F63100802D9F /* RectangleProgressBar.swift in Sources */,
 				7CF6D2DD2BC2820D00107663 /* PlanetInfoView.swift in Sources */,
 				7C45D46A2BABEE7D0013A632 /* RewardView.swift in Sources */,
@@ -2202,8 +2228,8 @@
 				7C6C0F7C2BD0AEBC00BD73B2 /* UpdatedPlanetView.swift in Sources */,
 				7C45D4752BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C0DF6292BB96D450062AB9B /* NavigationPather.swift in Sources */,
-				7CC0AE842BA7F37D00802D9F /* PlanetsViewModel.swift in Sources */,
 				7C45D47A2BAC142C0013A632 /* Tab.swift in Sources */,
+				7CAAFFDB2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7CC0AE852BA7F38500802D9F /* PlanetStructs.swift in Sources */,
 				7C80F3EE2BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C45D4702BABEECF0013A632 /* MajorOrderTimeView.swift in Sources */,
@@ -2422,7 +2448,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2461,7 +2487,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				OTHER_LDFLAGS = "-ObjC";
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion";
@@ -2493,7 +2519,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-News-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2521,7 +2547,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-News-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2549,7 +2575,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Watch-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2579,7 +2605,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Watch-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2609,7 +2635,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Galaxy-Map-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2637,7 +2663,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Galaxy-Map-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2665,7 +2691,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.War-Monitor-Total-Player-Count-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2693,7 +2719,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.War-Monitor-Total-Player-Count-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2721,7 +2747,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.War-Monitor-Total-Player-Count-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2751,7 +2777,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.War-Monitor-Total-Player-Count-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2785,7 +2811,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2819,7 +2845,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2849,7 +2875,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Major-Order-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2877,7 +2903,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Major-Order-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2905,7 +2931,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Major-Order-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2935,7 +2961,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Major-Order-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2966,7 +2992,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Stratagem-Hero-High-Score-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2995,7 +3021,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Stratagem-Hero-High-Score-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3024,7 +3050,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Stratagem-Hero-High-Score-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -3055,7 +3081,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Stratagem-Hero-High-Score-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -3085,7 +3111,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3113,7 +3139,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.5;
+				MARKETING_VERSION = 3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

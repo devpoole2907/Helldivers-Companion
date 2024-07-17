@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ItemDetailView: View {
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     @EnvironmentObject var dbModel: DatabaseModel
    
 
@@ -220,7 +220,7 @@ struct ItemDetailView: View {
                 if let warBond = warBond, let itemMedalCost = itemMedalCost {
                     
                     
-                    ItemDetailCostView(name: warBond.name?.rawValue, image: "medalSymbol", cost: itemMedalCost)
+                    ItemDetailCostView(name: warBond.name, image: "medalSymbol", cost: itemMedalCost)
                     
                 } else if let itemCreditCost = dbModel.storeCost(for: itemName, slot: slot?.id ?? -1) {
                     

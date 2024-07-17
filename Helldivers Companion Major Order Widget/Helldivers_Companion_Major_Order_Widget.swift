@@ -12,50 +12,51 @@ struct MajorOrderProvider: TimelineProvider {
     
     typealias Entry = MajorOrderEntry
     
-    var planetsModel = PlanetsViewModel()
+    @MainActor var planetsModel = PlanetsDataModel()
     
     func placeholder(in context: Context) -> MajorOrderEntry {
         MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil)
     }
-
+    
     func getSnapshot(in context: Context, completion: @escaping (MajorOrderEntry) -> ()) {
         let entry = MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil)
         completion(entry)
     }
-
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [MajorOrderEntry] = []
-        
-        // TODO: CHANGE TO GET ALL PLANETS NOT JUST CURRENT CAMPAIGNS
-        
+    
+    func getTimeline(in context: Context, completion: @escaping (Timeline<MajorOrderEntry>) -> ()) {
         let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/currentPlanets.json"
-
-        planetsModel.fetchConfig() { config in
+        
+        Task {
+            var entries: [MajorOrderEntry] = []
             
-            planetsModel.fetchUpdatedPlanets(using: urlString) { planets in
-                
-                
-                planetsModel.fetchMajorOrder(for: config?.season ?? "801", with: planets) { taskPlanets, order in
-                    
-                    let entry = MajorOrderEntry(date: Date(), majorOrder: order, taskPlanets: taskPlanets, taskProgress: order?.eradicationProgress ?? order?.defenseProgress, factionColor: order?.faction?.color, progressString: order?.progressString)
-                    
-                    print("apending entry, this many planets: \(planets.count)")
-                    
-                    entries.append(entry)
-                    
-                    
-                    
-                    let timeline = Timeline(entries: entries, policy: .atEnd)
-                    completion(timeline)
-                    
-                }
-                
-                
+            guard let config = await planetsModel.fetchConfig() else {
+                print("config failed to load")
+                completion(Timeline(entries: entries, policy: .atEnd))
+                return
             }
-         
+            
+            let planetResults = await planetsModel.fetchPlanets(using: urlString, for: config)
+            let majorOrderResults = await planetsModel.fetchMajorOrder(for: config.season, with: planetResults.0)
+            
+            let (planets, _, _) = planetResults
+            let (taskPlanets, majorOrder) = majorOrderResults
+            
+            let entry = MajorOrderEntry(
+                date: Date(),
+                majorOrder: majorOrder,
+                taskPlanets: taskPlanets,
+                taskProgress: majorOrder?.eradicationProgress ?? majorOrder?.defenseProgress,
+                factionColor: majorOrder?.faction?.color,
+                progressString: majorOrder?.progressString
+            )
+            
+            print("appending entry, this many planets: \(planets.count)")
+            
+            entries.append(entry)
+            
+            let timeline = Timeline(entries: entries, policy: .atEnd)
+            completion(timeline)
         }
-
-       
     }
 }
 
@@ -73,7 +74,7 @@ struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
     @Environment(\.widgetFamily) var widgetFamily
     
     var entry: MajorOrderProvider.Entry
-
+    
     var body: some View {
         
         switch widgetFamily {
@@ -81,20 +82,20 @@ struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
         case .accessoryRectangular:
             RectangularOrdersTimeLeftView(timeRemaining: entry.majorOrder?.expiresIn)
                 .widgetAccentable()
-                
+            
                 .padding(.leading, 5)
-                    .padding(.vertical, 2)
-                //background breaks the watch version
-                #if os(iOS)
-                    .background(in: RoundedRectangle(cornerRadius: 5.0))
-                #endif
+                .padding(.vertical, 2)
+            //background breaks the watch version
+#if os(iOS)
+                .background(in: RoundedRectangle(cornerRadius: 5.0))
+#endif
             
         case .accessoryInline:
             InlineOrdersTimeLeftWidget(timeRemaining: entry.majorOrder?.expiresIn)
                 .widgetAccentable()
-        
+            
         default:
-            #if os(iOS)
+#if os(iOS)
             ZStack {
                 
                 Color(.cyan).opacity(0.6)
@@ -107,9 +108,9 @@ struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
                 
                 
             }
-            #else
+#else
             Text("This is an error, you shouldn't see this.")
-            #endif
+#endif
         }
     }
 }
@@ -122,11 +123,11 @@ struct Helldivers_Companion_Major_Order_Widget: Widget {
 #elseif os(iOS)
     let supportedFamilies: [WidgetFamily] = [.accessoryRectangular, .accessoryInline, .systemMedium, .systemLarge, .systemExtraLarge]
 #endif
-
+    
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: MajorOrderProvider()) { entry in
             
-                
+            
             if #available(iOSApplicationExtension 17.0, *) {
                 Helldivers_Companion_Major_Order_WidgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
@@ -199,11 +200,11 @@ struct OrdersWidgetView: View {
                             .padding(5)
                             .padding(.horizontal)
                     }
-                        if let majorOrderTimeRemaining = timeRemaining,  majorOrderTimeRemaining > 0 {
-                            MajorOrderTimeView(timeRemaining: majorOrderTimeRemaining, isWidget: true)
-                                .padding(.bottom, widgetFamily != .systemMedium ? 6 : 0)
-                                .minimumScaleFactor(0.7)
-                        }
+                    if let majorOrderTimeRemaining = timeRemaining,  majorOrderTimeRemaining > 0 {
+                        MajorOrderTimeView(timeRemaining: majorOrderTimeRemaining, isWidget: true)
+                            .padding(.bottom, widgetFamily != .systemMedium ? 6 : 0)
+                            .minimumScaleFactor(0.7)
+                    }
                     
                 } else {
                     // but do show it if theres no major order right now
@@ -212,35 +213,35 @@ struct OrdersWidgetView: View {
                         .padding(5)
                     
                 }
-
+                
                 HStack(spacing: 0) {
                     if let majorOrderRewardValue = rewardValue, majorOrderRewardValue > 0 {
                         RewardView(rewardType: rewardType, rewardValue: majorOrderRewardValue, widgetMode: true)
                             .frame(maxWidth: 200)
                             .minimumScaleFactor(0.7)
-                       
+                        
                     }
                     // must be eradicating to use faction color
                     if let eradicationProgress = taskProgress, let barColor = factionColor, let progressString = progressString {
                         
                         // eradicate campaign
                         MajorOrderBarProgressView(progress: eradicationProgress, barColor: barColor, progressString: progressString, isWidget: true)
-                       
+                        
                     }  else if let defenseProgress = taskProgress, let progressString = progressString {       // defense campaign
                         
                         MajorOrderBarProgressView(progress: defenseProgress, barColor: .white, progressString: progressString, isWidget: true)
                         
-                  
-
+                        
+                        
                     } else if !taskPlanets.isEmpty { // lib campaign
                         TasksView(taskPlanets: taskPlanets, isWidget: true)
                             .frame(maxWidth: .infinity)
                     }
-                  
-                   
+                    
+                    
                 }.padding(.horizontal)
                 
-
+                
                 
                 
             }.frame(maxHeight: .infinity)
@@ -256,38 +257,38 @@ struct RectangularOrdersTimeLeftView: View {
     var timeRemaining: Int64?
     
 #if os(iOS)
-let headersFont: CGFloat = 16
-let secondFont: CGFloat = 14
+    let headersFont: CGFloat = 16
+    let secondFont: CGFloat = 14
     let durationFont: CGFloat = 12
 #else
-let headersFont: CGFloat = 22
-let secondFont: CGFloat = 18
+    let headersFont: CGFloat = 22
+    let secondFont: CGFloat = 18
     let durationFont: CGFloat = 14
 #endif
     
     var body: some View {
-
+        
         if let timeRemaining = timeRemaining {
             HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Major Order").font(Font.custom("FSSinclair", size: headersFont)).bold()
-                RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)
-                HStack(spacing: 4) {
-                    Text("Ends in").padding(.top, 1).font(Font.custom("FSSinclair", size: secondFont))
-                    Text("\(formatDuration(seconds: timeRemaining))").font(Font.custom("FSSinclair", size: durationFont)).bold()
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Major Order").font(Font.custom("FSSinclair", size: headersFont)).bold()
+                    RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)
+                    HStack(spacing: 4) {
+                        Text("Ends in").padding(.top, 1).font(Font.custom("FSSinclair", size: secondFont))
+                        Text("\(formatDuration(seconds: timeRemaining))").font(Font.custom("FSSinclair", size: durationFont)).bold()
 #if os(watchOS)
-                        .padding(.top, 1.7)
+                            .padding(.top, 1.7)
 #endif
 #if os(iOS)
-                        .padding(.top, 2).padding(.horizontal, 8).background(Color.yellow).foregroundStyle(Color.black).clipShape(RoundedRectangle(cornerRadius: 6)).padding(.trailing, 5)
+                            .padding(.top, 2).padding(.horizontal, 8).background(Color.yellow).foregroundStyle(Color.black).clipShape(RoundedRectangle(cornerRadius: 6)).padding(.trailing, 5)
 #endif
-                    
-                    
-                }.font(Font.custom("FSSinclair", size: secondFont))
+                        
+                        
+                    }.font(Font.custom("FSSinclair", size: secondFont))
+                }
+                
+                Spacer()
             }
-            
-            Spacer()
-        }
         } else {
             Text("No Current\nMajor Order").padding(.trailing, 6).font(Font.custom("FSSinclair", size: 18)).bold()
                 .multilineTextAlignment(.center)
@@ -306,7 +307,7 @@ struct InlineOrdersTimeLeftWidget: View {
                 Text("MO")
                 
                 Text("\(formatDuration(seconds: timeRemaining))")
-                    
+                
                 
             }.font(Font.custom("FSSinclair", size: 14))
             

@@ -9,7 +9,7 @@ import SwiftUI
 @available(watchOS 9.0, *)
 struct PlanetsList: View {
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     @EnvironmentObject var navPather: NavigationPather
     @EnvironmentObject var dbModel: DatabaseModel
     

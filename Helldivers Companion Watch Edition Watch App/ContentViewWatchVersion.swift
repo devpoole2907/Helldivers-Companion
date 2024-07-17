@@ -10,7 +10,7 @@ import Haptics
 @available(watchOS 9.0, *)
 struct ContentViewWatchVersion: View {
     
-    @StateObject var viewModel = PlanetsViewModel()
+    @StateObject var viewModel = PlanetsDataModel()
     
     @StateObject var contentNavPather = NavigationPather()
     

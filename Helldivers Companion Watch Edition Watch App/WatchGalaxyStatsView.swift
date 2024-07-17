@@ -10,7 +10,7 @@ import SwiftUI
 @available(watchOS 10.0, *)
 struct WatchGalaxyStatsView: View {
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     @EnvironmentObject var navPather: NavigationPather
     
     enum WatchStatsTab: Hashable {

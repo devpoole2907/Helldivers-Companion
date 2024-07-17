@@ -15,7 +15,7 @@ struct GalaxyInfoView: View {
 
     }
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     
     @State var showIlluminateStats = true // for redacted animation
     @State var showRedactedText = false

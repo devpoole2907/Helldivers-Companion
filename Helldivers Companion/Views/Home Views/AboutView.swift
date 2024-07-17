@@ -9,7 +9,7 @@ import SwiftUI
 @available(watchOS 9.0, *)
 struct AboutView: View {
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     @EnvironmentObject var navPather: NavigationPather
     
     let gitUrl = "https://github.com/devpoole2907/Helldivers-Companion"
@@ -72,7 +72,7 @@ struct AboutView: View {
             
             .onChange(of: viewModel.enableLocalization) { _ in
                 
-                viewModel.refresh()
+                viewModel.startUpdating()
                 
             }
             
@@ -180,7 +180,7 @@ struct AboutView: View {
 @available(watchOS 9.0, *)
 struct SettingsRow: View {
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     
     let settingTitle: String
     let image: String

@@ -10,7 +10,7 @@ import SwiftUI
 struct WeaponsList: View {
     
     @EnvironmentObject var dbModel: DatabaseModel
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     
     var body: some View {
         ScrollView {
@@ -187,7 +187,7 @@ struct ItemDetailRowView: View {
                             
                             Spacer()
                         }
-                        if showWarBondName, let id = Int(item.id), let warBondName = dbModel.warBond(for: id)?.name?.rawValue {
+                       if showWarBondName, let id = Int(item.id), let warBondName = dbModel.warBond(for: id)?.name  {
                             Text(warBondName.uppercased()).foregroundStyle(.white).opacity(0.8)  .font(Font.custom("FSSinclair", size: 14))
                                 .multilineTextAlignment(.leading)
                         }

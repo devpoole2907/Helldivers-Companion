@@ -10,51 +10,58 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     
-    var planetsModel = PlanetsViewModel()
+    @MainActor var planetsModel = PlanetsDataModel()
     
-    var newsModel = NewsFeedModel()
+    @MainActor var newsModel = NewsFeedModel()
     
     func placeholder(in context: Context) -> NewsItemEntry {
         NewsItemEntry(date: Date(), title: "Automaton Counterattack", description: "Intercepted messages indicate bot plans for a significant push. Increased resistance on Automaton planets is anticipated.", published: 4444974)
     }
-
+    
     func getSnapshot(in context: Context, completion: @escaping (NewsItemEntry) -> ()) {
         let entry = NewsItemEntry(date: Date(), title: "Automaton Counterattack", description: "Intercepted messages indicate bot plans for a significant push. Increased resistance on Automaton planets is anticipated.", published: 4444974)
         completion(entry)
     }
-
+    
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [NewsItemEntry] = []
         
-        planetsModel.fetchConfig() { config in
-            newsModel.fetchNewsFeed(config: config, false) { news in
-                    
-                    print("fetching news")
-                    
-                    if let newsEntry = news.first, let message = newsEntry.message {
-                        
-                        
-                        
-                        let entry = NewsItemEntry(date: Date(), title: newsEntry.title ?? "BREAKING NEWS", description: message, published: newsEntry.published ?? 0, configData: config)
-                        
-                        
-                        entries.append(entry)
-                        
-                    }
-                    
-                    let timeline = Timeline(entries: entries, policy: .atEnd)
-                    completion(timeline)
-                    
-                }
-     
+        
+        Task {
+            var entries: [NewsItemEntry] = []
+            
+            guard let config = await planetsModel.fetchConfig() else {
+                print("config failed to load")
+                completion(Timeline(entries: entries, policy: .atEnd))
+                return
+            }
+            
+            let news = await newsModel.fetchNewsFeed(config: config, false)
+            
+            if let newsEntry = news.first, let message = newsEntry.message {
+                
+                
+                
+                let entry = NewsItemEntry(date: Date(), title: newsEntry.title ?? "BREAKING NEWS", description: message, published: newsEntry.published ?? 0, configData: config)
+                
+                
+                entries.append(entry)
+                
+            }
+            
+            
+            let timeline = Timeline(entries: entries, policy: .atEnd)
+            completion(timeline)
+            
+            
             
         }
         
         
-      
         
-
-       
+        
+        
+        
+        
     }
 }
 
@@ -68,7 +75,7 @@ struct NewsItemEntry: TimelineEntry {
 
 struct Helldivers_Companion_News_WidgetEntryView : View {
     var entry: Provider.Entry
-
+    
     var body: some View {
         ZStack {
             
@@ -79,7 +86,7 @@ struct Helldivers_Companion_News_WidgetEntryView : View {
                 .fill(Color.black)
             NewsItemView(newsTitle: entry.title, newsMessage: entry.description.replacingOccurrences(of: "\n", with: ""), published: entry.published, configData: entry.configData, isWidget: true).padding(.horizontal)
                 .padding(.vertical, 5)
-              
+            
             
             
             
@@ -90,10 +97,10 @@ struct Helldivers_Companion_News_WidgetEntryView : View {
 
 struct Helldivers_Companion_News_Widget: Widget {
     let kind: String = "Helldivers_Companion_News_Widget"
-
+    
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-
+            
             if #available(iOSApplicationExtension 17.0, *) {
                 Helldivers_Companion_News_WidgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
@@ -106,7 +113,7 @@ struct Helldivers_Companion_News_Widget: Widget {
                 // for deeplinking to news view
                     .widgetURL(URL(string: "helldiverscompanion://news"))
             }
-                    
+            
         }
         .configurationDisplayName("News")
         .description("Displays the latest news entry for Helldivers 2.")

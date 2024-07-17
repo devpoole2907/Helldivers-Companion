@@ -10,7 +10,7 @@ import SwiftUI
 struct BoostersList: View {
     
     @EnvironmentObject var dbModel: DatabaseModel
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     
     var body: some View {
         ScrollView {
@@ -95,9 +95,9 @@ struct BoosterRow: View {
                         .font(Font.custom("FSSinclair-Bold", size: 18))
                         .padding(.top, 2)
                         .tint(.white)
-                
-                    if showWarBondName, let id = Int(booster.id), let warbondName = dbModel.warBond(for: id)?.name?.rawValue {
-                        Text(warbondName.uppercased())
+                    
+                    if showWarBondName, let id = Int(booster.id), let warBondName = dbModel.warBond(for: id)?.name {
+                        Text(warBondName.uppercased())
                             .font(Font.custom("FSSinclair", size: 14))
                             .foregroundStyle(Color.white).opacity(0.8)
                     }

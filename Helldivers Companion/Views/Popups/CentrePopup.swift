@@ -10,7 +10,7 @@ import MijickPopupView
 
 struct MajorOrderPopup: CentrePopup {
     
-    @ObservedObject var viewModel: PlanetsViewModel
+    @ObservedObject var viewModel: PlanetsDataModel
     
     func configurePopup(popup: CentrePopupConfig) -> CentrePopupConfig {
         popup.horizontalPadding(28)

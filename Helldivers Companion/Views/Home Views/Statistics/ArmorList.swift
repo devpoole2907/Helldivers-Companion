@@ -10,7 +10,7 @@ import SwiftUI
 struct ArmourList: View {
     
     @EnvironmentObject var dbModel: DatabaseModel
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     
     
     // TODO: CHANGE THE DAMN SORTING IN THIS! SPEED RUNNING RN JEEZ
@@ -271,7 +271,7 @@ struct ArmourDetailRow: View {
                         
                     }
                     
-                    if showWarBondName, let id = Int(armour.id), let warBondName = dbModel.warBond(for: id)?.name?.rawValue {
+                    if showWarBondName, let id = Int(armour.id), let warBondName = dbModel.warBond(for: id)?.name  {
                         Text(warBondName.uppercased()).foregroundStyle(.white).opacity(0.8)  .font(Font.custom("FSSinclair", size: 14))
                             .multilineTextAlignment(.leading)
                     }

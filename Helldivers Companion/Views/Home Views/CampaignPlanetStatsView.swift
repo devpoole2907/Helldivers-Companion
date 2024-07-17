@@ -31,7 +31,7 @@ struct CampaignPlanetStatsView: View {
     
     @State private var pulsate = false
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     
 #if os(iOS)
     let helldiverImageSize: CGFloat = 25

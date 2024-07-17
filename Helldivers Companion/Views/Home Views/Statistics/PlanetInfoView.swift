@@ -9,7 +9,7 @@ import SwiftUI
 @available(watchOS 9.0, *)
 struct PlanetInfoView: View {
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     @EnvironmentObject var navPath: NavigationPather
     
     @State private var infoType: InfoType = .warEffort
@@ -20,7 +20,7 @@ struct PlanetInfoView: View {
     let planetIndex: Int
     
     private var planetData: [UpdatedPlanetDataPoint] {
-        viewModel.updatedPlanetHistory[planet?.name ?? ""] ?? []
+        viewModel.planetHistory[planet?.name ?? ""] ?? []
     }
     
     private var formattedPlanetImageName: String {

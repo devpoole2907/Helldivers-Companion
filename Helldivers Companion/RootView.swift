@@ -16,7 +16,7 @@ struct RootView: View {
     
     @StateObject private var notificationManager = NotificationManager()
     
-    @StateObject var viewModel = PlanetsViewModel()
+    @StateObject var viewModel = PlanetsDataModel()
     
     @StateObject var dbModel = DatabaseModel()
     
@@ -186,7 +186,7 @@ struct RootView: View {
             .hapticFeedback(.selection, trigger: mapNavPather.navigationPath)
   
             .onAppear {
-                dbModel.loadData()
+                dbModel.startUpdating()
             }
        
         

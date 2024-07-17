@@ -12,39 +12,46 @@ struct Provider: TimelineProvider {
     
     typealias Entry = PlayerCountEntry
     
-    var planetsModel = PlanetsViewModel()
+    @MainActor var planetsModel = PlanetsDataModel()
     
     func placeholder(in context: Context) -> PlayerCountEntry {
         PlayerCountEntry(date: Date(), playerCount: 247643)
     }
-
+    
     func getSnapshot(in context: Context, completion: @escaping (PlayerCountEntry) -> ()) {
         let entry =  PlayerCountEntry(date: Date(), playerCount: 247643)
         completion(entry)
     }
-
+    
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [PlayerCountEntry] = []
+        
         
         // fetches from github instead to save on api call
         
         let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/currentPlanets.json"
-
-        planetsModel.fetchConfig { configData in
-            planetsModel.fetchUpdatedPlanets(using: urlString) { planets in
-                
-                let playerCount = planets.reduce(0) { $0 + $1.statistics.playerCount }
-                
-                entries.append(PlayerCountEntry(date: Date(), playerCount: playerCount))
-                
-                let timeline = Timeline(entries: entries, policy: .atEnd)
-                completion(timeline)
-                
+        
+        Task {
+            var entries: [PlayerCountEntry] = []
+            
+            guard let config = await planetsModel.fetchConfig() else {
+                print("config failed to load")
+                completion(Timeline(entries: entries, policy: .atEnd))
+                return
             }
             
+            let planetResults = await planetsModel.fetchPlanets(using: urlString, for: config)
+            let (planets, _, _) = planetResults
+            
+            let playerCount = planets.reduce(0) { $0 + $1.statistics.playerCount }
+            
+            entries.append(PlayerCountEntry(date: Date(), playerCount: playerCount))
+            
+            let timeline = Timeline(entries: entries, policy: .atEnd)
+            completion(timeline)
+            
         }
-
-   
+        
+        
     }
 }
 
@@ -55,12 +62,12 @@ struct PlayerCountEntry: TimelineEntry {
 
 struct War_Monitor_Total_Player_Count_WidgetEntryView : View {
     var entry: Provider.Entry
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             
-          
-                Text("PLAYER COUNT") .font(Font.custom("FSSinclair", size: 16)).bold()
+            
+            Text("PLAYER COUNT") .font(Font.custom("FSSinclair", size: 16)).bold()
             
             RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)
             VStack (alignment: .leading, spacing: -3){
@@ -85,7 +92,7 @@ struct War_Monitor_Total_Player_Count_WidgetEntryView : View {
 #if os(iOS)
 struct War_Monitor_Total_Player_Count_Widget: Widget {
     let kind: String = "War_Monitor_Total_Player_Count_Widget"
-
+    
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             if #available(iOS 17.0, *) {

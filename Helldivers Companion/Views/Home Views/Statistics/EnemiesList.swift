@@ -10,13 +10,13 @@ import SwiftUI
 struct EnemiesList: View {
     
     @EnvironmentObject var dbModel: DatabaseModel
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading) {
                 
-                AlertView(alert: "The Bestiary is still under development and will be continuously expanded on in the near future.")
+            //    AlertView(alert: "The Bestiary is still under development and will be continuously expanded on in the near future.")
                 
                 
                 Section{

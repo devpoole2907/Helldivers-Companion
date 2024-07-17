@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StratagemsList: View {
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     @EnvironmentObject var dbModel: DatabaseModel
     
     
@@ -86,7 +86,7 @@ struct StratagemsList: View {
 
 struct StratagemDetailRow: View {
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     
     let dashPattern: [CGFloat] = [CGFloat.random(in: 50...70), CGFloat.random(in: 5...20)]
     

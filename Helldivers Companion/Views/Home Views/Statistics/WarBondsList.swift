@@ -9,72 +9,21 @@ import SwiftUI
 
 struct WarBondsList: View {
     @EnvironmentObject var dbModel: DatabaseModel
-    @EnvironmentObject var viewModel: PlanetsViewModel
-    
-    // TODO: WAR BOND FETCHES SHOULD BE DYNAMIC
+    @EnvironmentObject var viewModel: PlanetsDataModel
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
                 
-                if let viperCommandos = dbModel.viperCommandos {
-                    
-                    NavigationLink(value: viperCommandos) {
-                        if let warbondName = viperCommandos.warbondPages.first?.name?.rawValue {
-                            WarBondRow(warBondImageName: warbondName.lowercased())
-                        }
-                    }
-                    
-                    
-                }
-                
-                if let polarPatriots = dbModel.polarPatriots {
-                    
-                    NavigationLink(value: polarPatriots) {
-                        //  different for cuttting edge due to image issue, duct tape fix
-                        if let warbondName = polarPatriots.warbondPages.first?.name?.rawValue {
-                            WarBondRow(warBondImageName: "polar patriots")
-                        }
-                    }
-                    
-                    
-                }
-                
-         
-                    
-                if let cuttingEdge = dbModel.cuttingEdge {
-                    NavigationLink(value: cuttingEdge) {
-                        //  different for cuttting edge due to image issue, duct tape fix
-                        if let warbondName = cuttingEdge.warbondPages.first?.name?.rawValue {
-                            WarBondRow(warBondImageName: "cuttingedge")
-                        }
-                    }
-                }
-                
-                if let steeledVeterans = dbModel.steeledVeterans {
-                    NavigationLink(value: steeledVeterans) {
-                        if let warbondName = steeledVeterans.warbondPages.first?.name?.rawValue {
-                            WarBondRow(warBondImageName: warbondName.lowercased())
-                        }
-                    }
-                }
-                
-                if let helldiversMobilize = dbModel.helldiversMobilize {
-                    NavigationLink(value: helldiversMobilize) {
-                        if let warbondName = helldiversMobilize.warbondPages.first?.name?.rawValue {
-                            WarBondRow(warBondImageName: warbondName.lowercased())
-                        }
-                    }
-                }
-                
-                if let democraticDetonation = dbModel.democraticDetonation {
-                    NavigationLink(value: democraticDetonation) {
-                        if let warbondName = democraticDetonation.warbondPages.first?.name?.rawValue {
-                            WarBondRow(warBondImageName: warbondName.lowercased())
-                        }
-                    }
-                }
-                
+                ForEach(Array(dbModel.warBondCollections.keys), id: \.self) { key in
+                                    if let warBond = dbModel.warBondCollections[key] {
+                                        NavigationLink(value: warBond) {
+                                            if let warbondName = warBond.warbondPages.first?.name {
+                                                WarBondRow(warBondImageName: warbondName.lowercased())
+                                            }
+                                        }
+                                    }
+                                }
                 
                 
                 
@@ -100,11 +49,26 @@ struct WarBondRow: View {
     let warBondImageName: String
     
     var body: some View {
-        Image(warBondImageName)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: .infinity)
-            .shadow(radius: 3.0)
+        if let _ = UIImage(named: warBondImageName) {
+            Image(warBondImageName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: .infinity)
+                .shadow(radius: 3.0)
+        } else {
+            ZStack(alignment: .bottom) {
+                Image("MissingPlanetImage")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity)
+                    .shadow(radius: 3.0)
+                
+                Text(warBondImageName.uppercased())
+                    .foregroundStyle(.white).bold()
+                        .font(Font.custom("FSSinclair-Bold", size: 18))
+                        .padding(.bottom, 10)
+            }
+        }
     }
     
     
@@ -113,12 +77,12 @@ struct WarBondRow: View {
 struct WarbondsItemsList: View {
     
     @EnvironmentObject var dbModel: DatabaseModel
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     
     let warbond: FixedWarBond
     
     var warbondName: String? {
-        return warbond.warbondPages.first?.name?.rawValue
+        return warbond.warbondPages.first?.name
     }
     
     var body: some View {

@@ -13,7 +13,7 @@ import WidgetKit
 @available(watchOS 9.0, *)
 struct UpdatedPlanetView: View {
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     
     @EnvironmentObject var navPather: NavigationPather
     
@@ -97,7 +97,7 @@ struct UpdatedPlanetView: View {
 #endif
     
     private var planetData: [UpdatedPlanetDataPoint] {
-        viewModel.updatedPlanetHistory[planet?.name ?? ""] ?? []
+        viewModel.planetHistory[planet?.name ?? ""] ?? []
     }
     
     private var formattedPlanetImageName: String {
@@ -230,7 +230,7 @@ struct UpdatedPlanetView: View {
                 }
             
         } .shadow(radius: 3)
-                .animation(.bouncy, value: viewModel.updatedPlanetHistory.count)
+                .animation(.bouncy, value: viewModel.planetHistory.count)
             
         }
     }

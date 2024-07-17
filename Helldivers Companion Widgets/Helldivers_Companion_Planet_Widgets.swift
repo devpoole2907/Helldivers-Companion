@@ -11,7 +11,7 @@ import SwiftUI
 struct PlanetStatusProvider: TimelineProvider {
     typealias Entry = SimplePlanetStatus
     
-    var planetsModel = PlanetsViewModel()
+    @MainActor var planetsModel = PlanetsDataModel()
     
     func placeholder(in context: Context) -> SimplePlanetStatus {
         SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, faction: "terminid", factionColor: .yellow)
@@ -30,51 +30,57 @@ struct PlanetStatusProvider: TimelineProvider {
         
         let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/currentCampaigns.json"
         
-        var entries: [SimplePlanetStatus] = []
+        Task {
+            var entries: [SimplePlanetStatus] = []
+            
+            guard let config = await planetsModel.fetchConfig() else {
+                print("config failed to load")
+                completion(Timeline(entries: entries, policy: .atEnd))
+                return
+            }
+            
+            let campaignResults = await planetsModel.fetchCampaigns(using: urlString, for: config)
+            let (campaigns, defenseCampaigns) = campaignResults
+            
+            if let highestPlanetCampaign = campaigns.max(by: { $0.planet.statistics.playerCount < $1.planet.statistics.playerCount }) {
+                let highestPlanet = highestPlanetCampaign.planet
+                if let defenseEvent = defenseCampaigns.first(where: { $0.planet.index == highestPlanet.index }) {
+                    
+                    let eventExpirationTime = highestPlanet.event?.expireTimeDate
 
-        planetsModel.fetchConfig { configData in
-            planetsModel.fetchUpdatedCampaigns(using: urlString) { campaigns, defenseCampaigns in
-                
-                if let highestPlanetCampaign = campaigns.max(by: { $0.planet.statistics.playerCount < $1.planet.statistics.playerCount }) {
-                    let highestPlanet = highestPlanetCampaign.planet
-                    if let defenseEvent = defenseCampaigns.first(where: { $0.planet.index == highestPlanet.index }) {
-                        
-                        let eventExpirationTime = highestPlanet.event?.expireTimeDate
-
-                        
-                        
-                        // faction always humans when defending, so put event faction here manually because we cant access the extra conditions in the view models faction image or color functions
-                        
-                        var enemyType = "terminid"
-                        var factionColor = Color.yellow
-                        
-                        if defenseEvent.planet.event?.faction == "Automaton" {
-                            enemyType = "automaton"
-                            factionColor = .red
-                        } else if defenseEvent.planet.event?.faction == "Illuminate" {
-                            enemyType = "illuminate"
-                            factionColor = .purple
-                        }
-
-                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: defenseEvent.planet.event?.percentage ?? highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime)
-                        entries.append(entry)
-                        
-                    } else {
-                        // we dont need to access the view models faction image function's additional conditions here, because the planet is definitely not defending and is definitely a campaign, so we can just use it in the view directly as it will fall through to the check we need anyway
-                        
-                        let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet)
-                        entries.append(entry)
+                    
+                    
+                    // faction always humans when defending, so put event faction here manually because we cant access the extra conditions in the view models faction image or color functions
+                    
+                    var enemyType = "terminid"
+                    var factionColor = Color.yellow
+                    
+                    if defenseEvent.planet.event?.faction == "Automaton" {
+                        enemyType = "automaton"
+                        factionColor = .red
+                    } else if defenseEvent.planet.event?.faction == "Illuminate" {
+                        enemyType = "illuminate"
+                        factionColor = .purple
                     }
+
+                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: defenseEvent.planet.event?.percentage ?? highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime)
+                    entries.append(entry)
                     
-                    print("appending entry!")
+                } else {
+                    // we dont need to access the view models faction image function's additional conditions here, because the planet is definitely not defending and is definitely a campaign, so we can just use it in the view directly as it will fall through to the check we need anyway
                     
+                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet)
+                    entries.append(entry)
                 }
                 
-                let timeline = Timeline(entries: entries, policy: .atEnd)
-                completion(timeline)
+                print("appending entry!")
                 
             }
             
+            
+            
+            let timeline = Timeline(entries: entries, policy: .atEnd)
+            completion(timeline)
         }
     }
     
@@ -98,7 +104,7 @@ struct Helldivers_Companion_WidgetsEntryView : View {
     
     @Environment(\.widgetFamily) var widgetFamily
     
-    let planetsModel = PlanetsViewModel()
+    let planetsModel = PlanetsDataModel()
     
     var entry: PlanetStatusProvider.Entry
     
@@ -135,7 +141,7 @@ struct Helldivers_Companion_WidgetsEntryView : View {
                     .inset(by: 4)
                     .fill(Color.black)
                 
-                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, factionName: entry.faction, factionColor: entry.factionColor, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, eventExpirationTime: entry.eventExpirationTime).environmentObject(PlanetsViewModel())
+                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, factionName: entry.faction, factionColor: entry.factionColor, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, eventExpirationTime: entry.eventExpirationTime).environmentObject(PlanetsDataModel())
                     .padding(.horizontal)
                     .padding(.vertical, 5)
                 
@@ -160,7 +166,7 @@ struct RectangularPlanetWidgetView: View {
             HStack(spacing: 3) {
                 // nil coalesced with get image name for planet, because entry.faction wouldnt be nil if it was defending - and using view models function for image name is fine when liberating
                 
-                Image(entry.faction ?? PlanetsViewModel().getImageNameForPlanet(entry.planet)).resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
+                Image(entry.faction ?? PlanetsDataModel().getImageNameForPlanet(entry.planet)).resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                     .padding(.bottom, 2)
                 Text(entry.planetName) .font(Font.custom("FSSinclair", size: 16)).bold()
                 

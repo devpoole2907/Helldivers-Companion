@@ -13,7 +13,7 @@ import WidgetKit
 @available(watchOS 9.0, *)
 struct PlanetView: View {
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     
     @EnvironmentObject var navPather: NavigationPather
     
@@ -52,7 +52,7 @@ struct PlanetView: View {
 #endif
     
     private var planetData: [UpdatedPlanetDataPoint] {
-        viewModel.updatedPlanetHistory[planetName] ?? []
+        viewModel.planetHistory[planetName] ?? []
     }
     
     private var formattedPlanetImageName: String {
@@ -360,7 +360,7 @@ struct ChartAnnotationView: View {
 }
 @available(watchOS 9.0, *)
 struct HistoryChart: View {
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     var liberationType: LiberationType
     var planetData: [UpdatedPlanetDataPoint]
     @State private var chartSelection: Date? = nil
@@ -386,7 +386,7 @@ struct HistoryChart: View {
     
     var body: some View {
         VStack {
-            if viewModel.updatedPlanetHistory.isEmpty {
+            if viewModel.planetHistory.isEmpty {
                 ProgressView()
                     .frame(minHeight: chartHeight)
             } else {

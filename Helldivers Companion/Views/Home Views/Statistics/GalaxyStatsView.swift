@@ -12,7 +12,7 @@ import SwiftUIIntrospect
 
 struct GalaxyStatsView: View {
     
-    @EnvironmentObject var viewModel: PlanetsViewModel
+    @EnvironmentObject var viewModel: PlanetsDataModel
     @EnvironmentObject var navPather: NavigationPather
     @EnvironmentObject var dbModel: DatabaseModel
     
@@ -37,7 +37,7 @@ struct GalaxyStatsView: View {
                         NavigationLink(value: DatabasePage.bestiary) {
                             
                             
-                            DatabaseRow(title: "Bestiary [PREVIEW]", dashPattern: [54, 13])
+                            DatabaseRow(title: "Bestiary", dashPattern: [54, 13])
                             
                             
                         }.padding(.vertical, 5)
@@ -244,7 +244,7 @@ struct GalaxyStatsView: View {
 }
 
 #Preview {
-    GalaxyStatsView().environmentObject(PlanetsViewModel()).environmentObject(NavigationPather())
+    GalaxyStatsView().environmentObject(PlanetsDataModel()).environmentObject(NavigationPather())
 }
 
 enum DatabasePage: String, CaseIterable {
