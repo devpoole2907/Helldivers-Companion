@@ -182,39 +182,34 @@ class DatabaseModel: ObservableObject {
     
     
     func startUpdating() {
-        
         Task {
-            do {
-                
+         
+                // fetch armour slots first
                 await fetchItems(for: .armourSlots)
                 print("Fetched armour slots")
                 
-                let storeRotation = try await fetchAndRemapStoreRotation(with: self.armourSlots)
-                
-                await MainActor.run {
-                    withAnimation(.bouncy) {
-                        
-                        self.storeRotation = storeRotation
+                // try fetch and remap store rotation separately
+                do {
+                    let storeRotation = try await fetchAndRemapStoreRotation(with: self.armourSlots)
+                    await MainActor.run {
+                        withAnimation(.bouncy) {
+                            self.storeRotation = storeRotation
+                        }
                     }
+                } catch {
+                    print("Failed to fetch store rotation: \(error)")
                 }
                 
-                // fetch all data/items
-                // TODO: hmm this will fetch armour slots twice ...
+     
                 for itemType in ItemToFetch.allCases {
-                    
                     await fetchItems(for: itemType)
                 }
                 
                 await fetchAllWarBonds()
-                
-                
-                setupTimer()
-                
-            } catch {
-                print("Error fetching data: \(error)")
-            }
-        }
         
+                setupTimer()
+           
+        }
     }
     
     private func setupTimer() {

@@ -288,6 +288,13 @@
 		7C8C5F622BAF0C1900C4FBD2 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4589B62BA546B00019B00E /* OrderView.swift */; };
 		7C8C5F632BAF0C1D00C4FBD2 /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
 		7C8C5F642BAF0C2900C4FBD2 /* AngledLinesShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4642BABEE6E0013A632 /* AngledLinesShape.swift */; };
+		7C9062552C4E47140033B8F5 /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9062542C4E47140033B8F5 /* AsyncImageView.swift */; };
+		7C9062562C4E47140033B8F5 /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9062542C4E47140033B8F5 /* AsyncImageView.swift */; };
+		7C9062572C4E47140033B8F5 /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9062542C4E47140033B8F5 /* AsyncImageView.swift */; };
+		7C9062582C4E47140033B8F5 /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9062542C4E47140033B8F5 /* AsyncImageView.swift */; };
+		7C9062592C4E47140033B8F5 /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9062542C4E47140033B8F5 /* AsyncImageView.swift */; };
+		7C90625A2C4E47140033B8F5 /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9062542C4E47140033B8F5 /* AsyncImageView.swift */; };
+		7C90625B2C4E47140033B8F5 /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9062542C4E47140033B8F5 /* AsyncImageView.swift */; };
 		7CA240B32BCA33FC007F685C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
 		7CA240B42BCA33FC007F685C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
 		7CA240B72BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA240B62BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift */; };
@@ -607,6 +614,7 @@
 		7C8C5F512BAF0AD100C4FBD2 /* Helldivers_Companion_Major_Order_Watch_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Major_Order_Watch_Widget.swift; sourceTree = "<group>"; };
 		7C8C5F532BAF0AD200C4FBD2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C8C5F552BAF0AD200C4FBD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C9062542C4E47140033B8F5 /* AsyncImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageView.swift; sourceTree = "<group>"; };
 		7CA240B22BCA33FC007F685C /* Stratagem Hero High Score WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Stratagem Hero High Score WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CA240B62BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stratagem_Hero_High_Score_WidgetBundle.swift; sourceTree = "<group>"; };
 		7CA240B82BCA33FC007F685C /* Stratagem_Hero_High_Score_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stratagem_Hero_High_Score_Widget.swift; sourceTree = "<group>"; };
@@ -1107,6 +1115,7 @@
 		7CE4AE3A2BA8327C0033D4AF /* CustomUIElements */ = {
 			isa = PBXGroup;
 			children = (
+				7C9062542C4E47140033B8F5 /* AsyncImageView.swift */,
 				7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */,
 				7C4589C32BA574B20019B00E /* ShakeModifier.swift */,
 				7C587F3E2BA6A7DA00C66643 /* CustomSegmentedPicker.swift */,
@@ -1717,6 +1726,7 @@
 				7C0C994E2BA2BA8F00CF7C91 /* ContentView.swift in Sources */,
 				7C45D4782BAC142C0013A632 /* Tab.swift in Sources */,
 				7CBC0E3A2BDA1DBB008ED950 /* BoostersList.swift in Sources */,
+				7C9062592C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7C4A9E282BD336D60014FCCD /* DashPattern.swift in Sources */,
 				7C0C99612BA2FA0600CF7C91 /* RectangleProgressBar.swift in Sources */,
 				7CC284CB2BD90F630036EBFD /* ArmorList.swift in Sources */,
@@ -1794,6 +1804,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C9062572C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7C8C5F282BAE80D300C4FBD2 /* PlanetView.swift in Sources */,
 				7C45D4682BABEE770013A632 /* AngledLinesShape.swift in Sources */,
 				7C274A572BE436B900F90369 /* ShakeModifier.swift in Sources */,
@@ -1823,6 +1834,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C9062562C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7C44B7E22BC944420097C29B /* Helldivers_Companion_Galaxy_Map_WidgetBundle.swift in Sources */,
 				7C44B7F72BC945710097C29B /* PlayerCountView.swift in Sources */,
 				7C274A582BE436C500F90369 /* ShakeModifier.swift in Sources */,
@@ -1921,6 +1933,7 @@
 				7C4A9E292BD336D60014FCCD /* DashPattern.swift in Sources */,
 				7C587F5B2BA6DD0800C66643 /* PlanetView.swift in Sources */,
 				7C45D4692BABEE7C0013A632 /* RewardView.swift in Sources */,
+				7C9062552C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7C3A9EC72BA9528A00F26307 /* NewsView.swift in Sources */,
 				7C3A9ECB2BA9725800F26307 /* NewsFeedModel.swift in Sources */,
 				7CC284C12BD8DB390036EBFD /* PlanetsList.swift in Sources */,
@@ -1944,6 +1957,7 @@
 				7C4A6A992BD25D7800727FEC /* RectangleProgressBar.swift in Sources */,
 				7C8C5F412BAEF96C00C4FBD2 /* PlanetStructs.swift in Sources */,
 				7C8C5F422BAEF97200C4FBD2 /* RewardView.swift in Sources */,
+				7C9062582C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7C0DF6272BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7C6DE51C2C474D9200077534 /* NetworkManager.swift in Sources */,
 				7C0DF62D2BB96D550062AB9B /* NavigationPather.swift in Sources */,
@@ -1966,6 +1980,7 @@
 				7C4A6A9A2BD25D7900727FEC /* RectangleProgressBar.swift in Sources */,
 				7C8C5F622BAF0C1900C4FBD2 /* OrderView.swift in Sources */,
 				7C8C5F5C2BAF0B1800C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */,
+				7C90625B2C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7C0DF6282BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7C6DE51D2C474D9200077534 /* NetworkManager.swift in Sources */,
 				7C0DF62C2BB96D540062AB9B /* NavigationPather.swift in Sources */,
@@ -1999,6 +2014,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C90625A2C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7C45D4672BABEE770013A632 /* AngledLinesShape.swift in Sources */,
 				7CC0AE792BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7C274A562BE436B400F90369 /* ShakeModifier.swift in Sources */,
@@ -2232,7 +2248,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2271,7 +2287,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				OTHER_LDFLAGS = "-ObjC";
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion";
@@ -2303,7 +2319,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-News-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2331,7 +2347,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-News-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2359,7 +2375,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Watch-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2389,7 +2405,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Watch-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2419,7 +2435,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Galaxy-Map-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2447,7 +2463,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Galaxy-Map-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2475,7 +2491,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.War-Monitor-Total-Player-Count-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2503,7 +2519,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.War-Monitor-Total-Player-Count-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2531,7 +2547,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.War-Monitor-Total-Player-Count-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2561,7 +2577,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.War-Monitor-Total-Player-Count-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2595,7 +2611,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2629,7 +2645,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2659,7 +2675,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Major-Order-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2687,7 +2703,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Major-Order-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2715,7 +2731,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Major-Order-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2745,7 +2761,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Major-Order-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2776,7 +2792,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Stratagem-Hero-High-Score-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2805,7 +2821,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Stratagem-Hero-High-Score-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2834,7 +2850,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Stratagem-Hero-High-Score-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2865,7 +2881,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Stratagem-Hero-High-Score-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2895,7 +2911,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2923,7 +2939,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

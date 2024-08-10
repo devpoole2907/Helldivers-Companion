@@ -11,6 +11,8 @@ import Foundation
 @MainActor
 class PlanetsDataModel: ObservableObject {
     
+    static let shared = PlanetsDataModel()
+    
     @Published var updatedPlanets: [UpdatedPlanet] = []
     @Published var updatedDefenseCampaigns: [UpdatedCampaign] = []
     @Published var updatedCampaigns: [UpdatedCampaign] = []
