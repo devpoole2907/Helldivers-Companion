@@ -10,24 +10,28 @@ import Foundation
 class PlanetImageFormatter {
     // change to not optional eventually
     static func formattedPlanetImageName(for planet: UpdatedPlanet?) -> String {
-
-            switch planet?.name.lowercased() {
-                
-            case "meridia":
-                return "Meridia"
-                
-            case "gacrux", "caph", "barabos", "bore rock", "x-45":
-                return "x45"
-                
-            case "super earth":
-                return "Super Earth"
+        let biomeName = planet?.biome.name.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+            print("Biome name received: \(biomeName ?? "nil")")
+        print("Biome name received: \(biomeName ?? "nil")")
+        
+        switch planet?.name.lowercased() {
             
-            case "tien kwan": // backup in case tien kwan biome name is changed in api
-                return "Tien Kwan"
-                
-            default:
-                switch planet?.biome.name.lowercased() {
-                case "swamp":
+        case "meridia":
+            return "Meridia"
+            
+        case "super earth":
+            return "Super Earth"
+            
+        case "tien kwan": // backup in case tien kwan biome name is changed in api
+            return "Tien Kwan"
+            
+        default:
+            switch planet?.biome.name.lowercased() {
+            case "swamp":
+                return "x45"
+            case "foggy swamp":
+                return "Haunted"
+            case "wasteland":
                 return "Troost"
             case "crimsonmoor":
                 return "Ingmar"
@@ -51,21 +55,21 @@ class PlanetImageFormatter {
                 return "Fori Prime"
             case "highlands":
                 return "Oshaune"
-                case "desert":
+            case "desert":
                 return "Ustotu"
             case "mesa":
                 return "Durgen"
-                case "toxic":
+            case "toxic":
                 return "Merak"
             case "icemoss special":
                 return "Tien Kwan"
-  
-                default:
-                    return "MissingPlanetImage"
+                
+            default:
+                return "MissingPlanetImage"
             }
             
-       
+            
+        }
+        
     }
-    
 }
-    }

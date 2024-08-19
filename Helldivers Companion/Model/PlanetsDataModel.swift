@@ -398,6 +398,13 @@ class PlanetsDataModel: ObservableObject {
         }
     }
     
+    struct PlanetJSON: Decodable {
+        let name: String
+        let sector: String
+        let biome: String
+        let environmentals: [String]
+    }
+    
     
     func fetchPlanets(using url: String? = nil, for configData: RemoteConfigDetails) async -> ([UpdatedPlanet], [String], [String:[UpdatedPlanet]])  {
         
@@ -411,8 +418,10 @@ class PlanetsDataModel: ObservableObject {
         ]
         
         do {
-            let planets: [UpdatedPlanet] = try await netManager.fetchData(from: urlString, headers: headers)
-            
+            var planets: [UpdatedPlanet] = try await netManager.fetchData(from: urlString, headers: headers)
+            // update the outdated planets info from unofficial api with updated info in helldivers-2/json repo - bit of a duct tape but hey it works
+            planets = await fetchAndMergePlanets(planets: planets)
+    
             // Group planets by sector
             let groupedBySector = Dictionary(grouping: planets) { $0.sector }
             // Sort alphabetically by sector
@@ -457,6 +466,45 @@ class PlanetsDataModel: ObservableObject {
     
     
     // other
+    
+    // a duct tape fix - this overwrites the outdated planet information provided by the unofficial api, with up to date planet info from the helldivers-2/json repo
+    func fetchAndMergePlanets(planets: [UpdatedPlanet]) async -> [UpdatedPlanet] {
+        do {
+            
+            let planetsJSON: [String: PlanetJSON] = try await netManager.fetchData(from: "https://raw.githubusercontent.com/helldivers-2/json/master/planets/planets.json")
+            let biomesJSON: [String: Biome] = try await netManager.fetchData(from: "https://raw.githubusercontent.com/helldivers-2/json/master/planets/biomes.json")
+            let environmentalsJSON: [String: Environmental] = try await netManager.fetchData(from: "https://raw.githubusercontent.com/helldivers-2/json/master/planets/environmentals.json")
+            
+            // update planets data with JSON information based on the index
+            return updatePlanets(planets: planets, with: planetsJSON, biomes: biomesJSON, environmentals: environmentalsJSON)
+            
+        } catch {
+            print("Failed to fetch or decode JSON data - proceeding with API data only")
+            return planets
+        }
+    }
+    
+    func updatePlanets(planets: [UpdatedPlanet], with planetsJSON: [String: PlanetJSON], biomes: [String: Biome], environmentals: [String: Environmental]) -> [UpdatedPlanet] {
+        var updatedPlanets = planets
+        
+        for i in 0..<updatedPlanets.count {
+            let planetIndex = String(updatedPlanets[i].index)
+            
+            if let planetData = planetsJSON[planetIndex] {
+                // update biome
+                if let biomeInfo = biomes[planetData.biome] {
+                    updatedPlanets[i].biome = biomeInfo
+                }
+                
+                // update hazards (environmentals)
+                updatedPlanets[i].hazards = planetData.environmentals.compactMap { envKey in
+                    environmentals[envKey]
+                }
+            }
+        }
+        
+        return updatedPlanets
+    }
     
     
     
