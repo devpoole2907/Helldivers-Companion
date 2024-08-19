@@ -43,9 +43,9 @@ struct WatchOrdersView: View {
                     }
                     
                 }.frame(maxHeight: .infinity)
-                if let majorOrderRewardValue = viewModel.majorOrder?.setting.reward.amount, majorOrderRewardValue > 0 {
-                    RewardView(rewardType: viewModel.majorOrder?.setting.reward.type, rewardValue: majorOrderRewardValue)
-                    
+               
+                if let firstReward = viewModel.majorOrder?.allRewards.first, firstReward.amount > 0 {
+                    RewardView(rewards: viewModel.majorOrder?.allRewards ?? [])
                 }
                 
                 if let majorOrderTimeRemaining = viewModel.majorOrder?.expiresIn,  majorOrderTimeRemaining > 0 {

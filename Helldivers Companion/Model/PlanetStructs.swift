@@ -100,6 +100,11 @@ struct MajorOrder: Decodable {
            return Faction(rawValue: factionIndex) ?? .unknown
         }
     
+    // if multiple rewards, return both, otherwise return the singular
+    var allRewards: [Setting.Reward] {
+            return setting.rewards.isEmpty ? [setting.reward] : setting.rewards
+        }
+    
     // this could become global, but most of our api responses come from the dealloc endpoints not the official. for now the MO comes from the official endpoint, in hopes/possibility that deallocs major order endpoint may be upgraded
     enum Faction: Int64 { // must be int64 due to the possible massive task value
             case human = 1
@@ -137,6 +142,7 @@ struct MajorOrder: Decodable {
         let overrideBrief: String
         let taskDescription: String
         let tasks: [Task]
+        let rewards: [Reward]
         let reward: Reward
         let flags: Int
         

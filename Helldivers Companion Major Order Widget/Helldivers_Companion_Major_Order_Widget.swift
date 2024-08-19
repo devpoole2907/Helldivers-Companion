@@ -104,7 +104,7 @@ struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
                     .inset(by: 4)
                     .fill(Color.black)
                 
-                OrdersWidgetView(title: entry.majorOrder?.setting.taskDescription, description: entry.majorOrder?.setting.overrideBrief, taskPlanets: entry.taskPlanets, rewardValue: entry.majorOrder?.setting.reward.amount, rewardType: entry.majorOrder?.setting.reward.type, timeRemaining: entry.majorOrder?.expiresIn, taskProgress: entry.taskProgress, factionColor: entry.factionColor, progressString: entry.progressString)
+                OrdersWidgetView(title: entry.majorOrder?.setting.taskDescription, description: entry.majorOrder?.setting.overrideBrief, taskPlanets: entry.taskPlanets, rewards: entry.majorOrder?.allRewards ?? [], timeRemaining: entry.majorOrder?.expiresIn, taskProgress: entry.taskProgress, factionColor: entry.factionColor, progressString: entry.progressString)
                 
                 
             }
@@ -165,8 +165,7 @@ struct OrdersWidgetView: View {
     var description: String?
     var majorOrder: MajorOrder?
     var taskPlanets: [UpdatedPlanet]
-    var rewardValue: Int?
-    var rewardType: Int?
+    var rewards: [MajorOrder.Setting.Reward]
     var timeRemaining: Int64?
     var taskProgress: Double?
     var factionColor: Color?
@@ -215,11 +214,10 @@ struct OrdersWidgetView: View {
                 }
                 
                 HStack(spacing: 0) {
-                    if let majorOrderRewardValue = rewardValue, majorOrderRewardValue > 0 {
-                        RewardView(rewardType: rewardType, rewardValue: majorOrderRewardValue, widgetMode: true)
+                    if let firstReward = rewards.first, firstReward.amount > 0 {
+                        RewardView(rewards: rewards, widgetMode: true)
                             .frame(maxWidth: 200)
                             .minimumScaleFactor(0.7)
-                        
                     }
                     // must be eradicating to use faction color
                     if let eradicationProgress = taskProgress, let barColor = factionColor, let progressString = progressString {
