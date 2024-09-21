@@ -19,7 +19,7 @@ struct OrderView: View {
 
         VStack(spacing: 12) {
             
-            
+            // this all needs to be refactored, never properly went back after discovering new MO types a while ago
             
             VStack(spacing: 12) {
                 Text(viewModel.majorOrder?.setting.taskDescription ?? "Stand by.").font(Font.custom("FSSinclair-Bold", size: 24))
@@ -43,8 +43,21 @@ struct OrderView: View {
                     MajorOrderBarProgressView(progress: defenseProgress, barColor: .white, progressString: progressString)
                     
               
-
-                }  else if !viewModel.updatedTaskPlanets.isEmpty { // liberation/type 11
+                    // task type 4
+                }  else if let orderType = viewModel.majorOrder?.setting.type, orderType == 4, let progress = viewModel.majorOrder?.progress.first {
+                    
+                    let maxProgressValue: Double = 10 // assumes 10 is the max value either way for normalization (planets cpatured or lost)
+                    let normalizedProgress: Double = 1 - (Double(progress) + maxProgressValue) / (2 * maxProgressValue)
+                    
+                    TaskStatusView(
+                            taskName: "Liberate more planets than are lost during the order duration.",
+                            isCompleted: false,
+                            nameSize: smallFont,
+                            boxSize: 10
+                        )
+                    
+                    MajorOrderBarProgressView(progress: normalizedProgress, barColor: .blue, progressString: "\(progress)", primaryColor: .red)
+                } else if !viewModel.updatedTaskPlanets.isEmpty { // liberation/type 11
                     TasksView(taskPlanets: viewModel.updatedTaskPlanets)
                 }
                 
@@ -112,16 +125,7 @@ struct TasksView: View {
         LazyVGrid(columns: columns) {
             ForEach(taskPlanets, id: \.self) { planet in
                 
-         
-                    HStack {
-                        Rectangle().frame(width: boxSize, height: boxSize).foregroundStyle(planet.taskProgress == 1 ? Color.yellow : Color.black)
-                            .border(planet.taskProgress == 1 ? Color.black : Color.yellow)
-                        Text(planet.name).font(Font.custom("FSSinclair", size: nameSize)).foregroundStyle(.white)
-                    }
-                              
-                
-                
-                
+                TaskStatusView(taskName: planet.name, isCompleted: planet.taskProgress == 1, nameSize: nameSize, boxSize: boxSize)
                 
             }
             
@@ -132,16 +136,16 @@ struct TasksView: View {
 
 struct MajorOrderBarProgressView: View {
     
-    
     var progress: Double
     var barColor: Color
     var progressString: String
     var isWidget = false
+    var primaryColor: Color = .cyan
     
     var body: some View {
         
         ZStack {
-            RectangleProgressBar(value: progress, primaryColor: .cyan, secondaryColor: barColor)
+            RectangleProgressBar(value: progress, primaryColor: primaryColor, secondaryColor: barColor)
                 .frame(height: 16)
             
             Text("\(progressString)")
@@ -162,3 +166,23 @@ struct MajorOrderBarProgressView: View {
     }
     
 }
+
+struct TaskStatusView: View {
+    var taskName: String
+    var isCompleted: Bool
+    var nameSize: CGFloat
+    var boxSize: CGFloat
+
+    var body: some View {
+        HStack {
+            Rectangle()
+                .frame(width: boxSize, height: boxSize)
+                .foregroundStyle(isCompleted ? Color.yellow : Color.black)
+                .border(isCompleted ? Color.black : Color.yellow)
+            Text(taskName)
+                .font(Font.custom("FSSinclair", size: nameSize))
+                .foregroundStyle(.white)
+        }
+    }
+}
+

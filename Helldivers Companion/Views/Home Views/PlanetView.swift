@@ -413,7 +413,7 @@ struct HistoryChart: View {
             }
             
         }
-        .chartYScale(domain: [0, chartType == .players ? 350000 : 100])
+        .chartYScale(domain: [0, chartType == .players ? 125000 : 100])
         .chartXSelectioniOS17Modifier($chartSelection)
         
         .chartOverlayiOS16 { proxy in

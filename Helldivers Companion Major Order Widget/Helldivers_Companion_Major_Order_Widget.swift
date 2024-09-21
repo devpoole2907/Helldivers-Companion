@@ -15,11 +15,11 @@ struct MajorOrderProvider: TimelineProvider {
     @MainActor var planetsModel = PlanetsDataModel()
     
     func placeholder(in context: Context) -> MajorOrderEntry {
-        MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil)
+        MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil, progress: nil, orderType: nil)
     }
     
     func getSnapshot(in context: Context, completion: @escaping (MajorOrderEntry) -> ()) {
-        let entry = MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil)
+        let entry = MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil, progress: nil, orderType: nil)
         completion(entry)
     }
     
@@ -41,13 +41,15 @@ struct MajorOrderProvider: TimelineProvider {
             let (planets, _, _) = planetResults
             let (taskPlanets, majorOrder) = majorOrderResults
             
+            let progress = majorOrder?.progress.first
+            
             let entry = MajorOrderEntry(
                 date: Date(),
                 majorOrder: majorOrder,
                 taskPlanets: taskPlanets,
                 taskProgress: majorOrder?.eradicationProgress ?? majorOrder?.defenseProgress,
                 factionColor: majorOrder?.faction?.color,
-                progressString: majorOrder?.progressString
+                progressString: majorOrder?.progressString, progress: Double(progress ?? 0), orderType: majorOrder?.setting.type
             )
             
             print("appending entry, this many planets: \(planets.count)")
@@ -67,6 +69,8 @@ struct MajorOrderEntry: TimelineEntry {
     let taskProgress: Double?
     let factionColor: Color?
     let progressString: String?
+    let progress: Double?
+    let orderType: Int?
 }
 
 struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
@@ -104,7 +108,7 @@ struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
                     .inset(by: 4)
                     .fill(Color.black)
                 
-                OrdersWidgetView(title: entry.majorOrder?.setting.taskDescription, description: entry.majorOrder?.setting.overrideBrief, taskPlanets: entry.taskPlanets, rewards: entry.majorOrder?.allRewards ?? [], timeRemaining: entry.majorOrder?.expiresIn, taskProgress: entry.taskProgress, factionColor: entry.factionColor, progressString: entry.progressString)
+                OrdersWidgetView(title: entry.majorOrder?.setting.taskDescription, description: entry.majorOrder?.setting.overrideBrief, taskPlanets: entry.taskPlanets, rewards: entry.majorOrder?.allRewards ?? [], timeRemaining: entry.majorOrder?.expiresIn, taskProgress: entry.taskProgress, factionColor: entry.factionColor, progressString: entry.progressString, progress: entry.progress, orderType: entry.orderType)
                 
                 
             }
@@ -153,7 +157,7 @@ struct Helldivers_Companion_Major_Order_Widget: Widget {
 #Preview(as: .systemSmall) {
     Helldivers_Companion_Major_Order_Widget()
 } timeline: {
-    MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil)
+    MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil, progress: nil, orderType: nil)
 }
 
 // this needs to be rewritten more in line with the different types of major orders
@@ -170,6 +174,8 @@ struct OrdersWidgetView: View {
     var taskProgress: Double?
     var factionColor: Color?
     var progressString: String?
+    var progress: Double?
+    var orderType: Int?
     
     var titleSize: CGFloat {
         switch widgetFamily {
@@ -229,6 +235,23 @@ struct OrdersWidgetView: View {
                         
                         MajorOrderBarProgressView(progress: defenseProgress, barColor: .white, progressString: progressString, isWidget: true)
                         
+                        
+                        // task type 4
+                    } else if let orderType = orderType, orderType == 4, let progress = progress {
+                        
+                        let maxProgressValue: Double = 10 // assumes 10 is the max value either way for normalization (planets cpatured or lost)
+                        let normalizedProgress: Double = 1 - (Double(progress) + maxProgressValue) / (2 * maxProgressValue)
+                        
+                        VStack(spacing: 6){
+                            TaskStatusView(
+                                taskName: "Liberate more planets than are lost during the order duration.",
+                                isCompleted: false,
+                                nameSize: 14,
+                                boxSize: 7
+                            )
+                            
+                            MajorOrderBarProgressView(progress: normalizedProgress, barColor: .blue, progressString: "\(progress)", isWidget: true, primaryColor: .red)
+                        }
                         
                         
                     } else if !taskPlanets.isEmpty { // lib campaign
