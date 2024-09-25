@@ -236,7 +236,10 @@ struct OrdersWidgetView: View {
                         MajorOrderBarProgressView(progress: defenseProgress, barColor: .white, progressString: progressString, isWidget: true)
                         
                         
-                        // task type 4
+                   // temp fix for broken major order sept 2024
+                    } else if !taskPlanets.isEmpty { // lib campaign
+                        TasksView(taskPlanets: taskPlanets, isWidget: true)
+                            .frame(maxWidth: .infinity)
                     } else if let orderType = orderType, orderType == 4, let progress = progress {
                         
                         let maxProgressValue: Double = 10 // assumes 10 is the max value either way for normalization (planets cpatured or lost)
@@ -254,9 +257,6 @@ struct OrdersWidgetView: View {
                         }
                         
                         
-                    } else if !taskPlanets.isEmpty { // lib campaign
-                        TasksView(taskPlanets: taskPlanets, isWidget: true)
-                            .frame(maxWidth: .infinity)
                     }
                     
                     
