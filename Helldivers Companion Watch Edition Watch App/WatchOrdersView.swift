@@ -38,7 +38,11 @@ struct WatchOrdersView: View {
                         
                   
 
-                    }  else if let orderType = viewModel.majorOrder?.setting.type, orderType == 4, let progress = viewModel.majorOrder?.progress.first {
+                    }  else if !viewModel.updatedTaskPlanets.isEmpty { // lib type
+                        TasksView(taskPlanets: viewModel.updatedTaskPlanets)
+
+                        // temp fix for broken orders september 2024
+                    } else if let orderType = viewModel.majorOrder?.setting.type, orderType == 4, let progress = viewModel.majorOrder?.progress.first {
                         
                         let maxProgressValue: Double = 10 // assumes 10 is the max value either way for normalization (planets cpatured or lost)
                         let normalizedProgress: Double = 1 - (Double(progress) + maxProgressValue) / (2 * maxProgressValue)
@@ -51,9 +55,7 @@ struct WatchOrdersView: View {
                             )
                         
                         MajorOrderBarProgressView(progress: normalizedProgress, barColor: .blue, progressString: "\(progress)", primaryColor: .red)
-                    } else if !viewModel.updatedTaskPlanets.isEmpty { // lib type
-                        TasksView(taskPlanets: viewModel.updatedTaskPlanets)
-                    }
+                    } 
                     
                 }.frame(maxHeight: .infinity)
                
