@@ -49,7 +49,7 @@ struct MajorOrderProvider: TimelineProvider {
                 taskPlanets: taskPlanets,
                 taskProgress: majorOrder?.eradicationProgress ?? majorOrder?.defenseProgress,
                 factionColor: majorOrder?.faction?.color,
-                progressString: majorOrder?.progressString, progress: Double(progress ?? 0), orderType: majorOrder?.setting.type
+                progressString: majorOrder?.progressString, progress: Double(progress ?? 0), orderType: majorOrder?.setting.tasks.first?.type
             )
             
             print("appending entry, this many planets: \(planets.count)")
@@ -236,8 +236,8 @@ struct OrdersWidgetView: View {
                         MajorOrderBarProgressView(progress: defenseProgress, barColor: .white, progressString: progressString, isWidget: true)
                         
                         
-                        // task type 4
-                    } else if let orderType = orderType, orderType == 4, let progress = progress {
+                        // task type 15
+                    } else if let orderType = orderType, orderType == 15, let progress = progress {
                         
                         let maxProgressValue: Double = 10 // assumes 10 is the max value either way for normalization (planets cpatured or lost)
                         let normalizedProgress: Double = 1 - (Double(progress) + maxProgressValue) / (2 * maxProgressValue)
