@@ -53,6 +53,10 @@ struct MajorOrder: Decodable {
     var isDefenseType: Bool {
         setting.tasks.first?.type == 12
     }
+
+    var isNetQuantityType: Bool {
+        setting.tasks.first?.type == 15
+    }
     
     // if an eradication type major order
     
