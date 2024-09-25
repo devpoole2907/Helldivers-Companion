@@ -43,8 +43,8 @@ struct OrderView: View {
                     MajorOrderBarProgressView(progress: defenseProgress, barColor: .white, progressString: progressString)
                     
               
-                    // task type 4
-                }  else if let orderType = viewModel.majorOrder?.setting.type, orderType == 4, let progress = viewModel.majorOrder?.progress.first {
+                    // task type 15
+                } else if let isNetQuantityType = viewModel.majorOrder?.isNetQuantityType, isNetQuantityType == true, let progress = viewModel.majorOrder?.progress.first {
                     
                     let maxProgressValue: Double = 10 // assumes 10 is the max value either way for normalization (planets cpatured or lost)
                     let normalizedProgress: Double = 1 - (Double(progress) + maxProgressValue) / (2 * maxProgressValue)
