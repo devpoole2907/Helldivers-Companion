@@ -43,8 +43,10 @@ struct OrderView: View {
                     MajorOrderBarProgressView(progress: defenseProgress, barColor: .white, progressString: progressString)
                     
               
-                    // task type 4
-                }  else if let orderType = viewModel.majorOrder?.setting.type, orderType == 4, let progress = viewModel.majorOrder?.progress.first {
+                    // temp fix for broken orders sept 2024
+                } else if !viewModel.updatedTaskPlanets.isEmpty { // liberation/type 11
+                    TasksView(taskPlanets: viewModel.updatedTaskPlanets)
+                } else if let orderType = viewModel.majorOrder?.setting.type, orderType == 4, let progress = viewModel.majorOrder?.progress.first {
                     
                     let maxProgressValue: Double = 10 // assumes 10 is the max value either way for normalization (planets cpatured or lost)
                     let normalizedProgress: Double = 1 - (Double(progress) + maxProgressValue) / (2 * maxProgressValue)
@@ -57,8 +59,6 @@ struct OrderView: View {
                         )
                     
                     MajorOrderBarProgressView(progress: normalizedProgress, barColor: .blue, progressString: "\(progress)", primaryColor: .red)
-                } else if !viewModel.updatedTaskPlanets.isEmpty { // liberation/type 11
-                    TasksView(taskPlanets: viewModel.updatedTaskPlanets)
                 }
                 
                 
