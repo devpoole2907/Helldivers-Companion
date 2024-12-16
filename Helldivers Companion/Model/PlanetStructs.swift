@@ -658,7 +658,7 @@ struct Booster: Codable, DetailItem {
 struct Armour: Codable, Hashable, DetailItem {
     let id: String
     let name: String
-    let description: String
+    var description: String? = nil
     let type: Int
     let slot: Int
     let armourRating: Int
@@ -671,7 +671,7 @@ struct Armour: Codable, Hashable, DetailItem {
         let idKey = container.codingPath.last!.stringValue
         id = idKey
         name = try container.decode(String.self, forKey: .name)
-        description = try container.decode(String.self, forKey: .description)
+        description = try container.decodeIfPresent(String.self, forKey: .description)
         type = try container.decode(Int.self, forKey: .type)
         slot = try container.decode(Int.self, forKey: .slot)
         armourRating = try container.decode(Int.self, forKey: .armourRating)
@@ -680,7 +680,7 @@ struct Armour: Codable, Hashable, DetailItem {
         passive = try container.decode(Int.self, forKey: .passive)
     }
     
-    init(id: String, name: String, description: String, type: Int, slot: Int, armourRating: Int, speed: Int, staminaRegen: Int, passive: Int) {
+    init(id: String, name: String, description: String? = nil, type: Int, slot: Int, armourRating: Int, speed: Int, staminaRegen: Int, passive: Int) {
             self.id = id
             self.name = name
             self.description = description
