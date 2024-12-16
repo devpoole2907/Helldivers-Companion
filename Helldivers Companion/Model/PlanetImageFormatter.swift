@@ -29,38 +29,40 @@ class PlanetImageFormatter {
             switch planet?.biome.name.lowercased() {
             case "swamp":
                 return "x45"
-            case "foggy swamp":
+            case "foggy swamp", "haunted swamp":
                 return "Haunted"
-            case "wasteland":
+            case "wasteland", "deadlands":
                 return "Troost"
-            case "crimsonmoor":
+            case "crimsonmoor", "ionic crimson":
                 return "Ingmar"
-            case "desolate":
+            case "desolate", "scorched moor":
                 return "Hellmire"
-            case "winter":
+            case "winter", "icy glaciers":
                 return "Vandalon IV"
-            case "jungle":
+            case "jungle", "volcanic jungle":
                 return "Mantes"
-            case "rainforest":
+            case "rainforest", "ionic jungle":
                 return "Veld"
             case "moon":
                 return "Fenrir III"
-            case "icemoss":
+            case "icemoss", "boneyard":
                 return "Estanu"
             case "tundra":
                 return "Omicron"
-            case "ethereal":
+            case "ethereal", "ethereal jungle":
                 return "Turing"
-            case "canyon":
+            case "canyon", "rocky canyons":
                 return "Fori Prime"
-            case "highlands":
+            case "highlands", "plains":
                 return "Oshaune"
-            case "desert":
+            case "desert", "desert cliffs":
                 return "Ustotu"
-            case "mesa":
+            case "mesa", "desert dunes":
                 return "Durgen"
-            case "toxic":
+            case "toxic", "acidic badlands":
                 return "Merak"
+            case "basic swamp":
+                return "gacrux"
             case "icemoss special":
                 return "Tien Kwan"
                 
