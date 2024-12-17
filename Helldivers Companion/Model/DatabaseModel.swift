@@ -56,6 +56,7 @@ class DatabaseModel: ObservableObject {
     //enemies for bestiary
     @Published var automatonEnemies: [Enemy] = []
     @Published var terminidsEnemies: [Enemy] = []
+    @Published var illuminateEnemies: [Enemy] = []
     
     let netManager = NetworkManager.shared
     
@@ -72,6 +73,7 @@ class DatabaseModel: ObservableObject {
         case stratagems
         case automatons
         case terminids
+        case illuminate
         case traits
         case fireModes
         case weaponTypes
@@ -97,6 +99,8 @@ class DatabaseModel: ObservableObject {
                 return "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/automatonEnemiesUpdated.json"
             case .terminids:
                 return "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/terminidEnemiesUpdated.json"
+            case .illuminate:
+                return "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/enemies/illuminateEnemies.json"
             case .traits:
                 return "https://raw.githubusercontent.com/helldivers-2/json/master/items/weapons/traits.json"
             case .fireModes:
@@ -141,6 +145,9 @@ class DatabaseModel: ObservableObject {
             case .terminids:
                 let enemies: [Enemy] = try await netManager.fetchData(from: type.urlString)
                 self.terminidsEnemies = enemies
+            case .illuminate:
+                let enemies: [Enemy] = try await netManager.fetchData(from: type.urlString)
+                self.illuminateEnemies = enemies
             case .traits:
                 let traits = try await fetchWeaponData(from: type.urlString) { rawTraits in
                     self.transformDictionaryToModel(rawData: rawTraits) { id, value in
