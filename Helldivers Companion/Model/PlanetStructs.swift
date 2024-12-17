@@ -923,5 +923,15 @@ var globalStratagems: [Stratagem] = [
     Stratagem(name: "Prospecting Drill", sequence: [.down, .down, .left, .right, .down, .down], type: .mission),
     Stratagem(name: "Seismic Probe", sequence: [.up, .up, .left, .right, .down, .down], type: .mission),
     Stratagem(name: "SEAF Artillery", sequence: [.right, .up, .up, .down], type: .mission),
-    Stratagem(name: "Orbital Illumination Flare", sequence: [.right, .right, .left, .left], type: .mission)
+    Stratagem(name: "Orbital Illumination Flare", sequence: [.right, .right, .left, .left], type: .mission),
+    Stratagem(name: "Guard Dog Breath", sequence: [.down, .up, .left, .right, .up], type: .workshop),
+    Stratagem(name: "Tectonic Drill", sequence: [.up, .down, .up, .down, .up, .down], type: .mission),
+    Stratagem(name: "Dark Fluid Vessel", sequence: [.up, .left, .right, .down, .up, .up], type: .mission),
+    Stratagem(name: "Hive Breaker Drill", sequence: [.left, .up, .down, .right, .down, .down], type: .mission),
+    Stratagem(name: "Orbital Napalm Barrage", sequence: [.right, .right, .down, .left, .right, .up], type: .orbital),
+    Stratagem(name: "Directional Shield", sequence: [.down, .up, .left, .right, .up, .up], type: .engineering),
+    Stratagem(name: "Anti-Tank Emplacement", sequence: [.down, .up, .left, .right, .right, .right], type: .workshop),
+    Stratagem(name: "Flame Sentry", sequence: [.down, .up, .right, .down, .up, .up], type: .workshop),
+    Stratagem(name: "Sterilizer", sequence: [.down, .left, .up, .down, .left], type: .admin),
+    Stratagem(name: "Commando", sequence: [.down, .left, .up, .down, .right], type: .admin)
 ]
