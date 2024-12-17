@@ -17,7 +17,23 @@ struct EnemiesList: View {
             LazyVStack(alignment: .leading) {
                 
             //    AlertView(alert: "The Bestiary is still under development and will be continuously expanded on in the near future.")
-                
+
+                Section{
+                    ForEach(dbModel.illuminateEnemies.filter { enemy in
+                        dbModel.searchText.isEmpty || enemy.name.localizedCaseInsensitiveContains(dbModel.searchText)
+                        || "illuminate".hasPrefix(dbModel.searchText.lowercased()) }, id: \.id) { enemy in
+                        NavigationLink(value: enemy) {
+                            EnemyDetailRow(dashPattern: [57, 13], enemy: enemy)
+                        }
+                                    }
+                                } header: {
+                                    Text("Illuminate".uppercased())
+                                        .font(Font.custom("FSSinclair-Bold", size: 22))
+                                        .foregroundStyle(.purple)
+                                        .padding(.horizontal)
+                                        .padding(.bottom, -2)
+                                        .minimumScaleFactor(0.8)
+                                }
                 
                 Section{
                     ForEach(dbModel.automatonEnemies.filter { enemy in
