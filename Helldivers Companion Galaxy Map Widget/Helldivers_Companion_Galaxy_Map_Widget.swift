@@ -96,21 +96,26 @@ struct Helldivers_Companion_Galaxy_Map_Widget: Widget {
 
 struct GalaxyMapWidgetView: View {
     
+    @Environment(\.widgetRenderingMode) var widgetRenderingMode
+    
     var entry: GalaxyMapEntry
     
     var body: some View {
         
         ZStack {
             
-            Color.cyan
-            
-            
-            ContainerRelativeShape()
-                .inset(by: 4)
-                .fill(Color.black)
+            if widgetRenderingMode != .accented {
+                
+                Color.cyan
+                
+                ContainerRelativeShape()
+                    .inset(by: 4)
+                    .fill(Color.black)
+                
+            }
             
             VStack(spacing: 0) {
-                GalaxyMapView(selectedPlanet: .constant(nil), showSupplyLines: .constant(true), showAllPlanets: .constant(true), showPlanetNames: .constant(false), planets: entry.planets, campaigns: entry.campaigns, defenseCampaigns: entry.defenseCampaigns, isWidget: true).environmentObject(PlanetsDataModel())
+                GalaxyMapView(selectedPlanet: .constant(nil), showSupplyLines: .constant(true), showAllPlanets: widgetRenderingMode == .accented ? .constant(false) : .constant(true), showPlanetNames: .constant(false), planets: entry.planets, campaigns: entry.campaigns, defenseCampaigns: entry.defenseCampaigns, isWidget: true).environmentObject(PlanetsDataModel())
                     .padding()
                     .frame(width: 300, height: 300)
                 
@@ -119,7 +124,7 @@ struct GalaxyMapWidgetView: View {
                     .font(Font.custom("FSSinclair", size: 16)).bold()
                     .foregroundStyle(.yellow)
                 
-            }
+            }.widgetAccentable(true)
             
         }
         

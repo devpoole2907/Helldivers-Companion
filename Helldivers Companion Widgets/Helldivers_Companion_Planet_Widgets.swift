@@ -103,6 +103,7 @@ struct SimplePlanetStatus: TimelineEntry {
 struct Helldivers_Companion_WidgetsEntryView : View {
     
     @Environment(\.widgetFamily) var widgetFamily
+    @Environment(\.widgetRenderingMode) var widgetRenderingMode
     
     @MainActor let planetsModel = PlanetsDataModel()
     
@@ -128,24 +129,27 @@ struct Helldivers_Companion_WidgetsEntryView : View {
             
             ZStack {
                 
-                if let factionColor = entry.factionColor {
-                    factionColor.opacity(0.6)
-                } else {
-                    // must be liberating
+                if widgetRenderingMode != .accented {
+                    if let factionColor = entry.factionColor {
+                        factionColor.opacity(0.6)
+                    } else {
+                        // must be liberating
+                        
+                        planetsModel.getColorForPlanet(planet: entry.planet).opacity(0.6)
+                    }
                     
-                    planetsModel.getColorForPlanet(planet: entry.planet).opacity(0.6)
+                    
+                    ContainerRelativeShape()
+                        .inset(by: 4)
+                        .fill(Color.black)
+                    
                 }
-               
-                
-                ContainerRelativeShape()
-                    .inset(by: 4)
-                    .fill(Color.black)
                 
                 PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, factionName: entry.faction, factionColor: entry.factionColor, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, eventExpirationTime: entry.eventExpirationTime).environmentObject(PlanetsDataModel())
                     .padding(.horizontal)
                     .padding(.vertical, 5)
                 
-            }
+            }                 .widgetAccentable(true)
 #else
             Text("You shouldnt see this")
 #endif

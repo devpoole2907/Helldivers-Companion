@@ -74,16 +74,19 @@ struct NewsItemEntry: TimelineEntry {
 }
 
 struct Helldivers_Companion_News_WidgetEntryView : View {
+    @Environment(\.widgetRenderingMode) var widgetRenderingMode
     var entry: Provider.Entry
     
     var body: some View {
         ZStack {
             
-            Color(.systemBlue).opacity(0.6)
-            
-            ContainerRelativeShape()
-                .inset(by: 4)
-                .fill(Color.black)
+            if widgetRenderingMode != .accented {
+                Color(.systemBlue).opacity(0.6)
+                
+                ContainerRelativeShape()
+                    .inset(by: 4)
+                    .fill(Color.black)
+            }
             NewsItemView(newsTitle: entry.title, newsMessage: entry.description.replacingOccurrences(of: "\n", with: ""), published: entry.published, configData: entry.configData, isWidget: true).padding(.horizontal)
                 .padding(.vertical, 5)
             
@@ -104,7 +107,7 @@ struct Helldivers_Companion_News_Widget: Widget {
             if #available(iOSApplicationExtension 17.0, *) {
                 Helldivers_Companion_News_WidgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
-                
+                    .widgetAccentable(true)
                 // for deeplinking to news view
                     .widgetURL(URL(string: "helldiverscompanion://news"))
             } else {

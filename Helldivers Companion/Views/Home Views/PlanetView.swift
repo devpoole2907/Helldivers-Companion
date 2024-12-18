@@ -274,13 +274,17 @@ struct PlanetView: View {
     }
     
     var planetaryImage: some View {
-        
-        Image(formattedPlanetImageName).resizable().aspectRatio(contentMode: .fit)
-        
-        
-        
-        
-        
+        // for home screen tinting support with ios 18
+        if #available(iOS 18, watchOS 11, *) {
+            return Image(formattedPlanetImageName)
+                .resizable()
+                .widgetAccentedRenderingMode(.desaturated)
+                .aspectRatio(contentMode: .fit)
+        } else {
+            return Image(formattedPlanetImageName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        }
     }
     
 }

@@ -76,6 +76,7 @@ struct MajorOrderEntry: TimelineEntry {
 struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
     
     @Environment(\.widgetFamily) var widgetFamily
+    @Environment(\.widgetRenderingMode) var widgetRenderingMode
     
     var entry: MajorOrderProvider.Entry
     
@@ -102,13 +103,17 @@ struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
 #if os(iOS)
             ZStack {
                 
-                Color(.cyan).opacity(0.6)
+                if widgetRenderingMode != .accented {
+                    
+                    Color(.cyan).opacity(0.6)
+                    
+                    ContainerRelativeShape()
+                        .inset(by: 4)
+                        .fill(Color.black)
+                    
+                }
                 
-                ContainerRelativeShape()
-                    .inset(by: 4)
-                    .fill(Color.black)
-                
-                OrdersWidgetView(title: entry.majorOrder?.setting.taskDescription, description: entry.majorOrder?.setting.overrideBrief, taskPlanets: entry.taskPlanets, rewards: entry.majorOrder?.allRewards ?? [], timeRemaining: entry.majorOrder?.expiresIn, taskProgress: entry.taskProgress, factionColor: entry.factionColor, progressString: entry.progressString, progress: entry.progress, orderType: entry.orderType)
+                OrdersWidgetView(title: entry.majorOrder?.setting.taskDescription, description: entry.majorOrder?.setting.overrideBrief, taskPlanets: entry.taskPlanets, rewards: entry.majorOrder?.allRewards ?? [], timeRemaining: entry.majorOrder?.expiresIn, taskProgress: entry.taskProgress, factionColor: entry.factionColor, progressString: entry.progressString, progress: entry.progress, orderType: entry.orderType).widgetAccentable(true)
                 
                 
             }

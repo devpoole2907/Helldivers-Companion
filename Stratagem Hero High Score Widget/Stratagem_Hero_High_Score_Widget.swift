@@ -64,7 +64,7 @@ struct Stratagem_Hero_High_Score_WidgetEntryView : View {
             #if os(iOS)
         case .systemSmall:
             
-            StratagemHeroHighScoreSmallWidgetView(entry: entry)
+            StratagemHeroHighScoreSmallWidgetView(entry: entry).widgetAccentable(true)
             #endif
         case .accessoryInline:
             
@@ -82,6 +82,8 @@ struct Stratagem_Hero_High_Score_WidgetEntryView : View {
 
 struct StratagemHeroHighScoreSmallWidgetView: View {
     
+    @Environment(\.widgetRenderingMode) var widgetRenderingMode
+    
     var entry: Provider.Entry
     
     var body: some View {
@@ -89,12 +91,13 @@ struct StratagemHeroHighScoreSmallWidgetView: View {
         
         ZStack {
             
-            Color.blue
-            
-            
-            ContainerRelativeShape()
-                .inset(by: 4)
-                .fill(Color.black)
+            if widgetRenderingMode != .accented {
+                Color.blue
+                ContainerRelativeShape()
+                    .inset(by: 4)
+                    .fill(Color.black)
+                
+            }
             
             VStack(spacing: 4) {
                 

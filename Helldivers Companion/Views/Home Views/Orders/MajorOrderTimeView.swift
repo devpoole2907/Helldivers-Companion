@@ -9,6 +9,18 @@ import SwiftUI
 
 struct MajorOrderTimeView: View {
     
+    // to support ios 18 widget tinting
+    #if os(iOS)
+    @Environment(\.widgetRenderingMode) var widgetRenderingMode
+    #endif
+    
+    var backgroundOpacity: Double {
+        #if os(iOS)
+            return widgetRenderingMode == .accented ? 0.2 : 1
+        #endif
+        return 1
+    }
+    
     var timeRemaining: Int64 = 0
     
     var isWidget = false
@@ -42,7 +54,7 @@ struct MajorOrderTimeView: View {
                 
 #endif
             }
-            Text("\(formatDuration(seconds: timeRemaining))").padding(.top, 2).padding(.horizontal, 16).background(Color.yellow).foregroundStyle(Color.black)
+            Text("\(formatDuration(seconds: timeRemaining))").padding(.top, 2).padding(.horizontal, 16).background(Color.yellow.opacity(backgroundOpacity)).foregroundStyle(Color.black)
         }.font(Font.custom("FSSinclair", size: nameSize))
     }
 }

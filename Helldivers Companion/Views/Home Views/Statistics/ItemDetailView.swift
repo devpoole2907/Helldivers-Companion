@@ -455,14 +455,16 @@ struct ItemDetailView: View {
         .toolbar {
      
             if let enemy = enemy {
-                
           
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Image(dbModel.automatonEnemies.contains(enemy) ? "automaton" : "terminid")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 30, height: 30)
-                    }
+                ToolbarItem(placement: .topBarTrailing) {
+                    let enemyType = dbModel.automatonEnemies.contains(enemy) ? "automaton" :
+                                    dbModel.illuminateEnemies.contains(enemy) ? "illuminate" : "terminid"
+                    
+                    Image(enemyType)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 30, height: 30)
+                }
                 
                 
                 

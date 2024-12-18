@@ -65,7 +65,9 @@ struct OrderView: View {
             }
             
             if let firstReward = viewModel.majorOrder?.allRewards.first, firstReward.amount > 0 {
+                if #available(watchOS 9.0, *) {
                 RewardView(rewards: viewModel.majorOrder?.allRewards ?? [])
+            }
             }
             
             if let majorOrderTimeRemaining = viewModel.majorOrder?.expiresIn,  majorOrderTimeRemaining > 0 {
@@ -156,7 +158,7 @@ struct MajorOrderBarProgressView: View {
             
             #endif
                 
-                .foregroundStyle(.black)
+                .foregroundStyle(Color.black)
                 .minimumScaleFactor(0.6)
             
         }.padding(.bottom, 10)

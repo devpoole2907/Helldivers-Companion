@@ -6,13 +6,29 @@
 //
 
 import SwiftUI
-
+@available(watchOS 9.0, *)
 struct RewardView: View {
+    @Environment(\.widgetRenderingMode) var widgetRenderingMode
     var rewards: [MajorOrder.Setting.Reward]
     var widgetMode = false
     
     var imageSize: CGFloat {
         return widgetMode ? 20 : (rewards.count > 1 ? 18 : 26)
+    }
+    
+    var rewardImage: some View {
+        if #available(iOS 18, watchOS 11, *) {
+            return Image("medalSymbol")
+                .resizable()
+                .widgetAccentedRenderingMode(.desaturated)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: imageSize, height: imageSize)
+        } else {
+            return Image("medalSymbol")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: imageSize, height: imageSize)
+        }
     }
     
     var body: some View {
@@ -30,10 +46,7 @@ struct RewardView: View {
                 HStack(spacing: 4) {
                     // duct tape, as the current major order response when creating this says the reward is medals - its not, its requistions. mdeal rewards should never be over 1000 anyway so this will work for now.
                     if reward.type == 1 && reward.amount < 1000 {
-                        Image("medalSymbol")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: imageSize, height: imageSize)
+                        rewardImage
                     } else {
                         VStack(spacing: 2) {
                             Text("R")
@@ -58,9 +71,7 @@ struct RewardView: View {
 #if os(iOS)
                 .padding(.vertical, (widgetMode && rewards.count > 1) ? 5 : 10)
                 .padding(.horizontal, 18)
-                .background {
-                    Color.black
-                }
+                .background(Color.black.opacity(widgetRenderingMode == .accented ? 0.2 : 1))
 #endif
             }
         }
