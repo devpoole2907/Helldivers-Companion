@@ -55,7 +55,7 @@ struct CampaignPlanetStatsView: View {
                     
                     // health bar
                     
-                    RectangleProgressBar(value: liberation / 100, secondaryColor: eventExpirationTime != nil ? .clear : factionColor, height: eventExpirationTime != nil ? 8 : 20)
+                    RectangleProgressBar(value: liberation / 100, secondaryColor: eventExpirationTime != nil ? .cyan : factionColor, height: eventExpirationTime != nil ? 8 : 20)
                     
                         .padding(.horizontal, 6)
                         .padding(.trailing, 2)
@@ -67,7 +67,7 @@ struct CampaignPlanetStatsView: View {
                         
                         let percentageRemaining = (remainingTime / defenseTime)
                         
-                        RectangleProgressBar(value: 1 - percentageRemaining, primaryColor: factionColor, secondaryColor: .clear, height: 8)
+                        RectangleProgressBar(value: 1 - percentageRemaining, primaryColor: factionColor, secondaryColor: factionColor, height: 8)
                             .padding(.horizontal, 6)
                             .padding(.trailing, 2)
                     }
