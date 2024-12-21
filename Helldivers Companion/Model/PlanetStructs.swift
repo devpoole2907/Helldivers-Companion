@@ -924,14 +924,14 @@ var globalStratagems: [Stratagem] = [
     Stratagem(name: "Seismic Probe", sequence: [.up, .up, .left, .right, .down, .down], type: .mission),
     Stratagem(name: "SEAF Artillery", sequence: [.right, .up, .up, .down], type: .mission),
     Stratagem(name: "Orbital Illumination Flare", sequence: [.right, .right, .left, .left], type: .mission),
-    Stratagem(name: "Guard Dog Breath", sequence: [.down, .up, .left, .right, .up], type: .workshop, videoUrl: "https://ik.imagekit.io/rozzkftam/Stratagem%20Videos/guard-dog-dog-breath-2.mp4?updatedAt=1734743726616"),
+    Stratagem(name: "Guard Dog Breath", sequence: [.down, .up, .left, .right, .up], type: .workshop, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1734822317/guard-dog-dog-breath-2.mp4"),
     Stratagem(name: "Tectonic Drill", sequence: [.up, .down, .up, .down, .up, .down], type: .mission),
     Stratagem(name: "Dark Fluid Vessel", sequence: [.up, .left, .right, .down, .up, .up], type: .mission),
     Stratagem(name: "Hive Breaker Drill", sequence: [.left, .up, .down, .right, .down, .down], type: .mission),
-    Stratagem(name: "Orbital Napalm Barrage", sequence: [.right, .right, .down, .left, .right, .up], type: .orbital, videoUrl: "https://ik.imagekit.io/rozzkftam/Stratagem%20Videos/orbital-napalm-barrage-2.mp4?updatedAt=1734743726745"),
-    Stratagem(name: "Directional Shield", sequence: [.down, .up, .left, .right, .up, .up], type: .engineering, videoUrl: "https://ik.imagekit.io/rozzkftam/Stratagem%20Videos/directional-shield-2.mp4?updatedAt=1734743726200"),
-    Stratagem(name: "Anti-Tank Emplacement", sequence: [.down, .up, .left, .right, .right, .right], type: .workshop, videoUrl: "https://ik.imagekit.io/rozzkftam/Stratagem%20Videos/anti-tank-emplacement-2.mp4?updatedAt=1734743727437"),
-    Stratagem(name: "Flame Sentry", sequence: [.down, .up, .right, .down, .up, .up], type: .workshop, videoUrl: "https://ik.imagekit.io/rozzkftam/Stratagem%20Videos/flame-sentry-2.mp4?updatedAt=1734743726058"),
-    Stratagem(name: "Sterilizer", sequence: [.down, .left, .up, .down, .left], type: .admin, videoUrl: "https://ik.imagekit.io/rozzkftam/Stratagem%20Videos/steriliser-2.mp4?updatedAt=1734743726375"),
-    Stratagem(name: "Commando", sequence: [.down, .left, .up, .down, .right], type: .admin, videoUrl: "https://ik.imagekit.io/rozzkftam/Stratagem%20Videos/commando-2.mp4?updatedAt=1734743726704")
+    Stratagem(name: "Orbital Napalm Barrage", sequence: [.right, .right, .down, .left, .right, .up], type: .orbital, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1734822296/orbital-napalm-barrage-2.mp4"),
+    Stratagem(name: "Directional Shield", sequence: [.down, .up, .left, .right, .up, .up], type: .engineering, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1734822347/directional-shield-2.mp4"),
+    Stratagem(name: "Anti-Tank Emplacement", sequence: [.down, .up, .left, .right, .right, .right], type: .workshop, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1734822398/anti-tank-emplacement-2.mp4"),
+    Stratagem(name: "Flame Sentry", sequence: [.down, .up, .right, .down, .up, .up], type: .workshop, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1734822364/flame-sentry-2.mp4"),
+    Stratagem(name: "Sterilizer", sequence: [.down, .left, .up, .down, .left], type: .admin, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1734822306/steriliser-2.mp4"),
+    Stratagem(name: "Commando", sequence: [.down, .left, .up, .down, .right], type: .admin, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1734822285/commando-2.mp4")
 ]
