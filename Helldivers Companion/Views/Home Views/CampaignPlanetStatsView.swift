@@ -173,6 +173,7 @@ struct CampaignPlanetStatsView: View {
                             Spacer()
                             VStack(spacing: -5) {
                                 Text("DEFEND") .font(Font.custom("FSSinclair", size: mediumFont)).bold()
+                                    .scaledToFit()
                                 
                                 // defense is important, so pulsate
                                     .foregroundStyle(isWidget ? .red : (pulsate ? .red : .white))
