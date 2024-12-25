@@ -933,5 +933,9 @@ var globalStratagems: [Stratagem] = [
     Stratagem(name: "Anti-Tank Emplacement", sequence: [.down, .up, .left, .right, .right, .right], type: .workshop, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1734822398/anti-tank-emplacement-2.mp4"),
     Stratagem(name: "Flame Sentry", sequence: [.down, .up, .right, .down, .up, .up], type: .workshop, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1734822364/flame-sentry-2.mp4"),
     Stratagem(name: "Sterilizer", sequence: [.down, .left, .up, .down, .left], type: .admin, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1734822306/steriliser-2.mp4"),
-    Stratagem(name: "Commando", sequence: [.down, .left, .up, .down, .right], type: .admin, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1734822285/commando-2.mp4")
+    Stratagem(name: "Commando", sequence: [.down, .left, .up, .down, .right], type: .admin, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1734822285/commando-2.mp4"),
+    Stratagem(name: "W.A.S.P. Launcher", sequence: [.down, .down, .up, .down, .right], type: .engineering, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1735089553/wasp-launcher-2.mp4"),
+    Stratagem(name: "Fast Recon Vehicle", sequence: [.left, .down, .right, .down, .right, .down, .up], type: .hangar),
+    Stratagem(name: "Anti-Tank Mines", sequence: [.down, .left, .up, .up], type: .engineering, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1735089844/anti-tank-mines-2.mp4"),
+    Stratagem(name: "Gas Mines", sequence: [.down, .left, .left, .right], type: .engineering)
 ]
