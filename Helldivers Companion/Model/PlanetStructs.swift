@@ -63,22 +63,6 @@ struct MajorOrder: Decodable {
     var isNetQuantityType: Bool { !netQuantityTasks.isEmpty }
     var isLiberationType: Bool  { !liberationTasks.isEmpty }
     
-    
-    
-  /*
-    // tired, this will do for type 3 major orders for now i need to get this feat out the door
-    var isEradicateType: Bool {
-            setting.tasks.first?.type == 3
-        }
-    // defense x number of planets types
-    var isDefenseType: Bool {
-        setting.tasks.first?.type == 12
-    }
-
-    var isNetQuantityType: Bool {
-        setting.tasks.first?.type == 15
-    }*/
-    
     // if an eradication type major order
     
     var eradicationProgress: [(progress: Double, progressString: String)]? {
@@ -87,7 +71,6 @@ struct MajorOrder: Decodable {
             // find the index of this task in `setting.tasks` to match against `progress`
             guard let taskIndex = setting.tasks.firstIndex(of: task),
                   let currentProgress = progress[safe: taskIndex],
-                  // For your original logic, you used `values[2]` as the "totalGoal"
                   let totalGoal = task.values[safe: 2]
             else {
                 return nil
@@ -124,7 +107,6 @@ struct MajorOrder: Decodable {
                 return nil
             }
             
-            // This is your custom logic for normalizing to a range you want
             let maxProgressValue: Double = 10
             let normalizedProgress = 1 - (Double(currentProgress) + maxProgressValue) / (2 * maxProgressValue)
             
