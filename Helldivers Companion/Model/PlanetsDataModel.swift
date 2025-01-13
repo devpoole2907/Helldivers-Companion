@@ -380,9 +380,11 @@ class PlanetsDataModel: ObservableObject {
 
                 // get planets with planet index found in task, assuming the tasks are in the same order as the progress array also associate the progress (0 or 1 for complete) with the planet in the tasks array
 
-                let taskPlanetIndexes = firstOrder.setting.tasks.compactMap {
-                    task in
-                    task.values.count >= 3 ? task.values[2] : nil
+                let taskPlanetIndexes: [Int64] = firstOrder.setting.tasks.compactMap { task in
+                    guard task.values.count >= 3 else { return nil }
+                    let planetIndex = task.values[2]
+                    // Skip 0 so "Super Earth" doesn't get included
+                    return planetIndex == 0 ? nil : planetIndex
                 }
 
                 taskPlanets = collectionOfPlanets.filter { planet in
@@ -390,17 +392,16 @@ class PlanetsDataModel: ObservableObject {
                 }
 
                 for (index, progressValue) in firstOrder.progress.enumerated() {
-                    if index < firstOrder.setting.tasks.count {
-                        let task = firstOrder.setting.tasks[index]
-                        if let taskIndex = task.values.count >= 3
-                            ? task.values[2] : nil,
-                            let planetIndex = taskPlanets.firstIndex(where: {
-                                $0.index == taskIndex
-                            })
-                        {
-                            taskPlanets[planetIndex].taskProgress =
-                                progressValue
-                        }
+                    guard index < firstOrder.setting.tasks.count else { continue }
+                    let task = firstOrder.setting.tasks[index]
+                    guard task.values.count >= 3 else { continue }
+                    
+                    // If the planet index is 0, skip it
+                    let planetIndex = task.values[2]
+                    if planetIndex == 0 { continue }
+
+                    if let planetInArray = taskPlanets.firstIndex(where: { $0.index == planetIndex }) {
+                        taskPlanets[planetInArray].taskProgress = progressValue
                     }
                 }
 

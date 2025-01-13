@@ -45,6 +45,27 @@ struct MajorOrder: Decodable {
     let expiresIn: Int64 // this must be int64 to run on watchOS!
     let setting: Setting
     
+    var eradicateTasks: [Setting.Task] {
+            setting.tasks.filter { $0.type == 3 }
+        }
+        var defenseTasks: [Setting.Task] {
+            setting.tasks.filter { $0.type == 12 }
+        }
+        var netQuantityTasks: [Setting.Task] {
+            setting.tasks.filter { $0.type == 15 }
+        }
+        var liberationTasks: [Setting.Task] {
+            setting.tasks.filter { $0.type == 11 || $0.type == 13 }
+        }
+    
+    var isEradicateType: Bool { !eradicateTasks.isEmpty }
+    var isDefenseType: Bool    { !defenseTasks.isEmpty }
+    var isNetQuantityType: Bool { !netQuantityTasks.isEmpty }
+    var isLiberationType: Bool  { !liberationTasks.isEmpty }
+    
+    
+    
+  /*
     // tired, this will do for type 3 major orders for now i need to get this feat out the door
     var isEradicateType: Bool {
             setting.tasks.first?.type == 3
@@ -56,46 +77,62 @@ struct MajorOrder: Decodable {
 
     var isNetQuantityType: Bool {
         setting.tasks.first?.type == 15
-    }
+    }*/
     
     // if an eradication type major order
     
-    var eradicationProgress: Double? {
-            guard isEradicateType,
-                  let currentProgress = progress.first,
-                  let totalGoal = setting.tasks.first?.values[2] else {
+    var eradicationProgress: [(progress: Double, progressString: String)]? {
+        guard isEradicateType else { return nil }
+        return eradicateTasks.compactMap { task in
+            // find the index of this task in `setting.tasks` to match against `progress`
+            guard let taskIndex = setting.tasks.firstIndex(of: task),
+                  let currentProgress = progress[safe: taskIndex],
+                  // For your original logic, you used `values[2]` as the "totalGoal"
+                  let totalGoal = task.values[safe: 2]
+            else {
                 return nil
             }
-            return Double(currentProgress) / Double(totalGoal)
+            
+            let progressValue = Double(currentProgress) / Double(totalGoal)
+            let progressString = "\(currentProgress)/\(totalGoal) (\(String(format: "%.1f", progressValue * 100))%)"
+            return (progressValue, progressString)
         }
-    
-    var defenseProgress: Double? {
-        
-        guard isDefenseType, let currentProgress = progress.first, let totalGoal = setting.tasks.first?.values.first else {
-            return nil
-        }
-        
-        return Double(currentProgress) / Double(totalGoal)
-        
-        
     }
     
+     var defenseProgress: [(progress: Double, progressString: String)]? {
+         guard isDefenseType else { return nil }
+         return defenseTasks.compactMap { task in
+             guard let taskIndex = setting.tasks.firstIndex(of: task),
+                   let currentProgress = progress[safe: taskIndex],
+                   let totalGoal = task.values.first
+             else {
+                 return nil
+             }
+             
+             let progressValue = Double(currentProgress) / Double(totalGoal)
+             let progressString = "\(currentProgress)/\(totalGoal) (\(String(format: "%.1f", progressValue * 100))%)"
+             return (progressValue, progressString)
+         }
+     }
     
-        
-    // for the eradicate/defend major orders overlay
-        var progressString: String? {
-            
-            if isEradicateType, let eradicationProgress = eradicationProgress {
-                let percentage = eradicationProgress * 100
-                return "\(progress.first!)/\(setting.tasks.first!.values[2]) (\(String(format: "%.1f", percentage))%)"
-            } else if isDefenseType, let defenseProgress = defenseProgress {
-                let percentage = defenseProgress * 100
-                return "\(progress.first!)/\(setting.tasks.first!.values.first!) (\(String(format: "%.1f", percentage))%)"
+    var netQuantityProgress: [(progress: Double, progressString: String)]? {
+        guard isNetQuantityType else { return nil }
+        return netQuantityTasks.compactMap { task in
+            guard let taskIndex = setting.tasks.firstIndex(of: task),
+                  let currentProgress = progress[safe: taskIndex]
+            else {
+                return nil
             }
             
-            return nil
+            // This is your custom logic for normalizing to a range you want
+            let maxProgressValue: Double = 10
+            let normalizedProgress = 1 - (Double(currentProgress) + maxProgressValue) / (2 * maxProgressValue)
             
+            let progressString = "\(currentProgress) (normalized: \(String(format: "%.1f", normalizedProgress * 100))%)"
+            return (normalizedProgress, progressString)
         }
+    }
+
     
     var faction: Faction? {
             guard isEradicateType, let factionIndex = setting.tasks.first?.values[0] else {
@@ -150,7 +187,7 @@ struct MajorOrder: Decodable {
         let reward: Reward
         let flags: Int
         
-        struct Task: Decodable {
+        struct Task: Decodable, Equatable {
             let type: Int
             let values: [Int64]
             let valueTypes: [Int]
@@ -939,3 +976,9 @@ var globalStratagems: [Stratagem] = [
     Stratagem(name: "Anti-Tank Mines", sequence: [.down, .left, .up, .up], type: .engineering, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1735089844/anti-tank-mines-2.mp4"),
     Stratagem(name: "Gas Mines", sequence: [.down, .left, .left, .right], type: .engineering)
 ]
+
+extension Array {
+    subscript(safe index: Int) -> Element? {
+        indices.contains(index) ? self[index] : nil
+    }
+}

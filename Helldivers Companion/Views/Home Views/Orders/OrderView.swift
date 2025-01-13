@@ -31,36 +31,61 @@ struct OrderView: View {
                     .padding(5)
                     .multilineTextAlignment(.center)
                 
-                if let isEradication = viewModel.majorOrder?.isEradicateType, let eradicationProgress = viewModel.majorOrder?.eradicationProgress, let barColor = viewModel.majorOrder?.faction?.color, let progressString = viewModel.majorOrder?.progressString {
+                if let mo = viewModel.majorOrder {
                     
+                    // MARK: - Eradication Tasks (Type 3)
+                                       if mo.isEradicateType, let eradicationProgresses = mo.eradicationProgress {
+                                           ForEach(eradicationProgresses.indices, id: \.self) { index in
+                                               let progressData = eradicationProgresses[index]
+                                               MajorOrderBarProgressView(
+                                                   progress: progressData.progress,
+                                                   barColor: mo.faction?.color ?? .white,
+                                                   progressString: progressData.progressString
+                                               )
+                                           }
+                                       }
                     
-                    // eradicate campaign
-                   
-                   MajorOrderBarProgressView(progress: eradicationProgress, barColor: barColor, progressString: progressString)
-
-                } else if let isDefenseType = viewModel.majorOrder?.isDefenseType, let defenseProgress = viewModel.majorOrder?.defenseProgress, let progressString = viewModel.majorOrder?.progressString {       // defense campaign
+                    // MARK: - Defense Tasks (Type 12)
+                                        if mo.isDefenseType, let defenseProgresses = mo.defenseProgress {
+                                            ForEach(defenseProgresses.indices, id: \.self) { index in
+                                                let progressData = defenseProgresses[index]
+                                                MajorOrderBarProgressView(
+                                                    progress: progressData.progress,
+                                                    barColor: .white,
+                                                    progressString: progressData.progressString
+                                                )
+                                            }
+                                        }
                     
-                    MajorOrderBarProgressView(progress: defenseProgress, barColor: .white, progressString: progressString)
+                    // MARK: - Net Quantity Tasks (Type 15)
+                                        if mo.isNetQuantityType, let netQuantityProgresses = mo.netQuantityProgress {
+                                            ForEach(netQuantityProgresses.indices, id: \.self) { index in
+                                                let progressData = netQuantityProgresses[index]
+                                                
+                                                // Optional Task Status for net quantity
+                                                TaskStatusView(
+                                                    taskName: "Liberate more planets than are lost",
+                                                    isCompleted: false,
+                                                    nameSize: 16,
+                                                    boxSize: 10
+                                                )
+                                                
+                                                MajorOrderBarProgressView(
+                                                    progress: progressData.progress,
+                                                    barColor: .blue,
+                                                    progressString: progressData.progressString,
+                                                    primaryColor: .red
+                                                )
+                                            }
+                                        }
                     
-              
-                    // task type 15
-                } else if let isNetQuantityType = viewModel.majorOrder?.isNetQuantityType, isNetQuantityType == true, let progress = viewModel.majorOrder?.progress.first {
+                    // MARK: - Liberation Tasks (Type 11)
+                                        // Using your existing logic for updatedTaskPlanets
+                                        if mo.isLiberationType, !viewModel.updatedTaskPlanets.isEmpty {
+                                            TasksView(taskPlanets: viewModel.updatedTaskPlanets)
+                                        }
                     
-                    let maxProgressValue: Double = 10 // assumes 10 is the max value either way for normalization (planets cpatured or lost)
-                    let normalizedProgress: Double = 1 - (Double(progress) + maxProgressValue) / (2 * maxProgressValue)
-                    
-                    TaskStatusView(
-                            taskName: "Liberate more planets than are lost during the order duration.",
-                            isCompleted: false,
-                            nameSize: smallFont,
-                            boxSize: 10
-                        )
-                    
-                    MajorOrderBarProgressView(progress: normalizedProgress, barColor: .blue, progressString: "\(progress)", primaryColor: .red)
-                } else if !viewModel.updatedTaskPlanets.isEmpty { // liberation/type 11
-                    TasksView(taskPlanets: viewModel.updatedTaskPlanets)
                 }
-                
                 
             }
             

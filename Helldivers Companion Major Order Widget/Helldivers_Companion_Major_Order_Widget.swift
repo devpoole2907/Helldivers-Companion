@@ -41,16 +41,50 @@ struct MajorOrderProvider: TimelineProvider {
             let (planets, _, _) = planetResults
             let (taskPlanets, majorOrder) = majorOrderResults
             
-            let progress = majorOrder?.progress.first
+            var finalTaskProgress: Double?
+                        var finalProgressString: String?
+                        var finalProgress: Double?
+                        var finalOrderType: Int?
+                        
+                        if let mo = majorOrder {
+                            // If eradication type, pick the first eradication task's progress
+                            if mo.isEradicateType, let firstErad = mo.eradicationProgress?.first {
+                                finalTaskProgress = firstErad.progress
+                                finalProgressString = firstErad.progressString
+                                finalProgress = firstErad.progress
+                                finalOrderType = mo.eradicateTasks.first?.type
+                            }
+                            // If defense type, pick the first defense task's progress
+                            else if mo.isDefenseType, let firstDef = mo.defenseProgress?.first {
+                                finalTaskProgress = firstDef.progress
+                                finalProgressString = firstDef.progressString
+                                finalProgress = firstDef.progress
+                                finalOrderType = mo.defenseTasks.first?.type
+                            }
+                            // If net quantity type, pick the first net-quantity task's progress
+                            else if mo.isNetQuantityType, let firstNet = mo.netQuantityProgress?.first {
+                                finalTaskProgress = firstNet.progress
+                                finalProgressString = firstNet.progressString
+                                finalProgress = firstNet.progress
+                                finalOrderType = mo.netQuantityTasks.first?.type
+                            }
+                            // If liberation type, keep it simple:
+                            else if mo.isLiberationType {
+                                finalOrderType = 11
+                            }
+                        }
             
             let entry = MajorOrderEntry(
-                date: Date(),
-                majorOrder: majorOrder,
-                taskPlanets: taskPlanets,
-                taskProgress: majorOrder?.eradicationProgress ?? majorOrder?.defenseProgress,
-                factionColor: majorOrder?.faction?.color,
-                progressString: majorOrder?.progressString, progress: Double(progress ?? 0), orderType: majorOrder?.setting.tasks.first?.type
-            )
+                            date: Date(),
+                            majorOrder: majorOrder,
+                            taskPlanets: taskPlanets,
+                            // We’re effectively mapping multi-task logic down to a single Double for the widget
+                            taskProgress: finalTaskProgress,
+                            factionColor: majorOrder?.faction?.color,
+                            progressString: finalProgressString,
+                            progress: finalProgress,
+                            orderType: finalOrderType
+                        )
             
             print("appending entry, this many planets: \(planets.count)")
             
