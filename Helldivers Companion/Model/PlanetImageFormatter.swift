@@ -17,7 +17,7 @@ class PlanetImageFormatter {
         switch planet?.name.lowercased() {
             
         case "meridia":
-            return "Meridia"
+            return "meridiablackhole"
             
         case "super earth":
             return "Super Earth"
