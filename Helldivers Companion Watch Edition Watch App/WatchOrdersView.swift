@@ -46,7 +46,7 @@ struct WatchOrdersView: View {
                                                        let progressData = defenseProgresses[index]
                                                        MajorOrderBarProgressView(
                                                            progress: progressData.progress,
-                                                           barColor: .white,
+                                                           barColor: mo.faction?.color ?? .white,
                                                            progressString: progressData.progressString
                                                        )
                                                    }
