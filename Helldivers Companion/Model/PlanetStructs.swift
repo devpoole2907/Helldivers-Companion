@@ -46,17 +46,17 @@ struct MajorOrder: Decodable {
     let setting: Setting
     
     var eradicateTasks: [Setting.Task] {
-            setting.tasks.filter { $0.type == 3 }
-        }
-        var defenseTasks: [Setting.Task] {
-            setting.tasks.filter { $0.type == 12 }
-        }
-        var netQuantityTasks: [Setting.Task] {
-            setting.tasks.filter { $0.type == 15 }
-        }
-        var liberationTasks: [Setting.Task] {
-            setting.tasks.filter { $0.type == 11 || $0.type == 13 }
-        }
+        setting.tasks.filter { $0.type == 3 }
+    }
+    var defenseTasks: [Setting.Task] {
+        setting.tasks.filter { $0.type == 12 }
+    }
+    var netQuantityTasks: [Setting.Task] {
+        setting.tasks.filter { $0.type == 15 }
+    }
+    var liberationTasks: [Setting.Task] {
+        setting.tasks.filter { $0.type == 11 || $0.type == 13 }
+    }
     
     var isEradicateType: Bool { !eradicateTasks.isEmpty }
     var isDefenseType: Bool    { !defenseTasks.isEmpty }
@@ -82,21 +82,21 @@ struct MajorOrder: Decodable {
         }
     }
     
-     var defenseProgress: [(progress: Double, progressString: String)]? {
-         guard isDefenseType else { return nil }
-         return defenseTasks.compactMap { task in
-             guard let taskIndex = setting.tasks.firstIndex(of: task),
-                   let currentProgress = progress[safe: taskIndex],
-                   let totalGoal = task.values.first
-             else {
-                 return nil
-             }
-             
-             let progressValue = Double(currentProgress) / Double(totalGoal)
-             let progressString = "\(currentProgress)/\(totalGoal) (\(String(format: "%.1f", progressValue * 100))%)"
-             return (progressValue, progressString)
-         }
-     }
+    var defenseProgress: [(progress: Double, progressString: String)]? {
+        guard isDefenseType else { return nil }
+        return defenseTasks.compactMap { task in
+            guard let taskIndex = setting.tasks.firstIndex(of: task),
+                  let currentProgress = progress[safe: taskIndex],
+                  let totalGoal = task.values.first
+            else {
+                return nil
+            }
+            
+            let progressValue = Double(currentProgress) / Double(totalGoal)
+            let progressString = "\(currentProgress)/\(totalGoal) (\(String(format: "%.1f", progressValue * 100))%)"
+            return (progressValue, progressString)
+        }
+    }
     
     var netQuantityProgress: [(progress: Double, progressString: String)]? {
         guard isNetQuantityType else { return nil }
@@ -114,14 +114,17 @@ struct MajorOrder: Decodable {
             return (normalizedProgress, progressString)
         }
     }
-
+    
     
     var faction: Faction? {
-            guard isEradicateType, let factionIndex = setting.tasks.first?.values[0] else {
-                return nil
-            }
-           return Faction(rawValue: factionIndex) ?? .unknown
+        if isEradicateType, let factionIndex = eradicateTasks.first?.values[safe: 0] {
+            return Faction(rawValue: factionIndex) ?? .unknown
+        } else if isDefenseType, let factionIndex = defenseTasks.first?.values[safe: 1] {
+            return Faction(rawValue: factionIndex) ?? .unknown
+        } else {
+            return nil
         }
+    }
     
     // if multiple rewards, return both, otherwise return the singular
     var allRewards: [Setting.Reward] {
