@@ -204,8 +204,7 @@ struct GalaxyMapView: View {
                                 .position(planetPosition)
                             
                             
-                                .foregroundStyle(
-                                    getColorForPlanet(planetPosition: planet)
+                                .foregroundStyle(planet.name.lowercased().contains("meridia") ? .black : getColorForPlanet(planetPosition: planet)
                                 )
                             
                         
