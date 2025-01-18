@@ -47,6 +47,16 @@ struct PlanetInfoView: View {
             defenseCampaign?.planet.event?.expireTimeDate
         }
     
+    private var spaceStationExpirationTime: Date? {
+        return activeSpaceStation?.electionEndDate
+    }
+    
+    private var activeSpaceStation: SpaceStation? {
+        return viewModel.spaceStations.first { spaceStation in
+            spaceStation.planet.index == planet?.index
+        }
+    }
+    
     private var liberationType: LiberationType {
         
         (defenseCampaign != nil) ? .defense : .liberation
@@ -98,7 +108,10 @@ struct PlanetInfoView: View {
             
             imageWithSectorName
             
-            
+            if let spaceStationExpiration = spaceStationExpirationTime {
+                SpaceStationView(spaceStationExpiration: spaceStationExpiration, activeTactical: activeSpaceStation?.activeTactical, isWidget: false, showFullInfo: true)
+                    .padding(.horizontal)
+            }
          
             
             VStack(alignment: .leading, spacing: 14) {

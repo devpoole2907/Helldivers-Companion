@@ -84,6 +84,11 @@
 		7C1B8C3A2BAD78CD00944823 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7C1B8C392BAD78CD00944823 /* FirebaseMessaging */; };
 		7C1B8C3B2BAD790500944823 /* GlobalFunctions+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C319F962BABEA2D0075A1E4 /* GlobalFunctions+Extensions.swift */; };
 		7C1B8C602BAD85B200944823 /* GameViewWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1B8C5F2BAD85B200944823 /* GameViewWatch.swift */; };
+		7C25BC792D3BA22200586852 /* SpaceStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C25BC782D3BA22200586852 /* SpaceStationView.swift */; };
+		7C25BC7A2D3BA22200586852 /* SpaceStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C25BC782D3BA22200586852 /* SpaceStationView.swift */; };
+		7C25BC7B2D3BA2B100586852 /* SpaceStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C25BC782D3BA22200586852 /* SpaceStationView.swift */; };
+		7C25BC7C2D3BA2C300586852 /* SpaceStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C25BC782D3BA22200586852 /* SpaceStationView.swift */; };
+		7C25BC7D2D3BA2C300586852 /* SpaceStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C25BC782D3BA22200586852 /* SpaceStationView.swift */; };
 		7C274A482BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
 		7C274A492BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
 		7C274A4A2BE4219A00F90369 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */; };
@@ -549,6 +554,7 @@
 		7C1B8C182BAD705700944823 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C1B8C1A2BAD705700944823 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C1B8C5F2BAD85B200944823 /* GameViewWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewWatch.swift; sourceTree = "<group>"; };
+		7C25BC782D3BA22200586852 /* SpaceStationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceStationView.swift; sourceTree = "<group>"; };
 		7C274A472BE4219A00F90369 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		7C297D162BCE845D00D884DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7C319F932BAAE91E0075A1E4 /* NewsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItemView.swift; sourceTree = "<group>"; };
@@ -1129,6 +1135,7 @@
 		7CE4AE3B2BA832930033D4AF /* Home Views */ = {
 			isa = PBXGroup;
 			children = (
+				7C25BC782D3BA22200586852 /* SpaceStationView.swift */,
 				7C63130C2BBC01BA00C84C13 /* Galaxy Map */,
 				7CE97D3E2BB54141008329BA /* Statistics */,
 				7C45D45F2BABEE2E0013A632 /* Orders */,
@@ -1751,6 +1758,7 @@
 				7C4589C22BA5554E0019B00E /* StratagemHeroModel.swift in Sources */,
 				7C587F3F2BA6A7DA00C66643 /* CustomSegmentedPicker.swift in Sources */,
 				7CC284C02BD8DB390036EBFD /* PlanetsList.swift in Sources */,
+				7C25BC792D3BA22200586852 /* SpaceStationView.swift in Sources */,
 				7CE97D3D2BB53D2E008329BA /* TipJarView.swift in Sources */,
 				7C45D4652BABEE6E0013A632 /* AngledLinesShape.swift in Sources */,
 				7CE97D402BB5414C008329BA /* GalaxyStatsView.swift in Sources */,
@@ -1806,6 +1814,7 @@
 			files = (
 				7C9062572C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7C8C5F282BAE80D300C4FBD2 /* PlanetView.swift in Sources */,
+				7C25BC7C2D3BA2C300586852 /* SpaceStationView.swift in Sources */,
 				7C45D4682BABEE770013A632 /* AngledLinesShape.swift in Sources */,
 				7C274A572BE436B900F90369 /* ShakeModifier.swift in Sources */,
 				7C0DF6252BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
@@ -1836,6 +1845,7 @@
 			files = (
 				7C9062562C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7C44B7E22BC944420097C29B /* Helldivers_Companion_Galaxy_Map_WidgetBundle.swift in Sources */,
+				7C25BC7D2D3BA2C300586852 /* SpaceStationView.swift in Sources */,
 				7C44B7F72BC945710097C29B /* PlayerCountView.swift in Sources */,
 				7C274A582BE436C500F90369 /* ShakeModifier.swift in Sources */,
 				7C44B8002BC945EC0097C29B /* Version Check View Modifiers.swift in Sources */,
@@ -1918,6 +1928,7 @@
 				7CA240DF2BCA5D51007F685C /* StratagemGlossaryView.swift in Sources */,
 				7CAAFFD92C475C4000488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C6C0F7B2BD0AEBC00BD73B2 /* UpdatedPlanetView.swift in Sources */,
+				7C25BC7A2D3BA22200586852 /* SpaceStationView.swift in Sources */,
 				7C587F5E2BA6DD2500C66643 /* RectangleProgressBar.swift in Sources */,
 				7C319F952BAAEF7F0075A1E4 /* NewsItemView.swift in Sources */,
 				7C0DF6232BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
@@ -2016,6 +2027,7 @@
 			files = (
 				7C90625A2C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7C45D4672BABEE770013A632 /* AngledLinesShape.swift in Sources */,
+				7C25BC7B2D3BA2B100586852 /* SpaceStationView.swift in Sources */,
 				7CC0AE792BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7C274A562BE436B400F90369 /* ShakeModifier.swift in Sources */,
 				7C0DF6242BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,

@@ -28,6 +28,7 @@ struct CampaignPlanetStatsView: View {
     var eventExpirationTime: Date? = nil
     
     var spaceStationExpiration: Date? = nil
+    var spaceStationActiveTactical: (String, String)? = nil
     
     var isActive = true // if accessed from galaxy map, planet view wont need to display all info if the planet isnt in a campaign
     
@@ -144,41 +145,7 @@ struct CampaignPlanetStatsView: View {
         // TODO: early draft for dss view
         
         if showExtraStats, let spaceStationExpiration = spaceStationExpiration {
-            ZStack {
-                Image("dss")
-                    .resizable()
-                    .scaledToFill()
-                    .scaleEffect(x: -1, y: 1)
-                    .offset(y: 30)
-                    .frame(maxHeight: isWidget ? 50 : 60)
-                    .clipped()
-                
-                LinearGradient(
-                    gradient: Gradient(colors: [.black, .clear]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .blendMode(.multiply)
-                .frame(maxHeight: isWidget ? 50 : 60)
-                
-                HStack {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("Democracy Space Station".uppercased())  .font(Font.custom("FSSinclair", size: mediumFont)).bold().foregroundStyle(.cyan)
-                        HStack(spacing: 3) {
-                            Text("-- FTL in:").bold()
-                            Text(spaceStationExpiration, style: .timer)
-                        }.font(Font.custom("FSSinclair", size: smallFont)).foregroundStyle(.white)
-                            .padding(.horizontal)
-                        
-                    }.padding(.horizontal)
-                    Spacer()
-                }
-                
-            }.frame(maxWidth: .infinity)
-            
-                .border(Color.white)
-                .padding(4)
-                .border(Color.gray)
+            SpaceStationView(spaceStationExpiration: spaceStationExpiration, activeTactical: spaceStationActiveTactical, isWidget: isWidget)
             
         }
         

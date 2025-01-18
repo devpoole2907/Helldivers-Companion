@@ -438,6 +438,19 @@ struct SpaceStation: Decodable {
         }
     }
     
+    var activeTactical: (String, String) {
+        switch flags {
+        case 0:
+            return ("Eagle Storm", "Deploys periodic Eagle Airstrikes during missions. Slows enemy progress in Defense Campaigns.")
+        case 1:
+            return ("Orbital Blockade", "Defense Campaigns cannot originate from this planet. The HELLPOD SPACE OPTIMIZATION Booster is automatically active for all missions.")
+        case 2:
+            return ("Heavy Ordnance Distribution", "Gives access to the Orbital 380mm HE Barrage stratagem during missions. Accelerates progress in Liberation Campaigns.")
+        default:
+            return ("", "")
+        }
+    }
+    
 }
 
 struct UpdatedPlanetEvent: Decodable {

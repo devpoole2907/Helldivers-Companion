@@ -206,6 +206,8 @@ struct GalaxyMapView: View {
                             
                                 .foregroundStyle(planet.name.lowercased().contains("meridia") ? Color(red: 63/255, green: 44/255, blue: 141/255) : getColorForPlanet(planetPosition: planet)
                                 )
+                        
+                            
                             
                         
                         if let defenseCampaign = isDefending {

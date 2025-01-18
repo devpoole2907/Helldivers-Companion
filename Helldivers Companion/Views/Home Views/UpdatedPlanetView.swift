@@ -50,10 +50,14 @@ struct UpdatedPlanetView: View {
         
     }
     
-    private var spaceStationExpirationTime: Date? {
+    private var activeSpaceStation: SpaceStation? {
         return viewModel.spaceStations.first { spaceStation in
             spaceStation.planet.index == planet?.index
-        }?.electionEndDate
+        }
+    }
+    
+    private var spaceStationExpirationTime: Date? {
+        return activeSpaceStation?.electionEndDate
     }
     
     private var liberationPercentage: Double? {
@@ -145,7 +149,7 @@ struct UpdatedPlanetView: View {
                 
                 headerWithImage
                     
-                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, spaceStationExpiration: spaceStationExpirationTime, isActive: isActive)
+                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, spaceStationExpiration: spaceStationExpirationTime, spaceStationActiveTactical: activeSpaceStation?.activeTactical, isActive: isActive)
                     
                 
                 
