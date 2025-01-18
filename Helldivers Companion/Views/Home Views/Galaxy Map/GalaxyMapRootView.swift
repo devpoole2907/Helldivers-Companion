@@ -75,7 +75,7 @@ struct GalaxyMapRootView: View {
         
                     UpdatedPlanetView(planetIndex: selectedPlanetIndex)
                         .padding(.horizontal)
-                        .frame(maxWidth: 460, maxHeight: 300)
+                        .frame(maxWidth: 460)
                     
                   
                     

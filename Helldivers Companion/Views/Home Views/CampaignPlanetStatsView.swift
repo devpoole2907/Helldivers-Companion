@@ -129,9 +129,6 @@ struct CampaignPlanetStatsView: View {
                 
             }
             .frame(maxWidth: .infinity)
-            .background {
-                //    Color.black
-            }
             .padding(.vertical, 5)
             
             
@@ -142,8 +139,39 @@ struct CampaignPlanetStatsView: View {
         .padding(4)
         .border(Color.gray)
         
+        // TODO: implement dss tracking, this is just early drafting
         
-        
+        ZStack {
+            Image("dss")
+                .resizable()
+                .scaledToFill()
+                .scaleEffect(x: -1, y: 1)
+                .offset(y: 30)
+                .frame(maxHeight: 70)
+                       .clipped()
+            
+            LinearGradient(
+                gradient: Gradient(colors: [.black, .clear]), // Black at the top, clear at the bottom
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .blendMode(.multiply)
+            .frame(maxHeight: 70)
+          
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("Democracy Space Station".uppercased())  .font(Font.custom("FSSinclair", size: mediumFont)).bold().foregroundStyle(.white)
+                    Text(Date(), style: .timer)  .font(Font.custom("FSSinclair", size: smallFont))
+                    
+                }.padding(.horizontal)
+                Spacer()
+            }
+            
+        }.frame(maxWidth: .infinity)
+
+            .border(Color.white)
+            .padding(4)
+            .border(Color.gray)
         
         if showExtraStats {
             HStack {
