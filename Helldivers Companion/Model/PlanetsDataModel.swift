@@ -21,6 +21,9 @@ class PlanetsDataModel: ObservableObject {
         [:]
     @Published var updatedTaskPlanets: [UpdatedPlanet] = []
     @Published var planetHistory: [String: [UpdatedPlanetDataPoint]] = [:]
+    
+    @Published var spaceStations: [SpaceStation] = []
+    
     @Published var nextFetchTime: Date?  // for the ui to show count down if a fetch failed due to rate limiting
     @Published var hasSetSelectedPlanet: Bool = false  // to stop setting the selected planet to the first in campaigns every fetch after the first
 
@@ -100,6 +103,7 @@ class PlanetsDataModel: ObservableObject {
             let (planets, sortedSectors, groupedBySector) = await fetchPlanets(
                 for: config)
             let (taskPlanets, majorOrder) = await fetchMajorOrder(with: planets)
+            let spaceStations = await fetchSpaceStations(for: config)
 
             await MainActor.run {
                 self.objectWillChange.send()
@@ -111,7 +115,7 @@ class PlanetsDataModel: ObservableObject {
                     self.galaxyStats = galaxyStats?.galaxyStats
 
                     self.updatedPlanets = planets
-
+                    self.spaceStations = spaceStations
                     self.updatedSortedSectors = sortedSectors
                     self.updatedGroupedBySectorPlanets = groupedBySector
                     self.updatedTaskPlanets = taskPlanets
@@ -169,6 +173,7 @@ class PlanetsDataModel: ObservableObject {
                     await self.fetchPlanets(for: config)
                 let (taskPlanets, majorOrder) = await self.fetchMajorOrder(
                     with: planets)
+                let spaceStations = await self.fetchSpaceStations(for: config)
 
                 await MainActor.run {
                     self.objectWillChange.send()
@@ -179,7 +184,7 @@ class PlanetsDataModel: ObservableObject {
                         self.updatedDefenseCampaigns = defenseCampaigns
 
                         self.updatedPlanets = planets
-
+                        self.spaceStations = spaceStations
                         self.updatedSortedSectors = sortedSectors
                         self.updatedGroupedBySectorPlanets = groupedBySector
                         self.updatedTaskPlanets = taskPlanets
@@ -278,6 +283,36 @@ class PlanetsDataModel: ObservableObject {
             return [:]
         }
     }
+    
+    func fetchSpaceStations(using url: String? = nil, for configData: RemoteConfigDetails) async -> [SpaceStation] {
+        let urlString = "\(configData.apiAddress)api/v1/space-stations"
+        
+        let headers: [String: String] = [
+            "X-Super-Client": "WarMonitoriOS/3.1",
+            "X-Application-Contact": "james@pooledigital.com",
+            "X-Super-Contact": "james@pooledigital.com",
+            "Accept-Language": enableLocalization ? apiSupportedLanguage : "",
+        ]
+        
+        do {
+            let stations: [SpaceStation] = try await netManager.fetchData(
+                from: urlString, headers: headers
+            )
+
+            // fetched stations logging
+            for station in stations {
+                print("Station ID: \(station.id32), Election End: \(station.electionEnd)")
+                print("Planet: \(station.planet.name), Owner: \(station.planet.currentOwner)")
+            }
+
+            return stations
+        } catch {
+            print("Error fetching space stations: \(error)")
+            return []
+        }
+            
+            
+            }
 
     func fetchCampaigns(
         using url: String? = nil, for configData: RemoteConfigDetails

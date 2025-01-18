@@ -42,13 +42,17 @@ struct PlanetStatusProvider: TimelineProvider {
             let campaignResults = await planetsModel.fetchCampaigns(using: urlString, for: config)
             let (campaigns, defenseCampaigns) = campaignResults
             
+            let spaceStations = await planetsModel.fetchSpaceStations(for: config)
+            
             if let highestPlanetCampaign = campaigns.max(by: { $0.planet.statistics.playerCount < $1.planet.statistics.playerCount }) {
                 let highestPlanet = highestPlanetCampaign.planet
+                
+                // grab space station expire time if one is there
+                    let spaceStationExpirationTime = spaceStations.first(where: { $0.planet.index == highestPlanet.index })?.electionEndDate
+                
                 if let defenseEvent = defenseCampaigns.first(where: { $0.planet.index == highestPlanet.index }) {
                     
                     let eventExpirationTime = highestPlanet.event?.expireTimeDate
-
-                    
                     
                     // faction always humans when defending, so put event faction here manually because we cant access the extra conditions in the view models faction image or color functions
                     
@@ -63,13 +67,13 @@ struct PlanetStatusProvider: TimelineProvider {
                         factionColor = .purple
                     }
 
-                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: defenseEvent.planet.event?.percentage ?? highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime)
+                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: defenseEvent.planet.event?.percentage ?? highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime, spaceStationExpirationTime: spaceStationExpirationTime)
                     entries.append(entry)
                     
                 } else {
                     // we dont need to access the view models faction image function's additional conditions here, because the planet is definitely not defending and is definitely a campaign, so we can just use it in the view directly as it will fall through to the check we need anyway
                     
-                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet)
+                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, spaceStationExpirationTime: spaceStationExpirationTime)
                     entries.append(entry)
                 }
                 
@@ -97,6 +101,7 @@ struct SimplePlanetStatus: TimelineEntry {
     var faction: String? // optional for the same reasons below
     var factionColor: Color? // this is optional and fetched in the app if state is liberation not defense because the viewmodel doesnt need its state for defense planets in that case, it falls through the if statements anyway
     var eventExpirationTime: Date? = nil
+    var spaceStationExpirationTime: Date? = nil
 }
 
 @available(watchOS 9.0, *)
@@ -145,7 +150,7 @@ struct Helldivers_Companion_WidgetsEntryView : View {
                     
                 }
                 
-                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, factionName: entry.faction, factionColor: entry.factionColor, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, eventExpirationTime: entry.eventExpirationTime).environmentObject(PlanetsDataModel())
+                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, factionName: entry.faction, factionColor: entry.factionColor, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, eventExpirationTime: entry.eventExpirationTime, spaceStationExpirationTime: entry.spaceStationExpirationTime).environmentObject(PlanetsDataModel())
                     .padding(.horizontal)
                     .padding(.vertical, 5)
                 

@@ -50,6 +50,12 @@ struct UpdatedPlanetView: View {
         
     }
     
+    private var spaceStationExpirationTime: Date? {
+        return viewModel.spaceStations.first { spaceStation in
+            spaceStation.planet.index == planet?.index
+        }?.electionEndDate
+    }
+    
     private var liberationPercentage: Double? {
         
         if !viewModel.updatedCampaigns.contains(where: { $0.planet.index == planetIndex }), planet?.currentOwner.lowercased() == "humans" {
@@ -139,7 +145,7 @@ struct UpdatedPlanetView: View {
                 
                 headerWithImage
                     
-                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, isActive: isActive)
+                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, spaceStationExpiration: spaceStationExpirationTime, isActive: isActive)
                     
                 
                 

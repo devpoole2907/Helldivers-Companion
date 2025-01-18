@@ -418,6 +418,28 @@ struct UpdatedPlanet: Decodable, Hashable {
     
 }
 
+struct SpaceStation: Decodable {
+    let id32: Int
+    let planet: UpdatedPlanet
+    let electionEnd: String
+    let flags: Int
+    
+    var electionEndDate: Date? {
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+        // try parse w fractional seconds
+        if let parsedDate = dateFormatter.date(from: electionEnd) {
+            return parsedDate
+        } else {
+            // fallback no fractional secs
+            dateFormatter.formatOptions = [.withInternetDateTime]
+            return dateFormatter.date(from: electionEnd)
+        }
+    }
+    
+}
+
 struct UpdatedPlanetEvent: Decodable {
     
     var id: Int
