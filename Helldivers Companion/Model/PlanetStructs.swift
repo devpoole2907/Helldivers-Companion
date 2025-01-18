@@ -418,6 +418,10 @@ struct UpdatedPlanet: Decodable, Hashable {
     
 }
 
+struct WarStatusResponse: Decodable {
+    let time: Int64
+}
+
 struct SpaceStation: Decodable {
     let id32: Int
     let planet: UpdatedPlanet
@@ -437,7 +441,7 @@ struct SpaceStation: Decodable {
             return dateFormatter.date(from: electionEnd)
         }
     }
-    
+    // TODO: old, misunderstood api will remove
     var activeTactical: (String, String) {
         switch flags {
         case 0:
@@ -452,6 +456,42 @@ struct SpaceStation: Decodable {
     }
     
 }
+
+struct SpaceStationDetails: Decodable {
+    let id32: Int
+    let planetIndex: Int
+    let lastElectionId: String
+    let currentElectionId: String
+    let nextElectionId: String
+    let currentElectionEndWarTime: Int
+    let flags: Int
+    let tacticalActions: [TacticalAction]
+}
+
+struct TacticalAction: Decodable {
+    let id32: Int
+    let mediaId32: Int
+    let name: String
+    let description: String
+    let strategicDescription: String
+    let status: Int
+    let statusExpireAtWarTimeSeconds: Int
+    let cost: [ActionCost]
+    let effectIds: [Int]
+    let activeEffectIds: [Int]
+}
+
+struct ActionCost: Decodable {
+    let id: String
+    let itemMixId: Int
+    let targetValue: Int
+    let currentValue: Double
+    let deltaPerSecond: Int
+    let maxDonationAmount: Int
+    let maxDonationPeriodSeconds: Int
+}
+
+
 
 struct UpdatedPlanetEvent: Decodable {
     

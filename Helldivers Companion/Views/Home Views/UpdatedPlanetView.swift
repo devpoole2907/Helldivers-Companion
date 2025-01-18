@@ -148,6 +148,8 @@ struct UpdatedPlanetView: View {
             VStack(spacing: showExtraStats ? 6 : 2) {
                 
                 headerWithImage
+                
+                Text("\(viewModel.warTime ?? 0)")
                     
                 CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, spaceStationExpiration: spaceStationExpirationTime, spaceStationActiveTactical: activeSpaceStation?.activeTactical, isActive: isActive)
                     

@@ -23,7 +23,8 @@ class PlanetsDataModel: ObservableObject {
     @Published var planetHistory: [String: [UpdatedPlanetDataPoint]] = [:]
     
     @Published var spaceStations: [SpaceStation] = []
-    
+    @Published var firstSpaceStationDetails: SpaceStationDetails?
+    @Published var warTime: Int64?
     @Published var nextFetchTime: Date?  // for the ui to show count down if a fetch failed due to rate limiting
     @Published var hasSetSelectedPlanet: Bool = false  // to stop setting the selected planet to the first in campaigns every fetch after the first
 
@@ -96,6 +97,8 @@ class PlanetsDataModel: ObservableObject {
                 print("config failed to load")
                 return
             }
+            
+            let warTime = await fetchWarTime()
 
             let galaxyStats = await fetchGalaxyStats()
             let (campaigns, defenseCampaigns) = await fetchCampaigns(
@@ -104,12 +107,20 @@ class PlanetsDataModel: ObservableObject {
                 for: config)
             let (taskPlanets, majorOrder) = await fetchMajorOrder(with: planets)
             let spaceStations = await fetchSpaceStations(for: config)
+            
+            // TODO: for now, fetch ONLY the first station - upgrade in future for more spcae stations
+            
+            var firstStationDetails: SpaceStationDetails? = nil
+            if let firstStation = spaceStations.first {
+                firstStationDetails = await fetchSpaceStationDetails(for: firstStation.id32)
+            }
 
             await MainActor.run {
                 self.objectWillChange.send()
                 withAnimation(.bouncy) {
                     self.configData = config
                     self.showIlluminateUI = config.showIlluminate
+                    self.warTime = warTime
                     self.updatedCampaigns = campaigns
                     self.updatedDefenseCampaigns = defenseCampaigns
                     self.galaxyStats = galaxyStats?.galaxyStats
@@ -121,6 +132,8 @@ class PlanetsDataModel: ObservableObject {
                     self.updatedTaskPlanets = taskPlanets
 
                     self.majorOrder = majorOrder
+                    
+                    self.firstSpaceStationDetails = firstStationDetails
 
                     self.lastUpdatedDate = Date()
 
@@ -166,7 +179,7 @@ class PlanetsDataModel: ObservableObject {
                     print("config failed to load")
                     return
                 }
-
+                let warTime = await self.fetchWarTime()
                 let (campaigns, defenseCampaigns) = await self.fetchCampaigns(
                     for: config)
                 let (planets, sortedSectors, groupedBySector) =
@@ -174,12 +187,20 @@ class PlanetsDataModel: ObservableObject {
                 let (taskPlanets, majorOrder) = await self.fetchMajorOrder(
                     with: planets)
                 let spaceStations = await self.fetchSpaceStations(for: config)
+                
+                // TODO: for now, fetch ONLY the first station - upgrade in future for more spcae stations
+                
+                var firstStationDetails: SpaceStationDetails? = nil
+                if let firstStation = spaceStations.first {
+                    firstStationDetails = await self.fetchSpaceStationDetails(for: firstStation.id32)
+                }
 
                 await MainActor.run {
                     self.objectWillChange.send()
                     withAnimation(.bouncy) {
                         self.configData = config
                         self.showIlluminateUI = config.showIlluminate
+                        self.warTime = warTime
                         self.updatedCampaigns = campaigns
                         self.updatedDefenseCampaigns = defenseCampaigns
 
@@ -190,6 +211,8 @@ class PlanetsDataModel: ObservableObject {
                         self.updatedTaskPlanets = taskPlanets
 
                         self.majorOrder = majorOrder
+                        
+                        self.firstSpaceStationDetails = firstStationDetails
 
                         self.lastUpdatedDate = Date()
                     }
@@ -281,6 +304,31 @@ class PlanetsDataModel: ObservableObject {
         } catch {
             print("Error fetching cached planet data: \(error)")
             return [:]
+        }
+    }
+    
+    func fetchWarTime() async -> Int64? {
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/801/Status"
+        
+        do {
+            // minimal struct for decoding
+            let response: WarStatusResponse = try await netManager.fetchData(from: urlString)
+            return response.time
+        } catch {
+            print("Error fetching war time: \(error)")
+            return nil
+        }
+    }
+    
+    func fetchSpaceStationDetails(for id32: Int) async -> SpaceStationDetails? {
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/SpaceStation/801/\(id32)"
+        
+        do {
+            let details: SpaceStationDetails = try await netManager.fetchData(from: urlString)
+            return details
+        } catch {
+            print("Error fetching space station details: \(error)")
+            return nil
         }
     }
     
