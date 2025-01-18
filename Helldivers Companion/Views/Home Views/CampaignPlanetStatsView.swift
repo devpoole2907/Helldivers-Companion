@@ -28,7 +28,7 @@ struct CampaignPlanetStatsView: View {
     var eventExpirationTime: Date? = nil
     
     var spaceStationExpiration: Date? = nil
-    var spaceStationActiveTactical: (String, String)? = nil
+    var spaceStationDetails: SpaceStationDetails? = nil
     
     var isActive = true // if accessed from galaxy map, planet view wont need to display all info if the planet isnt in a campaign
     
@@ -145,7 +145,7 @@ struct CampaignPlanetStatsView: View {
         // TODO: early draft for dss view
         
         if showExtraStats, let spaceStationExpiration = spaceStationExpiration {
-            SpaceStationView(spaceStationExpiration: spaceStationExpiration, activeTactical: spaceStationActiveTactical, isWidget: isWidget)
+            SpaceStationView(spaceStationExpiration: spaceStationExpiration, spaceStationDetails: spaceStationDetails, isWidget: isWidget)
             
         }
         
