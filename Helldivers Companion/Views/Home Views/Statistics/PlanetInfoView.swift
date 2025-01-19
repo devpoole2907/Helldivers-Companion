@@ -114,7 +114,7 @@ struct PlanetInfoView: View {
             imageWithSectorName
             
             if let spaceStationExpiration = spaceStationExpirationTime {
-                SpaceStationView(spaceStationExpiration: spaceStationExpiration, spaceStationDetails: activeSpaceStationDetails, isWidget: false, showFullInfo: true)
+                SpaceStationView(spaceStationExpiration: spaceStationExpiration, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isWidget: false, showFullInfo: true)
                     .padding(.horizontal)
             }
          

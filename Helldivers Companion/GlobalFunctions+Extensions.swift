@@ -104,3 +104,11 @@ extension View {
     }
     
 }
+
+// sanitise news feed and dss descriptions
+func removeHTMLTags(from string: String) -> String? {
+    let pattern = "<[^>]*>"
+    let regex = try? NSRegularExpression(pattern: pattern, options: [])
+    let range = NSRange(string.startIndex..<string.endIndex, in: string)
+    return regex?.stringByReplacingMatches(in: string, options: [], range: range, withTemplate: "")
+}

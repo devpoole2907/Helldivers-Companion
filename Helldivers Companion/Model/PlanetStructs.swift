@@ -200,13 +200,6 @@ struct NewsFeed: Decodable, Hashable {
     let tagIds: [Int]
     let type: Int
     
-    func removeHTMLTags(from string: String) -> String? {
-        let pattern = "<[^>]*>"
-        let regex = try? NSRegularExpression(pattern: pattern, options: [])
-        let range = NSRange(string.startIndex..<string.endIndex, in: string)
-        return regex?.stringByReplacingMatches(in: string, options: [], range: range, withTemplate: "")
-    }
-    
     private enum CodingKeys: String, CodingKey {
         case id, message, published, tagIds, type
     }
