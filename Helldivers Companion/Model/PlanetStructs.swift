@@ -416,7 +416,7 @@ struct WarStatusResponse: Decodable {
 }
 
 struct SpaceStation: Decodable {
-    let id32: Int
+    let id32: Int64
     let planet: UpdatedPlanet
     let electionEnd: String
     let flags: Int
@@ -434,24 +434,11 @@ struct SpaceStation: Decodable {
             return dateFormatter.date(from: electionEnd)
         }
     }
-    // TODO: old, misunderstood api will remove
-    var activeTactical: (String, String) {
-        switch flags {
-        case 0:
-            return ("Eagle Storm", "Deploys periodic Eagle Airstrikes during missions. Slows enemy progress in Defense Campaigns.")
-        case 1:
-            return ("Orbital Blockade", "Defense Campaigns cannot originate from this planet. The HELLPOD SPACE OPTIMIZATION Booster is automatically active for all missions.")
-        case 2:
-            return ("Heavy Ordnance Distribution", "Gives access to the Orbital 380mm HE Barrage stratagem during missions. Accelerates progress in Liberation Campaigns.")
-        default:
-            return ("", "")
-        }
-    }
     
 }
 
 struct SpaceStationDetails: Decodable {
-    let id32: Int
+    let id32: Int64
     let planetIndex: Int
     let lastElectionId: String
     let currentElectionId: String
@@ -462,8 +449,8 @@ struct SpaceStationDetails: Decodable {
 }
 
 struct TacticalAction: Decodable {
-    let id32: Int
-    let mediaId32: Int
+    let id32: Int64
+    let mediaId32: Int64
     let name: String
     let description: String
     let strategicDescription: String
@@ -476,7 +463,7 @@ struct TacticalAction: Decodable {
 
 struct ActionCost: Decodable {
     let id: String
-    let itemMixId: Int
+    let itemMixId: Int64
     let targetValue: Int
     let currentValue: Double
     let deltaPerSecond: Int

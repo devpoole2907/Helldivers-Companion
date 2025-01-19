@@ -320,7 +320,7 @@ class PlanetsDataModel: ObservableObject {
         }
     }
     
-    func fetchSpaceStationDetails(for id32: Int) async -> SpaceStationDetails? {
+    func fetchSpaceStationDetails(for id32: Int64) async -> SpaceStationDetails? {
         let urlString = "https://api.live.prod.thehelldiversgame.com/api/SpaceStation/801/\(id32)"
         
         do {
