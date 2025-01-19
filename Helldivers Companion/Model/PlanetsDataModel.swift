@@ -110,10 +110,8 @@ class PlanetsDataModel: ObservableObject {
             
             // TODO: for now, fetch ONLY the first station - upgrade in future for more spcae stations
             
-            var firstStationDetails: SpaceStationDetails? = nil
-            if let firstStation = spaceStations.first {
-                firstStationDetails = await fetchSpaceStationDetails(for: firstStation.id32)
-            }
+            let firstStationID = spaceStations.first?.id32 ?? 749875195 // fallback to static id for dss
+            let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID)
 
             await MainActor.run {
                 self.objectWillChange.send()
@@ -190,10 +188,8 @@ class PlanetsDataModel: ObservableObject {
                 
                 // TODO: for now, fetch ONLY the first station - upgrade in future for more spcae stations
                 
-                var firstStationDetails: SpaceStationDetails? = nil
-                if let firstStation = spaceStations.first {
-                    firstStationDetails = await self.fetchSpaceStationDetails(for: firstStation.id32)
-                }
+                let firstStationID = spaceStations.first?.id32 ?? 749875195 // fallback to static id for dss
+                let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID)
 
                 await MainActor.run {
                     self.objectWillChange.send()
@@ -320,8 +316,8 @@ class PlanetsDataModel: ObservableObject {
         }
     }
     
-    func fetchSpaceStationDetails(for id32: Int64) async -> SpaceStationDetails? {
-        let urlString = "https://api.live.prod.thehelldiversgame.com/api/SpaceStation/801/\(id32)"
+    func fetchSpaceStationDetails(for id32: Int64? = nil) async -> SpaceStationDetails? {
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/SpaceStation/801/\(id32 ?? 749875195)"
         
         do {
             let details: SpaceStationDetails = try await netManager.fetchData(from: urlString)
