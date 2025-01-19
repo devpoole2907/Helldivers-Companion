@@ -66,10 +66,15 @@ struct SpaceStationView: View {
                             }  .font(Font.custom("FSSinclair", size: smallFont))
                                 .foregroundStyle(.white)
                             
-                            // TODO: build small version of first currently active tactical name and expire time, otherwise blank
-                            if !showFullInfo && spaceStationDetails != nil {
-                               // tacticalActionView
-                            }
+                            // compact view of the first active tactical action
+                            if !showFullInfo, let spaceStationDetails = spaceStationDetails,
+                                   let activeTacticalAction = spaceStationDetails.tacticalActions.first(where: { $0.status == 2 }) {
+                                    TacticalActionView(
+                                        tacticalAction: activeTacticalAction,
+                                        warTime: warTime,
+                                        showFullInfo: false
+                                    )
+                                }
                         }
                       
                         .padding(.leading, 24)
