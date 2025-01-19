@@ -172,6 +172,9 @@ struct GalaxyMapView: View {
                                                 y: imageSize.height * planet.yMultiplier
                                             )
                     
+                    // determine if has dss stationed here
+                    let hasSpaceStation = viewModel.spaceStations.first?.planet.index == planet.index
+                    
                     
                     // determine if in an active campaign,
                     let activeCampaign = allCampaigns.first(where: { $0.planet.index == planet.index })
@@ -207,7 +210,19 @@ struct GalaxyMapView: View {
                                 .foregroundStyle(planet.name.lowercased().contains("meridia") ? Color(red: 63/255, green: 44/255, blue: 141/255) : getColorForPlanet(planetPosition: planet)
                                 )
                         
-                            
+                        // space station icon!
+                        
+                        if hasSpaceStation {
+                            Image("dssIcon")
+                                .resizable()
+                                .renderingMode(.template)
+                                .scaledToFit()
+                                .frame(width: selectedPlanet?.index == planet.index ? 8 : 4, height: selectedPlanet?.index == planet.index ? 8 : 4)
+                                .position(planetPosition)
+                                .offset(x: selectedPlanet?.index == planet.index ? -7 : -4, y: selectedPlanet?.index == planet.index ? -6 : -4)
+                                .allowsHitTesting(false)
+                                .foregroundStyle(.white)
+                        }
                             
                         
                         if let defenseCampaign = isDefending {

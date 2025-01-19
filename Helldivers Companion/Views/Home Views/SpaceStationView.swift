@@ -161,8 +161,6 @@ struct TacticalActionView: View {
                     .background(Color.yellow)
                     .foregroundStyle(Color.black)
                 
-               // cost icon here maybe?
-                
             }
             
             if showFullInfo {
