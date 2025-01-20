@@ -38,6 +38,43 @@ struct WarSeason: Decodable {
     
 }
 
+struct PersonalOrder: Decodable {
+    let id32: Int64
+    let progress: [Int64]? // optional progress
+    let expiresIn: Int64 // time in seconds until expiration
+    let setting: Setting
+
+    enum CodingKeys: String, CodingKey {
+        case id32
+        case progress
+        case expiresIn
+        case setting
+    }
+
+    struct Setting: Decodable {
+        let type: Int
+        let overrideTitle: String
+        let overrideBrief: String
+        let taskDescription: String
+        let tasks: [Task]
+        let rewards: [Reward]
+        let reward: Reward?
+        let flags: Int
+
+        struct Task: Decodable, Equatable {
+            let type: Int
+            let values: [Int64]
+            let valueTypes: [Int]
+        }
+
+        struct Reward: Decodable {
+            let type: Int
+            let id32: Int
+            let amount: Int
+        }
+    }
+}
+
 
 struct MajorOrder: Decodable {
     let id32: Int64 // this must be int64 to run on watchOS!

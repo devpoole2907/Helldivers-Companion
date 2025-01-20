@@ -39,6 +39,7 @@ class PlanetsDataModel: ObservableObject {
 
     @Published var currentSeason: String = ""
     @Published var majorOrder: MajorOrder? = nil
+    @Published var personalOrder: PersonalOrder? = nil
     @Published var galaxyStats: GalaxyStats? = nil
     @Published var lastUpdatedDate: Date = Date()
 
@@ -112,6 +113,7 @@ class PlanetsDataModel: ObservableObject {
             
             let firstStationID = spaceStations.first?.id32 ?? 749875195 // fallback to static id for dss
             let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID)
+            let personalOrder = await self.fetchPersonalOrder()
 
             await MainActor.run {
                 self.objectWillChange.send()
@@ -130,7 +132,7 @@ class PlanetsDataModel: ObservableObject {
                     self.updatedTaskPlanets = taskPlanets
 
                     self.majorOrder = majorOrder
-                    
+                    self.personalOrder = personalOrder
                     self.firstSpaceStationDetails = firstStationDetails
 
                     self.lastUpdatedDate = Date()
@@ -190,6 +192,8 @@ class PlanetsDataModel: ObservableObject {
                 
                 let firstStationID = spaceStations.first?.id32 ?? 749875195 // fallback to static id for dss
                 let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID)
+                
+                let personalOrder = await self.fetchPersonalOrder()
 
                 await MainActor.run {
                     self.objectWillChange.send()
@@ -207,7 +211,7 @@ class PlanetsDataModel: ObservableObject {
                         self.updatedTaskPlanets = taskPlanets
 
                         self.majorOrder = majorOrder
-                        
+                        self.personalOrder = personalOrder
                         self.firstSpaceStationDetails = firstStationDetails
 
                         self.lastUpdatedDate = Date()
@@ -421,6 +425,19 @@ class PlanetsDataModel: ObservableObject {
         } catch {
             print("Error fetching campaigns: \(error)")
             return ([], [])
+        }
+    }
+    
+    func fetchPersonalOrder() async -> PersonalOrder? {
+        let urlString =
+        "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/refs/heads/main/newData/personalOrder.json"
+        
+        do {
+            let orders: [PersonalOrder] = try await netManager.fetchData(from: urlString)
+            return orders.first(where: { $0.expiresIn > 0 })
+        } catch {
+            print("Error fetching personal order: \(error)")
+            return nil
         }
     }
 
