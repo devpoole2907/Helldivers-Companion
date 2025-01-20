@@ -464,9 +464,9 @@ struct TacticalAction: Decodable {
 struct ActionCost: Decodable {
     let id: String
     let itemMixId: Int64
-    let targetValue: Int
+    let targetValue: Double
     let currentValue: Double
-    let deltaPerSecond: Int
+    let deltaPerSecond: Double
     let maxDonationAmount: Int
     let maxDonationPeriodSeconds: Int
 }
