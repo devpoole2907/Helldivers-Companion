@@ -84,7 +84,7 @@ struct SuperStoreList: View {
                     HStack {
                         Image(systemName: "clock.arrow.circlepath")
                             .font(.footnote)
-                        MajorOrderTimeView(timeRemaining: Int64(timeRemaining), isMini: true)
+                        OrderTimeView(timeRemaining: Int64(timeRemaining), isMini: true)
                             .padding(.bottom, 0.5)
                     }
                 }

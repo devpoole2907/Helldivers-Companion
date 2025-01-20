@@ -38,40 +38,30 @@ struct WarSeason: Decodable {
     
 }
 
+enum OrderType {
+    case major
+    case personal
+}
+
 struct PersonalOrder: Decodable {
     let id32: Int64
     let progress: [Int64]? // optional progress
     let expiresIn: Int64 // time in seconds until expiration
     let setting: Setting
+    
+    var allRewards: [Setting.Reward] {
+        if setting.rewards.isEmpty {
+            return setting.reward.map { [$0] } ?? [] // map to handle optional reward safely
+        } else {
+            return setting.rewards
+        }
+    }
 
     enum CodingKeys: String, CodingKey {
         case id32
         case progress
         case expiresIn
         case setting
-    }
-
-    struct Setting: Decodable {
-        let type: Int
-        let overrideTitle: String
-        let overrideBrief: String
-        let taskDescription: String
-        let tasks: [Task]
-        let rewards: [Reward]
-        let reward: Reward?
-        let flags: Int
-
-        struct Task: Decodable, Equatable {
-            let type: Int
-            let values: [Int64]
-            let valueTypes: [Int]
-        }
-
-        struct Reward: Decodable {
-            let type: Int
-            let id32: Int
-            let amount: Int
-        }
     }
 }
 
@@ -165,8 +155,12 @@ struct MajorOrder: Decodable {
     
     // if multiple rewards, return both, otherwise return the singular
     var allRewards: [Setting.Reward] {
-            return setting.rewards.isEmpty ? [setting.reward] : setting.rewards
+        if setting.rewards.isEmpty {
+            return setting.reward.map { [$0] } ?? [] // map to handle optional reward safely
+        } else {
+            return setting.rewards
         }
+    }
     
     // this could become global, but most of our api responses come from the dealloc endpoints not the official. for now the MO comes from the official endpoint, in hopes/possibility that deallocs major order endpoint may be upgraded
     enum Faction: Int64 { // must be int64 due to the possible massive task value
@@ -199,30 +193,30 @@ struct MajorOrder: Decodable {
         case setting
     }
     
-    struct Setting: Decodable {
+    
+}
+
+struct Setting: Decodable {
+    let type: Int
+    let overrideTitle: String
+    let overrideBrief: String
+    let taskDescription: String
+    let tasks: [Task]
+    let rewards: [Reward]
+    let reward: Reward?
+    let flags: Int
+
+    struct Task: Decodable, Equatable {
         let type: Int
-        let overrideTitle: String
-        let overrideBrief: String
-        let taskDescription: String
-        let tasks: [Task]
-        let rewards: [Reward]
-        let reward: Reward
-        let flags: Int
-        
-        struct Task: Decodable, Equatable {
-            let type: Int
-            let values: [Int64]
-            let valueTypes: [Int]
-        }
-        
-        struct Reward: Decodable {
-            let type: Int
-            let id32: Int
-            let amount: Int
-        }
+        let values: [Int64]
+        let valueTypes: [Int]
     }
-    
-    
+
+    struct Reward: Decodable {
+        let type: Int
+        let id32: Int
+        let amount: Int
+    }
 }
 
 struct Message: Decodable {

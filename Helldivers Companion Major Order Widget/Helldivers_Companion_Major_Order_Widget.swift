@@ -208,7 +208,7 @@ struct OrdersWidgetView: View {
     var description: String?
     var majorOrder: MajorOrder?
     var taskPlanets: [UpdatedPlanet]
-    var rewards: [MajorOrder.Setting.Reward]
+    var rewards: [Setting.Reward]
     var timeRemaining: Int64?
     var taskProgress: Double?
     var factionColor: Color?
@@ -245,7 +245,7 @@ struct OrdersWidgetView: View {
                             .padding(.horizontal)
                     }
                     if let majorOrderTimeRemaining = timeRemaining,  majorOrderTimeRemaining > 0 {
-                        MajorOrderTimeView(timeRemaining: majorOrderTimeRemaining, isWidget: true)
+                        OrderTimeView(timeRemaining: majorOrderTimeRemaining, isWidget: true)
                             .padding(.bottom, widgetFamily != .systemMedium ? 6 : 0)
                             .minimumScaleFactor(0.7)
                     }

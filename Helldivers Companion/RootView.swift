@@ -130,7 +130,7 @@ struct RootView: View {
                     // wait 2 seconds to fetch orders info
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         
-                        MajorOrderPopup(viewModel: viewModel)
+                        OrdersPopup(viewModel: viewModel)
                         
                             .showAndStack()
                         
@@ -171,6 +171,7 @@ struct RootView: View {
                     
                     
                     majorOrderButton
+                    personalOrderButton
                     superStoreButton
                     
                 }.padding(.bottom, 60)
@@ -221,7 +222,7 @@ struct RootView: View {
                 
                     if let expireDate = dbModel.storeRotation?.expireTime {
                         let timeRemaining = expireDate.timeIntervalSince(Date())
-                        MajorOrderTimeView(timeRemaining: Int64(timeRemaining), isMini: true)
+                        OrderTimeView(timeRemaining: Int64(timeRemaining), isMini: true)
                             .padding(.bottom, 2)
                     }
                     
@@ -246,7 +247,7 @@ struct RootView: View {
         
         Button(action: {
             
-            MajorOrderPopup(viewModel: viewModel)
+            OrdersPopup(viewModel: viewModel)
             
                         .showAndStack()
             
@@ -257,7 +258,7 @@ struct RootView: View {
                     .font(Font.custom("FSSinclair", size: 16))
                 
                 if let timeRemaining = viewModel.majorOrder?.expiresIn {
-                    MajorOrderTimeView(timeRemaining: timeRemaining, isMini: true)
+                    OrderTimeView(timeRemaining: timeRemaining, isMini: true)
                         .padding(.bottom, 2)
                 }
             }
@@ -274,6 +275,37 @@ struct RootView: View {
 
         
     }
+    
+    var personalOrderButton: some View {
+        
+        Button(action: {
+            
+            OrdersPopup(viewModel: viewModel, ordersType: .personal)
+            
+                        .showAndStack()
+            
+            
+        }){
+            HStack(spacing: 6){
+                Text("Personal Order").textCase(.uppercase).tint(.white).fontWeight(.heavy)
+                    .font(Font.custom("FSSinclair", size: 16))
+                
+                if let timeRemaining = viewModel.personalOrder?.expiresIn {
+                    OrderTimeView(timeRemaining: timeRemaining, isMini: true)
+                        .padding(.bottom, 2)
+                }
+            }
+            
+            
+        }.padding(.horizontal)
+            .padding(.vertical, 5)
+            .frame(height: 40)
+            .background(Material.thin)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .shadow(radius: 3)
+    }
+    
+    
     
     var tabButtons: some View {
         VStack(spacing: 0){

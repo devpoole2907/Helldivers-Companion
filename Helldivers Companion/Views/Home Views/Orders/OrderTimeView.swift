@@ -1,5 +1,5 @@
 //
-//  MajorOrderTimeView.swift
+//  OrderTimeView.swift
 //  Helldivers Companion
 //
 //  Created by James Poole on 21/03/2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MajorOrderTimeView: View {
+struct OrderTimeView: View {
     
     // to support ios 18 widget tinting
     #if os(iOS)
@@ -22,6 +22,11 @@ struct MajorOrderTimeView: View {
     }
     
     var timeRemaining: Int64 = 0
+    var orderType: OrderType = .major
+    
+    var orderTitle: String {
+        return orderType == .major ? "Major Order" : "Personal Order"
+    }
     
     var isWidget = false
     
@@ -47,7 +52,7 @@ struct MajorOrderTimeView: View {
     var body: some View {
         HStack(alignment: alignment) {
             if !isMini {
-                Text("Major Order ends in:").foregroundStyle(.white)
+                Text("\(orderTitle) ends in:").foregroundStyle(.white)
 #if os(watchOS)
                 
                     .multilineTextAlignment(.center)
@@ -60,5 +65,5 @@ struct MajorOrderTimeView: View {
 }
 
 #Preview {
-    MajorOrderTimeView()
+    OrderTimeView()
 }

@@ -9,7 +9,7 @@ import SwiftUI
 @available(watchOS 9.0, *)
 struct RewardView: View {
     @Environment(\.widgetRenderingMode) var widgetRenderingMode
-    var rewards: [MajorOrder.Setting.Reward]
+    var rewards: [Setting.Reward]
     var widgetMode = false
     
     var imageSize: CGFloat {

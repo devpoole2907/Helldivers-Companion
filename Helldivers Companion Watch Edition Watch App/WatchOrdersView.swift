@@ -88,7 +88,7 @@ struct WatchOrdersView: View {
                 }
                 
                 if let majorOrderTimeRemaining = viewModel.majorOrder?.expiresIn,  majorOrderTimeRemaining > 0 {
-                    MajorOrderTimeView(timeRemaining: majorOrderTimeRemaining)
+                    OrderTimeView(timeRemaining: majorOrderTimeRemaining)
                 }
                 
                 

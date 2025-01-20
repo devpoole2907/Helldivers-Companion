@@ -1,13 +1,14 @@
 //
-//  OrderView.swift
+//  PersonalOrderView.swift
 //  Helldivers Companion
 //
-//  Created by James Poole on 16/03/2024.
+//  Created by James Poole on 20/01/2025.
 //
+
 
 import SwiftUI
 
-struct OrderView: View {
+struct PersonalOrderView: View {
     
     @EnvironmentObject var viewModel: PlanetsDataModel
     
@@ -89,18 +90,18 @@ struct OrderView: View {
                 
             }
             
-            if let firstReward = viewModel.majorOrder?.allRewards.first, firstReward.amount > 0 {
+            if let firstReward = viewModel.personalOrder?.allRewards.first, firstReward.amount > 0 {
                 if #available(watchOS 9.0, *) {
-                RewardView(rewards: viewModel.majorOrder?.allRewards ?? [])
+                    RewardView(rewards: viewModel.personalOrder?.allRewards ?? [])
             }
             }
             
-            if let majorOrderTimeRemaining = viewModel.majorOrder?.expiresIn,  majorOrderTimeRemaining > 0 {
-                OrderTimeView(timeRemaining: majorOrderTimeRemaining)
+            if let personalOrderTimeRemaining = viewModel.personalOrder?.expiresIn,  personalOrderTimeRemaining > 0 {
+                OrderTimeView(timeRemaining: personalOrderTimeRemaining, orderType: .personal)
             }
             
         }.padding(.top, 40)
-                .padding() 
+                .padding()
             #if os(iOS)
                 .frame(width: isIpad ? 560 : UIScreen.main.bounds.width - 44)
                 .frame(minHeight: 300)
@@ -119,96 +120,5 @@ struct OrderView: View {
         
     
         
-    }
-}
-
-#Preview {
-    OrderView().environmentObject(PlanetsDataModel())
-}
-
-
-struct TasksView: View {
-    
-    var taskPlanets: [UpdatedPlanet]
-    
-    var isWidget = false
-    
-    let columns = [
-           GridItem(.flexible(maximum: 190)),
-           GridItem(.flexible(maximum: 190)),
-       ]
-    
-    var nameSize: CGFloat {
-        return isWidget ? 14 : mediumFont
-    }
-    
-    var boxSize: CGFloat {
-        return isWidget ? 7 : 10
-    }
-    
-    var body: some View {
-        
-       // curently using task progress from major order response
-        LazyVGrid(columns: columns) {
-            ForEach(taskPlanets, id: \.self) { planet in
-                
-                TaskStatusView(taskName: planet.name, isCompleted: planet.taskProgress == 1, nameSize: nameSize, boxSize: boxSize)
-                
-            }
-            
-        }
-        
-    }
-}
-
-struct MajorOrderBarProgressView: View {
-    
-    var progress: Double
-    var barColor: Color
-    var progressString: String
-    var isWidget = false
-    var primaryColor: Color = .cyan
-    
-    var body: some View {
-        
-        ZStack {
-            RectangleProgressBar(value: progress, primaryColor: primaryColor, secondaryColor: barColor)
-                .frame(height: 16)
-            
-            Text("\(progressString)")
-            #if os(iOS)
-                .font(Font.custom("FSSinclair", size: isWidget ? 8 : 16))
-            #else
-                .font(Font.custom("FSSinclair", size: 10))
-            
-            #endif
-                
-                .foregroundStyle(Color.black)
-                .minimumScaleFactor(0.6)
-            
-        }.padding(.bottom, 10)
-            .padding(.horizontal, 14)
-        
-        
-    }
-    
-}
-
-struct TaskStatusView: View {
-    var taskName: String
-    var isCompleted: Bool
-    var nameSize: CGFloat
-    var boxSize: CGFloat
-
-    var body: some View {
-        HStack {
-            Rectangle()
-                .frame(width: boxSize, height: boxSize)
-                .foregroundStyle(isCompleted ? Color.yellow : Color.black)
-                .border(isCompleted ? Color.black : Color.yellow)
-            Text(taskName)
-                .font(Font.custom("FSSinclair", size: nameSize))
-                .foregroundStyle(.white)
-        }
     }
 }

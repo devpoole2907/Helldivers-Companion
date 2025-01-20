@@ -8,9 +8,10 @@
 import SwiftUI
 import MijickPopupView
 
-struct MajorOrderPopup: CentrePopup {
+struct OrdersPopup: CentrePopup {
     
     @ObservedObject var viewModel: PlanetsDataModel
+    var ordersType: OrderType = .major
     
     func configurePopup(popup: CentrePopupConfig) -> CentrePopupConfig {
         popup.horizontalPadding(28)
@@ -19,12 +20,24 @@ struct MajorOrderPopup: CentrePopup {
             .cornerRadius(0)
             
     }
+    
+    var ordersTitle: String {
+        ordersType == .major ? "MAJOR ORDER" : "PERSONAL ORDER"
+    }
+    
     func createContent() -> some View {
         
         ZStack(alignment: .top) {
-            OrderView().environmentObject(viewModel)
-         
-                .offset(CGSize(width: 7, height: 0))
+            
+            if ordersType == .major {
+                OrderView().environmentObject(viewModel)
+                
+                    .offset(CGSize(width: 7, height: 0))
+                
+            } else {
+                PersonalOrderView().environmentObject(viewModel)
+                    .offset(CGSize(width: 7, height: 0))
+            }
             
             Image("MajorOrdersBanner").resizable()
 #if os(iOS)
@@ -37,9 +50,9 @@ struct MajorOrderPopup: CentrePopup {
                 //.opacity(0.8)
             
             HStack(alignment: .firstTextBaseline, spacing: 3) {
-                Image(systemName: "scope").bold()
+                Image(systemName: ordersType == .major ? "scope" : "checkmark.circle").bold()
                 
-                Text("MAJOR ORDER").textCase(.uppercase) .font(Font.custom("FSSinclair", size: 24)).bold()
+                Text(ordersTitle).textCase(.uppercase) .font(Font.custom("FSSinclair", size: 24)).bold()
                 
             }.padding(.top, 5)
             
