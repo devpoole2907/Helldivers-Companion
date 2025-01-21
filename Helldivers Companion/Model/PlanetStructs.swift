@@ -471,9 +471,9 @@ struct SpaceStation: Decodable {
 struct SpaceStationDetails: Decodable {
     let id32: Int64
     let planetIndex: Int
-    let lastElectionId: String
-    let currentElectionId: String
-    let nextElectionId: String
+    let lastElectionId: String?
+    let currentElectionId: String?
+    let nextElectionId: String?
     let currentElectionEndWarTime: Int
     let flags: Int
     let tacticalActions: [TacticalAction]

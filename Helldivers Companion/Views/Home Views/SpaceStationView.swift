@@ -161,7 +161,7 @@ struct TacticalActionView: View {
                     .background(Color.yellow)
                     .foregroundStyle(Color.black)
                 
-            }
+            }.minimumScaleFactor(0.5)
             
             if showFullInfo {
                 
@@ -172,7 +172,8 @@ struct TacticalActionView: View {
                                         HStack(spacing: 5) {
                                             if let costProgress = costProgress, let costDetails = costDetails {
                                                 if let costType = costType {
-                                                    Image(costType).resizable().aspectRatio(contentMode: .fill).frame(width: costType == "requisitionSlip" ? 40 : 12, height: costType == "requisitionSlip" ? 40 : 12)
+                                                    Image(costType).resizable() .renderingMode(costType == "requisitionSlip" ? .template : .original).aspectRatio(contentMode: .fill).frame(width: costType == "requisitionSlip" ? 28 : 12, height: costType == "requisitionSlip" ? 28 : 12)
+                                                        .foregroundStyle(.yellow)
                                                 }
                                                 Group {
                                                     Text(String(format: "%.2f%%", costProgress * 100))
