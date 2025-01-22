@@ -206,11 +206,132 @@ struct Setting: Decodable {
     let reward: Reward?
     let flags: Int
 
-    struct Task: Decodable, Equatable {
+    struct Task: Decodable, Equatable, Hashable {
         let type: Int
         let values: [Int64]
         let valueTypes: [Int]
-    }
+        
+        private var parsedValues: [Int: Int64] {
+            var result: [Int: Int64] = [:]
+            for (index, valueType) in valueTypes.enumerated() {
+                guard index < values.count else { break }
+                result[valueType] = values[index]
+            }
+            return result
+        }
+        
+        var description: AttributedString {
+            var text = AttributedString("")
+            
+            let data = parsedValues
+            
+            //defaults to 0 if missing
+                    let raceId      = data[1]  ?? 0  // "faction" or "race" ID
+                    let planetIndex = data[12] ?? 0  // planet index
+                    let goal        = data[3]  ?? 0  // "goal" (e.g. kill count, extract count)
+                    let unitId      = data[4]  ?? 0  // enemy / unit ID
+                    let itemId      = data[5]  ?? 0  // item ID
+                    
+            switch type {
+                case 2: // extract
+                    text += AttributedString("Extract ")
+                    
+                    if goal > 0 {
+                        var goalText = AttributedString("\(goal)")
+                        goalText.foregroundColor = .yellow
+                        text += goalText + " "
+                    }
+                    
+                    if itemId > 0 {
+                        let itemName = OrderItemsDictionary[itemId] ?? "item #\(itemId)"
+                        var itemText = AttributedString(itemName)
+                        itemText.foregroundColor = .yellow
+                        text += itemText + " "
+                    }
+                    
+                    if planetIndex > 0, let planetPos = planetPositionLookup[planetIndex] {
+                        var planetText = AttributedString("on \(planetPos.name)")
+                        planetText.foregroundColor = .yellow
+                        text += planetText
+                    }
+                    
+                case 3: // eradicate
+                    text += AttributedString("Kill ")
+                    
+                    if goal > 0 {
+                        var goalText = AttributedString("\(goal)")
+                        goalText.foregroundColor = .yellow
+                        text += goalText + " "
+                    }
+                    
+                    if unitId > 0 {
+                        let name = UnitNamesDictionary[unitId] ?? "unit #\(unitId)"
+                        var unitText = AttributedString(name)
+                        unitText.foregroundColor = .yellow
+                        text += unitText
+                    } else if raceId > 0 {
+                                let factionName = FactionDictionary[raceId] ?? "faction #\(raceId)"
+                                var factionText = AttributedString(factionName)
+                                factionText.foregroundColor = FactionColors[raceId] ?? .white
+                                text += factionText
+                            } else {
+                                text += AttributedString("enemies")
+                            }
+                    
+                    if itemId > 0 {
+                        let itemName = OrderItemsDictionary[itemId] ?? "item #\(itemId)"
+                        var itemText = AttributedString(" using the \(itemName)")
+                        itemText.foregroundColor = .yellow
+                        text += itemText
+                    }
+                    
+                    if planetIndex > 0, let planetPos = planetPositionLookup[planetIndex] {
+                        var planetText = AttributedString(" on \(planetPos.name)")
+                        planetText.foregroundColor = .yellow
+                        text += planetText
+                    }
+                
+            case 4: // secondary objs
+                text += AttributedString("Complete ")
+                
+                if goal > 0 {
+                    var goalText = AttributedString("\(goal)")
+                    goalText.foregroundColor = .yellow
+                    text += goalText + " "
+                }
+                
+                text += AttributedString("secondary objectives")
+                    
+                case 7: // successful mission extracts
+                    text += AttributedString("Extract from a successful mission ")
+                    
+                    if goal > 0 {
+                        var goalText = AttributedString("\(goal) time" + (goal > 1 ? "s" : ""))
+                        goalText.foregroundColor = .yellow
+                        text += goalText
+                    }
+                    
+                if raceId > 0 {
+                    let factionName = FactionDictionary[raceId] ?? "faction #\(raceId)"
+                    var factionText = AttributedString(" against \(factionName)")
+                    factionText.foregroundColor = FactionColors[raceId] ?? .white
+                    text += factionText
+                }
+                    
+                    if planetIndex > 0, let planetPos = planetPositionLookup[planetIndex] {
+                        var planetText = AttributedString(" on \(planetPos.name)")
+                        planetText.foregroundColor = .yellow
+                        text += planetText
+                    }
+                    
+                default:
+                    text += AttributedString("Task type \(type) not handled! Contact the dev.")
+                }
+            return text
+        }
+            
+            
+        }
 
     struct Reward: Decodable {
         let type: Int
@@ -1047,6 +1168,121 @@ var globalStratagems: [Stratagem] = [
     Stratagem(name: "Anti-Tank Mines", sequence: [.down, .left, .up, .up], type: .engineering, videoUrl: "https://res.cloudinary.com/dxtkcvynb/video/upload/v1735089844/anti-tank-mines-2.mp4"),
     Stratagem(name: "Gas Mines", sequence: [.down, .left, .left, .right], type: .engineering)
 ]
+
+// not really DRY some of this, since we use this stuff elsewhere via a diff means already...
+// TODO: clean up and refactor!
+
+// dict for item ids
+let OrderItemsDictionary: [Int64: String] = [
+
+    1078307866: "ORBITAL GATLING BARRAGE",
+    2928105092: "ORBITAL 120MM HE BARRAGE",
+    2831720448: "ORBITAL AIRBURST STRIKE",
+    4158531749: "ORBITAL 380MM HE BARRAGE",
+    808823003:  "ORBITAL WALKING BARRAGE",
+    1520012896: "ORBITAL LASER",
+    2197477188: "ORBITAL RAILCANNON STRIKE",
+    
+    3039399791: "ANTI-PERSONNEL MINEFIELD",
+    336620886:  "SUPPLY PACK",
+    961518079:  "Laser Cannon",
+    1159284196: "Grenade Launcher",
+    3111134131: "INCENDIARY MINES",
+    4277455125: "\"GUARD DOG\" ROVER",
+    2369837022: "BALLISTIC SHIELD BACKPACK",
+    2138935687: "Arc Thrower",
+    783152568:  "ANTI-TANK MINES",
+    1597673685: "Quasar Cannon",
+    485637029:  "SHIELD GENERATOR PACK",
+    3484474549: "\"GUARD DOG\" DOG BREATH",
+
+    1228689284: "MACHINE GUN SENTRY",
+    2446402932: "GATLING SENTRY",
+    461790327:  "MORTAR SENTRY",
+    3791047893: "\"GUARD DOG\"",
+    2616066963: "AUTOCANNON SENTRY",
+    3467463065: "ROCKET SENTRY",
+    3157053145: "EMS MORTAR SENTRY",
+
+    2391781446: "ORBITAL PRECISION STRIKE",
+    1134323464: "ORBITAL GAS STRIKE",
+    3551336597: "ORBITAL EMS STRIKE",
+    1363304012: "ORBITAL SMOKE STRIKE",
+    70017975:   "SHIELD GENERATOR RELAY",
+    3827587060: "HMG EMPLACEMENT",
+    1671728820: "TESLA TOWER",
+
+    3857719901: "PATRIOT EXOSUIT",
+    754365924:  "EMANCIPATOR EXOSUIT",
+
+    2025422424: "EAGLE STRAFING RUN",
+    700547364:  "EAGLE AIRSTRIKE",
+    1220665708: "EAGLE CLUSTER BOMB",
+    1427614189: "EAGLE NAPALM AIRSTRIKE",
+    1062482104: "EAGLE SMOKE STRIKE",
+    3863540692: "JUMP PACK",
+    3723465233: "EAGLE 100MM ROCKET PODS",
+    1982351727: "EAGLE 500KG BOMB",
+
+    934703916:  "Machine Gun",
+    1978117092: "Stalwart",
+    376960160:  "Anti-Materiel Rifle",
+    1207425221: "Expendable Anti-Tank",
+    1594211884: "Recoilless Rifle",
+    1944161163: "Flamethrower",
+    841182351:  "Autocannon",
+    4038802832: "Heavy Machine Gun",
+    3201417018: "Airburst Rocket Launcher",
+    3212037062: "Commando",
+    202236804:  "Spear",
+    295440526:  "Railgun",
+    1725541340: "Sterilizer",
+    
+    2985106497: "Rare Samples",
+    3992382197: "Common Samples",
+    3608481516: "Requisition Slips"
+]
+
+// dict for unit ids
+let UnitNamesDictionary: [Int64: String] = [
+    20706814:    "Scout Strider",
+    2664856027:  "Shredder Tank",
+    471929602:   "Hulk",
+    4276710272:  "Devastator",
+    878778730:   "Trooper",
+
+    3330362068:  "Hunter",
+    2058088313:  "Warrior",
+    717622970:   "Bile Spewer",
+    1379865898:  "Bile Spewer",
+    2387277009:  "Stalker",
+    2651633799:  "Charger",
+    2514244534:  "Bile Titan"
+]
+
+// faction ids to names - this shit needs to be tidied up man duplication getting nuts!
+let FactionDictionary: [Int64: String] = [
+    1: "Humans", // cyan
+    2: "Terminids", // yellow
+    3: "Automatons", // red
+    4: "Illuminate" // purple
+]
+
+let FactionColors: [Int64: Color] = [
+    1: .cyan,
+    2: .yellow,
+    3: .red,
+    4: .purple
+]
+
+// conv planetPositions into a dict for quick lookup in personal orders
+let planetPositionLookup: [Int64: PlanetPosition] = {
+    var dict = [Int64: PlanetPosition]()
+    for p in planetPositions {
+        dict[Int64(p.index)] = p
+    }
+    return dict
+}()
 
 extension Array {
     subscript(safe index: Int) -> Element? {

@@ -21,74 +21,30 @@ struct PersonalOrderView: View {
         VStack(spacing: 12) {
             
             // this all needs to be refactored, never properly went back after discovering new MO types a while ago
-            
-            VStack(spacing: 12) {
-                Text(viewModel.majorOrder?.setting.taskDescription ?? "Stand by.").font(Font.custom("FSSinclair-Bold", size: 24))
-                    .foregroundStyle(Color.yellow).textCase(.uppercase)
-                    .multilineTextAlignment(.center)
-                
-                Text(viewModel.majorOrder?.setting.overrideBrief ?? "Await further orders from Super Earth High Command.").font(Font.custom("FSSinclair", size: 18))
-                    .foregroundStyle(Color(red: 164, green: 177, blue: 183))
-                    .padding(5)
-                    .multilineTextAlignment(.center)
-                
-                if let mo = viewModel.majorOrder {
+           
+                if let personalOrder = viewModel.personalOrder {
+                    ForEach(personalOrder.setting.tasks, id: \.self) { task in
+                            Text(task.description)
+                                .font(Font.custom("FSSinclair-Bold", size: 18))
+                                .foregroundStyle(.white)
+                                .padding(5)
+                                .multilineTextAlignment(.center)
+                    }
+                } else {
+                    Text("Stand by.")
+                        .font(Font.custom("FSSinclair-Bold", size: 24))
+                        .foregroundStyle(Color.yellow)
+                        .textCase(.uppercase)
+                        .multilineTextAlignment(.center)
                     
-                    // MARK: - Eradication Tasks (Type 3)
-                                       if mo.isEradicateType, let eradicationProgresses = mo.eradicationProgress {
-                                           ForEach(eradicationProgresses.indices, id: \.self) { index in
-                                               let progressData = eradicationProgresses[index]
-                                               MajorOrderBarProgressView(
-                                                   progress: progressData.progress,
-                                                   barColor: mo.faction?.color ?? .white,
-                                                   progressString: progressData.progressString
-                                               )
-                                           }
-                                       }
-                    
-                    // MARK: - Defense Tasks (Type 12)
-                                        if mo.isDefenseType, let defenseProgresses = mo.defenseProgress {
-                                            ForEach(defenseProgresses.indices, id: \.self) { index in
-                                                let progressData = defenseProgresses[index]
-                                                MajorOrderBarProgressView(
-                                                    progress: progressData.progress,
-                                                    barColor: mo.faction?.color ?? .white,
-                                                    progressString: progressData.progressString
-                                                )
-                                            }
-                                        }
-                    
-                    // MARK: - Net Quantity Tasks (Type 15)
-                                        if mo.isNetQuantityType, let netQuantityProgresses = mo.netQuantityProgress {
-                                            ForEach(netQuantityProgresses.indices, id: \.self) { index in
-                                                let progressData = netQuantityProgresses[index]
-                                                
-                                                // Optional Task Status for net quantity
-                                                TaskStatusView(
-                                                    taskName: "Liberate more planets than are lost",
-                                                    isCompleted: false,
-                                                    nameSize: 16,
-                                                    boxSize: 10
-                                                )
-                                                
-                                                MajorOrderBarProgressView(
-                                                    progress: progressData.progress,
-                                                    barColor: .blue,
-                                                    progressString: progressData.progressString,
-                                                    primaryColor: .red
-                                                )
-                                            }
-                                        }
-                    
-                    // MARK: - Liberation Tasks (Type 11)
-                                        // Using your existing logic for updatedTaskPlanets
-                                        if mo.isLiberationType, !viewModel.updatedTaskPlanets.isEmpty {
-                                            TasksView(taskPlanets: viewModel.updatedTaskPlanets)
-                                        }
-                    
+                    Text("Await further orders from Super Earth High Command.")
+                        .font(Font.custom("FSSinclair", size: 18))
+                        .foregroundStyle(Color(red: 164/255, green: 177/255, blue: 183/255))
+                        .padding(5)
+                        .multilineTextAlignment(.center)
                 }
                 
-            }
+            
             
             if let firstReward = viewModel.personalOrder?.allRewards.first, firstReward.amount > 0 {
                 if #available(watchOS 9.0, *) {
@@ -100,7 +56,7 @@ struct PersonalOrderView: View {
                 OrderTimeView(timeRemaining: personalOrderTimeRemaining, orderType: .personal)
             }
             
-        }.padding(.top, 40)
+        }.padding(.top, 30)
                 .padding()
             #if os(iOS)
                 .frame(width: isIpad ? 560 : UIScreen.main.bounds.width - 44)
