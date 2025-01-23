@@ -53,6 +53,9 @@ struct PlanetStatusProvider: TimelineProvider {
                 if let defenseEvent = defenseCampaigns.first(where: { $0.planet.index == highestPlanet.index }) {
                     
                     let eventExpirationTime = highestPlanet.event?.expireTimeDate
+                    let invasionLevel = highestPlanet.event?.invasionLevel ?? nil
+                    let eventHealth = highestPlanet.event?.health ?? nil
+                    let eventMaxHealth = highestPlanet.event?.maxHealth ?? nil
                     
                     // faction always humans when defending, so put event faction here manually because we cant access the extra conditions in the view models faction image or color functions
                     
@@ -67,7 +70,7 @@ struct PlanetStatusProvider: TimelineProvider {
                         factionColor = .purple
                     }
 
-                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: defenseEvent.planet.event?.percentage ?? highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime, spaceStationExpirationTime: spaceStationExpirationTime)
+                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: defenseEvent.planet.event?.percentage ?? highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime, invasionLevel: invasionLevel, eventHealth: eventHealth, eventMaxHealth: eventMaxHealth, spaceStationExpirationTime: spaceStationExpirationTime)
                     entries.append(entry)
                     
                 } else {
@@ -101,6 +104,9 @@ struct SimplePlanetStatus: TimelineEntry {
     var faction: String? // optional for the same reasons below
     var factionColor: Color? // this is optional and fetched in the app if state is liberation not defense because the viewmodel doesnt need its state for defense planets in that case, it falls through the if statements anyway
     var eventExpirationTime: Date? = nil
+    var invasionLevel: Int64? = nil
+    var eventHealth: Int64? = nil
+    var eventMaxHealth: Int64? = nil
     var spaceStationExpirationTime: Date? = nil
 }
 
@@ -150,7 +156,7 @@ struct Helldivers_Companion_WidgetsEntryView : View {
                     
                 }
                 
-                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, factionName: entry.faction, factionColor: entry.factionColor, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, eventExpirationTime: entry.eventExpirationTime, spaceStationExpirationTime: entry.spaceStationExpirationTime).environmentObject(PlanetsDataModel())
+                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, factionName: entry.faction, factionColor: entry.factionColor, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, eventExpirationTime: entry.eventExpirationTime, spaceStationExpirationTime: entry.spaceStationExpirationTime, eventInvasionLevel: entry.invasionLevel, eventHealth: entry.eventHealth, eventMaxHealth: entry.eventMaxHealth).environmentObject(PlanetsDataModel())
                     .padding(.horizontal)
                     .padding(.vertical, 5)
                 

@@ -27,6 +27,10 @@ struct CampaignPlanetStatsView: View {
     
     var eventExpirationTime: Date? = nil
     
+    var invasionLevel: Int64? = nil
+    var maxHealth: Int64? = nil
+    var health: Int64? = nil
+    
     var spaceStationExpiration: Date? = nil
     var spaceStationDetails: SpaceStationDetails? = nil
     var warTime: Int64? = nil
@@ -54,12 +58,40 @@ struct CampaignPlanetStatsView: View {
         
         VStack(spacing: 0) {
             
+            if let invasionLevel = invasionLevel, let health = health, let maxHealth = maxHealth {
+                VStack {
+                    
+                    HStack(spacing: 0) {
+                        Text("\(isWidget ? "" : "ENEMY ")INVASION LEVEL: \(invasionLevel)")
+                            .foregroundStyle(.white).bold()
+                            .font(Font.custom("FSSinclair", size: smallFont))
+                        Spacer()
+                        
+                        Text("HP")    .foregroundStyle(.purple).bold()
+                            .font(Font.custom("FSSinclair", size: smallFont))
+                            .padding(.horizontal, 2)
+                        Text("\(health)/\(maxHealth)")
+                            .foregroundStyle(.gray)
+                            .font(Font.custom("FSSinclair", size: smallFont))
+                    } .kerning(-1)
+                        .padding(.top, 1.7)
+                        .lineLimit(1)
+                    
+                }  .padding(.horizontal, 10)
+                
+                
+                Rectangle()
+                    .fill(.white)
+                    .frame(height: 1)
+                
+            }
+            
             VStack {
                 VStack(spacing: 4) {
                     
                     // health bar
                     
-                    RectangleProgressBar(value: liberation / 100, secondaryColor: eventExpirationTime != nil ? .cyan : factionColor, height: eventExpirationTime != nil ? 8 : 20)
+                    RectangleProgressBar(value: liberation / 100, secondaryColor: eventExpirationTime != nil ? .cyan : factionColor, height: 8)
                     
                         .padding(.horizontal, 6)
                         .padding(.trailing, 2)
@@ -78,7 +110,8 @@ struct CampaignPlanetStatsView: View {
                     
                     
                 }
-                .frame(height: showExtraStats ? 34 : 30)
+               // .frame(height: showExtraStats ? 34 : 30)
+                .padding(.vertical, 5)
                     .foregroundStyle(Color.clear)
                     .border(Color.orange, width: 2)
                     .padding(.horizontal, 4)

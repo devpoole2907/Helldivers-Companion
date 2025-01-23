@@ -32,6 +32,9 @@ struct PlanetView: View {
     
     var eventExpirationTime: Date? = nil // for defense events
     var spaceStationExpirationTime: Date? = nil
+    var eventInvasionLevel: Int64? = nil
+    var eventHealth: Int64? = nil
+    var eventMaxHealth: Int64? = nil
     
     var isInMapView = false // map view uses navigation view not navigationstack, due to the zoomable package/modifier not working in stack. so this is a workaround that allows us to change the navigationlink styling to the older deprecated way if we are in the map view
     
@@ -109,7 +112,7 @@ struct PlanetView: View {
                 
          
                     
-                CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, spaceStationExpiration: spaceStationExpirationTime)
+                CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, spaceStationExpiration: spaceStationExpirationTime)
                     
                 
                 

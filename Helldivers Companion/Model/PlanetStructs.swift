@@ -637,6 +637,12 @@ struct UpdatedPlanetEvent: Decodable {
     var campaignId: Int64
     var jointOperationIds: [Int64]
     
+    // computed prop for invasion level
+    
+    var invasionLevel: Int64? {
+        maxHealth / 50000
+    }
+    
     // computed prop for defense
     var percentage: Double {
         maxHealth > 0 ? (1 - (Double(health) / Double(maxHealth))) * 100 : 0

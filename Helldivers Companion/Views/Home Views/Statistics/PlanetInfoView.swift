@@ -47,6 +47,17 @@ struct PlanetInfoView: View {
             defenseCampaign?.planet.event?.expireTimeDate
         }
     
+    private var eventInvasionLevel: Int64? {
+        defenseCampaign?.planet.event?.invasionLevel
+    }
+    
+    private var eventHealth: Int64? {
+        defenseCampaign?.planet.event?.health
+    }
+    
+    private var eventMaxHealth: Int64? {
+        defenseCampaign?.planet.event?.maxHealth
+    }
     
     private var activeSpaceStation: SpaceStation? {
         return viewModel.spaceStations.first { spaceStation in
@@ -150,7 +161,7 @@ struct PlanetInfoView: View {
                                 .shadow(radius: 5.0)
                             
                         }
-                        CampaignPlanetStatsView(liberation: liberationPercentage ?? 0.0, liberationType: liberationType, planetName: planet?.name, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: planet?.statistics.playerCount, eventExpirationTime: eventExpirationTime)
+                        CampaignPlanetStatsView(liberation: liberationPercentage ?? 0.0, liberationType: liberationType, planetName: planet?.name, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: planet?.statistics.playerCount, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth)
                             .shadow(radius: 5.0)
                     }
 

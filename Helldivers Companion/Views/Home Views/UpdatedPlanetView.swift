@@ -44,6 +44,18 @@ struct UpdatedPlanetView: View {
             defenseCampaign?.planet.event?.expireTimeDate
         }
     
+    private var eventInvasionLevel: Int64? {
+        defenseCampaign?.planet.event?.invasionLevel
+    }
+    
+    private var eventHealth: Int64? {
+        defenseCampaign?.planet.event?.health
+    }
+    
+    private var eventMaxHealth: Int64? {
+        defenseCampaign?.planet.event?.maxHealth
+    }
+    
     private var liberationType: LiberationType {
         
         (defenseCampaign != nil) ? .defense : .liberation
@@ -154,7 +166,7 @@ struct UpdatedPlanetView: View {
                 
                 headerWithImage
                     
-                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, spaceStationExpiration: spaceStationExpirationTime, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isActive: isActive)
+                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, spaceStationExpiration: spaceStationExpirationTime, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isActive: isActive)
                     
                 
                 
