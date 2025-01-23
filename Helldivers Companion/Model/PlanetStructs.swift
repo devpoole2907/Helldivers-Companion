@@ -640,7 +640,7 @@ struct UpdatedPlanetEvent: Decodable {
     // computed prop for invasion level
     
     var invasionLevel: Int64? {
-        maxHealth / 50000
+        eventType == 2 ? maxHealth / 50000 : nil
     }
     
     // computed prop for defense
