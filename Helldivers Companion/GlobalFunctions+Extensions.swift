@@ -18,11 +18,13 @@ func formatDuration<T: BinaryInteger>(seconds: T) -> String {
     let totalHours = totalMinutes / minutesPerHour
     let days = totalHours / hoursPerDay
     let remainingHours = totalHours % hoursPerDay
+    let remainingMinutes = totalMinutes % minutesPerHour
 
     if days > 0 {
         return "\(days)D \(remainingHours)H"
-    } 
-        return "\(remainingHours)H"
+    } else {
+        return "\(remainingHours)H \(remainingMinutes)M"
+    }
     
     
    
