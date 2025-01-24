@@ -33,6 +33,28 @@ struct OrderView: View {
                 
                 if let mo = viewModel.majorOrder {
                     
+                    // tpye 2 extraction type
+                    if mo.isExtractType, let extractionProgress = mo.extractionProgress {
+                        ForEach(extractionProgress.indices, id: \.self) { index in
+                            let progressData = extractionProgress[index]
+                           // display task setting description we created here for each task, only for this type! (2)
+                            VStack(spacing: 2){
+                                Text(progressData.description)
+                                    .font(Font.custom("FSSinclair-Bold", size: smallFont))
+                                    .foregroundStyle(.white)
+                                    .multilineTextAlignment(.center)
+                                
+                                MajorOrderBarProgressView(
+                                    progress: progressData.progress,
+                                    barColor: Color(red: 164, green: 177, blue: 183),
+                                    progressString: progressData.progressString
+                                )
+                            }
+                            
+                            
+                        }
+                    }
+                    
                     // MARK: - Eradication Tasks (Type 3)
                                        if mo.isEradicateType, let eradicationProgresses = mo.eradicationProgress {
                                            ForEach(eradicationProgresses.indices, id: \.self) { index in
@@ -99,8 +121,8 @@ struct OrderView: View {
                 OrderTimeView(timeRemaining: majorOrderTimeRemaining)
             }
             
-        }.padding(.top, 40)
-                .padding() 
+        }.padding(.top, 15)
+                .padding()
             #if os(iOS)
                 .frame(width: isIpad ? 560 : UIScreen.main.bounds.width - 44)
                 .frame(minHeight: 300)

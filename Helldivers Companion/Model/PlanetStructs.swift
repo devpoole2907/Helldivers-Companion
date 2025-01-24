@@ -72,6 +72,10 @@ struct MajorOrder: Decodable {
     let expiresIn: Int64 // this must be int64 to run on watchOS!
     let setting: Setting
     
+    var extractTasks: [Setting.Task] {
+        setting.tasks.filter { $0.type == 2 }
+    }
+    
     var eradicateTasks: [Setting.Task] {
         setting.tasks.filter { $0.type == 3 }
     }
@@ -85,10 +89,31 @@ struct MajorOrder: Decodable {
         setting.tasks.filter { $0.type == 11 || $0.type == 13 }
     }
     
+    var isExtractType: Bool { !extractTasks.isEmpty }
     var isEradicateType: Bool { !eradicateTasks.isEmpty }
     var isDefenseType: Bool    { !defenseTasks.isEmpty }
     var isNetQuantityType: Bool { !netQuantityTasks.isEmpty }
     var isLiberationType: Bool  { !liberationTasks.isEmpty }
+    
+    // cooked code, uses the adaptive descriptions developed for personal orders
+    // this type actually needs iur adaptive setting task descriptions
+    var extractionProgress: [(description: AttributedString, progress: Double, progressString: String)]? {
+        guard isExtractType else { return nil }
+        return extractTasks.compactMap { task in
+            guard let taskindex = setting.tasks.firstIndex(of: task),
+                  let currentProgress = progress[safe: taskindex],
+                  let totalGoal = task.values[safe: 2]
+            else {
+                return nil
+            }
+            
+            let taskDescription = task.description
+            
+            let progressValue = Double(currentProgress) / Double(totalGoal)
+            let progressString = "\(currentProgress)/\(totalGoal)"
+            return (taskDescription, progressValue, progressString)
+        }
+    }
     
     // if an eradication type major order
     
