@@ -20,6 +20,8 @@ struct NewsItemView: View {
     @State var configData: RemoteConfigDetails?
     var isWidget = false
     
+    var warTime: Int64?
+    
     var body: some View {
         
         ZStack {
@@ -53,25 +55,41 @@ struct NewsItemView: View {
             
             // show all of it on watchos due to the vertical paging system on the watch
             HStack {
-                
-                if let warStartDate = configData?.convertStartedAtToDate() {
-                    let publishedTimeInterval = TimeInterval(published)
-                    let publishedDate = warStartDate.addingTimeInterval(publishedTimeInterval)
-                    let now = Date()
+                if let warStartTime = warTime {
+                    // Subtract the published time from the current war time
+                    let timeElapsed = warStartTime - Int64(published)
                     
-                    let components = Calendar.current.dateComponents([.hour, .day], from: publishedDate, to: now)
-                    let hoursDifference = components.hour ?? 0
+                    // Convert the time elapsed to seconds
+                    let elapsedTimeInSeconds = TimeInterval(timeElapsed)
+                    
+                    // Calculate days, hours, and minutes
+                    let components = Calendar.current.dateComponents(
+                        [.day, .hour, .minute],
+                        from: Date(timeIntervalSince1970: 0),
+                        to: Date(timeIntervalSince1970: elapsedTimeInSeconds)
+                    )
+                    
                     let daysDifference = components.day ?? 0
+                    let hoursDifference = components.hour ?? 0
+                    let minutesDifference = components.minute ?? 0
                     
+                    // Display the time difference
                     if daysDifference > 0 {
-                        Text("\(daysDifference) day\(daysDifference > 1 ? "s" : "") ago").font(Font.custom("FSSinclair", size: smallFont))
+                        Text("\(daysDifference) day\(daysDifference > 1 ? "s" : "") ago")
+                            .font(Font.custom("FSSinclair", size: smallFont))
+                            .foregroundStyle(.gray)
+                    } else if hoursDifference > 0 {
+                        Text("\(hoursDifference) hour\(hoursDifference > 1 ? "s" : "") ago")
+                            .font(Font.custom("FSSinclair", size: smallFont))
                             .foregroundStyle(.gray)
                     } else {
-                        Text("\(hoursDifference) hour\(hoursDifference > 1 ? "s" : "") ago")
+                        Text("\(minutesDifference) minute\(minutesDifference > 1 ? "s" : "") ago")
                             .font(Font.custom("FSSinclair", size: smallFont))
                             .foregroundStyle(.gray)
                     }
                 }
+            
+            
                 
                 
                 Spacer()

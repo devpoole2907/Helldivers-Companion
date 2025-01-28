@@ -37,11 +37,13 @@ struct Provider: TimelineProvider {
             
             let news = await newsModel.fetchNewsFeed(config: config, false)
             
-            if let newsEntry = news.first, let message = newsEntry.message {
+            let warTime = await planetsModel.fetchWarTime()
+            
+            if let newsEntry = news.first, let message = newsEntry.message, let warTime = warTime {
                 
                 
                 
-                let entry = NewsItemEntry(date: Date(), title: newsEntry.title ?? "BREAKING NEWS", description: message, published: newsEntry.published ?? 0, configData: config)
+                let entry = NewsItemEntry(date: Date(), title: newsEntry.title ?? "BREAKING NEWS", description: message, published: newsEntry.published ?? 0, configData: config, warTime: warTime)
                 
                 
                 entries.append(entry)
@@ -71,6 +73,7 @@ struct NewsItemEntry: TimelineEntry {
     let description: String
     let published: UInt32
     var configData: RemoteConfigDetails? = nil
+    var warTime: Int64?
 }
 
 struct Helldivers_Companion_News_WidgetEntryView : View {
@@ -87,7 +90,7 @@ struct Helldivers_Companion_News_WidgetEntryView : View {
                     .inset(by: 4)
                     .fill(Color.black)
             }
-            NewsItemView(newsTitle: entry.title, newsMessage: entry.description.replacingOccurrences(of: "\n", with: ""), published: entry.published, configData: entry.configData, isWidget: true).padding(.horizontal)
+            NewsItemView(newsTitle: entry.title, newsMessage: entry.description.replacingOccurrences(of: "\n", with: ""), published: entry.published, configData: entry.configData, isWidget: true, warTime: entry.warTime).padding(.horizontal)
                 .padding(.vertical, 5)
             
             
