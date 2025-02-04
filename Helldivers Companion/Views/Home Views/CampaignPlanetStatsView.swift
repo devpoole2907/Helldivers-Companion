@@ -77,9 +77,10 @@ struct CampaignPlanetStatsView: View {
                     } .kerning(-1)
                         .padding(.top, 1.7)
                         .lineLimit(1)
+                  
                     
                 }  .padding(.horizontal, 10)
-                
+                    .dynamicTypeSize(...DynamicTypeSize.small)
                 
                 Rectangle()
                     .fill(.white)
