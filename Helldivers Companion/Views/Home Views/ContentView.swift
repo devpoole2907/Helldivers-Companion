@@ -10,10 +10,18 @@ import UIKit
 import StoreKit
 #if os(iOS)
 import SwiftUIIntrospect
+import TipKit
 #endif
 import Haptics
 @available(watchOS 9.0, *)
 struct ContentView: View {
+    
+    #if os(iOS)
+    @available(iOS 17.0, *)
+    private var tip: NotificationTip {
+        NotificationTip()
+    }
+    #endif
     
     @EnvironmentObject var viewModel: PlanetsDataModel
     
@@ -163,26 +171,30 @@ struct ContentView: View {
                 .toolbar {
 #if os(iOS)
                     ToolbarItem(placement: .topBarLeading) {
-                        Button(action: {
-                            viewModel.showInfo.toggle()
-                        }){
-                            Image(systemName: "gearshape.fill")
-                        }.foregroundStyle(.white)
-                            .bold()
-                    }
-                 /*   if let appUrl = appUrl {
-                    ToolbarItem(placement: .topBarLeading) {
                         
-                    
+                        if #available(iOS 17.0, *) {
+                            Button(action: {
+                                viewModel.showInfo.toggle()
+                            }){
+                                Image(systemName: "gearshape.fill")
+                            }.foregroundStyle(.white)
+                                .bold()
+                                .popoverTip(tip)
+                                .onTapGesture {
+                                  tip.invalidate(reason: .actionPerformed)
+                                }
+                        } else {
                             
-                            ShareLink(item: appUrl) {
-                                Image(systemName: "square.and.arrow.up.fill")
-                            }
-                            
+                            Button(action: {
+                                viewModel.showInfo.toggle()
+                            }){
+                                Image(systemName: "gearshape.fill")
+                            }.foregroundStyle(.white)
+                                .bold()
                         }
                         
-                    }*/
-                    
+                        
+                    }
                     
                     ToolbarItem(placement: .topBarTrailing) {
                         PlayerCountView().environmentObject(viewModel)

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -685,6 +685,27 @@
 		7CFE03992BE59923002A3A07 /* EnemiesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemiesList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		7CFC66A52D5B45610049C28D /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				NotificationTip.swift,
+			);
+			target = 7C44B7DC2BC944420097C29B /* Helldivers Companion Galaxy Map WidgetExtension */;
+		};
+		7CFC66A62D5B45620049C28D /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				NotificationTip.swift,
+			);
+			target = 7C587F432BA6DBB400C66643 /* Helldivers Companion Watch Edition Watch App */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		7CFC669D2D5B41930049C28D /* Tips */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (7CFC66A62D5B45620049C28D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 7CFC66A52D5B45610049C28D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Tips; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		7C0C99452BA2BA8F00CF7C91 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -1113,6 +1134,7 @@
 		7CE4AE382BA832660033D4AF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7CFC669D2D5B41930049C28D /* Tips */,
 				7CC284C22BD8DD6C0036EBFD /* ViewModifiers */,
 				7C80F3EA2BC13F710058BF39 /* iOS Version Check Modifiers */,
 				7CE97D392BB51D65008329BA /* Popups */,
@@ -1225,6 +1247,9 @@
 				7CA240BE2BCA33FD007F685C /* PBXTargetDependency */,
 				7C4A9E3C2BD355F00014FCCD /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				7CFC669D2D5B41930049C28D /* Tips */,
+			);
 			name = "Helldivers Companion";
 			packageProductDependencies = (
 				7CE4AE322BA82C6A0033D4AF /* FirebaseFirestore */,
@@ -1294,6 +1319,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				7CFC669D2D5B41930049C28D /* Tips */,
+			);
 			name = "Helldivers Companion Galaxy Map WidgetExtension";
 			packageProductDependencies = (
 				7C6C0F8D2BD0B95900BD73B2 /* Haptics */,
@@ -1352,6 +1380,9 @@
 				7C8C5F572BAF0AD200C4FBD2 /* PBXTargetDependency */,
 				7CA240D42BCA5083007F685C /* PBXTargetDependency */,
 				7C4A9E4F2BD356870014FCCD /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				7CFC669D2D5B41930049C28D /* Tips */,
 			);
 			name = "Helldivers Companion Watch Edition Watch App";
 			packageProductDependencies = (

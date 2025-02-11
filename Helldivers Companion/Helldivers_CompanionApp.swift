@@ -11,6 +11,9 @@ import Firebase
 import UserNotifications
 import FirebaseMessaging
 import MijickPopupView
+#if os(iOS)
+import TipKit
+#endif
 
 class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
     func application(_ application: UIApplication,
@@ -128,6 +131,14 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
 struct Helldivers_CompanionApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
+#if os(iOS)
+    init() {
+        if #available(iOS 17.0, *) {
+            try? Tips.configure()
+        }
+    }
+#endif
     
     var body: some Scene {
         WindowGroup {
