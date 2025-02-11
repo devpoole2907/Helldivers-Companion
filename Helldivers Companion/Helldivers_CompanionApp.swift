@@ -23,6 +23,20 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         
         migrateUserDefaults() // migrate users to new user defaults so they dont lose their high score in stratagem hero if they aren't signed in
         
+        
+        // set defaults for subscribed notification topics
+        
+        // TODO: implement toggleable settings for users to choose their notification topics
+        let userPrefs = UserDefaults(suiteName: "group.com.poole.james.HelldiversCompanion") ?? .standard
+        
+        userPrefs.register(defaults: [
+            "planetEventsEnabled": true,
+            "liberationEnabled": true,
+            "newsEnabled": true,
+            "unsubscribedFromOldTopic": false
+        ])
+        
+        
         return true
     }
     
@@ -36,16 +50,64 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
             print("fcm", fcm)
         }
         
-        // subscribe to notifications topic
-        Messaging.messaging().subscribe(toTopic: "newMessages") { error in
-            if let error = error {
-                print("Error subscribing to new messages topic: \(error)")
-            } else {
-                print("Successfully subscribed to messages topic")
+        // TRANSITIONING TO SEPARATED MESSAGE TOPICS
+        
+        let userPrefs = UserDefaults(suiteName: "group.com.poole.james.HelldiversCompanion") ?? .standard
+        
+        // unsubscribe from the original messages topic
+        if !userPrefs.bool(forKey: "unsubscribedFromOldTopic") {
+            Messaging.messaging().unsubscribe(fromTopic: "newMessages") { error in
+                if let error = error {
+                    print("Error unsubscribing from old `newMessages`: \(error)")
+                } else {
+                    print("Successfully unsubscribed from `newMessages`!")
+                    userPrefs.set(true, forKey: "unsubscribedFromOldTopic")
+                }
             }
         }
         
+        // subscribe to the new notifications topics based on whether user has it turned on, default is true
+        
+        toggleTopicSubscription(
+            topic: "planetEventUpdates",
+            isEnabled: userPrefs.bool(forKey: "planetEventsEnabled")
+        )
+        
+        toggleTopicSubscription(
+            topic: "liberationUpdates",
+            isEnabled: userPrefs.bool(forKey: "liberationEnabled")
+        )
+        
+        toggleTopicSubscription(
+            topic: "newsUpdates",
+            isEnabled: userPrefs.bool(forKey: "newsEnabled")
+        )
+        
     }
+    
+    private func toggleTopicSubscription(topic: String, isEnabled: Bool) {
+        if isEnabled {
+            // subscribe to topic if user has it turned on
+            Messaging.messaging().subscribe(toTopic: topic) { error in
+                if let error = error {
+                    print("Error subscribing to \(topic): \(error)")
+                } else {
+                    print("Subscribed to \(topic)!")
+                }
+            }
+        } else {
+            // unsub from topic if turned off
+            Messaging.messaging().unsubscribe(fromTopic: topic) { error in
+                if let error = error {
+                    print("Error unsubscribing from \(topic): \(error)")
+                } else {
+                    print("Unsubscribed from \(topic).")
+                }
+            }
+        }
+    }
+    
+    
     // to show notifications even when app is open
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound])
