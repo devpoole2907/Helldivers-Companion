@@ -72,6 +72,12 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         
         // subscribe to the new notifications topics based on whether user has it turned on, default is true
         
+        // subscribe to announcements topic always true
+        toggleTopicSubscription(
+            topic: "announcements",
+            isEnabled: true
+        )
+        
         toggleTopicSubscription(
             topic: "planetEventUpdates",
             isEnabled: userPrefs.bool(forKey: "planetEventsEnabled")
