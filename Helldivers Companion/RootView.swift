@@ -32,6 +32,10 @@ struct RootView: View {
     
     @State var showMajorOrderButton: Bool = true
     
+    @State var showNotificationOptions: Bool = false
+    
+    @AppStorage("notifOptionsShown") private var notifOptionsShown = false
+    
     // use func to change state of major order bool so it can be animated
     private func updateMajorOrderButtonVisibility() {
         withAnimation(.bouncy) {
@@ -188,6 +192,16 @@ struct RootView: View {
   
             .onAppear {
                 dbModel.startUpdating()
+#if os(iOS)
+                if !notifOptionsShown {
+                    showNotificationOptions = true
+                    notifOptionsShown = true
+                }
+                #endif
+            }
+        
+            .sheet(isPresented: $showNotificationOptions) {
+                NotificationSettingsView()
             }
        
         

@@ -405,6 +405,8 @@
 		7CF6D2F02BC412EA00107663 /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
 		7CF6D2F22BC524C300107663 /* GalaxyMapRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2F12BC524C300107663 /* GalaxyMapRootView.swift */; };
 		7CF6D2F42BC524ED00107663 /* DraggablePlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2F32BC524ED00107663 /* DraggablePlanetView.swift */; };
+		7CFC66992D5B23DF0049C28D /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFC66972D5B23DF0049C28D /* NotificationSettingsView.swift */; };
+		7CFC669A2D5B23DF0049C28D /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFC66972D5B23DF0049C28D /* NotificationSettingsView.swift */; };
 		7CFE039A2BE59923002A3A07 /* EnemiesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFE03992BE59923002A3A07 /* EnemiesList.swift */; };
 /* End PBXBuildFile section */
 
@@ -679,6 +681,7 @@
 		7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FS Sinclair Regular.otf"; sourceTree = "<group>"; };
 		7CF6D2F12BC524C300107663 /* GalaxyMapRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyMapRootView.swift; sourceTree = "<group>"; };
 		7CF6D2F32BC524ED00107663 /* DraggablePlanetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggablePlanetView.swift; sourceTree = "<group>"; };
+		7CFC66972D5B23DF0049C28D /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
 		7CFE03992BE59923002A3A07 /* EnemiesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemiesList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1149,6 +1152,7 @@
 		7CE4AE3B2BA832930033D4AF /* Home Views */ = {
 			isa = PBXGroup;
 			children = (
+				7CFC66972D5B23DF0049C28D /* NotificationSettingsView.swift */,
 				7C25BC782D3BA22200586852 /* SpaceStationView.swift */,
 				7C63130C2BBC01BA00C84C13 /* Galaxy Map */,
 				7CE97D3E2BB54141008329BA /* Statistics */,
@@ -1786,6 +1790,7 @@
 				7CBC0E3F2BDD26E9008ED950 /* SuperStoreList.swift in Sources */,
 				7C3A9EC92BA9724E00F26307 /* NewsFeedModel.swift in Sources */,
 				7CBC0E3D2BDCF728008ED950 /* WarBondsList.swift in Sources */,
+				7CFC66992D5B23DF0049C28D /* NotificationSettingsView.swift in Sources */,
 				7C45D46C2BABEE980013A632 /* WatchOrdersView.swift in Sources */,
 				7C0DF6192BB922230062AB9B /* PlanetInfoView.swift in Sources */,
 				7C5D5F592BAFD74900B644B9 /* WatchConnectivityProvider.swift in Sources */,
@@ -1939,6 +1944,7 @@
 				7C45D4742BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C45D4792BAC142C0013A632 /* Tab.swift in Sources */,
 				7C5382E52BE44B2200EA66F8 /* WatchOS8ContentView.swift in Sources */,
+				7CFC669A2D5B23DF0049C28D /* NotificationSettingsView.swift in Sources */,
 				7C80F3ED2BC1425B0058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C45D45B2BABEB370013A632 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C587F5D2BA6DD2200C66643 /* CustomSegmentedPicker.swift in Sources */,

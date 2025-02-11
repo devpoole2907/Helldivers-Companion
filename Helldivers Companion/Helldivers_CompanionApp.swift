@@ -33,6 +33,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
             "planetEventsEnabled": true,
             "liberationEnabled": true,
             "newsEnabled": true,
+            "dssEnabled": true,
             "unsubscribedFromOldTopic": false
         ])
         
@@ -81,6 +82,11 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
         toggleTopicSubscription(
             topic: "newsUpdates",
             isEnabled: userPrefs.bool(forKey: "newsEnabled")
+        )
+        
+        toggleTopicSubscription(
+            topic: "dssUpdates",
+            isEnabled: userPrefs.bool(forKey: "dssEnabled")
         )
         
     }

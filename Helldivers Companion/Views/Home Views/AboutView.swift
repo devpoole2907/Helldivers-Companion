@@ -22,6 +22,15 @@ struct AboutView: View {
     @State private var showAbout = false
     @State private var showNotificationOptions = false
     
+    @AppStorage("planetEventsEnabled") private var planetEventsEnabled = true
+    @AppStorage("liberationEnabled") private var liberationEnabled = true
+    @AppStorage("newsEnabled") private var newsEnabled = true
+    @AppStorage("dssEnabled") private var dssEnabled = true
+    
+    private var anyNotificationsEnabled: Bool {
+        planetEventsEnabled || liberationEnabled || newsEnabled // TODO: add dss enabled when implemented
+    }
+    
     var body: some View {
         NavigationStack(path: $navPather.navigationPath) {
             ScrollView {
@@ -34,8 +43,8 @@ struct AboutView: View {
                         }.buttonStyle(PlainButtonStyle())
                         
                     }
-                    // TODO: change selected binding to show true if any notification topic is subbed to
-                    SettingsRow(settingTitle: "Notifications", image: "bell.fill", selected: .constant(false), dashPattern: [47, 17])
+
+                    SettingsRow(settingTitle: "Notifications", image: "bell.fill", selected: .constant(anyNotificationsEnabled), dashPattern: [47, 17])
                         .onTapGesture {
                             showNotificationOptions.toggle()
                         }
@@ -84,8 +93,7 @@ struct AboutView: View {
             }
             
             .sheet(isPresented: $showNotificationOptions) {
-                // TODO: notifications settings view
-                Text("Notifications settings go here")
+                NotificationSettingsView()
             }
             
             .sheet(isPresented: $showLanguageOptions) {
@@ -195,6 +203,7 @@ struct SettingsRow: View {
     @EnvironmentObject var viewModel: PlanetsDataModel
     
     let settingTitle: String
+    var settingSubtitle: String? = nil
     let image: String
     var systemImage: Bool
     
@@ -211,8 +220,9 @@ struct SettingsRow: View {
     
     #endif
     
-    init(settingTitle: String, image: String, selected: Binding<Bool> = .constant(false), dashPattern: [CGFloat], systemImage: Bool = true) {
+    init(settingTitle: String, settingSubtitle: String? = nil, image: String, selected: Binding<Bool> = .constant(false), dashPattern: [CGFloat], systemImage: Bool = true) {
         self.settingTitle = settingTitle
+        self.settingSubtitle = settingSubtitle
         self.image = image
         _selected = selected
         self.dashPattern = dashPattern
@@ -239,9 +249,17 @@ struct SettingsRow: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: imageSize, height: imageSize)
                 }
-                Text(settingTitle.uppercased())
-                    .font(Font.custom("FSSinclair-Bold", size: fontSize))
-                    .padding(.top, 2)
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(settingTitle.uppercased())
+                        .font(Font.custom("FSSinclair-Bold", size: fontSize))
+                      
+                    if let settingSubtitle = settingSubtitle {
+                        Text(settingSubtitle)
+                            .font(Font.custom("FSSinclair", size: 14))
+                            .foregroundStyle(.gray)
+
+                    }
+                }  .padding(.top, 2)
                 Spacer()
             }.frame(maxWidth: .infinity)
                 .padding(.leading, 10)
