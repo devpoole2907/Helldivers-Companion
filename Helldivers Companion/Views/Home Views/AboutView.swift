@@ -20,6 +20,7 @@ struct AboutView: View {
     @State private var showLanguageOptions = false
     @State private var showDarkModeOptions = false
     @State private var showAbout = false
+    @State private var showNotificationOptions = false
     
     var body: some View {
         NavigationStack(path: $navPather.navigationPath) {
@@ -33,6 +34,12 @@ struct AboutView: View {
                         }.buttonStyle(PlainButtonStyle())
                         
                     }
+                    // TODO: change selected binding to show true if any notification topic is subbed to
+                    SettingsRow(settingTitle: "Notifications", image: "bell.fill", selected: .constant(false), dashPattern: [47, 17])
+                        .onTapGesture {
+                            showNotificationOptions.toggle()
+                        }
+                    
 #if os(iOS)
                     if let url = URL(string: discordUrl) {
                         
@@ -74,6 +81,11 @@ struct AboutView: View {
                 
                 viewModel.startUpdating()
                 
+            }
+            
+            .sheet(isPresented: $showNotificationOptions) {
+                // TODO: notifications settings view
+                Text("Notifications settings go here")
             }
             
             .sheet(isPresented: $showLanguageOptions) {
