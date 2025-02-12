@@ -167,6 +167,7 @@ struct RootView: View {
         .onAppear {
             
             viewModel.startUpdating()
+            newsModel.startUpdating(viewModel.enableLocalization)
 
         }
             
@@ -412,10 +413,13 @@ struct RootView: View {
                     } else {
                         // otherwise change tab to stats, we must have been in another tab
                         viewModel.currentTab = .news
+                        
+                        // and clear new items count
+                        newsModel.markNewsAsSeen()
                     }
                     
                     
-                })
+                }, badgeCount: newsModel.newItemsCount)
                 
             
                 
@@ -430,7 +434,7 @@ struct RootView: View {
     }
     
     @ViewBuilder
-    func TabButton(tab: Tab, action: (() -> Void)? = nil) -> some View {
+    func TabButton(tab: Tab, action: (() -> Void)? = nil, badgeCount: Int = 0) -> some View {
         
         let frameSize: CGFloat = (UIScreen.main.bounds.height) == 667 || (UIScreen.main.bounds.height) == 736 ? 20 : 23
         
@@ -440,21 +444,39 @@ struct RootView: View {
                 action()
             }
         }){
-            VStack(spacing: 4) {
-                if let systemImage = tab.systemImage {
-                    Image(systemName: systemImage)
-                        .resizable()
-                        .renderingMode(.template)
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: frameSize, height: frameSize)
+            
+            ZStack(alignment: .topTrailing) {
+                VStack(spacing: 4) {
+                    if let systemImage = tab.systemImage {
+                        Image(systemName: systemImage)
+                            .resizable()
+                            .renderingMode(.template)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: frameSize, height: frameSize)
+                            .foregroundColor(viewModel.currentTab == tab ? .accentColor : .gray)
+                        //   .padding()
+                        
+                    }
+                    
+                    Text(tab.rawValue).textCase(.uppercase)  .font(Font.custom("FSSinclair-Bold", size: 15))
+                        .dynamicTypeSize(.medium ... .large)
                         .foregroundColor(viewModel.currentTab == tab ? .accentColor : .gray)
-                     //   .padding()
- 
+                    
+                    
                 }
                 
-                Text(tab.rawValue).textCase(.uppercase)  .font(Font.custom("FSSinclair-Bold", size: 15))
-                    .dynamicTypeSize(.medium ... .large)
-                    .foregroundColor(viewModel.currentTab == tab ? .accentColor : .gray)
+                if badgeCount > 0 {
+                    Text("\(badgeCount)")
+                        .font(Font.custom("FSSinclair", size: 12))
+                        .foregroundStyle(.white)
+                        .padding(5)
+                        .padding(.top, 1)
+                        .background(Color.red)
+                        .clipShape(Circle())
+                        .offset(x: 10, y: -10)
+                }
+                
+                
             }.padding(.horizontal, buttonShapesEnabled ? 0 : 10)
                 .frame(width: buttonShapesEnabled ? 54 : 64)
            

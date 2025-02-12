@@ -116,8 +116,6 @@ struct NewsView: View {
             
 #endif
             
-        }.onAppear {
-            feedModel.startUpdating(viewModel.enableLocalization)
         }
         
         #if os(iOS)

@@ -14,10 +14,13 @@ class NewsFeedModel: ObservableObject {
     
     // for tab bar badge to indicate new news items
     @AppStorage("newsCount") private var storedNewsCount: Int = 0
-    @Published var hasNewNews: Bool = false
+    
+    @Published var newItemsCount: Int = 0
     
     func markNewsAsSeen() {
-        hasNewNews = false
+        withAnimation {
+            newItemsCount = 0
+        }
     }
     
     @Published var news: [NewsFeed] = []
@@ -45,13 +48,12 @@ class NewsFeedModel: ObservableObject {
             
             // compare count with stored count
             
-              if newsItems.count > storedNewsCount {
-            // new news arrived
-                hasNewNews = true
-                storedNewsCount = newsItems.count
-              }
+            if newsItems.count > storedNewsCount {
+                            let difference = newsItems.count - storedNewsCount
+                            newItemsCount += difference // increment unseen count
+                            storedNewsCount = newsItems.count
+                        }
         
-            
             return newsItems
             
         } catch {
