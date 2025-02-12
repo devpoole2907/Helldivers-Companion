@@ -12,6 +12,14 @@ import SwiftUI
 @MainActor
 class NewsFeedModel: ObservableObject {
     
+    // for tab bar badge to indicate new news items
+    @AppStorage("newsCount") private var storedNewsCount: Int = 0
+    @Published var hasNewNews: Bool = false
+    
+    func markNewsAsSeen() {
+        hasNewNews = false
+    }
+    
     @Published var news: [NewsFeed] = []
     private var timer: Timer?
     
@@ -36,6 +44,15 @@ class NewsFeedModel: ObservableObject {
             newsFeed.sort { $0.id > $1.id }
             // uniqued in case dupes
             let newsItems = Array(newsFeed.uniqued())
+            
+            // compare count with stored count
+            
+              if newsItems.count > storedNewsCount {
+            // new news arrived
+                hasNewNews = true
+                storedNewsCount = newsItems.count
+              }
+        
             
             return newsItems
             
