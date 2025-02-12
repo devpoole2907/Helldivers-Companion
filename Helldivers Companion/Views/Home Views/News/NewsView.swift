@@ -12,7 +12,7 @@ import SwiftUIIntrospect
 @available(watchOS 9.0, *)
 struct NewsView: View {
     
-    @StateObject var feedModel = NewsFeedModel()
+    @EnvironmentObject var feedModel: NewsFeedModel
     @EnvironmentObject var navPather: NavigationPather
     @EnvironmentObject var viewModel: PlanetsDataModel
     @EnvironmentObject var dbModel: DatabaseModel
