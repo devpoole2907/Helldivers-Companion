@@ -29,12 +29,10 @@ class NewsFeedModel: ObservableObject {
     
     func fetchNewsFeed(config: RemoteConfigDetails?, _ enableLocalization: Bool) async -> [NewsFeed] {
         
-        let feedURLString = "\(config?.apiAddress ?? "https://api.helldivers2.dev/raw/api/")raw/api/NewsFeed/801?maxLimit=1024"
-       
+        //let feedURLString = "\(config?.apiAddress ?? "https://api.helldivers2.dev/raw/api/")raw/api/NewsFeed/801?maxLimit=1024"
+           let feedURLString = "https://api.live.prod.thehelldiversgame.com/api/NewsFeed/801?maxEntries=1024"
+    
         let headers: [String: String] = [
-            "X-Super-Client": "WarMonitoriOS/3.1",
-            "X-Application-Contact": "james@pooledigital.com",
-            "X-Super-Contact": "james@pooledigital.com",
             "Accept-Language": enableLocalization ? apiSupportedLanguage : ""
         ]
         
