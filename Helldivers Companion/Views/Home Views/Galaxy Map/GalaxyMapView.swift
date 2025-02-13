@@ -105,6 +105,28 @@ struct GalaxyMapView: View {
             return visibleRect.contains(position)
         }
     
+    // TODO: grab planet positions from api, meridia is moving!
+    // linear transform constants derived
+    private let scaleX: CGFloat = 0.4802
+    private let offsetX: CGFloat = 0.5
+    private let scaleY: CGFloat = -0.468
+    private let offsetY: CGFloat = 0.5
+    
+    func transformedPosition(for planet: UpdatedPlanet, imageSize: CGSize) -> CGPoint {
+        let x = planet.position.x
+        let y = planet.position.y
+        
+        // apply  derived transform
+        let finalX = scaleX * x + offsetX
+        let finalY = scaleY * y + offsetY
+        
+        
+        return CGPoint(
+            x: imageSize.width * finalX,
+            y: imageSize.height * finalY
+        )
+    }
+    
     
     var body: some View {
         GeometryReader { geometry in
@@ -115,6 +137,7 @@ struct GalaxyMapView: View {
              
                 Image(isWidget ? "sectorMap800" : "sectorMap")
                     .resizable()
+                    .aspectRatio(1.0, contentMode: .fit)
                     .frame(width: imageSize.width, height: imageSize.height)
                     .opacity(0.4)
                 
@@ -300,8 +323,21 @@ struct GalaxyMapView: View {
                         }
                 }
                 
+                // TODO: grab planet positions from api, meridia is moving!
                 
+                // loop through allPlanets and grab their positions etc
+                /*
                 
+                ForEach(allPlanets, id: \.index) { planet in
+                    let point = transformedPosition(for: planet, imageSize: geometry.size)
+                    
+                    Circle()
+                        .stroke(Color.white, lineWidth: 1)
+                        .frame(width: 5, height: 5)
+                        .position(point)
+                }
+                 .allowsHitTesting(false)
+                */
                 
                 /*
                  DraggablePlanetView(location: $planetLocation, imageSize: imageSize, position: $position)

@@ -246,6 +246,8 @@ struct SettingsRow: View {
                 } else {
                     Image(image)
                         .resizable()
+                    // this is hacky but yknow 
+                        .renderingMode(image == "dssIcon" ? .template : .original)
                         .aspectRatio(contentMode: .fit)
                         .frame(width: imageSize, height: imageSize)
                 }
