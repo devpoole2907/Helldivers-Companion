@@ -106,6 +106,16 @@ struct RootView: View {
         .ignoresSafeArea()
         .ignoresSafeArea(.keyboard)
             
+        .onReceive(viewModel.popMapToRoot) { _ in
+                   // switch to map tab
+            viewModel.currentTab  = .map
+                    // wait for tab switch
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                        // pop map to root
+                        mapNavPather.popToRoot()
+                    }
+                }
+            
             // deeplink from planet widget to the view of the planet
         .onOpenURL { url in
             

@@ -7,11 +7,15 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 @MainActor
 class PlanetsDataModel: ObservableObject {
 
     static let shared = PlanetsDataModel()
+    
+    // pop map to root from other views
+    let popMapToRoot = PassthroughSubject<Void, Never>()
 
     @Published var updatedPlanets: [UpdatedPlanet] = []
     @Published var updatedDefenseCampaigns: [UpdatedCampaign] = []

@@ -35,17 +35,17 @@ struct PlanetInfoView: View {
     }
     
     private var planet: UpdatedPlanet? {
-            viewModel.updatedPlanets.first(where: { $0.index == planetIndex })
-        }
+        viewModel.updatedPlanets.first(where: { $0.index == planetIndex })
+    }
     
     private var defenseCampaign: UpdatedCampaign? {
-            guard let planet = planet else { return nil }
-            return viewModel.updatedDefenseCampaigns.first(where: { $0.planet.index == planet.index })
-        }
-        
-        private var eventExpirationTime: Date? {
-            defenseCampaign?.planet.event?.expireTimeDate
-        }
+        guard let planet = planet else { return nil }
+        return viewModel.updatedDefenseCampaigns.first(where: { $0.planet.index == planet.index })
+    }
+    
+    private var eventExpirationTime: Date? {
+        defenseCampaign?.planet.event?.expireTimeDate
+    }
     
     private var eventInvasionLevel: Int64? {
         defenseCampaign?.planet.event?.invasionLevel
@@ -94,107 +94,155 @@ struct PlanetInfoView: View {
         }
         
         let remainingPercentage = 100.0 - currentLiberation
-            let timeRemaining = (remainingPercentage / liberationRate) * 3600
-          
+        let timeRemaining = (remainingPercentage / liberationRate) * 3600
+        
         let liberationDate = Date().addingTimeInterval(timeRemaining)
         
         return liberationDate
-          
+        
     }
     
-    #if os(watchOS)
+#if os(watchOS)
     
     let dividerWidth: CGFloat = 100
     let smallerDividerWidth: CGFloat = 80
     let horizPadding: CGFloat = 5
     let extraStatSplitter = "\n" // split by new line on watchos
     
-    #else
+#else
     
     let dividerWidth: CGFloat = 300
     let smallerDividerWidth: CGFloat = 200
     let horizPadding: CGFloat = 20
     let extraStatSplitter = " " // split by space on ios
     
-    #endif
+    var viewOnMapButton: some View {
+        
+        Button(action: {
+            
+            // take em to the map!
+            viewModel.selectedPlanet = planet
+            viewModel.popMapToRoot.send()
+            
+        }){
+            HStack(spacing: 6){
+                Image(systemName: "mappin.and.ellipse")
+                    .bold()
+                    .font(.callout)
+                    .padding(.bottom, 2)
+                Text("View on Map").textCase(.uppercase).tint(.white).fontWeight(.heavy)
+                    .font(Font.custom("FSSinclair", size: 16))
+                
+            }
+            
+            
+        }.padding(.horizontal)
+            .padding(.vertical, 5)
+            .frame(height: 40)
+            .background(Material.thin)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .shadow(radius: 3)
+        
+        
+        
+        
+    }
+    
+#endif
     
     var body: some View {
-        ScrollView {
-            
-            
-            imageWithSectorName
-            
-            if let spaceStationExpiration = spaceStationExpirationTime {
-                SpaceStationView(spaceStationExpiration: spaceStationExpiration, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isWidget: false, showFullInfo: true)
-                    .padding(.horizontal)
-            }
-         
-            
-            VStack(alignment: .leading, spacing: 14) {
+        ZStack(alignment: .bottomTrailing) {
+            ScrollView {
                 
-                // dont show if not currently fighting
-                if campaign {
-                    
-                    CustomSegmentedPicker(selection: $infoType, items: InfoType.allCases)
-                        .frame(maxWidth: .infinity)
-                    
-                        .padding(.bottom, 40)
-                    
+                
+                imageWithSectorName
+                
+                if let spaceStationExpiration = spaceStationExpirationTime {
+                    SpaceStationView(spaceStationExpiration: spaceStationExpiration, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isWidget: false, showFullInfo: true)
+                        .padding(.horizontal)
                 }
                 
-           
                 
-                
-                // dont show this data if the planet isnt a current campaign
-                if campaign && infoType == .warEffort {
-                    HistoryChart(liberationType: liberationType, planetData: planetData, factionColor: viewModel.getColorForPlanet(planet: planet)).environmentObject(viewModel)
-                        .shadow(radius: 5.0)
-                    VStack(alignment: .center, spacing: 2) {
-                        if let timeRemaining = liberationTimeRemaining {
-                            Group {
-                                Text("\(liberationType == .defense ? "DEFENDED" : "LIBERATION") IN: ")
-                                + Text(timeRemaining, style: .relative)
+                VStack(alignment: .leading, spacing: 14) {
+                    
+                    // dont show if not currently fighting
+                    if campaign {
+                        
+                        CustomSegmentedPicker(selection: $infoType, items: InfoType.allCases)
+                            .frame(maxWidth: .infinity)
+                        
+                            .padding(.bottom, 40)
+                        
+                    }
+                    
+                    
+                    
+                    
+                    // dont show this data if the planet isnt a current campaign
+                    if campaign && infoType == .warEffort {
+                        HistoryChart(liberationType: liberationType, planetData: planetData, factionColor: viewModel.getColorForPlanet(planet: planet)).environmentObject(viewModel)
+                            .shadow(radius: 5.0)
+                        VStack(alignment: .center, spacing: 2) {
+                            if let timeRemaining = liberationTimeRemaining {
+                                Group {
+                                    Text("\(liberationType == .defense ? "DEFENDED" : "LIBERATION") IN: ")
+                                    + Text(timeRemaining, style: .relative)
+                                    
+                                    
+                                }.font(Font.custom("FSSinclair-Bold", size: smallFont))
+                                    .foregroundStyle(.white)
+                                    .shadow(radius: 5.0)
                                 
-                                
-                            }.font(Font.custom("FSSinclair-Bold", size: smallFont))
-                                .foregroundStyle(.white)
+                            }
+                            CampaignPlanetStatsView(liberation: liberationPercentage ?? 0.0, liberationType: liberationType, planetName: planet?.name, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: planet?.statistics.playerCount, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth)
                                 .shadow(radius: 5.0)
+                        }
+                        
+                    } else {
+                        
+                        if let _ = planet?.biome.name {
+                            biomeDescription
                             
                         }
-                        CampaignPlanetStatsView(liberation: liberationPercentage ?? 0.0, liberationType: liberationType, planetName: planet?.name, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: planet?.statistics.playerCount, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth)
-                            .shadow(radius: 5.0)
-                    }
-
-                } else {
-                    
-                    if let _ = planet?.biome.name {
-                        biomeDescription
+                        
+                        if let environmentals = planet?.hazards, !environmentals.isEmpty {
+                            environmentsList
+                            
+                        }
+                        
+                        if let _ = planet?.statistics {
+                            statsList
+                        }
+                        
                         
                     }
                     
-                    if let environmentals = planet?.hazards, !environmentals.isEmpty {
-                        environmentsList
-                        
-                    }
-                    
-                    if let _ = planet?.statistics {
-                        statsList
-                    }
                     
                     
-                }
+                    
+                    
+                    
+                    
+                }  .padding(.horizontal, horizPadding)
                 
-             
-
+                Spacer(minLength: 150)
                 
-                
-                
-                
-            }  .padding(.horizontal, horizPadding)
+            }
             
-            Spacer(minLength: 150)
+#if os(iOS)
+            
+            if viewModel.currentTab != .map {
+                viewOnMapButton.padding(.bottom, 60)
+                    .padding(.trailing, 10)
+                    .transition(.opacity)
+            }
+            
+            
+            
+#endif
             
         }
+        
 #if os(iOS)
         
         .background {
@@ -205,18 +253,18 @@ struct PlanetInfoView: View {
             }
         }
         
-
+        
         
         .overlay(
             
             
             
             FactionImageView(faction: viewModel.getImageNameForPlanet(planet))
-
+            
                 .padding(.trailing, 20)
                 .offset(x: 0, y: -45)
             , alignment: .topTrailing)
-
+        
         
         .toolbarRole(.editor)
         
@@ -224,14 +272,14 @@ struct PlanetInfoView: View {
         
         .navigationBarTitleDisplayMode(.large)
 #else
-
+        
         .toolbar {
             if #available(watchOS 10, *) {
                 ToolbarItem(placement: .topBarTrailing) {
                     Text(planet?.name.capitalized ?? "UNKNOWN").textCase(.uppercase)  .font(Font.custom("FSSinclair", size: largeFont))
                 }
             }
-
+            
         }
         
         
@@ -297,16 +345,16 @@ struct PlanetInfoView: View {
                 .onAppear {
                     // redact the info if the illuminates are not enabled in the config
                     if !viewModel.showIlluminateUI {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        
-                        withAnimation(.bouncy(duration: 0.3)) {
-                            viewModel.redactedShakeTimes += 1 
-                            showRedactedText = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            
+                            withAnimation(.bouncy(duration: 0.3)) {
+                                viewModel.redactedShakeTimes += 1
+                                showRedactedText = true
+                            }
+                            
                         }
                         
-                    }
-                    
-               
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                             // hide illuminate
                             withAnimation(.bouncy(duration: 0.5)) {
@@ -319,7 +367,7 @@ struct PlanetInfoView: View {
                 
             }
             
-          
+            
             
             RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)         .padding(.bottom, 4)
             
@@ -392,26 +440,26 @@ struct PlanetInfoView: View {
                 HStack(spacing: 6) {
                     Text(sector).foregroundStyle(viewModel.getColorForPlanet(planet: planet))
 #if os(watchOS)
-    .textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: mediumFont))
+                        .textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: mediumFont))
 #else
-    .textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: largeFont))
-                    #endif
-                  
+                        .textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: largeFont))
+#endif
+                    
                     Text("Sector")
-                    #if os(watchOS)
+#if os(watchOS)
                         .textCase(.uppercase).font(Font.custom("FSSinclair", size: smallFont))
-                    #else
+#else
                         .textCase(.uppercase).font(Font.custom("FSSinclair", size: largeFont))
-                    #endif
+#endif
                     
                     
                     
                     
                     Spacer()
                 }
-                    .padding(5)
-                    .padding(.leading, 5)
-                  
+                .padding(5)
+                .padding(.leading, 5)
+                
             }
             
         }   .border(Color.white)
@@ -489,7 +537,7 @@ struct PlanetInfoView: View {
 struct FactionImageView: View {
     // not using enemy type enum, because this planet may be viewed from the stats view - if its not currently in a campaign then it may be human owned, in that case the owner will be passed
     var faction: String = "terminid"
-
+    
     var body: some View {
         
         
