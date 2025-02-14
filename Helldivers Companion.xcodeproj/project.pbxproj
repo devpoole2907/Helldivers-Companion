@@ -125,7 +125,6 @@
 		7C3DE9882BA80B8100C95B84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
 		7C3DE9892BA80B9600C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift */; };
 		7C3DE98B2BA80C1E00C95B84 /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
-		7C4110732BBCFED000A0008F /* Zoomable in Frameworks */ = {isa = PBXBuildFile; productRef = 7C4110722BBCFED000A0008F /* Zoomable */; };
 		7C44B7D32BC6A5100097C29B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 7C44B7D22BC6A5100097C29B /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		7C44B7D52BC6A5210097C29B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 7C44B7D42BC6A5210097C29B /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		7C44B7D72BC800790097C29B /* PlayerCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C44B7D62BC800790097C29B /* PlayerCountView.swift */; };
@@ -189,6 +188,8 @@
 		7C45D47B2BAC142C0013A632 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45D4772BAC142C0013A632 /* Tab.swift */; };
 		7C4A6A992BD25D7800727FEC /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
 		7C4A6A9A2BD25D7900727FEC /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
+		7C4A74952D5EF996001CD5C6 /* ZoomableModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A74942D5EF996001CD5C6 /* ZoomableModifier.swift */; };
+		7C4A74962D5EF996001CD5C6 /* ZoomableModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A74942D5EF996001CD5C6 /* ZoomableModifier.swift */; };
 		7C4A9E282BD336D60014FCCD /* DashPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A9E272BD336D60014FCCD /* DashPattern.swift */; };
 		7C4A9E292BD336D60014FCCD /* DashPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A9E272BD336D60014FCCD /* DashPattern.swift */; };
 		7C4A9E2B2BD33FC10014FCCD /* TogglePickerPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4A9E2A2BD33FC10014FCCD /* TogglePickerPopup.swift */; };
@@ -601,6 +602,7 @@
 		7C45D46D2BABEECF0013A632 /* OrderTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderTimeView.swift; sourceTree = "<group>"; };
 		7C45D4722BABF47C0013A632 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		7C45D4772BAC142C0013A632 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
+		7C4A74942D5EF996001CD5C6 /* ZoomableModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableModifier.swift; sourceTree = "<group>"; };
 		7C4A9E272BD336D60014FCCD /* DashPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashPattern.swift; sourceTree = "<group>"; };
 		7C4A9E2A2BD33FC10014FCCD /* TogglePickerPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TogglePickerPopup.swift; sourceTree = "<group>"; };
 		7C4A9E302BD355EF0014FCCD /* War Monitor Total Player Count WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "War Monitor Total Player Count WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -718,7 +720,6 @@
 				7CE97D382BB51D5D008329BA /* MijickPopupView in Frameworks */,
 				7CE4AE352BA82C6A0033D4AF /* FirebaseFunctions in Frameworks */,
 				7C6C0F862BD0B8BF00BD73B2 /* Haptics in Frameworks */,
-				7C4110732BBCFED000A0008F /* Zoomable in Frameworks */,
 				7C44B7D32BC6A5100097C29B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1126,6 +1127,7 @@
 		7CC284C22BD8DD6C0036EBFD /* ViewModifiers */ = {
 			isa = PBXGroup;
 			children = (
+				7C4A74942D5EF996001CD5C6 /* ZoomableModifier.swift */,
 				7CC284C32BD8DD790036EBFD /* BackgroundModifier.swift */,
 			);
 			path = ViewModifiers;
@@ -1258,7 +1260,6 @@
 				7C1B8C222BAD714300944823 /* Algorithms */,
 				7CE97D372BB51D5D008329BA /* MijickPopupView */,
 				7C0DF61C2BB9269F0062AB9B /* SwiftUIIntrospect */,
-				7C4110722BBCFED000A0008F /* Zoomable */,
 				7C44B7D22BC6A5100097C29B /* FirebaseAnalyticsWithoutAdIdSupport */,
 				7C6C0F852BD0B8BF00BD73B2 /* Haptics */,
 			);
@@ -1549,7 +1550,6 @@
 				7C1B8C212BAD714300944823 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				7CE97D362BB51D5D008329BA /* XCRemoteSwiftPackageReference "PopupView" */,
 				7C0DF61B2BB9269F0062AB9B /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
-				7C4110712BBCFED000A0008F /* XCRemoteSwiftPackageReference "Zoomable" */,
 				7C6C0F842BD0B8BF00BD73B2 /* XCRemoteSwiftPackageReference "SwiftUI-Haptics" */,
 			);
 			productRefGroup = 7C0C99492BA2BA8F00CF7C91 /* Products */;
@@ -1812,6 +1812,7 @@
 				7CE97D3D2BB53D2E008329BA /* TipJarView.swift in Sources */,
 				7C45D4652BABEE6E0013A632 /* AngledLinesShape.swift in Sources */,
 				7CE97D402BB5414C008329BA /* GalaxyStatsView.swift in Sources */,
+				7C4A74962D5EF996001CD5C6 /* ZoomableModifier.swift in Sources */,
 				7C4A9E2B2BD33FC10014FCCD /* TogglePickerPopup.swift in Sources */,
 				7CA240DE2BCA5D51007F685C /* StratagemGlossaryView.swift in Sources */,
 				7C63130E2BBC01C800C84C13 /* GalaxyMapView.swift in Sources */,
@@ -1986,6 +1987,7 @@
 				7CAAFFD92C475C4000488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C6C0F7B2BD0AEBC00BD73B2 /* UpdatedPlanetView.swift in Sources */,
 				7C6A8A6B2D3E2201008CFB71 /* PersonalOrderView.swift in Sources */,
+				7C4A74952D5EF996001CD5C6 /* ZoomableModifier.swift in Sources */,
 				7C25BC7A2D3BA22200586852 /* SpaceStationView.swift in Sources */,
 				7C587F5E2BA6DD2500C66643 /* RectangleProgressBar.swift in Sources */,
 				7C319F952BAAEF7F0075A1E4 /* NewsItemView.swift in Sources */,
@@ -3163,14 +3165,6 @@
 				minimumVersion = 1.2.0;
 			};
 		};
-		7C4110712BBCFED000A0008F /* XCRemoteSwiftPackageReference "Zoomable" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ryohey/Zoomable.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		7C50CEEA2BA82AF3009094AE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -3242,11 +3236,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7C50CEEA2BA82AF3009094AE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
-		};
-		7C4110722BBCFED000A0008F /* Zoomable */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7C4110712BBCFED000A0008F /* XCRemoteSwiftPackageReference "Zoomable" */;
-			productName = Zoomable;
 		};
 		7C44B7D22BC6A5100097C29B /* FirebaseAnalyticsWithoutAdIdSupport */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -331,6 +331,17 @@ class PlanetsDataModel: ObservableObject {
         }
     }
     
+    func fetchGalacticEffects() async -> [GalacticEffect] {
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/801/Status"
+        do {
+            let response: GalacticEffectsResponse = try await netManager.fetchData(from: urlString)
+            return response.planetActiveEffects
+        } catch {
+            print("Error fetching galactic effects: \(error)")
+            return []
+        }
+    }
+    
     func fetchSpaceStationDetails(for id32: Int64? = nil) async -> SpaceStationDetails? {
         let urlString = "https://api.live.prod.thehelldiversgame.com/api/SpaceStation/801/\(id32 ?? 749875195)"
         
@@ -565,6 +576,8 @@ class PlanetsDataModel: ObservableObject {
             // update the outdated planets info from unofficial api with updated info in helldivers-2/json repo - bit of a duct tape but hey it works
             planets = await fetchAndMergePlanets(planets: planets)
             print("updating planets")
+            
+            planets = await mergeGalacticEffectsIntoPlanets(planets)
 
             // Group planets by sector
             let groupedBySector = Dictionary(grouping: planets) { $0.sector }
@@ -605,6 +618,27 @@ class PlanetsDataModel: ObservableObject {
     }
 
     // other
+    
+    // merge galactic effects into planets based on index
+
+    func mergeGalacticEffectsIntoPlanets(_ planets: [UpdatedPlanet]) async -> [UpdatedPlanet] {
+        print("calling galactic effects planet update...")
+        
+        var updatedPlanets = planets
+        
+        let galacticEffects = await fetchGalacticEffects()
+        
+        let effectsByPlanetIndex = Dictionary(grouping: galacticEffects, by: { $0.index })
+        
+        for i in updatedPlanets.indices {
+            let planetIndex = updatedPlanets[i].index
+            if let effects = effectsByPlanetIndex[planetIndex] {
+                updatedPlanets[i].galacticEffects = effects
+            }
+        }
+        
+        return updatedPlanets
+    }
     
     // a duct tape fix - this overwrites the outdated planet information provided by the unofficial api, with up to date planet info from the helldivers-2/json repo
     func fetchAndMergePlanets(planets: [UpdatedPlanet]) async -> [UpdatedPlanet] {

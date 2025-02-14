@@ -162,6 +162,32 @@ struct PlanetInfoView: View {
                         .padding(.horizontal)
                 }
                 
+                // display any galactic effects in the planet
+                
+                if let effects = planet?.galacticEffects, !effects.isEmpty {
+                               VStack(alignment: .leading, spacing: 8) {
+                                   Text("Galactic Effects:")
+                                       .font(.headline)
+                                   ForEach(effects) { effect in
+                                       if let imageName = effect.imageName {
+                                           HStack {
+                                               Image(imageName)
+                                                   .resizable()
+                                                   .renderingMode(.template)
+                                                   .scaledToFit()
+                                                   .frame(width: 18, height: 18)
+                                               
+                                               Text("Effect ID: \(effect.galacticEffectId)")
+                                                   .font(.subheadline)
+                                           }
+                                       }
+                                       
+                                   }
+                               }
+                               .padding(.horizontal)
+                               .padding(.top, 10)
+                           }
+                
                 
                 VStack(alignment: .leading, spacing: 14) {
                     

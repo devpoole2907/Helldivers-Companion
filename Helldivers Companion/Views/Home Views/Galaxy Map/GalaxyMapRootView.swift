@@ -22,6 +22,8 @@ struct GalaxyMapRootView: View {
     @AppStorage("showAllPlanets") var showAllPlanets = false
     @AppStorage("showPlanetNames") var showPlanetNames = false
     
+    @State private var currentZoomScale: CGFloat = 1.0
+    
     var body: some View {
         
         NavigationStack(path: $navPather.navigationPath) {
@@ -35,14 +37,14 @@ struct GalaxyMapRootView: View {
                     
                     Spacer(minLength: 300)
                 
-                    GalaxyMapView(selectedPlanet: $viewModel.selectedPlanet, showSupplyLines: $showSupplyLines, showAllPlanets: $showAllPlanets, showPlanetNames: $showPlanetNames).environmentObject(viewModel)
+                    GalaxyMapView(selectedPlanet: $viewModel.selectedPlanet, showSupplyLines: $showSupplyLines, showAllPlanets: $showAllPlanets, showPlanetNames: $showPlanetNames, currentZoomLevel: $currentZoomScale).environmentObject(viewModel)
                 
                     .frame(width: 300, height: 300)
                     .contentShape(Rectangle())
                     .zoomable(
                         minZoomScale: 1.0,
                         doubleTapZoomScale: 3,
-                        outOfBoundsColor: .clear
+                        currentZoom: $currentZoomScale
                     )
                 
                     .padding()

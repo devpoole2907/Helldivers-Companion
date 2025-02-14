@@ -286,12 +286,11 @@ struct UpdatedPlanetView: View {
                             
                         }
                         
+                        HStack(spacing: 8) {
+                        
                         // show weather icons
                         if let weathers = planet?.hazards {
-                            
-                         
-                            
-                            HStack(spacing: 8) {
+
                                 ForEach(weathers, id: \.name) { weather in
                                     if weather.name.lowercased() != "none" {
                                         Image(weather.name).resizable().aspectRatio(contentMode: .fit)
@@ -304,14 +303,36 @@ struct UpdatedPlanetView: View {
                                             }
                                     }
                                 }
-                            }.opacity(0.7)
-                            
-                                .padding(5)
-                            
-                            
-                            
-                            
                         }
+                            
+                            // show any galactic effect:
+                            
+                            if let effects = planet?.galacticEffects {
+            
+                                ForEach(effects, id: \.galacticEffectId) { effect in
+                                    
+                                    if let imageName = effect.imageName {
+                                        Image(imageName).resizable()
+                                            .renderingMode(.template)
+                                            .foregroundStyle(Color(red: 49/255, green: 49/255, blue: 49/255))
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: weatherIconSize - 2, height: weatherIconSize - 2)
+                                            .offset(x: imageName == "sciencecenter" ? -1 : 0, y: 0)
+                                            .padding(4)
+                                            .background{
+                                                Circle().foregroundStyle(Color.white)
+                                                    .shadow(radius: 3.0)
+                                            }
+                                    }
+                                    
+                                }
+                                
+                            }
+                            
+                        }.opacity(0.7)
+                        
+                            .padding(5)
+                        
                         
                         
                     }

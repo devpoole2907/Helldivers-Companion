@@ -1,5 +1,5 @@
 {
-  "originHash" : "6f63eee50d37c2f99073f581352892b55222adbd9d650168ad80fe4f4e0c61fd",
+  "originHash" : "89c3bcddbaa589a07a6e0ca5d95072ee6088c2f252a60ff53fbe06b8d611d07a",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -161,15 +161,6 @@
       "state" : {
         "revision" : "668a65735751432b640260c56dfa621cec568368",
         "version" : "1.2.0"
-      }
-    },
-    {
-      "identity" : "zoomable",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ryohey/Zoomable.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "525c0e1784825261b84d21c5cd5a159245a40ea6"
       }
     }
   ],

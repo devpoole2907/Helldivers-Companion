@@ -578,6 +578,9 @@ struct UpdatedPlanet: Decodable, Hashable {
     var event: UpdatedPlanetEvent?
     var statistics: UpdatedPlanetStatistics
     
+    // galactic effects
+    var galacticEffects: [GalacticEffect]? = nil
+    
     
     // computed prop for liberation
     var percentage: Double {
@@ -648,6 +651,43 @@ struct ActionCost: Decodable {
     let maxDonationPeriodSeconds: Int
 }
 
+struct GalacticEffectsResponse: Codable {
+    let planetActiveEffects: [GalacticEffect]
+}
+
+struct GalacticEffect: Codable, Identifiable {
+    var id: Int { galacticEffectId }
+    let index: Int
+    let galacticEffectId: Int
+    
+    var imageName: String? {
+        switch galacticEffectId {
+        case 1198:
+            return "hammer" // Deep Mantle Forge Complex
+        case 1236:
+            return "surveillancecenter" // Center for Civilian Surveillance and Safety
+        case 1232:
+            return "hammer" // Factory Hub
+        case 1197:
+            return "sciencecenter" // Xenoentomology Center
+        case 1229:
+            return "blackhole" // MERIDIAN BLACK HOLE
+        case 1234:
+            return "sciencecenter" // center of science
+        default:
+            return nil // effects we wont be displaying
+        }
+    }
+    
+    // only ones we know are:
+    //Deep Mantle Forge Complex, Center for Civilian Surveillance and Safety, Factory Hub, Xenoentomology Center, MERIDIAN BLACK HOLE
+    
+    // we will not display anything other than these in the app for the time being
+    
+    // for additional info fetched from json:
+    var name: String?
+    var description: String?
+}
 
 
 struct UpdatedPlanetEvent: Decodable {

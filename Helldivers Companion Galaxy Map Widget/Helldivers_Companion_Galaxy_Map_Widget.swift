@@ -115,7 +115,7 @@ struct GalaxyMapWidgetView: View {
             }
             
             VStack(spacing: 0) {
-                GalaxyMapView(selectedPlanet: .constant(nil), showSupplyLines: .constant(true), showAllPlanets: widgetRenderingMode == .accented ? .constant(false) : .constant(true), showPlanetNames: .constant(false), planets: entry.planets, campaigns: entry.campaigns, defenseCampaigns: entry.defenseCampaigns, isWidget: true).environmentObject(PlanetsDataModel())
+                GalaxyMapView(selectedPlanet: .constant(nil), showSupplyLines: .constant(true), showAllPlanets: widgetRenderingMode == .accented ? .constant(false) : .constant(true), showPlanetNames: .constant(false), currentZoomLevel: .constant(1), planets: entry.planets, campaigns: entry.campaigns, defenseCampaigns: entry.defenseCampaigns, isWidget: true).environmentObject(PlanetsDataModel())
                     .padding()
                     .frame(width: 300, height: 300)
                 
