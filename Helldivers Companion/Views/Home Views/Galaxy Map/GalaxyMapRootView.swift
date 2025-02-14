@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Zoomable
 import SwiftUIIntrospect
 import Haptics
 
