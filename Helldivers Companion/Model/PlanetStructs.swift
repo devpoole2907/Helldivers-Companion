@@ -1288,7 +1288,10 @@ let UnitNamesDictionary: [Int64: String] = [
     1379865898:  "Bile Spewer",
     2387277009:  "Stalker",
     2651633799:  "Charger",
-    2514244534:  "Bile Titan"
+    2514244534:  "Bile Titan",
+    
+    4211847317: "Voteless",
+    1405979473: "Harvester"
 ]
 
 // faction ids to names - this shit needs to be tidied up man duplication getting nuts!

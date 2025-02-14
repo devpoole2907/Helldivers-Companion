@@ -14,6 +14,9 @@ class PlanetsDataModel: ObservableObject {
 
     static let shared = PlanetsDataModel()
     
+    // for during loading
+    @Published var isLoading: Bool = true
+    
     // pop map to root from other views
     let popMapToRoot = PassthroughSubject<Void, Never>()
 
@@ -146,6 +149,10 @@ class PlanetsDataModel: ObservableObject {
                         // set default selected planet for map, grab first planet in campaigns, only if it hasnt been set already
                         self.selectedPlanet = campaigns.first?.planet
                         self.hasSetSelectedPlanet = true
+                    }
+                    
+                    withAnimation {
+                        self.isLoading = false
                     }
 
                 }
