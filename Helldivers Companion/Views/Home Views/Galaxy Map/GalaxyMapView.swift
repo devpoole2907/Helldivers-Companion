@@ -253,7 +253,20 @@ struct GalaxyMapView: View {
                             .position(planetPosition)
                         
                         
-                            .foregroundStyle(updatedPlanet.name.lowercased().contains("meridia") ? Color(red: 63/255, green: 44/255, blue: 141/255) : getColorForPlanet(planet: updatedPlanet)
+                            .foregroundStyle(
+                                (updatedPlanet.galacticEffects?.contains {
+                                    $0.name?.localizedCaseInsensitiveContains("black hole") == true
+                                } ?? false)
+                                ? Color(red: 63/255, green: 44/255, blue: 141/255)
+                                : getColorForPlanet(planet: updatedPlanet)
+                            )
+                        
+                            .opacity(
+                                (updatedPlanet.galacticEffects?.contains {
+                                    $0.name?.localizedCaseInsensitiveContains("fractured") == true
+                                } ?? false)
+                                ? 0.3
+                                : 1.0
                             )
                         
                         // space station icon!
@@ -322,6 +335,15 @@ struct GalaxyMapView: View {
                                .frame(minWidth: 100)
                                .allowsHitTesting(false)
                        }
+                        
+                        if updatedPlanet.galacticEffects?.contains(where: { $0.name?.lowercased().contains("gloom") ?? false }) ?? false {
+                            Image("gloom").resizable()
+                                .renderingMode(.template).aspectRatio(contentMode: .fit)
+                                .foregroundStyle(.yellow)
+                                .frame(width: 30, height: 30)
+                                .position(planetPosition)
+                                .allowsHitTesting(false)
+                        }
                         
                     }
                     

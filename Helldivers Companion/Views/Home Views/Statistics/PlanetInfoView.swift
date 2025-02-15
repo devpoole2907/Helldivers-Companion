@@ -102,6 +102,13 @@ struct PlanetInfoView: View {
         
     }
     
+    private var pointsOfInterest: [GalacticEffect] {
+        if let effects = planet?.galacticEffects {
+            return effects} else {
+                return []
+            }
+    }
+    
 #if os(watchOS)
     
     let dividerWidth: CGFloat = 100
@@ -162,32 +169,6 @@ struct PlanetInfoView: View {
                         .padding(.horizontal)
                 }
                 
-                // display any galactic effects in the planet
-                
-                if let effects = planet?.galacticEffects, !effects.isEmpty {
-                               VStack(alignment: .leading, spacing: 8) {
-                                   Text("Galactic Effects:")
-                                       .font(.headline)
-                                   ForEach(effects) { effect in
-                                       if let imageName = effect.imageName {
-                                           HStack {
-                                               Image(imageName)
-                                                   .resizable()
-                                                   .renderingMode(.template)
-                                                   .scaledToFit()
-                                                   .frame(width: 18, height: 18)
-                                               
-                                               Text("Effect ID: \(effect.galacticEffectId)")
-                                                   .font(.subheadline)
-                                           }
-                                       }
-                                       
-                                   }
-                               }
-                               .padding(.horizontal)
-                               .padding(.top, 10)
-                           }
-                
                 
                 VStack(alignment: .leading, spacing: 14) {
                     
@@ -230,6 +211,16 @@ struct PlanetInfoView: View {
                             biomeDescription
                             
                         }
+                        
+                        // display any galactic effects in the planet
+                        
+                        if !pointsOfInterest.isEmpty {
+                            
+                            galacticEffects
+                            
+                        }
+                                       
+                                   
                         
                         if let environmentals = planet?.hazards, !environmentals.isEmpty {
                             environmentsList
@@ -510,6 +501,51 @@ struct PlanetInfoView: View {
             }
             
         }
+    }
+    
+    var galacticEffects: some View {
+            
+            VStack(alignment: .leading, spacing: 5) {
+                
+                Text("Effects & POIs").textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: largeFont))
+                RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
+                
+                ForEach(pointsOfInterest) { effect in
+                if let name = effect.name, let description = effect.description {
+                     HStack(spacing: 12) {
+                     
+                                Image(effect.imageName ?? "").resizable()
+                             .renderingMode(.template)
+                             .aspectRatio(contentMode: .fit)
+                             .foregroundStyle(Color(red: 49/255, green: 49/255, blue: 49/255))
+                           
+                             .frame(width: 22, height: 22)
+                             .offset(x: effect.imageName == "sciencecenter" ? -2 : 0, y: 0)
+                             .padding(8)
+                             .background(
+                                     Circle()
+                                         .foregroundStyle(.white)
+                                         .shadow(radius: 3)
+                                         .opacity(effect.imageName == nil ? 0.4 : 1.0)
+                                 )
+                             .frame(width: 34, height: 34)
+
+                            
+                         VStack(alignment: .leading) {
+                             Text(name).textCase(.uppercase)
+                                 .font(Font.custom("FSSinclair", size: mediumFont))
+                             if !description.isEmpty {
+                                 Text(description)
+                                     .font(Font.custom("FSSinclair", size: smallFont))
+                             }
+                         }
+                        }
+                    }
+                    
+                }
+            }
+            .padding(.bottom, 8)
+        
     }
     
     var environmentsList: some View {

@@ -670,10 +670,16 @@ struct GalacticEffect: Codable, Identifiable {
             return "hammer" // Factory Hub
         case 1197:
             return "sciencecenter" // Xenoentomology Center
-        case 1229:
+        case 1228, 1229, 1230:
             return "blackhole" // MERIDIAN BLACK HOLE
         case 1234:
             return "sciencecenter" // center of science
+        case 1240:
+            return "alert"
+        case 1241:
+            return "blackhole" // fractured
+        case 1242:
+            return "blackhole" // moving singularity
         default:
             return nil // effects we wont be displaying
         }
@@ -689,6 +695,11 @@ struct GalacticEffect: Codable, Identifiable {
     var description: String?
 }
 
+struct PlanetEffectJSON: Codable {
+    let galacticEffectId: Int
+    let name: String
+    let description: String
+}
 
 struct UpdatedPlanetEvent: Decodable {
     

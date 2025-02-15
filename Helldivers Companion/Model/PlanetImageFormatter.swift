@@ -14,6 +14,11 @@ class PlanetImageFormatter {
             print("Biome name received: \(biomeName ?? "nil")")
         print("Biome name received: \(biomeName ?? "nil")")
         
+        
+        if planet?.galacticEffects?.contains(where: { $0.galacticEffectId == 1241 }) ?? false {
+            return "fractured"
+        }
+        
         switch planet?.name.lowercased() {
             
         case "meridia":
