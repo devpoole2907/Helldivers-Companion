@@ -16,9 +16,6 @@ struct Helldivers_Companion_Watch_Edition_Watch_AppApp: App {
     var body: some Scene {
         WindowGroup {
             
-            
-            
-            if #available(watchOS 9.0, *) {
                 ContentViewWatchVersion() .defaultAppStorage(UserDefaults(suiteName: "group.com.poole.james.HelldiversCompanion") ?? .standard)
                 // migrate high scores to new user defaults store for app groups (to allow widgets to read the high score)
                     .onAppear {
@@ -26,17 +23,7 @@ struct Helldivers_Companion_Watch_Edition_Watch_AppApp: App {
                             migrateUserDefaults()
                         }
                     }
-            } else {
-                // Fallback on earlier versions
-                WatchOS8ContentView().defaultAppStorage(UserDefaults(suiteName: "group.com.poole.james.HelldiversCompanion") ?? .standard)
-                
-                    .onAppear {
-                        if !isMigrationDone {
-                            migrateUserDefaults()
-                        }
-                    }
-                
-            }
+
                 
             
             
