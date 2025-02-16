@@ -27,17 +27,21 @@ struct SpaceStationView: View {
                         .frame(maxHeight: showFullInfo ? .infinity : (isWidget ? 50 : 60))
                         .clipped()
                     
+                    
+                    
+                    
+                    LinearGradient(
+                        gradient: Gradient(colors: [.black, .clear]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .blendMode(.multiply)
+                    .frame(maxHeight: showFullInfo ? .infinity : (isWidget ? 50 : 60))
+                    
+                } else {
+                    Color.gray.opacity(0.16)
+                        .shadow(radius: 3)
                 }
-                
-           
-                LinearGradient(
-                    gradient: Gradient(colors: [.black, .clear]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .blendMode(.multiply)
-                .frame(maxHeight: showFullInfo ? .infinity : (isWidget ? 50 : 60))
-                
    
                 HStack {
                     VStack(alignment: .leading, spacing: 0) {
@@ -95,9 +99,21 @@ struct SpaceStationView: View {
                 }.padding(showFullInfo ? 8 : 0)
             }
             .frame(maxWidth: .infinity)
-            .border(Color.white)
+        
+        
+            .background {
+                if showFullInfo {
+                    Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                        .foregroundStyle(.gray)
+                        .opacity(0.5)
+                        .shadow(radius: 3)
+                }
+                
+            }
+        
+            .border(showFullInfo ? Color.clear : Color.white)
             .padding(4)
-            .border(Color.gray)
+            .border(showFullInfo ? Color.clear : Color.gray)
         }
     
 }
@@ -227,7 +243,7 @@ struct TacticalActionView: View {
                                             .font(Font.custom("FSSinclair", size: smallFont))
                                             .foregroundStyle(.gray)
                                     }
-                                }
+                                }  .shadow(radius: 3)
                 
                 if let description = removeHTMLTags(from: tacticalAction.strategicDescription) {
                     Text(description)

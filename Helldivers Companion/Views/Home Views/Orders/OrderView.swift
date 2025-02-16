@@ -174,7 +174,7 @@ struct TasksView: View {
         LazyVGrid(columns: columns) {
             ForEach(taskPlanets, id: \.self) { planet in
                 
-                TaskStatusView(taskName: planet.name, isCompleted: planet.taskProgress == 1, nameSize: nameSize, boxSize: boxSize)
+                TaskStatusView(taskName: planet.name, isCompleted: planet.taskProgress == 1, nameSize: nameSize, boxSize: boxSize, planet: planet)
                 
             }
             
@@ -221,16 +221,28 @@ struct TaskStatusView: View {
     var isCompleted: Bool
     var nameSize: CGFloat
     var boxSize: CGFloat
+    var planet: UpdatedPlanet? = nil
 
     var body: some View {
-        HStack {
-            Rectangle()
-                .frame(width: boxSize, height: boxSize)
-                .foregroundStyle(isCompleted ? Color.yellow : Color.black)
-                .border(isCompleted ? Color.black : Color.yellow)
-            Text(taskName)
-                .font(Font.custom("FSSinclair", size: nameSize))
-                .foregroundStyle(.white)
+        VStack {
+            HStack {
+                Rectangle()
+                    .frame(width: boxSize, height: boxSize)
+                    .foregroundStyle(isCompleted ? Color.yellow : Color.black)
+                    .border(isCompleted ? Color.black : Color.yellow)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(taskName)
+                        .font(Font.custom("FSSinclair", size: nameSize))
+                        .foregroundStyle(.white)
+                    if let planetProgressPercent = planet?.planetProgressPercent {
+                        RectangleProgressBar(value: planetProgressPercent / 100, primaryColor: .cyan, secondaryColor: .orange, height: 4)
+                            .frame(maxWidth: 40)
+                    }
+                    
+                    
+                }
+            }
+            
         }
     }
 }

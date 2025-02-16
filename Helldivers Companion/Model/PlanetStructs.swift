@@ -581,6 +581,10 @@ struct UpdatedPlanet: Decodable, Hashable {
     // galactic effects
     var galacticEffects: [GalacticEffect]? = nil
     
+    // return the event or the liberation percent
+    var planetProgressPercent: Double {
+        event?.percentage ?? percentage
+    }
     
     // computed prop for liberation
     var percentage: Double {
@@ -662,6 +666,8 @@ struct GalacticEffect: Codable, Identifiable {
     
     var imageName: String? {
         switch galacticEffectId {
+        case 1186, 1187, 1188, 1193:
+            return "gloom" // gloom
         case 1198:
             return "hammer" // Deep Mantle Forge Complex
         case 1236:
@@ -674,14 +680,27 @@ struct GalacticEffect: Codable, Identifiable {
             return "blackhole" // MERIDIAN BLACK HOLE
         case 1234:
             return "sciencecenter" // center of science
+        case 1239:
+            return "automaton" // jet brigade factory
         case 1240:
             return "alert"
         case 1241:
             return "blackhole" // fractured
         case 1242:
             return "blackhole" // moving singularity
+        case 1245:
+            return "predatorstrain"
         default:
             return nil // effects we wont be displaying
+        }
+    }
+    
+    var showImageOnMap: Bool {
+        switch galacticEffectId {
+        case 1186, 1187, 1188, 1193:
+            return false
+        default:
+            return true
         }
     }
     

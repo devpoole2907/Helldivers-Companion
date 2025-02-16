@@ -62,7 +62,7 @@ struct CampaignPlanetStatsView: View {
                 VStack {
                     
                     HStack(spacing: 0) {
-                        Text("\(isWidget ? "" : "ENEMY ")INVASION LEVEL: \(invasionLevel)")
+                        Text("INVASION LEVEL: \(invasionLevel)")
                             .foregroundStyle(.white).bold()
                             .font(Font.custom("FSSinclair", size: smallFont))
                         Spacer()
@@ -75,7 +75,7 @@ struct CampaignPlanetStatsView: View {
                             .font(Font.custom("FSSinclair", size: smallFont))
                             .shadow(radius: 3)
                     } .kerning(-1)
-                        .padding(.top, 1.7)
+                        .padding(.top, 2)
                         .lineLimit(1)
                   
                     

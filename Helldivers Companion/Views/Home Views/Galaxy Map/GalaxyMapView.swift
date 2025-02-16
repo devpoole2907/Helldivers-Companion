@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Algorithms
 
 struct GalaxyMapView: View {
     @Binding var selectedPlanet: UpdatedPlanet?
@@ -285,20 +286,28 @@ struct GalaxyMapView: View {
                         
                         // galactic places of interest
                         
-                        // GET THE CURRENT PLANETS FIRST GALACTIC EFFECT (IF ANY) AND DISPLAY IMAGE IF IT EXISTS:
+                        // GET THE CURRENT PLANETS FIRST TWO GALACTIC EFFECT (IF ANY) AND DISPLAY IMAGE IF IT EXISTS:
                         
-                        if let firstEffect = updatedPlanet.galacticEffects?.first, let imageName = firstEffect.imageName {
-                            Image(imageName)
-                                .resizable()
-                                .renderingMode(.template)
-                                .scaledToFit()
-                                .frame(width: selectedPlanet?.index == updatedPlanet.index ? 6 : 3, height: selectedPlanet?.index == updatedPlanet.index ? 6 : 3)
-                                .position(planetPosition)
-                                .offset(x: 2, y: selectedPlanet?.index == updatedPlanet.index ? -10 : -5.5)
-                                .allowsHitTesting(false)
-                                .foregroundStyle(.white)
+                        if let effects = updatedPlanet.galacticEffects?.filter({ $0.imageName != nil && $0.showImageOnMap })
+                            .uniqued(on: \.imageName) // dont show effects with same images
+                            .prefix(2) {
+                            ForEach(Array(effects.enumerated()), id: \.element.galacticEffectId) { index, effect in
+                                if let imageName = effect.imageName {
+                                    Image(imageName)
+                                        .resizable()
+                                        .renderingMode(.template)
+                                        .scaledToFit()
+                                         .frame(width: selectedPlanet?.index == updatedPlanet.index ? 6 : 3, height: selectedPlanet?.index == updatedPlanet.index ? 6 : 3)
+                                     .position(
+                                     x: planetPosition.x + (index == 1 ? (selectedPlanet?.index == updatedPlanet.index ? 8 : 4) : 0), // offset right
+                                     y: planetPosition.y + CGFloat(index * 4)   // offset down
+                                     )
+                                     .offset(x: 2, y: selectedPlanet?.index == updatedPlanet.index ? -10 : -5.5)
+                                     .allowsHitTesting(false)
+                                     .foregroundStyle(imageName == "alert" ? .red : .white)
+                                }
+                            }
                         }
-                        
                         
                         if let defenseCampaign = isDefending {
                             

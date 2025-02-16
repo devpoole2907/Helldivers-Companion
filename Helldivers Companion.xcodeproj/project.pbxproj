@@ -307,6 +307,7 @@
 		7C9062592C4E47140033B8F5 /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9062542C4E47140033B8F5 /* AsyncImageView.swift */; };
 		7C90625A2C4E47140033B8F5 /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9062542C4E47140033B8F5 /* AsyncImageView.swift */; };
 		7C90625B2C4E47140033B8F5 /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9062542C4E47140033B8F5 /* AsyncImageView.swift */; };
+		7C96B1512D61510F009B1876 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 7C96B1502D61510F009B1876 /* Algorithms */; };
 		7CA240B32BCA33FC007F685C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
 		7CA240B42BCA33FC007F685C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
 		7CA240B72BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA240B62BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift */; };
@@ -741,6 +742,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C96B1512D61510F009B1876 /* Algorithms in Frameworks */,
 				7C6C0F8E2BD0B95900BD73B2 /* Haptics in Frameworks */,
 				7C44B7DF2BC944420097C29B /* SwiftUI.framework in Frameworks */,
 				7C44B7DE2BC944420097C29B /* WidgetKit.framework in Frameworks */,
@@ -1316,6 +1318,7 @@
 			name = "Helldivers Companion Galaxy Map WidgetExtension";
 			packageProductDependencies = (
 				7C6C0F8D2BD0B95900BD73B2 /* Haptics */,
+				7C96B1502D61510F009B1876 /* Algorithms */,
 			);
 			productName = "Helldivers Companion Galaxy Map WidgetExtension";
 			productReference = 7C44B7DD2BC944420097C29B /* Helldivers Companion Galaxy Map WidgetExtension.appex */;
@@ -3256,6 +3259,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7C6C0F842BD0B8BF00BD73B2 /* XCRemoteSwiftPackageReference "SwiftUI-Haptics" */;
 			productName = Haptics;
+		};
+		7C96B1502D61510F009B1876 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C1B8C212BAD714300944823 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
 		};
 		7CE4AE322BA82C6A0033D4AF /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;

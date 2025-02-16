@@ -83,8 +83,18 @@ struct GalaxyMapRootView: View {
                     
                 }
                 
+                if viewModel.isLoading {
+                    VStack {
+                        Spacer()
+                        Text("Please wait democractically".uppercased()).foregroundStyle(.white) .font(Font.custom("FSSinclair", size: mediumFont))
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                        Spacer()
+                    }
+                }
+                
             }
-            .conditionalBackground(viewModel: viewModel)
+            .conditionalBackground(viewModel: viewModel, grayscale: viewModel.isLoading)
             
             
             

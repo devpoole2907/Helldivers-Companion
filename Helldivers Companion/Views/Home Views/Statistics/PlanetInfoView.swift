@@ -164,6 +164,11 @@ struct PlanetInfoView: View {
                 
                 imageWithSectorName
                 
+                // if this planet is in a major order
+                if let planet = planet, viewModel.updatedTaskPlanets.contains(planet) {
+                    majorOrderPlanetNotice.padding(.horizontal)
+                }
+                
                 if let spaceStationExpiration = spaceStationExpirationTime {
                     SpaceStationView(spaceStationExpiration: spaceStationExpiration, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isWidget: false, showFullInfo: true)
                         .padding(.horizontal)
@@ -267,6 +272,7 @@ struct PlanetInfoView: View {
                 Color.black.ignoresSafeArea()
             } else {
                 Image("helldivers2planet").resizable().aspectRatio(contentMode: .fill).offset(CGSize(width: -400, height: 0)).blur(radius: 20.0).ignoresSafeArea()
+                    .grayscale(1.0)
             }
         }
         
@@ -503,6 +509,51 @@ struct PlanetInfoView: View {
         }
     }
     
+    var majorOrderPlanetNotice: some View
+    {
+        ZStack(alignment: .leading) {
+            
+            Color.gray.opacity(0.16)
+                .shadow(radius: 3)
+            
+            VStack(alignment: .leading, spacing: 5) {
+            HStack(spacing: 12) {
+                Image("orderstar").resizable()
+                    .renderingMode(.template).aspectRatio(contentMode: .fit)
+                    .foregroundStyle(Color(red: 49/255, green: 49/255, blue: 49/255))
+                    .frame(width: 30, height: 30)
+                    .offset(x: 0, y: -0.5)
+                    .padding(4)
+                    .background{
+                        Circle().foregroundStyle(Color.white)
+                            .shadow(radius: 3.0)
+                    }
+                
+                VStack(alignment: .leading) {
+                    Text("MAJOR ORDER").textCase(.uppercase)
+                        .font(Font.custom("FSSinclair", size: mediumFont))
+                    Text("This planet is a target in the current Major Order.")
+                        .font(Font.custom("FSSinclair", size: smallFont))
+                }
+                
+                
+                
+            }
+        }
+            .padding(8)
+            
+        } .background {
+            
+            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                .foregroundStyle(.gray)
+                .opacity(0.5)
+                .shadow(radius: 3)
+            
+        }
+        .padding(4)
+        .padding(.bottom, 4)
+    }
+    
     var galacticEffects: some View {
             
             VStack(alignment: .leading, spacing: 5) {
@@ -511,7 +562,6 @@ struct PlanetInfoView: View {
                 RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
                 
                 ForEach(pointsOfInterest) { effect in
-                if let name = effect.name, let description = effect.description {
                      HStack(spacing: 12) {
                      
                                 Image(effect.imageName ?? "").resizable()
@@ -532,15 +582,13 @@ struct PlanetInfoView: View {
 
                             
                          VStack(alignment: .leading) {
-                             Text(name).textCase(.uppercase)
+                             Text(effect.name ?? "UNKNOWN").textCase(.uppercase)
                                  .font(Font.custom("FSSinclair", size: mediumFont))
-                             if !description.isEmpty {
-                                 Text(description)
+                             Text(effect.description ?? "Research is underway to identify this mysterious signal.")
                                      .font(Font.custom("FSSinclair", size: smallFont))
-                             }
                          }
                         }
-                    }
+                    
                     
                 }
             }

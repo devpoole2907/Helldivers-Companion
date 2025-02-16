@@ -348,7 +348,7 @@ struct ChartAnnotationView: View {
                     .foregroundStyle(factionColor)
                     .font(Font.custom("FSSinclair-Bold", size: valueFont))
                 
-                Text(date)
+                Text("\(date) SEST")
                     .foregroundColor(.gray)
                     .font(Font.custom("FSSinclair", size: smallFont))
                 

@@ -287,7 +287,27 @@ struct UpdatedPlanetView: View {
                         }
                         
                         HStack(spacing: 8) {
+                            
+                            if let planet = planet, viewModel.updatedTaskPlanets.contains(planet) {
+                                Image("orderstar").resizable()
+                                    .renderingMode(.template)
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundStyle(Color(red: 49/255, green: 49/255, blue: 49/255))
+                                    .frame(width: weatherIconSize, height: weatherIconSize)
+                                    .offset(x: 0, y: -0.5)
+                                    .padding(4)
+                                    .background{
+                                        Circle().foregroundStyle(Color.white)
+                                            .shadow(radius: 3.0)
+                                    }
+                            }
+                            
+                     
+#if os(iOS)
+                            // dont show spacer on watchos
+                            Spacer()
                         
+                            #endif
                         // show weather icons
                         if let weathers = planet?.hazards {
 
