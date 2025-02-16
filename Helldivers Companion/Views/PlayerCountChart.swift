@@ -111,7 +111,7 @@ struct PlayerCountPieChart: View {
                     
                 }
 
-                ForEach(viewModel.playerDistribution.sorted { $0.faction < $1.faction }) { item in
+                ForEach(viewModel.playerDistribution.sorted { $0.count > $1.count }) { item in
                     
                     let percentage = ((Double(item.count)) / (Double(viewModel.totalPlayerCount)) * 100.0)
 

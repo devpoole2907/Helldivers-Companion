@@ -30,76 +30,105 @@ struct SuperStoreList: View {
     }
     
     var body: some View {
-        ZStack {
-            
-        ScrollView {
-            LazyVStack(alignment: .leading) {
+        ZStack(alignment: .bottom) {
+            ZStack {
                 
-                AlertView(alert: "Please be advised the SUPERSTORE is an experimental feature.")
-                
-                
-              
-                // display matching filtered armours
-                ForEach(filteredArmour, id: \.id) { armour in
-                    NavigationLink(value: armour) {
-                        ArmourDetailRow(dashPattern: [57, 19], armour: armour, showWarBondName: false)
-                    }
-                    .padding(.vertical, 5)
-                }
-                
-                // find unmatched superstore items
-                
-                // display unmatched superstore items as new armours
-                ForEach(unmatchedSuperStoreItems, id: \.name) { item in
-                    // create new unknown armour
-                    
-                    // try find passive id
-                    let passiveId = dbModel.passives.first(where: { $0.name.lowercased() == item.passive.name.lowercased() })?.id ?? -1
-                    //try find slot id
-                    let slotId = dbModel.armourSlots.first(where: { $0.name.lowercased() == item.slot.lowercased() })?.id ?? -1
-                    
-                    // type is not currently used
-                    let unknownArmour = Armour(id: UUID().uuidString, name: item.name, description: item.description, type: 0, slot: slotId, armourRating: item.armorRating, speed: item.speed, staminaRegen: item.staminaRegen, passive: passiveId)
-                    
-                    NavigationLink(value: unknownArmour) {
-                        ArmourDetailRow(dashPattern: [57, 19], armour: unknownArmour, showWarBondName: false)
-                    }
-                    .padding(.vertical, 5)
-                }
-                
-                
-                
-                
-                
-                
-            }.padding(.horizontal)
-            
-            
-            
-            
-            Spacer(minLength: 150)
-            
-            
-        }
-            
-            
-            
-            if filteredArmour.isEmpty && unmatchedSuperStoreItems.isEmpty {
-                VStack {
-                    Image("truthministry").resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 50, height: 50)
+                ScrollView {
+                    LazyVStack(alignment: .leading) {
                         
-                    Text("These items are awaiting review from the Ministry of Truth.")
-                        .foregroundStyle(.white) .font(Font.custom("FSSinclair", size: mediumFont))
-                        .multilineTextAlignment(.center)
-                }.padding()
+                        AlertView(alert: "Please be advised the SUPERSTORE is an experimental feature.")
+                        
+                        
+                        
+                        // display matching filtered armours
+                        ForEach(filteredArmour, id: \.id) { armour in
+                            NavigationLink(value: armour) {
+                                ArmourDetailRow(dashPattern: [57, 19], armour: armour, showWarBondName: false)
+                            }
+                            .padding(.vertical, 5)
+                        }
+                        
+                        // find unmatched superstore items
+                        
+                        // display unmatched superstore items as new armours
+                        ForEach(unmatchedSuperStoreItems, id: \.name) { item in
+                            // create new unknown armour
+                            
+                            // try find passive id
+                            let passiveId = dbModel.passives.first(where: { $0.name.lowercased() == item.passive.name.lowercased() })?.id ?? -1
+                            //try find slot id
+                            let slotId = dbModel.armourSlots.first(where: { $0.name.lowercased() == item.slot.lowercased() })?.id ?? -1
+                            
+                            // type is not currently used
+                            let unknownArmour = Armour(id: UUID().uuidString, name: item.name, description: item.description, type: 0, slot: slotId, armourRating: item.armorRating, speed: item.speed, staminaRegen: item.staminaRegen, passive: passiveId)
+                            
+                            NavigationLink(value: unknownArmour) {
+                                ArmourDetailRow(dashPattern: [57, 19], armour: unknownArmour, showWarBondName: false)
+                            }
+                            .padding(.vertical, 5)
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
+                    }.padding(.horizontal)
+                    
+                    
+                    
+                    
+                    Spacer(minLength: 150)
+                    
+                    
+                }
+                
+                
+                
+                if filteredArmour.isEmpty && unmatchedSuperStoreItems.isEmpty {
+                    VStack {
+                        Image("truthministry").resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 50, height: 50)
+                        
+                        Text("These items are awaiting review from the Ministry of Truth.")
+                            .foregroundStyle(.white) .font(Font.custom("FSSinclair", size: mediumFont))
+                            .multilineTextAlignment(.center)
+                    }.padding()
+                }
+                
+                
+                
+                
             }
             
-
+            Button(action: {
+                viewModel.popToWarBonds.send()
+            }) {
             
-        
-    }
+                ZStack {
+                    Image("viewwarbonds").resizable()
+                        .scaledToFill()
+                        .frame(height: 60, alignment: .top)
+                        .clipped()
+                        .padding(10)
+                        .shadow(radius: 3.0)
+                        .grayscale(0.5)
+                        .brightness(-0.2)
+                    
+                            Text("VIEW WARBONDS")
+                                .foregroundStyle(.white) .font(Font.custom("FSSinclair-Bold", size: mediumFont))
+                                .shadow(radius: 3.0)
+                                .multilineTextAlignment(.center)
+                        
+                    
+                }
+
+                
+            }
+                
+            
+        }
         
         .toolbar {
             

@@ -116,6 +116,16 @@ struct RootView: View {
                     }
                 }
             
+        .onReceive(viewModel.popToWarBonds) { _ in
+                   // switch to map tab
+            viewModel.currentTab  = .stats
+                    // wait for tab switch
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                        // pop map to root
+                        statsNavPather.navigationPath.append(DatabasePage.warbondsList)
+                    }
+                }
+            
             // deeplink from planet widget to the view of the planet
         .onOpenURL { url in
             

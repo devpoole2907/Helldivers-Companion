@@ -22,6 +22,9 @@ class PlanetsDataModel: ObservableObject {
     // pop map to root from other views
     let popMapToRoot = PassthroughSubject<Void, Never>()
     
+    // pop to warbonds list
+    let popToWarBonds = PassthroughSubject<Void, Never>()
+    
     @Published var updatedPlanets: [UpdatedPlanet] = []
     @Published var updatedDefenseCampaigns: [UpdatedCampaign] = []
     @Published var updatedCampaigns: [UpdatedCampaign] = []
