@@ -257,10 +257,10 @@ struct RootView: View {
         }){
             HStack(spacing: 6){
      
-                    Image(systemName: "cart.fill")
-                        .bold()
-                        .font(.callout)
-                        .padding(.bottom, 2)
+                Image("superCredit").resizable().aspectRatio(contentMode: .fit)
+                    .frame(width: 14, height: 14)
+                    .padding(.bottom, 1.8)
+                     
                     
                     Text("Super Store").textCase(.uppercase).tint(.white).fontWeight(.heavy)
                         .font(Font.custom("FSSinclair", size: 16))
