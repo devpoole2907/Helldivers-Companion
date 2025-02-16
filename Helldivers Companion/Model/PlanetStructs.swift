@@ -728,7 +728,7 @@ struct GalacticEffect: Codable, Identifiable {
         case 1242:
             return "blackhole" // moving singularity
         case 1245:
-            return "predatorstrain"
+            return "predator"
         default:
             return nil // effects we wont be displaying
         }
