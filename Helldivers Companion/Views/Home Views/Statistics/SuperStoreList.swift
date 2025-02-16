@@ -23,12 +23,22 @@ struct SuperStoreList: View {
         return []
         }
     
+    // find unmatched superstore items
+    var unmatchedSuperStoreItems: [StoreItem] {
+        let matchedArmourNames = Set(filteredArmour.map { $0.name })
+        return dbModel.storeRotation?.items.filter { !matchedArmourNames.contains($0.name) } ?? []
+    }
+    
     var body: some View {
+        ZStack {
+            
         ScrollView {
             LazyVStack(alignment: .leading) {
                 
                 AlertView(alert: "Please be advised the SUPERSTORE is an experimental feature.")
                 
+                
+              
                 // display matching filtered armours
                 ForEach(filteredArmour, id: \.id) { armour in
                     NavigationLink(value: armour) {
@@ -36,11 +46,8 @@ struct SuperStoreList: View {
                     }
                     .padding(.vertical, 5)
                 }
-
+                
                 // find unmatched superstore items
-                let matchedArmourNames = Set(filteredArmour.map { $0.name })
-                let unmatchedSuperStoreItems = dbModel.storeRotation?.items.filter { !matchedArmourNames.contains($0.name) } ?? []
-             
                 
                 // display unmatched superstore items as new armours
                 ForEach(unmatchedSuperStoreItems, id: \.name) { item in
@@ -50,30 +57,49 @@ struct SuperStoreList: View {
                     let passiveId = dbModel.passives.first(where: { $0.name.lowercased() == item.passive.name.lowercased() })?.id ?? -1
                     //try find slot id
                     let slotId = dbModel.armourSlots.first(where: { $0.name.lowercased() == item.slot.lowercased() })?.id ?? -1
-
+                    
                     // type is not currently used
                     let unknownArmour = Armour(id: UUID().uuidString, name: item.name, description: item.description, type: 0, slot: slotId, armourRating: item.armorRating, speed: item.speed, staminaRegen: item.staminaRegen, passive: passiveId)
-
+                    
                     NavigationLink(value: unknownArmour) {
                         ArmourDetailRow(dashPattern: [57, 19], armour: unknownArmour, showWarBondName: false)
                     }
                     .padding(.vertical, 5)
                 }
                 
-         
-
-               
+                
+                
+                
                 
                 
             }.padding(.horizontal)
-          
             
-           
+            
+            
             
             Spacer(minLength: 150)
             
             
-        }        
+        }
+            
+            
+            
+            if filteredArmour.isEmpty && unmatchedSuperStoreItems.isEmpty {
+                VStack {
+                    Image("truthministry").resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                        
+                    Text("These items are awaiting review from the Ministry of Truth.")
+                        .foregroundStyle(.white) .font(Font.custom("FSSinclair", size: mediumFont))
+                        .multilineTextAlignment(.center)
+                }.padding()
+            }
+            
+
+            
+        
+    }
         
         .toolbar {
             
