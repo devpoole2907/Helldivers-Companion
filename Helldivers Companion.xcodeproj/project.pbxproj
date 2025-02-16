@@ -308,6 +308,7 @@
 		7C90625A2C4E47140033B8F5 /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9062542C4E47140033B8F5 /* AsyncImageView.swift */; };
 		7C90625B2C4E47140033B8F5 /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9062542C4E47140033B8F5 /* AsyncImageView.swift */; };
 		7C96B1512D61510F009B1876 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 7C96B1502D61510F009B1876 /* Algorithms */; };
+		7C96B1552D6185E4009B1876 /* PlayerCountChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C96B1522D6185DB009B1876 /* PlayerCountChart.swift */; };
 		7CA240B32BCA33FC007F685C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE712BA7F31400802D9F /* WidgetKit.framework */; };
 		7CA240B42BCA33FC007F685C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC0AE732BA7F31400802D9F /* SwiftUI.framework */; };
 		7CA240B72BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA240B62BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift */; };
@@ -631,6 +632,7 @@
 		7C8C5F532BAF0AD200C4FBD2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C8C5F552BAF0AD200C4FBD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C9062542C4E47140033B8F5 /* AsyncImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageView.swift; sourceTree = "<group>"; };
+		7C96B1522D6185DB009B1876 /* PlayerCountChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCountChart.swift; sourceTree = "<group>"; };
 		7CA240B22BCA33FC007F685C /* Stratagem Hero High Score WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Stratagem Hero High Score WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CA240B62BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stratagem_Hero_High_Score_WidgetBundle.swift; sourceTree = "<group>"; };
 		7CA240B82BCA33FC007F685C /* Stratagem_Hero_High_Score_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stratagem_Hero_High_Score_Widget.swift; sourceTree = "<group>"; };
@@ -1128,6 +1130,7 @@
 		7CE4AE382BA832660033D4AF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7C96B1522D6185DB009B1876 /* PlayerCountChart.swift */,
 				7CFC669D2D5B41930049C28D /* Tips */,
 				7CC284C22BD8DD6C0036EBFD /* ViewModifiers */,
 				7C80F3EA2BC13F710058BF39 /* iOS Version Check Modifiers */,
@@ -1777,6 +1780,7 @@
 				7CBC0E3A2BDA1DBB008ED950 /* BoostersList.swift in Sources */,
 				7C9062592C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7C4A9E282BD336D60014FCCD /* DashPattern.swift in Sources */,
+				7C96B1552D6185E4009B1876 /* PlayerCountChart.swift in Sources */,
 				7C0C99612BA2FA0600CF7C91 /* RectangleProgressBar.swift in Sources */,
 				7CC284CB2BD90F630036EBFD /* ArmorList.swift in Sources */,
 				7CC284CD2BD92B2E0036EBFD /* WeaponsList.swift in Sources */,

@@ -54,46 +54,6 @@ struct GalaxyMapView: View {
         return CGPoint(x: size.width * planetPosition.xMultiplier, y: size.height * planetPosition.yMultiplier)
     }
     
-    func getColorForPlanet(planet: UpdatedPlanet) -> Color {
-        
-        
-        if planet.currentOwner.lowercased() == "humans" {
-            if allDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
-                let campaign = allDefenseCampaigns.first { $0.planet.index == planet.index }
-                switch campaign?.planet.event?.faction {
-                case "Terminids": return .yellow
-                case "Automaton": return .red
-                case "Illuminate": return .purple
-                default: return .cyan
-                }
-            } else {
-                return .cyan
-            }
-        } else if allCampaigns.contains(where: { $0.planet.index == planet.index }) {
-            if !allDefenseCampaigns.contains(where: { $0.planet.index == planet.index }) {
-                switch planet.currentOwner.lowercased() {
-                case "automaton": return .red
-                case "terminids": return .yellow
-                case "illuminate": return .purple
-                default: return .gray // default color if currentOwner dont match any known factions
-                }
-            }
-        } else {
-            // planet musnt be part of any campaigns, colour it based on current owner
-            switch planet.currentOwner.lowercased() {
-            case "automaton": return .red
-            case "terminids": return .yellow
-            case "illuminate": return .purple
-            default: return .gray
-            }
-        }
-        
-        
-        return .gray // if no conditions meet for some reason
-        
-        
-    }
-    
     private func isPlanetVisible(position: CGPoint, in globalFrame: CGRect) -> Bool {
             // Adjust these thresholds to control how far off-screen planets should start rendering their names
             let visibilityMargin: CGFloat = 100
@@ -101,28 +61,12 @@ struct GalaxyMapView: View {
             let visibleRect = globalFrame.insetBy(dx: -visibilityMargin, dy: -visibilityMargin)
             return visibleRect.contains(position)
         }
-    
-    // TODO: grab planet positions from api, meridia is moving!
+
     // linear transform constants derived
     private let scaleX: CGFloat = 0.4802
     private let offsetX: CGFloat = 0.5
     private let scaleY: CGFloat = -0.468
     private let offsetY: CGFloat = 0.5
-    
-    func transformedPosition(for planet: UpdatedPlanet, imageSize: CGSize) -> CGPoint {
-        let x = planet.position.x
-        let y = planet.position.y
-        
-        // apply  derived transform
-        let finalX = scaleX * x + offsetX
-        let finalY = scaleY * y + offsetY
-        
-        
-        return CGPoint(
-            x: imageSize.width * finalX,
-            y: imageSize.height * finalY
-        )
-    }
     
     func boundingBoxTransformedPosition(for planet: UpdatedPlanet, imageSize: CGSize) -> CGPoint {
         let x = planet.position.x  // typically in [-1..+1]
@@ -177,7 +121,7 @@ struct GalaxyMapView: View {
                                     }
                                     
                                     .stroke(
-                                        allDefenseCampaigns.contains(where: { $0.planet.index == updatedPlanet.index }) ? Color.cyan.opacity(0.5) : getColorForPlanet(planet: updatedPlanet).opacity(0.5),
+                                        allDefenseCampaigns.contains(where: { $0.planet.index == updatedPlanet.index }) ? Color.cyan.opacity(0.5) : updatedPlanet.factionColor.opacity(0.5),
                                         style: StrokeStyle(lineWidth: 1, dash: [2, 1])
                                     )
                                     .allowsHitTesting(false)
@@ -259,7 +203,7 @@ struct GalaxyMapView: View {
                                     $0.name?.localizedCaseInsensitiveContains("black hole") == true
                                 } ?? false)
                                 ? Color(red: 63/255, green: 44/255, blue: 141/255)
-                                : getColorForPlanet(planet: updatedPlanet)
+                                : updatedPlanet.factionColor
                             )
                         
                             .opacity(
@@ -314,7 +258,7 @@ struct GalaxyMapView: View {
                             if let percentage = defenseCampaign.planet.event?.percentage {
                                 let progress = percentage / 100.0
                                 
-                                CircularProgressView(progress: progress, color: getColorForPlanet(planet: updatedPlanet))
+                                CircularProgressView(progress: progress, color: updatedPlanet.factionColor)
                                     .frame(width: selectedPlanet?.index == updatedPlanet.index ? 8 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 6 : 4), height: selectedPlanet?.index == updatedPlanet.index ? 8 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 6 : 4))
                                     .position(planetPosition)
                                 
@@ -326,7 +270,7 @@ struct GalaxyMapView: View {
                             else if let percentage = activeCampaign?.planet.percentage {
                                 let progress = percentage / 100.0
                                 
-                                CircularProgressView(progress: progress, color: getColorForPlanet(planet: updatedPlanet))
+                                CircularProgressView(progress: progress, color: updatedPlanet.factionColor)
                                     .frame(width: selectedPlanet?.index == updatedPlanet.index ? 8 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 6 : 4), height: selectedPlanet?.index == updatedPlanet.index ? 8 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 6 : 4))
                                     .position(planetPosition)
                                 

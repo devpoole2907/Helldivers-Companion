@@ -216,6 +216,14 @@ struct RootView: View {
             .sheet(isPresented: $showNotificationOptions) {
                 NotificationSettingsView()
             }
+        
+            .sheet(isPresented: $viewModel.showPlayerCount) {
+                if #available(iOS 17.0, *) {
+                    PlayerCountPieChart().environmentObject(viewModel)
+                } else {
+                    Text("Error: Update to iOS 17")
+                }
+            }
        
         
     }

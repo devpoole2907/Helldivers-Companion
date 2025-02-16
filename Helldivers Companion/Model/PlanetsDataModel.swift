@@ -17,6 +17,8 @@ class PlanetsDataModel: ObservableObject {
     // for during loading
     @Published var isLoading: Bool = true
     
+    @Published var showPlayerCount: Bool = false
+    
     // pop map to root from other views
     let popMapToRoot = PassthroughSubject<Void, Never>()
     
@@ -775,6 +777,41 @@ class PlanetsDataModel: ObservableObject {
         
         return updatedPlanets
     }
+    
+    
+    var playerDistribution: [PlayerDistributionItem] {
+
+        var distribution: [String: (count: Int64, color: Color)] = [
+            "Automaton": (0, .red),
+            "Terminids": (0, .yellow),
+            "Illuminate": (0, .purple),
+            "Other": (0, .cyan)
+        ]
+        
+        // sum player counts for each planet
+        for planet in updatedPlanets {
+            let count = planet.statistics.playerCount
+            let factionName = planet.factionName.lowercased()
+            
+            switch factionName {
+            case "automaton":
+                distribution["Automaton"]?.count += count
+            case "terminids":
+                distribution["Terminids"]?.count += count
+            case "illuminate":
+                distribution["Illuminate"]?.count += count
+            default:
+                distribution["Other"]?.count += count
+            }
+        }
+        
+        return distribution.compactMap { key, value in
+            value.count > 0
+                ? PlayerDistributionItem(faction: key, count: value.count, color: value.color)
+                : nil
+        }
+    }
+    
     
     // TODO: move me at some point, just dupicated here so strat rows in db can get strokes im moving quick
     func dashPattern(for stratagem: Stratagem) -> [CGFloat] {

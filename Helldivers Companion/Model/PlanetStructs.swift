@@ -593,6 +593,45 @@ struct UpdatedPlanet: Decodable, Hashable {
     // if its associated with major order, put its task progress here
     var taskProgress: Int64? = nil
     
+    
+    var factionColor: Color {
+        // if event, color by event faction
+        if let faction = event?.faction.lowercased() {
+            switch faction {
+            case "automaton": return .red
+            case "terminids": return .yellow
+            case "illuminate": return .purple
+            // any unknown or default faction:
+            default: return .cyan
+            }
+        } else {
+            // no event, just color by planet current owner
+            switch currentOwner.lowercased() {
+            case "automaton": return .red
+            case "terminids": return .yellow
+            case "illuminate": return .purple
+            default: return .cyan
+            }
+        }
+    }
+    
+    var factionName: String {
+        if let eventFaction = event?.faction, !eventFaction.isEmpty {
+            return eventFaction
+        } else {
+            return currentOwner
+        }
+    }
+    
+    
+}
+
+
+struct PlayerDistributionItem: Identifiable {
+    var id: String { faction }
+    let faction: String
+    let count: Int64
+    let color: Color
 }
 
 struct WarStatusResponse: Decodable {

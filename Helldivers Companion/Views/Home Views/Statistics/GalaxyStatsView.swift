@@ -118,10 +118,13 @@ struct GalaxyStatsView: View {
             
             .conditionalBackground(viewModel: viewModel)
             
-                .inlineLargeTitleiOS17()
+              //  .inlineLargeTitleiOS17()
+            .navigationBarTitleDisplayMode(.inline)
 #endif
             
-                .navigationTitle("Database".uppercased())
+             //   .navigationTitle("Database".uppercased())
+            
+            
             
                 .navigationDestination(for: DatabasePage.self) { value in
                     
@@ -189,13 +192,20 @@ struct GalaxyStatsView: View {
                 }
             
                 .toolbar {
+                    
+                    ToolbarItem(placement: .principal) {
+                        
+                        Text("DATABASE")
+                            .font(Font.custom("FSSinclair", size: 24)).bold()
+                        
+                    }
 #if os(iOS)
                     
                     
               
                     
                     ToolbarItem(placement: .topBarTrailing) {
-                        FactionImageView(faction: "human")
+                        PlayerCountView().environmentObject(viewModel)
                     }
                     
 #endif
