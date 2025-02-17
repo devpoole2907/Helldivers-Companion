@@ -23,6 +23,20 @@ struct PlanetInfoView: View {
         viewModel.planetHistory[planet?.name ?? ""] ?? []
     }
     
+    var showEnergyBar: Bool {
+        planet?.index == 64 && viewModel.configData.meridiaEvent // hardcoded to meridia at this stage
+    }
+    
+    var darkEnergyResource: GlobalResource? {
+        guard let resources = viewModel.status?.globalResources else { return nil }
+        return resources.first { $0.id32 == 194773219 }
+    }
+    
+    var darkEnergyProgress: Double {
+        guard let resource = darkEnergyResource else { return 0 }
+        return Double(resource.currentValue) / Double(resource.maxValue)
+    }
+    
     private var formattedPlanetImageName: String {
         
         PlanetImageFormatter.formattedPlanetImageName(for: planet)
@@ -164,6 +178,11 @@ struct PlanetInfoView: View {
                 
                 imageWithSectorName
                 
+                if showEnergyBar {
+                    
+                    darkEnergyTracker.padding(.horizontal)
+                }
+                
                 // if this planet is in a major order
                 if let planet = planet, viewModel.updatedTaskPlanets.contains(planet) {
                     majorOrderPlanetNotice.padding(.horizontal)
@@ -272,7 +291,7 @@ struct PlanetInfoView: View {
                 Color.black.ignoresSafeArea()
             } else {
                 Image("helldivers2planet").resizable().aspectRatio(contentMode: .fill).offset(CGSize(width: -400, height: 0)).blur(radius: 20.0).ignoresSafeArea()
-                    .grayscale(1.0)
+                    .grayscale(1.0).opacity(0.6)
             }
         }
         
@@ -507,6 +526,39 @@ struct PlanetInfoView: View {
             }
             
         }
+    }
+    
+    var darkEnergyTracker: some View {
+        ZStack(alignment: .leading) {
+            
+            Color.gray.opacity(0.16)
+                .shadow(radius: 3)
+            VStack(spacing: 8) {
+                
+                Text("Dark Energy").textCase(.uppercase)
+                    .foregroundStyle(.white)
+                    .font(Font.custom("FSSinclair-Bold", size: largeFont))
+                    .multilineTextAlignment(.center)
+                
+                Text("\(darkEnergyProgress * 100, specifier: "%.3f")% ACCUMULATED").textCase(.uppercase)
+                    .foregroundStyle(.white)
+                    .font(Font.custom("FSSinclair", size: mediumFont))
+                    .multilineTextAlignment(.center)
+                
+                MiniRectangleProgressBar(value: darkEnergyProgress, primaryColor: .purple, secondaryColor: .black, height: 26)
+                    .padding(.horizontal, 6)
+                
+            }.padding(20)
+        }.background {
+            
+            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                .foregroundStyle(.gray)
+                .opacity(0.5)
+                .shadow(radius: 3)
+            
+        }
+        .padding(4)
+        .padding(.bottom, 4)
     }
     
     var majorOrderPlanetNotice: some View

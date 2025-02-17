@@ -167,11 +167,6 @@ struct UpdatedPlanetView: View {
                 headerWithImage
                     
                 CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, spaceStationExpiration: spaceStationExpirationTime, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isActive: isActive)
-                    
-                
-                
-                
-                
                 
             }.onTapGesture {
                 // nav to planet info view if tapped anywhere

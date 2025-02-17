@@ -61,6 +61,8 @@ class PlanetsDataModel: ObservableObject {
     
     @Published var selectedPlanet: UpdatedPlanet? = nil  // for map view selection
     
+    @Published var status: StatusResponse? = nil // for dark energy tracking
+    
     @AppStorage("viewCount") var viewCount = 0
     
     @AppStorage("enableLocalization") var enableLocalization = true
@@ -71,7 +73,7 @@ class PlanetsDataModel: ObservableObject {
     
     @Published var configData: RemoteConfigDetails = RemoteConfigDetails(
         alert: "", prominentAlert: nil, season: "801", showIlluminate: false,
-        apiAddress: "", startedAt: "2024-02-10T07:20:30.089979Z")
+        apiAddress: "", startedAt: "2024-02-10T07:20:30.089979Z", meridiaEvent: false)
     
     @Published var showInfo = false
     @Published var showOrders = false
@@ -113,11 +115,12 @@ class PlanetsDataModel: ObservableObject {
             
             let warTime = await fetchWarTime()
             
+            let status = await fetchStatus()
+            
             let galaxyStats = await fetchGalaxyStats()
             let (campaigns, defenseCampaigns) = await fetchCampaigns(
                 for: config)
-            let (planets, sortedSectors, groupedBySector) = await fetchPlanets(
-                for: config)
+            let (planets, sortedSectors, groupedBySector) = await fetchPlanets(for: config, with: status)
             let (taskPlanets, majorOrder) = await fetchMajorOrder(with: planets)
             let spaceStations = await fetchSpaceStations(for: config)
             
@@ -133,6 +136,7 @@ class PlanetsDataModel: ObservableObject {
                     self.configData = config
                     self.showIlluminateUI = config.showIlluminate
                     self.warTime = warTime
+                    self.status = status
                     self.updatedCampaigns = campaigns
                     self.updatedDefenseCampaigns = defenseCampaigns
                     self.galaxyStats = galaxyStats?.galaxyStats
@@ -196,10 +200,10 @@ class PlanetsDataModel: ObservableObject {
                     return
                 }
                 let warTime = await self.fetchWarTime()
+                let status = await self.fetchStatus()
                 let (campaigns, defenseCampaigns) = await self.fetchCampaigns(
                     for: config)
-                let (planets, sortedSectors, groupedBySector) =
-                await self.fetchPlanets(for: config)
+                let (planets, sortedSectors, groupedBySector) = await self.fetchPlanets(for: config, with: status)
                 let (taskPlanets, majorOrder) = await self.fetchMajorOrder(
                     with: planets)
                 let spaceStations = await self.fetchSpaceStations(for: config)
@@ -217,6 +221,7 @@ class PlanetsDataModel: ObservableObject {
                         self.configData = config
                         self.showIlluminateUI = config.showIlluminate
                         self.warTime = warTime
+                        self.status = status
                         self.updatedCampaigns = campaigns
                         self.updatedDefenseCampaigns = defenseCampaigns
                         
@@ -336,14 +341,14 @@ class PlanetsDataModel: ObservableObject {
         }
     }
     
-    func fetchGalacticEffects() async -> [GalacticEffect] {
+    func fetchStatus() async -> StatusResponse? {
         let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/801/Status"
         do {
-            let response: GalacticEffectsResponse = try await netManager.fetchData(from: urlString)
-            return response.planetActiveEffects
+            let response: StatusResponse = try await netManager.fetchData(from: urlString)
+            return response
         } catch {
             print("Error fetching galactic effects: \(error)")
-            return []
+            return nil
         }
     }
     
@@ -541,7 +546,7 @@ class PlanetsDataModel: ObservableObject {
     
     func fetchConfig() async -> RemoteConfigDetails? {
         let urlString =
-        "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/config/mayApiConfig.json"
+        "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/config/feb2025config.json"
         
         do {
             let configData: RemoteConfigDetails =
@@ -563,7 +568,7 @@ class PlanetsDataModel: ObservableObject {
     }
     
     func fetchPlanets(
-        using url: String? = nil, for configData: RemoteConfigDetails
+        using url: String? = nil, for configData: RemoteConfigDetails, with status: StatusResponse? = nil
     ) async -> ([UpdatedPlanet], [String], [String: [UpdatedPlanet]]) {
         
         let urlString = url ?? "\(configData.apiAddress)api/v1/planets"
@@ -582,7 +587,7 @@ class PlanetsDataModel: ObservableObject {
             planets = await fetchAndMergePlanets(planets: planets)
             print("updating planets")
             
-            planets = await mergeGalacticEffectsIntoPlanets(planets)
+            planets = await mergeGalacticEffectsIntoPlanets(planets, with: status)
             
             // Group planets by sector
             let groupedBySector = Dictionary(grouping: planets) { $0.sector }
@@ -648,12 +653,17 @@ class PlanetsDataModel: ObservableObject {
     
     // merge galactic effects into planets based on index
     
-    func mergeGalacticEffectsIntoPlanets(_ planets: [UpdatedPlanet]) async -> [UpdatedPlanet] {
+    func mergeGalacticEffectsIntoPlanets(_ planets: [UpdatedPlanet], with status: StatusResponse? = nil) async -> [UpdatedPlanet] {
         print("calling galactic effects planet update...")
         
         var updatedPlanets = planets
         
-        let galacticEffects = await fetchGalacticEffects()
+        guard let status = status else {
+            print("Status data is missing, skipping merge")
+            return updatedPlanets
+        }
+        
+        let galacticEffects = status.planetActiveEffects
         
         let effectDefinitions = await fetchGalacticEffectDefinitions()
         

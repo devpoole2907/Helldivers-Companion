@@ -415,7 +415,7 @@ struct RemoteConfigDetails: Decodable {
     var showIlluminate: Bool
     var apiAddress: String
     var startedAt: String // temporarily we will now store the start date statically
-    
+    var meridiaEvent: Bool // temporary measure, to show meridia energy bar via config - hardcoded at this stage to only work for index 64 planet (meridia)
     
     func convertStartedAtToDate() -> Date? {
         let dateFormatter = ISO8601DateFormatter()
@@ -427,16 +427,17 @@ struct RemoteConfigDetails: Decodable {
     
     
     private enum CodingKeys: String, CodingKey {
-        case alert, prominentAlert, season, showIlluminate, apiAddress, startedAt
+        case alert, prominentAlert, season, showIlluminate, apiAddress, startedAt, meridiaEvent
     }
     // default init
-    init(alert: String, prominentAlert: String?, season: String, showIlluminate: Bool, apiAddress: String, startedAt: String) {
+    init(alert: String, prominentAlert: String?, season: String, showIlluminate: Bool, apiAddress: String, startedAt: String, meridiaEvent: Bool) {
         self.alert = alert
         self.prominentAlert = prominentAlert
         self.season = season
         self.showIlluminate = showIlluminate
         self.apiAddress = apiAddress
         self.startedAt = startedAt
+        self.meridiaEvent = meridiaEvent
     }
     
     // set prominent alert to nil if its empty
@@ -450,6 +451,7 @@ struct RemoteConfigDetails: Decodable {
         showIlluminate = try container.decode(Bool.self, forKey: .showIlluminate)
         apiAddress = try container.decode(String.self, forKey: .apiAddress)
         startedAt = try container.decode(String.self, forKey: .startedAt)
+        meridiaEvent = try container.decode(Bool.self, forKey: .meridiaEvent)
     }
     
 }
@@ -694,8 +696,16 @@ struct ActionCost: Decodable {
     let maxDonationPeriodSeconds: Int
 }
 
-struct GalacticEffectsResponse: Codable {
+struct StatusResponse: Codable {
     let planetActiveEffects: [GalacticEffect]
+    let globalResources: [GlobalResource]
+}
+
+struct GlobalResource: Codable {
+    let id32: Int64
+    let currentValue: Int64
+    let maxValue: Int64
+    let flags: Int64
 }
 
 struct GalacticEffect: Codable, Identifiable {

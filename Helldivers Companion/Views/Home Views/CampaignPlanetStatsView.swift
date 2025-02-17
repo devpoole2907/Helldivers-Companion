@@ -9,6 +9,38 @@ import SwiftUI
 @available(watchOS 9.0, *)
 struct CampaignPlanetStatsView: View {
     
+    var showEnergyBar: Bool {
+        planet?.index == 64 && viewModel.configData.meridiaEvent // hardcoded to meridia at this stage
+    }
+    
+    var darkEnergyResource: GlobalResource? {
+        guard let resources = viewModel.status?.globalResources else { return nil }
+        return resources.first { $0.id32 == 194773219 }
+    }
+    
+    var darkEnergyProgress: Double {
+        guard let resource = darkEnergyResource else { return 0 }
+        return Double(resource.currentValue) / Double(resource.maxValue)
+    }
+    
+    var computedLiberation: Double {
+        showEnergyBar ? darkEnergyProgress * 100 : liberation
+    }
+    
+    var liberationText: String {
+        if showEnergyBar {
+            return "ACCUMULATED"
+        }
+        
+        switch liberationType {
+        case .liberation:
+            return "Liberated"
+        case .defense:
+            return "Defended"
+        }
+        
+    }
+    
     var liberation: Double
     var liberationType: LiberationType
     
@@ -91,23 +123,33 @@ struct CampaignPlanetStatsView: View {
             VStack {
                 VStack(spacing: 4) {
                     
-                    // health bar
-                    
-                    RectangleProgressBar(value: liberation / 100, secondaryColor: eventExpirationTime != nil ? .cyan : factionColor, height: 8)
-                    
-                        .padding(.horizontal, 6)
-                        .padding(.trailing, 2)
-                    
-                    // defense remaining bar
-                    if let defenseTime = planet?.event?.totalDuration, let eventExpirationTime = eventExpirationTime {
+                    if showEnergyBar {
                         
-                        let remainingTime = eventExpirationTime.timeIntervalSince(Date())
-                        
-                        let percentageRemaining = (remainingTime / defenseTime)
-                        
-                        RectangleProgressBar(value: 1 - percentageRemaining, primaryColor: factionColor, secondaryColor: factionColor, height: 8)
+                        MiniRectangleProgressBar(value: darkEnergyProgress, primaryColor: .purple, secondaryColor: .black, height: 26)
                             .padding(.horizontal, 6)
                             .padding(.trailing, 2)
+                    } else {
+                        
+                        
+                        // health bar
+                        
+                        RectangleProgressBar(value: liberation / 100, secondaryColor: eventExpirationTime != nil ? .cyan : factionColor, height: 8)
+                        
+                            .padding(.horizontal, 6)
+                            .padding(.trailing, 2)
+                        
+                        // defense remaining bar
+                        if let defenseTime = planet?.event?.totalDuration, let eventExpirationTime = eventExpirationTime {
+                            
+                            let remainingTime = eventExpirationTime.timeIntervalSince(Date())
+                            
+                            let percentageRemaining = (remainingTime / defenseTime)
+                            
+                            RectangleProgressBar(value: 1 - percentageRemaining, primaryColor: factionColor, secondaryColor: factionColor, height: 8)
+                                .padding(.horizontal, 6)
+                                .padding(.trailing, 2)
+                        }
+                        
                     }
                     
                     
@@ -115,7 +157,7 @@ struct CampaignPlanetStatsView: View {
                // .frame(height: showExtraStats ? 34 : 30)
                 .padding(.vertical, 5)
                     .foregroundStyle(Color.clear)
-                    .border(Color.orange, width: 2)
+                    .border(showEnergyBar ? Color.clear : Color.orange, width: 2)
                     .padding(.horizontal, 4)
             }  .padding(.vertical, 5)
             
@@ -128,7 +170,7 @@ struct CampaignPlanetStatsView: View {
                     // funky zstack stuff for the widget, because the text.datestyle is so wide by default
                     ZStack {
                         HStack {
-                            Text("\(liberation, specifier: "%.3f")% \(liberationType == .liberation ? "Liberated" : "Defended")").textCase(.uppercase)
+                            Text("\(computedLiberation, specifier: "%.3f")% \(liberationText)").textCase(.uppercase)
                                 .foregroundStyle(.white).bold()
                                 .font(Font.custom("FSSinclair", size: showExtraStats ? mediumFont : smallFont))
                                 .multilineTextAlignment(.leading)
