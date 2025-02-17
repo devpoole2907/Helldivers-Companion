@@ -118,7 +118,7 @@ struct MiniRectangleProgressBar: View {
                     Rectangle()
                         .fill(index < Int(animatedValue * Double(barCount)) ? primaryColor : primaryColor)
                         .frame(
-                                                    width: isFilled ? barWidth : barWidth * unfilledScale,
+                            width: barWidth,
                                                     height: isFilled ? height + jitterOffsets[index] : (height * unfilledScale) + jitterOffsets[index]
                                                 )
                         .cornerRadius(10)
