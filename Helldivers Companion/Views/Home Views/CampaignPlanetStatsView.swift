@@ -90,22 +90,42 @@ struct CampaignPlanetStatsView: View {
         
         VStack(spacing: 0) {
             
+            // TODO: figure out invasion levels for illuminate events/type 3
+            
             if let invasionLevel = invasionLevel, let health = health, let maxHealth = maxHealth {
                 VStack {
                     
                     HStack(spacing: 0) {
-                        Text("INVASION LEVEL: \(invasionLevel)")
-                            .foregroundStyle(.white).bold()
-                            .font(Font.custom("FSSinclair", size: smallFont))
-                        Spacer()
+                        
+                        // only show invasion level if not event type 3
+                        if planet?.event?.eventType != 3 {
+                            
+                            Text("INVASION LEVEL: \(invasionLevel)")
+                                .foregroundStyle(.white).bold()
+                                .font(Font.custom("FSSinclair", size: smallFont))
+                            Spacer()
+                            
+                        }
+                        
+                        // use health and maxhealth here, otherwise use fleet max value and current value
                         
                         Text("HP")    .foregroundStyle(factionColor).bold()
                             .font(Font.custom("FSSinclair", size: smallFont))
                             .padding(.horizontal, 2)
-                        Text("\(health)/\(maxHealth)")
-                            .foregroundStyle(.gray)
-                            .font(Font.custom("FSSinclair", size: smallFont))
-                            .shadow(radius: 3)
+                        
+                        
+                        if planet?.event?.eventType == 3,
+                           let fleet = viewModel.fleetStrengthResource {
+                            Text("\(fleet.currentValue)/\(fleet.maxValue)")
+                                .foregroundStyle(.gray)
+                                .font(Font.custom("FSSinclair", size: smallFont))
+                                .shadow(radius: 3)
+                        } else {
+                            Text("\(health)/\(maxHealth)")
+                                .foregroundStyle(.gray)
+                                .font(Font.custom("FSSinclair", size: smallFont))
+                                .shadow(radius: 3)
+                        }
                     } .kerning(-1)
                         .padding(.top, 2)
                         .lineLimit(1)
@@ -192,16 +212,19 @@ struct CampaignPlanetStatsView: View {
                     }
                     
                     if !isWidget {
-                        if let liberationRate = viewModel.currentLiberationRate(for: planetName ?? ""), viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) {
-                            Spacer()
-                            HStack(alignment: .top, spacing: 4) {
-                                Image(systemName: "chart.line.uptrend.xyaxis")
-                                    .padding(.top, 2)
-                                Text("\(liberationRate, specifier: "%.2f")% / h")
-                                    .foregroundStyle(.white)
-                                    .font(Font.custom("FSSinclair", size: showExtraStats ? mediumFont : smallFont))
-                                    .multilineTextAlignment(.trailing)
+                        if planet?.event?.eventType != 3 { // TODO: save history for globalresources to api cache!!!
+                            if let liberationRate = viewModel.currentLiberationRate(for: planetName ?? ""), viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) {
+                                Spacer()
+                                HStack(alignment: .top, spacing: 4) {
+                                    Image(systemName: "chart.line.uptrend.xyaxis")
+                                        .padding(.top, 2)
+                                    Text("\(liberationRate, specifier: "%.2f")% / h")
+                                        .foregroundStyle(.white)
+                                        .font(Font.custom("FSSinclair", size: showExtraStats ? mediumFont : smallFont))
+                                        .multilineTextAlignment(.trailing)
+                                }
                             }
+                            
                         }
                         
                     }

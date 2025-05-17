@@ -92,6 +92,13 @@ struct GalaxyMapRootView: View {
                         Spacer()
                     }
                 }
+                if let _ = viewModel.fleetStrengthResource {
+                    VStack(spacing: 0) {
+                        Spacer()
+                        FleetStrengthView(fleetStrengthProgress: viewModel.fleetStrengthProgress)
+                            .shadow(radius: 3)
+                    }
+                }
                 
             }
             .conditionalBackground(viewModel: viewModel, grayscale: viewModel.isLoading)

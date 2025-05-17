@@ -94,7 +94,14 @@ struct PlanetInfoView: View {
     }
     
     private var liberationPercentage: Double? {
-        defenseCampaign?.planet.event?.percentage ?? planet?.percentage
+        
+        // super broken way of using fleet stremgth progress but whatever we got 3 weeks off soon to work on this shit
+        
+        if defenseCampaign?.planet.event?.eventType == 3, let _ = viewModel.fleetStrengthResource {
+            return (1.0 - viewModel.fleetStrengthProgress) * 100
+        }
+        
+        return defenseCampaign?.planet.event?.percentage ?? planet?.percentage
     }
     
     private var liberationTimeRemaining: Date? {

@@ -780,6 +780,7 @@ struct UpdatedPlanetEvent: Decodable {
     var endTime: String
     var campaignId: Int64
     var jointOperationIds: [Int64]
+    var globalResourceId: Int64?
     
     // computed prop for invasion level
     

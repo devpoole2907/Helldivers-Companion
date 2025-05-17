@@ -61,7 +61,7 @@ class PlanetsDataModel: ObservableObject {
     
     @Published var selectedPlanet: UpdatedPlanet? = nil  // for map view selection
     
-    @Published var status: StatusResponse? = nil // for dark energy tracking
+    @Published var status: StatusResponse? = nil // for dark energy tracking etc
     
     @AppStorage("viewCount") var viewCount = 0
     
@@ -92,6 +92,16 @@ class PlanetsDataModel: ObservableObject {
     
     var formattedPlayerCount: String {
         formatNumber(totalPlayerCount)
+    }
+    
+    var fleetStrengthResource: GlobalResource? {
+        guard let resources = status?.globalResources else { return nil }
+        return resources.first { $0.id32 == 175685818 }
+    }
+    
+    var fleetStrengthProgress: Double {
+        guard let resource = fleetStrengthResource else { return 0 }
+        return Double(resource.currentValue) / Double(resource.maxValue)
     }
     
     deinit {

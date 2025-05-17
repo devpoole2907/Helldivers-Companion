@@ -39,6 +39,16 @@ struct PlanetStatusProvider: TimelineProvider {
                 return
             }
             
+            let status = await planetsModel.fetchStatus()
+            
+            let fleetStrengthResource = status?.globalResources.first { $0.id32 == 175685818}
+            
+            let fleetStrengthProgress: Double = {
+                guard let resource = fleetStrengthResource else { return 0 }
+                return Double(resource.currentValue) / Double(resource.maxValue)
+            }()
+            
+            
             let campaignResults = await planetsModel.fetchCampaigns(using: urlString, for: config)
             let (campaigns, defenseCampaigns) = campaignResults
             
@@ -69,8 +79,14 @@ struct PlanetStatusProvider: TimelineProvider {
                         enemyType = "illuminate"
                         factionColor = .purple
                     }
+                    
+                    var liberationPercentage = defenseEvent.planet.event?.percentage ?? highestPlanet.percentage
+                    
+                    if defenseEvent.planet.event?.eventType == 3 {
+                        liberationPercentage = (1.0 - fleetStrengthProgress) * 100
+                    }
 
-                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: defenseEvent.planet.event?.percentage ?? highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime, invasionLevel: invasionLevel, eventHealth: eventHealth, eventMaxHealth: eventMaxHealth, spaceStationExpirationTime: spaceStationExpirationTime)
+                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: liberationPercentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime, invasionLevel: invasionLevel, eventHealth: eventHealth, eventMaxHealth: eventMaxHealth, spaceStationExpirationTime: spaceStationExpirationTime)
                     entries.append(entry)
                     
                 } else {

@@ -40,6 +40,12 @@ struct ContentView: View {
         GridItem(.flexible()),
        ]
     
+    var fleetView: some View {
+        
+        FleetStrengthView(fleetStrengthProgress: viewModel.fleetStrengthProgress)
+        
+    }
+    
     var body: some View {
         
         NavigationStack(path: $navPather.navigationPath) {
@@ -53,6 +59,10 @@ struct ContentView: View {
                             
                             AlertView(alert: alert)
                                 .padding(.horizontal)
+                        }
+                        
+                        if let _ = viewModel.fleetStrengthResource {
+                            fleetView
                         }
                         
                         LazyVGrid(columns: columns) {
@@ -76,7 +86,7 @@ struct ContentView: View {
                         
                         
                         
-                        LazyVStack(spacing: 20) {
+                      
                             
                             /*   AlertView(alert: "You are running a test version of War Monitor. This special build will display additional debug info, if you experience any issues please provide screenshots of the debug information below.")  .padding(.horizontal)*/
                             
@@ -98,6 +108,12 @@ struct ContentView: View {
                              Text("Attempted to fetch campaigns: \(error)").font(.title3).bold()
                              
                              }*/
+                            
+                            if let _ = viewModel.fleetStrengthResource {
+                                fleetView
+                            }
+                            
+                        LazyVStack(spacing: 20) {
                             
                             ForEach(viewModel.updatedCampaigns, id: \.planet.index) { campaign in
                                 
