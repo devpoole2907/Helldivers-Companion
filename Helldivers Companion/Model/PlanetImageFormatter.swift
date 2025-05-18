@@ -15,7 +15,7 @@ class PlanetImageFormatter {
         print("Biome name received: \(biomeName ?? "nil")")
         
         
-        if planet?.galacticEffects?.contains(where: { $0.galacticEffectId == 1241 }) ?? false {
+        if planet?.galacticEffects?.contains(where: { $0.galacticEffectId == 1241 || $0.galacticEffectId == 1252 }) ?? false {
             return "fractured"
         }
         

@@ -547,10 +547,12 @@ struct PlanetInfoView: View {
                     .font(Font.custom("FSSinclair-Bold", size: largeFont))
                     .multilineTextAlignment(.center)
                 
-                Text("\(darkEnergyProgress * 100, specifier: "%.3f")% ACCUMULATED").textCase(.uppercase)
+                
+                Text(darkEnergyProgress > 0 ? "\(darkEnergyProgress * 100, specifier: "%.3f")% ACCUMULATED" : "DARK ENERGY DEPLETED").textCase(.uppercase)
                     .foregroundStyle(.white)
                     .font(Font.custom("FSSinclair", size: mediumFont))
                     .multilineTextAlignment(.center)
+                
                 
                 MiniRectangleProgressBar(value: darkEnergyProgress, primaryColor: .purple, secondaryColor: .black, height: 26)
                     .padding(.horizontal, 6)

@@ -31,6 +31,10 @@ struct CampaignPlanetStatsView: View {
         if showEnergyBar {
             return "ACCUMULATED"
         }
+        // event type 3 is liberation
+        if planet?.event?.eventType == 3 {
+            return "Liberated"
+        }
         
         switch liberationType {
         case .liberation:
@@ -277,17 +281,21 @@ struct CampaignPlanetStatsView: View {
                         } else {
                             Spacer()
                             VStack(spacing: -5) {
-                                Text("DEFEND") .font(Font.custom("FSSinclair", size: mediumFont)).bold()
-                                    .scaledToFit()
-                                
-                                // defense is important, so pulsate
-                                    .foregroundStyle(isWidget ? .red : (pulsate ? .red : .white))
-                                    .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.4))
-                                    .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: pulsate)
-                                    .dynamicTypeSize(.small)
-                                    .onAppear {
-                                        pulsate = true
-                                    }
+                                // only show defend text on defense type events (this is so duct taped holy)
+                                if planet?.event?.eventType != 3 {
+                                    Text("DEFEND") .font(Font.custom("FSSinclair", size: mediumFont)).bold()
+                                        .scaledToFit()
+                                    
+                                    // defense is important, so pulsate
+                                        .foregroundStyle(isWidget ? .red : (pulsate ? .red : .white))
+                                        .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.4))
+                                        .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: pulsate)
+                                        .dynamicTypeSize(.small)
+                                        .onAppear {
+                                            pulsate = true
+                                        }
+                                    
+                                }
                                 if let eventExpirationTime = eventExpirationTime {
                                     Text(eventExpirationTime, style: .timer)
                                         .font(Font.custom("FSSinclair", size: mediumFont))

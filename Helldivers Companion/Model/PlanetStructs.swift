@@ -733,12 +733,12 @@ struct GalacticEffect: Codable, Identifiable {
             return "automaton" // jet brigade factory
         case 1240:
             return "alert"
-        case 1241:
-            return "blackhole" // fractured
-        case 1242:
-            return "blackhole" // moving singularity
+        case 1241, 1242, 1252:
+            return "blackhole" // fractured, moving singularity
         case 1245:
             return "predator"
+        case 1269:
+            return "illuminatewhite" // the great host
         default:
             return nil // effects we wont be displaying
         }
