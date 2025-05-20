@@ -123,9 +123,9 @@ class PlanetsDataModel: ObservableObject {
                 return
             }
             
-            let warTime = await fetchWarTime()
+            let warTime = await fetchWarTime(with: config)
             
-            let status = await fetchStatus()
+            let status = await fetchStatus(with: config)
             
             let galaxyStats = await fetchGalaxyStats()
             let (campaigns, defenseCampaigns) = await fetchCampaigns(
@@ -137,7 +137,7 @@ class PlanetsDataModel: ObservableObject {
             // TODO: for now, fetch ONLY the first station - upgrade in future for more spcae stations
             
             let firstStationID = spaceStations.first?.id32 ?? 749875195 // fallback to static id for dss
-            let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID)
+            let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID, with: config)
             let personalOrder = await self.fetchPersonalOrder()
             
             await MainActor.run {
@@ -209,19 +209,20 @@ class PlanetsDataModel: ObservableObject {
                     print("config failed to load")
                     return
                 }
-                let warTime = await self.fetchWarTime()
-                let status = await self.fetchStatus()
+                let warTime = await self.fetchWarTime(with: config)
+                let status = await self.fetchStatus(with: config)
                 let (campaigns, defenseCampaigns) = await self.fetchCampaigns(
                     for: config)
                 let (planets, sortedSectors, groupedBySector) = await self.fetchPlanets(for: config, with: status)
                 let (taskPlanets, majorOrder) = await self.fetchMajorOrder(
                     with: planets)
+                print("getting the fookn space stations")
                 let spaceStations = await self.fetchSpaceStations(for: config)
                 
                 // TODO: for now, fetch ONLY the first station - upgrade in future for more spcae stations
                 
                 let firstStationID = spaceStations.first?.id32 ?? 749875195 // fallback to static id for dss
-                let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID)
+                let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID, with: config)
                 
                 let personalOrder = await self.fetchPersonalOrder()
                 
@@ -338,8 +339,8 @@ class PlanetsDataModel: ObservableObject {
         }
     }
     
-    func fetchWarTime() async -> Int64? {
-        let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/801/Status"
+    func fetchWarTime(with config: RemoteConfigDetails? = nil) async -> Int64? {
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/\(config?.season ?? "801")/Status"
         
         do {
             // minimal struct for decoding
@@ -351,8 +352,8 @@ class PlanetsDataModel: ObservableObject {
         }
     }
     
-    func fetchStatus() async -> StatusResponse? {
-        let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/801/Status"
+    func fetchStatus(with config: RemoteConfigDetails? = nil) async -> StatusResponse? {
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/\(config?.season ?? "801")/Status"
         do {
             let response: StatusResponse = try await netManager.fetchData(from: urlString)
             return response
@@ -362,8 +363,8 @@ class PlanetsDataModel: ObservableObject {
         }
     }
     
-    func fetchSpaceStationDetails(for id32: Int64? = nil) async -> SpaceStationDetails? {
-        let urlString = "https://api.live.prod.thehelldiversgame.com/api/SpaceStation/801/\(id32 ?? 749875195)"
+    func fetchSpaceStationDetails(for id32: Int64? = nil, with config: RemoteConfigDetails? = nil) async -> SpaceStationDetails? {
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/SpaceStation/\(config?.season ?? "801")/\(id32 ?? 749875195)"
         
         do {
             let details: SpaceStationDetails = try await netManager.fetchData(from: urlString)
@@ -388,6 +389,8 @@ class PlanetsDataModel: ObservableObject {
             let stations: [SpaceStation] = try await netManager.fetchData(
                 from: urlString, headers: headers
             )
+            
+            print("station count: \(stations.count)")
             
             // fetched stations logging
             for station in stations {

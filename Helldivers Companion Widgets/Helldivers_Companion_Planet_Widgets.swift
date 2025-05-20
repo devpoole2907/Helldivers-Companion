@@ -39,7 +39,7 @@ struct PlanetStatusProvider: TimelineProvider {
                 return
             }
             
-            let status = await planetsModel.fetchStatus()
+            let status = await planetsModel.fetchStatus(with: config)
             
             let fleetStrengthResource = status?.globalResources.first { $0.id32 == 175685818}
             
