@@ -31,6 +31,11 @@ struct UpdatedPlanetView: View {
         viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) // map view needs this, as it shows planet view for all planets even if they arent actively in a campaign. used to hide additional info such as liberation %
     }
     
+    private var campaignType: Int? {
+            guard let planet = planet else { return nil }
+            return viewModel.updatedCampaigns.first(where: { $0.planet.index == planet.index })?.type
+        }
+    
     private var planet: UpdatedPlanet? {
             viewModel.updatedPlanets.first(where: { $0.index == planetIndex })
         }
@@ -171,7 +176,7 @@ struct UpdatedPlanetView: View {
                 
                 headerWithImage
                     
-                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, spaceStationExpiration: spaceStationExpirationTime, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isActive: isActive)
+                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, spaceStationExpiration: spaceStationExpirationTime, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isActive: isActive, campaignType: campaignType)
                 
             }.onTapGesture {
                 // nav to planet info view if tapped anywhere

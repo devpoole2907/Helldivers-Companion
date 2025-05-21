@@ -699,6 +699,21 @@ struct ActionCost: Decodable {
 struct StatusResponse: Codable {
     let planetActiveEffects: [GalacticEffect]
     let globalResources: [GlobalResource]
+    let planetRegions: [PlanetRegion]?
+}
+
+struct WarInfoResponse: Codable {
+    // only need regions info
+    let planetRegions: [PlanetRegionInfo]
+    
+}
+
+struct PlanetRegionInfo: Codable {
+    let planetIndex: Int
+    let regionIndex: Int
+    let settingsHash: Int64
+    let maxHealth: Int
+    let regionSize: Int
 }
 
 struct GlobalResource: Codable {
@@ -706,6 +721,19 @@ struct GlobalResource: Codable {
     let currentValue: Int64
     let maxValue: Int64
     let flags: Int64
+}
+
+struct PlanetRegion: Codable {
+    let planetIndex: Int
+    let regionIndex: Int
+    let owner: Int
+    let health: Int
+    let regerPerSecond: Int
+    let availabilityFactor: Int
+    let isAvailable: Bool
+    let players: Int
+    var maxHealth: Int? // these are added from warinfo endpoint not status!!!
+    var regionSize: Int?
 }
 
 struct GalacticEffect: Codable, Identifiable {
@@ -870,7 +898,7 @@ struct UpdatedCampaign: Decodable, Hashable {
     
     var id: Int
     var planet: UpdatedPlanet
-    var type: Int64
+    var type: Int
     var count: Int64
 }
 

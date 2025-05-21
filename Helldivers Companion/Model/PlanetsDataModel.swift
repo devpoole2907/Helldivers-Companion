@@ -116,6 +116,35 @@ class PlanetsDataModel: ObservableObject {
         completion()
     }
     
+    // merges additonal region info from warinfo endpoint
+    
+    func mergeWarInfoRegions(into status: StatusResponse?, with warInfo: WarInfoResponse?) -> StatusResponse? {
+        guard
+            let status,
+            let originalRegions = status.planetRegions,
+            let warInfo
+        else {
+            return status
+        }
+
+        let updatedRegions = originalRegions.map { region -> PlanetRegion in
+            var updatedRegion = region
+            if let warRegion = warInfo.planetRegions.first(where: {
+                $0.planetIndex == region.planetIndex && $0.regionIndex == region.regionIndex
+            }) {
+                updatedRegion.maxHealth = warRegion.maxHealth
+                updatedRegion.regionSize = warRegion.regionSize
+            }
+            return updatedRegion
+        }
+
+        return StatusResponse(
+            planetActiveEffects: status.planetActiveEffects,
+            globalResources: status.globalResources,
+            planetRegions: updatedRegions
+        )
+    }
+    
     func startUpdating() {
         Task {
             guard let config = await fetchConfig() else {
@@ -126,6 +155,10 @@ class PlanetsDataModel: ObservableObject {
             let warTime = await fetchWarTime(with: config)
             
             let status = await fetchStatus(with: config)
+            
+            let warInfo = await fetchWarInfo(with: config)
+            
+            let mergedStatus = mergeWarInfoRegions(into: status, with: warInfo)
             
             let galaxyStats = await fetchGalaxyStats()
             let (campaigns, defenseCampaigns) = await fetchCampaigns(
@@ -146,7 +179,7 @@ class PlanetsDataModel: ObservableObject {
                     self.configData = config
                     self.showIlluminateUI = config.showIlluminate
                     self.warTime = warTime
-                    self.status = status
+                    self.status = mergedStatus
                     self.updatedCampaigns = campaigns
                     self.updatedDefenseCampaigns = defenseCampaigns
                     self.galaxyStats = galaxyStats?.galaxyStats
@@ -211,6 +244,11 @@ class PlanetsDataModel: ObservableObject {
                 }
                 let warTime = await self.fetchWarTime(with: config)
                 let status = await self.fetchStatus(with: config)
+                
+                let warInfo = await self.fetchWarInfo(with: config)
+                
+                let mergedStatus = await self.mergeWarInfoRegions(into: status, with: warInfo)
+                
                 let (campaigns, defenseCampaigns) = await self.fetchCampaigns(
                     for: config)
                 let (planets, sortedSectors, groupedBySector) = await self.fetchPlanets(for: config, with: status)
@@ -232,7 +270,7 @@ class PlanetsDataModel: ObservableObject {
                         self.configData = config
                         self.showIlluminateUI = config.showIlluminate
                         self.warTime = warTime
-                        self.status = status
+                        self.status = mergedStatus
                         self.updatedCampaigns = campaigns
                         self.updatedDefenseCampaigns = defenseCampaigns
                         
@@ -350,6 +388,21 @@ class PlanetsDataModel: ObservableObject {
             print("Error fetching war time: \(error)")
             return nil
         }
+    }
+    
+    func fetchWarInfo(with config: RemoteConfigDetails? = nil) async -> WarInfoResponse? {
+        
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/\(config?.season ?? "801")/WarInfo"
+        
+        do {
+            // minimal struct for decoding
+            let response: WarInfoResponse = try await netManager.fetchData(from: urlString)
+            return response
+        } catch {
+            print("Error fetching war time: \(error)")
+            return nil
+        }
+        
     }
     
     func fetchStatus(with config: RemoteConfigDetails? = nil) async -> StatusResponse? {

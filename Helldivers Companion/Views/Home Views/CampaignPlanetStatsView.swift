@@ -73,6 +73,8 @@ struct CampaignPlanetStatsView: View {
     
     var isActive = true // if accessed from galaxy map, planet view wont need to display all info if the planet isnt in a campaign
     
+    var campaignType: Int? = 0
+    
     @State private var pulsate = false
     
     @EnvironmentObject var viewModel: PlanetsDataModel
@@ -91,6 +93,7 @@ struct CampaignPlanetStatsView: View {
     
     var body: some View {
         
+        if campaignType != 3 { // campaign type 3 e.g super earth with all its own cities etc doesnt need to show health bars etc
         
         VStack(spacing: 0) {
             
@@ -144,6 +147,8 @@ struct CampaignPlanetStatsView: View {
                 
             }
             
+       
+            
             VStack {
                 VStack(spacing: 4) {
                     
@@ -189,63 +194,66 @@ struct CampaignPlanetStatsView: View {
                 .fill(.white)
                 .frame(height: 1)
             
-            VStack {
-                HStack{
-                    // funky zstack stuff for the widget, because the text.datestyle is so wide by default
-                    ZStack {
-                        HStack {
-                            Text("\(computedLiberation, specifier: "%.3f")% \(liberationText)").textCase(.uppercase)
-                                .foregroundStyle(.white).bold()
-                                .font(Font.custom("FSSinclair", size: showExtraStats ? mediumFont : smallFont))
-                                .multilineTextAlignment(.leading)
-                            if isWidget && !showExtraStats, let _ = eventExpirationTime {
-                                Spacer()
+ 
+                
+                VStack {
+                    HStack{
+                        // funky zstack stuff for the widget, because the text.datestyle is so wide by default
+                        ZStack {
+                            HStack {
+                                Text("\(computedLiberation, specifier: "%.3f")% \(liberationText)").textCase(.uppercase)
+                                    .foregroundStyle(.white).bold()
+                                    .font(Font.custom("FSSinclair", size: showExtraStats ? mediumFont : smallFont))
+                                    .multilineTextAlignment(.leading)
+                                if isWidget && !showExtraStats, let _ = eventExpirationTime {
+                                    Spacer()
+                                }
+                            }
+                            
+                            if isWidget && !showExtraStats, let eventExpirationTime = eventExpirationTime {
+                                HStack {
+                                    Spacer()
+                                    Text(eventExpirationTime, style: .timer)
+                                        .font(Font.custom("FSSinclair", size: smallFont))
+                                        .foregroundStyle(.red)
+                                        .monospacedDigit()
+                                        .multilineTextAlignment(.trailing)
+                                }
                             }
                         }
                         
-                        if isWidget && !showExtraStats, let eventExpirationTime = eventExpirationTime {
-                            HStack {
-                                Spacer()
-                                Text(eventExpirationTime, style: .timer)
-                                    .font(Font.custom("FSSinclair", size: smallFont))
-                                    .foregroundStyle(.red)
-                                    .monospacedDigit()
-                                    .multilineTextAlignment(.trailing)
-                            }
-                        }
-                    }
-                    
-                    if !isWidget {
-                        if planet?.event?.eventType != 3 { // TODO: save history for globalresources to api cache!!!
-                            if let liberationRate = viewModel.currentLiberationRate(for: planetName ?? ""), viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) {
-                                Spacer()
-                                HStack(alignment: .top, spacing: 4) {
-                                    Image(systemName: "chart.line.uptrend.xyaxis")
-                                        .padding(.top, 2)
-                                    Text("\(liberationRate, specifier: "%.2f")% / h")
-                                        .foregroundStyle(.white)
-                                        .font(Font.custom("FSSinclair", size: showExtraStats ? mediumFont : smallFont))
-                                        .multilineTextAlignment(.trailing)
+                        if !isWidget {
+                            if planet?.event?.eventType != 3 { // TODO: save history for globalresources to api cache!!!
+                                if let liberationRate = viewModel.currentLiberationRate(for: planetName ?? ""), viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) {
+                                    Spacer()
+                                    HStack(alignment: .top, spacing: 4) {
+                                        Image(systemName: "chart.line.uptrend.xyaxis")
+                                            .padding(.top, 2)
+                                        Text("\(liberationRate, specifier: "%.2f")% / h")
+                                            .foregroundStyle(.white)
+                                            .font(Font.custom("FSSinclair", size: showExtraStats ? mediumFont : smallFont))
+                                            .multilineTextAlignment(.trailing)
+                                    }
                                 }
+                                
                             }
                             
                         }
                         
-                    }
+                    }   .padding(.horizontal)
                     
-                }   .padding(.horizontal)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 5)
                 
             }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 5)
-            
-            
-            
-            
-        }
         .border(Color.white)
         .padding(4)
         .border(Color.gray)
+            
+            
+        }
+      
         
         // TODO: early draft for dss view
         

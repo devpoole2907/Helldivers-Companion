@@ -56,6 +56,7 @@ struct PlanetStatusProvider: TimelineProvider {
             
             if let highestPlanetCampaign = campaigns.max(by: { $0.planet.statistics.playerCount < $1.planet.statistics.playerCount }) {
                 let highestPlanet = highestPlanetCampaign.planet
+                let campaignType = highestPlanetCampaign.type
                 
                 // grab space station expire time if one is there
                     let spaceStationExpirationTime = spaceStations.first(where: { $0.planet.index == highestPlanet.index })?.electionEndDate
@@ -86,7 +87,7 @@ struct PlanetStatusProvider: TimelineProvider {
                         liberationPercentage = (1.0 - fleetStrengthProgress) * 100
                     }
 
-                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: liberationPercentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime, invasionLevel: invasionLevel, eventHealth: eventHealth, eventMaxHealth: eventMaxHealth, spaceStationExpirationTime: spaceStationExpirationTime)
+                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: liberationPercentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime, invasionLevel: invasionLevel, eventHealth: eventHealth, eventMaxHealth: eventMaxHealth, spaceStationExpirationTime: spaceStationExpirationTime, campaignType: campaignType)
                     entries.append(entry)
                     
                 } else {
@@ -124,6 +125,7 @@ struct SimplePlanetStatus: TimelineEntry {
     var eventHealth: Int64? = nil
     var eventMaxHealth: Int64? = nil
     var spaceStationExpirationTime: Date? = nil
+    var campaignType: Int = 0
 }
 
 @available(watchOS 9.0, *)
@@ -172,7 +174,7 @@ struct Helldivers_Companion_WidgetsEntryView : View {
                     
                 }
                 
-                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, factionName: entry.faction, factionColor: entry.factionColor, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, eventExpirationTime: entry.eventExpirationTime, spaceStationExpirationTime: entry.spaceStationExpirationTime, eventInvasionLevel: entry.invasionLevel, eventHealth: entry.eventHealth, eventMaxHealth: entry.eventMaxHealth).environmentObject(PlanetsDataModel())
+                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, factionName: entry.faction, factionColor: entry.factionColor, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, eventExpirationTime: entry.eventExpirationTime, spaceStationExpirationTime: entry.spaceStationExpirationTime, eventInvasionLevel: entry.invasionLevel, eventHealth: entry.eventHealth, eventMaxHealth: entry.eventMaxHealth, campaignType: entry.campaignType).environmentObject(PlanetsDataModel())
                     .padding(.horizontal)
                     .padding(.vertical, 5)
                 
@@ -197,8 +199,10 @@ struct RectangularPlanetWidgetView: View {
             HStack(spacing: 3) {
                 // nil coalesced with get image name for planet, because entry.faction wouldnt be nil if it was defending - and using view models function for image name is fine when liberating
                 
-                Image(entry.faction ?? PlanetsDataModel().getImageNameForPlanet(entry.planet)).resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
-                    .padding(.bottom, 2)
+                if entry.campaignType != 3 {
+                      Image(entry.faction ?? PlanetsDataModel().getImageNameForPlanet(entry.planet)).resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
+                        .padding(.bottom, 2)
+                }
                 Text(entry.planetName) .font(Font.custom("FSSinclair", size: 16)).bold()
                 
                 
@@ -217,11 +221,14 @@ struct RectangularPlanetWidgetView: View {
                     Spacer()
                 }.padding(.leading, 5)
                 HStack(spacing: 3) {
+                    if entry.campaignType != 3 {
                     Image(systemName: "chart.xyaxis.line").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                         .padding(.bottom, 2)
-                    Text(String(format: entry.eventExpirationTime != nil ? "%.0f%%" : "%.4f%%", entry.liberation))
-                        .font(Font.custom("FSSinclair", size: 16))
-                    Spacer()
+                 
+                        Text(String(format: entry.eventExpirationTime != nil ? "%.0f%%" : "%.4f%%", entry.liberation))
+                            .font(Font.custom("FSSinclair", size: 16))
+                        Spacer()
+                    }
                     if let expireTime = entry.eventExpirationTime {
                         Text(expireTime, style: .timer)
                             .font(Font.custom("FSSinclair", size: 12))

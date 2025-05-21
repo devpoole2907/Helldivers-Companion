@@ -48,6 +48,12 @@ struct PlanetInfoView: View {
         viewModel.updatedCampaigns.contains(where: { $0.planet.name == planet?.name })
     }
     
+    // this is stupid and repetitive
+    private var campaignType: Int? {
+            guard let planet = planet else { return nil }
+            return viewModel.updatedCampaigns.first(where: { $0.planet.index == planet.index })?.type
+        }
+    
     private var planet: UpdatedPlanet? {
         viewModel.updatedPlanets.first(where: { $0.index == planetIndex })
     }
@@ -77,6 +83,11 @@ struct PlanetInfoView: View {
         return viewModel.spaceStations.first { spaceStation in
             spaceStation.planet.index == planet?.index
         }
+    }
+    
+    // any regions e.g cities on super earth
+    var matchingRegions: [PlanetRegion] {
+        return viewModel.status?.planetRegions?.filter { $0.planetIndex == planetIndex } ?? []
     }
     
     private var activeSpaceStationDetails: SpaceStationDetails? {
@@ -178,6 +189,15 @@ struct PlanetInfoView: View {
     
 #endif
     
+    // temporary until json includes regions
+    let regionNamesByPlanet: [Int: [Int: String]] = [
+        0: [
+            0: "Eagleopolis",
+            2: "Remembrance",
+            6: "Equality-On-Sea"
+        ]
+    ]
+    
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             ScrollView {
@@ -198,6 +218,48 @@ struct PlanetInfoView: View {
                 if let spaceStationExpiration = spaceStationExpirationTime {
                     SpaceStationView(spaceStationExpiration: spaceStationExpiration, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isWidget: false, showFullInfo: true)
                         .padding(.horizontal)
+                }
+                
+                // any regions
+                
+                if !matchingRegions.isEmpty && campaign {
+                    VStack(alignment: .leading, spacing: 8) {
+                        
+                        Text("REGIONS")
+                            .font(Font.custom("FSSinclair-Bold", size: largeFont))
+                            .foregroundStyle(.white)
+                        
+                        ForEach(matchingRegions, id: \.regionIndex) { region in
+                            let regionName = regionNamesByPlanet[region.planetIndex]?[region.regionIndex] ?? "Region \(region.regionIndex)"
+                            let currentHealth: Double = {
+                                guard let max = region.maxHealth, max > 0 else { return 0.0 }
+                                return Double(region.health) / Double(max)
+                            }()
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                            
+                            HStack {
+                                Text(regionName)
+                                    .font(Font.custom("FSSinclair-Bold", size: mediumFont))
+                                    .foregroundStyle(.white)
+                                Divider()
+                                Text(String(format: "%.3f%% CONTROLLED", currentHealth * 100))
+                                    .font(Font.custom("FSSinclair-Bold", size: smallFont))
+                                    .foregroundStyle(.white)
+                                
+                            }
+                            // TODO: change to not just purple
+                            RectangleProgressBar(value: currentHealth, primaryColor: .cyan, secondaryColor: .purple, height: 11)
+                            
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 5)
+                                .border(Color.purple, width: 2)
+                            
+                        }
+
+                        }
+                    }.padding(.horizontal, horizPadding)
+                        .padding(.bottom, 20)
                 }
                 
                 
@@ -232,7 +294,7 @@ struct PlanetInfoView: View {
                                     .shadow(radius: 5.0)
                                 
                             }
-                            CampaignPlanetStatsView(liberation: liberationPercentage ?? 0.0, liberationType: liberationType, planetName: planet?.name, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: planet?.statistics.playerCount, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth)
+                            CampaignPlanetStatsView(liberation: liberationPercentage ?? 0.0, liberationType: liberationType, planetName: planet?.name, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: planet?.statistics.playerCount, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, campaignType: campaignType)
                                 .shadow(radius: 5.0)
                         }
                         
