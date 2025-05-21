@@ -14,12 +14,12 @@ struct PlanetStatusProvider: TimelineProvider {
     @MainActor var planetsModel = PlanetsDataModel()
     
     func placeholder(in context: Context) -> SimplePlanetStatus {
-        SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, faction: "terminid", factionColor: .yellow)
+        SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, faction: "terminid", factionColor: .yellow, campaignType: 0)
     }
     
     func getSnapshot(in context: Context, completion: @escaping (SimplePlanetStatus) -> Void) {
         
-        let entry = SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, faction: "terminid", factionColor: .yellow)
+        let entry = SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, faction: "terminid", factionColor: .yellow, campaignType: 0)
         
         completion(entry)
     }
@@ -93,7 +93,7 @@ struct PlanetStatusProvider: TimelineProvider {
                 } else {
                     // we dont need to access the view models faction image function's additional conditions here, because the planet is definitely not defending and is definitely a campaign, so we can just use it in the view directly as it will fall through to the check we need anyway
                     
-                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, spaceStationExpirationTime: spaceStationExpirationTime)
+                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, spaceStationExpirationTime: spaceStationExpirationTime, campaignType: campaignType)
                     entries.append(entry)
                 }
                 
@@ -125,7 +125,7 @@ struct SimplePlanetStatus: TimelineEntry {
     var eventHealth: Int64? = nil
     var eventMaxHealth: Int64? = nil
     var spaceStationExpirationTime: Date? = nil
-    var campaignType: Int = 0
+    var campaignType: Int
 }
 
 @available(watchOS 9.0, *)
