@@ -75,6 +75,8 @@ struct CampaignPlanetStatsView: View {
     
     var campaignType: Int? = 0
     
+    var matchingRegions: [PlanetRegion] = []
+    
     @State private var pulsate = false
     
     @EnvironmentObject var viewModel: PlanetsDataModel
@@ -251,6 +253,26 @@ struct CampaignPlanetStatsView: View {
         .padding(4)
         .border(Color.gray)
             
+            
+        } else {
+            
+            // regions, show first region
+            
+            if !matchingRegions.isEmpty {
+                
+                
+                RegionListView(
+                    regions: matchingRegions,
+                    regionNames: regionNamesByPlanet,
+                    showOnlyTopRegion: true, horizPadding: 10
+                )
+                .padding(.vertical, 5)
+                
+                .border(Color.white)
+                .padding(4)
+                .border(Color.gray)
+                
+            }
             
         }
       

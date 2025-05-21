@@ -189,15 +189,6 @@ struct PlanetInfoView: View {
     
 #endif
     
-    // temporary until json includes regions
-    let regionNamesByPlanet: [Int: [Int: String]] = [
-        0: [
-            0: "Eagleopolis",
-            2: "Remembrance",
-            6: "Equality-On-Sea"
-        ]
-    ]
-    
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             ScrollView {
@@ -223,43 +214,14 @@ struct PlanetInfoView: View {
                 // any regions
                 
                 if !matchingRegions.isEmpty && campaign {
-                    VStack(alignment: .leading, spacing: 8) {
-                        
-                        Text("REGIONS")
-                            .font(Font.custom("FSSinclair-Bold", size: largeFont))
-                            .foregroundStyle(.white)
-                        
-                        ForEach(matchingRegions, id: \.regionIndex) { region in
-                            let regionName = regionNamesByPlanet[region.planetIndex]?[region.regionIndex] ?? "Region \(region.regionIndex)"
-                            let currentHealth: Double = {
-                                guard let max = region.maxHealth, max > 0 else { return 0.0 }
-                                return Double(region.health) / Double(max)
-                            }()
-                            
-                            VStack(alignment: .leading, spacing: 4) {
-                            
-                            HStack {
-                                Text(regionName)
-                                    .font(Font.custom("FSSinclair-Bold", size: mediumFont))
-                                    .foregroundStyle(.white)
-                                Divider()
-                                Text(String(format: "%.3f%% CONTROLLED", currentHealth * 100))
-                                    .font(Font.custom("FSSinclair-Bold", size: smallFont))
-                                    .foregroundStyle(.white)
-                                
-                            }
-                            // TODO: change to not just purple
-                            RectangleProgressBar(value: currentHealth, primaryColor: .cyan, secondaryColor: .purple, height: 11)
-                            
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 5)
-                                .border(Color.purple, width: 2)
-                            
-                        }
-
-                        }
-                    }.padding(.horizontal, horizPadding)
-                        .padding(.bottom, 20)
+                    
+                    
+                    RegionListView(
+                        regions: matchingRegions,
+                        regionNames: regionNamesByPlanet,
+                        showOnlyTopRegion: false, horizPadding: horizPadding 
+                    ) .padding(.bottom, 20)
+                    
                 }
                 
                 
@@ -797,5 +759,64 @@ enum InfoType: String, SegmentedItem, CaseIterable {
         case .database:
             return .text("Database")
         }
+    }
+}
+
+struct RegionListView: View {
+    let regions: [PlanetRegion]
+    let regionNames: [Int: [Int: String]]
+    let showOnlyTopRegion: Bool
+    
+    let horizPadding: CGFloat
+
+    var body: some View {
+        let displayedRegions = showOnlyTopRegion ? [regionWithMostPlayers].compactMap { $0 } : regions
+        
+        if !displayedRegions.isEmpty {
+            VStack(alignment: .leading, spacing: 8) {
+                
+                if !showOnlyTopRegion {
+                    Text("REGIONS")
+                        .font(Font.custom("FSSinclair-Bold", size: largeFont))
+                        .foregroundStyle(.white)
+                    
+                }
+
+                ForEach(displayedRegions, id: \.regionIndex) { region in
+                    let regionName = regionNames[region.planetIndex]?[region.regionIndex] ?? "Region \(region.regionIndex)"
+                    let currentHealth: Double = {
+                        guard let max = region.maxHealth, max > 0 else { return 0.0 }
+                        return Double(region.health) / Double(max)
+                    }()
+
+                    VStack(alignment: .leading, spacing: 1) {
+                        HStack {
+                            Text(regionName)
+                                .font(Font.custom("FSSinclair-Bold", size: mediumFont))
+                                .foregroundStyle(.white)
+                            Divider()
+                            Text(String(format: "%.3f%% CONTROLLED", currentHealth * 100))
+                                .font(Font.custom("FSSinclair-Bold", size: smallFont))
+                                .foregroundStyle(.white)
+                        }
+
+                        RectangleProgressBar(
+                            value: currentHealth,
+                            primaryColor: .cyan,
+                            secondaryColor: .purple,
+                            height: 8
+                        )
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 5)
+                        .border(Color.purple, width: 2)
+                    }
+                }
+            }
+            .padding(.horizontal, horizPadding)
+        }
+    }
+
+    private var regionWithMostPlayers: PlanetRegion? {
+        regions.max(by: { $0.players < $1.players })
     }
 }

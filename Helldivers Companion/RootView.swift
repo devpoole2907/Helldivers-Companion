@@ -198,8 +198,9 @@ struct RootView: View {
                     
                     
                     majorOrderButton
-                    personalOrderButton
-                    superStoreButton
+                    // gone now :(
+                  /*  personalOrderButton
+                    superStoreButton */
                     
                 }.padding(.bottom, 60)
                     .padding(.trailing, 10)

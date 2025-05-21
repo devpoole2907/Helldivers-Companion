@@ -702,6 +702,15 @@ struct StatusResponse: Codable {
     let planetRegions: [PlanetRegion]?
 }
 
+// temporary until json includes regions
+let regionNamesByPlanet: [Int: [Int: String]] = [
+    0: [
+        0: "Eagleopolis",
+        2: "Remembrance",
+        6: "Equality-On-Sea"
+    ]
+]
+
 struct WarInfoResponse: Codable {
     // only need regions info
     let planetRegions: [PlanetRegionInfo]
