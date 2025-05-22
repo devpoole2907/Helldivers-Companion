@@ -817,6 +817,8 @@ struct RegionListView: View {
     }
 
     private var regionWithMostPlayers: PlanetRegion? {
-        regions.max(by: { $0.players < $1.players })
-    }
+    regions
+        .filter { $0.isAvailable }
+        .max(by: { $0.players < $1.players })
+}
 }
