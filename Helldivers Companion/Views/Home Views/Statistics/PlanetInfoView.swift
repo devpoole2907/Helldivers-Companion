@@ -808,11 +808,11 @@ struct RegionListView: View {
                         }
 
                         RectangleProgressBar(
-                            value: currentHealth,
-                            primaryColor: .cyan,
-                            secondaryColor: .purple,
-                            height: 8
-                        )
+    value: currentHealth,
+    primaryColor: (region.isAvailable || region.owner == 1) ? .cyan : .purple,
+    secondaryColor: .purple,
+    height: 8
+)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 5)
                         .border(Color.purple, width: 2)
