@@ -266,12 +266,13 @@ struct CampaignPlanetStatsView: View {
                     regionNames: regionNamesByPlanet,
                     showOnlyTopRegion: true, horizPadding: 10
                 )
+                  .frame(maxHeight: 40)
                 .padding(.vertical, 5)
                 
                 .border(Color.white)
                 .padding(4)
                 .border(Color.gray)
-                
+               .frame(maxHeight: 50)
             }
             
         }
