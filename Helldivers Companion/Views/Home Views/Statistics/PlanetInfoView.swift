@@ -795,7 +795,7 @@ struct RegionListView: View {
                                 .font(Font.custom("FSSinclair-Bold", size: mediumFont))
                                 .foregroundStyle(.white)
                             Divider()
-                            Text(String(format: "%.3f%% CONTROLLED", currentHealth * 100))
+                            Text(String(format: "%.3f%% HELD", currentHealth * 100))
                                 .font(Font.custom("FSSinclair-Bold", size: smallFont))
                                 .foregroundStyle(.white)
                         }
