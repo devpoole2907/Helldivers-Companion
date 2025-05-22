@@ -792,7 +792,7 @@ struct RegionListView: View {
                         if !region.isAvailable && region.owner != 1 {
                             return "UNDER ENEMY CONTROL"
                         } else {
-                            return String(format: "%.3f%% CONTROLLED", currentHealth * 100)
+                            return String(format: "%.3f%% HELD", currentHealth * 100)
                         }
                     }()
 
