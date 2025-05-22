@@ -706,7 +706,11 @@ struct StatusResponse: Codable {
 let regionNamesByPlanet: [Int: [Int: String]] = [
     0: [
         0: "Eagleopolis",
+        1: "Administrative Center 02",
         2: "Remembrance",
+        3: "York Supreme",
+        4: "Port Mercy",
+        5: "Prosperity City",
         6: "Equality-On-Sea"
     ]
 ]
