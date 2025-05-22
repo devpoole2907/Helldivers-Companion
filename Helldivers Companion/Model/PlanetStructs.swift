@@ -909,6 +909,7 @@ struct UpdatedCampaign: Decodable, Hashable {
     var planet: UpdatedPlanet
     var type: Int
     var count: Int64
+    var faction: String
 }
 
 struct UpdatedPlanetDataPoint {
