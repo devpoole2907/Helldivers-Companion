@@ -788,6 +788,13 @@ struct RegionListView: View {
                         guard let max = region.maxHealth, max > 0 else { return 0.0 }
                         return Double(region.health) / Double(max)
                     }()
+                    let controlStatus: String = {
+                        if !region.isAvailable && region.owner != 1 {
+                            return "UNDER ENEMY CONTROL"
+                        } else {
+                            return String(format: "%.3f%% CONTROLLED", currentHealth * 100)
+                        }
+                    }()
 
                     VStack(alignment: .leading, spacing: 1) {
                         HStack {
@@ -795,7 +802,7 @@ struct RegionListView: View {
                                 .font(Font.custom("FSSinclair-Bold", size: mediumFont))
                                 .foregroundStyle(.white)
                             Divider()
-                            Text(String(format: "%.3f%% HELD", currentHealth * 100))
+                            Text(controlStatus)
                                 .font(Font.custom("FSSinclair-Bold", size: smallFont))
                                 .foregroundStyle(.white)
                         }
