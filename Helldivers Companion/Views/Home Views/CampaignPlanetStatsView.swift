@@ -266,7 +266,7 @@ struct CampaignPlanetStatsView: View {
                     regionNames: regionNamesByPlanet,
                     showOnlyTopRegion: true, horizPadding: 10
                 )
-                  .frame(maxHeight: 40)
+                  .frame(maxHeight: 44)
                 .padding(.vertical, 5)
                 
                 .border(Color.white)

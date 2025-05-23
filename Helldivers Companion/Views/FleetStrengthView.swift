@@ -19,15 +19,22 @@ struct FleetStrengthView: View {
                 .font(Font.custom("FSSinclair-Bold", size: smallFont))
                 .multilineTextAlignment(.center)
 
-            RectangleProgressBar(
-                value: fleetStrengthProgress,
-                primaryColor: .purple,
-                secondaryColor: .clear,
-                height: 11
-            )
-            .padding(.horizontal, 6)
-            .padding(.vertical, 5)
-            .border(Color.purple, width: 2)
+            HStack {
+                RectangleProgressBar(
+                    value: fleetStrengthProgress,
+                    primaryColor: .purple,
+                    secondaryColor: .clear,
+                    height: 11
+                )
+                .padding(.horizontal, 6)
+                .padding(.vertical, 5)
+                .border(Color.purple, width: 2)
+                
+                Text(String(format: "%.1f%%", fleetStrengthProgress * 100))
+                    .foregroundStyle(.gray)
+                    .font(Font.custom("FSSinclair", size: smallFont))
+                    .multilineTextAlignment(.center)
+            }
         }
         .padding(.horizontal)
         .padding(.vertical, 4)

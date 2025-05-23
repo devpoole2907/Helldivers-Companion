@@ -200,7 +200,8 @@ struct UpdatedPlanetView: View {
                     Color.black
                 }
             }
-            .border(foreColor, width: isWidget ? 0 : 2)
+        // red border if its super earth and current active in campaign
+            .border(isActive && planetIndex == 0 ? .red : foreColor, width: isWidget ? 0 : 2)
      
     }
     
