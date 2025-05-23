@@ -42,37 +42,44 @@ struct MajorOrderProvider: TimelineProvider {
             let (taskPlanets, majorOrder) = majorOrderResults
             
             var finalTaskProgress: Double?
-                        var finalProgressString: String?
-                        var finalProgress: Double?
-                        var finalOrderType: Int?
-                        
-                        if let mo = majorOrder {
-                            // If eradication type, pick the first eradication task's progress
-                            if mo.isEradicateType, let firstErad = mo.eradicationProgress?.first {
-                                finalTaskProgress = firstErad.progress
-                                finalProgressString = firstErad.progressString
-                                finalProgress = firstErad.progress
-                                finalOrderType = mo.eradicateTasks.first?.type
-                            }
-                            // If defense type, pick the first defense task's progress
-                            else if mo.isDefenseType, let firstDef = mo.defenseProgress?.first {
-                                finalTaskProgress = firstDef.progress
-                                finalProgressString = firstDef.progressString
-                                finalProgress = firstDef.progress
-                                finalOrderType = mo.defenseTasks.first?.type
-                            }
-                            // If net quantity type, pick the first net-quantity task's progress
-                            else if mo.isNetQuantityType, let firstNet = mo.netQuantityProgress?.first {
-                                finalTaskProgress = firstNet.progress
-                                finalProgressString = firstNet.progressString
-                                finalProgress = firstNet.progress
-                                finalOrderType = mo.netQuantityTasks.first?.type
-                            }
-                            // If liberation type, keep it simple:
-                            else if mo.isLiberationType {
-                                finalOrderType = 11
-                            }
-                        }
+            var finalProgressString: String?
+            var finalProgress: Double?
+            var finalOrderType: Int?
+            
+            if let mo = majorOrder {
+                // If eradication type, pick the first eradication task's progress
+                if mo.isEradicateType, let firstErad = mo.eradicationProgress?.first {
+                    finalTaskProgress = firstErad.progress
+                    finalProgressString = firstErad.progressString
+                    finalProgress = firstErad.progress
+                    finalOrderType = mo.eradicateTasks.first?.type
+                }
+                // If defense type, pick the first defense task's progress
+                else if mo.isDefenseType, let firstDef = mo.defenseProgress?.first {
+                    finalTaskProgress = firstDef.progress
+                    finalProgressString = firstDef.progressString
+                    finalProgress = firstDef.progress
+                    finalOrderType = mo.defenseTasks.first?.type
+                }
+                // If net quantity type, pick the first net-quantity task's progress
+                else if mo.isNetQuantityType, let firstNet = mo.netQuantityProgress?.first {
+                    finalTaskProgress = firstNet.progress
+                    finalProgressString = firstNet.progressString
+                    finalProgress = firstNet.progress
+                    finalOrderType = mo.netQuantityTasks.first?.type
+                }
+                // If liberation type, keep it simple:
+                else if mo.isLiberationType {
+                    finalOrderType = 11
+                }
+                // If mission extract type (type 7), pick the first progress
+                else if mo.isMissionExtractType, let firstExtract = mo.missionExtractProgress?.first {
+                    finalTaskProgress = firstExtract.progress
+                    finalProgressString = firstExtract.progressString
+                    finalProgress = firstExtract.progress
+                    finalOrderType = mo.missionExtractTasks.first?.type
+                }
+            }
             
             let entry = MajorOrderEntry(
                             date: Date(),
@@ -274,9 +281,13 @@ struct OrdersWidgetView: View {
                         
                         MajorOrderBarProgressView(progress: defenseProgress, barColor: .white, progressString: progressString, isWidget: true)
                         
-                        
-                        // task type 15
-                    } else if let orderType = orderType, orderType == 15, let progress = progress {
+                    }
+                    // mission extract type
+                    else if let orderType = orderType, orderType == 7, let missionProgress = taskProgress, let progressString = progressString {
+                        MajorOrderBarProgressView(progress: missionProgress, barColor: .purple, progressString: progressString, isWidget: true)
+                    }
+                    // task type 15
+                    else if let orderType = orderType, orderType == 15, let progress = progress {
                         
                         let maxProgressValue: Double = 10 // assumes 10 is the max value either way for normalization (planets cpatured or lost)
                         let normalizedProgress: Double = 1 - (Double(progress) + maxProgressValue) / (2 * maxProgressValue)
