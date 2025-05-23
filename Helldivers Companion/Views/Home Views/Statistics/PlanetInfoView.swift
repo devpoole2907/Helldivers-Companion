@@ -219,7 +219,7 @@ struct PlanetInfoView: View {
                     RegionListView(
                         regions: matchingRegions,
                         regionNames: regionNamesByPlanet,
-                        showOnlyTopRegion: false, horizPadding: horizPadding 
+                        showOnlyTopRegion: false, horizPadding: horizPadding
                     ) .padding(.bottom, 20)
                     
                 }
@@ -770,7 +770,9 @@ struct RegionListView: View {
     let horizPadding: CGFloat
 
     var body: some View {
-        let displayedRegions = showOnlyTopRegion ? [regionWithMostPlayers].compactMap { $0 } : regions
+        let displayedRegions = showOnlyTopRegion
+            ? [regionWithMostPlayers].compactMap { $0 }
+            : regions.sorted { $0.isAvailable && !$1.isAvailable }
         
         if !displayedRegions.isEmpty {
             VStack(alignment: .leading, spacing: 8) {
@@ -792,7 +794,8 @@ struct RegionListView: View {
                         if !region.isAvailable && region.owner != 1 {
                             return "UNDER ENEMY CONTROL"
                         } else {
-                            return String(format: "%.3f%% HELD", currentHealth * 100)
+                            let format = showOnlyTopRegion ? "%.1f%%" : "%.3f%% HELD"
+                            return String(format: format, currentHealth * 100)
                         }
                     }()
 
@@ -801,10 +804,28 @@ struct RegionListView: View {
                             Text(regionName)
                                 .font(Font.custom("FSSinclair-Bold", size: mediumFont))
                                 .foregroundStyle(.white)
+                            Spacer()
                             Divider()
                             Text(controlStatus)
                                 .font(Font.custom("FSSinclair-Bold", size: smallFont))
                                 .foregroundStyle(.white)
+                            
+                            if region.isAvailable {
+                                Spacer()
+                                
+                                Divider()
+                                
+                                let regenPerHour = Double(region.regerPerSecond) * 3600.0
+                                let regenPercent = (regenPerHour / Double(region.maxHealth ?? 0)) * 100
+                                
+                                Text(String(format: "%.1f%% / h", -regenPercent))
+                                    .foregroundStyle(.purple).bold()
+                                    .font(Font.custom("FSSinclair", size: smallFont))
+                                    .padding(.top, 2)
+                                    .dynamicTypeSize(.small)
+                                
+                            }
+                            
                         }
 
                         RectangleProgressBar(
@@ -817,7 +838,7 @@ struct RegionListView: View {
                         .padding(.vertical, 5)
                         .border(Color.purple, width: 2)
                     }
-                }
+                }  .multilineTextAlignment(.center)
             }
             .padding(.horizontal, horizPadding)
         }
