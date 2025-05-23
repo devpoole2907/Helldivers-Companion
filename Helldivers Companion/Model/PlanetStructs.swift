@@ -79,6 +79,11 @@ struct MajorOrder: Decodable {
     var eradicateTasks: [Setting.Task] {
         setting.tasks.filter { $0.type == 3 }
     }
+    
+    var missionExtractTasks: [Setting.Task] {
+        setting.tasks.filter { $0.type == 7 }
+    }
+    
     var defenseTasks: [Setting.Task] {
         setting.tasks.filter { $0.type == 12 }
     }
@@ -94,6 +99,7 @@ struct MajorOrder: Decodable {
     var isDefenseType: Bool    { !defenseTasks.isEmpty }
     var isNetQuantityType: Bool { !netQuantityTasks.isEmpty }
     var isLiberationType: Bool  { !liberationTasks.isEmpty }
+    var isMissionExtractType: Bool { !missionExtractTasks.isEmpty }
     
     // cooked code, uses the adaptive descriptions developed for personal orders
     // this type actually needs iur adaptive setting task descriptions
@@ -112,6 +118,23 @@ struct MajorOrder: Decodable {
             let progressValue = Double(currentProgress) / Double(totalGoal)
             let progressString = "\(currentProgress)/\(totalGoal)"
             return (taskDescription, progressValue, progressString)
+        }
+    }
+    
+    // if a mission extraction order
+    
+    var missionExtractProgress: [(description: AttributedString, progress: Double, progressString: String)]? {
+        guard isMissionExtractType else { return nil }
+        return missionExtractTasks.compactMap { task in
+            guard let taskIndex = setting.tasks.firstIndex(of: task),
+                  let currentProgress = progress[safe: taskIndex],
+                  let totalGoal = task.values[safe: 2] else {
+                return nil
+            }
+
+            let progressValue = Double(currentProgress) / Double(totalGoal)
+            let progressString = "\(currentProgress)/\(totalGoal) (\(String(format: "%.1f", progressValue * 100))%)"
+            return (task.description, progressValue, progressString)
         }
     }
     

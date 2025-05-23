@@ -107,6 +107,25 @@ struct OrderView: View {
                                             TasksView(taskPlanets: viewModel.updatedTaskPlanets)
                                         }
                     
+                    // MARK: - Mission Extract Tasks (Type 7)
+                    if mo.isMissionExtractType, let missionExtractProgresses = mo.missionExtractProgress {
+                        ForEach(missionExtractProgresses.indices, id: \.self) { index in
+                            let progressData = missionExtractProgresses[index]
+                            VStack(spacing: 2){
+                                Text(progressData.description)
+                                    .font(Font.custom("FSSinclair-Bold", size: smallFont))
+                                    .foregroundStyle(.white)
+                                    .multilineTextAlignment(.center)
+
+                                MajorOrderBarProgressView(
+                                    progress: progressData.progress,
+                                    barColor: Color.purple,
+                                    progressString: progressData.progressString
+                                )
+                            }
+                        }
+                    }
+                    
                 }
                 
             }
