@@ -46,6 +46,67 @@ struct ContentView: View {
         
     }
     
+    private var alertView: some View {
+        Group {
+            if let alert = viewModel.configData.prominentAlert {
+                AlertView(alert: alert)
+                    .padding(.horizontal)
+            }
+        }
+    }
+
+    private var campaignGridView: some View {
+        LazyVGrid(columns: columns) {
+            ForEach(viewModel.updatedCampaigns, id: \.planet.index) { campaign in
+                UpdatedPlanetView(planetIndex: campaign.planet.index)
+                    .padding()
+            }
+        }
+    }
+
+    private var campaignListView: some View {
+        LazyVStack(spacing: 20) {
+            ForEach(viewModel.updatedCampaigns, id: \.planet.index) { campaign in
+                UpdatedPlanetView(planetIndex: campaign.planet.index)
+                    .padding(.horizontal)
+            }
+        }
+    }
+
+    private var retryBannerView: some View {
+        Group {
+            if let failedFetchTimeRemaining = viewModel.nextFetchTime {
+                VStack(spacing: 0) {
+                    Text("Failed to connect to Super Earth High Command. Retrying in:")
+                        .opacity(0.5)
+                        .foregroundStyle(.gray)
+                        .font(Font.custom("FSSinclair", size: smallFont))
+                        .multilineTextAlignment(.center)
+
+                    Text(failedFetchTimeRemaining, style: .timer)
+                        .opacity(0.5)
+                        .foregroundStyle(.gray)
+                        .font(Font.custom("FSSinclair", size: largeFont))
+                        .padding()
+                }
+                .padding()
+            }
+        }
+    }
+
+    private var loadingOverlayView: some View {
+        Group {
+            if viewModel.isLoading {
+                VStack {
+                    Text("Please wait democratically".uppercased())
+                        .foregroundStyle(.white)
+                        .font(Font.custom("FSSinclair", size: mediumFont))
+                    DualRingSpinner()
+                }
+            }
+        }
+    }
+    
     var body: some View {
         
         NavigationStack(path: $navPather.navigationPath) {
@@ -55,29 +116,13 @@ struct ContentView: View {
                     //     Text("Current war season: \(viewModel.currentSeason)")
                     
                     if isIpad {
-                        if let alert = viewModel.configData.prominentAlert {
-                            
-                            AlertView(alert: alert)
-                                .padding(.horizontal)
-                        }
+                        alertView
                         
                         if let _ = viewModel.fleetStrengthResource {
                             fleetView
                         }
                         
-                        LazyVGrid(columns: columns) {
-                            ForEach(viewModel.updatedCampaigns, id: \.planet.index) { campaign in
-                                
-                                UpdatedPlanetView(planetIndex: campaign.planet.index)
-                                    .id(campaign == viewModel.updatedCampaigns.first ? 0 : campaign.planet.index)
-                                    .padding()
-                                
-                                
-                            }
-                        }
-#if os(iOS)
-                        .scrollTargetLayoutiOS17()
-#endif
+                        campaignGridView
                         
                     } else {
                         
@@ -90,11 +135,7 @@ struct ContentView: View {
                             
                             /*   AlertView(alert: "You are running a test version of War Monitor. This special build will display additional debug info, if you experience any issues please provide screenshots of the debug information below.")  .padding(.horizontal)*/
                             
-                            if let alert = viewModel.configData.prominentAlert {
-                                
-                                AlertView(alert: alert)
-                                    .padding(.horizontal)
-                            }
+                            alertView
                             
                             
                             /*    if let error = viewModel.lastError {
@@ -113,44 +154,13 @@ struct ContentView: View {
                                 fleetView
                             }
                             
-                        LazyVStack(spacing: 20) {
-                            
-                            ForEach(viewModel.updatedCampaigns, id: \.planet.index) { campaign in
-                                
-                                UpdatedPlanetView(planetIndex: campaign.planet.index)
-                                    .id(campaign == viewModel.updatedCampaigns.first ? 0 : campaign.planet.index)
-                                    .padding(.horizontal)
-                                
-                                
-                            }
-                            
-                            
-                        }
-#if os(iOS)
-                        .scrollTargetLayoutiOS17()
-#endif
+                        campaignListView
                         
                     }
                     
                     
                     
-                    if let failedFetchTimeRemaining = viewModel.nextFetchTime {
-                        VStack(spacing: 0) {
-                            
-                            Text("Failed to connect to Super Earth High Command. Retrying in:")
-                                .opacity(0.5)
-                                .foregroundStyle(.gray)
-                                .font(Font.custom("FSSinclair", size: smallFont))
-                                .multilineTextAlignment(.center)
-                            
-                            Text(failedFetchTimeRemaining, style: .timer)
-                                .opacity(0.5)
-                                .foregroundStyle(.gray)
-                                .font(Font.custom("FSSinclair", size: largeFont))
-                                .padding()
-                            
-                        }      .padding()
-                    }
+                    retryBannerView
                     
                     Text("Pull to Refresh").textCase(.uppercase)
                         .opacity(0.5)
@@ -162,9 +172,6 @@ struct ContentView: View {
                     Spacer(minLength: 30)
                     
                 }
-#if os(iOS)
-                .scrollPositioniOS17($navPather.scrollPosition)
-#endif
                 
                 .scrollContentBackground(.hidden)
                 
@@ -172,12 +179,7 @@ struct ContentView: View {
                     viewModel.startUpdating()
                 }
                 
-                if viewModel.isLoading {
-                    VStack {
-                        Text("Please wait democratically".uppercased()).foregroundStyle(.white) .font(Font.custom("FSSinclair", size: mediumFont))
-                        DualRingSpinner()
-                    }
-                }
+                loadingOverlayView
                 
             }
             
@@ -312,5 +314,3 @@ struct ContentView: View {
     
     
 }
-
-

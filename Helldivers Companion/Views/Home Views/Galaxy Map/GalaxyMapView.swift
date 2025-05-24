@@ -68,31 +68,11 @@ struct GalaxyMapView: View {
     private let scaleY: CGFloat = -0.468
     private let offsetY: CGFloat = 0.5
     
-    func boundingBoxTransformedPosition(for planet: UpdatedPlanet, imageSize: CGSize) -> CGPoint {
-        let x = planet.position.x  // typically in [-1..+1]
-        let y = planet.position.y  // typically in [-1..+1]
-
-        // Convert from [-1..+1] → [0..1]
-        let normalizedX = (x + 1) / 2
-        // For Y, if the API has +Y as "up," we invert so +1 maps near the top of the image:
-        let normalizedY = 1 - (y + 1) / 2
-
-        // Then map [0..1] onto the actual image size:
-        let finalX = normalizedX * imageSize.width
-        let finalY = normalizedY * imageSize.height
-
-        return CGPoint(x: finalX, y: finalY)
-    }
-    
-    func boundingBoxTransformedPosition(forPlanetIndex index: Int, in size: CGSize) -> CGPoint? {
-        guard let planet = allPlanets.first(where: { $0.index == index }) else { return nil }
-        return boundingBoxTransformedPosition(for: planet, imageSize: size)
-    }
-    
     
     var body: some View {
         GeometryReader { geometry in
             let imageSize = geometry.size
+            let displayModels = viewModel.planetDisplayModels(from: allPlanets, imageSize: geometry.size)
             ZStack {
                 
                 
@@ -105,236 +85,161 @@ struct GalaxyMapView: View {
                 
                 
                 if showSupplyLines {
-                    
-                    // for supply lines, lines between each planet using the planets waypoints variable
-                    ForEach(allPlanets, id: \.index) { updatedPlanet in
-                        if let startPoint = boundingBoxTransformedPosition(forPlanetIndex: updatedPlanet.index,
-                                                                           in: imageSize) {
-                            ForEach(updatedPlanet.waypoints, id: \.self) { waypointIndex in
-                                if let endPoint = boundingBoxTransformedPosition(forPlanetIndex: waypointIndex,
-                                                                                 in: imageSize),
-                                   (showAllPlanets || allCampaigns.contains(where: { $0.planet.index == updatedPlanet.index || $0.planet.index == waypointIndex }) ||
-                                    allPlanets.first(where: { $0.index == updatedPlanet.index })?.currentOwner.lowercased() != "humans"){
-                                    Path { path in
-                                        path.move(to: startPoint)
-                                        path.addLine(to: endPoint)
-                                    }
-                                    
-                                    .stroke(
-                                        allDefenseCampaigns.contains(where: { $0.planet.index == updatedPlanet.index }) ? Color.cyan.opacity(0.5) : updatedPlanet.factionColor.opacity(0.5),
-                                        style: StrokeStyle(lineWidth: 1, dash: [2, 1])
-                                    )
-                                    .allowsHitTesting(false)
-                                }
-                            }
+                    ForEach(viewModel.supplyLineModels(for: allPlanets, allCampaigns: allCampaigns, showAll: showAllPlanets, imageSize: geometry.size)) { line in
+                        Path { path in
+                            path.move(to: line.start)
+                            path.addLine(to: line.end)
                         }
+                        .stroke(line.color, style: StrokeStyle(lineWidth: 1, dash: [2, 1]))
+                        .allowsHitTesting(false)
                     }
-                    
                 }
                 // this can be improved.. A LOT, but at least for now itll do, gets the feat out the door until i can return with a fresh brain
                 
-                ForEach(allPlanets.filter { updatedPlanet in
-                    
-                    if showAllPlanets {
-                        return true
-                    } else {
-                        // replicate your old filter logic:
-                        let isOwnerNotHuman = updatedPlanet.currentOwner.lowercased() != "humans"
-                        let isInCampaign = allCampaigns.contains { $0.planet.index == updatedPlanet.index }
-                        
-                        let hasWaypointToCampaign = updatedPlanet.waypoints.contains { waypointIndex in
-                            allCampaigns.contains { $0.planet.index == waypointIndex }
-                        }
-                        
-                        let isTargetOfCampaign = allPlanets.contains { planet in
-                            planet.waypoints.contains(updatedPlanet.index) &&
-                            allCampaigns.contains { $0.planet.index == planet.index }
-                        }
-                        
-                        return isInCampaign
-                        || isOwnerNotHuman
-                        || hasWaypointToCampaign
-                        || isTargetOfCampaign
-                    }
-                    
-                }, id: \.index) { updatedPlanet in
-                    
-                    let planetPosition = boundingBoxTransformedPosition(for: updatedPlanet, imageSize: imageSize)
-                    
-                    // determine if has dss stationed here
-                    let hasSpaceStation = viewModel.spaceStations.first?.planet.index == updatedPlanet.index
-                    
-                    
-                    // determine if in an active campaign,
-                    let activeCampaign = allCampaigns.first(where: { $0.planet.index == updatedPlanet.index })
-                    let isDefending = allDefenseCampaigns.first(where: { $0.planet.index == updatedPlanet.index })
-                    
-                    // change size of circle, if its in a campaign or selected it should be larger
-                    let circleSize = selectedPlanet?.index == updatedPlanet.index ? 10 :
-                    ((activeCampaign != nil) ? 8 : 6)
-                    
-                    
-                    ZStack {
-                        
-                        // show red expanding ring around defense planets
-                        if (isDefending != nil || viewModel.updatedTaskPlanets.contains(where: { $0.index == updatedPlanet.index })) {
-                            Circle()
-                                .scaleEffect(isScaled ? 2.0 : 0.8)
-                                .opacity(isScaled ? 0 : 1.0)
-                                           .animation(
-                                               .easeInOut(duration: 1).repeatForever(autoreverses: false),
-                                               value: isScaled
-                                           )
-                                        
-                                           .frame(width: selectedPlanet?.index == updatedPlanet.index ? 10 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 8 : 6), height: selectedPlanet?.index == updatedPlanet.index ? 10 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 8 : 6))
-                                .position(planetPosition)
-                                .foregroundStyle(isDefending != nil ? .red : .yellow)
-                               
-                            
-                        }
-                        
-                        Circle()
-                            .frame(width: selectedPlanet?.index == updatedPlanet.index ? 10 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 8 : 6), height: selectedPlanet?.index == updatedPlanet.index ? 10 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 8 : 6))
-                            .position(planetPosition)
-                        
-                        
-                            .foregroundStyle(
-                                (updatedPlanet.galacticEffects?.contains {
-                                    $0.name?.localizedCaseInsensitiveContains("black hole") == true
-                                } ?? false)
-                                ? Color(red: 63/255, green: 44/255, blue: 141/255)
-                                : updatedPlanet.factionColor
-                            )
-                        
-                            .opacity(
-                                (updatedPlanet.galacticEffects?.contains {
-                                    $0.name?.localizedCaseInsensitiveContains("fractured") == true
-                                } ?? false)
-                                ? 0.3
-                                : 1.0
-                            )
-                        
-                        // space station icon!
-                        
-                        if hasSpaceStation {
-                            Image("dssIcon")
-                                .resizable()
-                                .renderingMode(.template)
-                                .scaledToFit()
-                                .frame(width: selectedPlanet?.index == updatedPlanet.index ? 8 : 4, height: selectedPlanet?.index == updatedPlanet.index ? 8 : 4)
-                                .position(planetPosition)
-                                .offset(x: selectedPlanet?.index == updatedPlanet.index ? -7 : -4, y: selectedPlanet?.index == updatedPlanet.index ? -6 : -4)
-                                .allowsHitTesting(false)
-                                .foregroundStyle(.white)
-                        }
-                        
-                        // galactic places of interest
-                        
-                        // GET THE CURRENT PLANETS FIRST TWO GALACTIC EFFECT (IF ANY) AND DISPLAY IMAGE IF IT EXISTS:
-                        
-                        if let effects = updatedPlanet.galacticEffects?.filter({ $0.imageName != nil && $0.showImageOnMap })
-                            .uniqued(on: \.imageName) // dont show effects with same images
-                            .prefix(2) {
-                            ForEach(Array(effects.enumerated()), id: \.element.galacticEffectId) { index, effect in
-                                if let imageName = effect.imageName {
-                                    Image(imageName)
-                                        .resizable()
-                                        .renderingMode(.template)
-                                        .scaledToFit()
-                                         .frame(width: selectedPlanet?.index == updatedPlanet.index ? 6 : 3, height: selectedPlanet?.index == updatedPlanet.index ? 6 : 3)
-                                     .position(
-                                     x: planetPosition.x + (index == 1 ? (selectedPlanet?.index == updatedPlanet.index ? 8 : 4) : 0), // offset right
-                                     y: planetPosition.y + CGFloat(index * 4)   // offset down
-                                     )
-                                     .offset(x: 2, y: selectedPlanet?.index == updatedPlanet.index ? -10 : -5.5)
-                                     .allowsHitTesting(false)
-                                     .foregroundStyle(imageName == "alert" ? .red : .white)
-                                }
-                            }
-                        }
-                        
-                        if let defenseCampaign = isDefending {
-                            
-                            if let percentage = defenseCampaign.planet.event?.percentage {
-                                let progress = percentage / 100.0
-                                
-                                CircularProgressView(progress: progress, color: updatedPlanet.factionColor)
-                                    .frame(width: selectedPlanet?.index == updatedPlanet.index ? 8 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 6 : 4), height: selectedPlanet?.index == updatedPlanet.index ? 8 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 6 : 4))
-                                    .position(planetPosition)
-                                
-                            }
-                            
-                            
-                        }
-                        
-                            else if let percentage = activeCampaign?.planet.percentage {
-                                let progress = percentage / 100.0
-                                
-                                CircularProgressView(progress: progress, color: updatedPlanet.factionColor)
-                                    .frame(width: selectedPlanet?.index == updatedPlanet.index ? 8 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 6 : 4), height: selectedPlanet?.index == updatedPlanet.index ? 8 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 6 : 4))
-                                    .position(planetPosition)
-                                
-                            }
-                        
-                        if showPlanetNames && selectedPlanet?.index != updatedPlanet.index && currentZoomLevel > 1.5 {
-                           // dont show floating planet name if they have tapped on it, thats duplicate info in the ui they can see it already
-                           Text("\(updatedPlanet.name)")
-                                .shadow(radius: 3)
-                               .multilineTextAlignment(.center)
-                               .font(Font.custom("FSSinclair", size: 50)).bold()
-                               .scaleEffect(0.04)
-                               .position(planetPosition)
-                               .offset(x: 4, y: 5)
-                               .frame(minWidth: 100)
-                               .allowsHitTesting(false)
-                       }
-                        
-                        if updatedPlanet.galacticEffects?.contains(where: { $0.name?.lowercased().contains("gloom") ?? false }) ?? false {
-                            Image("gloom").resizable()
-                                .renderingMode(.template).aspectRatio(contentMode: .fit)
-                                .foregroundStyle(.yellow)
-                                .frame(width: 30, height: 30)
-                                .position(planetPosition)
-                                .allowsHitTesting(false)
-                        }
-                        
-                    }
-                    
-                   .onAppear {
-                                   isScaled = true
-                               }
-                    
-                        .overlay(
-                            Group {
-                                if selectedPlanet?.index == updatedPlanet.index {
-                                    Circle()
-                                        .stroke(Color.white, lineWidth: 0.6)
-                                        .frame(width: 12, height: 12)
-                                        .position(planetPosition)
-                                    
-                                }
-                            }.allowsHitTesting(false)
-                        )
-                    
-                        .onTapGesture {
-                            print("\(updatedPlanet.name) tapped")
-                            withAnimation(.bouncy) {
-                                if selectedPlanet?.index == updatedPlanet.index {
-                                            // deselect planet if same tapped
-                                            selectedPlanet = nil
-                                        } else {
-                                       // otherwise select
-                                            selectedPlanet = updatedPlanet
-                                        }
-                            }
-                            
-                        }
+                ForEach(displayModels) { model in
+                    PlanetNodeView(
+                        model: model,
+                        isSelected: selectedPlanet?.index == model.id,
+                        selectedPlanet: $selectedPlanet,
+                        showPlanetNames: showPlanetNames,
+                        currentZoomLevel: currentZoomLevel
+                    )
                 }
                 
                 /*
                  DraggablePlanetView(location: $planetLocation, imageSize: imageSize, position: $position)
                  */
-            }.shadow(radius: 3)
+            }
+            .shadow(radius: 3)
+            
+        }
+    }
+}
+
+private struct PlanetNodeView: View {
+    let model: PlanetDisplayModel
+    let isSelected: Bool
+    @Binding var selectedPlanet: UpdatedPlanet?
+    let showPlanetNames: Bool
+    let currentZoomLevel: CGFloat
+
+    @State private var isScaled = false
+
+    var body: some View {
+        let planet = model.planet
+        let position = model.position
+
+        let frameSize: CGFloat = isSelected ? 10 : (model.isInCampaign ? 8 : 6)
+        let iconSize: CGFloat = isSelected ? 8 : 4
+        let effectSize: CGFloat = isSelected ? 6 : 3
+        let effectXOffset: CGFloat = isSelected ? 8 : 4
+        let nameYOffset: CGFloat = isSelected ? -10 : -5.5
+        let spaceStationXOffset: CGFloat = isSelected ? -7 : -4
+        let spaceStationYOffset: CGFloat = isSelected ? -6 : -4
+
+        ZStack {
+            if model.isDefending || model.isTaskPlanet {
+                Circle()
+                    .scaleEffect(isScaled ? 2.0 : 0.8)
+                    .opacity(isScaled ? 0 : 1.0)
+                    .animation(.easeInOut(duration: 1).repeatForever(autoreverses: false), value: isScaled)
+                    .frame(width: frameSize, height: frameSize)
+                    .position(position)
+                    .foregroundStyle(model.isDefending ? .red : .yellow)
+            }
+
+            Circle()
+                .frame(width: frameSize, height: frameSize)
+                .position(position)
+                .foregroundStyle(
+                    (planet.galacticEffects?.contains { $0.name?.localizedCaseInsensitiveContains("black hole") == true } ?? false)
+                    ? Color(red: 63/255, green: 44/255, blue: 141/255)
+                    : planet.factionColor
+                )
+                .opacity(
+                    (planet.galacticEffects?.contains { $0.name?.localizedCaseInsensitiveContains("fractured") == true } ?? false)
+                    ? 0.3 : 1.0
+                )
+
+            if model.hasSpaceStation {
+                Image("dssIcon")
+                    .resizable()
+                    .renderingMode(.template)
+                    .scaledToFit()
+                    .frame(width: iconSize, height: iconSize)
+                    .position(position)
+                    .offset(x: spaceStationXOffset, y: spaceStationYOffset)
+                    .allowsHitTesting(false)
+                    .foregroundStyle(.white)
+            }
+
+            if let effects = planet.galacticEffects?.filter({ $0.imageName != nil && $0.showImageOnMap })
+                .uniqued(on: \.imageName).prefix(2) {
+                ForEach(Array(effects.enumerated()), id: \.element.galacticEffectId) { index, effect in
+                    if let imageName = effect.imageName {
+                        Image(imageName)
+                            .resizable()
+                            .renderingMode(.template)
+                            .scaledToFit()
+                            .frame(width: effectSize, height: effectSize)
+                            .position(
+                                x: position.x + (index == 1 ? effectXOffset : 0),
+                                y: position.y + CGFloat(index * 4)
+                            )
+                            .offset(x: 2, y: nameYOffset)
+                            .allowsHitTesting(false)
+                            .foregroundStyle(imageName == "alert" ? .red : .white)
+                    }
+                }
+            }
+
+            if let percentage = model.defenseProgress {
+                CircularProgressView(progress: percentage / 100.0, color: planet.factionColor)
+                    .frame(width: iconSize, height: iconSize)
+                    .position(position)
+            } else if let percentage = model.majorOrderProgress {
+                CircularProgressView(progress: percentage / 100.0, color: planet.factionColor)
+                    .frame(width: iconSize, height: iconSize)
+                    .position(position)
+            }
+
+            if showPlanetNames && !isSelected && currentZoomLevel > 1.5 {
+                Text(planet.name)
+                    .shadow(radius: 3)
+                    .multilineTextAlignment(.center)
+                    .font(Font.custom("FSSinclair", size: 50)).bold()
+                    .scaleEffect(0.04)
+                    .position(position)
+                    .offset(x: 4, y: 5)
+                    .frame(minWidth: 100)
+                    .allowsHitTesting(false)
+            }
+
+            if planet.galacticEffects?.contains(where: { $0.name?.lowercased().contains("gloom") ?? false }) ?? false {
+                Image("gloom").resizable()
+                    .renderingMode(.template)
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundStyle(.yellow)
+                    .frame(width: 30, height: 30)
+                    .position(position)
+                    .allowsHitTesting(false)
+            }
+        }
+        .onAppear { isScaled = true }
+        .overlay(
+            Group {
+                if isSelected {
+                    Circle()
+                        .stroke(Color.white, lineWidth: 0.6)
+                        .frame(width: 12, height: 12)
+                        .position(position)
+                }
+            }
+        )
+        .onTapGesture {
+            withAnimation(.bouncy) {
+                selectedPlanet = isSelected ? nil : planet
+            }
         }
     }
 }

@@ -43,7 +43,26 @@ enum OrderType {
     case personal
 }
 
-struct PersonalOrder: Decodable {
+struct PlanetDisplayModel: Identifiable {
+    let id: Int
+    let planet: UpdatedPlanet
+    let position: CGPoint
+    let isInCampaign: Bool
+    let isDefending: Bool
+    let hasSpaceStation: Bool
+    let isTaskPlanet: Bool
+    let defenseProgress: Double?
+    let majorOrderProgress: Double?
+}
+
+struct SupplyLineModel: Identifiable {
+    let id = UUID()
+    let start: CGPoint
+    let end: CGPoint
+    let color: Color
+}
+
+struct PersonalOrder: Decodable, Equatable {
     let id32: Int64
     let progress: [Int64]? // optional progress
     let expiresIn: Int64 // time in seconds until expiration
@@ -66,7 +85,7 @@ struct PersonalOrder: Decodable {
 }
 
 
-struct MajorOrder: Decodable {
+struct MajorOrder: Decodable, Equatable {
     let id32: Int64 // this must be int64 to run on watchOS!
     let progress: [Int64]
     let expiresIn: Int64 // this must be int64 to run on watchOS!
@@ -244,7 +263,7 @@ struct MajorOrder: Decodable {
     
 }
 
-struct Setting: Decodable {
+struct Setting: Decodable, Equatable {
     let type: Int
     let overrideTitle: String
     let overrideBrief: String
@@ -381,7 +400,7 @@ struct Setting: Decodable {
             
         }
 
-    struct Reward: Decodable {
+    struct Reward: Decodable, Equatable {
         let type: Int
         let id32: Int
         let amount: Int
@@ -431,7 +450,7 @@ struct GitHubFile: Decodable {
     
 }
 
-struct RemoteConfigDetails: Decodable {
+struct RemoteConfigDetails: Decodable, Equatable {
     var alert: String?
     var prominentAlert: String?
     var season: String
@@ -503,7 +522,7 @@ struct Biome: Decodable {
 }
 
 // for galaxy statistics reponse
-struct GalaxyStats: Decodable {
+struct GalaxyStats: Decodable, Equatable {
     let missionsWon: Int64
     let missionsLost: Int64
     let missionTime: Int64
@@ -528,7 +547,7 @@ struct GalaxyStats: Decodable {
     
 }
 // for planet stats in the galaxy stats response
-struct PlanetStats: Decodable {
+struct PlanetStats: Decodable, Equatable {
     let planetIndex: Int
     let missionsWon: Int64
     let missionsLost: Int64
@@ -556,7 +575,7 @@ struct PlanetStats: Decodable {
 
 // for helldiverstrainingmanual api
 
-struct GalaxyStatsResponseData: Decodable {
+struct GalaxyStatsResponseData: Decodable, Equatable {
     let galaxyStats: GalaxyStats
     let planetsStats: [PlanetStats]
 }
@@ -663,7 +682,7 @@ struct WarStatusResponse: Decodable {
     let time: Int64
 }
 
-struct SpaceStation: Decodable {
+struct SpaceStation: Decodable, Equatable {
     let id32: Int64
     let planet: UpdatedPlanet
     let electionEnd: String
@@ -685,7 +704,7 @@ struct SpaceStation: Decodable {
     
 }
 
-struct SpaceStationDetails: Decodable {
+struct SpaceStationDetails: Decodable, Equatable {
     let id32: Int64
     let planetIndex: Int
     let lastElectionId: String?
@@ -696,7 +715,7 @@ struct SpaceStationDetails: Decodable {
     let tacticalActions: [TacticalAction]
 }
 
-struct TacticalAction: Decodable {
+struct TacticalAction: Decodable, Equatable {
     let id32: Int64
     let mediaId32: Int64
     let name: String
@@ -709,7 +728,7 @@ struct TacticalAction: Decodable {
     let activeEffectIds: [Int]
 }
 
-struct ActionCost: Decodable {
+struct ActionCost: Decodable, Equatable {
     let id: String
     let itemMixId: Int64
     let targetValue: Double
@@ -719,7 +738,7 @@ struct ActionCost: Decodable {
     let maxDonationPeriodSeconds: Int
 }
 
-struct StatusResponse: Codable {
+struct StatusResponse: Codable, Equatable {
     let planetActiveEffects: [GalacticEffect]
     let globalResources: [GlobalResource]
     let planetRegions: [PlanetRegion]?
@@ -752,14 +771,14 @@ struct PlanetRegionInfo: Codable {
     let regionSize: Int
 }
 
-struct GlobalResource: Codable {
+struct GlobalResource: Codable, Equatable {
     let id32: Int64
     let currentValue: Int64
     let maxValue: Int64
     let flags: Int64
 }
 
-struct PlanetRegion: Codable {
+struct PlanetRegion: Codable, Equatable {
     let planetIndex: Int
     let regionIndex: Int
     let owner: Int
@@ -772,7 +791,7 @@ struct PlanetRegion: Codable {
     var regionSize: Int?
 }
 
-struct GalacticEffect: Codable, Identifiable {
+struct GalacticEffect: Codable, Identifiable, Equatable {
     var id: Int { galacticEffectId }
     let index: Int
     let galacticEffectId: Int

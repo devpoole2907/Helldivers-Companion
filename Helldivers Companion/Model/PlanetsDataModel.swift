@@ -81,8 +81,8 @@ class PlanetsDataModel: ObservableObject {
     //var apiAddress = "http://127.0.0.1:4000/api"
     var apiAddress = "https://helldivers-2.fly.dev/api"
     
-    private var timer: Timer?
-    private var cacheTimer: Timer?
+    private var updateTask: Task<Void, Never>?
+    private var cacheTask: Task<Void, Never>?
     
     let netManager = NetworkManager.shared
     
@@ -105,14 +105,15 @@ class PlanetsDataModel: ObservableObject {
     }
     
     deinit {
-        timer?.invalidate()
+        updateTask?.cancel()
+        cacheTask?.cancel()
     }
     
     func stopUpdating(completion: @escaping () -> Void) {
-        timer?.invalidate()
-        timer = nil
-        cacheTimer?.invalidate()
-        cacheTimer = nil
+        updateTask?.cancel()
+        updateTask = nil
+        cacheTask?.cancel()
+        cacheTask = nil
         completion()
     }
     
@@ -146,182 +147,134 @@ class PlanetsDataModel: ObservableObject {
     }
     
     func startUpdating() {
-        Task {
-            guard let config = await fetchConfig() else {
-                print("config failed to load")
-                return
-            }
-            
-            let warTime = await fetchWarTime(with: config)
-            
-            let status = await fetchStatus(with: config)
-            
-            let warInfo = await fetchWarInfo(with: config)
-            
-            let mergedStatus = mergeWarInfoRegions(into: status, with: warInfo)
-            
-            let galaxyStats = await fetchGalaxyStats()
-            let (campaigns, defenseCampaigns) = await fetchCampaigns(
-                for: config)
-            let (planets, sortedSectors, groupedBySector) = await fetchPlanets(for: config, with: status)
-            let (taskPlanets, majorOrder) = await fetchMajorOrder(with: planets)
-            let spaceStations = await fetchSpaceStations(for: config)
-            
-            // TODO: for now, fetch ONLY the first station - upgrade in future for more spcae stations
-            
-            let firstStationID = spaceStations.first?.id32 ?? 749875195 // fallback to static id for dss
-            let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID, with: config)
-            let personalOrder = await self.fetchPersonalOrder()
-            
-            await MainActor.run {
-                self.objectWillChange.send()
-                withAnimation(.bouncy) {
-                    self.configData = config
-                    self.showIlluminateUI = config.showIlluminate
-                    self.warTime = warTime
-                    self.status = mergedStatus
-                    self.updatedCampaigns = campaigns
-                    self.updatedDefenseCampaigns = defenseCampaigns
-                    self.galaxyStats = galaxyStats?.galaxyStats
-                    
-                    self.updatedPlanets = planets
-                    self.spaceStations = spaceStations
-                    self.updatedSortedSectors = sortedSectors
-                    self.updatedGroupedBySectorPlanets = groupedBySector
-                    self.updatedTaskPlanets = taskPlanets
-                    
-                    self.majorOrder = majorOrder
-                    self.personalOrder = personalOrder
-                    self.firstSpaceStationDetails = firstStationDetails
-                    
-                    self.lastUpdatedDate = Date()
-                    
-                    if !(self.hasSetSelectedPlanet) {
-                        // for first call set default selected planet for map view
-                        // set default selected planet for map, grab first planet in campaigns, only if it hasnt been set already
-                        self.selectedPlanet = campaigns.first?.planet
-                        self.hasSetSelectedPlanet = true
-                    }
-                    
-                    withAnimation {
-                        self.isLoading = false
-                    }
-                    
-                }
-                
-            }
-            
-            //    print("fetched major order")
-        }
-        
-        Task {
-            let cachedData = await fetchCachedPlanetData()
-            
-            await MainActor.run {
-                self.objectWillChange.send()
-                withAnimation(.bouncy) {
-                    self.planetHistory = cachedData
-                    self.lastUpdatedDate = Date()
-                }
+        stopUpdating {}
+
+        updateTask = Task {
+            while !Task.isCancelled {
+                await updateLiveData()
+                try? await Task.sleep(nanoseconds: 45 * 1_000_000_000)
             }
         }
-        
-        setupTimer()
-        setupCacheTimer()
+
+        cacheTask = Task {
+            while !Task.isCancelled {
+                await updateCachedData()
+                try? await Task.sleep(nanoseconds: 180 * 1_000_000_000)
+            }
+        }
     }
     
-    func setupTimer() {
-        timer?.invalidate()
-        
-        timer = Timer.scheduledTimer(withTimeInterval: 45, repeats: true) {
-            [weak self] _ in
-            guard let self = self else { return }
-            Task {
-                
-                guard let config = await self.fetchConfig() else {
-                    print("config failed to load")
-                    return
-                }
-                let warTime = await self.fetchWarTime(with: config)
-                let status = await self.fetchStatus(with: config)
-                
-                let warInfo = await self.fetchWarInfo(with: config)
-                
-                let mergedStatus = await self.mergeWarInfoRegions(into: status, with: warInfo)
-                
-                let (campaigns, defenseCampaigns) = await self.fetchCampaigns(
-                    for: config)
-                let (planets, sortedSectors, groupedBySector) = await self.fetchPlanets(for: config, with: status)
-                let (taskPlanets, majorOrder) = await self.fetchMajorOrder(
-                    with: planets)
-                print("getting the fookn space stations")
-                let spaceStations = await self.fetchSpaceStations(for: config)
-                
-                // TODO: for now, fetch ONLY the first station - upgrade in future for more spcae stations
-                
-                let firstStationID = spaceStations.first?.id32 ?? 749875195 // fallback to static id for dss
-                let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID, with: config)
-                
-                let personalOrder = await self.fetchPersonalOrder()
-                
-                await MainActor.run {
-                    self.objectWillChange.send()
-                    withAnimation(.bouncy) {
-                        self.configData = config
-                        self.showIlluminateUI = config.showIlluminate
-                        self.warTime = warTime
-                        self.status = mergedStatus
-                        self.updatedCampaigns = campaigns
-                        self.updatedDefenseCampaigns = defenseCampaigns
-                        
-                        self.updatedPlanets = planets
-                        self.spaceStations = spaceStations
-                        self.updatedSortedSectors = sortedSectors
-                        self.updatedGroupedBySectorPlanets = groupedBySector
-                        self.updatedTaskPlanets = taskPlanets
-                        
-                        self.majorOrder = majorOrder
-                        self.personalOrder = personalOrder
-                        self.firstSpaceStationDetails = firstStationDetails
-                        
-                        self.lastUpdatedDate = Date()
-                    }
-                    
-                }
-                
-            }
-            
+
+    // MARK: - Update Tasks
+
+    private func updateLiveData() async {
+        guard let config = await fetchConfig() else {
+            print("config failed to load")
+            return
         }
-        
+
+        // Fetch all data concurrently
+        async let warTimeAsync = fetchWarTime(with: config)
+        async let statusAsync = fetchStatus(with: config)
+        async let warInfoAsync = fetchWarInfo(with: config)
+        async let galaxyStatsAsync = fetchGalaxyStats()
+        async let campaignsAndDefenseAsync = fetchCampaigns(for: config)
+        async let spaceStationsAsync = fetchSpaceStations(for: config)
+        async let personalOrderAsync = fetchPersonalOrder()
+
+        let statusResult = await statusAsync
+        let warInfoResult = await warInfoAsync
+        let mergedStatus = mergeWarInfoRegions(into: statusResult, with: warInfoResult)
+
+        let (campaigns, defenseCampaigns) = await campaignsAndDefenseAsync
+        let (planets, sortedSectors, groupedBySector) = await fetchPlanets(for: config, with: mergedStatus)
+        let (taskPlanets, majorOrderValue) = await fetchMajorOrder(with: planets)
+        let stationList = await spaceStationsAsync
+        let firstStationID = stationList.first?.id32 ?? 749875195
+        let firstStationDetailsValue = await fetchSpaceStationDetails(for: firstStationID, with: config)
+
+        let fetchedWarTime = await warTimeAsync
+        let fetchedGalaxyStats = await galaxyStatsAsync
+        let fetchedPersonalOrder = await personalOrderAsync
+
+        await MainActor.run {
+            self.objectWillChange.send()
+
+            // Only set if changed, where applicable
+            if self.configData != config {
+                self.configData = config
+            }
+            if self.showIlluminateUI != config.showIlluminate {
+                self.showIlluminateUI = config.showIlluminate
+            }
+            withAnimation(.bouncy) {
+                if self.warTime != fetchedWarTime {
+                    self.warTime = fetchedWarTime
+                }
+                if self.status != mergedStatus {
+                    self.status = mergedStatus
+                }
+                if self.updatedCampaigns != campaigns {
+                    self.updatedCampaigns = campaigns
+                }
+                if self.updatedDefenseCampaigns != defenseCampaigns {
+                    self.updatedDefenseCampaigns = defenseCampaigns
+                }
+                let newGalaxyStats = fetchedGalaxyStats?.galaxyStats
+                if self.galaxyStats != newGalaxyStats {
+                    self.galaxyStats = newGalaxyStats
+                }
+                if self.updatedPlanets != planets {
+                    self.updatedPlanets = planets
+                }
+                if self.spaceStations != stationList {
+                    self.spaceStations = stationList
+                }
+                if self.updatedSortedSectors != sortedSectors {
+                    self.updatedSortedSectors = sortedSectors
+                }
+                if self.updatedGroupedBySectorPlanets != groupedBySector {
+                    self.updatedGroupedBySectorPlanets = groupedBySector
+                }
+                if self.updatedTaskPlanets != taskPlanets {
+                    self.updatedTaskPlanets = taskPlanets
+                }
+                if self.majorOrder != majorOrderValue {
+                    self.majorOrder = majorOrderValue
+                }
+                if self.personalOrder != fetchedPersonalOrder {
+                    self.personalOrder = fetchedPersonalOrder
+                }
+                if self.firstSpaceStationDetails != firstStationDetailsValue {
+                    self.firstSpaceStationDetails = firstStationDetailsValue
+                }
+                self.lastUpdatedDate = Date()
+
+                if !self.hasSetSelectedPlanet {
+                    self.selectedPlanet = campaigns.first?.planet
+                    self.hasSetSelectedPlanet = true
+                }
+                withAnimation {
+                    if self.isLoading {
+                        self.isLoading = false
+                    }
+                }
+            }
+        }
     }
-    // for slower fetches e.g historical data
-    func setupCacheTimer() {
-        
-        cacheTimer?.invalidate()
-        
-        cacheTimer = Timer.scheduledTimer(withTimeInterval: 180, repeats: true)
-        { [weak self] _ in
-            guard let self = self else { return }
-            Task {
-                
-                let galaxyStats = await self.fetchGalaxyStats()
-                let cachedData = await self.fetchCachedPlanetData()
-                
-                await MainActor.run {
-                    self.objectWillChange.send()
-                    withAnimation(.bouncy) {
-                        self.galaxyStats = galaxyStats?.galaxyStats
-                        
-                        self.planetHistory = cachedData
-                        self.lastUpdatedDate = Date()
-                    }
-                    
-                }
-                
+
+    private func updateCachedData() async {
+        let galaxyStats = await fetchGalaxyStats()
+        let cachedData = await fetchCachedPlanetData()
+
+        await MainActor.run {
+            self.objectWillChange.send()
+            withAnimation(.bouncy) {
+                self.galaxyStats = galaxyStats?.galaxyStats
+                self.planetHistory = cachedData
+                self.lastUpdatedDate = Date()
             }
-            
         }
-        
     }
     
     func fetchCachedPlanetData() async -> [String: [UpdatedPlanetDataPoint]] {
@@ -375,6 +328,104 @@ class PlanetsDataModel: ObservableObject {
             print("Error fetching cached planet data: \(error)")
             return [:]
         }
+    }
+    
+    func planetDisplayModels(from planets: [UpdatedPlanet], imageSize: CGSize) -> [PlanetDisplayModel] {
+        let campaignIndices = Set(updatedCampaigns.map { $0.planet.index })
+        let defenseIndices = Set(updatedDefenseCampaigns.map { $0.planet.index })
+        let taskIndices = Set(updatedTaskPlanets.map { $0.index })
+        let dssPlanetIndex = spaceStations.first?.planet.index
+
+        // Create a dictionary for quick lookup of progress
+        let defenseProgressMap = Dictionary(uniqueKeysWithValues: updatedDefenseCampaigns.map {
+            ($0.planet.index, $0.planet.event?.percentage)
+        })
+
+        let majorOrderProgressMap: [Int: Double?] = {
+            guard let order = majorOrder else { return [:] }
+            var result = [Int: Double?]()
+            for (index, task) in order.setting.tasks.enumerated() {
+                if task.values.count >= 3 {
+                    let planetIndex = Int(task.values[2])
+                    let progress = index < order.progress.count ? Double(order.progress[index]) : nil
+                    if planetIndex != 0 {
+                        result[planetIndex] = progress
+                    }
+                }
+            }
+            return result
+        }()
+
+        return planets.map { planet in
+            let position = boundingBoxTransformedPosition(for: planet, imageSize: imageSize)
+            return PlanetDisplayModel(
+                id: planet.index,
+                planet: planet,
+                position: position,
+                isInCampaign: campaignIndices.contains(planet.index),
+                isDefending: defenseIndices.contains(planet.index),
+                hasSpaceStation: dssPlanetIndex == planet.index,
+                isTaskPlanet: taskIndices.contains(planet.index),
+                defenseProgress: defenseProgressMap[planet.index] ?? nil,
+                majorOrderProgress: majorOrderProgressMap[planet.index] ?? nil
+            )
+        }
+    }
+
+    /// Computes supply line models between planets based on campaign logic.
+    /// - Parameters:
+    ///   - planets: The array of all planets.
+    ///   - allCampaigns: The list of all campaigns (attack and defense).
+    ///   - showAll: Whether to show all supply lines, or only those related to campaigns/owners.
+    ///   - imageSize: The size of the map image for coordinate transformation.
+    /// - Returns: An array of SupplyLineModel representing the supply lines.
+    func supplyLineModels(for planets: [UpdatedPlanet], allCampaigns: [UpdatedCampaign], showAll: Bool, imageSize: CGSize) -> [SupplyLineModel] {
+        let campaignIndices = Set(allCampaigns.map { $0.planet.index })
+        let planetPositions: [Int: CGPoint] = Dictionary(uniqueKeysWithValues: planets.map {
+            ($0.index, boundingBoxTransformedPosition(for: $0, imageSize: imageSize))
+        })
+
+        var lines: [SupplyLineModel] = []
+
+        for planet in planets {
+            guard let start = planetPositions[planet.index] else { continue }
+
+            for waypointIndex in planet.waypoints {
+                guard let end = planetPositions[waypointIndex] else { continue }
+
+                let shouldShow = showAll || campaignIndices.contains(planet.index) || campaignIndices.contains(waypointIndex) || planet.currentOwner.lowercased() != "humans"
+
+                if shouldShow {
+                    let isDefense = updatedDefenseCampaigns.contains { $0.planet.index == planet.index }
+                    let color = isDefense ? Color.cyan.opacity(0.5) : planet.factionColor.opacity(0.5)
+
+                    lines.append(SupplyLineModel(start: start, end: end, color: color))
+                }
+            }
+        }
+
+        return lines
+    }
+    
+    func boundingBoxTransformedPosition(for planet: UpdatedPlanet, imageSize: CGSize) -> CGPoint {
+        let x = planet.position.x  // typically in [-1..+1]
+        let y = planet.position.y  // typically in [-1..+1]
+
+        // Convert from [-1..+1] → [0..1]
+        let normalizedX = (x + 1) / 2
+        // For Y, if the API has +Y as "up," we invert so +1 maps near the top of the image:
+        let normalizedY = 1 - (y + 1) / 2
+
+        // Then map [0..1] onto the actual image size:
+        let finalX = normalizedX * imageSize.width
+        let finalY = normalizedY * imageSize.height
+
+        return CGPoint(x: finalX, y: finalY)
+    }
+    
+    func boundingBoxTransformedPosition(allPlanets: [UpdatedPlanet], forPlanetIndex index: Int, in size: CGSize) -> CGPoint? {
+        guard let planet = allPlanets.first(where: { $0.index == index }) else { return nil }
+        return boundingBoxTransformedPosition(for: planet, imageSize: size)
     }
     
     func fetchWarTime(with config: RemoteConfigDetails? = nil) async -> Int64? {
