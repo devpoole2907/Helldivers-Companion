@@ -149,6 +149,23 @@ class PlanetsDataModel: ObservableObject {
     func startUpdating() {
         stopUpdating {}
 
+        // Load cached planets if empty
+        if updatedPlanets.isEmpty {
+            loadCachedPlanets()
+        }
+        if updatedCampaigns.isEmpty && updatedDefenseCampaigns.isEmpty {
+            loadCachedCampaigns()
+        }
+        if majorOrder == nil {
+            loadCachedMajorOrder()
+        }
+        if personalOrder == nil {
+            loadCachedPersonalOrder()
+        }
+        if configData.apiAddress.isEmpty {
+            loadCachedConfig()
+        }
+
         updateTask = Task {
             while !Task.isCancelled {
                 await updateLiveData()
@@ -203,6 +220,7 @@ class PlanetsDataModel: ObservableObject {
             // Only set if changed, where applicable
             if self.configData != config {
                 self.configData = config
+                saveToCache(config, to: "config.json")
             }
             if self.showIlluminateUI != config.showIlluminate {
                 self.showIlluminateUI = config.showIlluminate
@@ -214,18 +232,26 @@ class PlanetsDataModel: ObservableObject {
                 if self.status != mergedStatus {
                     self.status = mergedStatus
                 }
+                var didUpdateAny = false
+                if self.updatedPlanets != planets {
+                    self.updatedPlanets = planets
+                    // Save planets to disk as JSON after assignment
+                    saveToCache(planets, to: "cachedPlanets.json")
+                    didUpdateAny = true
+                }
                 if self.updatedCampaigns != campaigns {
                     self.updatedCampaigns = campaigns
+                    saveToCache(campaigns, to: "campaigns.json")
+                    didUpdateAny = true
                 }
                 if self.updatedDefenseCampaigns != defenseCampaigns {
                     self.updatedDefenseCampaigns = defenseCampaigns
+                    saveToCache(defenseCampaigns, to: "defenseCampaigns.json")
+                    didUpdateAny = true
                 }
                 let newGalaxyStats = fetchedGalaxyStats?.galaxyStats
                 if self.galaxyStats != newGalaxyStats {
                     self.galaxyStats = newGalaxyStats
-                }
-                if self.updatedPlanets != planets {
-                    self.updatedPlanets = planets
                 }
                 if self.spaceStations != stationList {
                     self.spaceStations = stationList
@@ -241,14 +267,26 @@ class PlanetsDataModel: ObservableObject {
                 }
                 if self.majorOrder != majorOrderValue {
                     self.majorOrder = majorOrderValue
+                    if let majorOrderValue {
+                        saveToCache(majorOrderValue, to: "majorOrder.json")
+                    }
+                    didUpdateAny = true
                 }
                 if self.personalOrder != fetchedPersonalOrder {
                     self.personalOrder = fetchedPersonalOrder
+                    if let fetchedPersonalOrder {
+                        saveToCache(fetchedPersonalOrder, to: "personalOrder.json")
+                    }
+                    didUpdateAny = true
                 }
                 if self.firstSpaceStationDetails != firstStationDetailsValue {
                     self.firstSpaceStationDetails = firstStationDetailsValue
                 }
-                self.lastUpdatedDate = Date()
+                if didUpdateAny {
+                    let now = Date()
+                    self.lastUpdatedDate = now
+                    UserDefaults.standard.set(now, forKey: "cachedPlanetUpdateDate")
+                }
 
                 if !self.hasSetSelectedPlanet {
                     self.selectedPlanet = campaigns.first?.planet
@@ -270,9 +308,13 @@ class PlanetsDataModel: ObservableObject {
         await MainActor.run {
             self.objectWillChange.send()
             withAnimation(.bouncy) {
-                self.galaxyStats = galaxyStats?.galaxyStats
+                if self.galaxyStats != galaxyStats?.galaxyStats {
+                    self.galaxyStats = galaxyStats?.galaxyStats
+                    let now = Date()
+                    self.lastUpdatedDate = now
+                    UserDefaults.standard.set(now, forKey: "cachedPlanetUpdateDate")
+                }
                 self.planetHistory = cachedData
-                self.lastUpdatedDate = Date()
             }
         }
     }
@@ -1175,6 +1217,68 @@ class PlanetsDataModel: ObservableObject {
         }
     }
     
+// MARK: - Planet Caching Helpers
+
+func cacheURL(for filename: String) -> URL {
+    FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+        .appendingPathComponent(filename)
+}
+
+private func loadCached<T: Decodable>(as type: T.Type, from filename: String) -> T? {
+    let url = cacheURL(for: filename)
+    guard let data = try? Data(contentsOf: url),
+          let decoded = try? JSONDecoder().decode(T.self, from: data) else {
+        return nil
+    }
+    return decoded
+}
+
+func loadCachedPlanets() {
+    if let decoded: [UpdatedPlanet] = loadCached(as: [UpdatedPlanet].self, from: "cachedPlanets.json") {
+        self.updatedPlanets = decoded
+        if let timestamp = UserDefaults.standard.object(forKey: "cachedPlanetUpdateDate") as? Date {
+            self.lastUpdatedDate = timestamp
+        }
+    }
+}
+
+func loadCachedCampaigns() {
+    if let decoded: [UpdatedCampaign] = loadCached(as: [UpdatedCampaign].self, from: "campaigns.json") {
+        self.updatedCampaigns = decoded
+    }
+    if let decoded: [UpdatedCampaign] = loadCached(as: [UpdatedCampaign].self, from: "defenseCampaigns.json") {
+        self.updatedDefenseCampaigns = decoded
+    }
+}
+
+func loadCachedMajorOrder() {
+    if let decoded: MajorOrder = loadCached(as: MajorOrder.self, from: "majorOrder.json") {
+        self.majorOrder = decoded
+    }
+}
+
+func loadCachedPersonalOrder() {
+    if let decoded: PersonalOrder = loadCached(as: PersonalOrder.self, from: "personalOrder.json") {
+        self.personalOrder = decoded
+    }
+}
+
+func loadCachedConfig() {
+    if let decoded: RemoteConfigDetails = loadCached(as: RemoteConfigDetails.self, from: "config.json") {
+        self.configData = decoded
+        self.showIlluminateUI = decoded.showIlluminate
+    }
+}
+    
+    func saveToCache<T: Encodable>(_ object: T, to filename: String) {
+        do {
+            let data = try JSONEncoder().encode(object)
+            try data.write(to: cacheURL(for: filename))
+        } catch {
+            print("Failed to save \(filename):", error)
+        }
+    }
+
 }
 
 enum Tab: String, CaseIterable {
@@ -1224,3 +1328,5 @@ actor PlanetHistoryManager {
         return history
     }
 }
+
+

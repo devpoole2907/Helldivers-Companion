@@ -100,7 +100,8 @@ struct ContentView: View {
                 VStack {
                     Text("Please wait democratically".uppercased())
                         .foregroundStyle(.white)
-                        .font(Font.custom("FSSinclair", size: mediumFont))
+                        .font(Font.custom("FSSinclair-Bold", size: mediumFont))
+                        .shadow(radius: 3)
                     DualRingSpinner()
                 }
             }

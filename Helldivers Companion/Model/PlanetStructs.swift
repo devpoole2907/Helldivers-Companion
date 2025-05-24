@@ -26,7 +26,7 @@ enum Faction: String {
 }
 
 
-struct Position: Decodable {
+struct Position: Codable {
     let x: Double
     let y: Double
 }
@@ -62,7 +62,7 @@ struct SupplyLineModel: Identifiable {
     let color: Color
 }
 
-struct PersonalOrder: Decodable, Equatable {
+struct PersonalOrder: Codable, Equatable {
     let id32: Int64
     let progress: [Int64]? // optional progress
     let expiresIn: Int64 // time in seconds until expiration
@@ -85,7 +85,7 @@ struct PersonalOrder: Decodable, Equatable {
 }
 
 
-struct MajorOrder: Decodable, Equatable {
+struct MajorOrder: Codable, Equatable {
     let id32: Int64 // this must be int64 to run on watchOS!
     let progress: [Int64]
     let expiresIn: Int64 // this must be int64 to run on watchOS!
@@ -263,7 +263,7 @@ struct MajorOrder: Decodable, Equatable {
     
 }
 
-struct Setting: Decodable, Equatable {
+struct Setting: Codable, Equatable {
     let type: Int
     let overrideTitle: String
     let overrideBrief: String
@@ -273,7 +273,7 @@ struct Setting: Decodable, Equatable {
     let reward: Reward?
     let flags: Int
 
-    struct Task: Decodable, Equatable, Hashable {
+    struct Task: Codable, Equatable, Hashable {
         let type: Int
         let values: [Int64]
         let valueTypes: [Int]
@@ -400,7 +400,7 @@ struct Setting: Decodable, Equatable {
             
         }
 
-    struct Reward: Decodable, Equatable {
+    struct Reward: Codable, Equatable {
         let type: Int
         let id32: Int
         let amount: Int
@@ -450,7 +450,7 @@ struct GitHubFile: Decodable {
     
 }
 
-struct RemoteConfigDetails: Decodable, Equatable {
+struct RemoteConfigDetails: Codable, Equatable {
     var alert: String?
     var prominentAlert: String?
     var season: String
@@ -511,12 +511,12 @@ let weatherIconSize: CGFloat = 8
 
 #endif
 
-struct Environmental: Decodable {
+struct Environmental: Codable {
     var name: String
     var description: String
 }
 
-struct Biome: Decodable {
+struct Biome: Codable {
     var name: String
     var description: String
 }
@@ -595,7 +595,7 @@ struct PlanetPosition {
     let yMultiplier: Double
 }
 
-struct UpdatedPlanet: Decodable, Hashable {
+struct UpdatedPlanet: Codable, Hashable {
     
     static func == (lhs: UpdatedPlanet, rhs: UpdatedPlanet) -> Bool {
         return lhs.index == rhs.index
@@ -852,7 +852,7 @@ struct PlanetEffectJSON: Codable {
     let description: String
 }
 
-struct UpdatedPlanetEvent: Decodable {
+struct UpdatedPlanetEvent: Codable {
     
     var id: Int
     var eventType: Int64
@@ -922,7 +922,7 @@ struct UpdatedPlanetEvent: Decodable {
     
 }
 
-struct UpdatedPlanetStatistics: Decodable {
+struct UpdatedPlanetStatistics: Codable {
     var missionsWon: Int64
     var missionsLost: Int64
     var missionTime: Int64
@@ -940,7 +940,7 @@ struct UpdatedPlanetStatistics: Decodable {
     var playerCount: Int64
 }
 
-struct UpdatedCampaign: Decodable, Hashable {
+struct UpdatedCampaign: Codable, Hashable {
     
     static func == (lhs: UpdatedCampaign, rhs: UpdatedCampaign) -> Bool {
         return lhs.id == rhs.id

@@ -36,7 +36,7 @@ struct DualRingSpinner: View {
                 .rotationEffect(Angle(degrees: animate ? -360 : 0))
                 .animation(Animation.linear(duration: 1.2).repeatForever(autoreverses: false), value: animate)
         }
-        .scaleEffect(0.22)
+        .scaleEffect(0.44)
         .onAppear {
             animate = true
         }
