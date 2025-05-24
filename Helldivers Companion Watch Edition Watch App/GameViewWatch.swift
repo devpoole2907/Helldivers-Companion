@@ -254,7 +254,7 @@ struct GameViewWatch: View {
                         
                         VStack {
                             Text("LOADING ASSETS...")
-                            ProgressView()
+                            DualRingSpinner()
                         }
                         
                     }

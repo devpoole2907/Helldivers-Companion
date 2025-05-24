@@ -87,8 +87,7 @@ struct GalaxyMapRootView: View {
                     VStack {
                         Spacer()
                         Text("Please wait democratically".uppercased()).foregroundStyle(.white) .font(Font.custom("FSSinclair", size: mediumFont))
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
+                        DualRingSpinner()
                         Spacer()
                     }
                 }

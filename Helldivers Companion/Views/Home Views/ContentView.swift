@@ -175,8 +175,7 @@ struct ContentView: View {
                 if viewModel.isLoading {
                     VStack {
                         Text("Please wait democratically".uppercased()).foregroundStyle(.white) .font(Font.custom("FSSinclair", size: mediumFont))
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
+                        DualRingSpinner()
                     }
                 }
                 
@@ -313,8 +312,5 @@ struct ContentView: View {
     
     
 }
-
-
-
 
 

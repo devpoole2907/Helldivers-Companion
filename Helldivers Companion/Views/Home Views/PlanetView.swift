@@ -401,7 +401,7 @@ struct HistoryChart: View {
     var body: some View {
         VStack {
             if viewModel.planetHistory.isEmpty {
-                ProgressView()
+                DualRingSpinner()
                     .frame(minHeight: chartHeight)
             } else {
                 chartView
