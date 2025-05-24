@@ -397,8 +397,8 @@ struct NewsFeed: Decodable, Hashable {
     var message: String?
     var title: String?
     let published: UInt32?
-    let tagIds: [Int]
-    let type: Int
+    let tagIds: [Int]?
+    let type: Int?
     
     private enum CodingKeys: String, CodingKey {
         case id, message, published, tagIds, type
@@ -409,17 +409,25 @@ struct NewsFeed: Decodable, Hashable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(Int.self, forKey: .id)
         published = try container.decodeIfPresent(UInt32.self, forKey: .published)
-        tagIds = try container.decode([Int].self, forKey: .tagIds)
-        type = try container.decode(Int.self, forKey: .type)
-        message = try container.decode(String.self, forKey: .message)
+        tagIds = try container.decodeIfPresent([Int].self, forKey: .tagIds)
+        type = try container.decodeIfPresent(Int.self, forKey: .type)
+        message = try container.decodeIfPresent(String.self, forKey: .message)
         
         // processing into title/message, sanitise html tags
-        if let msg = message, let sanitisedMessage = removeHTMLTags(from: msg) {
-            // check for new line in message
-            if let newlineIndex = sanitisedMessage.firstIndex(of: "\n") {
-                // if we find a new line in the message then seperate to title/message
-                title = String(sanitisedMessage[..<newlineIndex])
-                message = String(sanitisedMessage[sanitisedMessage.index(after: newlineIndex)...])
+        if let msg = message {
+            if let sanitised = removeHTMLTags(from: msg), !sanitised.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                if let newlineIndex = sanitised.firstIndex(of: "\n") {
+                    title = String(sanitised[..<newlineIndex])
+                    message = String(sanitised[sanitised.index(after: newlineIndex)...])
+                } else {
+                    title = "BREAKING NEWS"
+                    message = sanitised
+                }
+            } else {
+                // Sanitisation failed or returned empty — fall back to raw
+                print("[Widget] Sanitised message was empty, falling back to raw message.")
+                title = "BREAKING NEWS"
+                message = msg
             }
         }
     }
