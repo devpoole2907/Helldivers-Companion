@@ -50,7 +50,7 @@ class PlanetsDataModel: ObservableObject {
     var dashPatterns: [UUID: [CGFloat]] = [:]
     
     @Published var currentSeason: String = ""
-    @Published var majorOrder: MajorOrder? = nil
+    @Published var majorOrders: [MajorOrder] = []
     @Published var personalOrder: PersonalOrder? = nil
     @Published var galaxyStats: GalaxyStats? = nil
     @Published var lastUpdatedDate: Date = Date()
@@ -164,7 +164,7 @@ class PlanetsDataModel: ObservableObject {
             let (campaigns, defenseCampaigns) = await fetchCampaigns(
                 for: config)
             let (planets, sortedSectors, groupedBySector) = await fetchPlanets(for: config, with: status)
-            let (taskPlanets, majorOrder) = await fetchMajorOrder(with: planets)
+            let (taskPlanets, majorOrders) = await fetchMajorOrder(with: planets)
             let spaceStations = await fetchSpaceStations(for: config)
             
             // TODO: for now, fetch ONLY the first station - upgrade in future for more spcae stations
@@ -190,7 +190,7 @@ class PlanetsDataModel: ObservableObject {
                     self.updatedGroupedBySectorPlanets = groupedBySector
                     self.updatedTaskPlanets = taskPlanets
                     
-                    self.majorOrder = majorOrder
+                    self.majorOrders = majorOrders
                     self.personalOrder = personalOrder
                     self.firstSpaceStationDetails = firstStationDetails
                     
@@ -252,7 +252,7 @@ class PlanetsDataModel: ObservableObject {
                 let (campaigns, defenseCampaigns) = await self.fetchCampaigns(
                     for: config)
                 let (planets, sortedSectors, groupedBySector) = await self.fetchPlanets(for: config, with: status)
-                let (taskPlanets, majorOrder) = await self.fetchMajorOrder(
+                let (taskPlanets, majorOrders) = await self.fetchMajorOrder(
                     with: planets)
                 print("getting the fookn space stations")
                 let spaceStations = await self.fetchSpaceStations(for: config)
@@ -280,7 +280,7 @@ class PlanetsDataModel: ObservableObject {
                         self.updatedGroupedBySectorPlanets = groupedBySector
                         self.updatedTaskPlanets = taskPlanets
                         
-                        self.majorOrder = majorOrder
+                        self.majorOrders = majorOrders
                         self.personalOrder = personalOrder
                         self.firstSpaceStationDetails = firstStationDetails
                         
@@ -541,7 +541,7 @@ class PlanetsDataModel: ObservableObject {
     
     func fetchMajorOrder(
         for season: String? = nil, with planets: [UpdatedPlanet]? = nil
-    ) async -> ([UpdatedPlanet], MajorOrder?) {
+    ) async -> ([UpdatedPlanet], [MajorOrder]) {
         let seasonString = season ?? configData.season
         let urlString =
         "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(seasonString)"
@@ -551,62 +551,46 @@ class PlanetsDataModel: ObservableObject {
         ]
         
         do {
-            let majorOrders: [MajorOrder] = try await netManager.fetchData(
-                from: urlString, headers: headers)
+            let majorOrders: [MajorOrder] = try await netManager.fetchData(from: urlString, headers: headers)
             
-            var taskPlanets: [UpdatedPlanet] = []
-            var majorOrder: MajorOrder? = nil
-            
-            if let firstOrder = majorOrders.first {
-                print(
-                    "first order title is: \(firstOrder.setting.taskDescription)"
-                )
-                
-                majorOrder = firstOrder
-                
-                var collectionOfPlanets: [UpdatedPlanet] = []
-                
-                if let planets = planets {
-                    collectionOfPlanets = planets
-                } else {
-                    collectionOfPlanets = self.updatedPlanets
-                }
-                
-                // get planets with planet index found in task, assuming the tasks are in the same order as the progress array also associate the progress (0 or 1 for complete) with the planet in the tasks array
-                
-                let taskPlanetIndexes: [Int64] = firstOrder.setting.tasks.compactMap { task in
-                    guard task.values.count >= 3 else { return nil }
-                    let planetIndex = task.values[2]
-                    // Skip 0 so "Super Earth" doesn't get included
-                    return planetIndex == 0 ? nil : planetIndex
-                }
-                
-                taskPlanets = collectionOfPlanets.filter { planet in
-                    taskPlanetIndexes.contains(Int64(planet.index))
-                }
-                
-                for (index, progressValue) in firstOrder.progress.enumerated() {
-                    guard index < firstOrder.setting.tasks.count else { continue }
-                    let task = firstOrder.setting.tasks[index]
-                    guard task.values.count >= 3 else { continue }
-                    
-                    // If the planet index is 0, skip it
-                    let planetIndex = task.values[2]
-                    if planetIndex == 0 { continue }
-                    
-                    if let planetInArray = taskPlanets.firstIndex(where: { $0.index == planetIndex }) {
-                        taskPlanets[planetInArray].taskProgress = progressValue
-                    }
-                }
-                
-                print("We set the major order")
+            guard !majorOrders.isEmpty else {
+                return ([], [])
             }
-            
-            return (taskPlanets, majorOrder)
-            
+
+            let allTasks = majorOrders.flatMap { $0.setting.tasks }
+            let allProgress = majorOrders.flatMap { $0.progress }
+
+            let collectionOfPlanets = planets ?? self.updatedPlanets
+
+            let taskPlanetIndexes: [Int64] = allTasks.compactMap {
+                guard $0.values.count >= 3 else { return nil }
+                let planetIndex = $0.values[2]
+                return planetIndex == 0 ? nil : planetIndex
+            }
+
+            var taskPlanets = collectionOfPlanets.filter { planet in
+                taskPlanetIndexes.contains(Int64(planet.index))
+            }
+
+            var progressIndex = 0
+            for task in allTasks {
+                guard task.values.count >= 3 else { continue }
+                let planetIndex = task.values[2]
+                if planetIndex == 0 { continue }
+
+                if let planetIndexInArray = taskPlanets.firstIndex(where: { $0.index == planetIndex }),
+                   progressIndex < allProgress.count {
+                    taskPlanets[planetIndexInArray].taskProgress = allProgress[progressIndex]
+                }
+                progressIndex += 1
+            }
+
+            print("Fetched \(majorOrders.count) major orders.")
+            return (taskPlanets, majorOrders)
+
         } catch {
             print("Decoding error: \(error)")
-            return ([], nil)
+            return ([], [])
         }
     }
     

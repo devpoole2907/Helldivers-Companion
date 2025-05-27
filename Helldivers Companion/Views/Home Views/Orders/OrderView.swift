@@ -17,136 +17,137 @@ struct OrderView: View {
         
         ZStack(alignment: .top) {
 
-        VStack(spacing: 12) {
-            
-            // this all needs to be refactored, never properly went back after discovering new MO types a while ago
-            
+        ScrollView {
             VStack(spacing: 12) {
-                Text(viewModel.majorOrder?.setting.taskDescription ?? "Stand by.").font(Font.custom("FSSinclair-Bold", size: 24))
-                    .foregroundStyle(Color.yellow).textCase(.uppercase)
-                    .multilineTextAlignment(.center)
-                
-                Text(viewModel.majorOrder?.setting.overrideBrief ?? "Await further orders from Super Earth High Command.").font(Font.custom("FSSinclair", size: 18))
-                    .foregroundStyle(Color(red: 164, green: 177, blue: 183))
-                    .padding(5)
-                    .multilineTextAlignment(.center)
-                
-                if let mo = viewModel.majorOrder {
-                    
-                    // tpye 2 extraction type
-                    if mo.isExtractType, let extractionProgress = mo.extractionProgress {
-                        ForEach(extractionProgress.indices, id: \.self) { index in
-                            let progressData = extractionProgress[index]
-                           // display task setting description we created here for each task, only for this type! (2)
-                            VStack(spacing: 2){
-                                Text(progressData.description)
-                                    .font(Font.custom("FSSinclair-Bold", size: smallFont))
-                                    .foregroundStyle(.white)
-                                    .multilineTextAlignment(.center)
-                                
-                                MajorOrderBarProgressView(
-                                    progress: progressData.progress,
-                                    barColor: Color(red: 164, green: 177, blue: 183),
-                                    progressString: progressData.progressString
-                                )
-                            }
-                            
-                            
-                        }
-                    }
-                    
-                    // MARK: - Eradication Tasks (Type 3)
-                                       if mo.isEradicateType, let eradicationProgresses = mo.eradicationProgress {
-                                           ForEach(eradicationProgresses.indices, id: \.self) { index in
-                                               let progressData = eradicationProgresses[index]
-                                               MajorOrderBarProgressView(
-                                                   progress: progressData.progress,
-                                                   barColor: mo.faction?.color ?? .white,
-                                                   progressString: progressData.progressString
-                                               )
-                                           }
-                                       }
-                    
-                    // MARK: - Defense Tasks (Type 12)
-                                        if mo.isDefenseType, let defenseProgresses = mo.defenseProgress {
-                                            ForEach(defenseProgresses.indices, id: \.self) { index in
-                                                let progressData = defenseProgresses[index]
-                                                MajorOrderBarProgressView(
-                                                    progress: progressData.progress,
-                                                    barColor: mo.faction?.color ?? .white,
-                                                    progressString: progressData.progressString
-                                                )
-                                            }
-                                        }
-                    
-                    // MARK: - Net Quantity Tasks (Type 15)
-                                        if mo.isNetQuantityType, let netQuantityProgresses = mo.netQuantityProgress {
-                                            ForEach(netQuantityProgresses.indices, id: \.self) { index in
-                                                let progressData = netQuantityProgresses[index]
-                                                
-                                                // Optional Task Status for net quantity
-                                                TaskStatusView(
-                                                    taskName: "Liberate more planets than are lost",
-                                                    isCompleted: false,
-                                                    nameSize: 16,
-                                                    boxSize: 10
-                                                )
-                                                
-                                                MajorOrderBarProgressView(
-                                                    progress: progressData.progress,
-                                                    barColor: .blue,
-                                                    progressString: progressData.progressString,
-                                                    primaryColor: .red
-                                                )
-                                            }
-                                        }
-                    
-                    // MARK: - Liberation Tasks (Type 11)
-                                        // Using your existing logic for updatedTaskPlanets
-                                        if mo.isLiberationType, !viewModel.updatedTaskPlanets.isEmpty {
-                                            TasksView(taskPlanets: viewModel.updatedTaskPlanets)
-                                        }
-                    
-                    // MARK: - Mission Extract Tasks (Type 7)
-                    if mo.isMissionExtractType, let missionExtractProgresses = mo.missionExtractProgress {
-                        ForEach(missionExtractProgresses.indices, id: \.self) { index in
-                            let progressData = missionExtractProgresses[index]
-                            VStack(spacing: 2){
-                                Text(progressData.description)
-                                    .font(Font.custom("FSSinclair-Bold", size: smallFont))
-                                    .foregroundStyle(.white)
-                                    .multilineTextAlignment(.center)
+                if viewModel.majorOrders.isEmpty {
+                    VStack(spacing: 12) {
+                        Text("Stand by.")
+                            .font(Font.custom("FSSinclair-Bold", size: 24))
+                            .foregroundStyle(Color.yellow)
+                            .textCase(.uppercase)
+                            .multilineTextAlignment(.center)
 
+                        Text("Await further orders from Super Earth High Command.")
+                            .font(Font.custom("FSSinclair", size: 18))
+                            .foregroundStyle(Color(red: 164, green: 177, blue: 183))
+                            .padding(5)
+                            .multilineTextAlignment(.center)
+                    }.padding(.top, 30)
+                } else {
+                    ForEach(viewModel.majorOrders, id: \.id32) { mo in
+                    VStack(spacing: 12) {
+                        Text(mo.setting.taskDescription)
+                            .font(Font.custom("FSSinclair-Bold", size: 24))
+                            .foregroundStyle(Color.yellow)
+                            .textCase(.uppercase)
+                            .multilineTextAlignment(.center)
+
+                        Text(mo.setting.overrideBrief)
+                            .font(Font.custom("FSSinclair", size: 18))
+                            .foregroundStyle(Color(red: 164, green: 177, blue: 183))
+                            .padding(5)
+                            .multilineTextAlignment(.center)
+
+                        if mo.isExtractType, let extractionProgress = mo.extractionProgress {
+                            ForEach(extractionProgress.indices, id: \.self) { index in
+                                let progressData = extractionProgress[index]
+                                VStack(spacing: 2){
+                                    Text(progressData.description)
+                                        .font(Font.custom("FSSinclair-Bold", size: smallFont))
+                                        .foregroundStyle(.white)
+                                        .multilineTextAlignment(.center)
+                                    MajorOrderBarProgressView(
+                                        progress: progressData.progress,
+                                        barColor: Color(red: 164, green: 177, blue: 183),
+                                        progressString: progressData.progressString
+                                    )
+                                }
+                            }
+                        }
+
+                        if mo.isEradicateType, let eradicationProgresses = mo.eradicationProgress {
+                            ForEach(eradicationProgresses.indices, id: \.self) { index in
+                                let progressData = eradicationProgresses[index]
                                 MajorOrderBarProgressView(
                                     progress: progressData.progress,
-                                    barColor: Color.purple,
+                                    barColor: mo.faction?.color ?? .white,
                                     progressString: progressData.progressString
                                 )
                             }
                         }
+
+                        if mo.isDefenseType, let defenseProgresses = mo.defenseProgress {
+                            ForEach(defenseProgresses.indices, id: \.self) { index in
+                                let progressData = defenseProgresses[index]
+                                MajorOrderBarProgressView(
+                                    progress: progressData.progress,
+                                    barColor: mo.faction?.color ?? .white,
+                                    progressString: progressData.progressString
+                                )
+                            }
+                        }
+
+                        if mo.isNetQuantityType, let netQuantityProgresses = mo.netQuantityProgress {
+                            ForEach(netQuantityProgresses.indices, id: \.self) { index in
+                                let progressData = netQuantityProgresses[index]
+                                TaskStatusView(
+                                    taskName: "Liberate more planets than are lost",
+                                    isCompleted: false,
+                                    nameSize: 16,
+                                    boxSize: 10
+                                )
+                                MajorOrderBarProgressView(
+                                    progress: progressData.progress,
+                                    barColor: .blue,
+                                    progressString: progressData.progressString,
+                                    primaryColor: .red
+                                )
+                            }
+                        }
+
+                        if mo.isLiberationType, !viewModel.updatedTaskPlanets.isEmpty {
+                            TasksView(taskPlanets: viewModel.updatedTaskPlanets)
+                        }
+
+                        if mo.isMissionExtractType, let missionExtractProgresses = mo.missionExtractProgress {
+                            ForEach(missionExtractProgresses.indices, id: \.self) { index in
+                                let progressData = missionExtractProgresses[index]
+                                VStack(spacing: 2){
+                                    Text(progressData.description)
+                                        .font(Font.custom("FSSinclair-Bold", size: smallFont))
+                                        .foregroundStyle(.white)
+                                        .multilineTextAlignment(.center)
+                                    MajorOrderBarProgressView(
+                                        progress: progressData.progress,
+                                        barColor: Color.purple,
+                                        progressString: progressData.progressString
+                                    )
+                                }
+                            }
+                        }
+
+                        if let firstReward = mo.allRewards.first, firstReward.amount > 0 {
+                            if #available(watchOS 9.0, *) {
+                                RewardView(rewards: mo.allRewards)
+                            }
+                        }
+
+                        if mo.expiresIn > 0 {
+                            OrderTimeView(timeRemaining: mo.expiresIn)
+                        }
                     }
-                    
+                    }
                 }
-                
             }
-            
-            if let firstReward = viewModel.majorOrder?.allRewards.first, firstReward.amount > 0 {
-                if #available(watchOS 9.0, *) {
-                RewardView(rewards: viewModel.majorOrder?.allRewards ?? [])
-            }
-            }
-            
-            if let majorOrderTimeRemaining = viewModel.majorOrder?.expiresIn,  majorOrderTimeRemaining > 0 {
-                OrderTimeView(timeRemaining: majorOrderTimeRemaining)
-            }
-            
-        }.padding(.top, 15)
-                .padding()
-            #if os(iOS)
-                .frame(width: isIpad ? 560 : UIScreen.main.bounds.width - 44)
-                .frame(minHeight: 300)
-            #endif
-                .background {
+            .padding(.top, 15)
+            .padding()
+        }.scrollContentBackground(.hidden)
+    #if os(iOS)
+                .frame(maxHeight: viewModel.majorOrders.isEmpty ? 200 : UIScreen.main.bounds.height * 0.7)
+        .frame(width: isIpad ? 560 : UIScreen.main.bounds.width - 44)
+        .frame(minHeight: 300)
+#endif
+        .background {
             Color.black
         }
             

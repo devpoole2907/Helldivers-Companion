@@ -37,9 +37,10 @@ struct MajorOrderProvider: TimelineProvider {
             
             let planetResults = await planetsModel.fetchPlanets(using: urlString, for: config)
             let majorOrderResults = await planetsModel.fetchMajorOrder(for: config.season, with: planetResults.0)
-            
+
             let (planets, _, _) = planetResults
-            let (taskPlanets, majorOrder) = majorOrderResults
+            let (taskPlanets, majorOrders) = majorOrderResults
+            let majorOrder = majorOrders.first
             
             var finalTaskProgress: Double?
             var finalProgressString: String?
@@ -193,7 +194,7 @@ struct Helldivers_Companion_Major_Order_Widget: Widget {
             
         }
         .configurationDisplayName("Major Order")
-        .description("Displays the current major order.")
+        .description("Displays the *first* current major order, if any.")
         .contentMarginsDisabled()
         .supportedFamilies(supportedFamilies)
     }
