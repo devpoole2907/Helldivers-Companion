@@ -429,7 +429,7 @@ class PlanetsDataModel: ObservableObject {
     }
     
     func fetchSpaceStations(using url: String? = nil, for configData: RemoteConfigDetails) async -> [SpaceStation] {
-        let urlString = "\(configData.apiAddress)api/v1/space-stations"
+        let urlString = "\(configData.apiAddress)api/v2/space-stations"
         
         let headers: [String: String] = [
             "X-Super-Client": "WarMonitoriOS/3.1",
