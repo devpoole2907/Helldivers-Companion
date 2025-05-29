@@ -371,6 +371,38 @@ struct Setting: Decodable {
                         planetText.foregroundColor = .yellow
                         text += planetText
                     }
+                
+                
+            case 12: // defend
+                text += AttributedString("Defend ")
+
+                // planet name
+                if planetIndex > 0, let planetPos = planetPositionLookup[planetIndex] {
+                    var planetText = AttributedString(planetPos.name)
+                    planetText.foregroundColor = .yellow
+                    text += planetText + " "
+                }
+                
+                text += AttributedString("against ")
+                
+                // number of attacks
+                if goal > 0 {
+                    var goalText = AttributedString("\(goal) attack" + (goal > 1 ? "s" : ""))
+                    goalText.foregroundColor = .yellow
+                    text += goalText + " from "
+                } else {
+                    text += AttributedString("an attack from ")
+                }
+                
+                // enemy / faction
+                if raceId > 0 {
+                    let factionName = FactionDictionary[raceId] ?? "faction #\(raceId)"
+                    var factionText = AttributedString(factionName)
+                    factionText.foregroundColor = FactionColors[raceId] ?? .white
+                    text += factionText
+                } else {
+                    text += AttributedString("an unknown enemy")
+                }
                     
                 default:
                     text += AttributedString("Task type \(type) not handled! Contact the dev.")

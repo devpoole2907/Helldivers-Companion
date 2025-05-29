@@ -79,11 +79,18 @@ struct OrderView: View {
                         if mo.isDefenseType, let defenseProgresses = mo.defenseProgress {
                             ForEach(defenseProgresses.indices, id: \.self) { index in
                                 let progressData = defenseProgresses[index]
-                                MajorOrderBarProgressView(
-                                    progress: progressData.progress,
-                                    barColor: mo.faction?.color ?? .white,
-                                    progressString: progressData.progressString
-                                )
+                                let taskDescription = mo.defenseTasks[index].description
+                                VStack(spacing: 2) {
+                                    Text(taskDescription)
+                                        .font(Font.custom("FSSinclair-Bold", size: smallFont))
+                                        .foregroundStyle(.white)
+                                        .multilineTextAlignment(.center)
+                                    MajorOrderBarProgressView(
+                                        progress: progressData.progress,
+                                        barColor: mo.faction?.color ?? .white,
+                                        progressString: progressData.progressString
+                                    )
+                                }
                             }
                         }
 
@@ -143,7 +150,7 @@ struct OrderView: View {
             .padding()
         }.scrollContentBackground(.hidden)
     #if os(iOS)
-                .frame(maxHeight: viewModel.majorOrders.isEmpty ? 200 : UIScreen.main.bounds.height * 0.7)
+                .frame(maxHeight: viewModel.majorOrders.isEmpty ? 200 : UIScreen.main.bounds.height * 0.6)
         .frame(width: isIpad ? 560 : UIScreen.main.bounds.width - 44)
         .frame(minHeight: 300)
 #endif
