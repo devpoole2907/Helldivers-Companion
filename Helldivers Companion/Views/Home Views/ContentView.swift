@@ -69,15 +69,11 @@ struct ContentView: View {
                             ForEach(viewModel.updatedCampaigns, id: \.planet.index) { campaign in
                                 
                                 UpdatedPlanetView(planetIndex: campaign.planet.index)
-                                    .id(campaign == viewModel.updatedCampaigns.first ? 0 : campaign.planet.index)
                                     .padding()
                                 
                                 
                             }
                         }
-#if os(iOS)
-                        .scrollTargetLayoutiOS17()
-#endif
                         
                     } else {
                         
@@ -126,9 +122,6 @@ struct ContentView: View {
                             
                             
                         }
-#if os(iOS)
-                        .scrollTargetLayoutiOS17()
-#endif
                         
                     }
                     
@@ -162,9 +155,6 @@ struct ContentView: View {
                     Spacer(minLength: 30)
                     
                 }
-#if os(iOS)
-                .scrollPositioniOS17($navPather.scrollPosition)
-#endif
                 
                 .scrollContentBackground(.hidden)
                 
