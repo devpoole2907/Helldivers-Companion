@@ -540,47 +540,63 @@ class PlanetsDataModel: ObservableObject {
     }
     
     func fetchMajorOrder(
-        for season: String? = nil, with planets: [UpdatedPlanet]? = nil
+        for season: String? = nil,
+        with planets: [UpdatedPlanet]? = nil
     ) async -> ([UpdatedPlanet], [MajorOrder]) {
+
         let seasonString = season ?? configData.season
         let urlString =
-        "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(seasonString)"
-        
+            "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(seasonString)"
+
         let headers: [String: String] = [
             "Accept-Language": enableLocalization ? apiSupportedLanguage : ""
         ]
-        
-        do {
-            let majorOrders: [MajorOrder] = try await netManager.fetchData(from: urlString, headers: headers)
-            
-            guard !majorOrders.isEmpty else {
-                return ([], [])
-            }
 
-            let allTasks = majorOrders.flatMap { $0.setting.tasks }
-            let allProgress = majorOrders.flatMap { $0.progress }
+        do {
+            let majorOrders: [MajorOrder] =
+                try await netManager.fetchData(from: urlString, headers: headers)
+
+            guard !majorOrders.isEmpty else { return ([], []) }
+
+            // Flat-map tasks and progress once
+            let allTasks: [Setting.Task]   = majorOrders.flatMap { $0.setting.tasks }
+            let allProgress: [Int64]       = majorOrders.flatMap { $0.progress }
 
             let collectionOfPlanets = planets ?? self.updatedPlanets
 
-            let taskPlanetIndexes: [Int64] = allTasks.compactMap {
-                guard $0.values.count >= 3 else { return nil }
-                let planetIndex = $0.values[2]
-                return planetIndex == 0 ? nil : planetIndex
+            /// Helper closure – prefer valueType 12 (planet index), fall back to 11.
+            let extractPlanetIndex: (Setting.Task) -> Int64? = { task in
+                if let i = task.valueTypes.firstIndex(of: 12), i < task.values.count {
+                    return task.values[i]
+                }
+                if let i = task.valueTypes.firstIndex(of: 11), i < task.values.count {
+                    return task.values[i]
+                }
+                return nil
             }
 
+            // 1️⃣ All planet indexes referenced by tasks (non-zero only)
+            let taskPlanetIndexes: [Int64] = allTasks.compactMap { task in
+                guard let idx = extractPlanetIndex(task), idx != 0 else { return nil }
+                return idx
+            }
+
+            // 2️⃣ Filter planet list down to those referenced in tasks
             var taskPlanets = collectionOfPlanets.filter { planet in
                 taskPlanetIndexes.contains(Int64(planet.index))
             }
 
+            // 3️⃣ Attach progress to matching task planet
             var progressIndex = 0
             for task in allTasks {
-                guard task.values.count >= 3 else { continue }
-                let planetIndex = task.values[2]
-                if planetIndex == 0 { continue }
+                guard let planetIndex = extractPlanetIndex(task), planetIndex != 0 else {
+                    progressIndex += 1
+                    continue
+                }
 
-                if let planetIndexInArray = taskPlanets.firstIndex(where: { $0.index == planetIndex }),
+                if let arrayIdx = taskPlanets.firstIndex(where: { $0.index == planetIndex }),
                    progressIndex < allProgress.count {
-                    taskPlanets[planetIndexInArray].taskProgress = allProgress[progressIndex]
+                    taskPlanets[arrayIdx].taskProgress = allProgress[progressIndex]
                 }
                 progressIndex += 1
             }
