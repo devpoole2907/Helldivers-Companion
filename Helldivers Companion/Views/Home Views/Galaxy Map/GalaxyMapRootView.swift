@@ -86,10 +86,16 @@ struct GalaxyMapRootView: View {
                 if viewModel.isLoading {
                     VStack {
                         Spacer()
-                        Text("Please wait democractically".uppercased()).foregroundStyle(.white) .font(Font.custom("FSSinclair", size: mediumFont))
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
+                        Text("Please wait democratically".uppercased()).foregroundStyle(.white) .font(Font.custom("FSSinclair", size: mediumFont))
+                        DualRingSpinner()
                         Spacer()
+                    }
+                }
+                if let _ = viewModel.fleetStrengthResource {
+                    VStack(spacing: 0) {
+                        Spacer()
+                        FleetStrengthView(fleetStrengthProgress: viewModel.fleetStrengthProgress)
+                            .shadow(radius: 3)
                     }
                 }
                 

@@ -28,34 +28,57 @@ struct Provider: TimelineProvider {
         
         Task {
             var entries: [NewsItemEntry] = []
-            
+
+            print("[Widget] Fetching config...")
             guard let config = await planetsModel.fetchConfig() else {
-                print("config failed to load")
+                print("[Widget] Failed to fetch config.")
                 completion(Timeline(entries: entries, policy: .atEnd))
                 return
             }
-            
-            let news = await newsModel.fetchNewsFeed(config: config, false)
-            
+            print("[Widget] Config fetched successfully.")
+
+            print("[Widget] Fetching news...")
+            let news = await newsModel.fetchNewsFeed(config: config, true)
+            print("[Widget] Fetched \(news.count) news items.")
+
             let warTime = await planetsModel.fetchWarTime()
-            
-            if let newsEntry = news.first, let message = newsEntry.message, let warTime = warTime {
-                
-                
-                
-                let entry = NewsItemEntry(date: Date(), title: newsEntry.title ?? "BREAKING NEWS", description: message, published: newsEntry.published ?? 0, configData: config, warTime: warTime)
-                
-                
-                entries.append(entry)
-                
+            if warTime != nil {
+                print("[Widget] War time fetched: \(warTime!)")
+            } else {
+                print("[Widget] War time is nil.")
             }
-            
-            
+
+            // pick the first news item that actually contains a non-empty message
+            if let newsEntry = news.first(where: { ($0.message?.isEmpty == false) }) {
+                let entry = NewsItemEntry(
+                    date: Date(),
+                    title: newsEntry.title ?? "BREAKING NEWS",
+                    description: newsEntry.message ?? "Check the app for more details.",
+                    published: newsEntry.published ?? 0,
+                    configData: config,
+                    warTime: warTime
+                )
+                entries.append(entry)
+            } else {
+                print("[Widget] No news items contained a message.")
+            }
+
+            if entries.isEmpty {
+                print("[Widget] No entries created, adding fallback entry.")
+                let fallback = NewsItemEntry(
+                    date: Date(),
+                    title: "No News",
+                    description: "Check back later.",
+                    published: 0,
+                    configData: config,
+                    warTime: warTime
+                )
+                entries.append(fallback)
+            }
+
             let timeline = Timeline(entries: entries, policy: .atEnd)
+            print("[Widget] Timeline created with \(entries.count) entry(ies).")
             completion(timeline)
-            
-            
-            
         }
         
         

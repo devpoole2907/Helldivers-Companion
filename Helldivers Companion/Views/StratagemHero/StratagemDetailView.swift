@@ -210,8 +210,7 @@ struct StratagemVideoPlayer: View {
         
         VStack{
         if isLoading {
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle())
+            DualRingSpinner()
         } else if let player = player {
             
             GeometryReader { geometry in

@@ -16,8 +16,7 @@ struct AsyncImageView: View {
     var body: some View {
         VStack {
             if isLoading {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
+                DualRingSpinner()
             } else if let image = image {
                 Image(uiImage: image)
                     .resizable()

@@ -50,7 +50,7 @@ class PlanetsDataModel: ObservableObject {
     var dashPatterns: [UUID: [CGFloat]] = [:]
     
     @Published var currentSeason: String = ""
-    @Published var majorOrder: MajorOrder? = nil
+    @Published var majorOrders: [MajorOrder] = []
     @Published var personalOrder: PersonalOrder? = nil
     @Published var galaxyStats: GalaxyStats? = nil
     @Published var lastUpdatedDate: Date = Date()
@@ -60,6 +60,8 @@ class PlanetsDataModel: ObservableObject {
     @Published var redactedShakeTimes = 0  // for redacting illuminate info animation
     
     @Published var selectedPlanet: UpdatedPlanet? = nil  // for map view selection
+    
+    @Published var status: StatusResponse? = nil // for dark energy tracking etc
     
     @AppStorage("viewCount") var viewCount = 0
     
@@ -71,7 +73,7 @@ class PlanetsDataModel: ObservableObject {
     
     @Published var configData: RemoteConfigDetails = RemoteConfigDetails(
         alert: "", prominentAlert: nil, season: "801", showIlluminate: false,
-        apiAddress: "", startedAt: "2024-02-10T07:20:30.089979Z")
+        apiAddress: "", startedAt: "2024-02-10T07:20:30.089979Z", meridiaEvent: false)
     
     @Published var showInfo = false
     @Published var showOrders = false
@@ -92,6 +94,16 @@ class PlanetsDataModel: ObservableObject {
         formatNumber(totalPlayerCount)
     }
     
+    var fleetStrengthResource: GlobalResource? {
+        guard let resources = status?.globalResources else { return nil }
+        return resources.first { $0.id32 == 175685818 }
+    }
+    
+    var fleetStrengthProgress: Double {
+        guard let resource = fleetStrengthResource else { return 0 }
+        return Double(resource.currentValue) / Double(resource.maxValue)
+    }
+    
     deinit {
         timer?.invalidate()
     }
@@ -104,6 +116,35 @@ class PlanetsDataModel: ObservableObject {
         completion()
     }
     
+    // merges additonal region info from warinfo endpoint
+    
+    func mergeWarInfoRegions(into status: StatusResponse?, with warInfo: WarInfoResponse?) -> StatusResponse? {
+        guard
+            let status,
+            let originalRegions = status.planetRegions,
+            let warInfo
+        else {
+            return status
+        }
+
+        let updatedRegions = originalRegions.map { region -> PlanetRegion in
+            var updatedRegion = region
+            if let warRegion = warInfo.planetRegions.first(where: {
+                $0.planetIndex == region.planetIndex && $0.regionIndex == region.regionIndex
+            }) {
+                updatedRegion.maxHealth = warRegion.maxHealth
+                updatedRegion.regionSize = warRegion.regionSize
+            }
+            return updatedRegion
+        }
+
+        return StatusResponse(
+            planetActiveEffects: status.planetActiveEffects,
+            globalResources: status.globalResources,
+            planetRegions: updatedRegions
+        )
+    }
+    
     func startUpdating() {
         Task {
             guard let config = await fetchConfig() else {
@@ -111,20 +152,25 @@ class PlanetsDataModel: ObservableObject {
                 return
             }
             
-            let warTime = await fetchWarTime()
+            let warTime = await fetchWarTime(with: config)
+            
+            let status = await fetchStatus(with: config)
+            
+            let warInfo = await fetchWarInfo(with: config)
+            
+            let mergedStatus = mergeWarInfoRegions(into: status, with: warInfo)
             
             let galaxyStats = await fetchGalaxyStats()
             let (campaigns, defenseCampaigns) = await fetchCampaigns(
                 for: config)
-            let (planets, sortedSectors, groupedBySector) = await fetchPlanets(
-                for: config)
-            let (taskPlanets, majorOrder) = await fetchMajorOrder(with: planets)
+            let (planets, sortedSectors, groupedBySector) = await fetchPlanets(for: config, with: status)
+            let (taskPlanets, majorOrders) = await fetchMajorOrder(with: planets)
             let spaceStations = await fetchSpaceStations(for: config)
             
             // TODO: for now, fetch ONLY the first station - upgrade in future for more spcae stations
             
             let firstStationID = spaceStations.first?.id32 ?? 749875195 // fallback to static id for dss
-            let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID)
+            let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID, with: config)
             let personalOrder = await self.fetchPersonalOrder()
             
             await MainActor.run {
@@ -133,6 +179,7 @@ class PlanetsDataModel: ObservableObject {
                     self.configData = config
                     self.showIlluminateUI = config.showIlluminate
                     self.warTime = warTime
+                    self.status = mergedStatus
                     self.updatedCampaigns = campaigns
                     self.updatedDefenseCampaigns = defenseCampaigns
                     self.galaxyStats = galaxyStats?.galaxyStats
@@ -143,7 +190,7 @@ class PlanetsDataModel: ObservableObject {
                     self.updatedGroupedBySectorPlanets = groupedBySector
                     self.updatedTaskPlanets = taskPlanets
                     
-                    self.majorOrder = majorOrder
+                    self.majorOrders = majorOrders
                     self.personalOrder = personalOrder
                     self.firstSpaceStationDetails = firstStationDetails
                     
@@ -195,19 +242,25 @@ class PlanetsDataModel: ObservableObject {
                     print("config failed to load")
                     return
                 }
-                let warTime = await self.fetchWarTime()
+                let warTime = await self.fetchWarTime(with: config)
+                let status = await self.fetchStatus(with: config)
+                
+                let warInfo = await self.fetchWarInfo(with: config)
+                
+                let mergedStatus = await self.mergeWarInfoRegions(into: status, with: warInfo)
+                
                 let (campaigns, defenseCampaigns) = await self.fetchCampaigns(
                     for: config)
-                let (planets, sortedSectors, groupedBySector) =
-                await self.fetchPlanets(for: config)
-                let (taskPlanets, majorOrder) = await self.fetchMajorOrder(
+                let (planets, sortedSectors, groupedBySector) = await self.fetchPlanets(for: config, with: status)
+                let (taskPlanets, majorOrders) = await self.fetchMajorOrder(
                     with: planets)
+                print("getting the fookn space stations")
                 let spaceStations = await self.fetchSpaceStations(for: config)
                 
                 // TODO: for now, fetch ONLY the first station - upgrade in future for more spcae stations
                 
                 let firstStationID = spaceStations.first?.id32 ?? 749875195 // fallback to static id for dss
-                let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID)
+                let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID, with: config)
                 
                 let personalOrder = await self.fetchPersonalOrder()
                 
@@ -217,6 +270,7 @@ class PlanetsDataModel: ObservableObject {
                         self.configData = config
                         self.showIlluminateUI = config.showIlluminate
                         self.warTime = warTime
+                        self.status = mergedStatus
                         self.updatedCampaigns = campaigns
                         self.updatedDefenseCampaigns = defenseCampaigns
                         
@@ -226,7 +280,7 @@ class PlanetsDataModel: ObservableObject {
                         self.updatedGroupedBySectorPlanets = groupedBySector
                         self.updatedTaskPlanets = taskPlanets
                         
-                        self.majorOrder = majorOrder
+                        self.majorOrders = majorOrders
                         self.personalOrder = personalOrder
                         self.firstSpaceStationDetails = firstStationDetails
                         
@@ -323,8 +377,8 @@ class PlanetsDataModel: ObservableObject {
         }
     }
     
-    func fetchWarTime() async -> Int64? {
-        let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/801/Status"
+    func fetchWarTime(with config: RemoteConfigDetails? = nil) async -> Int64? {
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/\(config?.season ?? "801")/Status"
         
         do {
             // minimal struct for decoding
@@ -336,19 +390,34 @@ class PlanetsDataModel: ObservableObject {
         }
     }
     
-    func fetchGalacticEffects() async -> [GalacticEffect] {
-        let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/801/Status"
+    func fetchWarInfo(with config: RemoteConfigDetails? = nil) async -> WarInfoResponse? {
+        
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/\(config?.season ?? "801")/WarInfo"
+        
         do {
-            let response: GalacticEffectsResponse = try await netManager.fetchData(from: urlString)
-            return response.planetActiveEffects
+            // minimal struct for decoding
+            let response: WarInfoResponse = try await netManager.fetchData(from: urlString)
+            return response
+        } catch {
+            print("Error fetching war time: \(error)")
+            return nil
+        }
+        
+    }
+    
+    func fetchStatus(with config: RemoteConfigDetails? = nil) async -> StatusResponse? {
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/\(config?.season ?? "801")/Status"
+        do {
+            let response: StatusResponse = try await netManager.fetchData(from: urlString)
+            return response
         } catch {
             print("Error fetching galactic effects: \(error)")
-            return []
+            return nil
         }
     }
     
-    func fetchSpaceStationDetails(for id32: Int64? = nil) async -> SpaceStationDetails? {
-        let urlString = "https://api.live.prod.thehelldiversgame.com/api/SpaceStation/801/\(id32 ?? 749875195)"
+    func fetchSpaceStationDetails(for id32: Int64? = nil, with config: RemoteConfigDetails? = nil) async -> SpaceStationDetails? {
+        let urlString = "https://api.live.prod.thehelldiversgame.com/api/SpaceStation/\(config?.season ?? "801")/\(id32 ?? 749875195)"
         
         do {
             let details: SpaceStationDetails = try await netManager.fetchData(from: urlString)
@@ -360,7 +429,7 @@ class PlanetsDataModel: ObservableObject {
     }
     
     func fetchSpaceStations(using url: String? = nil, for configData: RemoteConfigDetails) async -> [SpaceStation] {
-        let urlString = "\(configData.apiAddress)api/v1/space-stations"
+        let urlString = "\(configData.apiAddress)api/v2/space-stations"
         
         let headers: [String: String] = [
             "X-Super-Client": "WarMonitoriOS/3.1",
@@ -373,6 +442,8 @@ class PlanetsDataModel: ObservableObject {
             let stations: [SpaceStation] = try await netManager.fetchData(
                 from: urlString, headers: headers
             )
+            
+            print("station count: \(stations.count)")
             
             // fetched stations logging
             for station in stations {
@@ -469,79 +540,79 @@ class PlanetsDataModel: ObservableObject {
     }
     
     func fetchMajorOrder(
-        for season: String? = nil, with planets: [UpdatedPlanet]? = nil
-    ) async -> ([UpdatedPlanet], MajorOrder?) {
+        for season: String? = nil,
+        with planets: [UpdatedPlanet]? = nil
+    ) async -> ([UpdatedPlanet], [MajorOrder]) {
+
         let seasonString = season ?? configData.season
         let urlString =
-        "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(seasonString)"
-        
+            "https://api.live.prod.thehelldiversgame.com/api/v2/Assignment/War/\(seasonString)"
+
         let headers: [String: String] = [
             "Accept-Language": enableLocalization ? apiSupportedLanguage : ""
         ]
-        
+
         do {
-            let majorOrders: [MajorOrder] = try await netManager.fetchData(
-                from: urlString, headers: headers)
-            
-            var taskPlanets: [UpdatedPlanet] = []
-            var majorOrder: MajorOrder? = nil
-            
-            if let firstOrder = majorOrders.first {
-                print(
-                    "first order title is: \(firstOrder.setting.taskDescription)"
-                )
-                
-                majorOrder = firstOrder
-                
-                var collectionOfPlanets: [UpdatedPlanet] = []
-                
-                if let planets = planets {
-                    collectionOfPlanets = planets
-                } else {
-                    collectionOfPlanets = self.updatedPlanets
+            let majorOrders: [MajorOrder] =
+                try await netManager.fetchData(from: urlString, headers: headers)
+
+            guard !majorOrders.isEmpty else { return ([], []) }
+
+            // Flat-map tasks and progress once
+            let allTasks: [Setting.Task]   = majorOrders.flatMap { $0.setting.tasks }
+            let allProgress: [Int64]       = majorOrders.flatMap { $0.progress }
+
+            let collectionOfPlanets = planets ?? self.updatedPlanets
+
+            /// Helper closure – prefer valueType 12 (planet index), fall back to 11.
+            let extractPlanetIndex: (Setting.Task) -> Int64? = { task in
+                if let i = task.valueTypes.firstIndex(of: 12), i < task.values.count {
+                    return task.values[i]
                 }
-                
-                // get planets with planet index found in task, assuming the tasks are in the same order as the progress array also associate the progress (0 or 1 for complete) with the planet in the tasks array
-                
-                let taskPlanetIndexes: [Int64] = firstOrder.setting.tasks.compactMap { task in
-                    guard task.values.count >= 3 else { return nil }
-                    let planetIndex = task.values[2]
-                    // Skip 0 so "Super Earth" doesn't get included
-                    return planetIndex == 0 ? nil : planetIndex
+                if let i = task.valueTypes.firstIndex(of: 11), i < task.values.count {
+                    return task.values[i]
                 }
-                
-                taskPlanets = collectionOfPlanets.filter { planet in
-                    taskPlanetIndexes.contains(Int64(planet.index))
-                }
-                
-                for (index, progressValue) in firstOrder.progress.enumerated() {
-                    guard index < firstOrder.setting.tasks.count else { continue }
-                    let task = firstOrder.setting.tasks[index]
-                    guard task.values.count >= 3 else { continue }
-                    
-                    // If the planet index is 0, skip it
-                    let planetIndex = task.values[2]
-                    if planetIndex == 0 { continue }
-                    
-                    if let planetInArray = taskPlanets.firstIndex(where: { $0.index == planetIndex }) {
-                        taskPlanets[planetInArray].taskProgress = progressValue
-                    }
-                }
-                
-                print("We set the major order")
+                return nil
             }
-            
-            return (taskPlanets, majorOrder)
-            
+
+            // 1️⃣ All planet indexes referenced by tasks (non-zero only)
+            let taskPlanetIndexes: [Int64] = allTasks.compactMap { task in
+                guard let idx = extractPlanetIndex(task), idx != 0 else { return nil }
+                return idx
+            }
+
+            // 2️⃣ Filter planet list down to those referenced in tasks
+            var taskPlanets = collectionOfPlanets.filter { planet in
+                taskPlanetIndexes.contains(Int64(planet.index))
+            }
+
+            // 3️⃣ Attach progress to matching task planet
+            var progressIndex = 0
+            for task in allTasks {
+                guard let planetIndex = extractPlanetIndex(task), planetIndex != 0 else {
+                    progressIndex += 1
+                    continue
+                }
+
+                if let arrayIdx = taskPlanets.firstIndex(where: { $0.index == planetIndex }),
+                   progressIndex < allProgress.count {
+                    taskPlanets[arrayIdx].taskProgress = allProgress[progressIndex]
+                }
+                progressIndex += 1
+            }
+
+            print("Fetched \(majorOrders.count) major orders.")
+            return (taskPlanets, majorOrders)
+
         } catch {
             print("Decoding error: \(error)")
-            return ([], nil)
+            return ([], [])
         }
     }
     
     func fetchConfig() async -> RemoteConfigDetails? {
         let urlString =
-        "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/config/mayApiConfig.json"
+        "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/config/feb2025config.json"
         
         do {
             let configData: RemoteConfigDetails =
@@ -563,7 +634,7 @@ class PlanetsDataModel: ObservableObject {
     }
     
     func fetchPlanets(
-        using url: String? = nil, for configData: RemoteConfigDetails
+        using url: String? = nil, for configData: RemoteConfigDetails, with status: StatusResponse? = nil
     ) async -> ([UpdatedPlanet], [String], [String: [UpdatedPlanet]]) {
         
         let urlString = url ?? "\(configData.apiAddress)api/v1/planets"
@@ -582,7 +653,7 @@ class PlanetsDataModel: ObservableObject {
             planets = await fetchAndMergePlanets(planets: planets)
             print("updating planets")
             
-            planets = await mergeGalacticEffectsIntoPlanets(planets)
+            planets = await mergeGalacticEffectsIntoPlanets(planets, with: status)
             
             // Group planets by sector
             let groupedBySector = Dictionary(grouping: planets) { $0.sector }
@@ -648,12 +719,17 @@ class PlanetsDataModel: ObservableObject {
     
     // merge galactic effects into planets based on index
     
-    func mergeGalacticEffectsIntoPlanets(_ planets: [UpdatedPlanet]) async -> [UpdatedPlanet] {
+    func mergeGalacticEffectsIntoPlanets(_ planets: [UpdatedPlanet], with status: StatusResponse? = nil) async -> [UpdatedPlanet] {
         print("calling galactic effects planet update...")
         
         var updatedPlanets = planets
         
-        let galacticEffects = await fetchGalacticEffects()
+        guard let status = status else {
+            print("Status data is missing, skipping merge")
+            return updatedPlanets
+        }
+        
+        let galacticEffects = status.planetActiveEffects
         
         let effectDefinitions = await fetchGalacticEffectDefinitions()
         

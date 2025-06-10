@@ -25,7 +25,8 @@ struct NewsView: View {
                 
                 if feedModel.news.isEmpty {
                     Spacer(minLength: 220)
-                    ProgressView().frame(maxWidth: .infinity)
+                    DualRingSpinner()
+                        .frame(maxWidth: .infinity)
                 } else {
                     LazyVStack(spacing: 15) {
                         ForEach(feedModel.news, id: \.id) { news in

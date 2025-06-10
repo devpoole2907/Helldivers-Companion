@@ -198,8 +198,9 @@ struct RootView: View {
                     
                     
                     majorOrderButton
-                    personalOrderButton
-                    superStoreButton
+                    // gone now :(
+                  /*  personalOrderButton
+                    superStoreButton */
                     
                 }.padding(.bottom, 60)
                     .padding(.trailing, 10)
@@ -302,7 +303,7 @@ struct RootView: View {
                 Text("Major Order").textCase(.uppercase).tint(.white).fontWeight(.heavy)
                     .font(Font.custom("FSSinclair", size: 16))
                 
-                if let timeRemaining = viewModel.majorOrder?.expiresIn {
+                if let timeRemaining = viewModel.majorOrders.first?.expiresIn {
                     OrderTimeView(timeRemaining: timeRemaining, isMini: true)
                         .padding(.bottom, 2)
                 }

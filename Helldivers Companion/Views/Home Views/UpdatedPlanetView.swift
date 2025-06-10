@@ -31,6 +31,16 @@ struct UpdatedPlanetView: View {
         viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) // map view needs this, as it shows planet view for all planets even if they arent actively in a campaign. used to hide additional info such as liberation %
     }
     
+    private var campaignType: Int? {
+            guard let planet = planet else { return nil }
+            return viewModel.updatedCampaigns.first(where: { $0.planet.index == planet.index })?.type
+        }
+    
+    // any regions e.g cities on super earth
+    var matchingRegions: [PlanetRegion] {
+        return viewModel.status?.planetRegions?.filter { $0.planetIndex == planetIndex } ?? []
+    }
+    
     private var planet: UpdatedPlanet? {
             viewModel.updatedPlanets.first(where: { $0.index == planetIndex })
         }
@@ -83,6 +93,11 @@ struct UpdatedPlanetView: View {
             return 100.0
         }
         
+        // super broken way of using fleet stremgth progress but whatever we got 3 weeks off soon to work on this shit
+        
+        if defenseCampaign?.planet.event?.eventType == 3, let _ = viewModel.fleetStrengthResource {
+            return (1.0 - viewModel.fleetStrengthProgress) * 100
+        }
        
             return defenseCampaign?.planet.event?.percentage ?? planet?.percentage
         
@@ -166,12 +181,7 @@ struct UpdatedPlanetView: View {
                 
                 headerWithImage
                     
-                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, spaceStationExpiration: spaceStationExpirationTime, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isActive: isActive)
-                    
-                
-                
-                
-                
+                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, spaceStationExpiration: spaceStationExpirationTime, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isActive: isActive, campaignType: campaignType, matchingRegions: matchingRegions)
                 
             }.onTapGesture {
                 // nav to planet info view if tapped anywhere
@@ -190,7 +200,8 @@ struct UpdatedPlanetView: View {
                     Color.black
                 }
             }
-            .border(foreColor, width: isWidget ? 0 : 2)
+        // red border if its super earth and current active in campaign
+            .border(isActive && planetIndex == 0 ? .red : foreColor, width: isWidget ? 0 : 2)
      
     }
     

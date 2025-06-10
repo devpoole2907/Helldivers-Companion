@@ -79,6 +79,11 @@ struct MajorOrder: Decodable {
     var eradicateTasks: [Setting.Task] {
         setting.tasks.filter { $0.type == 3 }
     }
+    
+    var missionExtractTasks: [Setting.Task] {
+        setting.tasks.filter { $0.type == 7 }
+    }
+    
     var defenseTasks: [Setting.Task] {
         setting.tasks.filter { $0.type == 12 }
     }
@@ -94,6 +99,7 @@ struct MajorOrder: Decodable {
     var isDefenseType: Bool    { !defenseTasks.isEmpty }
     var isNetQuantityType: Bool { !netQuantityTasks.isEmpty }
     var isLiberationType: Bool  { !liberationTasks.isEmpty }
+    var isMissionExtractType: Bool { !missionExtractTasks.isEmpty }
     
     // cooked code, uses the adaptive descriptions developed for personal orders
     // this type actually needs iur adaptive setting task descriptions
@@ -112,6 +118,23 @@ struct MajorOrder: Decodable {
             let progressValue = Double(currentProgress) / Double(totalGoal)
             let progressString = "\(currentProgress)/\(totalGoal)"
             return (taskDescription, progressValue, progressString)
+        }
+    }
+    
+    // if a mission extraction order
+    
+    var missionExtractProgress: [(description: AttributedString, progress: Double, progressString: String)]? {
+        guard isMissionExtractType else { return nil }
+        return missionExtractTasks.compactMap { task in
+            guard let taskIndex = setting.tasks.firstIndex(of: task),
+                  let currentProgress = progress[safe: taskIndex],
+                  let totalGoal = task.values[safe: 2] else {
+                return nil
+            }
+
+            let progressValue = Double(currentProgress) / Double(totalGoal)
+            let progressString = "\(currentProgress)/\(totalGoal) (\(String(format: "%.1f", progressValue * 100))%)"
+            return (task.description, progressValue, progressString)
         }
     }
     
@@ -348,6 +371,38 @@ struct Setting: Decodable {
                         planetText.foregroundColor = .yellow
                         text += planetText
                     }
+                
+                
+            case 12: // defend
+                text += AttributedString("Defend ")
+
+                // planet name
+                if planetIndex > 0, let planetPos = planetPositionLookup[planetIndex] {
+                    var planetText = AttributedString(planetPos.name)
+                    planetText.foregroundColor = .yellow
+                    text += planetText + " "
+                }
+                
+                text += AttributedString("against ")
+                
+                // number of attacks
+                if goal > 0 {
+                    var goalText = AttributedString("\(goal) attack" + (goal > 1 ? "s" : ""))
+                    goalText.foregroundColor = .yellow
+                    text += goalText + " from "
+                } else {
+                    text += AttributedString("an attack from ")
+                }
+                
+                // enemy / faction
+                if raceId > 0 {
+                    let factionName = FactionDictionary[raceId] ?? "faction #\(raceId)"
+                    var factionText = AttributedString(factionName)
+                    factionText.foregroundColor = FactionColors[raceId] ?? .white
+                    text += factionText
+                } else {
+                    text += AttributedString("an unknown enemy")
+                }
                     
                 default:
                     text += AttributedString("Task type \(type) not handled! Contact the dev.")
@@ -374,8 +429,8 @@ struct NewsFeed: Decodable, Hashable {
     var message: String?
     var title: String?
     let published: UInt32?
-    let tagIds: [Int]
-    let type: Int
+    let tagIds: [Int]?
+    let type: Int?
     
     private enum CodingKeys: String, CodingKey {
         case id, message, published, tagIds, type
@@ -386,17 +441,25 @@ struct NewsFeed: Decodable, Hashable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(Int.self, forKey: .id)
         published = try container.decodeIfPresent(UInt32.self, forKey: .published)
-        tagIds = try container.decode([Int].self, forKey: .tagIds)
-        type = try container.decode(Int.self, forKey: .type)
-        message = try container.decode(String.self, forKey: .message)
+        tagIds = try container.decodeIfPresent([Int].self, forKey: .tagIds)
+        type = try container.decodeIfPresent(Int.self, forKey: .type)
+        message = try container.decodeIfPresent(String.self, forKey: .message)
         
         // processing into title/message, sanitise html tags
-        if let msg = message, let sanitisedMessage = removeHTMLTags(from: msg) {
-            // check for new line in message
-            if let newlineIndex = sanitisedMessage.firstIndex(of: "\n") {
-                // if we find a new line in the message then seperate to title/message
-                title = String(sanitisedMessage[..<newlineIndex])
-                message = String(sanitisedMessage[sanitisedMessage.index(after: newlineIndex)...])
+        if let msg = message {
+            if let sanitised = removeHTMLTags(from: msg), !sanitised.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                if let newlineIndex = sanitised.firstIndex(of: "\n") {
+                    title = String(sanitised[..<newlineIndex])
+                    message = String(sanitised[sanitised.index(after: newlineIndex)...])
+                } else {
+                    title = "BREAKING NEWS"
+                    message = sanitised
+                }
+            } else {
+                // Sanitisation failed or returned empty — fall back to raw
+                print("[Widget] Sanitised message was empty, falling back to raw message.")
+                title = "BREAKING NEWS"
+                message = msg
             }
         }
     }
@@ -415,7 +478,7 @@ struct RemoteConfigDetails: Decodable {
     var showIlluminate: Bool
     var apiAddress: String
     var startedAt: String // temporarily we will now store the start date statically
-    
+    var meridiaEvent: Bool // temporary measure, to show meridia energy bar via config - hardcoded at this stage to only work for index 64 planet (meridia)
     
     func convertStartedAtToDate() -> Date? {
         let dateFormatter = ISO8601DateFormatter()
@@ -427,16 +490,17 @@ struct RemoteConfigDetails: Decodable {
     
     
     private enum CodingKeys: String, CodingKey {
-        case alert, prominentAlert, season, showIlluminate, apiAddress, startedAt
+        case alert, prominentAlert, season, showIlluminate, apiAddress, startedAt, meridiaEvent
     }
     // default init
-    init(alert: String, prominentAlert: String?, season: String, showIlluminate: Bool, apiAddress: String, startedAt: String) {
+    init(alert: String, prominentAlert: String?, season: String, showIlluminate: Bool, apiAddress: String, startedAt: String, meridiaEvent: Bool) {
         self.alert = alert
         self.prominentAlert = prominentAlert
         self.season = season
         self.showIlluminate = showIlluminate
         self.apiAddress = apiAddress
         self.startedAt = startedAt
+        self.meridiaEvent = meridiaEvent
     }
     
     // set prominent alert to nil if its empty
@@ -450,6 +514,7 @@ struct RemoteConfigDetails: Decodable {
         showIlluminate = try container.decode(Bool.self, forKey: .showIlluminate)
         apiAddress = try container.decode(String.self, forKey: .apiAddress)
         startedAt = try container.decode(String.self, forKey: .startedAt)
+        meridiaEvent = try container.decode(Bool.self, forKey: .meridiaEvent)
     }
     
 }
@@ -694,8 +759,57 @@ struct ActionCost: Decodable {
     let maxDonationPeriodSeconds: Int
 }
 
-struct GalacticEffectsResponse: Codable {
+struct StatusResponse: Codable {
     let planetActiveEffects: [GalacticEffect]
+    let globalResources: [GlobalResource]
+    let planetRegions: [PlanetRegion]?
+}
+
+// temporary until json includes regions
+let regionNamesByPlanet: [Int: [Int: String]] = [
+    0: [
+        0: "Eagleopolis",
+        1: "Administrative Center 02",
+        2: "Remembrance",
+        3: "York Supreme",
+        4: "Port Mercy",
+        5: "Prosperity City",
+        6: "Equality-On-Sea"
+    ]
+]
+
+struct WarInfoResponse: Codable {
+    // only need regions info
+    let planetRegions: [PlanetRegionInfo]
+    
+}
+
+struct PlanetRegionInfo: Codable {
+    let planetIndex: Int
+    let regionIndex: Int
+    let settingsHash: Int64
+    let maxHealth: Int
+    let regionSize: Int
+}
+
+struct GlobalResource: Codable {
+    let id32: Int64
+    let currentValue: Int64
+    let maxValue: Int64
+    let flags: Int64
+}
+
+struct PlanetRegion: Codable {
+    let planetIndex: Int
+    let regionIndex: Int
+    let owner: Int
+    let health: Int
+    let regerPerSecond: Int
+    let availabilityFactor: Int
+    let isAvailable: Bool
+    let players: Int
+    var maxHealth: Int? // these are added from warinfo endpoint not status!!!
+    var regionSize: Int?
 }
 
 struct GalacticEffect: Codable, Identifiable {
@@ -723,12 +837,12 @@ struct GalacticEffect: Codable, Identifiable {
             return "automaton" // jet brigade factory
         case 1240:
             return "alert"
-        case 1241:
-            return "blackhole" // fractured
-        case 1242:
-            return "blackhole" // moving singularity
+        case 1241, 1242, 1252:
+            return "blackhole" // fractured, moving singularity
         case 1245:
             return "predator"
+        case 1269:
+            return "illuminatewhite" // the great host
         default:
             return nil // effects we wont be displaying
         }
@@ -770,6 +884,7 @@ struct UpdatedPlanetEvent: Decodable {
     var endTime: String
     var campaignId: Int64
     var jointOperationIds: [Int64]
+    var globalResourceId: Int64?
     
     // computed prop for invasion level
     
@@ -859,8 +974,9 @@ struct UpdatedCampaign: Decodable, Hashable {
     
     var id: Int
     var planet: UpdatedPlanet
-    var type: Int64
+    var type: Int
     var count: Int64
+    var faction: String
 }
 
 struct UpdatedPlanetDataPoint {

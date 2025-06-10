@@ -125,6 +125,18 @@
 		7C3DE9882BA80B8100C95B84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
 		7C3DE9892BA80B9600C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0AE782BA7F31400802D9F /* Helldivers_Companion_Planet_Widgets.swift */; };
 		7C3DE98B2BA80C1E00C95B84 /* PlanetStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C995A2BA2BAE800CF7C91 /* PlanetStructs.swift */; };
+		7C418DBE2DE16D8E0027A05D /* DualRingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C418DBD2DE16D8E0027A05D /* DualRingSpinner.swift */; };
+		7C418DBF2DE16D8E0027A05D /* DualRingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C418DBD2DE16D8E0027A05D /* DualRingSpinner.swift */; };
+		7C418DC02DE16D8E0027A05D /* DualRingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C418DBD2DE16D8E0027A05D /* DualRingSpinner.swift */; };
+		7C418DC12DE16D990027A05D /* DualRingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C418DBD2DE16D8E0027A05D /* DualRingSpinner.swift */; };
+		7C418DC22DE16D990027A05D /* DualRingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C418DBD2DE16D8E0027A05D /* DualRingSpinner.swift */; };
+		7C418DC32DE16D990027A05D /* DualRingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C418DBD2DE16D8E0027A05D /* DualRingSpinner.swift */; };
+		7C418DC42DE16D990027A05D /* DualRingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C418DBD2DE16D8E0027A05D /* DualRingSpinner.swift */; };
+		7C418DC52DE16D990027A05D /* DualRingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C418DBD2DE16D8E0027A05D /* DualRingSpinner.swift */; };
+		7C418DC62DE16D990027A05D /* DualRingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C418DBD2DE16D8E0027A05D /* DualRingSpinner.swift */; };
+		7C418DC72DE16D990027A05D /* DualRingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C418DBD2DE16D8E0027A05D /* DualRingSpinner.swift */; };
+		7C418DC82DE16D990027A05D /* DualRingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C418DBD2DE16D8E0027A05D /* DualRingSpinner.swift */; };
+		7C418DC92DE16D990027A05D /* DualRingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C418DBD2DE16D8E0027A05D /* DualRingSpinner.swift */; };
 		7C44B7D32BC6A5100097C29B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 7C44B7D22BC6A5100097C29B /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		7C44B7D52BC6A5210097C29B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 7C44B7D42BC6A5210097C29B /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		7C44B7D72BC800790097C29B /* PlayerCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C44B7D62BC800790097C29B /* PlayerCountView.swift */; };
@@ -387,6 +399,9 @@
 		7CE97D402BB5414C008329BA /* GalaxyStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */; };
 		7CE97D4B2BB55F5D008329BA /* TipJarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3C2BB53D2E008329BA /* TipJarView.swift */; };
 		7CE97D4D2BB564F6008329BA /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D4C2BB564F6008329BA /* CloseButton.swift */; };
+		7CF3E57D2DD942E1006CFB00 /* FleetStrengthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF3E57C2DD942E1006CFB00 /* FleetStrengthView.swift */; };
+		7CF3E57E2DD942E1006CFB00 /* FleetStrengthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF3E57C2DD942E1006CFB00 /* FleetStrengthView.swift */; };
+		7CF3E57F2DD942E1006CFB00 /* FleetStrengthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF3E57C2DD942E1006CFB00 /* FleetStrengthView.swift */; };
 		7CF6D2DD2BC2820D00107663 /* PlanetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */; };
 		7CF6D2DE2BC2820E00107663 /* PlanetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */; };
 		7CF6D2E02BC290EC00107663 /* MapSettingsPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2DF2BC290EC00107663 /* MapSettingsPopup.swift */; };
@@ -576,6 +591,7 @@
 		7C3DE97B2BA80B3D00C95B84 /* Helldivers_Companion_Watch_Widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Watch_Widgets.swift; sourceTree = "<group>"; };
 		7C3DE97D2BA80B3E00C95B84 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C3DE97F2BA80B3E00C95B84 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C418DBD2DE16D8E0027A05D /* DualRingSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DualRingSpinner.swift; sourceTree = "<group>"; };
 		7C44B7D62BC800790097C29B /* PlayerCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCountView.swift; sourceTree = "<group>"; };
 		7C44B7DD2BC944420097C29B /* Helldivers Companion Galaxy Map WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Helldivers Companion Galaxy Map WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C44B7E12BC944420097C29B /* Helldivers_Companion_Galaxy_Map_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helldivers_Companion_Galaxy_Map_WidgetBundle.swift; sourceTree = "<group>"; };
@@ -671,6 +687,7 @@
 		7CE97D3C2BB53D2E008329BA /* TipJarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarView.swift; sourceTree = "<group>"; };
 		7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyStatsView.swift; sourceTree = "<group>"; };
 		7CE97D4C2BB564F6008329BA /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
+		7CF3E57C2DD942E1006CFB00 /* FleetStrengthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FleetStrengthView.swift; sourceTree = "<group>"; };
 		7CF6D2DF2BC290EC00107663 /* MapSettingsPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsPopup.swift; sourceTree = "<group>"; };
 		7CF6D2E12BC29BCD00107663 /* iOS16Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS16Alert.swift; sourceTree = "<group>"; };
 		7CF6D2E52BC2AF1C00107663 /* PlanetPositions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetPositions.swift; sourceTree = "<group>"; };
@@ -1130,6 +1147,8 @@
 		7CE4AE382BA832660033D4AF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7C418DBD2DE16D8E0027A05D /* DualRingSpinner.swift */,
+				7CF3E57C2DD942E1006CFB00 /* FleetStrengthView.swift */,
 				7C96B1522D6185DB009B1876 /* PlayerCountChart.swift */,
 				7CFC669D2D5B41930049C28D /* Tips */,
 				7CC284C22BD8DD6C0036EBFD /* ViewModifiers */,
@@ -1786,6 +1805,7 @@
 				7CC284CD2BD92B2E0036EBFD /* WeaponsList.swift in Sources */,
 				7C4589C02BA5551F0019B00E /* GameView.swift in Sources */,
 				7C3A9EC62BA944BE00F26307 /* NewsView.swift in Sources */,
+				7CF3E57E2DD942E1006CFB00 /* FleetStrengthView.swift in Sources */,
 				7C6DE5172C474A7200077534 /* NetworkManager.swift in Sources */,
 				7C0DF6222BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7C4589C72BA5849F0019B00E /* GameCenterManager.swift in Sources */,
@@ -1818,6 +1838,7 @@
 				7CBC0E3F2BDD26E9008ED950 /* SuperStoreList.swift in Sources */,
 				7C3A9EC92BA9724E00F26307 /* NewsFeedModel.swift in Sources */,
 				7CBC0E3D2BDCF728008ED950 /* WarBondsList.swift in Sources */,
+				7C418DBF2DE16D8E0027A05D /* DualRingSpinner.swift in Sources */,
 				7CFC66992D5B23DF0049C28D /* NotificationSettingsView.swift in Sources */,
 				7C45D46C2BABEE980013A632 /* WatchOrdersView.swift in Sources */,
 				7C0DF6192BB922230062AB9B /* PlanetInfoView.swift in Sources */,
@@ -1846,6 +1867,7 @@
 				7C1B8C152BAD705600944823 /* Helldivers_Companion_News_WidgetBundle.swift in Sources */,
 				7C0DF6262BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7C1B8C3B2BAD790500944823 /* GlobalFunctions+Extensions.swift in Sources */,
+				7C418DC32DE16D990027A05D /* DualRingSpinner.swift in Sources */,
 				7C1B8C172BAD705600944823 /* Helldivers_Companion_News_Widget.swift in Sources */,
 				7C0DF62B2BB96D530062AB9B /* NavigationPather.swift in Sources */,
 				7CBC0E452BDDB954008ED950 /* CacheManager.swift in Sources */,
@@ -1870,6 +1892,7 @@
 				7C0DF6252BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7C6DE51A2C474D9200077534 /* NetworkManager.swift in Sources */,
 				7C3DE9892BA80B9600C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
+				7C418DC22DE16D990027A05D /* DualRingSpinner.swift in Sources */,
 				7CF6D2DE2BC2820E00107663 /* PlanetInfoView.swift in Sources */,
 				7C45D4762BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C45D4712BABEECF0013A632 /* OrderTimeView.swift in Sources */,
@@ -1897,6 +1920,7 @@
 				7C25BC7D2D3BA2C300586852 /* SpaceStationView.swift in Sources */,
 				7C44B7F72BC945710097C29B /* PlayerCountView.swift in Sources */,
 				7C274A582BE436C500F90369 /* ShakeModifier.swift in Sources */,
+				7C418DBE2DE16D8E0027A05D /* DualRingSpinner.swift in Sources */,
 				7C44B8002BC945EC0097C29B /* Version Check View Modifiers.swift in Sources */,
 				7C6DE51E2C474D9200077534 /* NetworkManager.swift in Sources */,
 				7C44B7F22BC944630097C29B /* PlanetStructs.swift in Sources */,
@@ -1911,6 +1935,7 @@
 				7C44B7F82BC9457D0097C29B /* PlanetInfoView.swift in Sources */,
 				7CAAFFE02C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C44B7F42BC9451F0097C29B /* CampaignPlanetStatsView.swift in Sources */,
+				7CF3E57D2DD942E1006CFB00 /* FleetStrengthView.swift in Sources */,
 				7C44B7F02BC9445B0097C29B /* DraggablePlanetView.swift in Sources */,
 				7C44B7FB2BC9459C0097C29B /* CustomSegmentedPicker.swift in Sources */,
 				7CBC0E482BDDB954008ED950 /* CacheManager.swift in Sources */,
@@ -1929,6 +1954,7 @@
 				7C6DE51F2C474D9200077534 /* NetworkManager.swift in Sources */,
 				7C8423F92D40C92000FDFA75 /* PlanetPositions.swift in Sources */,
 				7C4A9E372BD355EF0014FCCD /* War_Monitor_Total_Player_Count_Widget.swift in Sources */,
+				7C418DC82DE16D990027A05D /* DualRingSpinner.swift in Sources */,
 				7CBC0E4B2BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7C4A9E592BD358100014FCCD /* GlobalFunctions+Extensions.swift in Sources */,
 			);
@@ -1944,6 +1970,7 @@
 				7C6DE5202C474D9200077534 /* NetworkManager.swift in Sources */,
 				7C8423FA2D40C92000FDFA75 /* PlanetPositions.swift in Sources */,
 				7C4A9E542BD356910014FCCD /* War_Monitor_Total_Player_Count_Widget.swift in Sources */,
+				7C418DC92DE16D990027A05D /* DualRingSpinner.swift in Sources */,
 				7CBC0E4C2BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7C4A9E5A2BD358100014FCCD /* GlobalFunctions+Extensions.swift in Sources */,
 			);
@@ -1987,6 +2014,7 @@
 				7C587F572BA6DC2400C66643 /* ContentView.swift in Sources */,
 				7CBC0E422BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7C1B8C332BAD77A100944823 /* StratagemHeroModel.swift in Sources */,
+				7CF3E57F2DD942E1006CFB00 /* FleetStrengthView.swift in Sources */,
 				7CC284C52BD8DD790036EBFD /* BackgroundModifier.swift in Sources */,
 				7CBC0E3B2BDB26F1008ED950 /* DatabaseModel.swift in Sources */,
 				7C587F5A2BA6DCFC00C66643 /* OrderView.swift in Sources */,
@@ -2002,6 +2030,7 @@
 				7CC284C12BD8DB390036EBFD /* PlanetsList.swift in Sources */,
 				7C587F582BA6DC7000C66643 /* PlanetStructs.swift in Sources */,
 				7C587F472BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift in Sources */,
+				7C418DC02DE16D8E0027A05D /* DualRingSpinner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2019,6 +2048,7 @@
 				7C8C5F432BAEF97600C4FBD2 /* OrderTimeView.swift in Sources */,
 				7CBC0E462BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7C80F3F12BC142C30058BF39 /* Version Check View Modifiers.swift in Sources */,
+				7C418DC42DE16D990027A05D /* DualRingSpinner.swift in Sources */,
 				7C4A6A992BD25D7800727FEC /* RectangleProgressBar.swift in Sources */,
 				7C8C5F412BAEF96C00C4FBD2 /* PlanetStructs.swift in Sources */,
 				7C8C5F422BAEF97200C4FBD2 /* RewardView.swift in Sources */,
@@ -2044,6 +2074,7 @@
 				7C8C5F5E2BAF0B5E00C4FBD2 /* PlanetStructs.swift in Sources */,
 				7CBC0E472BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7C80F3F22BC142C40058BF39 /* Version Check View Modifiers.swift in Sources */,
+				7C418DC52DE16D990027A05D /* DualRingSpinner.swift in Sources */,
 				7C4A6A9A2BD25D7900727FEC /* RectangleProgressBar.swift in Sources */,
 				7C8C5F622BAF0C1900C4FBD2 /* OrderView.swift in Sources */,
 				7C8C5F5C2BAF0B1800C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */,
@@ -2063,6 +2094,7 @@
 				7CA240B72BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift in Sources */,
 				7CA240B92BCA33FC007F685C /* Stratagem_Hero_High_Score_Widget.swift in Sources */,
 				7C5E450E2BCE420700A74212 /* GlobalFunctions+Extensions.swift in Sources */,
+				7C418DC62DE16D990027A05D /* DualRingSpinner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2074,6 +2106,7 @@
 				7CA240CF2BCA5082007F685C /* Stratagem_Hero_High_Score_Watch_Widget.swift in Sources */,
 				7CA240D92BCA50A2007F685C /* Stratagem_Hero_High_Score_Widget.swift in Sources */,
 				7C5E450F2BCE420700A74212 /* GlobalFunctions+Extensions.swift in Sources */,
+				7C418DC72DE16D990027A05D /* DualRingSpinner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2090,6 +2123,7 @@
 				7C0DF6242BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
 				7C6DE5192C474D9200077534 /* NetworkManager.swift in Sources */,
 				7CC0AE882BA7F63100802D9F /* RectangleProgressBar.swift in Sources */,
+				7C418DC12DE16D990027A05D /* DualRingSpinner.swift in Sources */,
 				7CF6D2DD2BC2820D00107663 /* PlanetInfoView.swift in Sources */,
 				7C45D46A2BABEE7D0013A632 /* RewardView.swift in Sources */,
 				7C45D45C2BABEB370013A632 /* GlobalFunctions+Extensions.swift in Sources */,
@@ -2316,7 +2350,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2355,7 +2389,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				OTHER_LDFLAGS = "-ObjC";
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion";
@@ -2387,7 +2421,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-News-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2415,7 +2449,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-News-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2443,7 +2477,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Watch-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2473,7 +2507,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Watch-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2503,7 +2537,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Galaxy-Map-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2531,7 +2565,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Galaxy-Map-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2559,7 +2593,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.War-Monitor-Total-Player-Count-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2587,7 +2621,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.War-Monitor-Total-Player-Count-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2615,7 +2649,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.War-Monitor-Total-Player-Count-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2645,7 +2679,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.War-Monitor-Total-Player-Count-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2679,7 +2713,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2714,7 +2748,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2744,7 +2778,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Major-Order-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2772,7 +2806,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Major-Order-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2800,7 +2834,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Major-Order-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2830,7 +2864,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Helldivers-Companion-Major-Order-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2861,7 +2895,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Stratagem-Hero-High-Score-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2890,7 +2924,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Stratagem-Hero-High-Score-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2919,7 +2953,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Stratagem-Hero-High-Score-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2950,7 +2984,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp.Stratagem-Hero-High-Score-Watch-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2980,7 +3014,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3008,7 +3042,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.1;
+				MARKETING_VERSION = 3.8.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.Helldivers-Companion-Widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

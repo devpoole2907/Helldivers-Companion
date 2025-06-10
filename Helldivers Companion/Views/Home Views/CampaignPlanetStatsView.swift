@@ -9,6 +9,42 @@ import SwiftUI
 @available(watchOS 9.0, *)
 struct CampaignPlanetStatsView: View {
     
+    var showEnergyBar: Bool {
+        planet?.index == 64 && viewModel.configData.meridiaEvent // hardcoded to meridia at this stage
+    }
+    
+    var darkEnergyResource: GlobalResource? {
+        guard let resources = viewModel.status?.globalResources else { return nil }
+        return resources.first { $0.id32 == 194773219 }
+    }
+    
+    var darkEnergyProgress: Double {
+        guard let resource = darkEnergyResource else { return 0 }
+        return Double(resource.currentValue) / Double(resource.maxValue)
+    }
+    
+    var computedLiberation: Double {
+        showEnergyBar ? darkEnergyProgress * 100 : liberation
+    }
+    
+    var liberationText: String {
+        if showEnergyBar {
+            return "ACCUMULATED"
+        }
+        // event type 3 is liberation
+        if planet?.event?.eventType == 3 {
+            return "Liberated"
+        }
+        
+        switch liberationType {
+        case .liberation:
+            return "Liberated"
+        case .defense:
+            return "Defended"
+        }
+        
+    }
+    
     var liberation: Double
     var liberationType: LiberationType
     
@@ -37,6 +73,10 @@ struct CampaignPlanetStatsView: View {
     
     var isActive = true // if accessed from galaxy map, planet view wont need to display all info if the planet isnt in a campaign
     
+    var campaignType: Int? = 0
+    
+    var matchingRegions: [PlanetRegion] = []
+    
     @State private var pulsate = false
     
     @EnvironmentObject var viewModel: PlanetsDataModel
@@ -55,25 +95,46 @@ struct CampaignPlanetStatsView: View {
     
     var body: some View {
         
+        if campaignType != 3 { // campaign type 3 e.g super earth with all its own cities etc doesnt need to show health bars etc
         
         VStack(spacing: 0) {
+            
+            // TODO: figure out invasion levels for illuminate events/type 3
             
             if let invasionLevel = invasionLevel, let health = health, let maxHealth = maxHealth {
                 VStack {
                     
                     HStack(spacing: 0) {
-                        Text("INVASION LEVEL: \(invasionLevel)")
-                            .foregroundStyle(.white).bold()
-                            .font(Font.custom("FSSinclair", size: smallFont))
-                        Spacer()
+                        
+                        // only show invasion level if not event type 3
+                        if planet?.event?.eventType != 3 {
+                            
+                            Text("INVASION LEVEL: \(invasionLevel)")
+                                .foregroundStyle(.white).bold()
+                                .font(Font.custom("FSSinclair", size: smallFont))
+                            Spacer()
+                            
+                        }
+                        
+                        // use health and maxhealth here, otherwise use fleet max value and current value
                         
                         Text("HP")    .foregroundStyle(factionColor).bold()
                             .font(Font.custom("FSSinclair", size: smallFont))
                             .padding(.horizontal, 2)
-                        Text("\(health)/\(maxHealth)")
-                            .foregroundStyle(.gray)
-                            .font(Font.custom("FSSinclair", size: smallFont))
-                            .shadow(radius: 3)
+                        
+                        
+                        if planet?.event?.eventType == 3,
+                           let fleet = viewModel.fleetStrengthResource {
+                            Text("\(fleet.currentValue)/\(fleet.maxValue)")
+                                .foregroundStyle(.gray)
+                                .font(Font.custom("FSSinclair", size: smallFont))
+                                .shadow(radius: 3)
+                        } else {
+                            Text("\(health)/\(maxHealth)")
+                                .foregroundStyle(.gray)
+                                .font(Font.custom("FSSinclair", size: smallFont))
+                                .shadow(radius: 3)
+                        }
                     } .kerning(-1)
                         .padding(.top, 2)
                         .lineLimit(1)
@@ -88,26 +149,38 @@ struct CampaignPlanetStatsView: View {
                 
             }
             
+       
+            
             VStack {
                 VStack(spacing: 4) {
                     
-                    // health bar
-                    
-                    RectangleProgressBar(value: liberation / 100, secondaryColor: eventExpirationTime != nil ? .cyan : factionColor, height: 8)
-                    
-                        .padding(.horizontal, 6)
-                        .padding(.trailing, 2)
-                    
-                    // defense remaining bar
-                    if let defenseTime = planet?.event?.totalDuration, let eventExpirationTime = eventExpirationTime {
+                    if showEnergyBar {
                         
-                        let remainingTime = eventExpirationTime.timeIntervalSince(Date())
-                        
-                        let percentageRemaining = (remainingTime / defenseTime)
-                        
-                        RectangleProgressBar(value: 1 - percentageRemaining, primaryColor: factionColor, secondaryColor: factionColor, height: 8)
+                        MiniRectangleProgressBar(value: darkEnergyProgress, primaryColor: .purple, secondaryColor: .black, height: 26)
                             .padding(.horizontal, 6)
                             .padding(.trailing, 2)
+                    } else {
+                        
+                        
+                        // health bar
+                        
+                        RectangleProgressBar(value: liberation / 100, secondaryColor: eventExpirationTime != nil ? .cyan : factionColor, height: 8)
+                        
+                            .padding(.horizontal, 6)
+                            .padding(.trailing, 2)
+                        
+                        // defense remaining bar
+                        if let defenseTime = planet?.event?.totalDuration, let eventExpirationTime = eventExpirationTime {
+                            
+                            let remainingTime = eventExpirationTime.timeIntervalSince(Date())
+                            
+                            let percentageRemaining = (remainingTime / defenseTime)
+                            
+                            RectangleProgressBar(value: 1 - percentageRemaining, primaryColor: factionColor, secondaryColor: factionColor, height: 8)
+                                .padding(.horizontal, 6)
+                                .padding(.trailing, 2)
+                        }
+                        
                     }
                     
                     
@@ -115,7 +188,7 @@ struct CampaignPlanetStatsView: View {
                // .frame(height: showExtraStats ? 34 : 30)
                 .padding(.vertical, 5)
                     .foregroundStyle(Color.clear)
-                    .border(Color.orange, width: 2)
+                    .border(showEnergyBar ? Color.clear : Color.orange, width: 2)
                     .padding(.horizontal, 4)
             }  .padding(.vertical, 5)
             
@@ -123,60 +196,87 @@ struct CampaignPlanetStatsView: View {
                 .fill(.white)
                 .frame(height: 1)
             
-            VStack {
-                HStack{
-                    // funky zstack stuff for the widget, because the text.datestyle is so wide by default
-                    ZStack {
-                        HStack {
-                            Text("\(liberation, specifier: "%.3f")% \(liberationType == .liberation ? "Liberated" : "Defended")").textCase(.uppercase)
-                                .foregroundStyle(.white).bold()
-                                .font(Font.custom("FSSinclair", size: showExtraStats ? mediumFont : smallFont))
-                                .multilineTextAlignment(.leading)
-                            if isWidget && !showExtraStats, let _ = eventExpirationTime {
-                                Spacer()
-                            }
-                        }
-                        
-                        if isWidget && !showExtraStats, let eventExpirationTime = eventExpirationTime {
+ 
+                
+                VStack {
+                    HStack{
+                        // funky zstack stuff for the widget, because the text.datestyle is so wide by default
+                        ZStack {
                             HStack {
-                                Spacer()
-                                Text(eventExpirationTime, style: .timer)
-                                    .font(Font.custom("FSSinclair", size: smallFont))
-                                    .foregroundStyle(.red)
-                                    .monospacedDigit()
-                                    .multilineTextAlignment(.trailing)
-                            }
-                        }
-                    }
-                    
-                    if !isWidget {
-                        if let liberationRate = viewModel.currentLiberationRate(for: planetName ?? ""), viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) {
-                            Spacer()
-                            HStack(alignment: .top, spacing: 4) {
-                                Image(systemName: "chart.line.uptrend.xyaxis")
-                                    .padding(.top, 2)
-                                Text("\(liberationRate, specifier: "%.2f")% / h")
-                                    .foregroundStyle(.white)
+                                Text("\(computedLiberation, specifier: "%.3f")% \(liberationText)").textCase(.uppercase)
+                                    .foregroundStyle(.white).bold()
                                     .font(Font.custom("FSSinclair", size: showExtraStats ? mediumFont : smallFont))
-                                    .multilineTextAlignment(.trailing)
+                                    .multilineTextAlignment(.leading)
+                                if isWidget && !showExtraStats, let _ = eventExpirationTime {
+                                    Spacer()
+                                }
+                            }
+                            
+                            if isWidget && !showExtraStats, let eventExpirationTime = eventExpirationTime {
+                                HStack {
+                                    Spacer()
+                                    Text(eventExpirationTime, style: .timer)
+                                        .font(Font.custom("FSSinclair", size: smallFont))
+                                        .foregroundStyle(.red)
+                                        .monospacedDigit()
+                                        .multilineTextAlignment(.trailing)
+                                }
                             }
                         }
                         
-                    }
+                        if !isWidget {
+                            if planet?.event?.eventType != 3 { // TODO: save history for globalresources to api cache!!!
+                                if let liberationRate = viewModel.currentLiberationRate(for: planetName ?? ""), viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) {
+                                    Spacer()
+                                    HStack(alignment: .top, spacing: 4) {
+                                        Image(systemName: "chart.line.uptrend.xyaxis")
+                                            .padding(.top, 2)
+                                        Text("\(liberationRate, specifier: "%.2f")% / h")
+                                            .foregroundStyle(.white)
+                                            .font(Font.custom("FSSinclair", size: showExtraStats ? mediumFont : smallFont))
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                    }   .padding(.horizontal)
                     
-                }   .padding(.horizontal)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 5)
                 
             }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 5)
-            
-            
-            
-            
-        }
         .border(Color.white)
         .padding(4)
         .border(Color.gray)
+            
+            
+        } else {
+            
+            // regions, show first region
+            
+            if !matchingRegions.isEmpty {
+                
+                
+                RegionListView(
+                    regions: matchingRegions,
+                    regionNames: regionNamesByPlanet,
+                    showOnlyTopRegion: true, horizPadding: 10
+                )
+                  .frame(maxHeight: 44)
+                .padding(.vertical, 5)
+                
+                .border(Color.white)
+                .padding(4)
+                .border(Color.gray)
+               .frame(maxHeight: 50)
+            }
+            
+        }
+      
         
         // TODO: early draft for dss view
         
@@ -212,17 +312,21 @@ struct CampaignPlanetStatsView: View {
                         } else {
                             Spacer()
                             VStack(spacing: -5) {
-                                Text("DEFEND") .font(Font.custom("FSSinclair", size: mediumFont)).bold()
-                                    .scaledToFit()
-                                
-                                // defense is important, so pulsate
-                                    .foregroundStyle(isWidget ? .red : (pulsate ? .red : .white))
-                                    .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.4))
-                                    .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: pulsate)
-                                    .dynamicTypeSize(.small)
-                                    .onAppear {
-                                        pulsate = true
-                                    }
+                                // only show defend text on defense type events (this is so duct taped holy)
+                                if planet?.event?.eventType != 3 {
+                                    Text("DEFEND") .font(Font.custom("FSSinclair", size: mediumFont)).bold()
+                                        .scaledToFit()
+                                    
+                                    // defense is important, so pulsate
+                                        .foregroundStyle(isWidget ? .red : (pulsate ? .red : .white))
+                                        .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.4))
+                                        .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: pulsate)
+                                        .dynamicTypeSize(.small)
+                                        .onAppear {
+                                            pulsate = true
+                                        }
+                                    
+                                }
                                 if let eventExpirationTime = eventExpirationTime {
                                     Text(eventExpirationTime, style: .timer)
                                         .font(Font.custom("FSSinclair", size: mediumFont))

@@ -23,7 +23,7 @@ struct WatchNewsView: View {
            
                 if feedModel.news.isEmpty {
                     Spacer(minLength: 220)
-                    ProgressView().frame(maxWidth: .infinity)
+                    DualRingSpinner()
                 } else {
                     ForEach(feedModel.news, id: \.id) { news in
                         

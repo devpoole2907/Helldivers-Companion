@@ -23,6 +23,20 @@ struct PlanetInfoView: View {
         viewModel.planetHistory[planet?.name ?? ""] ?? []
     }
     
+    var showEnergyBar: Bool {
+        planet?.index == 64 && viewModel.configData.meridiaEvent // hardcoded to meridia at this stage
+    }
+    
+    var darkEnergyResource: GlobalResource? {
+        guard let resources = viewModel.status?.globalResources else { return nil }
+        return resources.first { $0.id32 == 194773219 }
+    }
+    
+    var darkEnergyProgress: Double {
+        guard let resource = darkEnergyResource else { return 0 }
+        return Double(resource.currentValue) / Double(resource.maxValue)
+    }
+    
     private var formattedPlanetImageName: String {
         
         PlanetImageFormatter.formattedPlanetImageName(for: planet)
@@ -33,6 +47,12 @@ struct PlanetInfoView: View {
     private var campaign: Bool {
         viewModel.updatedCampaigns.contains(where: { $0.planet.name == planet?.name })
     }
+    
+    // this is stupid and repetitive
+    private var campaignType: Int? {
+            guard let planet = planet else { return nil }
+            return viewModel.updatedCampaigns.first(where: { $0.planet.index == planet.index })?.type
+        }
     
     private var planet: UpdatedPlanet? {
         viewModel.updatedPlanets.first(where: { $0.index == planetIndex })
@@ -65,6 +85,11 @@ struct PlanetInfoView: View {
         }
     }
     
+    // any regions e.g cities on super earth
+    var matchingRegions: [PlanetRegion] {
+        return viewModel.status?.planetRegions?.filter { $0.planetIndex == planetIndex } ?? []
+    }
+    
     private var activeSpaceStationDetails: SpaceStationDetails? {
         guard let activeSpaceStation = activeSpaceStation else { return nil }
         return viewModel.firstSpaceStationDetails?.id32 == activeSpaceStation.id32 ? viewModel.firstSpaceStationDetails : nil
@@ -80,7 +105,14 @@ struct PlanetInfoView: View {
     }
     
     private var liberationPercentage: Double? {
-        defenseCampaign?.planet.event?.percentage ?? planet?.percentage
+        
+        // super broken way of using fleet stremgth progress but whatever we got 3 weeks off soon to work on this shit
+        
+        if defenseCampaign?.planet.event?.eventType == 3, let _ = viewModel.fleetStrengthResource {
+            return (1.0 - viewModel.fleetStrengthProgress) * 100
+        }
+        
+        return defenseCampaign?.planet.event?.percentage ?? planet?.percentage
     }
     
     private var liberationTimeRemaining: Date? {
@@ -164,6 +196,11 @@ struct PlanetInfoView: View {
                 
                 imageWithSectorName
                 
+                if showEnergyBar {
+                    
+                    darkEnergyTracker.padding(.horizontal)
+                }
+                
                 // if this planet is in a major order
                 if let planet = planet, viewModel.updatedTaskPlanets.contains(planet) {
                     majorOrderPlanetNotice.padding(.horizontal)
@@ -172,6 +209,19 @@ struct PlanetInfoView: View {
                 if let spaceStationExpiration = spaceStationExpirationTime {
                     SpaceStationView(spaceStationExpiration: spaceStationExpiration, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isWidget: false, showFullInfo: true)
                         .padding(.horizontal)
+                }
+                
+                // any regions
+                
+                if !matchingRegions.isEmpty && campaign {
+                    
+                    
+                    RegionListView(
+                        regions: matchingRegions,
+                        regionNames: regionNamesByPlanet,
+                        showOnlyTopRegion: false, horizPadding: horizPadding
+                    ) .padding(.bottom, 20)
+                    
                 }
                 
                 
@@ -206,7 +256,7 @@ struct PlanetInfoView: View {
                                     .shadow(radius: 5.0)
                                 
                             }
-                            CampaignPlanetStatsView(liberation: liberationPercentage ?? 0.0, liberationType: liberationType, planetName: planet?.name, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: planet?.statistics.playerCount, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth)
+                            CampaignPlanetStatsView(liberation: liberationPercentage ?? 0.0, liberationType: liberationType, planetName: planet?.name, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: planet?.statistics.playerCount, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, campaignType: campaignType)
                                 .shadow(radius: 5.0)
                         }
                         
@@ -272,7 +322,7 @@ struct PlanetInfoView: View {
                 Color.black.ignoresSafeArea()
             } else {
                 Image("helldivers2planet").resizable().aspectRatio(contentMode: .fill).offset(CGSize(width: -400, height: 0)).blur(radius: 20.0).ignoresSafeArea()
-                    .grayscale(1.0)
+                    .grayscale(1.0).opacity(0.6)
             }
         }
         
@@ -509,6 +559,41 @@ struct PlanetInfoView: View {
         }
     }
     
+    var darkEnergyTracker: some View {
+        ZStack(alignment: .leading) {
+            
+            Color.gray.opacity(0.16)
+                .shadow(radius: 3)
+            VStack(spacing: 8) {
+                
+                Text("Dark Energy").textCase(.uppercase)
+                    .foregroundStyle(.white)
+                    .font(Font.custom("FSSinclair-Bold", size: largeFont))
+                    .multilineTextAlignment(.center)
+                
+                
+                Text(darkEnergyProgress > 0 ? "\(darkEnergyProgress * 100, specifier: "%.3f")% ACCUMULATED" : "DARK ENERGY DEPLETED").textCase(.uppercase)
+                    .foregroundStyle(.white)
+                    .font(Font.custom("FSSinclair", size: mediumFont))
+                    .multilineTextAlignment(.center)
+                
+                
+                MiniRectangleProgressBar(value: darkEnergyProgress, primaryColor: .purple, secondaryColor: .black, height: 26)
+                    .padding(.horizontal, 6)
+                
+            }.padding(20)
+        }.background {
+            
+            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                .foregroundStyle(.gray)
+                .opacity(0.5)
+                .shadow(radius: 3)
+            
+        }
+        .padding(4)
+        .padding(.bottom, 4)
+    }
+    
     var majorOrderPlanetNotice: some View
     {
         ZStack(alignment: .leading) {
@@ -675,4 +760,93 @@ enum InfoType: String, SegmentedItem, CaseIterable {
             return .text("Database")
         }
     }
+}
+
+struct RegionListView: View {
+    let regions: [PlanetRegion]
+    let regionNames: [Int: [Int: String]]
+    let showOnlyTopRegion: Bool
+    
+    let horizPadding: CGFloat
+
+    var body: some View {
+        let displayedRegions = showOnlyTopRegion
+            ? [regionWithMostPlayers].compactMap { $0 }
+            : regions.sorted { $0.isAvailable && !$1.isAvailable }
+        
+        if !displayedRegions.isEmpty {
+            VStack(alignment: .leading, spacing: 8) {
+                
+                if !showOnlyTopRegion {
+                    Text("REGIONS")
+                        .font(Font.custom("FSSinclair-Bold", size: largeFont))
+                        .foregroundStyle(.white)
+                    
+                }
+
+                ForEach(displayedRegions, id: \.regionIndex) { region in
+                    let regionName = regionNames[region.planetIndex]?[region.regionIndex] ?? "Region \(region.regionIndex)"
+                    let currentHealth: Double = {
+                        guard let max = region.maxHealth, max > 0 else { return 0.0 }
+                        return Double(region.health) / Double(max)
+                    }()
+                    let controlStatus: String = {
+                        if !region.isAvailable && region.owner != 1 {
+                            return "UNDER ENEMY CONTROL"
+                        } else {
+                            let format = showOnlyTopRegion ? "%.1f%%" : "%.3f%% HELD"
+                            return String(format: format, currentHealth * 100)
+                        }
+                    }()
+
+                    VStack(alignment: .leading, spacing: 1) {
+                        HStack {
+                            Text(regionName)
+                                .font(Font.custom("FSSinclair-Bold", size: mediumFont))
+                                .foregroundStyle(.white)
+                            Spacer()
+                            Divider()
+                            Text(controlStatus)
+                                .font(Font.custom("FSSinclair-Bold", size: smallFont))
+                                .foregroundStyle(.white)
+                            
+                            if region.isAvailable {
+                                Spacer()
+                                
+                                Divider()
+                                
+                                let regenPerHour = Double(region.regerPerSecond) * 3600.0
+                                let regenPercent = (regenPerHour / Double(region.maxHealth ?? 0)) * 100
+                                
+                                Text(String(format: "%.1f%% / h", -regenPercent))
+                                    .foregroundStyle(.purple).bold()
+                                    .font(Font.custom("FSSinclair", size: smallFont))
+                                    .padding(.top, 2)
+                                    .dynamicTypeSize(.small)
+                                
+                            }
+                            
+                        }
+
+                        RectangleProgressBar(
+    value: currentHealth,
+    primaryColor: (region.isAvailable || region.owner == 1) ? .cyan : .purple,
+    secondaryColor: .purple,
+    height: 8
+)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 5)
+                        .border(Color.purple, width: 2)
+                    }
+                }  .multilineTextAlignment(.center)
+            }
+            .padding(.horizontal, horizPadding)
+        }
+    }
+
+    private var regionWithMostPlayers: PlanetRegion? {
+    regions
+        .filter { $0.isAvailable }
+        .max(by: { $0.players < $1.players })
+}
 }

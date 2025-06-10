@@ -42,6 +42,8 @@ struct PlanetView: View {
     
     @State private var chartType: ChartType = .players
     
+    var campaignType: Int? = 0
+    
 
 #if os(iOS)
     let raceIconSize: CGFloat = 25
@@ -112,7 +114,7 @@ struct PlanetView: View {
                 
          
                     
-                CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, spaceStationExpiration: spaceStationExpirationTime)
+                CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, spaceStationExpiration: spaceStationExpirationTime, campaignType: campaignType)
                     
                 
                 
@@ -375,6 +377,10 @@ struct HistoryChart: View {
     @State var chartType: ChartType = .players
     var factionColor: Color
     
+    var highestRecentPlayerCount: Int64 {
+        planetData.compactMap { $0.planet?.statistics.playerCount }.max() ?? 0
+    }
+    
 #if os(watchOS)
     let chartHeight: CGFloat = 160
     let chartSectionHeight: CGFloat = 210
@@ -395,7 +401,7 @@ struct HistoryChart: View {
     var body: some View {
         VStack {
             if viewModel.planetHistory.isEmpty {
-                ProgressView()
+                DualRingSpinner()
                     .frame(minHeight: chartHeight)
             } else {
                 chartView
@@ -421,7 +427,7 @@ struct HistoryChart: View {
             }
             
         }
-        .chartYScale(domain: [0, chartType == .players ? 125000 : 100])
+        .chartYScale(domain: [0, chartType == .players ? highestRecentPlayerCount + 5000 : 100])
         .chartXSelectioniOS17Modifier($chartSelection)
         
         .chartOverlayiOS16 { proxy in

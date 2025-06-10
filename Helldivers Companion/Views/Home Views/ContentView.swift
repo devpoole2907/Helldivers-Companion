@@ -40,6 +40,12 @@ struct ContentView: View {
         GridItem(.flexible()),
        ]
     
+    var fleetView: some View {
+        
+        FleetStrengthView(fleetStrengthProgress: viewModel.fleetStrengthProgress)
+        
+    }
+    
     var body: some View {
         
         NavigationStack(path: $navPather.navigationPath) {
@@ -55,19 +61,19 @@ struct ContentView: View {
                                 .padding(.horizontal)
                         }
                         
+                        if let _ = viewModel.fleetStrengthResource {
+                            fleetView
+                        }
+                        
                         LazyVGrid(columns: columns) {
                             ForEach(viewModel.updatedCampaigns, id: \.planet.index) { campaign in
                                 
                                 UpdatedPlanetView(planetIndex: campaign.planet.index)
-                                    .id(campaign == viewModel.updatedCampaigns.first ? 0 : campaign.planet.index)
                                     .padding()
                                 
                                 
                             }
                         }
-#if os(iOS)
-                        .scrollTargetLayoutiOS17()
-#endif
                         
                     } else {
                         
@@ -76,7 +82,7 @@ struct ContentView: View {
                         
                         
                         
-                        LazyVStack(spacing: 20) {
+                      
                             
                             /*   AlertView(alert: "You are running a test version of War Monitor. This special build will display additional debug info, if you experience any issues please provide screenshots of the debug information below.")  .padding(.horizontal)*/
                             
@@ -99,6 +105,12 @@ struct ContentView: View {
                              
                              }*/
                             
+                            if let _ = viewModel.fleetStrengthResource {
+                                fleetView
+                            }
+                            
+                        LazyVStack(spacing: 20) {
+                            
                             ForEach(viewModel.updatedCampaigns, id: \.planet.index) { campaign in
                                 
                                 UpdatedPlanetView(planetIndex: campaign.planet.index)
@@ -110,9 +122,6 @@ struct ContentView: View {
                             
                             
                         }
-#if os(iOS)
-                        .scrollTargetLayoutiOS17()
-#endif
                         
                     }
                     
@@ -146,9 +155,6 @@ struct ContentView: View {
                     Spacer(minLength: 30)
                     
                 }
-#if os(iOS)
-                .scrollPositioniOS17($navPather.scrollPosition)
-#endif
                 
                 .scrollContentBackground(.hidden)
                 
@@ -158,9 +164,8 @@ struct ContentView: View {
                 
                 if viewModel.isLoading {
                     VStack {
-                        Text("Please wait democractically".uppercased()).foregroundStyle(.white) .font(Font.custom("FSSinclair", size: mediumFont))
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
+                        Text("Please wait democratically".uppercased()).foregroundStyle(.white) .font(Font.custom("FSSinclair", size: mediumFont))
+                        DualRingSpinner()
                     }
                 }
                 
@@ -297,8 +302,5 @@ struct ContentView: View {
     
     
 }
-
-
-
 
 
