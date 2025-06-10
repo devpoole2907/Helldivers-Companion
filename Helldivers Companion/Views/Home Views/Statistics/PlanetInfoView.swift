@@ -786,16 +786,17 @@ struct RegionListView: View {
 
                 ForEach(displayedRegions, id: \.regionIndex) { region in
                     let regionName = regionInfo.first(where: { $0.id == String(region.settingsHash ?? -1) })?.name ?? "Region \(region.regionIndex)"
-                    let currentHealth: Double = {
+                    let heldProgress: Double = {
                         guard let max = region.maxHealth, max > 0 else { return 0.0 }
-                        return Double(region.health) / Double(max)
+                        let remaining = Double(region.health)
+                        return 1.0 - (remaining / Double(max))
                     }()
                     let controlStatus: String = {
                         if !region.isAvailable && region.owner != 1 {
                             return "UNDER ENEMY CONTROL"
                         } else {
                             let format = showOnlyTopRegion ? "%.1f%%" : "%.3f%% HELD"
-                            return String(format: format, currentHealth * 100)
+                            return String(format: format, heldProgress * 100)
                         }
                     }()
                     let regionColor: Color = region.factionColor
@@ -831,7 +832,7 @@ struct RegionListView: View {
                         
                         if region.isAvailable {
                             RectangleProgressBar(
-                                value: currentHealth,
+                                value: heldProgress,
                                 primaryColor: Color.cyan,
                                 secondaryColor: regionColor,
                                 height: 8
@@ -844,16 +845,6 @@ struct RegionListView: View {
                     
                     .padding()
                     
-                    
-                    
-                    .background {
-                        if !showOnlyTopRegion {
-                            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
-                                .foregroundStyle(.gray)
-                                .opacity(0.5)
-                                .shadow(radius: 3)
-                        }
-                    }
                     
                 }  .multilineTextAlignment(.center)
             }
