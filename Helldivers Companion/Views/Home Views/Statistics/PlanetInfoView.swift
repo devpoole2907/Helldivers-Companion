@@ -843,8 +843,6 @@ struct RegionListView: View {
                         }
                     }
                     
-                    .padding()
-                    
                     
                 }  .multilineTextAlignment(.center)
             }
