@@ -218,7 +218,7 @@ struct PlanetInfoView: View {
                     
                     RegionListView(
                         regions: matchingRegions,
-                        regionNames: regionNamesByPlanet,
+                        regionInfo: viewModel.regionInfo,
                         showOnlyTopRegion: false, horizPadding: horizPadding
                     ) .padding(.bottom, 20)
                     
@@ -764,7 +764,7 @@ enum InfoType: String, SegmentedItem, CaseIterable {
 
 struct RegionListView: View {
     let regions: [PlanetRegion]
-    let regionNames: [Int: [Int: String]]
+    let regionInfo: [RegionInfoEntry]
     let showOnlyTopRegion: Bool
     
     let horizPadding: CGFloat
@@ -785,7 +785,7 @@ struct RegionListView: View {
                 }
 
                 ForEach(displayedRegions, id: \.regionIndex) { region in
-                    let regionName = regionNames[region.planetIndex]?[region.regionIndex] ?? "Region \(region.regionIndex)"
+                    let regionName = regionInfo.first(where: { $0.id == String(region.settingsHash ?? -1) })?.name ?? "Region \(region.regionIndex)"
                     let currentHealth: Double = {
                         guard let max = region.maxHealth, max > 0 else { return 0.0 }
                         return Double(region.health) / Double(max)
@@ -798,6 +798,7 @@ struct RegionListView: View {
                             return String(format: format, currentHealth * 100)
                         }
                     }()
+                    let regionColor: Color = region.factionColor
 
                     VStack(alignment: .leading, spacing: 1) {
                         HStack {
@@ -819,7 +820,7 @@ struct RegionListView: View {
                                 let regenPercent = (regenPerHour / Double(region.maxHealth ?? 0)) * 100
                                 
                                 Text(String(format: "%.1f%% / h", -regenPercent))
-                                    .foregroundStyle(.purple).bold()
+                                    .foregroundStyle(regionColor).bold()
                                     .font(Font.custom("FSSinclair", size: smallFont))
                                     .padding(.top, 2)
                                     .dynamicTypeSize(.small)
@@ -827,20 +828,40 @@ struct RegionListView: View {
                             }
                             
                         }
-
-                        RectangleProgressBar(
-    value: currentHealth,
-    primaryColor: (region.isAvailable || region.owner == 1) ? .cyan : .purple,
-    secondaryColor: .purple,
-    height: 8
-)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 5)
-                        .border(Color.purple, width: 2)
+                        
+                        if region.isAvailable {
+                            RectangleProgressBar(
+                                value: currentHealth,
+                                primaryColor: Color.cyan,
+                                secondaryColor: regionColor,
+                                height: 8
+                            )
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 5)
+                            .border(regionColor, width: 2)
+                        }
                     }
+                    
+                    .padding()
+                    
+                    
+                    
+                    .background {
+                        if !showOnlyTopRegion {
+                            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                                .foregroundStyle(.gray)
+                                .opacity(0.5)
+                                .shadow(radius: 3)
+                        }
+                    }
+                    
                 }  .multilineTextAlignment(.center)
             }
             .padding(.horizontal, horizPadding)
+            
+            
+       
+            
         }
     }
 

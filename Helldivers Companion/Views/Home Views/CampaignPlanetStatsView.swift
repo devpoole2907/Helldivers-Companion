@@ -263,7 +263,7 @@ struct CampaignPlanetStatsView: View {
                 
                 RegionListView(
                     regions: matchingRegions,
-                    regionNames: regionNamesByPlanet,
+                    regionInfo: viewModel.regionInfo,
                     showOnlyTopRegion: true, horizPadding: 10
                 )
                   .frame(maxHeight: 44)

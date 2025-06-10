@@ -765,18 +765,43 @@ struct StatusResponse: Codable {
     let planetRegions: [PlanetRegion]?
 }
 
-// temporary until json includes regions
-let regionNamesByPlanet: [Int: [Int: String]] = [
-    0: [
-        0: "Eagleopolis",
-        1: "Administrative Center 02",
-        2: "Remembrance",
-        3: "York Supreme",
-        4: "Port Mercy",
-        5: "Prosperity City",
-        6: "Equality-On-Sea"
-    ]
-]
+// for decoding reigon info
+struct RawRegionInfoEntry: Codable {
+    let name: String
+    let description: String
+}
+
+struct RegionInfoEntry: Identifiable, Decodable {
+    let id: String
+    let name: String
+    let description: String?
+    
+    init(id: String, name: String, description: String?) {
+        self.id = id
+        self.name = name
+        self.description = description
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case name
+        case description
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+
+        // description is either a string, or the number 0, we ignore 0
+        if let desc = try? container.decode(String.self, forKey: .description) {
+            description = desc
+        } else {
+            description = nil
+        }
+
+        // 'id' must be injected during transformation (see fetch func)
+        self.id = "" // will be overwritten
+    }
+}
 
 struct WarInfoResponse: Codable {
     // only need regions info
@@ -805,11 +830,27 @@ struct PlanetRegion: Codable {
     let owner: Int
     let health: Int
     let regerPerSecond: Int
-    let availabilityFactor: Int
+    let availabilityFactor: Double?
     let isAvailable: Bool
     let players: Int
     var maxHealth: Int? // these are added from warinfo endpoint not status!!!
     var regionSize: Int?
+    var settingsHash: Int64?
+    
+    
+    var factionColor: Color {
+
+    // TODO: make this actually work for planets being attacked not just liberated (its based on owner only)
+        
+            // no event, just color by planet current owner
+            switch owner {
+                case 1: return .red
+                case 2: return .yellow
+                case 3: return .purple
+                default: return .cyan
+            }
+    }
+    
 }
 
 struct GalacticEffect: Codable, Identifiable {
