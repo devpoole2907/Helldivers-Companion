@@ -812,12 +812,12 @@ struct RegionListView: View {
                                 .font(Font.custom("FSSinclair-Bold", size: smallFont))
                                 .foregroundStyle(.white)
                             
-                            if region.isAvailable {
+                            if region.isAvailable, let regenPerSecond = region.regerPerSecond {
                                 Spacer()
                                 
                                 Divider()
                                 
-                                let regenPerHour = Double(region.regerPerSecond) * 3600.0
+                                let regenPerHour = Double(regenPerSecond) * 3600.0
                                 let regenPercent = (regenPerHour / Double(region.maxHealth ?? 0)) * 100
                                 
                                 Text(String(format: "%.1f%% / h", -regenPercent))

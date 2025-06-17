@@ -829,7 +829,7 @@ struct PlanetRegion: Codable {
     let regionIndex: Int
     let owner: Int
     let health: Int
-    let regerPerSecond: Int
+    let regerPerSecond: Double?
     let availabilityFactor: Double?
     let isAvailable: Bool
     let players: Int
@@ -844,9 +844,10 @@ struct PlanetRegion: Codable {
         
             // no event, just color by planet current owner
             switch owner {
-                case 1: return .red
+                case 1: return .cyan
                 case 2: return .yellow
-                case 3: return .purple
+                case 3: return .red
+                case 4: return .purple
                 default: return .cyan
             }
     }

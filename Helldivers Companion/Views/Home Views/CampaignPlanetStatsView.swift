@@ -95,7 +95,7 @@ struct CampaignPlanetStatsView: View {
     
     var body: some View {
         
-        if campaignType != 3 { // campaign type 3 e.g super earth with all its own cities etc doesnt need to show health bars etc
+   
         
         VStack(spacing: 0) {
             
@@ -254,7 +254,7 @@ struct CampaignPlanetStatsView: View {
         .border(Color.gray)
             
             
-        } else {
+     
             
             // regions, show first region
             
@@ -273,7 +273,7 @@ struct CampaignPlanetStatsView: View {
                 .padding(4)
                 .border(Color.gray)
                .frame(maxHeight: 50)
-            }
+            
             
         }
       
