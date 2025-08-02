@@ -268,6 +268,24 @@ struct Setting: Decodable {
             return result
         }
         
+        // for planet location or sector
+        private var locationName: AttributedString? {
+            let locationType = parsedValues[11] ?? 1
+            let locationIndex = parsedValues[12] ?? 0
+            
+            if locationType == 2, let sector = sectorLookup[locationIndex] {
+                var text = AttributedString("in the \(sector.name) sector")
+                text.foregroundColor = .yellow
+                return text
+            } else if locationType == 1, let planet = planetPositionLookup[locationIndex] {
+                var text = AttributedString("on \(planet.name)")
+                text.foregroundColor = .yellow
+                return text
+            }
+            
+            return nil
+        }
+        
         var description: AttributedString {
             var text = AttributedString("")
             
@@ -297,11 +315,9 @@ struct Setting: Decodable {
                         text += itemText + " "
                     }
                     
-                    if planetIndex > 0, let planetPos = planetPositionLookup[planetIndex] {
-                        var planetText = AttributedString("on \(planetPos.name)")
-                        planetText.foregroundColor = .yellow
-                        text += planetText
-                    }
+                if let location = locationName {
+                    text += location
+                }
                     
                 case 3: // eradicate
                     text += AttributedString("Kill ")
@@ -614,6 +630,11 @@ struct PlanetPosition {
     let index: Int
     let xMultiplier: Double
     let yMultiplier: Double
+}
+
+struct Sector {
+    let name: String
+    let index: Int
 }
 
 struct UpdatedPlanet: Decodable, Hashable {
@@ -1584,6 +1605,8 @@ let planetPositionLookup: [Int64: PlanetPosition] = {
     }
     return dict
 }()
+
+
 
 extension Array {
     subscript(safe index: Int) -> Element? {
