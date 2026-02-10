@@ -38,7 +38,6 @@
 		7C0C99612BA2FA0600CF7C91 /* RectangleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0C99602BA2FA0600CF7C91 /* RectangleProgressBar.swift */; };
 		7C0DF6192BB922230062AB9B /* PlanetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */; };
 		7C0DF61A2BB924EC0062AB9B /* PlanetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */; };
-		7C0DF61D2BB9269F0062AB9B /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 7C0DF61C2BB9269F0062AB9B /* SwiftUIIntrospect */; };
 		7C0DF61F2BB9319C0062AB9B /* NavigationPather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF61E2BB9319C0062AB9B /* NavigationPather.swift */; };
 		7C0DF6202BB9319C0062AB9B /* NavigationPather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF61E2BB9319C0062AB9B /* NavigationPather.swift */; };
 		7C0DF6222BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6212BB934E90062AB9B /* PlanetImageFormatter.swift */; };
@@ -266,6 +265,7 @@
 		7C6DE51E2C474D9200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
 		7C6DE51F2C474D9200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
 		7C6DE5202C474D9200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
+		7C7F1AA12F3AF40F001EB3BC /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 7C7F1AA02F3AF40F001EB3BC /* SwiftUIIntrospect */; };
 		7C80F3EC2BC13F890058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
 		7C80F3ED2BC1425B0058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
 		7C80F3EE2BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
@@ -725,7 +725,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C0DF61D2BB9269F0062AB9B /* SwiftUIIntrospect in Frameworks */,
 				7C1B8C232BAD714300944823 /* Algorithms in Frameworks */,
 				7CE4AE372BA82C6A0033D4AF /* FirebaseMessaging in Frameworks */,
 				7CE4AE332BA82C6A0033D4AF /* FirebaseFirestore in Frameworks */,
@@ -733,6 +732,7 @@
 				7CE4AE352BA82C6A0033D4AF /* FirebaseFunctions in Frameworks */,
 				7C6C0F862BD0B8BF00BD73B2 /* Haptics in Frameworks */,
 				7C44B7D32BC6A5100097C29B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				7C7F1AA12F3AF40F001EB3BC /* SwiftUIIntrospect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1273,9 +1273,9 @@
 				7CE4AE362BA82C6A0033D4AF /* FirebaseMessaging */,
 				7C1B8C222BAD714300944823 /* Algorithms */,
 				7CE97D372BB51D5D008329BA /* MijickPopupView */,
-				7C0DF61C2BB9269F0062AB9B /* SwiftUIIntrospect */,
 				7C44B7D22BC6A5100097C29B /* FirebaseAnalyticsWithoutAdIdSupport */,
 				7C6C0F852BD0B8BF00BD73B2 /* Haptics */,
+				7C7F1AA02F3AF40F001EB3BC /* SwiftUIIntrospect */,
 			);
 			productName = "Helldivers Companion";
 			productReference = 7C0C99482BA2BA8F00CF7C91 /* Helldivers Companion.app */;
@@ -1564,8 +1564,8 @@
 				7C50CEEA2BA82AF3009094AE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				7C1B8C212BAD714300944823 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				7CE97D362BB51D5D008329BA /* XCRemoteSwiftPackageReference "PopupView" */,
-				7C0DF61B2BB9269F0062AB9B /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 				7C6C0F842BD0B8BF00BD73B2 /* XCRemoteSwiftPackageReference "SwiftUI-Haptics" */,
+				7C7F1A9F2F3AF40E001EB3BC /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 7C0C99492BA2BA8F00CF7C91 /* Products */;
 			projectDirPath = "";
@@ -2350,7 +2350,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.11;
+				MARKETING_VERSION = 3.8.12;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2389,7 +2389,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.11;
+				MARKETING_VERSION = 3.8.12;
 				OTHER_LDFLAGS = "-ObjC";
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion";
@@ -2713,7 +2713,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.11;
+				MARKETING_VERSION = 3.8.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2748,7 +2748,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.11;
+				MARKETING_VERSION = 3.8.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.poole.james.Helldivers-Companion.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -3175,14 +3175,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7C0DF61B2BB9269F0062AB9B /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.0;
-			};
-		};
 		7C1B8C212BAD714300944823 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-algorithms.git";
@@ -3207,6 +3199,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		7C7F1A9F2F3AF40E001EB3BC /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 26.0.0;
+			};
+		};
 		7CE97D362BB51D5D008329BA /* XCRemoteSwiftPackageReference "PopupView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Mijick/PopupView";
@@ -3218,11 +3218,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7C0DF61C2BB9269F0062AB9B /* SwiftUIIntrospect */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7C0DF61B2BB9269F0062AB9B /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
-			productName = SwiftUIIntrospect;
-		};
 		7C1B8C222BAD714300944823 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7C1B8C212BAD714300944823 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
@@ -3297,6 +3292,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7C6C0F842BD0B8BF00BD73B2 /* XCRemoteSwiftPackageReference "SwiftUI-Haptics" */;
 			productName = Haptics;
+		};
+		7C7F1AA02F3AF40F001EB3BC /* SwiftUIIntrospect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C7F1A9F2F3AF40E001EB3BC /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = SwiftUIIntrospect;
 		};
 		7C96B1502D61510F009B1876 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;

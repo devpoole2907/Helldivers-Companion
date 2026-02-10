@@ -37,8 +37,8 @@ struct UpdatedPlanetView: View {
         }
     
     // any regions e.g cities on super earth
-    var matchingRegions: [PlanetRegion] {
-        return viewModel.status?.planetRegions?.filter { $0.planetIndex == planetIndex } ?? []
+    var matchingRegions: [Region] {
+        return planet?.regions ?? []
     }
     
     private var planet: UpdatedPlanet? {
@@ -181,7 +181,7 @@ struct UpdatedPlanetView: View {
                 
                 headerWithImage
                     
-                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, spaceStationExpiration: spaceStationExpirationTime, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isActive: isActive, campaignType: campaignType, matchingRegions: matchingRegions)
+                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, spaceStationExpiration: spaceStationExpirationTime, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isActive: isActive, campaignType: campaignType)
                 
             }.onTapGesture {
                 // nav to planet info view if tapped anywhere

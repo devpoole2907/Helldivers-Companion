@@ -75,8 +75,6 @@ struct CampaignPlanetStatsView: View {
     
     var campaignType: Int? = 0
     
-    var matchingRegions: [PlanetRegion] = []
-    
     @State private var pulsate = false
     
     @EnvironmentObject var viewModel: PlanetsDataModel
@@ -258,13 +256,12 @@ struct CampaignPlanetStatsView: View {
             
             // regions, show first region
             
-            if !matchingRegions.isEmpty {
+        if let planetRegions = planet?.regions {
                 
                 
                 RegionListView(
-                    regions: matchingRegions,
-                    regionInfo: viewModel.regionInfo,
-                    showOnlyTopRegion: true, horizPadding: 10
+                    regions: planetRegions,
+                    showOnlyTopRegion: true, factionColor: factionColor, horizPadding: 10
                 )
                   .frame(maxHeight: 44)
                 .padding(.vertical, 5)
@@ -277,9 +274,6 @@ struct CampaignPlanetStatsView: View {
             
         }
       
-        
-        // TODO: early draft for dss view
-        
         if showExtraStats, let spaceStationExpiration = spaceStationExpiration {
             SpaceStationView(spaceStationExpiration: spaceStationExpiration, spaceStationDetails: spaceStationDetails, warTime: warTime, isWidget: isWidget)
             

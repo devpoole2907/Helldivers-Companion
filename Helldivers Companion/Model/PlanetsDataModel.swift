@@ -40,10 +40,6 @@ class PlanetsDataModel: ObservableObject {
     @Published var nextFetchTime: Date?  // for the ui to show count down if a fetch failed due to rate limiting
     @Published var hasSetSelectedPlanet: Bool = false  // to stop setting the selected planet to the first in campaigns every fetch after the first
     
-    
-    // for region info /cities etc
-    @Published var regionInfo: [RegionInfoEntry] = []
-    
     @Published var currentTab: Tab = .home
     
     // FOR DEBUGGING
@@ -120,38 +116,6 @@ class PlanetsDataModel: ObservableObject {
         completion()
     }
     
-    // merges additonal region info from warinfo endpoint
-    
-    func mergeWarInfoRegions(into status: StatusResponse?, with warInfo: WarInfoResponse?) -> StatusResponse? {
-        guard
-            let status,
-            let originalRegions = status.planetRegions,
-            let warInfo
-        else {
-            return status
-        }
-
-        let updatedRegions = originalRegions.map { region -> PlanetRegion in
-            var updatedRegion = region
-            if let warRegion = warInfo.planetRegions.first(where: {
-                $0.planetIndex == region.planetIndex && $0.regionIndex == region.regionIndex
-            }) {
-                updatedRegion.maxHealth = warRegion.maxHealth
-                updatedRegion.regionSize = warRegion.regionSize
-                updatedRegion.settingsHash = warRegion.settingsHash
-            }
-            return updatedRegion
-        }
-        
-        print("number of regions updated: \(updatedRegions.count)")
-
-        return StatusResponse(
-            planetActiveEffects: status.planetActiveEffects,
-            globalResources: status.globalResources,
-            planetRegions: updatedRegions
-        )
-    }
-    
     func startUpdating() {
         Task {
             guard let config = await fetchConfig() else {
@@ -163,11 +127,6 @@ class PlanetsDataModel: ObservableObject {
             
             let status = await fetchStatus(with: config)
             
-            let regionInfo = await fetchRegionInfo()
-            
-            let warInfo = await fetchWarInfo(with: config)
-            
-            let mergedStatus = mergeWarInfoRegions(into: status, with: warInfo)
             
             let galaxyStats = await fetchGalaxyStats()
             let (campaigns, defenseCampaigns) = await fetchCampaigns(
@@ -188,8 +147,7 @@ class PlanetsDataModel: ObservableObject {
                     self.configData = config
                     self.showIlluminateUI = config.showIlluminate
                     self.warTime = warTime
-                    self.status = mergedStatus
-                    self.regionInfo = regionInfo
+                    self.status = status
                     self.updatedCampaigns = campaigns
                     self.updatedDefenseCampaigns = defenseCampaigns
                     self.galaxyStats = galaxyStats?.galaxyStats
@@ -255,12 +213,6 @@ class PlanetsDataModel: ObservableObject {
                 let warTime = await self.fetchWarTime(with: config)
                 let status = await self.fetchStatus(with: config)
                 
-                let regionInfo = await self.fetchRegionInfo()
-                
-                let warInfo = await self.fetchWarInfo(with: config)
-                
-                let mergedStatus = await self.mergeWarInfoRegions(into: status, with: warInfo)
-                
                 let (campaigns, defenseCampaigns) = await self.fetchCampaigns(
                     for: config)
                 let (planets, sortedSectors, groupedBySector) = await self.fetchPlanets(for: config, with: status)
@@ -282,8 +234,7 @@ class PlanetsDataModel: ObservableObject {
                         self.configData = config
                         self.showIlluminateUI = config.showIlluminate
                         self.warTime = warTime
-                        self.status = mergedStatus
-                        self.regionInfo = regionInfo
+                        self.status = status
                         self.updatedCampaigns = campaigns
                         self.updatedDefenseCampaigns = defenseCampaigns
                         
@@ -401,21 +352,6 @@ class PlanetsDataModel: ObservableObject {
             print("Error fetching war time: \(error)")
             return nil
         }
-    }
-    
-    func fetchWarInfo(with config: RemoteConfigDetails? = nil) async -> WarInfoResponse? {
-        
-        let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/\(config?.season ?? "801")/WarInfo"
-        
-        do {
-            // minimal struct for decoding
-            let response: WarInfoResponse = try await netManager.fetchData(from: urlString)
-            return response
-        } catch {
-            print("Error fetching war time: \(error)")
-            return nil
-        }
-        
     }
     
     func fetchStatus(with config: RemoteConfigDetails? = nil) async -> StatusResponse? {
@@ -703,28 +639,6 @@ class PlanetsDataModel: ObservableObject {
         } catch {
             print("Network or decoding error: \(error.localizedDescription)")
             return nil
-        }
-    }
-    
-    // for cities/region info
-    func fetchRegionInfo() async -> [RegionInfoEntry] {
-        print("fetch region info called!")
-
-        let urlString = "https://raw.githubusercontent.com/CrosswaveOmega/json/f1c0bacaec590a5da7ccf6346abb4be89d3e7536/planets/planetRegion.json"
-
-        do {
-            let raw: [String: RegionInfoEntry] = try await netManager.fetchData(from: urlString)
-            
-            let result = raw.map { (key, entry) in
-                RegionInfoEntry(id: key, name: entry.name, description: entry.description)
-            }
-            
-            print("region names count: \(result.count)")
-
-            return result
-        } catch {
-            print("Network or decoding error: \(error.localizedDescription)")
-            return []
         }
     }
     

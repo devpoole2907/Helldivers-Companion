@@ -663,6 +663,7 @@ struct UpdatedPlanet: Decodable, Hashable {
     var regenPerSecond: Double
     var event: UpdatedPlanetEvent?
     var statistics: UpdatedPlanetStatistics
+    var regions: [Region]? = nil
     
     // galactic effects
     var galacticEffects: [GalacticEffect]? = nil
@@ -783,59 +784,6 @@ struct ActionCost: Decodable {
 struct StatusResponse: Codable {
     let planetActiveEffects: [GalacticEffect]
     let globalResources: [GlobalResource]
-    let planetRegions: [PlanetRegion]?
-}
-
-// for decoding reigon info
-struct RawRegionInfoEntry: Codable {
-    let name: String
-    let description: String
-}
-
-struct RegionInfoEntry: Identifiable, Decodable {
-    let id: String
-    let name: String
-    let description: String?
-    
-    init(id: String, name: String, description: String?) {
-        self.id = id
-        self.name = name
-        self.description = description
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case name
-        case description
-    }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try container.decode(String.self, forKey: .name)
-
-        // description is either a string, or the number 0, we ignore 0
-        if let desc = try? container.decode(String.self, forKey: .description) {
-            description = desc
-        } else {
-            description = nil
-        }
-
-        // 'id' must be injected during transformation (see fetch func)
-        self.id = "" // will be overwritten
-    }
-}
-
-struct WarInfoResponse: Codable {
-    // only need regions info
-    let planetRegions: [PlanetRegionInfo]
-    
-}
-
-struct PlanetRegionInfo: Codable {
-    let planetIndex: Int
-    let regionIndex: Int
-    let settingsHash: Int64
-    let maxHealth: Int
-    let regionSize: Int
 }
 
 struct GlobalResource: Codable {
@@ -845,34 +793,20 @@ struct GlobalResource: Codable {
     let flags: Int64
 }
 
-struct PlanetRegion: Codable {
-    let planetIndex: Int
-    let regionIndex: Int
-    let owner: Int
-    let health: Int
-    let regerPerSecond: Double?
+// new regions implementation 10/2/26
+
+struct Region: Codable {
+    let id: Int
+    let hash: Int64
+    let name: String?
+    let description: String?
+    let health: Int?
+    let maxHealth: Int?
+    let size: String?
+    let regenPerSecond: Double?
     let availabilityFactor: Double?
     let isAvailable: Bool
     let players: Int
-    var maxHealth: Int? // these are added from warinfo endpoint not status!!!
-    var regionSize: Int?
-    var settingsHash: Int64?
-    
-    
-    var factionColor: Color {
-
-    // TODO: make this actually work for planets being attacked not just liberated (its based on owner only)
-        
-            // no event, just color by planet current owner
-            switch owner {
-                case 1: return .cyan
-                case 2: return .yellow
-                case 3: return .red
-                case 4: return .purple
-                default: return .cyan
-            }
-    }
-    
 }
 
 struct GalacticEffect: Codable, Identifiable {

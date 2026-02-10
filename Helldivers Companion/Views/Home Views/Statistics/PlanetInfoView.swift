@@ -86,8 +86,8 @@ struct PlanetInfoView: View {
     }
     
     // any regions e.g cities on super earth
-    var matchingRegions: [PlanetRegion] {
-        return viewModel.status?.planetRegions?.filter { $0.planetIndex == planetIndex } ?? []
+    var matchingRegions: [Region] {
+        return planet?.regions ?? []
     }
     
     private var activeSpaceStationDetails: SpaceStationDetails? {
@@ -218,8 +218,7 @@ struct PlanetInfoView: View {
                     
                     RegionListView(
                         regions: matchingRegions,
-                        regionInfo: viewModel.regionInfo,
-                        showOnlyTopRegion: false, horizPadding: horizPadding
+                        showOnlyTopRegion: false, factionColor: viewModel.getColorForPlanet(planet: planet), horizPadding: horizPadding
                     ) .padding(.bottom, 20)
                     
                 }
@@ -763,9 +762,9 @@ enum InfoType: String, SegmentedItem, CaseIterable {
 }
 
 struct RegionListView: View {
-    let regions: [PlanetRegion]
-    let regionInfo: [RegionInfoEntry]
+    let regions: [Region]
     let showOnlyTopRegion: Bool
+    let factionColor: Color
     
     let horizPadding: CGFloat
 
@@ -784,26 +783,26 @@ struct RegionListView: View {
                     
                 }
 
-                ForEach(displayedRegions, id: \.regionIndex) { region in
-                    let regionName = regionInfo.first(where: { $0.id == String(region.settingsHash ?? -1) })?.name ?? "Region \(region.regionIndex)"
+                ForEach(displayedRegions, id: \.self.id) { (region: Region) in
+                    let regionName = region.name
                     let heldProgress: Double = {
-                        guard let max = region.maxHealth, max > 0 else { return 0.0 }
-                        let remaining = Double(region.health)
+                        guard let max = region.maxHealth, let health = region.health, max > 0 else { return 0.0 }
+                        let remaining = Double(health)
                         return 1.0 - (remaining / Double(max))
                     }()
                     let controlStatus: String = {
-                        if !region.isAvailable && region.owner != 1 {
+                        if !region.isAvailable {
                             return "UNDER ENEMY CONTROL"
                         } else {
                             let format = showOnlyTopRegion ? "%.1f%%" : "%.3f%% HELD"
                             return String(format: format, heldProgress * 100)
                         }
                     }()
-                    let regionColor: Color = region.factionColor
+                    let regionColor: Color = factionColor
 
                     VStack(alignment: .leading, spacing: 1) {
                         HStack {
-                            Text(regionName)
+                            Text(regionName ?? "Unknown")
                                 .font(Font.custom("FSSinclair-Bold", size: mediumFont))
                                 .foregroundStyle(.white)
                             Spacer()
@@ -812,7 +811,7 @@ struct RegionListView: View {
                                 .font(Font.custom("FSSinclair-Bold", size: smallFont))
                                 .foregroundStyle(.white)
                             
-                            if region.isAvailable, let regenPerSecond = region.regerPerSecond {
+                            if region.isAvailable, let regenPerSecond = region.regenPerSecond {
                                 Spacer()
                                 
                                 Divider()
@@ -854,7 +853,7 @@ struct RegionListView: View {
         }
     }
 
-    private var regionWithMostPlayers: PlanetRegion? {
+    private var regionWithMostPlayers: Region? {
     regions
         .filter { $0.isAvailable }
         .max(by: { $0.players < $1.players })
