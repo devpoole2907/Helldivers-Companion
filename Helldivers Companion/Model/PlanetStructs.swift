@@ -8,23 +8,6 @@
 import Foundation
 import SwiftUI
 
-enum EnemyType: String {
-    
-    case terminid
-    case automaton
-    case illuminate
-    
-}
-
-enum Faction: String {
-    
-    case terminid
-    case automaton
-    case human
-    case illuminate
-    
-}
-
 
 struct Position: Decodable {
     let x: Double
@@ -210,30 +193,6 @@ struct MajorOrder: Decodable {
         }
     }
     
-    // this could become global, but most of our api responses come from the dealloc endpoints not the official. for now the MO comes from the official endpoint, in hopes/possibility that deallocs major order endpoint may be upgraded
-    enum Faction: Int64 { // must be int64 due to the possible massive task value
-            case human = 1
-            case terminid = 2
-            case automaton = 3
-            case illuminate = 4
-            case unknown
-
-            var color: Color {
-                switch self {
-                case .human:
-                    return Color.cyan
-                case .terminid:
-                    return Color.yellow
-                case .automaton:
-                    return Color.red
-                case .illuminate:
-                    return Color.purple
-                case .unknown:
-                    return Color.white
-                }
-            }
-        }
-    
     enum CodingKeys: String, CodingKey {
         case id32
         case progress
@@ -334,9 +293,9 @@ struct Setting: Decodable {
                         unitText.foregroundColor = .yellow
                         text += unitText
                     } else if raceId > 0 {
-                                let factionName = FactionDictionary[raceId] ?? "faction #\(raceId)"
-                                var factionText = AttributedString(factionName)
-                                factionText.foregroundColor = FactionColors[raceId] ?? .white
+                        let faction = Faction(id: raceId)
+                        var factionText = AttributedString(faction.displayName)
+                        factionText.foregroundColor = faction.color
                                 text += factionText
                             } else {
                                 text += AttributedString("enemies")
@@ -376,9 +335,9 @@ struct Setting: Decodable {
                     }
                     
                 if raceId > 0 {
-                    let factionName = FactionDictionary[raceId] ?? "faction #\(raceId)"
-                    var factionText = AttributedString(" against \(factionName)")
-                    factionText.foregroundColor = FactionColors[raceId] ?? .white
+                    let faction = Faction(id: raceId)
+                    var factionText = AttributedString(" against \(faction.displayName)")
+                    factionText.foregroundColor = faction.color
                     text += factionText
                 }
                     
@@ -412,9 +371,9 @@ struct Setting: Decodable {
                 
                 // enemy / faction
                 if raceId > 0 {
-                    let factionName = FactionDictionary[raceId] ?? "faction #\(raceId)"
-                    var factionText = AttributedString(factionName)
-                    factionText.foregroundColor = FactionColors[raceId] ?? .white
+                    let faction = Faction(id: raceId)
+                    var factionText = AttributedString(faction.displayName)
+                    factionText.foregroundColor = faction.color
                     text += factionText
                 } else {
                     text += AttributedString("an unknown enemy")
@@ -637,88 +596,13 @@ struct Sector {
     let index: Int
 }
 
-struct UpdatedPlanet: Decodable, Hashable {
-    
-    static func == (lhs: UpdatedPlanet, rhs: UpdatedPlanet) -> Bool {
-        return lhs.index == rhs.index
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(index)
-    }
-    
-    var index: Int
-    var name: String
-    var sector: String
-    var biome: Biome
-    var hazards: [Environmental]
-    var hash: Int64
-    var position: Position
-    var waypoints: [Int]
-    var maxHealth: Int64
-    var health: Int64
-    var disabled: Bool
-    var initialOwner: String
-    var currentOwner: String
-    var regenPerSecond: Double
-    var event: UpdatedPlanetEvent?
-    var statistics: UpdatedPlanetStatistics
-    var regions: [Region]? = nil
-    
-    // galactic effects
-    var galacticEffects: [GalacticEffect]? = nil
-    
-    // return the event or the liberation percent
-    var planetProgressPercent: Double {
-        event?.percentage ?? percentage
-    }
-    
-    // computed prop for liberation
-    var percentage: Double {
-        maxHealth > 0 ? (1 - (Double(health) / Double(maxHealth))) * 100 : 0
-    }
-    // if its associated with major order, put its task progress here
-    var taskProgress: Int64? = nil
-    
-    
-    var factionColor: Color {
-        // if event, color by event faction
-        if let faction = event?.faction.lowercased() {
-            switch faction {
-            case "automaton": return .red
-            case "terminids": return .yellow
-            case "illuminate": return .purple
-            // any unknown or default faction:
-            default: return .cyan
-            }
-        } else {
-            // no event, just color by planet current owner
-            switch currentOwner.lowercased() {
-            case "automaton": return .red
-            case "terminids": return .yellow
-            case "illuminate": return .purple
-            default: return .cyan
-            }
-        }
-    }
-    
-    var factionName: String {
-        if let eventFaction = event?.faction, !eventFaction.isEmpty {
-            return eventFaction
-        } else {
-            return currentOwner
-        }
-    }
-    
-    
-}
-
 
 struct PlayerDistributionItem: Identifiable {
     var id: String { faction }
     let faction: String
     let count: Int64
     let color: Color
+    let imageName: String
 }
 
 struct WarStatusResponse: Decodable {
@@ -1514,21 +1398,6 @@ let UnitNamesDictionary: [Int64: String] = [
     
     4211847317: "Voteless",
     1405979473: "Harvester"
-]
-
-// faction ids to names - this shit needs to be tidied up man duplication getting nuts!
-let FactionDictionary: [Int64: String] = [
-    1: "Humans", // cyan
-    2: "Terminids", // yellow
-    3: "Automatons", // red
-    4: "Illuminate" // purple
-]
-
-let FactionColors: [Int64: Color] = [
-    1: .cyan,
-    2: .yellow,
-    3: .red,
-    4: .purple
 ]
 
 // conv planetPositions into a dict for quick lookup in personal orders

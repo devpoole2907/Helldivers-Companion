@@ -117,7 +117,7 @@ struct PlayerCountPieChart: View {
 
                     let formattedPercent = String(format: "%.3f", percentage) + "%"
                     
-                    PlayerCountRow(playerCount: "\(item.count)", factionName: "\(item.faction)", percent: formattedPercent, factionColor: item.color)
+                    PlayerCountRow(playerCount: "\(item.count)", factionName: "\(item.faction)", percent: formattedPercent, factionColor: item.color, imageName: item.imageName)
                     
                     
                     
@@ -160,20 +160,10 @@ struct PlayerCountRow: View {
     let factionName: String
     let percent: String
     let factionColor: Color
+    let imageName: String
     
     let fontSize: CGFloat = 20
     let imageSize: CGFloat = 30
-    
-    var image: String {
-        switch factionName {
-        case "Terminids":
-            return "terminid"
-        case "Other":
-            return "human"
-        default:
-            return factionName.lowercased()
-        }
-    }
     
     var body: some View {
         
@@ -182,7 +172,7 @@ struct PlayerCountRow: View {
                 .shadow(radius: 3)
             HStack(spacing: 12) {
                 
-                Image(image)
+                Image(imageName)
                     .resizable()
                     .renderingMode(.template)
                     .aspectRatio(contentMode: .fit)

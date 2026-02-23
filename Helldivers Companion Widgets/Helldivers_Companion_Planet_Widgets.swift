@@ -14,12 +14,12 @@ struct PlanetStatusProvider: TimelineProvider {
     @MainActor var planetsModel = PlanetsDataModel()
     
     func placeholder(in context: Context) -> SimplePlanetStatus {
-        SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, faction: "terminid", factionColor: .yellow, campaignType: 0)
+        SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, campaignType: 0)
     }
     
     func getSnapshot(in context: Context, completion: @escaping (SimplePlanetStatus) -> Void) {
         
-        let entry = SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, faction: "terminid", factionColor: .yellow, campaignType: 0)
+        let entry = SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, campaignType: 0)
         
         completion(entry)
     }
@@ -68,26 +68,13 @@ struct PlanetStatusProvider: TimelineProvider {
                     let eventHealth = highestPlanet.event?.health ?? nil
                     let eventMaxHealth = highestPlanet.event?.maxHealth ?? nil
                     
-                    // faction always humans when defending, so put event faction here manually because we cant access the extra conditions in the view models faction image or color functions
-                    
-                    var enemyType = "terminid"
-                    var factionColor = Color.yellow
-                    
-                    if defenseEvent.planet.event?.faction == "Automaton" {
-                        enemyType = "automaton"
-                        factionColor = .red
-                    } else if defenseEvent.planet.event?.faction == "Illuminate" {
-                        enemyType = "illuminate"
-                        factionColor = .purple
-                    }
-                    
                     var liberationPercentage = defenseEvent.planet.event?.percentage ?? highestPlanet.percentage
                     
                     if defenseEvent.planet.event?.eventType == 3 {
                         liberationPercentage = (1.0 - fleetStrengthProgress) * 100
                     }
 
-                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: liberationPercentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, faction: enemyType, factionColor: factionColor, eventExpirationTime: eventExpirationTime, invasionLevel: invasionLevel, eventHealth: eventHealth, eventMaxHealth: eventMaxHealth, spaceStationExpirationTime: spaceStationExpirationTime, campaignType: campaignType)
+                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: liberationPercentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, eventExpirationTime: eventExpirationTime, invasionLevel: invasionLevel, eventHealth: eventHealth, eventMaxHealth: eventMaxHealth, spaceStationExpirationTime: spaceStationExpirationTime, campaignType: campaignType)
                     entries.append(entry)
                     
                 } else {
@@ -118,8 +105,6 @@ struct SimplePlanetStatus: TimelineEntry {
     var playerCount: Int64
     var planet: UpdatedPlanet? = nil
     var liberationType: LiberationType = .liberation
-    var faction: String? // optional for the same reasons below
-    var factionColor: Color? // this is optional and fetched in the app if state is liberation not defense because the viewmodel doesnt need its state for defense planets in that case, it falls through the if statements anyway
     var eventExpirationTime: Date? = nil
     var invasionLevel: Int64? = nil
     var eventHealth: Int64? = nil
@@ -159,14 +144,7 @@ struct Helldivers_Companion_WidgetsEntryView : View {
             ZStack {
                 
                 if widgetRenderingMode != .accented {
-                    if let factionColor = entry.factionColor {
-                        factionColor.opacity(0.6)
-                    } else {
-                        // must be liberating
-                        
-                        planetsModel.getColorForPlanet(planet: entry.planet).opacity(0.6)
-                    }
-                    
+                    (entry.planet?.factionColor ?? Color.gray).opacity(0.6)
                     
                     ContainerRelativeShape()
                         .inset(by: 4)
@@ -174,7 +152,7 @@ struct Helldivers_Companion_WidgetsEntryView : View {
                     
                 }
                 
-                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, factionName: entry.faction, factionColor: entry.factionColor, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, eventExpirationTime: entry.eventExpirationTime, spaceStationExpirationTime: entry.spaceStationExpirationTime, eventInvasionLevel: entry.invasionLevel, eventHealth: entry.eventHealth, eventMaxHealth: entry.eventMaxHealth, campaignType: entry.campaignType).environmentObject(PlanetsDataModel())
+                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, eventExpirationTime: entry.eventExpirationTime, spaceStationExpirationTime: entry.spaceStationExpirationTime, eventInvasionLevel: entry.invasionLevel, eventHealth: entry.eventHealth, eventMaxHealth: entry.eventMaxHealth, campaignType: entry.campaignType).environmentObject(PlanetsDataModel())
                     .padding(.horizontal)
                     .padding(.vertical, 5)
                 
@@ -197,10 +175,8 @@ struct RectangularPlanetWidgetView: View {
         VStack(alignment: .leading, spacing: 0) {
             
             HStack(spacing: 3) {
-                // nil coalesced with get image name for planet, because entry.faction wouldnt be nil if it was defending - and using view models function for image name is fine when liberating
-                
                 if entry.campaignType != 3 {
-                      Image(entry.faction ?? PlanetsDataModel().getImageNameForPlanet(entry.planet)).resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
+                    Image(entry.planet?.faction.imageName ?? "unknown").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                         .padding(.bottom, 2)
                 }
                 Text(entry.planetName) .font(Font.custom("FSSinclair", size: 16)).bold()
@@ -285,7 +261,7 @@ struct InlinePlanetWidgetView: View {
     
     var body: some View {
         HStack(spacing: 3) {
-            Image(entry.faction ?? "terminid").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
+            Image(entry.planet?.faction.imageName ?? "terminid").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                 .padding(.bottom, 2)
             Text("\(entry.planetName)") .font(Font.custom("FSSinclair", size: 16))
             Image(systemName: entry.liberationType == .defense ? "shield.lefthalf.filled" : "target")

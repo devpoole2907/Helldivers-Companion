@@ -22,8 +22,6 @@ struct PlanetView: View {
     var rate = 0.0
     var playerCount: Int64 = 347246
     var planet: UpdatedPlanet? = nil
-    var factionName: String? = nil // this is for widgets as they cannot access some conditions in the planets view model image function
-    var factionColor: Color? = nil // this is for widgets as they cannot access some conditions in the planets view model color function
     var showHistory = true
     var showImage = true
     var showExtraStats = true
@@ -68,28 +66,11 @@ struct PlanetView: View {
     }
     
     private var factionImage: String {
-        
-        if let imageName = factionName {
-            return imageName
-        }
-        
-        // if faction name is nil, we must be in the app - faction is only passed to this view as a widget because widgets cannot access all conditions for this function - unless it is liberating (not defense), liberating campaigns can access the required conditionals so no faction image or color is passed to this view in that case either
-        
-        return viewModel.getImageNameForPlanet(planet)
-        
+        planet?.faction.imageName ?? "unknown"
     }
     
     private var foreColor: Color {
-        
-        if let color = factionColor {
-            return color
-        }
-        
-        // see above computed prop comments for more info, its the same reasoning
-        // if faction color is nil, we must be in the app - faction is only passed to this view as a widget because widgets cannot access all conditions for this function
-        
-        return viewModel.getColorForPlanet(planet: planet)
-        
+        planet?.factionColor ?? .gray
     }
     
     func showChartToggler() {
@@ -114,7 +95,7 @@ struct PlanetView: View {
                 
          
                     
-                CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, spaceStationExpiration: spaceStationExpirationTime, campaignType: campaignType)
+                CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, planet: planet, playerCount: playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, spaceStationExpiration: spaceStationExpirationTime, campaignType: campaignType)
                     
                 
                 

@@ -54,8 +54,8 @@ struct CampaignPlanetStatsView: View {
     
     var planet: UpdatedPlanet? = nil
     
-    var factionColor: Color // color is passed to this view as widgets dont have the required state to calculate the color from the view model
-    var factionImage: String // same reason as above
+    var factionColor: Color { planet?.factionColor ?? .gray }
+    var factionImage: String { planet?.faction.imageName ?? "unknown" }
     
     var playerCount: Int64?
     

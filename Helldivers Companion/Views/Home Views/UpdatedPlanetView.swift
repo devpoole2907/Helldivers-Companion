@@ -19,8 +19,6 @@ struct UpdatedPlanetView: View {
     
     let planetIndex: Int
     
-    var factionName: String? = nil // this is for widgets as they cannot access some conditions in the planets view model image function
-    var factionColor: Color? = nil // this is for widgets as they cannot access some conditions in the planets view model color function
     var showImage = true
     var showExtraStats = true
     var isWidget = false
@@ -149,28 +147,11 @@ struct UpdatedPlanetView: View {
     }
     
     private var factionImage: String {
-        
-        if let imageName = factionName {
-            return imageName
-        }
-        
-        // if faction name is nil, we must be in the app - faction is only passed to this view as a widget because widgets cannot access all conditions for this function - unless it is liberating (not defense), liberating campaigns can access the required conditionals so no faction image or color is passed to this view in that case either
-        
-        return viewModel.getImageNameForPlanet(planet)
-        
+        planet?.faction.imageName ?? "unknown"
     }
     
     private var foreColor: Color {
-        
-        if let color = factionColor {
-            return color
-        }
-        
-        // see above computed prop comments for more info, its the same reasoning
-        // if faction color is nil, we must be in the app - faction is only passed to this view as a widget because widgets cannot access all conditions for this function
-        
-        return viewModel.getColorForPlanet(planet: planet)
-        
+        planet?.factionColor ?? .gray
     }
     
     var body: some View {
@@ -181,7 +162,7 @@ struct UpdatedPlanetView: View {
                 
                 headerWithImage
                     
-                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, factionColor: foreColor, factionImage: factionImage, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, spaceStationExpiration: spaceStationExpirationTime, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isActive: isActive, campaignType: campaignType)
+                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, spaceStationExpiration: spaceStationExpirationTime, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isActive: isActive, campaignType: campaignType)
                 
             }.onTapGesture {
                 // nav to planet info view if tapped anywhere

@@ -218,7 +218,7 @@ struct PlanetInfoView: View {
                     
                     RegionListView(
                         regions: matchingRegions,
-                        showOnlyTopRegion: false, factionColor: viewModel.getColorForPlanet(planet: planet), horizPadding: horizPadding
+                        showOnlyTopRegion: false, factionColor: planet?.factionColor ?? Color.gray, horizPadding: horizPadding
                     ) .padding(.bottom, 20)
                     
                 }
@@ -241,7 +241,7 @@ struct PlanetInfoView: View {
                     
                     // dont show this data if the planet isnt a current campaign
                     if campaign && infoType == .warEffort {
-                        HistoryChart(liberationType: liberationType, planetData: planetData, factionColor: viewModel.getColorForPlanet(planet: planet)).environmentObject(viewModel)
+                        HistoryChart(liberationType: liberationType, planetData: planetData, factionColor: planet?.factionColor ?? Color.gray).environmentObject(viewModel)
                             .shadow(radius: 5.0)
                         VStack(alignment: .center, spacing: 2) {
                             if let timeRemaining = liberationTimeRemaining {
@@ -255,7 +255,7 @@ struct PlanetInfoView: View {
                                     .shadow(radius: 5.0)
                                 
                             }
-                            CampaignPlanetStatsView(liberation: liberationPercentage ?? 0.0, liberationType: liberationType, planetName: planet?.name, planet: planet, factionColor: viewModel.getColorForPlanet(planet: planet), factionImage: viewModel.getImageNameForPlanet(planet), playerCount: planet?.statistics.playerCount, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, campaignType: campaignType)
+                            CampaignPlanetStatsView(liberation: liberationPercentage ?? 0.0, liberationType: liberationType, planetName: planet?.name, planet: planet, playerCount: planet?.statistics.playerCount, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, campaignType: campaignType)
                                 .shadow(radius: 5.0)
                         }
                         
@@ -331,7 +331,7 @@ struct PlanetInfoView: View {
             
             
             
-            FactionImageView(faction: viewModel.getImageNameForPlanet(planet))
+            FactionImageView(factionString: planet?.faction.imageName ?? "unknown")
             
                 .padding(.trailing, 20)
                 .offset(x: 0, y: -45)
@@ -510,7 +510,7 @@ struct PlanetInfoView: View {
             
             if let sector = planet?.sector {
                 HStack(spacing: 6) {
-                    Text(sector).foregroundStyle(viewModel.getColorForPlanet(planet: planet))
+                    Text(sector).foregroundStyle(planet?.factionColor ?? Color.gray)
 #if os(watchOS)
                         .textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: mediumFont))
 #else
@@ -539,7 +539,7 @@ struct PlanetInfoView: View {
             .border(Color.gray)
         
             .padding(4)
-            .border(viewModel.getColorForPlanet(planet: planet), width: 2) .padding([.bottom, .horizontal])
+            .border(planet?.factionColor ?? Color.gray, width: 2) .padding([.bottom, .horizontal])
     }
     
     var biomeDescription: some View {
@@ -730,12 +730,12 @@ struct PlanetInfoView: View {
 
 struct FactionImageView: View {
     // not using enemy type enum, because this planet may be viewed from the stats view - if its not currently in a campaign then it may be human owned, in that case the owner will be passed
-    var faction: String = "terminid"
+    var factionString: String = "terminid"
     
     var body: some View {
         
         
-        Image(faction)
+        Image(factionString)
             .resizable()
             .scaledToFit()
             .frame(width: 30, height: 30)

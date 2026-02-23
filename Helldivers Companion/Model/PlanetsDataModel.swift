@@ -808,35 +808,14 @@ class PlanetsDataModel: ObservableObject {
     
     
     var playerDistribution: [PlayerDistributionItem] {
-
-        var distribution: [String: (count: Int64, color: Color)] = [
-            "Automaton": (0, .red),
-            "Terminids": (0, .yellow),
-            "Illuminate": (0, .purple),
-            "Other": (0, .cyan)
-        ]
         
-        // sum player counts for each planet
+        var counts = [Faction: Int64]()
         for planet in updatedPlanets {
-            let count = planet.statistics.playerCount
-            let factionName = planet.factionName.lowercased()
-            
-            switch factionName {
-            case "automaton":
-                distribution["Automaton"]?.count += count
-            case "terminids":
-                distribution["Terminids"]?.count += count
-            case "illuminate":
-                distribution["Illuminate"]?.count += count
-            default:
-                distribution["Other"]?.count += count
-            }
+            counts[planet.faction, default: 0] += planet.statistics.playerCount
         }
-        
-        return distribution.compactMap { key, value in
-            value.count > 0
-                ? PlayerDistributionItem(faction: key, count: value.count, color: value.color)
-                : nil
+        return counts.compactMap { faction, count in
+            count > 0 ? PlayerDistributionItem(faction: faction.displayName, count: count, color: faction.color, imageName: faction.imageName) : nil
+            
         }
     }
     
@@ -853,98 +832,6 @@ class PlanetsDataModel: ObservableObject {
             dashPatterns[stratagem.id] = newPattern
             return newPattern
         }
-    }
-    
-    func getColorForPlanet(planet: UpdatedPlanet?) -> Color {
-        guard let planet = planet else {
-            return .gray  // default color if no matching planet found
-        }
-        
-        if planet.currentOwner == "Humans" {
-            if updatedDefenseCampaigns.contains(where: {
-                $0.planet.index == planet.index
-            }) {
-                let campaign = updatedDefenseCampaigns.first {
-                    $0.planet.index == planet.index
-                }
-                switch campaign?.planet.event?.faction {
-                case "Terminids": return .yellow
-                case "Automaton": return .red
-                case "Illuminate": return .purple
-                default: return .cyan
-                }
-            } else {
-                return .cyan
-            }
-        } else if updatedCampaigns.contains(where: {
-            $0.planet.index == planet.index
-        }) {
-            if !updatedDefenseCampaigns.contains(where: {
-                $0.planet.index == planet.index
-            }) {
-                switch planet.currentOwner {
-                case "Automaton": return .red
-                case "Terminids": return .yellow
-                case "Illuminate": return .purple
-                default: return .gray  // default color if currentOwner doesn't match any known factions
-                }
-            }
-        } else {
-            switch planet.currentOwner {
-            case "Automaton": return .red
-            case "Terminids": return .yellow
-            case "Illuminate": return .purple
-            default: return .gray  // default color if currentOwner doesn't match any known factions
-            }
-        }
-        
-        return .gray  // if no conditions meet for some reason
-    }
-    
-    func getImageNameForPlanet(_ planet: UpdatedPlanet?) -> String {
-        guard let planet = planet else {
-            return "human"
-        }
-        
-        if planet.currentOwner == "Humans" {
-            if updatedDefenseCampaigns.contains(where: {
-                $0.planet.index == planet.index
-            }) {
-                let campaign = updatedDefenseCampaigns.first {
-                    $0.planet.index == planet.index
-                }
-                switch campaign?.planet.event?.faction {
-                case "Terminids": return "terminid"
-                case "Automaton": return "automaton"
-                case "Illuminate": return "illuminate"
-                default: return "human"
-                }
-            } else {
-                return "human"
-            }
-        } else if updatedCampaigns.contains(where: {
-            $0.planet.index == planet.index
-        }) {
-            if !updatedDefenseCampaigns.contains(where: {
-                $0.planet.index == planet.index
-            }) {
-                switch planet.currentOwner {
-                case "Automaton": return "automaton"
-                case "Terminids": return "terminid"
-                case "Illuminate": return "illuminate"
-                default: return "human"
-                }
-            }
-        } else {
-            switch planet.currentOwner {
-            case "Automaton": return "automaton"
-            case "Terminids": return "terminid"
-            case "Illuminate": return "illuminate"
-            default: return "human"
-            }
-        }
-        
-        return "human"
     }
     
     func currentLiberationRate(for planetName: String) -> Double? {
