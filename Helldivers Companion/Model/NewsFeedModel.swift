@@ -28,7 +28,7 @@ class NewsFeedModel: ObservableObject {
     
     let netManager = NetworkManager.shared
     
-    let planetsModel = PlanetsDataModel()
+    let apiService = WarAPIService()
     
     func fetchNewsFeed(config: RemoteConfigDetails?, _ enableLocalization: Bool) async -> [NewsFeed] {
         
@@ -69,7 +69,7 @@ class NewsFeedModel: ObservableObject {
 
         Task {
             
-            guard let config = await planetsModel.fetchConfig() else {
+            guard let config = await apiService.fetchConfig() else {
                 print("config failed to load")
                 return
             }
@@ -98,7 +98,7 @@ class NewsFeedModel: ObservableObject {
             
             Task {
                 
-                guard let config = await self.planetsModel.fetchConfig() else {
+                guard let config = await self.apiService.fetchConfig() else {
                     print("config failed to load")
                     return
                 }

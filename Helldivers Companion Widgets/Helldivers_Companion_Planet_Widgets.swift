@@ -11,7 +11,7 @@ import SwiftUI
 struct PlanetStatusProvider: TimelineProvider {
     typealias Entry = SimplePlanetStatus
     
-    @MainActor var planetsModel = PlanetsDataModel()
+    let apiService = WarAPIService()
     
     func placeholder(in context: Context) -> SimplePlanetStatus {
         SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, campaignType: 0)
@@ -33,13 +33,13 @@ struct PlanetStatusProvider: TimelineProvider {
         Task {
             var entries: [SimplePlanetStatus] = []
             
-            guard let config = await planetsModel.fetchConfig() else {
+            guard let config = await apiService.fetchConfig() else {
                 print("config failed to load")
                 completion(Timeline(entries: entries, policy: .atEnd))
                 return
             }
             
-            let status = await planetsModel.fetchStatus(with: config)
+            let status = await apiService.fetchStatus(season: config.season)
             
             let fleetStrengthResource = status?.globalResources.first { $0.id32 == 175685818}
             
@@ -49,10 +49,9 @@ struct PlanetStatusProvider: TimelineProvider {
             }()
             
             
-            let campaignResults = await planetsModel.fetchCampaigns(using: urlString, for: config)
-            let (campaigns, defenseCampaigns) = campaignResults
+            let (campaigns, defenseCampaigns) = await apiService.fetchCampaigns(url: urlString, apiAddress: config.apiAddress, language: nil)
             
-            let spaceStations = await planetsModel.fetchSpaceStations(for: config)
+            let spaceStations = await apiService.fetchSpaceStations(apiAddress: config.apiAddress, language: nil)
             
             if let highestPlanetCampaign = campaigns.max(by: { $0.planet.statistics.playerCount < $1.planet.statistics.playerCount }) {
                 let highestPlanet = highestPlanetCampaign.planet
@@ -118,8 +117,6 @@ struct Helldivers_Companion_WidgetsEntryView : View {
     
     @Environment(\.widgetFamily) var widgetFamily
     @Environment(\.widgetRenderingMode) var widgetRenderingMode
-    
-    @MainActor let planetsModel = PlanetsDataModel()
     
     var entry: PlanetStatusProvider.Entry
     

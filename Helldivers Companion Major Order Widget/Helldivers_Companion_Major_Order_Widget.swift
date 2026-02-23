@@ -12,7 +12,7 @@ struct MajorOrderProvider: TimelineProvider {
     
     typealias Entry = MajorOrderEntry
     
-    @MainActor var planetsModel = PlanetsDataModel()
+    let apiService = WarAPIService()
     
     func placeholder(in context: Context) -> MajorOrderEntry {
         MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil, progress: nil, orderType: nil)
@@ -29,17 +29,14 @@ struct MajorOrderProvider: TimelineProvider {
         Task {
             var entries: [MajorOrderEntry] = []
             
-            guard let config = await planetsModel.fetchConfig() else {
+            guard let config = await apiService.fetchConfig() else {
                 print("config failed to load")
                 completion(Timeline(entries: entries, policy: .atEnd))
                 return
             }
             
-            let planetResults = await planetsModel.fetchPlanets(using: urlString, for: config)
-            let majorOrderResults = await planetsModel.fetchMajorOrder(for: config.season, with: planetResults.0)
-
-            let (planets, _, _) = planetResults
-            let (taskPlanets, majorOrders) = majorOrderResults
+            let (planets, _, _) = await apiService.fetchPlanets(url: urlString, apiAddress: config.apiAddress, language: nil)
+            let (taskPlanets, majorOrders) = await apiService.fetchMajorOrder(season: config.season, planets: planets, language: nil)
             let majorOrder = majorOrders.first
             
             var finalTaskProgress: Double?

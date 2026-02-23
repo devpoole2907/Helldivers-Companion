@@ -10,7 +10,7 @@ import SwiftUI
 
 struct GalaxyMapProvider: TimelineProvider {
     
-    @MainActor var planetsModel = PlanetsDataModel()
+    let apiService = WarAPIService()
     
     
     func placeholder(in context: Context) -> GalaxyMapEntry {
@@ -32,17 +32,14 @@ struct GalaxyMapProvider: TimelineProvider {
         Task {
             var entries: [GalaxyMapEntry] = []
             
-            guard let config = await planetsModel.fetchConfig() else {
+            guard let config = await apiService.fetchConfig() else {
                 print("config failed to load")
                 completion(Timeline(entries: entries, policy: .atEnd))
                 return
             }
             
-            let planetResults = await planetsModel.fetchPlanets(using: planetsUrlString, for: config)
-            let campaignResults = await planetsModel.fetchCampaigns(using: campaignsUrlString, for: config)
-            
-            let (planets, _, _) = planetResults
-            let (campaigns, defenseCampaigns) = campaignResults
+            let (planets, _, _) = await apiService.fetchPlanets(url: planetsUrlString, apiAddress: config.apiAddress, language: nil)
+            let (campaigns, defenseCampaigns) = await apiService.fetchCampaigns(url: campaignsUrlString, apiAddress: config.apiAddress, language: nil)
             
             let entry = GalaxyMapEntry(date: Date(), campaigns: campaigns, defenseCampaigns: defenseCampaigns, planets: planets)
             entries.append(entry)

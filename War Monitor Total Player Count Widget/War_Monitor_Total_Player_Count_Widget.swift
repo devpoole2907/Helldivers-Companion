@@ -12,7 +12,7 @@ struct Provider: TimelineProvider {
     
     typealias Entry = PlayerCountEntry
     
-    @MainActor var planetsModel = PlanetsDataModel()
+    let apiService = WarAPIService()
     
     func placeholder(in context: Context) -> PlayerCountEntry {
         PlayerCountEntry(date: Date(), playerCount: 247643)
@@ -33,14 +33,13 @@ struct Provider: TimelineProvider {
         Task {
             var entries: [PlayerCountEntry] = []
             
-            guard let config = await planetsModel.fetchConfig() else {
+            guard let config = await apiService.fetchConfig() else {
                 print("config failed to load")
                 completion(Timeline(entries: entries, policy: .atEnd))
                 return
             }
             
-            let planetResults = await planetsModel.fetchPlanets(using: urlString, for: config)
-            let (planets, _, _) = planetResults
+            let (planets, _, _) = await apiService.fetchPlanets(url: urlString, apiAddress: config.apiAddress, language: nil)
             
             let playerCount = planets.reduce(0) { $0 + $1.statistics.playerCount }
             

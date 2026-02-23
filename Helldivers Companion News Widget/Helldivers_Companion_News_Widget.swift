@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     
-    @MainActor var planetsModel = PlanetsDataModel()
+    let apiService = WarAPIService()
     
     @MainActor var newsModel = NewsFeedModel()
     
@@ -30,7 +30,7 @@ struct Provider: TimelineProvider {
             var entries: [NewsItemEntry] = []
 
             print("[Widget] Fetching config...")
-            guard let config = await planetsModel.fetchConfig() else {
+            guard let config = await apiService.fetchConfig() else {
                 print("[Widget] Failed to fetch config.")
                 completion(Timeline(entries: entries, policy: .atEnd))
                 return
@@ -41,7 +41,7 @@ struct Provider: TimelineProvider {
             let news = await newsModel.fetchNewsFeed(config: config, true)
             print("[Widget] Fetched \(news.count) news items.")
 
-            let warTime = await planetsModel.fetchWarTime()
+            let warTime = await apiService.fetchWarTime(season: config.season)
             if warTime != nil {
                 print("[Widget] War time fetched: \(warTime!)")
             } else {
