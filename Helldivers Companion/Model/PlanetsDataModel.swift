@@ -117,82 +117,94 @@ class PlanetsDataModel: ObservableObject {
         completion()
     }
     
-    func startUpdating() {
-        Task {
-            guard let config = await fetchConfig() else {
-                print("config failed to load")
-                return
-            }
-            
-            let warTime = await fetchWarTime(with: config)
-            
-            let status = await fetchStatus(with: config)
-            
-            
-            let galaxyStats = await fetchGalaxyStats()
-            let (campaigns, defenseCampaigns) = await fetchCampaigns(
-                for: config)
-            let (planets, sortedSectors, groupedBySector) = await fetchPlanets(for: config, with: status)
-            let (taskPlanets, majorOrders) = await fetchMajorOrder(with: planets)
-            let spaceStations = await fetchSpaceStations(for: config)
-            
-            // TODO: for now, fetch ONLY the first station - upgrade in future for more spcae stations
-            
-            let firstStationID = spaceStations.first?.id32 ?? 749875195 // fallback to static id for dss
-            let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID, with: config)
-            let personalOrder = await self.fetchPersonalOrder()
-            
-            await MainActor.run {
-                self.objectWillChange.send()
-                withAnimation(.bouncy) {
-                    self.configData = config
-                    self.showIlluminateUI = config.showIlluminate
-                    self.warTime = warTime
-                    self.status = status
-                    self.updatedCampaigns = campaigns
-                    self.updatedDefenseCampaigns = defenseCampaigns
-                    self.galaxyStats = galaxyStats?.galaxyStats
-                    
-                    self.updatedPlanets = planets
-                    self.spaceStations = spaceStations
-                    self.updatedSortedSectors = sortedSectors
-                    self.updatedGroupedBySectorPlanets = groupedBySector
-                    self.updatedTaskPlanets = taskPlanets
-                    
-                    self.majorOrders = majorOrders
-                    self.personalOrder = personalOrder
-                    self.firstSpaceStationDetails = firstStationDetails
-                    
-                    self.lastUpdatedDate = Date()
-                    
-                    if !(self.hasSetSelectedPlanet) {
-                        // for first call set default selected planet for map view
-                        // set default selected planet for map, grab first planet in campaigns, only if it hasnt been set already
-                        self.selectedPlanet = campaigns.first?.planet
-                        self.hasSetSelectedPlanet = true
-                    }
-                    
-                    withAnimation {
-                        self.isLoading = false
-                    }
-                    
-                }
-                
-            }
-            
-            //    print("fetched major order")
+    /// Single refresh method that fetches all data with maximum parallelism,
+    /// then applies all results in one animated UI update.
+    /// - Parameter isInitialLoad: When true, also fetches galaxyStats + cachedPlanetData,
+    ///   sets `isLoading = false`, and sets the default `selectedPlanet`.
+    func refreshAll(isInitialLoad: Bool = false) async {
+        
+        let language = enableLocalization ? apiSupportedLanguage : nil
+        
+        // 1. Config must come first — it gates everything else
+        guard let config = await apiService.fetchConfig() else {
+            print("config failed to load")
+            return
         }
         
-        Task {
-            let cachedData = await fetchCachedPlanetData()
+        // 2. Fire independent fetches in parallel
+        async let warTimeResult = apiService.fetchWarTime(season: config.season)
+        async let statusResult = apiService.fetchStatus(season: config.season)
+        async let campaignsResult = apiService.fetchCampaigns(url: nil, apiAddress: config.apiAddress, language: language)
+        async let spaceStationsResult = apiService.fetchSpaceStations(apiAddress: config.apiAddress, language: language)
+        async let personalOrderResult = apiService.fetchPersonalOrder()
+        
+        // galaxyStats only on initial load (cache timer handles subsequent fetches)
+        async let galaxyStatsResult = isInitialLoad ? apiService.fetchGalaxyStats() : nil
+        
+        // 3. Await status, then fetch planets (needs status for galactic effects merge)
+        let status = await statusResult
+        let (planets, sortedSectors, groupedBySector) = await apiService.fetchPlanets(url: nil, apiAddress: config.apiAddress, language: language, status: status)
+        
+        // 4. Await planets, then fetch major order (needs planets for task matching)
+        let (taskPlanets, majorOrders) = await apiService.fetchMajorOrder(season: config.season, planets: planets, language: language)
+        
+        // 5. Await space stations, then fetch details for first station
+        let spaceStations = await spaceStationsResult
+        let firstStationID = spaceStations.first?.id32 ?? 749875195
+        let firstStationDetails = await apiService.fetchSpaceStationDetails(id32: firstStationID, season: config.season)
+        
+        // 6. Await remaining parallel results
+        let warTime = await warTimeResult
+        let (campaigns, defenseCampaigns) = await campaignsResult
+        let personalOrder = await personalOrderResult
+        let galaxyStats = await galaxyStatsResult
+        
+        // cachedPlanetData only on initial load
+        let cachedData: [String: [UpdatedPlanetDataPoint]] = isInitialLoad ? await apiService.fetchCachedPlanetData() : [:]
+        
+        // 7. Single animated UI update
+        withAnimation(.bouncy) {
+            self.configData = config
+            self.showIlluminateUI = config.showIlluminate
+            self.lastUpdatedDate = Date()
             
-            await MainActor.run {
-                self.objectWillChange.send()
-                withAnimation(.bouncy) {
-                    self.planetHistory = cachedData
-                    self.lastUpdatedDate = Date()
+            // Only overwrite if the fetch returned data — keep previous value on failure
+            if let warTime { self.warTime = warTime }
+            if let status { self.status = status }
+            if !campaigns.isEmpty { self.updatedCampaigns = campaigns }
+            if !defenseCampaigns.isEmpty || !campaigns.isEmpty { self.updatedDefenseCampaigns = defenseCampaigns }
+            if !planets.isEmpty {
+                self.updatedPlanets = planets
+                self.updatedSortedSectors = sortedSectors
+                self.updatedGroupedBySectorPlanets = groupedBySector
+            }
+            if !spaceStations.isEmpty { self.spaceStations = spaceStations }
+            if !taskPlanets.isEmpty || !majorOrders.isEmpty {
+                self.updatedTaskPlanets = taskPlanets
+                self.majorOrders = majorOrders
+            }
+            if let personalOrder { self.personalOrder = personalOrder }
+            if let firstStationDetails { self.firstSpaceStationDetails = firstStationDetails }
+            
+            if isInitialLoad {
+                if let stats = galaxyStats?.galaxyStats { self.galaxyStats = stats }
+                if !cachedData.isEmpty { self.planetHistory = cachedData }
+                
+                if !self.hasSetSelectedPlanet {
+                    self.selectedPlanet = campaigns.first?.planet
+                    self.hasSetSelectedPlanet = true
+                }
+                
+                withAnimation {
+                    self.isLoading = false
                 }
             }
+        }
+    }
+    
+    func startUpdating() {
+        Task {
+            await refreshAll(isInitialLoad: true)
         }
         
         setupTimer()
@@ -206,58 +218,9 @@ class PlanetsDataModel: ObservableObject {
             [weak self] _ in
             guard let self = self else { return }
             Task {
-                
-                guard let config = await self.fetchConfig() else {
-                    print("config failed to load")
-                    return
-                }
-                let warTime = await self.fetchWarTime(with: config)
-                let status = await self.fetchStatus(with: config)
-                
-                let (campaigns, defenseCampaigns) = await self.fetchCampaigns(
-                    for: config)
-                let (planets, sortedSectors, groupedBySector) = await self.fetchPlanets(for: config, with: status)
-                let (taskPlanets, majorOrders) = await self.fetchMajorOrder(
-                    with: planets)
-                print("getting the fookn space stations")
-                let spaceStations = await self.fetchSpaceStations(for: config)
-                
-                // TODO: for now, fetch ONLY the first station - upgrade in future for more spcae stations
-                
-                let firstStationID = spaceStations.first?.id32 ?? 749875195 // fallback to static id for dss
-                let firstStationDetails = await self.fetchSpaceStationDetails(for: firstStationID, with: config)
-                
-                let personalOrder = await self.fetchPersonalOrder()
-                
-                await MainActor.run {
-                    self.objectWillChange.send()
-                    withAnimation(.bouncy) {
-                        self.configData = config
-                        self.showIlluminateUI = config.showIlluminate
-                        self.warTime = warTime
-                        self.status = status
-                        self.updatedCampaigns = campaigns
-                        self.updatedDefenseCampaigns = defenseCampaigns
-                        
-                        self.updatedPlanets = planets
-                        self.spaceStations = spaceStations
-                        self.updatedSortedSectors = sortedSectors
-                        self.updatedGroupedBySectorPlanets = groupedBySector
-                        self.updatedTaskPlanets = taskPlanets
-                        
-                        self.majorOrders = majorOrders
-                        self.personalOrder = personalOrder
-                        self.firstSpaceStationDetails = firstStationDetails
-                        
-                        self.lastUpdatedDate = Date()
-                    }
-                    
-                }
-                
+                await self.refreshAll()
             }
-            
         }
-        
     }
     // for slower fetches e.g historical data
     func setupCacheTimer() {
@@ -546,3 +509,4 @@ actor PlanetHistoryManager {
         return history
     }
 }
+
