@@ -114,7 +114,7 @@ struct GalaxyMapView: View {
                                 if let endPoint = boundingBoxTransformedPosition(forPlanetIndex: waypointIndex,
                                                                                  in: imageSize),
                                    (showAllPlanets || allCampaigns.contains(where: { $0.planet.index == updatedPlanet.index || $0.planet.index == waypointIndex }) ||
-                                    allPlanets.first(where: { $0.index == updatedPlanet.index })?.currentOwner.lowercased() != "humans"){
+                                    allPlanets.first(where: { $0.index == updatedPlanet.index })?.ownerFaction != .human){
                                     Path { path in
                                         path.move(to: startPoint)
                                         path.addLine(to: endPoint)
@@ -139,7 +139,7 @@ struct GalaxyMapView: View {
                         return true
                     } else {
                         // replicate your old filter logic:
-                        let isOwnerNotHuman = updatedPlanet.currentOwner.lowercased() != "humans"
+                        let isOwnerNotHuman = updatedPlanet.ownerFaction != .human
                         let isInCampaign = allCampaigns.contains { $0.planet.index == updatedPlanet.index }
                         
                         let hasWaypointToCampaign = updatedPlanet.waypoints.contains { waypointIndex in

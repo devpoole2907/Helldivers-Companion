@@ -67,13 +67,5 @@ struct UpdatedPlanet: Decodable, Hashable {
         return faction.color
     }
     
-    var factionName: String {
-        if let eventFaction = event?.faction, !eventFaction.isEmpty {
-            return eventFaction
-        } else {
-            return currentOwner
-        }
-    }
-    
     
 }

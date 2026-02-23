@@ -29,7 +29,7 @@ struct EnemiesList: View {
                                 } header: {
                                     Text("Illuminate".uppercased())
                                         .font(Font.custom("FSSinclair-Bold", size: 22))
-                                        .foregroundStyle(.purple)
+                                        .foregroundStyle(Faction.illuminate.color)
                                         .padding(.horizontal)
                                         .padding(.bottom, -2)
                                         .minimumScaleFactor(0.8)
@@ -48,7 +48,7 @@ struct EnemiesList: View {
                                 } header: {
                                     Text("Automaton".uppercased())
                                         .font(Font.custom("FSSinclair-Bold", size: 22))
-                                        .foregroundStyle(.red)
+                                        .foregroundStyle(Faction.automaton.color)
                                         .padding(.horizontal)
                                         .padding(.bottom, -2)
                                         .minimumScaleFactor(0.8)
@@ -65,7 +65,7 @@ struct EnemiesList: View {
                                 } header: {
                                     Text("Terminids".uppercased())
                                         .font(Font.custom("FSSinclair-Bold", size: 22))
-                                        .foregroundStyle(.yellow)
+                                        .foregroundStyle(Faction.terminid.color)
                                         .padding(.horizontal)
                                         .padding(.bottom, -2)
                                         .minimumScaleFactor(0.8)

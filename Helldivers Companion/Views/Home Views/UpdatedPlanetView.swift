@@ -87,7 +87,7 @@ struct UpdatedPlanetView: View {
     
     private var liberationPercentage: Double? {
         
-        if !viewModel.updatedCampaigns.contains(where: { $0.planet.index == planetIndex }), planet?.currentOwner.lowercased() == "humans" {
+        if !viewModel.updatedCampaigns.contains(where: { $0.planet.index == planetIndex }), planet?.ownerFaction == .human {
             return 100.0
         }
         
