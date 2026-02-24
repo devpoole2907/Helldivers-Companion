@@ -32,13 +32,7 @@ struct PersonalOrder: Decodable {
     let expiresIn: Int64 // time in seconds until expiration
     let setting: Setting
     
-    var allRewards: [Setting.Reward] {
-        if setting.rewards.isEmpty {
-            return setting.reward.map { [$0] } ?? [] // map to handle optional reward safely
-        } else {
-            return setting.rewards
-        }
-    }
+    var allRewards: [Setting.Reward] { setting.allRewards }
 
     enum CodingKeys: String, CodingKey {
         case id32
@@ -72,15 +66,16 @@ struct MajorOrder: Decodable {
     var extractionProgress: [(description: AttributedString, progress: Double, progressString: String)]? {
         guard hasTasks(ofType: .extract) else { return nil }
         return tasks(ofType: .extract).compactMap { task in
-            guard let taskIndex = setting.tasks.firstIndex(of: task),
-                  let currentProgress = progress[safe: taskIndex],
-                  let totalGoal = task.values[safe: 2]
+            let goal = task.value(for: .goal)
+            guard goal > 0,
+                  let taskIndex = setting.tasks.firstIndex(of: task),
+                  let currentProgress = progress[safe: taskIndex]
             else {
                 return nil
             }
             
-            let progressValue = Double(currentProgress) / Double(totalGoal)
-            let progressString = "\(currentProgress)/\(totalGoal)"
+            let progressValue = Double(currentProgress) / Double(goal)
+            let progressString = "\(currentProgress)/\(goal)"
             return (task.description, progressValue, progressString)
         }
     }
@@ -88,14 +83,15 @@ struct MajorOrder: Decodable {
     var missionExtractProgress: [(description: AttributedString, progress: Double, progressString: String)]? {
         guard hasTasks(ofType: .missionExtract) else { return nil }
         return tasks(ofType: .missionExtract).compactMap { task in
-            guard let taskIndex = setting.tasks.firstIndex(of: task),
-                  let currentProgress = progress[safe: taskIndex],
-                  let totalGoal = task.values[safe: 2] else {
+            let goal = task.value(for: .goal)
+            guard goal > 0,
+                  let taskIndex = setting.tasks.firstIndex(of: task),
+                  let currentProgress = progress[safe: taskIndex] else {
                 return nil
             }
 
-            let progressValue = Double(currentProgress) / Double(totalGoal)
-            let progressString = "\(currentProgress)/\(totalGoal) (\(String(format: "%.1f", progressValue * 100))%)"
+            let progressValue = Double(currentProgress) / Double(goal)
+            let progressString = "\(currentProgress)/\(goal) (\(String(format: "%.1f", progressValue * 100))%)"
             return (task.description, progressValue, progressString)
         }
     }
@@ -103,15 +99,16 @@ struct MajorOrder: Decodable {
     var eradicationProgress: [(progress: Double, progressString: String)]? {
         guard hasTasks(ofType: .eradicate) else { return nil }
         return tasks(ofType: .eradicate).compactMap { task in
-            guard let taskIndex = setting.tasks.firstIndex(of: task),
-                  let currentProgress = progress[safe: taskIndex],
-                  let totalGoal = task.values[safe: 2]
+            let goal = task.value(for: .goal)
+            guard goal > 0,
+                  let taskIndex = setting.tasks.firstIndex(of: task),
+                  let currentProgress = progress[safe: taskIndex]
             else {
                 return nil
             }
             
-            let progressValue = Double(currentProgress) / Double(totalGoal)
-            let progressString = "\(currentProgress)/\(totalGoal) (\(String(format: "%.1f", progressValue * 100))%)"
+            let progressValue = Double(currentProgress) / Double(goal)
+            let progressString = "\(currentProgress)/\(goal) (\(String(format: "%.1f", progressValue * 100))%)"
             return (progressValue, progressString)
         }
     }
@@ -119,15 +116,16 @@ struct MajorOrder: Decodable {
     var defenseProgress: [(progress: Double, progressString: String)]? {
         guard hasTasks(ofType: .defense) else { return nil }
         return tasks(ofType: .defense).compactMap { task in
-            guard let taskIndex = setting.tasks.firstIndex(of: task),
-                  let currentProgress = progress[safe: taskIndex],
-                  let totalGoal = task.values.first
+            let goal = task.value(for: .goal)
+            guard goal > 0,
+                  let taskIndex = setting.tasks.firstIndex(of: task),
+                  let currentProgress = progress[safe: taskIndex]
             else {
                 return nil
             }
             
-            let progressValue = Double(currentProgress) / Double(totalGoal)
-            let progressString = "\(currentProgress)/\(totalGoal) (\(String(format: "%.1f", progressValue * 100))%)"
+            let progressValue = Double(currentProgress) / Double(goal)
+            let progressString = "\(currentProgress)/\(goal) (\(String(format: "%.1f", progressValue * 100))%)"
             return (progressValue, progressString)
         }
     }
@@ -153,21 +151,13 @@ struct MajorOrder: Decodable {
         if let first = tasks(ofType: .eradicate).first {
             return Faction(rawValue: first.value(for: .raceId)) ?? .unknown
         } else if let first = tasks(ofType: .defense).first {
-            // defense tasks store faction at values[1], which maps to raceId via valueTypes
             return Faction(rawValue: first.value(for: .raceId)) ?? .unknown
         } else {
             return nil
         }
     }
     
-    // if multiple rewards, return both, otherwise return the singular
-    var allRewards: [Setting.Reward] {
-        if setting.rewards.isEmpty {
-            return setting.reward.map { [$0] } ?? [] // map to handle optional reward safely
-        } else {
-            return setting.rewards
-        }
-    }
+    var allRewards: [Setting.Reward] { setting.allRewards }
     
     enum CodingKeys: String, CodingKey {
         case id32
@@ -188,6 +178,15 @@ struct Setting: Decodable {
     let rewards: [Reward]
     let reward: Reward?
     let flags: Int
+    
+    /// Unified reward access — returns the rewards array, or falls back to the singular reward.
+    var allRewards: [Reward] {
+        if rewards.isEmpty {
+            return reward.map { [$0] } ?? []
+        } else {
+            return rewards
+        }
+    }
 
     struct Task: Decodable, Equatable, Hashable {
         let type: Int
@@ -196,15 +195,15 @@ struct Setting: Decodable {
         
         // for planet location or sector
         private var locationName: AttributedString? {
-            let locationType = value(for: .locationType)
+            let locationType = TaskLocationType(rawValue: value(for: .locationType))
             let locationIndex = value(for: .planetIndex)
             
-            if locationType == 2, let sector = sectorLookup[locationIndex] {
+            if locationType == .sector, let sector = sectorLookup[locationIndex] {
                 var text = AttributedString("in the \(sector.name) sector")
                 text.foregroundColor = .yellow
                 return text
-            } else if locationType == 1 || locationType == 0, locationIndex > 0,
-                      let planet = planetPositionLookup[locationIndex] {
+            } else if locationIndex > 0, let planet = planetPositionLookup[locationIndex] {
+                // planet is the default — either explicit .planet or absent (nil)
                 var text = AttributedString("on \(planet.name)")
                 text.foregroundColor = .yellow
                 return text

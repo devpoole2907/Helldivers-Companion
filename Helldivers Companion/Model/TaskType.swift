@@ -35,6 +35,13 @@ enum TaskValueType: Int, Sendable {
     case planetIndex = 12
 }
 
+/// How a task's location should be interpreted.
+/// Used by the `locationType` value in Setting.Task.
+enum TaskLocationType: Int64, Sendable {
+    case planet = 1
+    case sector = 2
+}
+
 // MARK: - Setting.Task Convenience
 
 extension Setting.Task {
@@ -48,5 +55,11 @@ extension Setting.Task {
     func value(for vt: TaskValueType) -> Int64 {
         guard let i = valueTypes.firstIndex(of: vt.rawValue), i < values.count else { return 0 }
         return values[i]
+    }
+    
+    /// The planet index referenced by this task, if any (non-zero).
+    var planetIndex: Int64? {
+        let idx = value(for: .planetIndex)
+        return idx != 0 ? idx : nil
     }
 }

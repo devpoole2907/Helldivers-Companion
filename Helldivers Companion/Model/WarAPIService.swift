@@ -204,22 +204,8 @@ actor WarAPIService {
             let allTasks: [Setting.Task]   = majorOrders.flatMap { $0.setting.tasks }
             let allProgress: [Int64]       = majorOrders.flatMap { $0.progress }
             
-            /// Helper closure – prefer valueType 12 (planet index), fall back to 11.
-            let extractPlanetIndex: (Setting.Task) -> Int64? = { task in
-                if let i = task.valueTypes.firstIndex(of: 12), i < task.values.count {
-                    return task.values[i]
-                }
-                if let i = task.valueTypes.firstIndex(of: 11), i < task.values.count {
-                    return task.values[i]
-                }
-                return nil
-            }
-            
             // 1. All planet indexes referenced by tasks (non-zero only)
-            let taskPlanetIndexes: [Int64] = allTasks.compactMap { task in
-                guard let idx = extractPlanetIndex(task), idx != 0 else { return nil }
-                return idx
-            }
+            let taskPlanetIndexes: [Int64] = allTasks.compactMap { $0.planetIndex }
             
             // 2. Filter planet list down to those referenced in tasks
             var taskPlanets = planets.filter { planet in
@@ -229,7 +215,7 @@ actor WarAPIService {
             // 3. Attach progress to matching task planet
             var progressIndex = 0
             for task in allTasks {
-                guard let planetIndex = extractPlanetIndex(task), planetIndex != 0 else {
+                guard let planetIndex = task.planetIndex else {
                     progressIndex += 1
                     continue
                 }
