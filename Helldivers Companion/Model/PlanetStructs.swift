@@ -55,34 +55,31 @@ struct MajorOrder: Decodable {
     let expiresIn: Int64 // this must be int64 to run on watchOS!
     let setting: Setting
     
-    var extractTasks: [Setting.Task] {
-        setting.tasks.filter { $0.type == 2 }
+    // MARK: - Task filtering via TaskType enum (no more magic numbers)
+    
+    func tasks(ofType type: TaskType) -> [Setting.Task] {
+        setting.tasks.filter { $0.taskType == type }
     }
     
-    var eradicateTasks: [Setting.Task] {
-        setting.tasks.filter { $0.type == 3 }
+    func hasTasks(ofType type: TaskType) -> Bool {
+        setting.tasks.contains { $0.taskType == type }
     }
     
-    var missionExtractTasks: [Setting.Task] {
-        setting.tasks.filter { $0.type == 7 }
-    }
-    
-    var defenseTasks: [Setting.Task] {
-        setting.tasks.filter { $0.type == 12 }
-    }
-    var netQuantityTasks: [Setting.Task] {
-        setting.tasks.filter { $0.type == 15 }
-    }
+    var extractTasks: [Setting.Task] { tasks(ofType: .extract) }
+    var eradicateTasks: [Setting.Task] { tasks(ofType: .eradicate) }
+    var missionExtractTasks: [Setting.Task] { tasks(ofType: .missionExtract) }
+    var defenseTasks: [Setting.Task] { tasks(ofType: .defense) }
+    var netQuantityTasks: [Setting.Task] { tasks(ofType: .netQuantity) }
     var liberationTasks: [Setting.Task] {
-        setting.tasks.filter { $0.type == 11 || $0.type == 13 }
+        setting.tasks.filter { $0.taskType?.isLiberation == true }
     }
     
-    var isExtractType: Bool { !extractTasks.isEmpty }
-    var isEradicateType: Bool { !eradicateTasks.isEmpty }
-    var isDefenseType: Bool    { !defenseTasks.isEmpty }
-    var isNetQuantityType: Bool { !netQuantityTasks.isEmpty }
-    var isLiberationType: Bool  { !liberationTasks.isEmpty }
-    var isMissionExtractType: Bool { !missionExtractTasks.isEmpty }
+    var isExtractType: Bool { hasTasks(ofType: .extract) }
+    var isEradicateType: Bool { hasTasks(ofType: .eradicate) }
+    var isDefenseType: Bool { hasTasks(ofType: .defense) }
+    var isNetQuantityType: Bool { hasTasks(ofType: .netQuantity) }
+    var isLiberationType: Bool { !liberationTasks.isEmpty }
+    var isMissionExtractType: Bool { hasTasks(ofType: .missionExtract) }
     
     // cooked code, uses the adaptive descriptions developed for personal orders
     // this type actually needs iur adaptive setting task descriptions
@@ -218,25 +215,17 @@ struct Setting: Decodable {
         let values: [Int64]
         let valueTypes: [Int]
         
-        private var parsedValues: [Int: Int64] {
-            var result: [Int: Int64] = [:]
-            for (index, valueType) in valueTypes.enumerated() {
-                guard index < values.count else { break }
-                result[valueType] = values[index]
-            }
-            return result
-        }
-        
         // for planet location or sector
         private var locationName: AttributedString? {
-            let locationType = parsedValues[11] ?? 1
-            let locationIndex = parsedValues[12] ?? 0
+            let locationType = value(for: .locationType)
+            let locationIndex = value(for: .planetIndex)
             
             if locationType == 2, let sector = sectorLookup[locationIndex] {
                 var text = AttributedString("in the \(sector.name) sector")
                 text.foregroundColor = .yellow
                 return text
-            } else if locationType == 1, let planet = planetPositionLookup[locationIndex] {
+            } else if locationType == 1 || locationType == 0, locationIndex > 0,
+                      let planet = planetPositionLookup[locationIndex] {
                 var text = AttributedString("on \(planet.name)")
                 text.foregroundColor = .yellow
                 return text
@@ -248,73 +237,70 @@ struct Setting: Decodable {
         var description: AttributedString {
             var text = AttributedString("")
             
-            let data = parsedValues
-            
-            //defaults to 0 if missing
-                    let raceId      = data[1]  ?? 0  // "faction" or "race" ID
-                    let planetIndex = data[12] ?? 0  // planet index
-                    let goal        = data[3]  ?? 0  // "goal" (e.g. kill count, extract count)
-                    let unitId      = data[4]  ?? 0  // enemy / unit ID
-                    let itemId      = data[5]  ?? 0  // item ID
+            let raceId      = value(for: .raceId)
+            let planetIndex = value(for: .planetIndex)
+            let goal        = value(for: .goal)
+            let unitId      = value(for: .unitId)
+            let itemId      = value(for: .itemId)
                     
-            switch type {
-                case 2: // extract
-                    text += AttributedString("Extract ")
-                    
-                    if goal > 0 {
-                        var goalText = AttributedString("\(goal)")
-                        goalText.foregroundColor = .yellow
-                        text += goalText + " "
-                    }
-                    
-                    if itemId > 0 {
-                        let itemName = OrderItemsDictionary[itemId] ?? "item #\(itemId)"
-                        var itemText = AttributedString(itemName)
-                        itemText.foregroundColor = .yellow
-                        text += itemText + " "
-                    }
-                    
+            switch taskType {
+            case .extract:
+                text += AttributedString("Extract ")
+                
+                if goal > 0 {
+                    var goalText = AttributedString("\(goal)")
+                    goalText.foregroundColor = .yellow
+                    text += goalText + " "
+                }
+                
+                if itemId > 0 {
+                    let itemName = OrderItemsDictionary[itemId] ?? "item #\(itemId)"
+                    var itemText = AttributedString(itemName)
+                    itemText.foregroundColor = .yellow
+                    text += itemText + " "
+                }
+                
                 if let location = locationName {
                     text += location
                 }
-                    
-                case 3: // eradicate
-                    text += AttributedString("Kill ")
-                    
-                    if goal > 0 {
-                        var goalText = AttributedString("\(goal)")
-                        goalText.foregroundColor = .yellow
-                        text += goalText + " "
-                    }
-                    
-                    if unitId > 0 {
-                        let name = UnitNamesDictionary[unitId] ?? "unit #\(unitId)"
-                        var unitText = AttributedString(name)
-                        unitText.foregroundColor = .yellow
-                        text += unitText
-                    } else if raceId > 0 {
-                        let faction = Faction(id: raceId)
-                        var factionText = AttributedString(faction.displayName)
-                        factionText.foregroundColor = faction.color
-                                text += factionText
-                            } else {
-                                text += AttributedString("enemies")
-                            }
-                    
-                    if itemId > 0 {
-                        let itemName = OrderItemsDictionary[itemId] ?? "item #\(itemId)"
-                        var itemText = AttributedString(" using the \(itemName)")
-                        itemText.foregroundColor = .yellow
-                        text += itemText
-                    }
-                    
-                    if planetIndex > 0, let planetPos = planetPositionLookup[planetIndex] {
-                        var planetText = AttributedString(" on \(planetPos.name)")
-                        planetText.foregroundColor = .yellow
-                        text += planetText
-                    }
                 
-            case 4: // secondary objs
+            case .eradicate:
+                text += AttributedString("Kill ")
+                
+                if goal > 0 {
+                    var goalText = AttributedString("\(goal)")
+                    goalText.foregroundColor = .yellow
+                    text += goalText + " "
+                }
+                
+                if unitId > 0 {
+                    let name = UnitNamesDictionary[unitId] ?? "unit #\(unitId)"
+                    var unitText = AttributedString(name)
+                    unitText.foregroundColor = .yellow
+                    text += unitText
+                } else if raceId > 0 {
+                    let faction = Faction(id: raceId)
+                    var factionText = AttributedString(faction.displayName)
+                    factionText.foregroundColor = faction.color
+                    text += factionText
+                } else {
+                    text += AttributedString("enemies")
+                }
+                
+                if itemId > 0 {
+                    let itemName = OrderItemsDictionary[itemId] ?? "item #\(itemId)"
+                    var itemText = AttributedString(" using the \(itemName)")
+                    itemText.foregroundColor = .yellow
+                    text += itemText
+                }
+                
+                if planetIndex > 0, let planetPos = planetPositionLookup[planetIndex] {
+                    var planetText = AttributedString(" on \(planetPos.name)")
+                    planetText.foregroundColor = .yellow
+                    text += planetText
+                }
+                
+            case .secondaryObjective:
                 text += AttributedString("Complete ")
                 
                 if goal > 0 {
@@ -324,34 +310,32 @@ struct Setting: Decodable {
                 }
                 
                 text += AttributedString("secondary objectives")
-                    
-                case 7: // successful mission extracts
-                    text += AttributedString("Extract from a successful mission ")
-                    
-                    if goal > 0 {
-                        var goalText = AttributedString("\(goal) time" + (goal > 1 ? "s" : ""))
-                        goalText.foregroundColor = .yellow
-                        text += goalText
-                    }
-                    
+                
+            case .missionExtract:
+                text += AttributedString("Extract from a successful mission ")
+                
+                if goal > 0 {
+                    var goalText = AttributedString("\(goal) time" + (goal > 1 ? "s" : ""))
+                    goalText.foregroundColor = .yellow
+                    text += goalText
+                }
+                
                 if raceId > 0 {
                     let faction = Faction(id: raceId)
                     var factionText = AttributedString(" against \(faction.displayName)")
                     factionText.foregroundColor = faction.color
                     text += factionText
                 }
-                    
-                    if planetIndex > 0, let planetPos = planetPositionLookup[planetIndex] {
-                        var planetText = AttributedString(" on \(planetPos.name)")
-                        planetText.foregroundColor = .yellow
-                        text += planetText
-                    }
                 
+                if planetIndex > 0, let planetPos = planetPositionLookup[planetIndex] {
+                    var planetText = AttributedString(" on \(planetPos.name)")
+                    planetText.foregroundColor = .yellow
+                    text += planetText
+                }
                 
-            case 12: // defend
+            case .defense:
                 text += AttributedString("Defend ")
 
-                // planet name
                 if planetIndex > 0, let planetPos = planetPositionLookup[planetIndex] {
                     var planetText = AttributedString(planetPos.name)
                     planetText.foregroundColor = .yellow
@@ -360,7 +344,6 @@ struct Setting: Decodable {
                 
                 text += AttributedString("against ")
                 
-                // number of attacks
                 if goal > 0 {
                     var goalText = AttributedString("\(goal) attack" + (goal > 1 ? "s" : ""))
                     goalText.foregroundColor = .yellow
@@ -369,7 +352,6 @@ struct Setting: Decodable {
                     text += AttributedString("an attack from ")
                 }
                 
-                // enemy / faction
                 if raceId > 0 {
                     let faction = Faction(id: raceId)
                     var factionText = AttributedString(faction.displayName)
@@ -378,10 +360,13 @@ struct Setting: Decodable {
                 } else {
                     text += AttributedString("an unknown enemy")
                 }
-                    
-                default:
-                    text += AttributedString("Task type \(type) not handled! Contact the dev.")
-                }
+                
+            case .none:
+                text += AttributedString("Task type \(type) not handled! Contact the dev.")
+                
+            default:
+                text += AttributedString("Task type \(type) not handled! Contact the dev.")
+            }
             return text
         }
             
