@@ -119,7 +119,7 @@ struct SpaceStationView: View {
 }
 
 struct TacticalActionView: View {
-    let tacticalAction: TacticalAction
+    let tacticalAction: SpaceStationTacticalAction
     var warTime: Int64? = nil
     let showFullInfo: Bool
     
