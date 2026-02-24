@@ -45,28 +45,28 @@ struct MajorOrderProvider: TimelineProvider {
             var finalOrderType: TaskType?
             
             if let mo = majorOrder {
-                if mo.isEradicateType, let firstErad = mo.eradicationProgress?.first {
+                if let firstErad = mo.eradicationProgress?.first {
                     finalTaskProgress = firstErad.progress
                     finalProgressString = firstErad.progressString
                     finalProgress = firstErad.progress
                     finalOrderType = .eradicate
                 }
-                else if mo.isDefenseType, let firstDef = mo.defenseProgress?.first {
+                else if let firstDef = mo.defenseProgress?.first {
                     finalTaskProgress = firstDef.progress
                     finalProgressString = firstDef.progressString
                     finalProgress = firstDef.progress
                     finalOrderType = .defense
                 }
-                else if mo.isNetQuantityType, let firstNet = mo.netQuantityProgress?.first {
+                else if let firstNet = mo.netQuantityProgress?.first {
                     finalTaskProgress = firstNet.progress
                     finalProgressString = firstNet.progressString
                     finalProgress = firstNet.progress
                     finalOrderType = .netQuantity
                 }
-                else if mo.isLiberationType {
+                else if mo.hasLiberationTasks {
                     finalOrderType = .liberation
                 }
-                else if mo.isMissionExtractType, let firstExtract = mo.missionExtractProgress?.first {
+                else if let firstExtract = mo.missionExtractProgress?.first {
                     finalTaskProgress = firstExtract.progress
                     finalProgressString = firstExtract.progressString
                     finalProgress = firstExtract.progress

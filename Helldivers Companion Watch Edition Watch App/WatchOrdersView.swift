@@ -31,7 +31,7 @@ struct WatchOrdersView: View {
                                 .multilineTextAlignment(.center)
                                 .font(Font.custom("FSSinclair", size: 16))
 
-                            if mo.isEradicateType, let eradicationProgresses = mo.eradicationProgress {
+                            if let eradicationProgresses = mo.eradicationProgress {
                                 ForEach(eradicationProgresses.indices, id: \.self) { index in
                                     let progressData = eradicationProgresses[index]
                                     MajorOrderBarProgressView(
@@ -42,7 +42,7 @@ struct WatchOrdersView: View {
                                 }
                             }
 
-                            if mo.isDefenseType, let defenseProgresses = mo.defenseProgress {
+                            if let defenseProgresses = mo.defenseProgress {
                                 ForEach(defenseProgresses.indices, id: \.self) { index in
                                     let progressData = defenseProgresses[index]
                                     MajorOrderBarProgressView(
@@ -53,7 +53,7 @@ struct WatchOrdersView: View {
                                 }
                             }
 
-                            if mo.isNetQuantityType, let netQuantityProgresses = mo.netQuantityProgress {
+                            if let netQuantityProgresses = mo.netQuantityProgress {
                                 ForEach(netQuantityProgresses.indices, id: \.self) { index in
                                     let progressData = netQuantityProgresses[index]
                                     TaskStatusView(
@@ -71,7 +71,7 @@ struct WatchOrdersView: View {
                                 }
                             }
 
-                            if mo.isLiberationType, !viewModel.updatedTaskPlanets.isEmpty {
+                            if mo.hasLiberationTasks, !viewModel.updatedTaskPlanets.isEmpty {
                                 TasksView(taskPlanets: viewModel.updatedTaskPlanets)
                             }
 

@@ -55,7 +55,7 @@ struct MajorOrder: Decodable {
     let expiresIn: Int64 // this must be int64 to run on watchOS!
     let setting: Setting
     
-    // MARK: - Task filtering via TaskType enum (no more magic numbers)
+    // MARK: - Task filtering via TaskType enum
     
     func tasks(ofType type: TaskType) -> [Setting.Task] {
         setting.tasks.filter { $0.taskType == type }
@@ -65,47 +65,29 @@ struct MajorOrder: Decodable {
         setting.tasks.contains { $0.taskType == type }
     }
     
-    var extractTasks: [Setting.Task] { tasks(ofType: .extract) }
-    var eradicateTasks: [Setting.Task] { tasks(ofType: .eradicate) }
-    var missionExtractTasks: [Setting.Task] { tasks(ofType: .missionExtract) }
-    var defenseTasks: [Setting.Task] { tasks(ofType: .defense) }
-    var netQuantityTasks: [Setting.Task] { tasks(ofType: .netQuantity) }
-    var liberationTasks: [Setting.Task] {
-        setting.tasks.filter { $0.taskType?.isLiberation == true }
+    var hasLiberationTasks: Bool {
+        setting.tasks.contains { $0.taskType?.isLiberation == true }
     }
     
-    var isExtractType: Bool { hasTasks(ofType: .extract) }
-    var isEradicateType: Bool { hasTasks(ofType: .eradicate) }
-    var isDefenseType: Bool { hasTasks(ofType: .defense) }
-    var isNetQuantityType: Bool { hasTasks(ofType: .netQuantity) }
-    var isLiberationType: Bool { !liberationTasks.isEmpty }
-    var isMissionExtractType: Bool { hasTasks(ofType: .missionExtract) }
-    
-    // cooked code, uses the adaptive descriptions developed for personal orders
-    // this type actually needs iur adaptive setting task descriptions
     var extractionProgress: [(description: AttributedString, progress: Double, progressString: String)]? {
-        guard isExtractType else { return nil }
-        return extractTasks.compactMap { task in
-            guard let taskindex = setting.tasks.firstIndex(of: task),
-                  let currentProgress = progress[safe: taskindex],
+        guard hasTasks(ofType: .extract) else { return nil }
+        return tasks(ofType: .extract).compactMap { task in
+            guard let taskIndex = setting.tasks.firstIndex(of: task),
+                  let currentProgress = progress[safe: taskIndex],
                   let totalGoal = task.values[safe: 2]
             else {
                 return nil
             }
             
-            let taskDescription = task.description
-            
             let progressValue = Double(currentProgress) / Double(totalGoal)
             let progressString = "\(currentProgress)/\(totalGoal)"
-            return (taskDescription, progressValue, progressString)
+            return (task.description, progressValue, progressString)
         }
     }
     
-    // if a mission extraction order
-    
     var missionExtractProgress: [(description: AttributedString, progress: Double, progressString: String)]? {
-        guard isMissionExtractType else { return nil }
-        return missionExtractTasks.compactMap { task in
+        guard hasTasks(ofType: .missionExtract) else { return nil }
+        return tasks(ofType: .missionExtract).compactMap { task in
             guard let taskIndex = setting.tasks.firstIndex(of: task),
                   let currentProgress = progress[safe: taskIndex],
                   let totalGoal = task.values[safe: 2] else {
@@ -118,12 +100,9 @@ struct MajorOrder: Decodable {
         }
     }
     
-    // if an eradication type major order
-    
     var eradicationProgress: [(progress: Double, progressString: String)]? {
-        guard isEradicateType else { return nil }
-        return eradicateTasks.compactMap { task in
-            // find the index of this task in `setting.tasks` to match against `progress`
+        guard hasTasks(ofType: .eradicate) else { return nil }
+        return tasks(ofType: .eradicate).compactMap { task in
             guard let taskIndex = setting.tasks.firstIndex(of: task),
                   let currentProgress = progress[safe: taskIndex],
                   let totalGoal = task.values[safe: 2]
@@ -138,8 +117,8 @@ struct MajorOrder: Decodable {
     }
     
     var defenseProgress: [(progress: Double, progressString: String)]? {
-        guard isDefenseType else { return nil }
-        return defenseTasks.compactMap { task in
+        guard hasTasks(ofType: .defense) else { return nil }
+        return tasks(ofType: .defense).compactMap { task in
             guard let taskIndex = setting.tasks.firstIndex(of: task),
                   let currentProgress = progress[safe: taskIndex],
                   let totalGoal = task.values.first
@@ -154,8 +133,8 @@ struct MajorOrder: Decodable {
     }
     
     var netQuantityProgress: [(progress: Double, progressString: String)]? {
-        guard isNetQuantityType else { return nil }
-        return netQuantityTasks.compactMap { task in
+        guard hasTasks(ofType: .netQuantity) else { return nil }
+        return tasks(ofType: .netQuantity).compactMap { task in
             guard let taskIndex = setting.tasks.firstIndex(of: task),
                   let currentProgress = progress[safe: taskIndex]
             else {
@@ -170,12 +149,12 @@ struct MajorOrder: Decodable {
         }
     }
     
-    
     var faction: Faction? {
-        if isEradicateType, let factionIndex = eradicateTasks.first?.values[safe: 0] {
-            return Faction(rawValue: factionIndex) ?? .unknown
-        } else if isDefenseType, let factionIndex = defenseTasks.first?.values[safe: 1] {
-            return Faction(rawValue: factionIndex) ?? .unknown
+        if let first = tasks(ofType: .eradicate).first {
+            return Faction(rawValue: first.value(for: .raceId)) ?? .unknown
+        } else if let first = tasks(ofType: .defense).first {
+            // defense tasks store faction at values[1], which maps to raceId via valueTypes
+            return Faction(rawValue: first.value(for: .raceId)) ?? .unknown
         } else {
             return nil
         }

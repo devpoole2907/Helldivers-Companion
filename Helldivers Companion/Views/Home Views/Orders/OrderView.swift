@@ -48,7 +48,7 @@ struct OrderView: View {
                             .padding(5)
                             .multilineTextAlignment(.center)
 
-                        if mo.isExtractType, let extractionProgress = mo.extractionProgress {
+                        if let extractionProgress = mo.extractionProgress {
                             ForEach(extractionProgress.indices, id: \.self) { index in
                                 let progressData = extractionProgress[index]
                                 VStack(spacing: 2){
@@ -65,7 +65,7 @@ struct OrderView: View {
                             }
                         }
 
-                        if mo.isEradicateType, let eradicationProgresses = mo.eradicationProgress {
+                        if let eradicationProgresses = mo.eradicationProgress {
                             ForEach(eradicationProgresses.indices, id: \.self) { index in
                                 let progressData = eradicationProgresses[index]
                                 MajorOrderBarProgressView(
@@ -76,10 +76,11 @@ struct OrderView: View {
                             }
                         }
 
-                        if mo.isDefenseType, let defenseProgresses = mo.defenseProgress {
+                        if let defenseProgresses = mo.defenseProgress {
+                            let defenseTasks = mo.tasks(ofType: .defense)
                             ForEach(defenseProgresses.indices, id: \.self) { index in
                                 let progressData = defenseProgresses[index]
-                                let taskDescription = mo.defenseTasks[index].description
+                                let taskDescription = defenseTasks[index].description
                                 VStack(spacing: 2) {
                                     Text(taskDescription)
                                         .font(Font.custom("FSSinclair-Bold", size: smallFont))
@@ -94,7 +95,7 @@ struct OrderView: View {
                             }
                         }
 
-                        if mo.isNetQuantityType, let netQuantityProgresses = mo.netQuantityProgress {
+                        if let netQuantityProgresses = mo.netQuantityProgress {
                             ForEach(netQuantityProgresses.indices, id: \.self) { index in
                                 let progressData = netQuantityProgresses[index]
                                 TaskStatusView(
@@ -112,11 +113,11 @@ struct OrderView: View {
                             }
                         }
 
-                        if mo.isLiberationType, !viewModel.updatedTaskPlanets.isEmpty {
+                        if mo.hasLiberationTasks, !viewModel.updatedTaskPlanets.isEmpty {
                             TasksView(taskPlanets: viewModel.updatedTaskPlanets)
                         }
 
-                        if mo.isMissionExtractType, let missionExtractProgresses = mo.missionExtractProgress {
+                        if let missionExtractProgresses = mo.missionExtractProgress {
                             ForEach(missionExtractProgresses.indices, id: \.self) { index in
                                 let progressData = missionExtractProgresses[index]
                                 VStack(spacing: 2){
