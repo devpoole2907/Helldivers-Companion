@@ -205,7 +205,7 @@ struct CampaignPlanetStatsView: View {
                                     .foregroundStyle(.white).bold()
                                     .font(Font.custom("FSSinclair", size: showExtraStats ? mediumFont : smallFont))
                                     .multilineTextAlignment(.leading)
-                                if isWidget && !showExtraStats, let _ = eventExpirationTime {
+                                if isWidget && !showExtraStats,eventExpirationTime != nil {
                                     Spacer()
                                 }
                             }

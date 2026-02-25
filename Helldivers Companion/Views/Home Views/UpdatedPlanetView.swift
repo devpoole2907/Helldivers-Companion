@@ -93,7 +93,7 @@ struct UpdatedPlanetView: View {
         
         // super broken way of using fleet stremgth progress but whatever we got 3 weeks off soon to work on this shit
         
-        if defenseCampaign?.planet.event?.eventType == 3, let _ = viewModel.fleetStrengthResource {
+        if defenseCampaign?.planet.event?.eventType == 3, viewModel.fleetStrengthResource != nil {
             return (1.0 - viewModel.fleetStrengthProgress) * 100
         }
        
@@ -402,7 +402,7 @@ struct UpdatedPlanetView: View {
                             
                             Image("diver").resizable().aspectRatio(contentMode: .fit)
                                 .frame(width: 16, height: 16)
-                            Text("\(planet?.statistics.playerCount)").textCase(.uppercase)
+                            Text("\(planet?.statistics.playerCount ?? 0)").textCase(.uppercase)
                                 .foregroundStyle(.white).bold()
                                 .font(Font.custom("FSSinclair", size: smallFont))
                                 .padding(.top, 3)

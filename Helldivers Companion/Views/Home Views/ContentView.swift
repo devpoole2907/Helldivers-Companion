@@ -61,7 +61,7 @@ struct ContentView: View {
                                 .padding(.horizontal)
                         }
                         
-                        if let _ = viewModel.fleetStrengthResource {
+                        if viewModel.fleetStrengthResource != nil {
                             fleetView
                         }
                         
@@ -105,7 +105,7 @@ struct ContentView: View {
                              
                              }*/
                             
-                            if let _ = viewModel.fleetStrengthResource {
+                            if viewModel.fleetStrengthResource != nil {
                                 fleetView
                             }
                             
