@@ -108,7 +108,7 @@ struct PlanetInfoView: View {
         
         // super broken way of using fleet stremgth progress but whatever we got 3 weeks off soon to work on this shit
         
-        if defenseCampaign?.planet.event?.eventType == 3, let _ = viewModel.fleetStrengthResource {
+        if defenseCampaign?.planet.event?.eventType == 3, viewModel.fleetStrengthResource != nil {
             return (1.0 - viewModel.fleetStrengthProgress) * 100
         }
         
@@ -163,7 +163,7 @@ struct PlanetInfoView: View {
             viewModel.selectedPlanet = planet
             viewModel.popMapToRoot.send()
             
-        }){
+        }, label: {
             HStack(spacing: 6){
                 Image(systemName: "mappin.and.ellipse")
                     .bold()
@@ -175,7 +175,7 @@ struct PlanetInfoView: View {
             }
             
             
-        }.padding(.horizontal)
+        }).padding(.horizontal)
             .padding(.vertical, 5)
             .frame(height: 40)
             .background(Material.thin)
@@ -255,13 +255,24 @@ struct PlanetInfoView: View {
                                     .shadow(radius: 5.0)
                                 
                             }
-                            CampaignPlanetStatsView(liberation: liberationPercentage ?? 0.0, liberationType: liberationType, planetName: planet?.name, planet: planet, playerCount: planet?.statistics.playerCount, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, campaignType: campaignType)
-                                .shadow(radius: 5.0)
+                            CampaignPlanetStatsView(
+                                liberation: liberationPercentage ?? 0.0,
+                                liberationType: liberationType,
+                                planetName: planet?.name,
+                                planet: planet,
+                                playerCount: planet?.statistics.playerCount,
+                                eventExpirationTime: eventExpirationTime,
+                                invasionLevel: eventInvasionLevel,
+                                maxHealth: eventMaxHealth,
+                                health: eventHealth,
+                                campaignType: campaignType
+                            )
+                            .shadow(radius: 5.0)
                         }
                         
                     } else {
                         
-                        if let _ = planet?.biome.name {
+                        if planet?.biome.name != nil {
                             biomeDescription
                             
                         }
@@ -281,7 +292,7 @@ struct PlanetInfoView: View {
                             
                         }
                         
-                        if let _ = planet?.statistics {
+                        if planet?.statistics != nil {
                             statsList
                         }
                         

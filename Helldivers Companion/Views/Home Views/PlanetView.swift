@@ -21,18 +21,18 @@ struct PlanetView: View {
     var liberation = 24.13020
     var rate = 0.0
     var playerCount: Int64 = 347246
-    var planet: UpdatedPlanet? = nil
+    var planet: UpdatedPlanet?
     var showHistory = true
     var showImage = true
     var showExtraStats = true
     var liberationType: LiberationType = .liberation
     var isWidget = false
     
-    var eventExpirationTime: Date? = nil // for defense events
-    var spaceStationExpirationTime: Date? = nil
-    var eventInvasionLevel: Int64? = nil
-    var eventHealth: Int64? = nil
-    var eventMaxHealth: Int64? = nil
+    var eventExpirationTime: Date? // for defense events
+    var spaceStationExpirationTime: Date?
+    var eventInvasionLevel: Int64?
+    var eventHealth: Int64?
+    var eventMaxHealth: Int64?
     
     var isInMapView = false // map view uses navigation view not navigationstack, due to the zoomable package/modifier not working in stack. so this is a workaround that allows us to change the navigationlink styling to the older deprecated way if we are in the map view
     
@@ -354,7 +354,7 @@ struct HistoryChart: View {
     @EnvironmentObject var viewModel: PlanetsDataModel
     var liberationType: LiberationType
     var planetData: [UpdatedPlanetDataPoint]
-    @State private var chartSelection: Date? = nil
+    @State private var chartSelection: Date?
     @State var chartType: ChartType = .players
     var factionColor: Color
     
@@ -402,7 +402,7 @@ struct HistoryChart: View {
                     chartLineMark(for: dataPoint, planet)
                     
                     if let chartSelection = chartSelection, Calendar.current.isDate(chartSelection, equalTo: dataPoint.timestamp, toGranularity: .minute) {
-                        chartRuleMark(for: dataPoint, planet)
+                        chartRuleMark(for: dataPoint, planet, selection: chartSelection)
                     }
                 }
             }
@@ -413,7 +413,7 @@ struct HistoryChart: View {
         
         .chartOverlayiOS16 { proxy in
             
-            GeometryReader { innerProxy in
+            GeometryReader { _ in
                 
                 Rectangle()
                     .fill(.clear).contentShape(Rectangle())
@@ -433,7 +433,7 @@ struct HistoryChart: View {
                                 }
                                 
                                 
-                            } .onEnded{ value in
+                            } .onEnded{ _ in
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                                     withAnimation(.easeInOut(duration: 0.2)) {
@@ -486,9 +486,9 @@ struct HistoryChart: View {
     }
     
     
-    private func chartRuleMark(for dataPoint: UpdatedPlanetDataPoint, _ planet: UpdatedPlanet) -> some ChartContent {
+    private func chartRuleMark(for dataPoint: UpdatedPlanetDataPoint, _ planet: UpdatedPlanet, selection: Date) -> some ChartContent {
         
-        let ruleMark = RuleMark(x: .value("Time", chartSelection!))
+        let ruleMark = RuleMark(x: .value("Time", selection))
         let annotationValue = chartType != .players ? "\(String(format: "%.2f%%", planet.event?.percentage ?? planet.percentage))" : "\(planet.statistics.playerCount)"
         
         let annotationView = ChartAnnotationView(factionColor: factionColor, value: annotationValue, date: dataPoint.timestamp.formatted(date: .omitted, time: .shortened))
@@ -510,4 +510,3 @@ struct HistoryChart: View {
     }
     
 }
-

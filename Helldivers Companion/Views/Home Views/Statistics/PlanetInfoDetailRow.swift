@@ -9,7 +9,7 @@ import SwiftUI
 @available(watchOS 9.0, *)
 struct PlanetInfoDetailRow: View {
     
-    var planet: UpdatedPlanet? = nil
+    var planet: UpdatedPlanet?
     
     private var formattedPlanetImageName: String {
         
@@ -93,4 +93,3 @@ struct PlanetInfoDetailRow: View {
   
     }
 }
-

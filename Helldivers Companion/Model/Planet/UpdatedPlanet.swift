@@ -34,10 +34,10 @@ struct UpdatedPlanet: Decodable, Hashable {
     var regenPerSecond: Double
     var event: UpdatedPlanetEvent?
     var statistics: UpdatedPlanetStatistics
-    var regions: [Region]? = nil
+    var regions: [Region]?
     
     // galactic effects
-    var galacticEffects: [GalacticEffect]? = nil
+    var galacticEffects: [GalacticEffect]?
     
     // return the event or the liberation percent
     var planetProgressPercent: Double {
@@ -49,7 +49,7 @@ struct UpdatedPlanet: Decodable, Hashable {
         maxHealth > 0 ? (1 - (Double(health) / Double(maxHealth))) * 100 : 0
     }
     // if its associated with major order, put its task progress here
-    var taskProgress: Int64? = nil
+    var taskProgress: Int64?
     
     var faction: Faction {
         if let eventFaction = event?.faction, !eventFaction.isEmpty {

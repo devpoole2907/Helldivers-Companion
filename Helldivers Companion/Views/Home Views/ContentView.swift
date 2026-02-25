@@ -37,7 +37,7 @@ struct ContentView: View {
     
     let columns = [
         GridItem(.flexible()),
-        GridItem(.flexible()),
+        GridItem(.flexible())
        ]
     
     var fleetView: some View {
@@ -302,5 +302,3 @@ struct ContentView: View {
     
     
 }
-
-

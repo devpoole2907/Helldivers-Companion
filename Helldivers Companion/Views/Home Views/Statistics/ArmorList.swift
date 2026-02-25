@@ -225,7 +225,7 @@ struct ArmourDetailRow: View {
     let dashPattern: [CGFloat]
     let armour: Armour
     var showWarBondName = true
-    var cost: Int? = nil
+    var cost: Int?
     
     var body: some View {
         
@@ -235,8 +235,8 @@ struct ArmourDetailRow: View {
             
             HStack {
                 
-                if UIImage(named: armour.id) != nil {
-                    Image(uiImage: UIImage(named: armour.id)!)
+                if let armourImage = UIImage(named: armour.id) {
+                    Image(uiImage: armourImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 30, height: 30)

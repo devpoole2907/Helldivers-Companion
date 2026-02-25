@@ -18,12 +18,12 @@ struct MajorOrderProvider: TimelineProvider {
         MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil, progress: nil, orderType: nil)
     }
     
-    func getSnapshot(in context: Context, completion: @escaping (MajorOrderEntry) -> ()) {
+    func getSnapshot(in context: Context, completion: @escaping (MajorOrderEntry) -> Void) {
         let entry = MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil, progress: nil, orderType: nil)
         completion(entry)
     }
     
-    func getTimeline(in context: Context, completion: @escaping (Timeline<MajorOrderEntry>) -> ()) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<MajorOrderEntry>) -> Void) {
         let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/currentPlanets.json"
         
         Task {
@@ -50,23 +50,19 @@ struct MajorOrderProvider: TimelineProvider {
                     finalProgressString = firstErad.progressString
                     finalProgress = firstErad.progress
                     finalOrderType = .eradicate
-                }
-                else if let firstDef = mo.defenseProgress?.first {
+                } else if let firstDef = mo.defenseProgress?.first {
                     finalTaskProgress = firstDef.progress
                     finalProgressString = firstDef.progressString
                     finalProgress = firstDef.progress
                     finalOrderType = .defense
-                }
-                else if let firstNet = mo.netQuantityProgress?.first {
+                } else if let firstNet = mo.netQuantityProgress?.first {
                     finalTaskProgress = firstNet.progress
                     finalProgressString = firstNet.progressString
                     finalProgress = firstNet.progress
                     finalOrderType = .netQuantity
-                }
-                else if mo.hasLiberationTasks {
+                } else if mo.hasLiberationTasks {
                     finalOrderType = .liberation
-                }
-                else if let firstExtract = mo.missionExtractProgress?.first {
+                } else if let firstExtract = mo.missionExtractProgress?.first {
                     finalTaskProgress = firstExtract.progress
                     finalProgressString = firstExtract.progressString
                     finalProgress = firstExtract.progress
@@ -107,7 +103,7 @@ struct MajorOrderEntry: TimelineEntry {
     let orderType: TaskType?
 }
 
-struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
+struct Helldivers_Companion_Major_Order_WidgetEntryView: View {
     
     @Environment(\.widgetFamily) var widgetFamily
     @Environment(\.widgetRenderingMode) var widgetRenderingMode
@@ -124,7 +120,7 @@ struct Helldivers_Companion_Major_Order_WidgetEntryView : View {
             
                 .padding(.leading, 5)
                 .padding(.vertical, 2)
-            //background breaks the watch version
+            // background breaks the watch version
 #if os(iOS)
                 .background(in: RoundedRectangle(cornerRadius: 5.0))
 #endif
@@ -244,7 +240,7 @@ struct OrdersWidgetView: View {
                             .padding(5)
                             .padding(.horizontal)
                     }
-                    if let majorOrderTimeRemaining = timeRemaining,  majorOrderTimeRemaining > 0 {
+                    if let majorOrderTimeRemaining = timeRemaining, majorOrderTimeRemaining > 0 {
                         OrderTimeView(timeRemaining: majorOrderTimeRemaining, isWidget: true)
                             .padding(.bottom, widgetFamily != .systemMedium ? 6 : 0)
                             .minimumScaleFactor(0.7)

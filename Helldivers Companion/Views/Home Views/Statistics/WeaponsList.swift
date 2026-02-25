@@ -153,13 +153,13 @@ struct ItemDetailRowView: View {
             
             HStack {
                 // Display item image if exists
-                if UIImage(named: item.name) != nil {
-                    Image(uiImage: UIImage(named: item.name)!)
+                if let uiImage = UIImage(named: item.name) {
+                    Image(uiImage: uiImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 30, height: 30)
-                } else if UIImage(named: item.id) != nil {
-                    Image(uiImage: UIImage(named: item.id)!)
+                } else if let uiImage = UIImage(named: item.id) {
+                    Image(uiImage: uiImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 30, height: 30)
@@ -241,4 +241,3 @@ struct ItemDetailRowView: View {
         }
     }
 }
-

@@ -18,12 +18,12 @@ struct Provider: TimelineProvider {
         NewsItemEntry(date: Date(), title: "Automaton Counterattack", description: "Intercepted messages indicate bot plans for a significant push. Increased resistance on Automaton planets is anticipated.", published: 4444974)
     }
     
-    func getSnapshot(in context: Context, completion: @escaping (NewsItemEntry) -> ()) {
+    func getSnapshot(in context: Context, completion: @escaping (NewsItemEntry) -> Void) {
         let entry = NewsItemEntry(date: Date(), title: "Automaton Counterattack", description: "Intercepted messages indicate bot plans for a significant push. Increased resistance on Automaton planets is anticipated.", published: 4444974)
         completion(entry)
     }
     
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         
         
         Task {
@@ -95,11 +95,11 @@ struct NewsItemEntry: TimelineEntry {
     let title: String?
     let description: String
     let published: UInt32
-    var configData: RemoteConfigDetails? = nil
+    var configData: RemoteConfigDetails?
     var warTime: Int64?
 }
 
-struct Helldivers_Companion_News_WidgetEntryView : View {
+struct Helldivers_Companion_News_WidgetEntryView: View {
     @Environment(\.widgetRenderingMode) var widgetRenderingMode
     var entry: Provider.Entry
     

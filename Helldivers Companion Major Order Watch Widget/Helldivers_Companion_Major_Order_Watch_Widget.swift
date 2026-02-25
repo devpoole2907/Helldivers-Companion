@@ -24,4 +24,3 @@ struct Helldivers_Companion_Major_Order_Watch_Widget: Widget {
         .supportedFamilies([.accessoryRectangular])
     }
 }
-

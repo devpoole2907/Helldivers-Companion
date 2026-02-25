@@ -51,17 +51,17 @@ class PlanetsDataModel: ObservableObject {
     
     @Published var currentSeason: String = ""
     @Published var majorOrders: [MajorOrder] = []
-    @Published var personalOrder: PersonalOrder? = nil
-    @Published var galaxyStats: GalaxyStats? = nil
+    @Published var personalOrder: PersonalOrder?
+    @Published var galaxyStats: GalaxyStats?
     @Published var lastUpdatedDate: Date = Date()
     
     @Published var showIlluminateUI: Bool = false
     
     @Published var redactedShakeTimes = 0  // for redacting illuminate info animation
     
-    @Published var selectedPlanet: UpdatedPlanet? = nil  // for map view selection
+    @Published var selectedPlanet: UpdatedPlanet?  // for map view selection
     
-    @Published var status: StatusResponse? = nil // for dark energy tracking etc
+    @Published var status: StatusResponse? // for dark energy tracking etc
     
     @AppStorage("viewCount") var viewCount = 0
     
@@ -78,7 +78,7 @@ class PlanetsDataModel: ObservableObject {
     @Published var showInfo = false
     @Published var showOrders = false
     
-    //var apiAddress = "http://127.0.0.1:4000/api"
+    // var apiAddress = "http://127.0.0.1:4000/api"
     var apiAddress = "https://helldivers-2.fly.dev/api"
     
     private var timer: Timer?
@@ -334,7 +334,7 @@ class PlanetsDataModel: ObservableObject {
         } else {
             // Create a new pattern if not exists
             let newPattern = [
-                CGFloat.random(in: 50...70), CGFloat.random(in: 5...20),
+                CGFloat.random(in: 50...70), CGFloat.random(in: 5...20)
             ]
             dashPatterns[stratagem.id] = newPattern
             return newPattern
@@ -509,4 +509,3 @@ actor PlanetHistoryManager {
         return history
     }
 }
-

@@ -14,7 +14,7 @@ struct CloseButton: UIViewRepresentable {
     
     @Environment(\.dismiss) var dismiss
     
-    private var action: (() -> Void)? = nil
+    private var action: (() -> Void)?
     
     init(action: (() -> Void)? = nil) {
         self.action = action

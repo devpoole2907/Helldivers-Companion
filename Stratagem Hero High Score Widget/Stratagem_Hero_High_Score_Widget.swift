@@ -16,12 +16,12 @@ struct Provider: TimelineProvider {
         HighScoreEntry(date: Date(), highScore: 247331)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (HighScoreEntry) -> ()) {
+    func getSnapshot(in context: Context, completion: @escaping (HighScoreEntry) -> Void) {
         let entry = HighScoreEntry(date: Date(), highScore: 247331)
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         var entries: [HighScoreEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
@@ -49,7 +49,7 @@ struct HighScoreEntry: TimelineEntry {
     let highScore: Int
 }
 
-struct Stratagem_Hero_High_Score_WidgetEntryView : View {
+struct Stratagem_Hero_High_Score_WidgetEntryView: View {
     @Environment(\.widgetFamily) var widgetFamily
     
     var entry: Provider.Entry

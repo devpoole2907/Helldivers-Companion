@@ -10,8 +10,8 @@ import SwiftUI
 
 struct SpaceStationView: View {
     var spaceStationExpiration: Date
-    var spaceStationDetails: SpaceStationDetails? = nil
-    var warTime: Int64? = nil
+    var spaceStationDetails: SpaceStationDetails?
+    var warTime: Int64?
     var isWidget: Bool
     var showFullInfo: Bool = false
     
@@ -120,7 +120,7 @@ struct SpaceStationView: View {
 
 struct TacticalActionView: View {
     let tacticalAction: SpaceStationTacticalAction
-    var warTime: Int64? = nil
+    var warTime: Int64?
     let showFullInfo: Bool
     
     var costProgress: Double? {

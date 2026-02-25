@@ -75,7 +75,8 @@ struct MapSettingsPopup: CentrePopup {
                 
                     .frame(maxWidth: 200)
                 
-                Text("Several Super Earth scientists were prosecuted for the planet name feature due to its democracy shattering performance impact.").font(Font.custom("FSSinclair", size: 12))
+                Text("Several Super Earth scientists were prosecuted for the planet name feature due to its democracy shattering performance impact.")
+                    .font(Font.custom("FSSinclair", size: 12))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.gray)
                     .padding()
@@ -99,8 +100,3 @@ struct MapSettingsPopup: CentrePopup {
     
     
 }
-
-
-
-
-

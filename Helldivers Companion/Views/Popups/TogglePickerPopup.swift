@@ -77,8 +77,3 @@ struct TogglePickerPopup: CentrePopup {
     
     
 }
-
-
-
-
-

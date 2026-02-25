@@ -14,7 +14,7 @@ struct NewsItemView: View {
     
     @State private var isExpanded = false
     
-    var newsTitle: String? = nil
+    var newsTitle: String?
     var newsMessage: String = "Terminids! Automatons! EVERYWHERE!!??!!"
     var published: UInt32
     @State var configData: RemoteConfigDetails?
@@ -95,11 +95,11 @@ struct NewsItemView: View {
                 Spacer()
 #if os(iOS)
                 if !isWidget {
-                    Button(action: {
+                    Button {
                         withAnimation(.bouncy) {
                             isExpanded.toggle()
                         }
-                    }) {
+                    } label: {
                         Text(isExpanded ? "Less" : "More")
                             .foregroundStyle(.yellow)
 #if os(iOS)
@@ -110,7 +110,7 @@ struct NewsItemView: View {
                             .padding([.top, .bottom], 2)
                     }
                     .buttonStyle(PlainButtonStyle())
-                    //.frame(maxWidth: .infinity, alignment: .trailing)
+                    // .frame(maxWidth: .infinity, alignment: .trailing)
                     .transition(.opacity)
                 }
 #endif
@@ -174,4 +174,3 @@ struct NewsItemView: View {
     
     
 }
-

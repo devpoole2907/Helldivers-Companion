@@ -65,7 +65,7 @@ actor WarAPIService {
             "X-Super-Client": "WarMonitoriOS/3.1",
             "X-Application-Contact": "james@pooledigital.com",
             "X-Super-Contact": "james@pooledigital.com",
-            "Accept-Language": language ?? "",
+            "Accept-Language": language ?? ""
         ]
         
         do {
@@ -110,7 +110,7 @@ actor WarAPIService {
             "X-Super-Client": "WarMonitoriOS/3.1",
             "X-Application-Contact": "james@pooledigital.com",
             "X-Super-Contact": "james@pooledigital.com",
-            "Accept-Language": language ?? "",
+            "Accept-Language": language ?? ""
         ]
         
         do {
@@ -248,7 +248,7 @@ actor WarAPIService {
             "X-Super-Client": "WarMonitoriOS/3.1",
             "X-Application-Contact": "james@pooledigital.com",
             "X-Super-Contact": "james@pooledigital.com",
-            "Accept-Language": language ?? "",
+            "Accept-Language": language ?? ""
         ]
         
         do {

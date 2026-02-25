@@ -96,7 +96,7 @@ struct GameViewWatch: View {
                                     case .roundEnded:
                                         roundEndView
                                     case .roundStarting:
-                                        //roundEndView
+                                        // roundEndView
                                         Spacer().frame(maxHeight: 45)
                                     case .gameOver:
                                         highScoreView
@@ -265,7 +265,7 @@ struct GameViewWatch: View {
             
             
             
-            .onChange(of: viewModel.gameEndCount) { value in
+            .onChange(of: viewModel.gameEndCount) { _ in
                 
                
                 
@@ -415,7 +415,7 @@ struct GameViewWatch: View {
                 Text("\(viewModel.totalScore)").font(Font.custom("FSSinclair-Bold", size: 16))
                     .foregroundStyle(.yellow)
             }
-        }//.padding(.horizontal, 70)
+        }// .padding(.horizontal, 70)
           //  .frame(maxHeight: 90)
     }
     
@@ -553,4 +553,3 @@ struct VolumeView: WKInterfaceObjectRepresentable {
     func updateWKInterfaceObject(_ wkInterfaceObject: WKInterfaceVolumeControl, context: WKInterfaceObjectRepresentableContext<VolumeView>) {
     }
 }
-

@@ -52,7 +52,7 @@ struct GalacticEffect: Codable, Identifiable {
     }
     
     // only ones we know are:
-    //Deep Mantle Forge Complex, Center for Civilian Surveillance and Safety, Factory Hub, Xenoentomology Center, MERIDIAN BLACK HOLE
+    // Deep Mantle Forge Complex, Center for Civilian Surveillance and Safety, Factory Hub, Xenoentomology Center, MERIDIAN BLACK HOLE
     
     // we will not display anything other than these in the app for the time being
     

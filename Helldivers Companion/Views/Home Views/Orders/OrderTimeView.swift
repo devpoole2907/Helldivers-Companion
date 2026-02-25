@@ -17,8 +17,9 @@ struct OrderTimeView: View {
     var backgroundOpacity: Double {
         #if os(iOS)
             return widgetRenderingMode == .accented ? 0.2 : 1
+        #else
+            return 1
         #endif
-        return 1
     }
     
     var timeRemaining: Int64 = 0

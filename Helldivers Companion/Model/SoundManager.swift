@@ -87,9 +87,7 @@ class SoundPoolManager {
                             print("Could not load background music file: \(soundName)")
                         }
             
-        }
-        
-        else {
+        } else {
         if soundPools[soundName] == nil { // only load if it hasnt been loaded before
             var players = [AVAudioPlayer]()
             for _ in 0..<maxPlayersPerSound {
@@ -137,4 +135,3 @@ class SoundPoolManager {
     
     
 }
-

@@ -129,7 +129,7 @@ struct GalaxyMapRootView: View {
                         
                         Button(action: {
                             
-                            iOS16AlertPopup().showAndStack()
+                            IOS16AlertPopup().showAndStack()
                             
                         }){
                             Image(systemName: "exclamationmark.triangle.fill")

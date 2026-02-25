@@ -19,25 +19,25 @@ struct GalaxyMapView: View {
     
     @State private var isScaled = false // for defense planets pulsing scale
     
-    var planets: [UpdatedPlanet]?
-    var campaigns: [UpdatedCampaign]?
-    var defenseCampaigns: [UpdatedCampaign]?
+    var planets: [UpdatedPlanet] = []
+    var campaigns: [UpdatedCampaign] = []
+    var defenseCampaigns: [UpdatedCampaign] = []
     
     var isWidget: Bool = false // to use a different sector image file thats smaller than 4k x 4k (a pdf)
 
     // computed prop, either use passed planets array if a widget otherwise go straight to viewmodel's published prop
     var allPlanets: [UpdatedPlanet] {
-        return planets ?? viewModel.updatedPlanets
+        return planets.isEmpty ? viewModel.updatedPlanets : planets
     }
     
     // computed prop, either use passed campaign planets array if a widget otherwise go straight to viewmodel's published prop
     var allCampaigns: [UpdatedCampaign] {
-        return campaigns ?? viewModel.updatedCampaigns
+        return campaigns.isEmpty ? viewModel.updatedCampaigns : campaigns
     }
     
     // computed prop, either use passed defense campaign planets array if a widget otherwise go straight to viewmodel's published prop
     var allDefenseCampaigns: [UpdatedCampaign] {
-        return defenseCampaigns ?? viewModel.updatedDefenseCampaigns
+        return defenseCampaigns.isEmpty ? viewModel.updatedDefenseCampaigns : defenseCampaigns
     }
     
     @EnvironmentObject var viewModel: PlanetsDataModel
@@ -113,8 +113,8 @@ struct GalaxyMapView: View {
                             ForEach(updatedPlanet.waypoints, id: \.self) { waypointIndex in
                                 if let endPoint = boundingBoxTransformedPosition(forPlanetIndex: waypointIndex,
                                                                                  in: imageSize),
-                                   (showAllPlanets || allCampaigns.contains(where: { $0.planet.index == updatedPlanet.index || $0.planet.index == waypointIndex }) ||
-                                    allPlanets.first(where: { $0.index == updatedPlanet.index })?.ownerFaction != .human){
+                                   showAllPlanets || allCampaigns.contains(where: { $0.planet.index == updatedPlanet.index || $0.planet.index == waypointIndex }) ||
+                                    allPlanets.first(where: { $0.index == updatedPlanet.index })?.ownerFaction != .human {
                                     Path { path in
                                         path.move(to: startPoint)
                                         path.addLine(to: endPoint)
@@ -177,7 +177,7 @@ struct GalaxyMapView: View {
                     ZStack {
                         
                         // show red expanding ring around defense planets
-                        if (isDefending != nil || viewModel.updatedTaskPlanets.contains(where: { $0.index == updatedPlanet.index })) {
+                        if isDefending != nil || viewModel.updatedTaskPlanets.contains(where: { $0.index == updatedPlanet.index }) {
                             Circle()
                                 .scaleEffect(isScaled ? 2.0 : 0.8)
                                 .opacity(isScaled ? 0 : 1.0)
@@ -265,9 +265,7 @@ struct GalaxyMapView: View {
                             }
                             
                             
-                        }
-                        
-                            else if let percentage = activeCampaign?.planet.percentage {
+                        } else if let percentage = activeCampaign?.planet.percentage {
                                 let progress = percentage / 100.0
                                 
                                 CircularProgressView(progress: progress, color: updatedPlanet.factionColor)

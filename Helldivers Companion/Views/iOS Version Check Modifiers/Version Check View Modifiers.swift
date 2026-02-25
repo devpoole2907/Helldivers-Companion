@@ -69,7 +69,7 @@ extension View {
 }
 #endif
 
-struct chartXSelectioniOS17: ViewModifier {
+struct ChartXSelectioniOS17: ViewModifier {
     
     @Binding var selection: Date?
     func body(content: Content) -> some View {
@@ -86,7 +86,7 @@ struct chartXSelectioniOS17: ViewModifier {
 
 extension View {
     func chartXSelectioniOS17Modifier(_ selection: Binding<Date?>) -> some View {
-        self.modifier(chartXSelectioniOS17(selection: selection))
+        self.modifier(ChartXSelectioniOS17(selection: selection))
     }
 }
 

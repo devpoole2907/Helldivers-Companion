@@ -38,7 +38,7 @@ class WatchConnectivityProvider: NSObject, ObservableObject, WCSessionDelegate {
     
     // for apple watch to receive the high score from the ios app, update its high score if its higher on ios
     // and vice versa
-    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
+    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
         DispatchQueue.main.async {
             if let receivedHighScore = userInfo["highScore"] as? Int {
                 if receivedHighScore > self.highScore {

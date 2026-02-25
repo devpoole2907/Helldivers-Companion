@@ -203,7 +203,7 @@ struct SettingsRow: View {
     @EnvironmentObject var viewModel: PlanetsDataModel
     
     let settingTitle: String
-    var settingSubtitle: String? = nil
+    var settingSubtitle: String?
     let image: String
     var systemImage: Bool
     
@@ -289,7 +289,7 @@ struct SettingsRow: View {
                                    Triangle()
                                        .fill(Color.green)
                                        .frame(width: geometry.size.height - 2, height: geometry.size.height - 2)
-                                       .alignmentGuide(.trailing) { d in d[.trailing] }
+                                       .alignmentGuide(.trailing) { dims in dims[.trailing] }
                                    
                                    Image(systemName: "checkmark").font(.callout)
                                        .bold()

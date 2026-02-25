@@ -14,13 +14,13 @@ struct ItemDetailView: View {
    
 
     
-    var weapon: Weapon? = nil
+    var weapon: Weapon?
     
-    var grenade: Grenade? = nil
+    var grenade: Grenade?
     
-    var armour: Armour? = nil
+    var armour: Armour?
     
-    var enemy: Enemy? = nil
+    var enemy: Enemy?
     
     var itemName: String {
         
@@ -174,8 +174,8 @@ struct ItemDetailView: View {
                 if let enemy = enemy {
                     AsyncImageView(imageUrl: enemy.imageUrl)
                                        .frame(width: 240, height: 200)
-                               } else if UIImage(named: itemName ?? "") != nil {
-                    Image(itemName ?? "")
+                } else if UIImage(named: itemName) != nil {
+                    Image(itemName)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                     
@@ -472,16 +472,16 @@ struct ItemDetailView: View {
                 
             } else {
                 
-                if UIImage(named: itemName ?? "") != nil {
+                if let namedImage = UIImage(named: itemName) {
                     ToolbarItem(placement: .topBarTrailing) {
-                        Image(uiImage: UIImage(named: itemName ?? "")!)
+                        Image(uiImage: namedImage)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 30, height: 30)
                     }
-                } else if UIImage(named: itemImage ?? "") != nil {
+                } else if let itemImage, let fallbackImage = UIImage(named: itemImage) {
                     ToolbarItem(placement: .topBarTrailing) {
-                        Image(uiImage: UIImage(named: itemImage ?? "")!)
+                        Image(uiImage: fallbackImage)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 30, height: 30)
@@ -545,7 +545,7 @@ struct ItemCostRow: View {
 
 struct ItemDetailCostView: View {
     
-    var name: String? = nil
+    var name: String?
     let image: String
     let cost: Int
     
@@ -585,5 +585,3 @@ struct ItemDetailCostView: View {
     
     
 }
-
-
