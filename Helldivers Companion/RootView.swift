@@ -145,9 +145,7 @@ struct RootView: View {
                         }
                         statsNavPather.navigationPath.append(selectedPlanet.index)
                         
-                    }
-                    
-                    else {
+                    } else {
                         // change tab to home, nav to the planet
                         viewModel.currentTab = .home
                         contentNavPather.navigationPath.append(selectedPlanet.index)
@@ -356,7 +354,7 @@ struct RootView: View {
     var tabButtons: some View {
         VStack(spacing: 0){
             HStack(spacing: -6) {
-                TabButton(tab: .home, action: {
+                tabButton(tab: .home, action: {
                     
                     
                     // remove all items on nav stack, pop to root if button pressed already in this tab
@@ -382,7 +380,7 @@ struct RootView: View {
                     
                 })
                 
-                TabButton(tab: .map, action: {
+                tabButton(tab: .map, action: {
                     
                     if viewModel.currentTab == .map {
                         
@@ -396,10 +394,10 @@ struct RootView: View {
                     
                 })
                 
-                TabButton(tab: .game, action: {viewModel.currentTab = .game})
+                tabButton(tab: .game, action: {viewModel.currentTab = .game})
       
           
-                TabButton(tab: .stats, action: {
+                tabButton(tab: .stats, action: {
                     
                     // remove all items on nav stack, pop to root if button pressed already in this tab
                     if viewModel.currentTab == .stats {
@@ -423,7 +421,7 @@ struct RootView: View {
                     
                     
                 })
-                TabButton(tab: .news, action: {
+                tabButton(tab: .news, action: {
                     
                     if viewModel.currentTab == .news {
                         
@@ -463,7 +461,7 @@ struct RootView: View {
     }
     
     @ViewBuilder
-    func TabButton(tab: Tab, action: (() -> Void)? = nil, badgeCount: Int = 0) -> some View {
+    func tabButton(tab: Tab, action: (() -> Void)? = nil, badgeCount: Int = 0) -> some View {
         
         let frameSize: CGFloat = (UIScreen.main.bounds.height) == 667 || (UIScreen.main.bounds.height) == 736 ? 20 : 23
         
@@ -526,5 +524,3 @@ public enum ContentViewPage: String, CaseIterable {
     case superStore = "Super Store"
 
 }
-
-

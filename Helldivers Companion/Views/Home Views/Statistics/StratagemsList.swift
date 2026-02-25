@@ -149,5 +149,3 @@ struct StratagemDetailRow: View {
     }
     
 }
-
-

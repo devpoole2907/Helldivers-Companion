@@ -87,4 +87,3 @@ struct RewardView: View {
         .padding(.horizontal, 14)
     }
 }
-

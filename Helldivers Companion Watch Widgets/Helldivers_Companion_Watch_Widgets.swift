@@ -27,4 +27,3 @@ struct Helldivers_Companion_Watch_Widgets: Widget {
         
     }
 }
-

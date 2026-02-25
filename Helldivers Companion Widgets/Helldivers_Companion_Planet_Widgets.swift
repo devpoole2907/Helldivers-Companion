@@ -63,9 +63,9 @@ struct PlanetStatusProvider: TimelineProvider {
                 if let defenseEvent = defenseCampaigns.first(where: { $0.planet.index == highestPlanet.index }) {
                     
                     let eventExpirationTime = highestPlanet.event?.expireTimeDate
-                    let invasionLevel = highestPlanet.event?.invasionLevel ?? nil
-                    let eventHealth = highestPlanet.event?.health ?? nil
-                    let eventMaxHealth = highestPlanet.event?.maxHealth ?? nil
+                    let invasionLevel = highestPlanet.event?.invasionLevel
+                    let eventHealth = highestPlanet.event?.health
+                    let eventMaxHealth = highestPlanet.event?.maxHealth
                     
                     var liberationPercentage = defenseEvent.planet.event?.percentage ?? highestPlanet.percentage
                     
@@ -102,18 +102,18 @@ struct SimplePlanetStatus: TimelineEntry {
     var planetName: String
     var liberation: Double
     var playerCount: Int64
-    var planet: UpdatedPlanet? = nil
+    var planet: UpdatedPlanet?
     var liberationType: LiberationType = .liberation
-    var eventExpirationTime: Date? = nil
-    var invasionLevel: Int64? = nil
-    var eventHealth: Int64? = nil
-    var eventMaxHealth: Int64? = nil
-    var spaceStationExpirationTime: Date? = nil
+    var eventExpirationTime: Date?
+    var invasionLevel: Int64?
+    var eventHealth: Int64?
+    var eventMaxHealth: Int64?
+    var spaceStationExpirationTime: Date?
     var campaignType: Int
 }
 
 @available(watchOS 9.0, *)
-struct Helldivers_Companion_WidgetsEntryView : View {
+struct Helldivers_Companion_WidgetsEntryView: View {
     
     @Environment(\.widgetFamily) var widgetFamily
     @Environment(\.widgetRenderingMode) var widgetRenderingMode
@@ -149,7 +149,23 @@ struct Helldivers_Companion_WidgetsEntryView : View {
                     
                 }
                 
-                PlanetView(planetName: entry.planetName, liberation: entry.liberation, playerCount: entry.playerCount, planet: entry.planet, showHistory: false, showImage: widgetFamily != .systemMedium, showExtraStats: widgetFamily != .systemMedium, liberationType: entry.liberationType, isWidget: true, eventExpirationTime: entry.eventExpirationTime, spaceStationExpirationTime: entry.spaceStationExpirationTime, eventInvasionLevel: entry.invasionLevel, eventHealth: entry.eventHealth, eventMaxHealth: entry.eventMaxHealth, campaignType: entry.campaignType).environmentObject(PlanetsDataModel())
+                PlanetView(
+                    planetName: entry.planetName,
+                    liberation: entry.liberation,
+                    playerCount: entry.playerCount,
+                    planet: entry.planet,
+                    showHistory: false,
+                    showImage: widgetFamily != .systemMedium,
+                    showExtraStats: widgetFamily != .systemMedium,
+                    liberationType: entry.liberationType,
+                    isWidget: true,
+                    eventExpirationTime: entry.eventExpirationTime,
+                    spaceStationExpirationTime: entry.spaceStationExpirationTime,
+                    eventInvasionLevel: entry.invasionLevel,
+                    eventHealth: entry.eventHealth,
+                    eventMaxHealth: entry.eventMaxHealth,
+                    campaignType: entry.campaignType
+                ).environmentObject(PlanetsDataModel())
                     .padding(.horizontal)
                     .padding(.vertical, 5)
                 
@@ -186,7 +202,7 @@ struct RectangularPlanetWidgetView: View {
                 
             }
             RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)
-            VStack (alignment: .leading, spacing: -3){
+            VStack(alignment: .leading, spacing: -3){
                 HStack(spacing: 3) {
                     Image("diver").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                         .padding(.bottom, 2)
@@ -214,7 +230,7 @@ struct RectangularPlanetWidgetView: View {
         
             .padding(.leading, 5)
             .padding(.vertical, 2)
-        //background breaks the watch version
+        // background breaks the watch version
 #if os(iOS)
             .background(in: RoundedRectangle(cornerRadius: 5.0))
 #endif
@@ -297,5 +313,3 @@ struct Helldivers_Companion_Planet_Widgets: Widget {
         .contentMarginsDisabled()
     }
 }
-
-

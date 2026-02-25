@@ -52,7 +52,7 @@ struct CampaignPlanetStatsView: View {
     
     var planetName: String?
     
-    var planet: UpdatedPlanet? = nil
+    var planet: UpdatedPlanet?
     
     var factionColor: Color { planet?.factionColor ?? .gray }
     var factionImage: String { planet?.faction.imageName ?? "unknown" }
@@ -61,15 +61,15 @@ struct CampaignPlanetStatsView: View {
     
     var isWidget = false
     
-    var eventExpirationTime: Date? = nil
+    var eventExpirationTime: Date?
     
-    var invasionLevel: Int64? = nil
-    var maxHealth: Int64? = nil
-    var health: Int64? = nil
+    var invasionLevel: Int64?
+    var maxHealth: Int64?
+    var health: Int64?
     
-    var spaceStationExpiration: Date? = nil
-    var spaceStationDetails: SpaceStationDetails? = nil
-    var warTime: Int64? = nil
+    var spaceStationExpiration: Date?
+    var spaceStationDetails: SpaceStationDetails?
+    var warTime: Int64?
     
     var isActive = true // if accessed from galaxy map, planet view wont need to display all info if the planet isnt in a campaign
     
@@ -402,4 +402,3 @@ struct CampaignPlanetStatsView: View {
     
     
 }
-

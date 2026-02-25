@@ -185,7 +185,7 @@ struct TasksView: View {
     
     let columns = [
            GridItem(.flexible(maximum: 190)),
-           GridItem(.flexible(maximum: 190)),
+           GridItem(.flexible(maximum: 190))
        ]
     
     var nameSize: CGFloat {
@@ -249,7 +249,7 @@ struct TaskStatusView: View {
     var isCompleted: Bool
     var nameSize: CGFloat
     var boxSize: CGFloat
-    var planet: UpdatedPlanet? = nil
+    var planet: UpdatedPlanet?
 
     var body: some View {
         VStack {

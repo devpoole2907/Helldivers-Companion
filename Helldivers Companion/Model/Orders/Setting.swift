@@ -71,7 +71,7 @@ struct Setting: Decodable {
                 }
                 
                 if itemId > 0 {
-                    let itemName = OrderItemsDictionary[itemId] ?? "item #\(itemId)"
+                    let itemName = orderItemsDictionary[itemId] ?? "item #\(itemId)"
                     var itemText = AttributedString(itemName)
                     itemText.foregroundColor = .yellow
                     text += itemText + " "
@@ -91,7 +91,7 @@ struct Setting: Decodable {
                 }
                 
                 if unitId > 0 {
-                    let name = UnitNamesDictionary[unitId] ?? "unit #\(unitId)"
+                    let name = unitNamesDictionary[unitId] ?? "unit #\(unitId)"
                     var unitText = AttributedString(name)
                     unitText.foregroundColor = .yellow
                     text += unitText
@@ -105,7 +105,7 @@ struct Setting: Decodable {
                 }
                 
                 if itemId > 0 {
-                    let itemName = OrderItemsDictionary[itemId] ?? "item #\(itemId)"
+                    let itemName = orderItemsDictionary[itemId] ?? "item #\(itemId)"
                     var itemText = AttributedString(" using the \(itemName)")
                     itemText.foregroundColor = .yellow
                     text += itemText

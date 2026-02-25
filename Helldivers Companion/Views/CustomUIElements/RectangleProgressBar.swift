@@ -79,7 +79,6 @@ struct RectangleProgressBar: View {
 //  Created by James Poole on 14/03/2024.
 //
 
-import SwiftUI
 import Combine
 
 struct MiniRectangleProgressBar: View {

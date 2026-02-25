@@ -37,7 +37,7 @@ let pickerFontSize: CGFloat = 24
                 if let selectedIdx = items.firstIndex(of: selection) {
                     Rectangle()
                         .foregroundStyle(.yellow)
-                        //.padding(EdgeInsets(top: borderWidth, leading: borderWidth, bottom: borderWidth, trailing: borderWidth))
+                        // .padding(EdgeInsets(top: borderWidth, leading: borderWidth, bottom: borderWidth, trailing: borderWidth))
                         .frame(width: geo.size.width / CGFloat(items.count))
                         .offset(x: geo.size.width / CGFloat(items.count) * CGFloat(selectedIdx), y: 0)
                       //  .animation(.spring().speed(1.5), value: )

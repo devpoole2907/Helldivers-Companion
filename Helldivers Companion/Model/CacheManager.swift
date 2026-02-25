@@ -12,7 +12,7 @@ import SwiftUI
 
 class CacheManager {
     static let fileManager = FileManager.default
-    static let cacheDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+    static let cacheDirectory: URL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first ?? FileManager.default.temporaryDirectory
 
     static func cache(image: UIImage, for key: String) {
         let filePath = cacheDirectory.appendingPathComponent("\(key).png")

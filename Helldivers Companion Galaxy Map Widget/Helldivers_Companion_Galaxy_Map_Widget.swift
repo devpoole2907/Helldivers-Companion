@@ -17,13 +17,13 @@ struct GalaxyMapProvider: TimelineProvider {
         GalaxyMapEntry(date: Date(), campaigns: [], defenseCampaigns: [], planets: [])
     }
     
-    func getSnapshot(in context: Context, completion: @escaping (GalaxyMapEntry) -> ()) {
+    func getSnapshot(in context: Context, completion: @escaping (GalaxyMapEntry) -> Void) {
         let entry = GalaxyMapEntry(date: Date(), campaigns: [], defenseCampaigns: [], planets: [])
         completion(entry)
     }
     
     
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         
         let campaignsUrlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/currentCampaigns.json"
         
@@ -62,7 +62,7 @@ struct GalaxyMapEntry: TimelineEntry {
     var planets: [UpdatedPlanet]
 }
 
-struct Helldivers_Companion_Galaxy_Map_WidgetEntryView : View {
+struct GalaxyMapWidgetEntryView: View {
     var entry: GalaxyMapProvider.Entry
     
     var body: some View {
@@ -78,10 +78,10 @@ struct Helldivers_Companion_Galaxy_Map_Widget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: GalaxyMapProvider()) { entry in
             if #available(iOS 17.0, *) {
-                Helldivers_Companion_Galaxy_Map_WidgetEntryView(entry: entry)
+                GalaxyMapWidgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
             } else {
-                Helldivers_Companion_Galaxy_Map_WidgetEntryView(entry: entry)
+                GalaxyMapWidgetEntryView(entry: entry)
             }
         }
         .supportedFamilies(supportedFamilies)

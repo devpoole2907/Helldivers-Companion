@@ -49,7 +49,7 @@ struct WarBondRow: View {
     let warBondImageName: String
     
     var body: some View {
-        if let _ = UIImage(named: warBondImageName) {
+        if UIImage(named: warBondImageName) != nil {
             Image(warBondImageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)

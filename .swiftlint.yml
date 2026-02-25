@@ -1,0 +1,136 @@
+# SwiftLint Configuration — War Monitor
+# Best practice: catches dangerous patterns + enforces good hygiene
+# without nitpicking style preferences that don't prevent bugs.
+
+# --- Disabled Rules -------------------------------------------------------
+# These default rules create noise without preventing real issues.
+disabled_rules:
+  - trailing_whitespace          # cosmetic, IDE handles it
+  - todo                         # TODOs are fine during development
+  - opening_brace                # style preference, not a bug source
+  - vertical_whitespace          # cosmetic
+
+# --- Opt-In Rules ---------------------------------------------------------
+# These are OFF by default but catch real problems.
+opt_in_rules:
+  # Safety
+  - force_unwrapping             # flags every ! force unwrap
+  - force_cast                   # flags as! — use as? instead
+  - empty_count                  # prefer .isEmpty over .count == 0
+  - fatal_error_message          # require message in fatalError()
+  - implicitly_unwrapped_optional # flags var x: String!
+  - overridden_super_call        # ensure super is called in overrides
+  - private_action               # @IBAction should be private
+  - private_outlet               # @IBOutlet should be private
+  - unowned_variable_capture     # prefer weak over unowned
+  - legacy_multiple              # use .isMultiple(of:) not %
+
+  # Hygiene
+  - closure_body_length          # closures shouldn't be 50+ lines
+  - collection_alignment         # align multiline collections
+  - contains_over_filter_count   # .contains() over .filter().count
+  - contains_over_first_not_nil  # .contains() over .first != nil
+  - discouraged_optional_boolean # avoid Bool? — it's three states
+  - discouraged_optional_collection # avoid [T]? — use empty array
+  - first_where                  # .first(where:) over .filter().first
+  - last_where                   # .last(where:) over .filter().last
+  - modifier_order               # consistent SwiftUI modifier ordering
+  - redundant_nil_coalescing     # remove ?? nil
+  - sorted_first_last            # .min()/.max() over .sorted().first
+  - yoda_condition               # count == 0 not 0 == count
+  - toggle_bool                  # prefer .toggle() over x = !x
+  - joined_default_parameter     # .joined() over .joined(separator: "")
+  - flatmap_over_map_reduce      # prefer .flatMap over .map.reduce
+  - array_init                   # prefer Array(seq) over seq.map { $0 }
+
+  # Swift Concurrency (important for modern SwiftUI)
+  - unhandled_throwing_task      # catch errors in Task {}
+
+# --- Rule Configuration ---------------------------------------------------
+
+type_name:
+  allowed_symbols: ["_"]
+
+# Lines: warn at 150, error at 300. Generous but catches absurdity.
+line_length:
+  warning: 200
+  error: 500
+  ignores_comments: true
+  ignores_urls: true
+  ignores_interpolated_strings: true
+
+# File length: warn at 500, error at 1000.
+file_length:
+  warning: 500
+  error: 1000
+
+# Function body: warn at 60 lines, error at 120.
+function_body_length:
+  warning: 60
+  error: 120
+
+# Type body: warn at 300 lines, error at 500.
+type_body_length:
+  warning: 300
+  error: 500
+
+# Function parameters: warn at 6, error at 8.
+function_parameter_count:
+  warning: 6
+  error: 8
+
+# Closure body length (opt-in rule). temporarily very high error severity
+closure_body_length:
+  warning: 40
+  error: 999
+
+# Nesting: types 2 deep, functions 5 deep.
+nesting:
+  type_level: 2
+  function_level: 5
+
+# Cyclomatic complexity: warn at 15, error at 25.
+cyclomatic_complexity:
+  warning: 15
+  error: 25
+
+# Large tuple: warn at 3 elements.
+large_tuple:
+  warning: 3
+  error: 4
+
+# Identifier length: flexible for SwiftUI (short vars like i in loops OK).
+identifier_name:
+  min_length:
+    warning: 2
+    error: 1
+  max_length:
+    warning: 60
+    error: 80
+  excluded:
+    - id
+    - x
+    - y
+    - i
+    - j
+    - to
+    - vm
+    - db
+    - op
+
+# --- Excluded Paths -------------------------------------------------------
+# Don't lint generated code, packages, or build artifacts.
+excluded:
+  - .build
+  - .claude
+  - DerivedData
+  - Pods
+  - Packages
+  - Tests/Generated
+
+# --- Analyzer Rules -------------------------------------------------------
+# These run with the compiler and catch deeper issues.
+# Enable when running swiftlint analyze (not on every build).
+analyzer_rules:
+  - unused_import
+  - unused_declaration

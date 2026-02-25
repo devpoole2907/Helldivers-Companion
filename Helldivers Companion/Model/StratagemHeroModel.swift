@@ -386,8 +386,7 @@ class StratagemHeroModel: ObservableObject {
             // do nothing
         } else if gameState == .gameOver {
             stopGame()
-        }
-        else if gameState == .notStarted {
+        } else if gameState == .notStarted {
             // show the game sheet if on watch
             #if os(watchOS)
             if gameState == .notStarted {
@@ -637,7 +636,7 @@ class StratagemHeroModel: ObservableObject {
                         return
                     }
                 
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data, error == nil else {
                 print("Error fetching stratagems: \(error!)")
                 completion([])
@@ -722,7 +721,3 @@ class StratagemHeroModel: ObservableObject {
     
     
 }
-
-
-
-

@@ -31,7 +31,7 @@ struct PlanetStatusProvider: TimelineProvider {
         
         var entries: [SimplePlanetStatus] = []
 
-        planetsModel.fetchCurrentWarSeason() { season in
+        planetsModel.fetchCurrentWarSeason { season in
             planetsModel.fetchPlanetStatuses(for: season) { planets in
                 if let highestPlanet = planets.max(by: { $0.players < $1.players }) {
                     let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.planet.name, liberation: highestPlanet.liberation, playerCount: highestPlanet.players, planet: highestPlanet)
@@ -54,11 +54,11 @@ struct SimplePlanetStatus: TimelineEntry {
     var planetName: String
     var liberation: Double
     var playerCount: Int
-    var planet: PlanetStatus? = nil
+    var planet: PlanetStatus?
 }
 
 
-struct Helldivers_Companion_WidgetsEntryView : View {
+struct Helldivers_Companion_WidgetsEntryView: View {
     
     @Environment(\.widgetFamily) var widgetFamily
     
@@ -102,7 +102,7 @@ struct RectangularPlanetWidgetView: View {
                 Spacer()
             }
             RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)
-            VStack (alignment: .leading, spacing: -3){
+            VStack(alignment: .leading, spacing: -3){
                 HStack(spacing: 3) {
                     Image("helldiverIcon").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                         .padding(.bottom, 2)
@@ -149,4 +149,3 @@ struct Helldivers_Companion_Widgets: Widget {
 } timeline: {
     SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000)
 }
-

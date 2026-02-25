@@ -47,7 +47,7 @@ struct OrdersPopup: CentrePopup {
             //     .clipShape(Rectangle())
             //   .border(Color.white, width: 2)
             // .padding(.bottom)
-            //.opacity(0.8)
+            // .opacity(0.8)
             
             HStack(alignment: .firstTextBaseline, spacing: 3) {
                 Image(systemName: ordersType == .major ? "scope" : "checkmark.circle").bold()
@@ -97,4 +97,3 @@ struct OrdersPopup: CentrePopup {
     
     
 }
-

@@ -65,7 +65,13 @@ struct NotificationSettingsView: View {
                    .padding()
                    .shadow(radius: 3)
             
-            SettingsRow(settingTitle: "Event Updates", settingSubtitle: "See when planets fall under attack, and the outcome of their defense.", image: "shield.lefthalf.filled", selected: $planetEventsEnabled, dashPattern: [54, 18])
+            SettingsRow(
+                settingTitle: "Event Updates",
+                settingSubtitle: "See when planets fall under attack, and the outcome of their defense.",
+                image: "shield.lefthalf.filled",
+                selected: $planetEventsEnabled,
+                dashPattern: [54, 18]
+            )
                 .onTapGesture {
                     withAnimation {
                         planetEventsEnabled.toggle()
@@ -73,7 +79,13 @@ struct NotificationSettingsView: View {
                     updateTopicSubscription(topic: "planetEventUpdates", enabled: planetEventsEnabled)
                 }
             
-            SettingsRow(settingTitle: "Liberation Updates", settingSubtitle: "Be the first to know when a planet is successfully liberated.", image: "target", selected: $liberationEnabled, dashPattern: [51, 11])
+            SettingsRow(
+                settingTitle: "Liberation Updates",
+                settingSubtitle: "Be the first to know when a planet is successfully liberated.",
+                image: "target",
+                selected: $liberationEnabled,
+                dashPattern: [51, 11]
+            )
                 .onTapGesture {
                     withAnimation {
                         liberationEnabled.toggle()
@@ -81,7 +93,13 @@ struct NotificationSettingsView: View {
                     updateTopicSubscription(topic: "liberationUpdates", enabled: liberationEnabled)
                 }
             
-            SettingsRow(settingTitle: "News Updates", settingSubtitle: "Stay up to date 24/7 on the latest galactic developments and breaking news.", image: "newspaper.fill", selected: $newsEnabled, dashPattern: [59, 5])
+            SettingsRow(
+                settingTitle: "News Updates",
+                settingSubtitle: "Stay up to date 24/7 on the latest galactic developments and breaking news.",
+                image: "newspaper.fill",
+                selected: $newsEnabled,
+                dashPattern: [59, 5]
+            )
                 .onTapGesture {
                     withAnimation {
                         newsEnabled.toggle()
@@ -90,10 +108,21 @@ struct NotificationSettingsView: View {
                 }
             
             // TODO: add dss enabled once topic is implemented
-            SettingsRow(settingTitle: "DSS Updates", settingSubtitle: "Track the Democracy Space Station’s movements and active tacticals.", image: "dssIcon", selected: .constant(false), dashPattern: [62, 15], systemImage: false)
+            SettingsRow(
+                settingTitle: "DSS Updates",
+                settingSubtitle: "Track the Democracy Space Station's movements and active tacticals.",
+                image: "dssIcon",
+                selected: .constant(false),
+                dashPattern: [62, 15],
+                systemImage: false
+            )
                 .opacity(0.3)
                 .overlay {
-                    Text("Coming Soon".uppercased()).font(Font.custom("FSSinclair", size: smallFont)).bold().foregroundStyle(.white).shadow(radius: 3)
+                    Text("Coming Soon".uppercased())
+                        .font(Font.custom("FSSinclair", size: smallFont))
+                        .bold()
+                        .foregroundStyle(.white)
+                        .shadow(radius: 3)
                 }
             
             Spacer()

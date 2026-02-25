@@ -10,7 +10,7 @@ import UIKit
 struct AsyncImageView: View {
     
     let imageUrl: String
-    @State private var image: UIImage? = nil
+    @State private var image: UIImage?
     @State private var isLoading = true
     
     var body: some View {

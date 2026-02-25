@@ -56,11 +56,19 @@ struct SuperStoreList: View {
                             
                             // try find passive id
                             let passiveId = dbModel.passives.first(where: { $0.name.lowercased() == item.passive.name.lowercased() })?.id ?? -1
-                            //try find slot id
+                            // try find slot id
                             let slotId = dbModel.armourSlots.first(where: { $0.name.lowercased() == item.slot.lowercased() })?.id ?? -1
                             
                             // type is not currently used
-                            let unknownArmour = Armour(id: UUID().uuidString, name: item.name, description: item.description, type: 0, slot: slotId, armourRating: item.armorRating, speed: item.speed, staminaRegen: item.staminaRegen, passive: passiveId)
+                            let unknownArmour = Armour(id: UUID().uuidString,
+                                                       name: item.name,
+                                                       description: item.description,
+                                                       type: 0,
+                                                       slot: slotId,
+                                                       armourRating: item.armorRating,
+                                                       speed: item.speed,
+                                                       staminaRegen: item.staminaRegen,
+                                                       passive: passiveId)
                             
                             NavigationLink(value: unknownArmour) {
                                 ArmourDetailRow(dashPattern: [57, 19], armour: unknownArmour, showWarBondName: false)
@@ -104,7 +112,7 @@ struct SuperStoreList: View {
             
             Button(action: {
                 viewModel.popToWarBonds.send()
-            }) {
+            }, label: {
             
                 ZStack {
                     Image("viewwarbonds").resizable()
@@ -125,7 +133,7 @@ struct SuperStoreList: View {
                 }
 
                 
-            }
+            })
                 
             
         }

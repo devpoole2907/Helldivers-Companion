@@ -9,7 +9,7 @@
 struct Armour: Codable, Hashable, DetailItem {
     let id: String
     let name: String
-    var description: String? = nil
+    var description: String?
     let type: Int
     let slot: Int
     let armourRating: Int
@@ -19,7 +19,9 @@ struct Armour: Codable, Hashable, DetailItem {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let idKey = container.codingPath.last!.stringValue
+        guard let idKey = container.codingPath.last?.stringValue else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: container.codingPath, debugDescription: "Missing coding path key for id"))
+        }
         id = idKey
         name = try container.decode(String.self, forKey: .name)
         description = try container.decodeIfPresent(String.self, forKey: .description)
@@ -64,7 +66,9 @@ struct Passive: Codable, Identifiable {
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        let idKey = container.codingPath.last!.stringValue
+        guard let idKey = container.codingPath.last?.stringValue else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: container.codingPath, debugDescription: "Missing coding path key for id"))
+        }
         
         guard let id = Int(idKey) else {
                     throw DecodingError.dataCorruptedError(forKey: .id,

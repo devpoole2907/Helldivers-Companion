@@ -268,7 +268,7 @@ let planetPositions: [PlanetPosition] = [
     PlanetPosition(name: "Cyberstan", index: 260, xMultiplier: 0.28217194139992635, yMultiplier: 0.15999592053953823),
     PlanetPosition(name: "Mekbuda", index: 202, xMultiplier: 0.23639421575825936, yMultiplier: 0.18259686182545137),
     PlanetPosition(name: "Aurora Bay", index: 114, xMultiplier: 0.2787754500632348, yMultiplier: 0.20883035025392876),
-    PlanetPosition(name: "Merak", index: 204, xMultiplier: 0.3248534155378594, yMultiplier: 0.18564327679754544),
+    PlanetPosition(name: "Merak", index: 204, xMultiplier: 0.3248534155378594, yMultiplier: 0.18564327679754544)
 ]
 
 let sectorLookup: [Int64: Sector] = [

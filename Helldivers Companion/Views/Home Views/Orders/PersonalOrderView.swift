@@ -52,7 +52,7 @@ struct PersonalOrderView: View {
             }
             }
             
-            if let personalOrderTimeRemaining = viewModel.personalOrder?.expiresIn,  personalOrderTimeRemaining > 0 {
+            if let personalOrderTimeRemaining = viewModel.personalOrder?.expiresIn, personalOrderTimeRemaining > 0 {
                 OrderTimeView(timeRemaining: personalOrderTimeRemaining, orderType: .personal)
             }
             

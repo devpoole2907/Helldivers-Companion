@@ -162,7 +162,24 @@ struct UpdatedPlanetView: View {
                 
                 headerWithImage
                     
-                CampaignPlanetStatsView(liberation: liberationPercentage ?? 100.0, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planet?.name, planet: planet, playerCount: planet?.statistics.playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, maxHealth: eventMaxHealth, health: eventHealth, spaceStationExpiration: spaceStationExpirationTime, spaceStationDetails: activeSpaceStationDetails, warTime: viewModel.warTime, isActive: isActive, campaignType: campaignType)
+                CampaignPlanetStatsView(
+                    liberation: liberationPercentage ?? 100.0,
+                    liberationType: liberationType,
+                    showExtraStats: showExtraStats,
+                    planetName: planet?.name,
+                    planet: planet,
+                    playerCount: planet?.statistics.playerCount,
+                    isWidget: isWidget,
+                    eventExpirationTime: eventExpirationTime,
+                    invasionLevel: eventInvasionLevel,
+                    maxHealth: eventMaxHealth,
+                    health: eventHealth,
+                    spaceStationExpiration: spaceStationExpirationTime,
+                    spaceStationDetails: activeSpaceStationDetails,
+                    warTime: viewModel.warTime,
+                    isActive: isActive,
+                    campaignType: campaignType
+                )
                 
             }.onTapGesture {
                 // nav to planet info view if tapped anywhere
@@ -358,7 +375,7 @@ struct UpdatedPlanetView: View {
 #if os(iOS)
                     if isWidget {
                         planetNameAndIcon
-                    }  else {
+                    } else {
                         NavigationLink(value: planet?.index) {
                             planetNameAndIcon
                         }

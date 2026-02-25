@@ -78,4 +78,3 @@ struct PlanetsList: View {
 
     }
 }
-

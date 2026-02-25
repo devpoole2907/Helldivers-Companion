@@ -18,12 +18,12 @@ struct Provider: TimelineProvider {
         PlayerCountEntry(date: Date(), playerCount: 247643)
     }
     
-    func getSnapshot(in context: Context, completion: @escaping (PlayerCountEntry) -> ()) {
+    func getSnapshot(in context: Context, completion: @escaping (PlayerCountEntry) -> Void) {
         let entry =  PlayerCountEntry(date: Date(), playerCount: 247643)
         completion(entry)
     }
     
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         
         
         // fetches from github instead to save on api call
@@ -59,7 +59,7 @@ struct PlayerCountEntry: TimelineEntry {
     let playerCount: Int64
 }
 
-struct War_Monitor_Total_Player_Count_WidgetEntryView : View {
+struct War_Monitor_Total_Player_Count_WidgetEntryView: View {
     var entry: Provider.Entry
     
     var body: some View {
@@ -69,7 +69,7 @@ struct War_Monitor_Total_Player_Count_WidgetEntryView : View {
             Text("PLAYER COUNT") .font(Font.custom("FSSinclair", size: 16)).bold()
             
             RoundedRectangle(cornerRadius: 25).frame(width: 100, height: 2)
-            VStack (alignment: .leading, spacing: -3){
+            VStack(alignment: .leading, spacing: -3){
                 HStack(spacing: 3) {
                     Image("diver").resizable().aspectRatio(contentMode: .fit).frame(width: 13, height: 13)
                         .padding(.bottom, 2)
@@ -82,7 +82,7 @@ struct War_Monitor_Total_Player_Count_WidgetEntryView : View {
         
             .padding(.leading, 5)
             .padding(.vertical, 2)
-        //background breaks the watch version
+        // background breaks the watch version
 #if os(iOS)
             .background(in: RoundedRectangle(cornerRadius: 5.0))
 #endif

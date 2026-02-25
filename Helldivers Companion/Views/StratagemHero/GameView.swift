@@ -244,7 +244,7 @@ struct GameView: View {
                             Button(action: {
                                 gameCenterManager.authenticatePlayer { result in
                                     switch result {
-                                    case .success(_):
+                                    case .success:
                                         print("Authentication successful")
                                         
                                         gameCenterManager.hasSignedInBefore = true
@@ -282,7 +282,7 @@ struct GameView: View {
             
     } 
         
-        .onChange(of: viewModel.gameEndCount) { value in
+        .onChange(of: viewModel.gameEndCount) { _ in
             
           
             
@@ -306,7 +306,7 @@ struct GameView: View {
             
             gameCenterManager.authenticatePlayer { result in
                 switch result {
-                case .success(_):
+                case .success:
                     print("Authentication successful")
                     viewModel.updateHighScore()
                 case .failure(let error):
@@ -370,7 +370,7 @@ struct GameView: View {
             Text("GAME OVER").textCase(.uppercase)
                 .font(Font.custom("FSSinclair-Bold", size: 36))
                
-            if viewModel.topScores.count > 0 {
+            if !viewModel.topScores.isEmpty {
                 Text("High Scores").textCase(.uppercase) .font(Font.custom("FSSinclair-Bold", size: 18))
                 
                 ForEach(viewModel.topScores, id: \.self) { score in
@@ -670,7 +670,6 @@ struct GameView: View {
     GameView()
 }
 
-import SwiftUI
 import GameKit
 
 struct TimerBarView: View {
@@ -695,7 +694,7 @@ struct TimerBarView: View {
 }
 
 extension View {
-    func getRect()->CGRect {
+    func getRect() -> CGRect {
         return UIScreen.main.bounds
     }
 }

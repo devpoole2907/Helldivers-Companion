@@ -53,7 +53,7 @@ class DatabaseModel: ObservableObject {
     
     @Published var warBondCollections: [String: FixedWarBond] = [:]
     
-    //enemies for bestiary
+    // enemies for bestiary
     @Published var automatonEnemies: [Enemy] = []
     @Published var terminidsEnemies: [Enemy] = []
     @Published var illuminateEnemies: [Enemy] = []
@@ -334,7 +334,7 @@ class DatabaseModel: ObservableObject {
                 do {
                     print("Fetching war bond details from URL: \(url)")
                     let warBondDetails: [String: WarBondDetails] = try await fetchWarBondDetails(from: url.absoluteString)
-                    let warBonds = warBondDetails.map { (key, details) -> WarBond in
+                    let warBonds = warBondDetails.map { (_, details) -> WarBond in
                         let warBondName = file.name
                             .replacingOccurrences(of: "_", with: " ")
                             .replacingOccurrences(of: ".json", with: "")
@@ -419,4 +419,3 @@ class DatabaseModel: ObservableObject {
     }
     
 }
-
