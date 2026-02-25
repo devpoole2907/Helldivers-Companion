@@ -48,6 +48,7 @@ struct ContentView: View {
     
     var body: some View {
         
+        
         NavigationStack(path: $navPather.navigationPath) {
             ZStack {
                 ScrollView {
