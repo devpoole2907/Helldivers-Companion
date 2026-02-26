@@ -485,15 +485,14 @@ class PlanetsDataModel: ObservableObject {
     private func rebuildContexts() {
         contextLookup = Dictionary(
             uniqueKeysWithValues: updatedPlanets.compactMap { planet in
-                buildContext(for: planet.index).map { (planet.index, $0) }
+                buildContext(for: planet).map { (planet.index, $0) }
             }
         )
     }
 
-    /// Computes a PlanetContext for one planet index. Private — views use context(for:).
-    private func buildContext(for planetIndex: Int) -> PlanetContext? {
-        guard let planet = updatedPlanets.first(where: { $0.index == planetIndex }) else { return nil }
-
+    /// Computes a PlanetContext for one planet. Private — views use context(for:).
+    private func buildContext(for planet: UpdatedPlanet) -> PlanetContext? {
+        let planetIndex = planet.index
         let defense = updatedDefenseCampaigns.first { $0.planet.index == planetIndex }
         let isActive = updatedCampaigns.contains { $0.planet.index == planetIndex }
         let isDefending = defense != nil

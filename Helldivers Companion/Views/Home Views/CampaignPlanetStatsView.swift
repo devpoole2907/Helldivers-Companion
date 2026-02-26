@@ -61,52 +61,55 @@ struct CampaignPlanetStatsView: View {
     var body: some View {
         VStack(spacing: 0) {
             
-            // TODO: figure out invasion levels for illuminate events/type 3
-            
-            if let invasionLevel = context.invasionLevel, let health = context.eventHealth, let maxHealth = context.eventMaxHealth {
+            // Show the HP row for any active defense event.
+            // Type-3 (illuminate fleet) uses fleetStrengthResource for the value;
+            // all other types use invasionLevel + eventHealth/eventMaxHealth.
+            let isType3Event = planet.event?.eventType == 3
+            let showHPRow = isType3Event
+                ? context.fleetStrengthResource != nil
+                : (context.invasionLevel != nil && context.eventHealth != nil && context.eventMaxHealth != nil)
+
+            if showHPRow {
                 VStack {
-                    
+
                     HStack(spacing: 0) {
-                        
-                        // only show invasion level if not event type 3
-                        if planet.event?.eventType != 3 {
-                            
+
+                        // Only show invasion level for non-type-3 events
+                        if !isType3Event, let invasionLevel = context.invasionLevel {
                             Text("INVASION LEVEL: \(invasionLevel)")
                                 .foregroundStyle(.white).bold()
                                 .font(Font.custom("FSSinclair", size: smallFont))
                             Spacer()
-                            
                         }
-                        
-                        Text("HP")    .foregroundStyle(factionColor).bold()
+
+                        Text("HP")
+                            .foregroundStyle(factionColor).bold()
                             .font(Font.custom("FSSinclair", size: smallFont))
                             .padding(.horizontal, 2)
-                        
-                        
-                        if planet.event?.eventType == 3,
-                           let fleet = context.fleetStrengthResource {
+
+                        if isType3Event, let fleet = context.fleetStrengthResource {
                             Text("\(fleet.currentValue)/\(fleet.maxValue)")
                                 .foregroundStyle(.gray)
                                 .font(Font.custom("FSSinclair", size: smallFont))
                                 .shadow(radius: 3)
-                        } else {
+                        } else if let health = context.eventHealth, let maxHealth = context.eventMaxHealth {
                             Text("\(health)/\(maxHealth)")
                                 .foregroundStyle(.gray)
                                 .font(Font.custom("FSSinclair", size: smallFont))
                                 .shadow(radius: 3)
                         }
-                    } .kerning(-1)
-                        .padding(.top, 2)
-                        .lineLimit(1)
-                  
-                    
-                }  .padding(.horizontal, 10)
-                    .dynamicTypeSize(...DynamicTypeSize.small)
-                
+                    }
+                    .kerning(-1)
+                    .padding(.top, 2)
+                    .lineLimit(1)
+
+                }
+                .padding(.horizontal, 10)
+                .dynamicTypeSize(...DynamicTypeSize.small)
+
                 Rectangle()
                     .fill(.white)
                     .frame(height: 1)
-                
             }
             
        
