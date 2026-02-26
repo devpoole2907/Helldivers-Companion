@@ -43,102 +43,27 @@ struct PlanetInfoView: View {
         
     }
     
-    // to determine if it is currently in a campaign
-    private var campaign: Bool {
-        viewModel.updatedCampaigns.contains(where: { $0.planet.name == planet?.name })
+    private var context: PlanetContext? {
+        viewModel.context(for: planetIndex)
     }
-    
-    // this is stupid and repetitive
-    private var campaignType: Int? {
-            guard let planet = planet else { return nil }
-            return viewModel.updatedCampaigns.first(where: { $0.planet.index == planet.index })?.type
-        }
-    
-    private var planet: UpdatedPlanet? {
-        viewModel.updatedPlanets.first(where: { $0.index == planetIndex })
-    }
-    
-    private var defenseCampaign: UpdatedCampaign? {
-        guard let planet = planet else { return nil }
-        return viewModel.updatedDefenseCampaigns.first(where: { $0.planet.index == planet.index })
-    }
-    
-    private var eventExpirationTime: Date? {
-        defenseCampaign?.planet.event?.expireTimeDate
-    }
-    
-    private var eventInvasionLevel: Int64? {
-        defenseCampaign?.planet.event?.invasionLevel
-    }
-    
-    private var eventHealth: Int64? {
-        defenseCampaign?.planet.event?.health
-    }
-    
-    private var eventMaxHealth: Int64? {
-        defenseCampaign?.planet.event?.maxHealth
-    }
-    
-    private var activeSpaceStation: SpaceStation? {
-        return viewModel.spaceStations.first { spaceStation in
-            spaceStation.planet.index == planet?.index
-        }
-    }
-    
-    // any regions e.g cities on super earth
-    var matchingRegions: [Region] {
-        return planet?.regions ?? []
-    }
-    
-    private var activeSpaceStationDetails: SpaceStationDetails? {
-        guard let activeSpaceStation = activeSpaceStation else { return nil }
-        return viewModel.firstSpaceStationDetails?.id32 == activeSpaceStation.id32 ? viewModel.firstSpaceStationDetails : nil
-    }
-    
-    private var spaceStationExpirationTime: Date? {
-        return activeSpaceStation?.electionEndDate
-    }
-    private var liberationType: LiberationType {
-        
-        (defenseCampaign != nil) ? .defense : .liberation
-        
-    }
-    
-    private var liberationPercentage: Double? {
-        
-        // super broken way of using fleet stremgth progress but whatever we got 3 weeks off soon to work on this shit
-        
-        if defenseCampaign?.planet.event?.eventType == 3, viewModel.fleetStrengthResource != nil {
-            return (1.0 - viewModel.fleetStrengthProgress) * 100
-        }
-        
-        return defenseCampaign?.planet.event?.percentage ?? planet?.percentage
-    }
-    
-    private var liberationTimeRemaining: Date? {
-        
-        guard let planet = planet else { return nil }
-        
-        let currentLiberation = planet.event?.percentage ?? planet.percentage
-        
-        guard let liberationRate = viewModel.currentLiberationRate(for: planet.name), liberationRate > 0 else {
-            return nil
-        }
-        
-        let remainingPercentage = 100.0 - currentLiberation
-        let timeRemaining = (remainingPercentage / liberationRate) * 3600
-        
-        let liberationDate = Date().addingTimeInterval(timeRemaining)
-        
-        return liberationDate
-        
-    }
-    
+
+    // Convenience accessors — all backed by context so no extra lookups
+    private var planet: UpdatedPlanet? { context?.planet }
+
+    private var campaign: Bool { context?.isActive ?? false }
+    private var liberationType: LiberationType { context?.liberationType ?? .liberation }
+    private var liberationPercentage: Double? { context?.liberationPercentage }
+    private var liberationTimeRemaining: Date? { context?.liberationTimeRemaining }
+    private var eventExpirationTime: Date? { context?.eventExpiration }
+    private var eventInvasionLevel: Int64? { context?.invasionLevel }
+    private var eventHealth: Int64? { context?.eventHealth }
+    private var eventMaxHealth: Int64? { context?.eventMaxHealth }
+    private var spaceStationExpirationTime: Date? { context?.spaceStationExpiration }
+    private var activeSpaceStationDetails: SpaceStationDetails? { context?.spaceStationDetails }
+    var matchingRegions: [Region] { context?.matchingRegions ?? [] }
+
     private var pointsOfInterest: [GalacticEffect] {
-        if let effects = planet?.galacticEffects {
-            return effects} else {
-                return []
-            }
+        planet?.galacticEffects ?? []
     }
     
 #if os(watchOS)
@@ -202,7 +127,7 @@ struct PlanetInfoView: View {
                 }
                 
                 // if this planet is in a major order
-                if let planet = planet, viewModel.updatedTaskPlanets.contains(planet) {
+                if context?.isMajorOrderTarget == true {
                     majorOrderPlanetNotice.padding(.horizontal)
                 }
                 
@@ -255,19 +180,10 @@ struct PlanetInfoView: View {
                                     .shadow(radius: 5.0)
                                 
                             }
-                            CampaignPlanetStatsView(
-                                liberation: liberationPercentage ?? 0.0,
-                                liberationType: liberationType,
-                                planetName: planet?.name,
-                                planet: planet,
-                                playerCount: planet?.statistics.playerCount,
-                                eventExpirationTime: eventExpirationTime,
-                                invasionLevel: eventInvasionLevel,
-                                maxHealth: eventMaxHealth,
-                                health: eventHealth,
-                                campaignType: campaignType
-                            )
-                            .shadow(radius: 5.0)
+                            if let context = context {
+                                CampaignPlanetStatsView(context: context)
+                                    .shadow(radius: 5.0)
+                            }
                         }
                         
                     } else {

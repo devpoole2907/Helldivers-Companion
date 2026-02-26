@@ -9,8 +9,17 @@ import SwiftUI
 @available(watchOS 9.0, *)
 struct CampaignPlanetStatsView: View {
     
+    let context: PlanetContext
+    var showExtraStats: Bool = true
+    var isWidget = false
+
+    @State private var pulsate = false
+    
+    @EnvironmentObject var viewModel: PlanetsDataModel
+    
+    // Meridia dark energy bar — still needs live viewModel access
     var showEnergyBar: Bool {
-        planet?.index == 64 && viewModel.configData.meridiaEvent // hardcoded to meridia at this stage
+        context.planet.index == 64 && viewModel.configData.meridiaEvent
     }
     
     var darkEnergyResource: GlobalResource? {
@@ -22,63 +31,21 @@ struct CampaignPlanetStatsView: View {
         guard let resource = darkEnergyResource else { return 0 }
         return Double(resource.currentValue) / Double(resource.maxValue)
     }
-    
+
     var computedLiberation: Double {
-        showEnergyBar ? darkEnergyProgress * 100 : liberation
+        showEnergyBar ? darkEnergyProgress * 100 : context.displayPercentage
     }
-    
+
     var liberationText: String {
-        if showEnergyBar {
-            return "ACCUMULATED"
-        }
-        // event type 3 is liberation
-        if planet?.event?.eventType == 3 {
-            return "Liberated"
-        }
-        
-        switch liberationType {
-        case .liberation:
-            return "Liberated"
-        case .defense:
-            return "Defended"
-        }
-        
+        if showEnergyBar { return "ACCUMULATED" }
+        return context.liberationText
     }
-    
-    var liberation: Double
-    var liberationType: LiberationType
-    
-    var showExtraStats: Bool = true
-    
-    var planetName: String?
-    
-    var planet: UpdatedPlanet?
-    
-    var factionColor: Color { planet?.factionColor ?? .gray }
-    var factionImage: String { planet?.faction.imageName ?? "unknown" }
-    
-    var playerCount: Int64?
-    
-    var isWidget = false
-    
-    var eventExpirationTime: Date?
-    
-    var invasionLevel: Int64?
-    var maxHealth: Int64?
-    var health: Int64?
-    
-    var spaceStationExpiration: Date?
-    var spaceStationDetails: SpaceStationDetails?
-    var warTime: Int64?
-    
-    var isActive = true // if accessed from galaxy map, planet view wont need to display all info if the planet isnt in a campaign
-    
-    var campaignType: Int? = 0
-    
-    @State private var pulsate = false
-    
-    @EnvironmentObject var viewModel: PlanetsDataModel
-    
+
+    // Convenience accessors from context
+    private var planet: UpdatedPlanet { context.planet }
+    private var factionColor: Color { context.factionColor }
+    private var factionImage: String { context.factionImageName }
+
 #if os(iOS)
     let helldiverImageSize: CGFloat = 25
     let raceIconSize: CGFloat = 20
@@ -92,20 +59,17 @@ struct CampaignPlanetStatsView: View {
 #endif
     
     var body: some View {
-        
-   
-        
         VStack(spacing: 0) {
             
             // TODO: figure out invasion levels for illuminate events/type 3
             
-            if let invasionLevel = invasionLevel, let health = health, let maxHealth = maxHealth {
+            if let invasionLevel = context.invasionLevel, let health = context.eventHealth, let maxHealth = context.eventMaxHealth {
                 VStack {
                     
                     HStack(spacing: 0) {
                         
                         // only show invasion level if not event type 3
-                        if planet?.event?.eventType != 3 {
+                        if planet.event?.eventType != 3 {
                             
                             Text("INVASION LEVEL: \(invasionLevel)")
                                 .foregroundStyle(.white).bold()
@@ -114,15 +78,13 @@ struct CampaignPlanetStatsView: View {
                             
                         }
                         
-                        // use health and maxhealth here, otherwise use fleet max value and current value
-                        
                         Text("HP")    .foregroundStyle(factionColor).bold()
                             .font(Font.custom("FSSinclair", size: smallFont))
                             .padding(.horizontal, 2)
                         
                         
-                        if planet?.event?.eventType == 3,
-                           let fleet = viewModel.fleetStrengthResource {
+                        if planet.event?.eventType == 3,
+                           let fleet = context.fleetStrengthResource {
                             Text("\(fleet.currentValue)/\(fleet.maxValue)")
                                 .foregroundStyle(.gray)
                                 .font(Font.custom("FSSinclair", size: smallFont))
@@ -159,18 +121,16 @@ struct CampaignPlanetStatsView: View {
                             .padding(.trailing, 2)
                     } else {
                         
-                        
                         // health bar
-                        
-                        RectangleProgressBar(value: liberation / 100, secondaryColor: eventExpirationTime != nil ? .cyan : factionColor, height: 8)
+                        RectangleProgressBar(value: context.displayPercentage / 100, secondaryColor: context.eventExpiration != nil ? .cyan : factionColor, height: 8)
                         
                             .padding(.horizontal, 6)
                             .padding(.trailing, 2)
                         
                         // defense remaining bar
-                        if let defenseTime = planet?.event?.totalDuration, let eventExpirationTime = eventExpirationTime {
+                        if let defenseTime = planet.event?.totalDuration, let eventExpiration = context.eventExpiration {
                             
-                            let remainingTime = eventExpirationTime.timeIntervalSince(Date())
+                            let remainingTime = eventExpiration.timeIntervalSince(Date())
                             
                             let percentageRemaining = (remainingTime / defenseTime)
                             
@@ -183,7 +143,6 @@ struct CampaignPlanetStatsView: View {
                     
                     
                 }
-               // .frame(height: showExtraStats ? 34 : 30)
                 .padding(.vertical, 5)
                     .foregroundStyle(Color.clear)
                     .border(showEnergyBar ? Color.clear : Color.orange, width: 2)
@@ -205,15 +164,15 @@ struct CampaignPlanetStatsView: View {
                                     .foregroundStyle(.white).bold()
                                     .font(Font.custom("FSSinclair", size: showExtraStats ? mediumFont : smallFont))
                                     .multilineTextAlignment(.leading)
-                                if isWidget && !showExtraStats,eventExpirationTime != nil {
+                                if isWidget && !showExtraStats, context.eventExpiration != nil {
                                     Spacer()
                                 }
                             }
                             
-                            if isWidget && !showExtraStats, let eventExpirationTime = eventExpirationTime {
+                            if isWidget && !showExtraStats, let eventExpiration = context.eventExpiration {
                                 HStack {
                                     Spacer()
-                                    Text(eventExpirationTime, style: .timer)
+                                    Text(eventExpiration, style: .timer)
                                         .font(Font.custom("FSSinclair", size: smallFont))
                                         .foregroundStyle(.red)
                                         .monospacedDigit()
@@ -223,8 +182,8 @@ struct CampaignPlanetStatsView: View {
                         }
                         
                         if !isWidget {
-                            if planet?.event?.eventType != 3 { // TODO: save history for globalresources to api cache!!!
-                                if let liberationRate = viewModel.currentLiberationRate(for: planetName ?? ""), viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) {
+                            if planet.event?.eventType != 3 { // TODO: save history for globalresources to api cache!!!
+                                if let liberationRate = context.liberationRate, context.isActive {
                                     Spacer()
                                     HStack(alignment: .top, spacing: 4) {
                                         Image(systemName: "chart.line.uptrend.xyaxis")
@@ -256,7 +215,7 @@ struct CampaignPlanetStatsView: View {
             
             // regions, show first region
             
-        if let planetRegions = planet?.regions {
+        if let planetRegions = planet.regions {
                 
                 
                 RegionListView(
@@ -274,28 +233,26 @@ struct CampaignPlanetStatsView: View {
             
         }
       
-        if showExtraStats, let spaceStationExpiration = spaceStationExpiration {
-            SpaceStationView(spaceStationExpiration: spaceStationExpiration, spaceStationDetails: spaceStationDetails, warTime: warTime, isWidget: isWidget)
+        if showExtraStats, let spaceStationExpiration = context.spaceStationExpiration {
+            SpaceStationView(spaceStationExpiration: spaceStationExpiration, spaceStationDetails: context.spaceStationDetails, warTime: context.warTime, isWidget: isWidget)
             
         }
         
         if showExtraStats {
             HStack {
                 
-                if isActive { // dont show this section if planet isnt in a campaign (accessed via galaxy map)
+                if context.isActive { // dont show this section if planet isnt in a campaign (accessed via galaxy map)
                     
                     HStack(alignment: .center, spacing: spacingSize) {
                         
-                        if liberationType == .liberation {
+                        if context.liberationType == .liberation {
                             
                             Image(factionImage).resizable().aspectRatio(contentMode: .fit)
                                 .frame(width: raceIconSize, height: raceIconSize)
                             
-                            if let regenPerSecond = planet?.regenPerSecond, let maxHealth = planet?.maxHealth {
+                            if let regenPerHour = regenPerHour {
                                 
-                                let regenPerHour = regenPerSecond * 3600.0
-                                let regenPercent = (regenPerHour / Double(maxHealth)) * 100
-                                Text(String(format: "-%.1f%% / h", regenPercent))
+                                Text(String(format: "-%.1f%% / h", regenPerHour))
                                     .foregroundStyle(factionColor).bold()
                                     .font(Font.custom("FSSinclair", size: mediumFont))
                                     .padding(.top, 2)
@@ -307,7 +264,7 @@ struct CampaignPlanetStatsView: View {
                             Spacer()
                             VStack(spacing: -5) {
                                 // only show defend text on defense type events (this is so duct taped holy)
-                                if planet?.event?.eventType != 3 {
+                                if planet.event?.eventType != 3 {
                                     Text("DEFEND") .font(Font.custom("FSSinclair", size: mediumFont)).bold()
                                         .scaledToFit()
                                     
@@ -321,8 +278,8 @@ struct CampaignPlanetStatsView: View {
                                         }
                                     
                                 }
-                                if let eventExpirationTime = eventExpirationTime {
-                                    Text(eventExpirationTime, style: .timer)
+                                if let eventExpiration = context.eventExpiration {
+                                    Text(eventExpiration, style: .timer)
                                         .font(Font.custom("FSSinclair", size: mediumFont))
                                         .multilineTextAlignment(.center)
                                         .foregroundStyle(.white)
@@ -345,11 +302,9 @@ struct CampaignPlanetStatsView: View {
                 
                 HStack(spacing: spacingSize) {
                     
-                    
-                    
                     Image("diver").resizable().aspectRatio(contentMode: .fit)
                         .frame(width: helldiverImageSize, height: helldiverImageSize)
-                    Text("\(planet?.statistics.playerCount ?? 0)").textCase(.uppercase)
+                    Text("\(context.planet.statistics.playerCount)").textCase(.uppercase)
                         .foregroundStyle(.white).bold()
                         .font(Font.custom("FSSinclair", size: mediumFont))
                         .padding(.top, 2)
@@ -361,7 +316,7 @@ struct CampaignPlanetStatsView: View {
                 
 #if os(iOS)
     // show player count % if greater than 0
-   if let playerCount = planet?.statistics.playerCount, playerCount > 0, viewModel.totalPlayerCount > 0 {
+   if viewModel.totalPlayerCount > 0, context.planet.statistics.playerCount > 0 {
     
                 
                 Rectangle().frame(width: 1, height: 15).foregroundStyle(Color.white)
@@ -369,7 +324,7 @@ struct CampaignPlanetStatsView: View {
                 
        HStack(spacing: spacingSize) {
            
-           let playerPercent = (Double(playerCount) / Double(viewModel.totalPlayerCount)) * 100
+           let playerPercent = (Double(context.planet.statistics.playerCount) / Double(viewModel.totalPlayerCount)) * 100
            
            Text("\(String(format: "%.0f", playerPercent))%")  .font(Font.custom("FSSinclair", size: smallFont))
                .dynamicTypeSize(.small)
@@ -398,6 +353,14 @@ struct CampaignPlanetStatsView: View {
         }
         
         
+    }
+
+    private var regenPerHour: Double? {
+        guard context.liberationType == .liberation else { return nil }
+        let regenPerSecond = planet.regenPerSecond
+        guard planet.maxHealth > 0 else { return nil }
+        let regenPerHourAbs = regenPerSecond * 3600.0
+        return (regenPerHourAbs / Double(planet.maxHealth)) * 100
     }
     
     

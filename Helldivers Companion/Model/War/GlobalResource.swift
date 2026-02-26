@@ -6,7 +6,7 @@
 //
 
 
-struct GlobalResource: Codable {
+struct GlobalResource: Codable, Equatable {
     let id32: Int64
     let currentValue: Int64
     let maxValue: Int64

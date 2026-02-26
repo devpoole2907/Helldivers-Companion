@@ -8,7 +8,7 @@
 
 // new regions implementation 10/2/26
 
-struct Region: Codable {
+struct Region: Codable, Equatable {
     let id: Int
     let hash: Int64
     let name: String?

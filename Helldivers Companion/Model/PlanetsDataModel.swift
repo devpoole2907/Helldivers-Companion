@@ -194,10 +194,18 @@ class PlanetsDataModel: ObservableObject {
                     self.selectedPlanet = campaigns.first?.planet
                     self.hasSetSelectedPlanet = true
                 }
-                
-                withAnimation {
-                    self.isLoading = false
-                }
+            }
+
+            // Rebuild contexts inside withAnimation so the dictionary assignment
+            // animates in the same transaction as the rest of the data update.
+            // This is safe because the properties it reads (updatedPlanets, etc.)
+            // are already set above in this same synchronous closure.
+            self.rebuildContexts()
+        }
+
+        if isInitialLoad {
+            withAnimation {
+                self.isLoading = false
             }
         }
     }
@@ -242,8 +250,8 @@ class PlanetsDataModel: ObservableObject {
                         
                         self.planetHistory = cachedData
                         self.lastUpdatedDate = Date()
+                        self.rebuildContexts()
                     }
-                    
                 }
                 
             }
@@ -458,6 +466,91 @@ class PlanetsDataModel: ObservableObject {
         } else {
             return formatter.string(from: number) ?? "\(number)"
         }
+    }
+
+    // MARK: - PlanetContext
+
+    /// Stored lookup — rebuilt once per refresh cycle via rebuildContexts().
+    /// Stored (not computed) so @Observable / ObservableObject only notifies
+    /// views once when the dictionary is reassigned, not on every individual
+    /// property change that feeds into it.
+    private(set) var contextLookup: [Int: PlanetContext] = [:]
+
+    /// The single access point for all views — list rows, detail views, map, everything.
+    func context(for planetIndex: Int) -> PlanetContext? {
+        contextLookup[planetIndex]
+    }
+
+    /// Rebuilds the full lookup dictionary. Call once at the end of refreshAll().
+    private func rebuildContexts() {
+        contextLookup = Dictionary(
+            uniqueKeysWithValues: updatedPlanets.compactMap { planet in
+                buildContext(for: planet.index).map { (planet.index, $0) }
+            }
+        )
+    }
+
+    /// Computes a PlanetContext for one planet index. Private — views use context(for:).
+    private func buildContext(for planetIndex: Int) -> PlanetContext? {
+        guard let planet = updatedPlanets.first(where: { $0.index == planetIndex }) else { return nil }
+
+        let defense = updatedDefenseCampaigns.first { $0.planet.index == planetIndex }
+        let isActive = updatedCampaigns.contains { $0.planet.index == planetIndex }
+        let isDefending = defense != nil
+
+        let faction: Faction = {
+            if isDefending, let ef = defense?.planet.event?.faction { return Faction(ownerString: ef) }
+            return Faction(ownerString: planet.currentOwner)
+        }()
+
+        let libPct: Double = {
+            if !isActive && planet.currentOwner.lowercased() == "humans" { return 100.0 }
+            if defense?.planet.event?.eventType == 3, fleetStrengthResource != nil {
+                return (1.0 - fleetStrengthProgress) * 100
+            }
+            return defense?.planet.event?.percentage ?? planet.percentage
+        }()
+
+        let rate = currentLiberationRate(for: planet.name)
+        let timeRemaining: Date? = {
+            let current = planet.event?.percentage ?? planet.percentage
+            guard let r = rate, r > 0 else { return nil }
+            return Date().addingTimeInterval(((100.0 - current) / r) * 3600)
+        }()
+
+        let station = spaceStations.first { $0.planet.index == planetIndex }
+        let stationDetails = station.flatMap { s in
+            firstSpaceStationDetails?.id32 == s.id32 ? firstSpaceStationDetails : nil
+        }
+
+        let regions = planet.regions ?? []
+
+        return PlanetContext(
+            planet: planet,
+            faction: faction,
+            ownerFaction: Faction(ownerString: planet.currentOwner),
+            isActive: isActive,
+            isDefending: isDefending,
+            campaignType: updatedCampaigns.first { $0.planet.index == planetIndex }?.type,
+            liberationType: isDefending ? .defense : .liberation,
+            liberationPercentage: libPct,
+            liberationRate: rate,
+            liberationTimeRemaining: timeRemaining,
+            eventExpiration: defense?.planet.event?.expireTimeDate,
+            eventTotalDuration: defense?.planet.event?.totalDuration,
+            invasionLevel: defense?.planet.event?.invasionLevel,
+            eventHealth: defense?.planet.event?.health,
+            eventMaxHealth: defense?.planet.event?.maxHealth,
+            fleetStrengthProgress: fleetStrengthResource != nil ? fleetStrengthProgress : nil,
+            fleetStrengthResource: fleetStrengthResource,
+            spaceStation: station,
+            spaceStationDetails: stationDetails,
+            spaceStationExpiration: station?.electionEndDate,
+            matchingRegions: regions,
+            isMajorOrderTarget: updatedTaskPlanets.contains { $0.index == planetIndex },
+            taskProgress: planet.taskProgress,
+            warTime: warTime
+        )
     }
     
 }

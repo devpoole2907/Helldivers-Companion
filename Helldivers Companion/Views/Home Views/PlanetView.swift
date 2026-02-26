@@ -72,6 +72,39 @@ struct PlanetView: View {
     private var foreColor: Color {
         planet?.factionColor ?? .gray
     }
+
+    /// Build a PlanetContext from the individual params this view carries.
+    /// Used so CampaignPlanetStatsView (which now takes a context) can be called.
+    private var planetContext: PlanetContext? {
+        guard let planet = planet else { return nil }
+        let isDefending = liberationType == .defense
+        return PlanetContext(
+            planet: planet,
+            faction: planet.faction,
+            ownerFaction: planet.ownerFaction,
+            isActive: true,
+            isDefending: isDefending,
+            campaignType: campaignType,
+            liberationType: liberationType,
+            liberationPercentage: liberation,
+            liberationRate: rate > 0 ? rate : nil,
+            liberationTimeRemaining: nil,
+            eventExpiration: eventExpirationTime,
+            eventTotalDuration: planet.event?.totalDuration,
+            invasionLevel: eventInvasionLevel,
+            eventHealth: eventHealth,
+            eventMaxHealth: eventMaxHealth,
+            fleetStrengthProgress: nil,
+            fleetStrengthResource: nil,
+            spaceStation: nil,
+            spaceStationDetails: nil,
+            spaceStationExpiration: spaceStationExpirationTime,
+            matchingRegions: planet.regions ?? [],
+            isMajorOrderTarget: false,
+            taskProgress: planet.taskProgress,
+            warTime: viewModel.warTime
+        )
+    }
     
     func showChartToggler() {
         withAnimation(.bouncy) {
@@ -95,7 +128,9 @@ struct PlanetView: View {
                 
          
                     
-                CampaignPlanetStatsView(liberation: liberation, liberationType: liberationType, showExtraStats: showExtraStats, planetName: planetName, planet: planet, playerCount: playerCount, isWidget: isWidget, eventExpirationTime: eventExpirationTime, invasionLevel: eventInvasionLevel, spaceStationExpiration: spaceStationExpirationTime, campaignType: campaignType)
+                if let ctx = planetContext {
+                    CampaignPlanetStatsView(context: ctx, showExtraStats: showExtraStats, isWidget: isWidget)
+                }
                     
                 
                 
@@ -292,13 +327,6 @@ enum ChartType: String, SegmentedItem {
             return .text("Defense")
         }
     }
-}
-
-enum LiberationType: String {
-    
-    case liberation = "Liberation"
-    case defense = "Defense"
-    
 }
 
 
