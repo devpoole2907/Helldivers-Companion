@@ -25,105 +25,6 @@ struct UpdatedPlanetView: View {
     
     var isInMapView = false // map view uses navigation view not navigationstack, due to the zoomable package/modifier not working in stack. so this is a workaround that allows us to change the navigationlink styling to the older deprecated way if we are in the map view
 
-    var isActive: Bool {
-        viewModel.updatedCampaigns.contains(where: { $0.planet.index == planet?.index }) // map view needs this, as it shows planet view for all planets even if they arent actively in a campaign. used to hide additional info such as liberation %
-    }
-    
-    private var campaignType: Int? {
-            guard let planet = planet else { return nil }
-            return viewModel.updatedCampaigns.first(where: { $0.planet.index == planet.index })?.type
-        }
-    
-    // any regions e.g cities on super earth
-    var matchingRegions: [Region] {
-        return planet?.regions ?? []
-    }
-    
-    private var planet: UpdatedPlanet? {
-            viewModel.updatedPlanets.first(where: { $0.index == planetIndex })
-        }
-    
-    private var defenseCampaign: UpdatedCampaign? {
-            guard let planet = planet else { return nil }
-            return viewModel.updatedDefenseCampaigns.first(where: { $0.planet.index == planet.index })
-        }
-        
-        private var eventExpirationTime: Date? {
-            defenseCampaign?.planet.event?.expireTimeDate
-        }
-    
-    private var eventInvasionLevel: Int64? {
-        defenseCampaign?.planet.event?.invasionLevel
-    }
-    
-    private var eventHealth: Int64? {
-        defenseCampaign?.planet.event?.health
-    }
-    
-    private var eventMaxHealth: Int64? {
-        defenseCampaign?.planet.event?.maxHealth
-    }
-    
-    private var liberationType: LiberationType {
-        
-        (defenseCampaign != nil) ? .defense : .liberation
-        
-    }
-    
-    private var activeSpaceStation: SpaceStation? {
-        return viewModel.spaceStations.first { spaceStation in
-            spaceStation.planet.index == planet?.index
-        }
-    }
-    
-    private var activeSpaceStationDetails: SpaceStationDetails? {
-        guard let activeSpaceStation = activeSpaceStation else { return nil }
-        return viewModel.firstSpaceStationDetails?.id32 == activeSpaceStation.id32 ? viewModel.firstSpaceStationDetails : nil
-    }
-    
-    private var spaceStationExpirationTime: Date? {
-        return activeSpaceStation?.electionEndDate
-    }
-    
-    private var liberationPercentage: Double? {
-        
-        if !viewModel.updatedCampaigns.contains(where: { $0.planet.index == planetIndex }), planet?.ownerFaction == .human {
-            return 100.0
-        }
-        
-        // super broken way of using fleet stremgth progress but whatever we got 3 weeks off soon to work on this shit
-        
-        if defenseCampaign?.planet.event?.eventType == 3, viewModel.fleetStrengthResource != nil {
-            return (1.0 - viewModel.fleetStrengthProgress) * 100
-        }
-       
-            return defenseCampaign?.planet.event?.percentage ?? planet?.percentage
-        
-
-       
-    }
-    
-    private var liberationTimeRemaining: Date? {
-        
-        guard let planet = planet else { return nil }
-        
-        let currentLiberation = planet.event?.percentage ?? planet.percentage
-        
-        guard let liberationRate = viewModel.currentLiberationRate(for: planet.name), liberationRate > 0 else {
-            return nil
-        }
-        
-        let remainingPercentage = 100.0 - currentLiberation
-            let timeRemaining = (remainingPercentage / liberationRate) * 3600
-          
-        let liberationDate = Date().addingTimeInterval(timeRemaining)
-        
-        return liberationDate
-          
-    }
-    
-    
-
 #if os(iOS)
     let raceIconSize: CGFloat = 25
     let spacingSize: CGFloat = 10
@@ -136,60 +37,62 @@ struct UpdatedPlanetView: View {
     let zStackAlignment: Alignment = .topLeading
 #endif
     
-    private var planetData: [UpdatedPlanetDataPoint] {
-        viewModel.planetHistory[planet?.name ?? ""] ?? []
-    }
-    
-    private var formattedPlanetImageName: String {
-        
-        PlanetImageFormatter.formattedPlanetImageName(for: planet)
-        
-    }
-    
-    private var factionImage: String {
-        planet?.faction.imageName ?? "unknown"
-    }
-    
-    private var foreColor: Color {
-        planet?.factionColor ?? .gray
-    }
-    
     var body: some View {
-        
-        VStack {
-            
-            VStack(spacing: showExtraStats ? 6 : 2) {
-                
-                headerWithImage
-                    
-                CampaignPlanetStatsView(
-                    liberation: liberationPercentage ?? 100.0,
-                    liberationType: liberationType,
-                    showExtraStats: showExtraStats,
-                    planetName: planet?.name,
-                    planet: planet,
-                    playerCount: planet?.statistics.playerCount,
-                    isWidget: isWidget,
-                    eventExpirationTime: eventExpirationTime,
-                    invasionLevel: eventInvasionLevel,
-                    maxHealth: eventMaxHealth,
-                    health: eventHealth,
-                    spaceStationExpiration: spaceStationExpirationTime,
-                    spaceStationDetails: activeSpaceStationDetails,
-                    warTime: viewModel.warTime,
-                    isActive: isActive,
-                    campaignType: campaignType
-                )
-                
-            }.onTapGesture {
-                // nav to planet info view if tapped anywhere
-                if let planet = planet {
-                    navPather.navigationPath.append(planet.index)
-                }
-                
+        if let context = viewModel.context(for: planetIndex) {
+            UpdatedPlanetContentView(
+                context: context,
+                showImage: showImage,
+                showExtraStats: showExtraStats,
+                isWidget: isWidget,
+                isInMapView: isInMapView,
+                planetHistory: viewModel.planetHistory[context.planet.name] ?? [],
+                isMajorOrderTarget: context.isMajorOrderTarget
+            )
+            .onTapGesture {
+                navPather.navigationPath.append(context.planet.index)
             }
-            
-            
+        }
+    }
+}
+
+/// Purely presentational — receives everything it needs, no view model lookups.
+@available(watchOS 9.0, *)
+private struct UpdatedPlanetContentView: View {
+
+    let context: PlanetContext
+    var showImage = true
+    var showExtraStats = true
+    var isWidget = false
+    var isInMapView = false
+    var planetHistory: [UpdatedPlanetDataPoint]
+    var isMajorOrderTarget: Bool
+
+    @EnvironmentObject var navPather: NavigationPather
+
+#if os(iOS)
+    let raceIconSize: CGFloat = 25
+    let spacingSize: CGFloat = 10
+    let zStackAlignment: Alignment = .topTrailing
+#elseif os(watchOS)
+    let raceIconSize: CGFloat = 20
+    let spacingSize: CGFloat = 4
+    let zStackAlignment: Alignment = .topLeading
+#endif
+
+    private var formattedPlanetImageName: String {
+        PlanetImageFormatter.formattedPlanetImageName(for: context.planet)
+    }
+
+    var body: some View {
+        VStack {
+            VStack(spacing: showExtraStats ? 6 : 2) {
+                headerWithImage
+                CampaignPlanetStatsView(
+                    context: context,
+                    showExtraStats: showExtraStats,
+                    isWidget: isWidget
+                )
+            }
         }.padding(5)
             .background {
                 if isWidget {
@@ -199,19 +102,18 @@ struct UpdatedPlanetView: View {
                 }
             }
         // red border if its super earth and current active in campaign
-            .border(isActive && planetIndex == 0 ? .red : foreColor, width: isWidget ? 0 : 2)
-     
+            .border(context.isActive && context.planet.index == 0 ? .red : context.factionColor, width: isWidget ? 0 : 2)
     }
-    
+
     var planetNameAndIcon: some View {
         return Group {
-            Image(factionImage).resizable().aspectRatio(contentMode: .fill)
+            Image(context.factionImageName).resizable().aspectRatio(contentMode: .fill)
                 .frame(width: raceIconSize, height: raceIconSize)
                 .shadow(radius: 3)
             
             VStack(alignment: .leading, spacing: -7) {
             HStack(spacing: 2){
-                Text(planet?.name ?? "Unknown").textCase(.uppercase).foregroundStyle(foreColor)
+                Text(context.planet.name).textCase(.uppercase).foregroundStyle(context.factionColor)
                     .font(Font.custom("FSSinclair", size: largeFont))
                     .padding(.top, 3)
                     .shadow(radius: 5)
@@ -229,30 +131,26 @@ struct UpdatedPlanetView: View {
                         .bold()
                         .font(.footnote)
                 } else {
-                    Image(systemName: liberationType == .defense ? "shield.lefthalf.filled" : "target")
+                    Image(systemName: context.liberationType == .defense ? "shield.lefthalf.filled" : "target")
                         .font(.footnote)
                         .padding(.leading, 2)
                         .foregroundStyle(.white)
                 }
-                
-                
-                
-                
             }
-                if let timeRemaining = liberationTimeRemaining {
+                if let timeRemaining = context.liberationTimeRemaining {
                     
                     #if os(iOS)
                     Group {
-                        Text("\(liberationType == .defense ? "DEFENDED" : "LIBERATION") IN: ")
+                        Text("\(context.liberationType == .defense ? "DEFENDED" : "LIBERATION") IN: ")
                         + Text(timeRemaining, style: .relative)
                         
                         
                     }.font(Font.custom("FSSinclair-Bold", size: smallFont))
                         .foregroundStyle(.gray)
                     #else
-                    // let it veritically stack
+                    // let it vertically stack
                     Group {
-                        Text("\(liberationType == .defense ? "DEFENDED" : "LIBERATION") IN: ")
+                        Text("\(context.liberationType == .defense ? "DEFENDED" : "LIBERATION") IN: ")
                         Text(timeRemaining, style: .relative)
                             .padding(.top, 1)
                         
@@ -266,107 +164,101 @@ struct UpdatedPlanetView: View {
                 }
             
         } .shadow(radius: 3)
-                .animation(.bouncy, value: viewModel.planetHistory.count)
             
         }
     }
-    
+
     var headerWithImage: some View {
         ZStack(alignment: .bottom){
             
             if showImage {
-       
+                ZStack(alignment: zStackAlignment){
+                    ZStack(alignment: .bottom) {
+                        
+                        planetaryImage
+                        
+                        LinearGradient(
+                            gradient: Gradient(colors: [.clear, .black]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        .blendMode(.multiply)
+                        .frame(maxHeight: 80)
+                        
+                    }
                     
-                    // this really messes with the widgets so ive done it in an... odd way
-                    ZStack(alignment: zStackAlignment){
-                        ZStack(alignment: .bottom) {
-                            
-                            planetaryImage
-                            
-                            
-                            LinearGradient(
-                                gradient: Gradient(colors: [.clear, .black]),
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                            .blendMode(.multiply)
-                            
-                            .frame(maxHeight: 80)
-                            
-                        }
+                    HStack(spacing: 8) {
                         
-                        HStack(spacing: 8) {
-                            
-                            if let planet = planet, viewModel.updatedTaskPlanets.contains(planet) {
-                                Image("orderstar").resizable()
-                                    .renderingMode(.template)
-                                    .aspectRatio(contentMode: .fit)
-                                    .foregroundStyle(Color(red: 49/255, green: 49/255, blue: 49/255))
-                                    .frame(width: weatherIconSize, height: weatherIconSize)
-                                    .offset(x: 0, y: -0.5)
-                                    .padding(4)
-                                    .background{
-                                        Circle().foregroundStyle(Color.white)
-                                            .shadow(radius: 3.0)
-                                    }
-                            }
-                            
-                     
-#if os(iOS)
-                            // dont show spacer on watchos
-                            Spacer()
-                        
-                            #endif
-                        // show weather icons
-                        if let weathers = planet?.hazards {
-
-                                ForEach(weathers, id: \.name) { weather in
-                                    if weather.name.lowercased() != "none" {
-                                        Image(weather.name).resizable().aspectRatio(contentMode: .fit)
-                                        
-                                            .frame(width: weatherIconSize, height: weatherIconSize)
-                                            .padding(4)
-                                            .background{
-                                                Circle().foregroundStyle(Color.white)
-                                                    .shadow(radius: 3.0)
-                                            }
-                                    }
+                        if isMajorOrderTarget {
+                            Image("orderstar").resizable()
+                                .renderingMode(.template)
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundStyle(Color(red: 49/255, green: 49/255, blue: 49/255))
+                                .frame(width: weatherIconSize, height: weatherIconSize)
+                                .offset(x: 0, y: -0.5)
+                                .padding(4)
+                                .background{
+                                    Circle().foregroundStyle(Color.white)
+                                        .shadow(radius: 3.0)
                                 }
                         }
-                            
-                            // show any galactic effect:
-                            
-                            if let effects = planet?.galacticEffects {
-            
-                                ForEach(effects, id: \.galacticEffectId) { effect in
+                        
+                 
+#if os(iOS)
+                        // dont show spacer on watchos
+                        Spacer()
+                    
+                        #endif
+                    // show weather icons
+                    if let weathers = context.planet.hazards as [Environmental]? {
+
+                            ForEach(weathers, id: \.name) { weather in
+                                if weather.name.lowercased() != "none" {
+                                    Image(weather.name).resizable().aspectRatio(contentMode: .fit)
                                     
-                                    if let imageName = effect.imageName {
-                                        Image(imageName).resizable()
-                                            .renderingMode(.template)
-                                            .foregroundStyle(Color(red: 49/255, green: 49/255, blue: 49/255))
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: weatherIconSize - 2, height: weatherIconSize - 2)
-                                            .offset(x: imageName == "sciencecenter" ? -1 : 0, y: 0)
-                                            .padding(4)
-                                            .background{
-                                                Circle().foregroundStyle(Color.white)
-                                                    .shadow(radius: 3.0)
-                                            }
-                                    }
-                                    
+                                        .frame(width: weatherIconSize, height: weatherIconSize)
+                                        .padding(4)
+                                        .background{
+                                            Circle().foregroundStyle(Color.white)
+                                                .shadow(radius: 3.0)
+                                        }
+                                }
+                            }
+                    }
+                        
+                        // show any galactic effect:
+                        
+                        if let effects = context.planet.galacticEffects {
+        
+                            ForEach(effects, id: \.galacticEffectId) { effect in
+                                
+                                if let imageName = effect.imageName {
+                                    Image(imageName).resizable()
+                                        .renderingMode(.template)
+                                        .foregroundStyle(Color(red: 49/255, green: 49/255, blue: 49/255))
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: weatherIconSize - 2, height: weatherIconSize - 2)
+                                        .offset(x: imageName == "sciencecenter" ? -1 : 0, y: 0)
+                                        .padding(4)
+                                        .background{
+                                            Circle().foregroundStyle(Color.white)
+                                                .shadow(radius: 3.0)
+                                        }
                                 }
                                 
                             }
                             
-                        }.opacity(0.7)
+                        }
                         
-                            .padding(5)
-                        
-                        
-                        
-                    }
+                    }.opacity(0.7)
                     
+                        .padding(5)
+                    
+                    
+                    
+                }
                 
+            
             }
             
      
@@ -376,7 +268,7 @@ struct UpdatedPlanetView: View {
                     if isWidget {
                         planetNameAndIcon
                     } else {
-                        NavigationLink(value: planet?.index) {
+                        NavigationLink(value: context.planet.index) {
                             planetNameAndIcon
                         }
                     }
@@ -384,10 +276,7 @@ struct UpdatedPlanetView: View {
 #else
                     
                     Button(action: {
-                        if let planet = planet {
-                            navPather.navigationPath.append(planet.index)
-                        }
-                        
+                        navPather.navigationPath.append(context.planet.index)
                     }){
                         planetNameAndIcon
                     }.buttonStyle(PlainButtonStyle())
@@ -399,21 +288,18 @@ struct UpdatedPlanetView: View {
                     if !showExtraStats {
                         HStack(spacing: spacingSize) {
                             
-                            
                             Image("diver").resizable().aspectRatio(contentMode: .fit)
                                 .frame(width: 16, height: 16)
-                            Text("\(planet?.statistics.playerCount ?? 0)").textCase(.uppercase)
+                            Text("\(context.planet.statistics.playerCount)").textCase(.uppercase)
                                 .foregroundStyle(.white).bold()
                                 .font(Font.custom("FSSinclair", size: smallFont))
                                 .padding(.top, 3)
-                            
                             
                         }.padding(.trailing, 4)
                     }
                     
                 }.padding(.horizontal, 5)
                     .padding(.vertical, 2)
-                
             
             
             
@@ -423,13 +309,7 @@ struct UpdatedPlanetView: View {
     }
     
     var planetaryImage: some View {
-        
         Image(formattedPlanetImageName).resizable().aspectRatio(contentMode: .fit)
-        
-        
-        
-        
-        
     }
     
 }

@@ -104,6 +104,22 @@ struct GalaxyMapView: View {
                     .opacity(0.4)
                 
                 
+                // Use the pre-built context lookup (rebuilt once per refresh) to avoid
+                // repeated .first(where:) scans per planet per render.
+                let ctxLookup = campaigns.isEmpty ? viewModel.contextLookup : [Int: PlanetContext]()
+
+                // Widget-path fallback: precompute flat lookups once per render so the
+                // ForEach bodies below stay O(1) rather than O(n) per planet.
+                let activeCampaignIndices: Set<Int> = ctxLookup.isEmpty
+                    ? Set(allCampaigns.map(\.planet.index))
+                    : []
+                let defensePercentageLookup: [Int: Double] = ctxLookup.isEmpty
+                    ? Dictionary(uniqueKeysWithValues: allDefenseCampaigns.compactMap { c -> (Int, Double)? in
+                        guard let pct = c.planet.event?.percentage else { return nil }
+                        return (c.planet.index, pct)
+                    })
+                    : [:]
+
                 if showSupplyLines {
                     
                     // for supply lines, lines between each planet using the planets waypoints variable
@@ -113,15 +129,15 @@ struct GalaxyMapView: View {
                             ForEach(updatedPlanet.waypoints, id: \.self) { waypointIndex in
                                 if let endPoint = boundingBoxTransformedPosition(forPlanetIndex: waypointIndex,
                                                                                  in: imageSize),
-                                   showAllPlanets || allCampaigns.contains(where: { $0.planet.index == updatedPlanet.index || $0.planet.index == waypointIndex }) ||
-                                    allPlanets.first(where: { $0.index == updatedPlanet.index })?.ownerFaction != .human {
+                                   showAllPlanets || activeCampaignIndices.contains(updatedPlanet.index) || activeCampaignIndices.contains(waypointIndex) ||
+                                    updatedPlanet.ownerFaction != .human {
                                     Path { path in
                                         path.move(to: startPoint)
                                         path.addLine(to: endPoint)
                                     }
                                     
                                     .stroke(
-                                        allDefenseCampaigns.contains(where: { $0.planet.index == updatedPlanet.index }) ? Color.cyan.opacity(0.5) : updatedPlanet.factionColor.opacity(0.5),
+                                        (ctxLookup[updatedPlanet.index]?.isDefending ?? defensePercentageLookup.keys.contains(updatedPlanet.index)) ? Color.cyan.opacity(0.5) : updatedPlanet.factionColor.opacity(0.5),
                                         style: StrokeStyle(lineWidth: 1, dash: [2, 1])
                                     )
                                     .allowsHitTesting(false)
@@ -140,15 +156,15 @@ struct GalaxyMapView: View {
                     } else {
                         // replicate your old filter logic:
                         let isOwnerNotHuman = updatedPlanet.ownerFaction != .human
-                        let isInCampaign = allCampaigns.contains { $0.planet.index == updatedPlanet.index }
-                        
+                        let isInCampaign = activeCampaignIndices.contains(updatedPlanet.index)
+
                         let hasWaypointToCampaign = updatedPlanet.waypoints.contains { waypointIndex in
-                            allCampaigns.contains { $0.planet.index == waypointIndex }
+                            activeCampaignIndices.contains(waypointIndex)
                         }
-                        
+
                         let isTargetOfCampaign = allPlanets.contains { planet in
                             planet.waypoints.contains(updatedPlanet.index) &&
-                            allCampaigns.contains { $0.planet.index == planet.index }
+                            activeCampaignIndices.contains(planet.index)
                         }
                         
                         return isInCampaign
@@ -160,24 +176,33 @@ struct GalaxyMapView: View {
                 }, id: \.index) { updatedPlanet in
                     
                     let planetPosition = boundingBoxTransformedPosition(for: updatedPlanet, imageSize: imageSize)
+
+                    // Use pre-built context when available (main app), fall back to
+                    // per-planet lookups for widget path where contextLookup isn't available.
+                    let ctx = ctxLookup[updatedPlanet.index]
                     
                     // determine if has dss stationed here
-                    let hasSpaceStation = viewModel.spaceStations.first?.planet.index == updatedPlanet.index
-                    
-                    
-                    // determine if in an active campaign,
-                    let activeCampaign = allCampaigns.first(where: { $0.planet.index == updatedPlanet.index })
-                    let isDefending = allDefenseCampaigns.first(where: { $0.planet.index == updatedPlanet.index })
-                    
-                    // change size of circle, if its in a campaign or selected it should be larger
-                    let circleSize = selectedPlanet?.index == updatedPlanet.index ? 10 :
-                    ((activeCampaign != nil) ? 8 : 6)
+                    let hasSpaceStation: Bool = {
+                        if let ctx { return ctx.spaceStation != nil }
+                        return viewModel.spaceStations.first?.planet.index == updatedPlanet.index
+                    }()
+
+                    // Use pre-built context booleans when available; fall back to O(1) lookups for the widget path.
+                    let isActiveCampaign = ctx?.isActive ?? activeCampaignIndices.contains(updatedPlanet.index)
+                    let isDefending = ctx?.isDefending ?? (defensePercentageLookup[updatedPlanet.index] != nil)
+                    // Defense progress: use pre-computed liberationPercentage from context when available;
+                    // fall back to the precomputed defense percentage lookup for the widget path.
+                    let defenseProgressPercentage: Double? = isDefending
+                        ? (ctx?.liberationPercentage ?? defensePercentageLookup[updatedPlanet.index])
+                        : nil
                     
                     
                     ZStack {
                         
                         // show red expanding ring around defense planets
-                        if isDefending != nil || viewModel.updatedTaskPlanets.contains(where: { $0.index == updatedPlanet.index }) {
+                        let isMajorOrderTarget = ctx?.isMajorOrderTarget ?? viewModel.updatedTaskPlanets.contains(where: { $0.index == updatedPlanet.index })
+                        let dotSize: CGFloat = selectedPlanet?.index == updatedPlanet.index ? 10 : (isActiveCampaign ? 8 : 6)
+                        if isDefending || isMajorOrderTarget {
                             Circle()
                                 .scaleEffect(isScaled ? 2.0 : 0.8)
                                 .opacity(isScaled ? 0 : 1.0)
@@ -186,15 +211,15 @@ struct GalaxyMapView: View {
                                                value: isScaled
                                            )
                                         
-                                           .frame(width: selectedPlanet?.index == updatedPlanet.index ? 10 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 8 : 6), height: selectedPlanet?.index == updatedPlanet.index ? 10 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 8 : 6))
+                                           .frame(width: dotSize, height: dotSize)
                                 .position(planetPosition)
-                                .foregroundStyle(isDefending != nil ? .red : .yellow)
+                                .foregroundStyle(isDefending ? .red : .yellow)
                                
                             
                         }
                         
                         Circle()
-                            .frame(width: selectedPlanet?.index == updatedPlanet.index ? 10 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 8 : 6), height: selectedPlanet?.index == updatedPlanet.index ? 10 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 8 : 6))
+                            .frame(width: dotSize, height: dotSize)
                             .position(planetPosition)
                         
                         
@@ -253,26 +278,18 @@ struct GalaxyMapView: View {
                             }
                         }
                         
-                        if let defenseCampaign = isDefending {
-                            
-                            if let percentage = defenseCampaign.planet.event?.percentage {
-                                let progress = percentage / 100.0
-                                
-                                CircularProgressView(progress: progress, color: updatedPlanet.factionColor)
-                                    .frame(width: selectedPlanet?.index == updatedPlanet.index ? 8 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 6 : 4), height: selectedPlanet?.index == updatedPlanet.index ? 8 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 6 : 4))
-                                    .position(planetPosition)
-                                
-                            }
-                            
-                            
-                        } else if let percentage = activeCampaign?.planet.percentage {
-                                let progress = percentage / 100.0
-                                
-                                CircularProgressView(progress: progress, color: updatedPlanet.factionColor)
-                                    .frame(width: selectedPlanet?.index == updatedPlanet.index ? 8 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 6 : 4), height: selectedPlanet?.index == updatedPlanet.index ? 8 : selectedPlanet?.index == updatedPlanet.index ? 8 : (activeCampaign != nil ? 6 : 4))
-                                    .position(planetPosition)
-                                
-                            }
+                        let progressRingSize: CGFloat = selectedPlanet?.index == updatedPlanet.index ? 8 : (isActiveCampaign ? 6 : 4)
+                        if let percentage = defenseProgressPercentage {
+                            let progress = percentage / 100.0
+                            CircularProgressView(progress: progress, color: updatedPlanet.factionColor)
+                                .frame(width: progressRingSize, height: progressRingSize)
+                                .position(planetPosition)
+                        } else if isActiveCampaign {
+                            let progress = updatedPlanet.percentage / 100.0
+                            CircularProgressView(progress: progress, color: updatedPlanet.factionColor)
+                                .frame(width: progressRingSize, height: progressRingSize)
+                                .position(planetPosition)
+                        }
                         
                         if showPlanetNames && selectedPlanet?.index != updatedPlanet.index && currentZoomLevel > 1.5 {
                            // dont show floating planet name if they have tapped on it, thats duplicate info in the ui they can see it already
