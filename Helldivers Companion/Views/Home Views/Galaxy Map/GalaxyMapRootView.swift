@@ -125,26 +125,8 @@ struct GalaxyMapRootView: View {
                         .font(Font.custom("FSSinclair", size: 24)).bold()
                 }
                 
-                if #unavailable(iOS 17.0) {
-                    
-                    ToolbarItem(placement: .topBarTrailing) {
-                        
-                        Button(action: {
-                            
-                            IOS16AlertPopup().showAndStack()
-                            
-                        }){
-                            Image(systemName: "exclamationmark.triangle.fill")
-                               
-                        } .tint(.red)
-                        
-                    }
-                    
-                    
-                } else { // else display player count here too on ios 17+
-                    ToolbarItem(placement: .topBarTrailing) {
-                        PlayerCountView().environment(viewModel)
-                    }
+                ToolbarItem(placement: .topBarTrailing) {
+                    PlayerCountView().environment(viewModel)
                 }
                 
                 

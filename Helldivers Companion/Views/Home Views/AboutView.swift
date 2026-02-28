@@ -198,7 +198,6 @@ struct AboutView: View {
         }.presentationDetents([.fraction(0.8), .large])
     }
 }
-@available(watchOS 9.0, *)
 struct SettingsRow: View {
     
     @Environment(PlanetsDataModel.self) var viewModel
@@ -309,7 +308,6 @@ struct SettingsRow: View {
     }
     
 }
-@available(watchOS 9.0, *)
 struct SettingsSheet: View {
     
     @Binding var selection: Bool

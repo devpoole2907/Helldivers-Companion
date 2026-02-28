@@ -552,7 +552,8 @@ class StratagemHeroModel {
         
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             guard let self = self else { return }
-            MainActor.assumeIsolated {
+            Task { @MainActor [weak self] in
+                guard let self = self else { return }
                 self.timeRemaining -= 0.1
                 if self.timeRemaining <= 0 {
                     // Game over
@@ -629,16 +630,16 @@ class StratagemHeroModel {
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data, error == nil else {
                 print("Error fetching stratagems: \(error!)")
-                completion([])
+                Task { @MainActor in completion([]) }
                 return
             }
             
             do {
                 let stratagems = try JSONDecoder().decode([Stratagem].self, from: data)
-                completion(stratagems)
+                Task { @MainActor in completion(stratagems) }
             } catch {
                 print("Error decoding stratagems: \(error)")
-                completion([])
+                Task { @MainActor in completion([]) }
             }
         }
         task.resume()

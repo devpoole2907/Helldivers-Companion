@@ -7,7 +7,6 @@
 
 import SwiftUI
 import AVFoundation
-@available(watchOS 9.0, *)
 struct GameViewWatch: View {
     
     // viewmodel must be enviro as root will load the game sounds

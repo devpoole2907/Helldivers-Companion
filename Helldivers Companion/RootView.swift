@@ -30,8 +30,6 @@ struct RootView: View {
     
     @State var mapNavPather = NavigationPather()
     
-    @State var settingsNavPather = NavigationPather()
-    
     @State var showMajorOrderButton: Bool = true
     
     @State var showNotificationOptions: Bool = false

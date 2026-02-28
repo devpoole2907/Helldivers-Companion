@@ -40,26 +40,12 @@ struct ContentViewWatchVersion: View {
             WatchOrdersView().environment(viewModel)
                 .tag(Tab.orders)
             
-            if #available(watchOS 10, *) {
             WatchGalaxyStatsView().environment(viewModel).environment(statsNavPather)
                 .tag(Tab.stats)
             
-        
-                WatchNewsView().environment(newsNavPather).environment(viewModel)
-                    .tag(Tab.news)
-                
-                
-                
-                
-                    .navigationBarTitleDisplayMode(.inline)
-            } else {
-                
-                
-                Text("Update to watchOS 10.0 for the complete War Monitor experience.")
-                    .multilineTextAlignment(.center)
-                    .tag(Tab.news)
-                
-            }
+            WatchNewsView().environment(newsNavPather).environment(viewModel)
+                .tag(Tab.news)
+                .navigationBarTitleDisplayMode(.inline)
             
         }.conditionalBackground(viewModel: viewModel)
         

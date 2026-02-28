@@ -376,7 +376,6 @@ struct ChartAnnotationView: View {
         .background{ Color.black}
     }
 }
-@available(watchOS 9.0, *)
 struct HistoryChart: View {
     @Environment(PlanetsDataModel.self) var viewModel
     var liberationType: LiberationType

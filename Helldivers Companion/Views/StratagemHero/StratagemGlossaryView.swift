@@ -9,7 +9,6 @@ import SwiftUI
 #if os(iOS)
 import SwiftUIIntrospect
 #endif
-@available(watchOS 9.0, *)
 struct StratagemGlossaryView: View {
     
     @Environment(StratagemHeroModel.self) var viewModel
@@ -181,7 +180,6 @@ struct StratagemGlossaryView: View {
     }
 }
 
-@available(watchOS 9.0, *)
 struct StratagemInfoRow: View {
     
     @Environment(StratagemHeroModel.self) var viewModel
@@ -232,17 +230,9 @@ struct StratagemInfoRow: View {
                         ForEach(stratagem.sequence, id: \.self) { input in
                             
                             
-                            if #available(iOS 17.0, *) {
-                                Image(systemName: "arrowshape.\(input).fill")
-                                    .foregroundStyle(.white)
-                                    .shadow(radius: 3)
-                                
-                            } else {
-                                Image(systemName: "arrowtriangle.\(input).fill")
-                                    .foregroundStyle(.white)
-                                    .shadow(radius: 3)
-                                
-                            }
+                            Image(systemName: "arrowshape.\(input).fill")
+                                .foregroundStyle(.white)
+                                .shadow(radius: 3)
                             
                             
                         }
