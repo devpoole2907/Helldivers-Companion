@@ -10,7 +10,7 @@ import SwiftUI
 
 struct PersonalOrderView: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
     @Environment(\.dismiss) var dismiss
     

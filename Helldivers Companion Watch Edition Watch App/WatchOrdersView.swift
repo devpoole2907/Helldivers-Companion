@@ -6,10 +6,9 @@
 //
 
 import SwiftUI
-@available(watchOS 9.0, *)
 struct WatchOrdersView: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
     var body: some View {
         NavigationStack {

@@ -10,7 +10,7 @@ import SwiftUI
 struct BoostersList: View {
     
     @EnvironmentObject var dbModel: DatabaseModel
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
     var body: some View {
         ScrollView {

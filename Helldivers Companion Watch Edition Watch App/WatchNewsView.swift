@@ -11,12 +11,12 @@ import SwiftUI
 struct WatchNewsView: View {
     
     @StateObject var feedModel = NewsFeedModel()
-    @EnvironmentObject var navPather: NavigationPather
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(NavigationPather.self) var navPather
+    @Environment(PlanetsDataModel.self) var viewModel
     
     
     var body: some View {
-        
+        @Bindable var navPather = navPather
         
         NavigationStack(path: $navPather.navigationPath) {
             TabView {

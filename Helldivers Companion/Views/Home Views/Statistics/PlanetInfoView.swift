@@ -6,11 +6,10 @@
 //
 
 import SwiftUI
-@available(watchOS 9.0, *)
 struct PlanetInfoView: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
-    @EnvironmentObject var navPath: NavigationPather
+    @Environment(PlanetsDataModel.self) var viewModel
+    @Environment(NavigationPather.self) var navPath
     
     @State private var infoType: InfoType = .warEffort
     
@@ -166,7 +165,7 @@ struct PlanetInfoView: View {
                     
                     // dont show this data if the planet isnt a current campaign
                     if campaign && infoType == .warEffort {
-                        HistoryChart(liberationType: liberationType, planetData: planetData, factionColor: planet?.factionColor ?? Color.gray).environmentObject(viewModel)
+                        HistoryChart(liberationType: liberationType, planetData: planetData, factionColor: planet?.factionColor ?? Color.gray).environment(viewModel)
                             .shadow(radius: 5.0)
                         VStack(alignment: .center, spacing: 2) {
                             if let timeRemaining = liberationTimeRemaining {

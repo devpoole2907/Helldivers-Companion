@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WarBondsList: View {
     @EnvironmentObject var dbModel: DatabaseModel
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
     var body: some View {
         ScrollView {
@@ -77,7 +77,7 @@ struct WarBondRow: View {
 struct WarbondsItemsList: View {
     
     @EnvironmentObject var dbModel: DatabaseModel
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
     let warbond: FixedWarBond
     

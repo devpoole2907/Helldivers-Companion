@@ -9,7 +9,7 @@ import SwiftUI
 
 struct OrderView: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
     @Environment(\.dismiss) var dismiss
     
@@ -173,7 +173,7 @@ struct OrderView: View {
 }
 
 #Preview {
-    OrderView().environmentObject(PlanetsDataModel())
+    OrderView().environment(PlanetsDataModel())
 }
 
 

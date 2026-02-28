@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ConditionalBackgroundModifier: ViewModifier {
     
-    @ObservedObject var viewModel: PlanetsDataModel
+    var viewModel: PlanetsDataModel
     
     var grayscale = false
     

@@ -6,11 +6,10 @@
 //
 
 import SwiftUI
-@available(watchOS 9.0, *)
 struct AboutView: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
-    @EnvironmentObject var navPather: NavigationPather
+    @Environment(PlanetsDataModel.self) var viewModel
+    @Environment(NavigationPather.self) var navPather
     
     let gitUrl = "https://github.com/devpoole2907/Helldivers-Companion"
     let supportUrl = "https://devpoole2907.github.io/helldivers-companion-support/"
@@ -32,6 +31,8 @@ struct AboutView: View {
     }
     
     var body: some View {
+        @Bindable var viewModel = viewModel
+        @Bindable var navPather = navPather
         NavigationStack(path: $navPather.navigationPath) {
             ScrollView {
            
@@ -200,7 +201,7 @@ struct AboutView: View {
 @available(watchOS 9.0, *)
 struct SettingsRow: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
     let settingTitle: String
     var settingSubtitle: String?

@@ -18,19 +18,19 @@ struct RootView: View {
     
     @StateObject private var newsModel = NewsFeedModel()
     
-    @StateObject var viewModel = PlanetsDataModel()
+    @State var viewModel = PlanetsDataModel()
     
     @StateObject var dbModel = DatabaseModel()
     
-    @StateObject var contentNavPather = NavigationPather()
+    @State var contentNavPather = NavigationPather()
     
-    @StateObject var statsNavPather = NavigationPather()
+    @State var statsNavPather = NavigationPather()
     
-    @StateObject var newsNavPather = NavigationPather()
+    @State var newsNavPather = NavigationPather()
     
-    @StateObject var mapNavPather = NavigationPather()
+    @State var mapNavPather = NavigationPather()
     
-    @StateObject var settingsNavPather = NavigationPather()
+    @State var settingsNavPather = NavigationPather()
     
     @State var showMajorOrderButton: Bool = true
     
@@ -58,29 +58,34 @@ struct RootView: View {
     
     
     var body: some View {
+        @Bindable var viewModel = viewModel
+        @Bindable var contentNavPather = contentNavPather
+        @Bindable var statsNavPather = statsNavPather
+        @Bindable var newsNavPather = newsNavPather
+        @Bindable var mapNavPather = mapNavPather
         ZStack(alignment: .bottomTrailing) {
         ZStack(alignment: .bottom){
             TabView(selection: $viewModel.currentTab) {
                 
-                ContentView().environmentObject(viewModel).environmentObject(contentNavPather).environmentObject(dbModel)
+                ContentView().environment(viewModel).environment(contentNavPather).environmentObject(dbModel)
                     .tag(Tab.home)
                 
                     .task {
                         await notificationManager.request()
                     }
                 
-                GalaxyMapRootView().environmentObject(viewModel).environmentObject(mapNavPather)
+                GalaxyMapRootView().environment(viewModel).environment(mapNavPather)
                     .tag(Tab.map)
               
-                GameView().environmentObject(viewModel)
+                GameView().environment(viewModel)
                     .tag(Tab.game)
                 
-                GalaxyStatsView().environmentObject(viewModel).environmentObject(statsNavPather).environmentObject(dbModel)
+                GalaxyStatsView().environment(viewModel).environment(statsNavPather).environmentObject(dbModel)
                     .tag(Tab.stats)
                 
               
                 
-                NewsView().environmentObject(newsNavPather).environmentObject(viewModel).environmentObject(dbModel).environmentObject(newsModel)
+                NewsView().environment(newsNavPather).environment(viewModel).environmentObject(dbModel).environmentObject(newsModel)
                     .tag(Tab.news)
                 
              
@@ -175,10 +180,10 @@ struct RootView: View {
             
         }
             
-        .onChange(of: viewModel.currentTab) { _ in
+        .onChange(of: viewModel.currentTab) {
                         updateMajorOrderButtonVisibility()
                     }
-                    .onChange(of: contentNavPather.navigationPath) { _ in
+                    .onChange(of: contentNavPather.navigationPath) {
                         updateMajorOrderButtonVisibility()
                     }
         
@@ -227,11 +232,7 @@ struct RootView: View {
             }
         
             .sheet(isPresented: $viewModel.showPlayerCount) {
-                if #available(iOS 17.0, *) {
-                    PlayerCountPieChart().environmentObject(viewModel)
-                } else {
-                    Text("Error: Update to iOS 17")
-                }
+                PlayerCountPieChart().environment(viewModel)
             }
        
         

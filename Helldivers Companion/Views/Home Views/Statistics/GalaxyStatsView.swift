@@ -12,11 +12,12 @@ import SwiftUIIntrospect
 
 struct GalaxyStatsView: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
-    @EnvironmentObject var navPather: NavigationPather
+    @Environment(PlanetsDataModel.self) var viewModel
+    @Environment(NavigationPather.self) var navPather
     @EnvironmentObject var dbModel: DatabaseModel
     
     var body: some View {
+        @Bindable var navPather = navPather
         NavigationStack(path: $navPather.navigationPath) {
             
             ScrollView {
@@ -205,7 +206,7 @@ struct GalaxyStatsView: View {
               
                     
                     ToolbarItem(placement: .topBarTrailing) {
-                        PlayerCountView().environmentObject(viewModel)
+                        PlayerCountView().environment(viewModel)
                     }
                     
 #endif
@@ -254,7 +255,7 @@ struct GalaxyStatsView: View {
 }
 
 #Preview {
-    GalaxyStatsView().environmentObject(PlanetsDataModel()).environmentObject(NavigationPather())
+    GalaxyStatsView().environment(PlanetsDataModel()).environment(NavigationPather())
 }
 
 enum DatabasePage: String, CaseIterable {

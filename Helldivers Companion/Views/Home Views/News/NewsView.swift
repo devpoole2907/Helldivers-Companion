@@ -9,16 +9,15 @@ import SwiftUI
 #if os(iOS)
 import SwiftUIIntrospect
 #endif
-@available(watchOS 9.0, *)
 struct NewsView: View {
     
     @EnvironmentObject var feedModel: NewsFeedModel
-    @EnvironmentObject var navPather: NavigationPather
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(NavigationPather.self) var navPather
+    @Environment(PlanetsDataModel.self) var viewModel
     @EnvironmentObject var dbModel: DatabaseModel
     
     var body: some View {
-        
+        @Bindable var navPather = navPather
         
         NavigationStack(path: $navPather.navigationPath) {
             ScrollView {

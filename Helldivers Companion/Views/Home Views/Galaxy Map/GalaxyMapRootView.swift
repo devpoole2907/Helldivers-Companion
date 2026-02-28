@@ -11,8 +11,8 @@ import Haptics
 
 struct GalaxyMapRootView: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
-    @EnvironmentObject var navPather: NavigationPather
+    @Environment(PlanetsDataModel.self) var viewModel
+    @Environment(NavigationPather.self) var navPather
     
     @State var planetName: String = ""
     @State var position: String = ""
@@ -24,6 +24,8 @@ struct GalaxyMapRootView: View {
     @State private var currentZoomScale: CGFloat = 1.0
     
     var body: some View {
+        @Bindable var viewModel = viewModel
+        @Bindable var navPather = navPather
         
         NavigationStack(path: $navPather.navigationPath) {
             
@@ -36,7 +38,7 @@ struct GalaxyMapRootView: View {
                     
                     Spacer(minLength: 300)
                 
-                    GalaxyMapView(selectedPlanet: $viewModel.selectedPlanet, showSupplyLines: $showSupplyLines, showAllPlanets: $showAllPlanets, showPlanetNames: $showPlanetNames, currentZoomLevel: $currentZoomScale).environmentObject(viewModel)
+                    GalaxyMapView(selectedPlanet: $viewModel.selectedPlanet, showSupplyLines: $showSupplyLines, showAllPlanets: $showAllPlanets, showPlanetNames: $showPlanetNames, currentZoomLevel: $currentZoomScale).environment(viewModel)
                 
                     .frame(width: 300, height: 300)
                     .contentShape(Rectangle())
@@ -141,7 +143,7 @@ struct GalaxyMapRootView: View {
                     
                 } else { // else display player count here too on ios 17+
                     ToolbarItem(placement: .topBarTrailing) {
-                        PlayerCountView().environmentObject(viewModel)
+                        PlayerCountView().environment(viewModel)
                     }
                 }
                 

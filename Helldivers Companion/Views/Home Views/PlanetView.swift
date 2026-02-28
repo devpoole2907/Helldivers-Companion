@@ -10,12 +10,11 @@ import Charts
 import WidgetKit
 
 // this is now used for the widgets only, it needs to be cleaned up a LOTTT of old code lying around
-@available(watchOS 9.0, *)
 struct PlanetView: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
-    @EnvironmentObject var navPather: NavigationPather
+    @Environment(NavigationPather.self) var navPather
     
     var planetName = "Meridia"
     var liberation = 24.13020
@@ -122,7 +121,7 @@ struct PlanetView: View {
                 
                 if showChart {
                     
-                    HistoryChart(liberationType: liberationType, planetData: planetData, factionColor: foreColor).environmentObject(viewModel)
+                    HistoryChart(liberationType: liberationType, planetData: planetData, factionColor: foreColor).environment(viewModel)
                     
                 }
                 
@@ -379,7 +378,7 @@ struct ChartAnnotationView: View {
 }
 @available(watchOS 9.0, *)
 struct HistoryChart: View {
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     var liberationType: LiberationType
     var planetData: [UpdatedPlanetDataPoint]
     @State private var chartSelection: Date?

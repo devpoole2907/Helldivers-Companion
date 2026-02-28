@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SuperStoreList: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     @EnvironmentObject var dbModel: DatabaseModel
     
     var filteredArmour: [Armour] {

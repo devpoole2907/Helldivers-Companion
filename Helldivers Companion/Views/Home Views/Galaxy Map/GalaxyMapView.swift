@@ -40,7 +40,7 @@ struct GalaxyMapView: View {
         return defenseCampaigns.isEmpty ? viewModel.updatedDefenseCampaigns : defenseCampaigns
     }
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
 
     func updatedPlanet(for position: PlanetPosition) -> UpdatedPlanet? {
         allPlanets.first(where: { $0.index == position.index })

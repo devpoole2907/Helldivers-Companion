@@ -10,7 +10,7 @@ import SwiftUI
 struct ArmourList: View {
     
     @EnvironmentObject var dbModel: DatabaseModel
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
     
     // TODO: CHANGE THE DAMN SORTING IN THIS! SPEED RUNNING RN JEEZ

@@ -14,7 +14,7 @@ struct GameView: View {
     @ObservedObject var watchConnectivity = WatchConnectivityProvider.shared
     
     #if os(iOS)
-    @EnvironmentObject var planetModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var planetModel
     #endif
     
     var body: some View {

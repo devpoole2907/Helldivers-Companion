@@ -10,7 +10,7 @@ import MijickPopupView
 
 struct OrdersPopup: CentrePopup {
     
-    @ObservedObject var viewModel: PlanetsDataModel
+    var viewModel: PlanetsDataModel
     var ordersType: OrderType = .major
     
     func configurePopup(popup: CentrePopupConfig) -> CentrePopupConfig {
@@ -30,12 +30,12 @@ struct OrdersPopup: CentrePopup {
             ZStack(alignment: .top) {
             
             if ordersType == .major {
-                OrderView().environmentObject(viewModel)
+                OrderView().environment(viewModel)
                 
                     .offset(CGSize(width: 7, height: 0))
                 
             } else {
-                PersonalOrderView().environmentObject(viewModel)
+                PersonalOrderView().environment(viewModel)
                     .offset(CGSize(width: 7, height: 0))
             }
             
