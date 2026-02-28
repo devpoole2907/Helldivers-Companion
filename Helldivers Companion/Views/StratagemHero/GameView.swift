@@ -9,8 +9,8 @@ import SwiftUI
 
 struct GameView: View {
     
-    @StateObject var viewModel = StratagemHeroModel()
-    @StateObject var gameCenterManager = GameCenterManager()
+    @State var viewModel = StratagemHeroModel()
+    @State var gameCenterManager = GameCenterManager()
     @ObservedObject var watchConnectivity = WatchConnectivityProvider.shared
     
     #if os(iOS)
@@ -274,7 +274,7 @@ struct GameView: View {
             
             .sheet(isPresented: $viewModel.showGlossary) {
                 
-                StratagemGlossaryView().environmentObject(viewModel)
+                StratagemGlossaryView().environment(viewModel)
                 
                     .customSheetBackground()
                 

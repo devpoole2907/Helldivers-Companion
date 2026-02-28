@@ -14,7 +14,7 @@ struct RootView: View {
     @Environment(\.accessibilityShowButtonShapes) var buttonShapesEnabled // to reduce tab bar padding if button shapes active
     @Environment(\.scenePhase) var scenePhase
     
-    @StateObject private var notificationManager = NotificationManager()
+    @State private var notificationManager = NotificationManager()
     
     @State private var newsModel = NewsFeedModel()
     

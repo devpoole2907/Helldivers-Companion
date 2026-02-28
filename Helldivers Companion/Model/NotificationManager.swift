@@ -9,8 +9,9 @@ import Foundation
 import UserNotifications
 
 @MainActor
-class NotificationManager: ObservableObject{
-    @Published private(set) var hasPermission = false
+@Observable
+class NotificationManager {
+    private(set) var hasPermission = false
     
     init() {
         Task{

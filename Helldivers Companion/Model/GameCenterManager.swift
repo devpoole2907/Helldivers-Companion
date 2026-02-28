@@ -8,20 +8,27 @@
 import SwiftUI
 import GameKit
 
-class GameCenterManager: ObservableObject {
+@MainActor
+@Observable
+class GameCenterManager {
     
-    @Published var isAuthenticated = false
+    var isAuthenticated = false
     
-    @AppStorage("signedInBefore") var hasSignedInBefore = false // used to not immediately show game center login/icon if they havent signed in before
+    // UserDefaults-backed stored var (avoids @AppStorage + @Observable redeclaration conflict)
+    var hasSignedInBefore: Bool = UserDefaults.standard.bool(forKey: "signedInBefore") {
+        didSet { UserDefaults.standard.set(hasSignedInBefore, forKey: "signedInBefore") }
+    }
     
     func authenticatePlayer(completion: @escaping (Result<GKLocalPlayer, Error>) -> Void) {
            let localPlayer = GKLocalPlayer.local
-           localPlayer.authenticateHandler = { viewController, error in
+           localPlayer.authenticateHandler = { [weak self] viewController, error in
                if let viewController = viewController {
                    // Handle viewController presentation to complete authentication
                    completion(.failure(error ?? NSError(domain: "com.poole.james.helldivers-companion", code: -1, userInfo: nil)))
                } else if localPlayer.isAuthenticated {
-                   self.isAuthenticated = true
+                   Task { @MainActor [weak self] in
+                       self?.isAuthenticated = true
+                   }
                    completion(.success(localPlayer))
                } else {
                    // Authentication failed

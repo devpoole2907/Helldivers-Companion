@@ -15,99 +15,107 @@ import GameKit
 
 import AVFoundation
 
-class StratagemHeroModel: ObservableObject {
-    @Published var currentStratagem: Stratagem?
-    @Published var inputSequence: [StratagemInput] = []
-    @Published var timeRemaining: Double = 10
-    @Published var gameState: GameState = .notStarted
-    @Published var showError = false
+@MainActor
+@Observable
+class StratagemHeroModel {
+    var currentStratagem: Stratagem?
+    var inputSequence: [StratagemInput] = []
+    var timeRemaining: Double = 10
+    var gameState: GameState = .notStarted
+    var showError = false
     
-    @Published var showGlossary = false
+    var showGlossary = false
     
-    @Published var selectedStratagems: [Stratagem] = globalStratagems {
+    var selectedStratagems: [Stratagem] = globalStratagems {
         didSet {
             saveStratagems() // to persist across launches
+            isCustomGame = selectedStratagems.count != globalStratagems.count
         }
     }
     
     var dashPatterns: [UUID: [CGFloat]] = [:]  // dict to store dash patterns indexed by stratagem.id for the row backgrounds
     
-    // mutes sounds
-    @AppStorage("enableGameSound") var enableSound = true
+    // mutes sounds — UserDefaults-backed (avoids @AppStorage + @Observable redeclaration conflict)
+    var enableSound: Bool = UserDefaults.standard.object(forKey: "enableGameSound") as? Bool ?? true {
+        didSet { UserDefaults.standard.set(enableSound, forKey: "enableGameSound") }
+    }
     
-    @AppStorage("swipeGestures") var enableSwipeGestures = true
+    var enableSwipeGestures: Bool = UserDefaults.standard.object(forKey: "swipeGestures") as? Bool ?? true {
+        didSet { UserDefaults.standard.set(enableSwipeGestures, forKey: "swipeGestures") }
+    }
     
     // for watch os to determine if game sound loaded yet
-    @Published var isPreLoadingDone = false
+    var isPreLoadingDone = false
     
-    @AppStorage("gameEndCount") var gameEndCount = 0
+    var gameEndCount: Int = UserDefaults.standard.integer(forKey: "gameEndCount") {
+        didSet { UserDefaults.standard.set(gameEndCount, forKey: "gameEndCount") }
+    }
     
     // tracks times this screen is viewed
-    @AppStorage("gameViewCount") var viewCount = 0
+    var viewCount: Int = UserDefaults.standard.integer(forKey: "gameViewCount") {
+        didSet { UserDefaults.standard.set(viewCount, forKey: "gameViewCount") }
+    }
     
     #if os(iOS)
-    @Published var topScores: [GKLeaderboard.Entry] = []
+    var topScores: [GKLeaderboard.Entry] = []
     #endif
    
     // used on watchos, display a sheet with interactive dismiss disabled so the gestures for playing dont interact with the tab view
    
-    @Published var showGameSheet = false
-    @Published var showArrow = false
-    @Published var swipeDirection: SwipeDirection = .none
-    @Published var arrowOffset: CGSize = .zero
-    @Published var arrows: [Arrow] = []
+    var showGameSheet = false
+    var showArrow = false
+    var swipeDirection: SwipeDirection = .none
+    var arrowOffset: CGSize = .zero
+    var arrows: [Arrow] = []
 
     
     #if os(iOS)
-    let gameCenterManager = GameCenterManager()
-    let leaderboardId = "com.poole.james.helldiverscompanion.highscores"
+    @ObservationIgnored let gameCenterManager = GameCenterManager()
+    @ObservationIgnored let leaderboardId = "com.poole.james.helldiverscompanion.highscores"
     #endif
     
     // for sending high scores between watch and ios
-    let watchConnectivity = WatchConnectivityProvider.shared
+    @ObservationIgnored let watchConnectivity = WatchConnectivityProvider.shared
     
     
-    @Published var currentRound = 1
+    var currentRound = 1
     private var stratagemsPerRound = 6
     
     private let roundBonusPoints = 100
     private let timeBonusPointsPerSecond = 10
     private let perfectBonusPoints = 50
     
-    // to determine if custom stratagems are selected
-     var isCustomGame: Bool {
-        
-        selectedStratagems.count != globalStratagems.count
-        
-    }
+    // to determine if custom stratagems are selected — stored so views track it
+    private(set) var isCustomGame: Bool = false
     
-    @Published var roundScore: Int = 0
-        @Published var roundBonus: Int = 0
-        @Published var timeBonus: Int = 0
-        @Published var perfectBonus: Int = 0
-        @Published var totalScore: Int = 0
+    var roundScore: Int = 0
+    var roundBonus: Int = 0
+    var timeBonus: Int = 0
+    var perfectBonus: Int = 0
+    var totalScore: Int = 0
     
-    @AppStorage("highScore") var highScore = 0 {
+    var highScore: Int = UserDefaults.standard.integer(forKey: "highScore") {
         didSet {
+            UserDefaults.standard.set(highScore, forKey: "highScore")
             if #available(watchOS 9.0, *) {
                 WidgetCenter.shared.reloadAllTimelines()
             } else {
                 // Fallback on earlier versions
             }
         }
-    }// store high score
+    }
     
-    @Published var arrowShakeTimes = 0
+    var arrowShakeTimes = 0
     
     var stratagems: [Stratagem] = []
-    var timer: Timer?
+    @ObservationIgnored var timer: Timer?
     
     // for sound effects
     
     // for background music
-    private var backgroundAudioPlayer: AVAudioPlayer?
+    @ObservationIgnored private var backgroundAudioPlayer: AVAudioPlayer?
     
-    private var audioPlayers: [AVAudioPlayer] = []
+    @ObservationIgnored private var audioPlayers: [AVAudioPlayer] = []
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
            if let index = audioPlayers.firstIndex(of: player) {
@@ -157,9 +165,7 @@ class StratagemHeroModel: ObservableObject {
     func loadSelectedStratagems() {
             if let stratagemsData = UserDefaults.standard.data(forKey: "SelectedStratagems"),
                let stratagems = try? JSONDecoder().decode([Stratagem].self, from: stratagemsData) {
-                DispatchQueue.main.async {
-                    self.selectedStratagems = stratagems
-                }
+                selectedStratagems = stratagems
             }
         }
     
@@ -167,7 +173,9 @@ class StratagemHeroModel: ObservableObject {
     // for watchos to load assets before gameplay
     func preloadAssets() {
             SoundPoolManager.shared.preloadAllSounds {
-                self.isPreLoadingDone = true
+                Task { @MainActor [weak self] in
+                    self?.isPreLoadingDone = true
+                }
             }
         }
     
@@ -215,17 +223,7 @@ class StratagemHeroModel: ObservableObject {
         }
     
     
-    // for swipe gestures
-    enum SwipeDirection {
-            case up, down, left, right, none
-        }
-    
-    struct Arrow: Identifiable {
-        var id = UUID()
-            var direction: SwipeDirection
-        var offset: CGSize = .zero
-        var opacity: Double = 0.4
-        }
+
     
     func moveArrow(id: UUID, to offset: CGSize) {
            guard let index = arrows.firstIndex(where: { $0.id == id }) else { return }
@@ -284,9 +282,10 @@ class StratagemHeroModel: ObservableObject {
     func addArrow(direction: SwipeDirection) {
             let arrow = Arrow(direction: direction)
             arrows.append(arrow)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                if let index = self.arrows.firstIndex(where: { $0.direction == direction && $0.offset == .zero }) {
-                    self.arrows.remove(at: index)
+            Task { @MainActor [weak self] in
+                try? await Task.sleep(for: .seconds(0.5))
+                if let index = self?.arrows.firstIndex(where: { $0.direction == direction && $0.offset == .zero }) {
+                    self?.arrows.remove(at: index)
                 }
             }
         }
@@ -297,7 +296,7 @@ class StratagemHeroModel: ObservableObject {
     // Assuming `gameCenterManager` is already initialized and available
     func updateHighScore() {
         gameCenterManager.fetchHighScore(leaderboardId: leaderboardId) { [weak self] fetchedHighScore in
-            DispatchQueue.main.async {
+            Task { @MainActor [weak self] in
                 if fetchedHighScore > self?.highScore ?? 0 {
                     self?.highScore = fetchedHighScore
                 }
@@ -316,14 +315,14 @@ class StratagemHeroModel: ObservableObject {
             gameState = .roundStarting
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-
-            self.nextStratagem()
-            self.startTimer()
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(1.0))
+            self?.nextStratagem()
+            self?.startTimer()
             withAnimation {
-                self.gameState = .started
+                self?.gameState = .started
             }
-            self.playBackgroundSound()
+            self?.playBackgroundSound()
         }
        
        
@@ -340,15 +339,7 @@ class StratagemHeroModel: ObservableObject {
         
     }
     
-    enum GameState {
-        
-        case started
-        case notStarted
-        case roundEnded
-        case roundStarting
-        case gameOver
-        
-    }
+
     
     func playSound(soundName: String, volume: Float = 1.0) {
         if enableSound {
@@ -514,19 +505,18 @@ class StratagemHeroModel: ObservableObject {
         SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Round Start Sound Apple Watch")
         #endif
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(1.0))
             // reset scores
-            self.roundScore = 0
-            self.roundBonus = 0
-            self.timeBonus = 0
-            self.perfectBonus = 0
-            self.startTimer()
+            self?.roundScore = 0
+            self?.roundBonus = 0
+            self?.timeBonus = 0
+            self?.perfectBonus = 0
+            self?.startTimer()
             withAnimation {
-                self.gameState = .started
+                self?.gameState = .started
             }
-            
-            self.playBackgroundSound()
-            
+            self?.playBackgroundSound()
         }
     }
 
@@ -562,13 +552,12 @@ class StratagemHeroModel: ObservableObject {
         
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             guard let self = self else { return }
-
-            self.timeRemaining -= 0.1
-            if self.timeRemaining <= 0 {
-                // Game over
-                self.gameOver()
-                
-                
+            MainActor.assumeIsolated {
+                self.timeRemaining -= 0.1
+                if self.timeRemaining <= 0 {
+                    // Game over
+                    self.gameOver()
+                }
             }
         }
     }
@@ -614,8 +603,9 @@ class StratagemHeroModel: ObservableObject {
             SoundPoolManager.shared.playSound(soundName: "Stratagem Hero Error Sound Apple Watch")
             #endif
             
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { // flash red for 0.3 seconds when wrongly entered
-                            self.showError = false
+                        Task { @MainActor [weak self] in
+                            try? await Task.sleep(for: .seconds(0.3)) // flash red for 0.3 seconds when wrongly entered
+                            self?.showError = false
                         }
             
             withAnimation(.linear(duration: 0.3)) {
@@ -721,3 +711,24 @@ class StratagemHeroModel: ObservableObject {
     
     
 }
+// MARK: - Supporting types
+
+enum SwipeDirection {
+    case up, down, left, right, none
+}
+
+struct Arrow: Identifiable {
+    var id = UUID()
+    var direction: SwipeDirection
+    var offset: CGSize = .zero
+    var opacity: Double = 0.4
+}
+
+enum GameState {
+    case started
+    case notStarted
+    case roundEnded
+    case roundStarting
+    case gameOver
+}
+

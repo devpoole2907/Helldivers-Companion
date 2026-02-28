@@ -12,7 +12,7 @@ import SwiftUIIntrospect
 @available(watchOS 9.0, *)
 struct StratagemGlossaryView: View {
     
-    @EnvironmentObject var viewModel: StratagemHeroModel
+    @Environment(StratagemHeroModel.self) var viewModel
     
     
     let stratagems: [StratagemType: [Stratagem]]
@@ -58,7 +58,7 @@ struct StratagemGlossaryView: View {
                         if let stratagemsOfType = stratagems[type] {
                             Section {
                                 ForEach(stratagemsOfType, id: \.id) { stratagem in
-                                    StratagemInfoRow(stratagem).environmentObject(viewModel)
+                                    StratagemInfoRow(stratagem).environment(viewModel)
                                     
                                         .padding(.horizontal)
                                         .padding(.vertical, 5)
@@ -184,7 +184,7 @@ struct StratagemGlossaryView: View {
 @available(watchOS 9.0, *)
 struct StratagemInfoRow: View {
     
-    @EnvironmentObject var viewModel: StratagemHeroModel
+    @Environment(StratagemHeroModel.self) var viewModel
     
     let dashPattern: [CGFloat] = [CGFloat.random(in: 50...70), CGFloat.random(in: 5...20)]
     

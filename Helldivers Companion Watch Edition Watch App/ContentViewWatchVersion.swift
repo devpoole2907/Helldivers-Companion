@@ -19,7 +19,7 @@ struct ContentViewWatchVersion: View {
     
     @State var settingsNavPather = NavigationPather()
     
-    @StateObject var gameModel = StratagemHeroModel()
+    @State var gameModel = StratagemHeroModel()
     
     @State private var currentTab: Tab = .home
     
@@ -31,7 +31,7 @@ struct ContentViewWatchVersion: View {
             
                 .tag(Tab.about)
             
-            GameViewWatch().environmentObject(gameModel)
+            GameViewWatch().environment(gameModel)
                 .tag(Tab.game)
             
             ContentView().environment(viewModel).environment(contentNavPather)
