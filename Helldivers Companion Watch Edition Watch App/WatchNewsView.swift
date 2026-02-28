@@ -10,7 +10,7 @@ import SwiftUI
 @available(watchOS 10.0, *)
 struct WatchNewsView: View {
     
-    @StateObject var feedModel = NewsFeedModel()
+    @State var feedModel = NewsFeedModel()
     @Environment(NavigationPather.self) var navPather
     @Environment(PlanetsDataModel.self) var viewModel
     
@@ -67,6 +67,8 @@ struct WatchNewsView: View {
             
         }.onAppear {
             feedModel.startUpdating(viewModel.enableLocalization)
+        }.onDisappear {
+            feedModel.stopUpdating()
         }
         
         

@@ -11,7 +11,7 @@ import SwiftUIIntrospect
 #endif
 struct NewsView: View {
     
-    @EnvironmentObject var feedModel: NewsFeedModel
+    @Environment(NewsFeedModel.self) var feedModel
     @Environment(NavigationPather.self) var navPather
     @Environment(PlanetsDataModel.self) var viewModel
     @EnvironmentObject var dbModel: DatabaseModel

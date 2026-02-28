@@ -16,7 +16,7 @@ struct RootView: View {
     
     @StateObject private var notificationManager = NotificationManager()
     
-    @StateObject private var newsModel = NewsFeedModel()
+    @State private var newsModel = NewsFeedModel()
     
     @State var viewModel = PlanetsDataModel()
     
@@ -85,7 +85,7 @@ struct RootView: View {
                 
               
                 
-                NewsView().environment(newsNavPather).environment(viewModel).environmentObject(dbModel).environmentObject(newsModel)
+                NewsView().environment(newsNavPather).environment(viewModel).environmentObject(dbModel).environment(newsModel)
                     .tag(Tab.news)
                 
              
