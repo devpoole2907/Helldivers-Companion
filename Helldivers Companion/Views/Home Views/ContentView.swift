@@ -13,23 +13,21 @@ import SwiftUIIntrospect
 import TipKit
 #endif
 import Haptics
-@available(watchOS 9.0, *)
 struct ContentView: View {
     
     #if os(iOS)
-    @available(iOS 17.0, *)
     private var tip: NotificationTip {
         NotificationTip()
     }
     #endif
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
-    @EnvironmentObject var navPather: NavigationPather
+    @Environment(NavigationPather.self) var navPather
     
 
     #if os(iOS)
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(DatabaseModel.self) var dbModel
     @Environment(\.requestReview) var requestReview
     #endif
     
@@ -47,6 +45,8 @@ struct ContentView: View {
     }
     
     var body: some View {
+        @Bindable var viewModel = viewModel
+        @Bindable var navPather = navPather
         
         NavigationStack(path: $navPather.navigationPath) {
             ZStack {
@@ -213,7 +213,7 @@ struct ContentView: View {
                     }
                     
                     ToolbarItem(placement: .topBarTrailing) {
-                        PlayerCountView().environmentObject(viewModel)
+                        PlayerCountView().environment(viewModel)
                     }
                     
                     
@@ -250,7 +250,7 @@ struct ContentView: View {
             
             #if os(iOS)
                 .navigationDestination(for: ContentViewPage.self) { _ in
-                    SuperStoreList().environmentObject(dbModel)
+                    SuperStoreList().environment(dbModel)
                 }
             #endif
             

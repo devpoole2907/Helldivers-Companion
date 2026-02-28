@@ -9,101 +9,94 @@ import Foundation
 import SwiftUI
 import Combine
 
-@MainActor
-class PlanetsDataModel: ObservableObject {
+@MainActor @Observable
+class PlanetsDataModel {
     
     static let shared = PlanetsDataModel()
     
     // for during loading
-    @Published var isLoading: Bool = true
+    var isLoading: Bool = true
     
-    @Published var showPlayerCount: Bool = false
+    var showPlayerCount: Bool = false
     
     // pop map to root from other views
-    let popMapToRoot = PassthroughSubject<Void, Never>()
+    @ObservationIgnored let popMapToRoot = PassthroughSubject<Void, Never>()
     
     // pop to warbonds list
-    let popToWarBonds = PassthroughSubject<Void, Never>()
+    @ObservationIgnored let popToWarBonds = PassthroughSubject<Void, Never>()
     
-    @Published var updatedPlanets: [UpdatedPlanet] = []
-    @Published var updatedDefenseCampaigns: [UpdatedCampaign] = []
-    @Published var updatedCampaigns: [UpdatedCampaign] = []
-    @Published var updatedSortedSectors: [String] = []
-    @Published var updatedGroupedBySectorPlanets: [String: [UpdatedPlanet]] =
-    [:]
-    @Published var updatedTaskPlanets: [UpdatedPlanet] = []
-    @Published var planetHistory: [String: [UpdatedPlanetDataPoint]] = [:]
+    var updatedPlanets: [UpdatedPlanet] = []
+    var updatedDefenseCampaigns: [UpdatedCampaign] = []
+    var updatedCampaigns: [UpdatedCampaign] = []
+    var updatedSortedSectors: [String] = []
+    var updatedGroupedBySectorPlanets: [String: [UpdatedPlanet]] = [:]
+    var updatedTaskPlanets: [UpdatedPlanet] = []
+    var planetHistory: [String: [UpdatedPlanetDataPoint]] = [:]
     
-    @Published var spaceStations: [SpaceStation] = []
-    @Published var firstSpaceStationDetails: SpaceStationDetails?
-    @Published var warTime: Int64?
-    @Published var nextFetchTime: Date?  // for the ui to show count down if a fetch failed due to rate limiting
-    @Published var hasSetSelectedPlanet: Bool = false  // to stop setting the selected planet to the first in campaigns every fetch after the first
+    var spaceStations: [SpaceStation] = []
+    var firstSpaceStationDetails: SpaceStationDetails?
+    var warTime: Int64?
+    var nextFetchTime: Date?  // for the ui to show count down if a fetch failed due to rate limiting
+    var hasSetSelectedPlanet: Bool = false  // to stop setting the selected planet to the first in campaigns every fetch after the first
     
-    @Published var currentTab: Tab = .home
+    var currentTab: Tab = .home
     
     // FOR DEBUGGING
-    @Published var lastError: String?
+    var lastError: String?
     
-    @Published var lastCampaignsError: String?
+    var lastCampaignsError: String?
     
     var dashPatterns: [UUID: [CGFloat]] = [:]
     
-    @Published var currentSeason: String = ""
-    @Published var majorOrders: [MajorOrder] = []
-    @Published var personalOrder: PersonalOrder?
-    @Published var galaxyStats: GalaxyStats?
-    @Published var lastUpdatedDate: Date = Date()
+    var currentSeason: String = ""
+    var majorOrders: [MajorOrder] = []
+    var personalOrder: PersonalOrder?
+    var galaxyStats: GalaxyStats?
+    var lastUpdatedDate: Date = Date()
     
-    @Published var showIlluminateUI: Bool = false
+    var showIlluminateUI: Bool = false
     
-    @Published var redactedShakeTimes = 0  // for redacting illuminate info animation
+    var redactedShakeTimes = 0  // for redacting illuminate info animation
     
-    @Published var selectedPlanet: UpdatedPlanet?  // for map view selection
+    var selectedPlanet: UpdatedPlanet?  // for map view selection
     
-    @Published var status: StatusResponse? // for dark energy tracking etc
+    var status: StatusResponse? // for dark energy tracking etc
     
-    @AppStorage("viewCount") var viewCount = 0
+    @ObservationIgnored @AppStorage("viewCount") var viewCount = 0
     
-    @AppStorage("enableLocalization") var enableLocalization = true
-    @AppStorage("darkMode") var darkMode = false
-    
-    private var apiToken: String? = ProcessInfo.processInfo.environment[
+    // @AppStorage cannot be combined directly with @Observable (causes _name redeclaration).
+    // Use a plain stored var seeded from UserDefaults; didSet persists changes back.
+    var enableLocalization: Bool = UserDefaults.standard.object(forKey: "enableLocalization") as? Bool ?? true {
+        didSet { UserDefaults.standard.set(enableLocalization, forKey: "enableLocalization") }
+    }
+    var darkMode: Bool = UserDefaults.standard.object(forKey: "darkMode") as? Bool ?? false {
+        didSet { UserDefaults.standard.set(darkMode, forKey: "darkMode") }
+    }
+
+    @ObservationIgnored private var apiToken: String? = ProcessInfo.processInfo.environment[
         "GITHUB_API_KEY"]
     
-    @Published var configData: RemoteConfigDetails = RemoteConfigDetails(
+    var configData: RemoteConfigDetails = RemoteConfigDetails(
         alert: "", prominentAlert: nil, season: "801", showIlluminate: false,
         apiAddress: "", startedAt: "2024-02-10T07:20:30.089979Z", meridiaEvent: false)
     
-    @Published var showInfo = false
-    @Published var showOrders = false
+    var showInfo = false
+    var showOrders = false
     
     // var apiAddress = "http://127.0.0.1:4000/api"
     var apiAddress = "https://helldivers-2.fly.dev/api"
     
-    private var timer: Timer?
-    private var cacheTimer: Timer?
+    @ObservationIgnored private var timer: Timer?
+    @ObservationIgnored private var cacheTimer: Timer?
     
-    let netManager = NetworkManager.shared
-    let apiService = WarAPIService()
+    @ObservationIgnored let netManager = NetworkManager.shared
+    @ObservationIgnored let apiService = WarAPIService()
     
-    var totalPlayerCount: Int64 {
-        updatedPlanets.reduce(0) { $0 + $1.statistics.playerCount }
-    }
+    private(set) var totalPlayerCount: Int64 = 0
+    private(set) var formattedPlayerCount: String = ""
     
-    var formattedPlayerCount: String {
-        formatNumber(totalPlayerCount)
-    }
-    
-    var fleetStrengthResource: GlobalResource? {
-        guard let resources = status?.globalResources else { return nil }
-        return resources.first { $0.id32 == 175685818 }
-    }
-    
-    var fleetStrengthProgress: Double {
-        guard let resource = fleetStrengthResource else { return 0 }
-        return Double(resource.currentValue) / Double(resource.maxValue)
-    }
+    private(set) var fleetStrengthResource: GlobalResource?
+    private(set) var fleetStrengthProgress: Double = 0
     
     deinit {
         timer?.invalidate()
@@ -200,7 +193,9 @@ class PlanetsDataModel: ObservableObject {
             // animates in the same transaction as the rest of the data update.
             // This is safe because the properties it reads (updatedPlanets, etc.)
             // are already set above in this same synchronous closure.
+            self.rebuildFleetStrength()
             self.rebuildContexts()
+            self.rebuildPlayerDistribution()
         }
 
         if isInitialLoad {
@@ -244,7 +239,6 @@ class PlanetsDataModel: ObservableObject {
                 let cachedData = await self.fetchCachedPlanetData()
                 
                 await MainActor.run {
-                    self.objectWillChange.send()
                     withAnimation(.bouncy) {
                         self.galaxyStats = galaxyStats?.galaxyStats
                         
@@ -322,15 +316,23 @@ class PlanetsDataModel: ObservableObject {
     }
     
     
-    var playerDistribution: [PlayerDistributionItem] {
-        
+    private(set) var playerDistribution: [PlayerDistributionItem] = []
+
+    private func rebuildFleetStrength() {
+        let resource = status?.globalResources.first { $0.id32 == 175685818 }
+        fleetStrengthResource = resource
+        fleetStrengthProgress = resource.map { r in r.maxValue > 0 ? Double(r.currentValue) / Double(r.maxValue) : 0.0 } ?? 0
+    }
+
+    private func rebuildPlayerDistribution() {
         var counts = [Faction: Int64]()
         for planet in updatedPlanets {
             counts[planet.faction, default: 0] += planet.statistics.playerCount
         }
-        return counts.compactMap { faction, count in
+        totalPlayerCount = updatedPlanets.reduce(0) { $0 + $1.statistics.playerCount }
+        formattedPlayerCount = formatNumber(totalPlayerCount)
+        playerDistribution = counts.compactMap { faction, count in
             count > 0 ? PlayerDistributionItem(faction: faction.displayName, count: count, color: faction.color, imageName: faction.imageName) : nil
-            
         }
     }
     

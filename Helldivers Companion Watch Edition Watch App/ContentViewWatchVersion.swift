@@ -7,20 +7,19 @@
 
 import SwiftUI
 import Haptics
-@available(watchOS 9.0, *)
 struct ContentViewWatchVersion: View {
     
-    @StateObject var viewModel = PlanetsDataModel()
+    @State var viewModel = PlanetsDataModel()
     
-    @StateObject var contentNavPather = NavigationPather()
+    @State var contentNavPather = NavigationPather()
     
-    @StateObject var statsNavPather = NavigationPather()
+    @State var statsNavPather = NavigationPather()
     
-    @StateObject var newsNavPather = NavigationPather()
+    @State var newsNavPather = NavigationPather()
     
-    @StateObject var settingsNavPather = NavigationPather()
+    @State var settingsNavPather = NavigationPather()
     
-    @StateObject var gameModel = StratagemHeroModel()
+    @State var gameModel = StratagemHeroModel()
     
     @State private var currentTab: Tab = .home
     
@@ -28,39 +27,25 @@ struct ContentViewWatchVersion: View {
        
         TabView(selection: $currentTab) {
             
-            AboutView().environmentObject(viewModel).environmentObject(settingsNavPather)
+            AboutView().environment(viewModel).environment(settingsNavPather)
             
                 .tag(Tab.about)
             
-            GameViewWatch().environmentObject(gameModel)
+            GameViewWatch().environment(gameModel)
                 .tag(Tab.game)
             
-            ContentView().environmentObject(viewModel).environmentObject(contentNavPather)
+            ContentView().environment(viewModel).environment(contentNavPather)
                 .tag(Tab.home)
             
-            WatchOrdersView().environmentObject(viewModel)
+            WatchOrdersView().environment(viewModel)
                 .tag(Tab.orders)
             
-            if #available(watchOS 10, *) {
-            WatchGalaxyStatsView().environmentObject(viewModel).environmentObject(statsNavPather)
+            WatchGalaxyStatsView().environment(viewModel).environment(statsNavPather)
                 .tag(Tab.stats)
             
-        
-                WatchNewsView().environmentObject(newsNavPather).environmentObject(viewModel)
-                    .tag(Tab.news)
-                
-                
-                
-                
-                    .navigationBarTitleDisplayMode(.inline)
-            } else {
-                
-                
-                Text("Update to watchOS 10.0 for the complete War Monitor experience.")
-                    .multilineTextAlignment(.center)
-                    .tag(Tab.news)
-                
-            }
+            WatchNewsView().environment(newsNavPather).environment(viewModel)
+                .tag(Tab.news)
+                .navigationBarTitleDisplayMode(.inline)
             
         }.conditionalBackground(viewModel: viewModel)
         

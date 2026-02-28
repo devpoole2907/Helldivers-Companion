@@ -10,8 +10,8 @@ import SwiftUI
 @available(watchOS 10.0, *)
 struct WatchGalaxyStatsView: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
-    @EnvironmentObject var navPather: NavigationPather
+    @Environment(PlanetsDataModel.self) var viewModel
+    @Environment(NavigationPather.self) var navPather
     
     enum WatchStatsTab: Hashable {
         case galaxyInfo
@@ -33,8 +33,7 @@ struct WatchGalaxyStatsView: View {
     @State private var currentTab: WatchStatsTab = .galaxyInfo
     
     var body: some View {
-        
-        
+        @Bindable var navPather = navPather
         
         NavigationStack(path: $navPather.navigationPath){
             TabView(selection: $currentTab) {

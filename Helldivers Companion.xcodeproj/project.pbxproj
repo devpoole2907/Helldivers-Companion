@@ -436,7 +436,6 @@
 		7CF6D2DD2BC2820D00107663 /* PlanetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */; };
 		7CF6D2DE2BC2820E00107663 /* PlanetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DF6182BB922220062AB9B /* PlanetInfoView.swift */; };
 		7CF6D2E02BC290EC00107663 /* MapSettingsPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2DF2BC290EC00107663 /* MapSettingsPopup.swift */; };
-		7CF6D2E22BC29BCD00107663 /* iOS16Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E12BC29BCD00107663 /* iOS16Alert.swift */; };
 		7CF6D2E82BC401B800107663 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E72BC401B800107663 /* CircularProgressView.swift */; };
 		7CF6D2EA2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
 		7CF6D2EB2BC412EA00107663 /* FS Sinclair Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */; };
@@ -723,7 +722,6 @@
 		7CE97D4C2BB564F6008329BA /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		7CF3E57C2DD942E1006CFB00 /* FleetStrengthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FleetStrengthView.swift; sourceTree = "<group>"; };
 		7CF6D2DF2BC290EC00107663 /* MapSettingsPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsPopup.swift; sourceTree = "<group>"; };
-		7CF6D2E12BC29BCD00107663 /* iOS16Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS16Alert.swift; sourceTree = "<group>"; };
 		7CF6D2E72BC401B800107663 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		7CF6D2E92BC412E900107663 /* FS Sinclair Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FS Sinclair Regular.otf"; sourceTree = "<group>"; };
 		7CF6D2F12BC524C300107663 /* GalaxyMapRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyMapRootView.swift; sourceTree = "<group>"; };
@@ -1262,7 +1260,6 @@
 			children = (
 				7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */,
 				7CF6D2DF2BC290EC00107663 /* MapSettingsPopup.swift */,
-				7CF6D2E12BC29BCD00107663 /* iOS16Alert.swift */,
 				7C4A9E2A2BD33FC10014FCCD /* TogglePickerPopup.swift */,
 			);
 			path = Popups;
@@ -1973,7 +1970,6 @@
 				7C4589B72BA546B00019B00E /* OrderView.swift in Sources */,
 				7C3446CD2F4C057700157213 /* Faction.swift in Sources */,
 				7C44B7D72BC800790097C29B /* PlayerCountView.swift in Sources */,
-				7CF6D2E22BC29BCD00107663 /* iOS16Alert.swift in Sources */,
 				7C4589C22BA5554E0019B00E /* StratagemHeroModel.swift in Sources */,
 				7C587F3F2BA6A7DA00C66643 /* CustomSegmentedPicker.swift in Sources */,
 				7CC284C02BD8DB390036EBFD /* PlanetsList.swift in Sources */,
@@ -2438,7 +2434,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -2446,7 +2442,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Debug;
 		};
@@ -2496,14 +2492,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
@@ -2528,7 +2524,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2567,7 +2563,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2598,7 +2594,7 @@
 				INFOPLIST_FILE = "Helldivers Companion News Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion News Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2626,7 +2622,7 @@
 				INFOPLIST_FILE = "Helldivers Companion News Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion News Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2714,7 +2710,7 @@
 				INFOPLIST_FILE = "Helldivers Companion Galaxy Map Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Galaxy Map Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2742,7 +2738,7 @@
 				INFOPLIST_FILE = "Helldivers Companion Galaxy Map Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Galaxy Map Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2770,7 +2766,7 @@
 				INFOPLIST_FILE = "War Monitor Total Player Count Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "War Monitor Total Player Count Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2798,7 +2794,7 @@
 				INFOPLIST_FILE = "War Monitor Total Player Count Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "War Monitor Total Player Count Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2904,7 +2900,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Debug;
 		};
@@ -2939,7 +2935,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
@@ -2955,7 +2951,7 @@
 				INFOPLIST_FILE = "Helldivers Companion Major Order Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Major Order Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2983,7 +2979,7 @@
 				INFOPLIST_FILE = "Helldivers Companion Major Order Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Major Order Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3072,7 +3068,7 @@
 				INFOPLIST_FILE = "Stratagem Hero High Score Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Stratagem Hero High Score Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3101,7 +3097,7 @@
 				INFOPLIST_FILE = "Stratagem Hero High Score Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Stratagem Hero High Score Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3191,7 +3187,7 @@
 				INFOPLIST_FILE = "Helldivers Companion Widgets/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Widgets";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3219,7 +3215,7 @@
 				INFOPLIST_FILE = "Helldivers Companion Widgets/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Helldivers Companion Widgets";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

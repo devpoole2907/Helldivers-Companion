@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-@available(watchOS 9.0, *)
 struct GalaxyInfoView: View {
     
     var galaxyStats: GalaxyStats? {
@@ -15,7 +14,7 @@ struct GalaxyInfoView: View {
 
     }
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
     @State var showIlluminateStats = true // for redacted animation
     @State var showRedactedText = false

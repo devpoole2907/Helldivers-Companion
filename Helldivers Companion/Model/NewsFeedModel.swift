@@ -9,13 +9,13 @@ import Foundation
 import Algorithms
 import SwiftUI
 
-@MainActor
-class NewsFeedModel: ObservableObject {
+@MainActor @Observable
+class NewsFeedModel {
     
     // for tab bar badge to indicate new news items
-    @AppStorage("newsCount") private var storedNewsCount: Int = 0
+    @ObservationIgnored @AppStorage("newsCount") private var storedNewsCount: Int = 0
     
-    @Published var newItemsCount: Int = 0
+    var newItemsCount: Int = 0
     
     func markNewsAsSeen() {
         withAnimation {
@@ -23,12 +23,12 @@ class NewsFeedModel: ObservableObject {
         }
     }
     
-    @Published var news: [NewsFeed] = []
-    private var timer: Timer?
+    var news: [NewsFeed] = []
+    @ObservationIgnored private var timer: Timer?
     
-    let netManager = NetworkManager.shared
+    @ObservationIgnored let netManager = NetworkManager.shared
     
-    let apiService = WarAPIService()
+    @ObservationIgnored let apiService = WarAPIService()
     
     func fetchNewsFeed(config: RemoteConfigDetails?, _ enableLocalization: Bool) async -> [NewsFeed] {
         

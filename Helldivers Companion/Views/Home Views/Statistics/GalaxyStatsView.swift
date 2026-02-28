@@ -12,11 +12,12 @@ import SwiftUIIntrospect
 
 struct GalaxyStatsView: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
-    @EnvironmentObject var navPather: NavigationPather
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(PlanetsDataModel.self) var viewModel
+    @Environment(NavigationPather.self) var navPather
+    @Environment(DatabaseModel.self) var dbModel
     
     var body: some View {
+        @Bindable var navPather = navPather
         NavigationStack(path: $navPather.navigationPath) {
             
             ScrollView {
@@ -134,17 +135,17 @@ struct GalaxyStatsView: View {
                     case .planetList:
                         PlanetsList()
                     case .stratList:
-                        StratagemsList().environmentObject(dbModel)
+                        StratagemsList().environment(dbModel)
                     case .armourList:
                         ArmourList()
                     case .weaponList:
                         WeaponsList()
                     case .boosterList:
-                        BoostersList().environmentObject(dbModel)
+                        BoostersList().environment(dbModel)
                     case .warbondsList:
-                        WarBondsList().environmentObject(dbModel)
+                        WarBondsList().environment(dbModel)
                     case .bestiary:
-                        EnemiesList().environmentObject(dbModel)
+                        EnemiesList().environment(dbModel)
                     
                     }
                    
@@ -205,7 +206,7 @@ struct GalaxyStatsView: View {
               
                     
                     ToolbarItem(placement: .topBarTrailing) {
-                        PlayerCountView().environmentObject(viewModel)
+                        PlayerCountView().environment(viewModel)
                     }
                     
 #endif
@@ -254,7 +255,7 @@ struct GalaxyStatsView: View {
 }
 
 #Preview {
-    GalaxyStatsView().environmentObject(PlanetsDataModel()).environmentObject(NavigationPather())
+    GalaxyStatsView().environment(PlanetsDataModel()).environment(NavigationPather()).environment(DatabaseModel())
 }
 
 enum DatabasePage: String, CaseIterable {

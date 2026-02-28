@@ -165,7 +165,7 @@ struct Helldivers_Companion_WidgetsEntryView: View {
                     eventHealth: entry.eventHealth,
                     eventMaxHealth: entry.eventMaxHealth,
                     campaignType: entry.campaignType
-                ).environmentObject(PlanetsDataModel())
+                ).environment(PlanetsDataModel())
                     .padding(.horizontal)
                     .padding(.vertical, 5)
                 

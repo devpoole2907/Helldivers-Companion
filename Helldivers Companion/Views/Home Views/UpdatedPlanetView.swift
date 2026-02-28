@@ -10,12 +10,11 @@ import Charts
 import WidgetKit
 
 // this is used for the app only (not widgets), it needs to be cleaned up a LOTTT of old code lying around from the original planetview
-@available(watchOS 9.0, *)
 struct UpdatedPlanetView: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
-    @EnvironmentObject var navPather: NavigationPather
+    @Environment(NavigationPather.self) var navPather
     
     let planetIndex: Int
     
@@ -56,7 +55,6 @@ struct UpdatedPlanetView: View {
 }
 
 /// Purely presentational — receives everything it needs, no view model lookups.
-@available(watchOS 9.0, *)
 private struct UpdatedPlanetContentView: View {
 
     let context: PlanetContext
@@ -67,7 +65,7 @@ private struct UpdatedPlanetContentView: View {
     var planetHistory: [UpdatedPlanetDataPoint]
     var isMajorOrderTarget: Bool
 
-    @EnvironmentObject var navPather: NavigationPather
+    @Environment(NavigationPather.self) var navPather
 
 #if os(iOS)
     let raceIconSize: CGFloat = 25

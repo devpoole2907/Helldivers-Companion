@@ -9,10 +9,9 @@ import SwiftUI
 #if os(iOS)
 import SwiftUIIntrospect
 #endif
-@available(watchOS 9.0, *)
 struct StratagemGlossaryView: View {
     
-    @EnvironmentObject var viewModel: StratagemHeroModel
+    @Environment(StratagemHeroModel.self) var viewModel
     
     
     let stratagems: [StratagemType: [Stratagem]]
@@ -58,7 +57,7 @@ struct StratagemGlossaryView: View {
                         if let stratagemsOfType = stratagems[type] {
                             Section {
                                 ForEach(stratagemsOfType, id: \.id) { stratagem in
-                                    StratagemInfoRow(stratagem).environmentObject(viewModel)
+                                    StratagemInfoRow(stratagem).environment(viewModel)
                                     
                                         .padding(.horizontal)
                                         .padding(.vertical, 5)
@@ -181,10 +180,9 @@ struct StratagemGlossaryView: View {
     }
 }
 
-@available(watchOS 9.0, *)
 struct StratagemInfoRow: View {
     
-    @EnvironmentObject var viewModel: StratagemHeroModel
+    @Environment(StratagemHeroModel.self) var viewModel
     
     let dashPattern: [CGFloat] = [CGFloat.random(in: 50...70), CGFloat.random(in: 5...20)]
     
@@ -232,17 +230,9 @@ struct StratagemInfoRow: View {
                         ForEach(stratagem.sequence, id: \.self) { input in
                             
                             
-                            if #available(iOS 17.0, *) {
-                                Image(systemName: "arrowshape.\(input).fill")
-                                    .foregroundStyle(.white)
-                                    .shadow(radius: 3)
-                                
-                            } else {
-                                Image(systemName: "arrowtriangle.\(input).fill")
-                                    .foregroundStyle(.white)
-                                    .shadow(radius: 3)
-                                
-                            }
+                            Image(systemName: "arrowshape.\(input).fill")
+                                .foregroundStyle(.white)
+                                .shadow(radius: 3)
                             
                             
                         }

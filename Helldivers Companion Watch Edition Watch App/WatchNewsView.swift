@@ -10,13 +10,13 @@ import SwiftUI
 @available(watchOS 10.0, *)
 struct WatchNewsView: View {
     
-    @StateObject var feedModel = NewsFeedModel()
-    @EnvironmentObject var navPather: NavigationPather
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @State var feedModel = NewsFeedModel()
+    @Environment(NavigationPather.self) var navPather
+    @Environment(PlanetsDataModel.self) var viewModel
     
     
     var body: some View {
-        
+        @Bindable var navPather = navPather
         
         NavigationStack(path: $navPather.navigationPath) {
             TabView {
@@ -67,6 +67,8 @@ struct WatchNewsView: View {
             
         }.onAppear {
             feedModel.startUpdating(viewModel.enableLocalization)
+        }.onDisappear {
+            feedModel.stopUpdating()
         }
         
         

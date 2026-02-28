@@ -10,8 +10,8 @@ import AVKit
 
 struct StratagemDetailView: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(PlanetsDataModel.self) var viewModel
+    @Environment(DatabaseModel.self) var dbModel
     
     let stratagem: Stratagem
     
@@ -67,17 +67,9 @@ struct StratagemDetailView: View {
                     ForEach(stratagem.sequence, id: \.self) { input in
                         
                         
-                        if #available(iOS 17.0, *) {
-                            Image(systemName: "arrowshape.\(input).fill")
-                                .foregroundStyle(.white)
-                                .shadow(radius: 3)
-                            
-                        } else {
-                            Image(systemName: "arrowtriangle.\(input).fill")
-                                .foregroundStyle(.white)
-                                .shadow(radius: 3)
-                            
-                        }
+                        Image(systemName: "arrowshape.\(input).fill")
+                            .foregroundStyle(.white)
+                            .shadow(radius: 3)
                         
                         
                     }

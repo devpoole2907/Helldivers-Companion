@@ -9,8 +9,8 @@ import SwiftUI
 
 struct StratagemsList: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(PlanetsDataModel.self) var viewModel
+    @Environment(DatabaseModel.self) var dbModel
     
     
     let stratagems: [StratagemType: [Stratagem]]
@@ -23,6 +23,7 @@ struct StratagemsList: View {
     
     
     var body: some View {
+        @Bindable var dbModel = dbModel
         
             ZStack(alignment: .bottom) {
             ScrollView {
@@ -86,7 +87,7 @@ struct StratagemsList: View {
 
 struct StratagemDetailRow: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
     let dashPattern: [CGFloat] = [CGFloat.random(in: 50...70), CGFloat.random(in: 5...20)]
     

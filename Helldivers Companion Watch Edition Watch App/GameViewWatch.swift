@@ -7,17 +7,14 @@
 
 import SwiftUI
 import AVFoundation
-@available(watchOS 9.0, *)
 struct GameViewWatch: View {
     
     // viewmodel must be enviro as root will load the game sounds
-    @EnvironmentObject var viewModel: StratagemHeroModel
+    @Environment(StratagemHeroModel.self) var viewModel
     @ObservedObject var connectivityProvider = WatchConnectivityProvider.shared
 
     
     var body: some View {
-        
-        
         
         
         NavigationStack {
@@ -68,7 +65,7 @@ struct GameViewWatch: View {
         
         
         
-        .sheet(isPresented: $viewModel.showGameSheet, onDismiss: {
+        .sheet(isPresented: Bindable(viewModel).showGameSheet, onDismiss: {
             viewModel.gameOver() // end game on dismiss of the sheet
             viewModel.stopGame()
         }) {
@@ -322,9 +319,9 @@ struct GameViewWatch: View {
                 .tint(.white)
                 .buttonStyle(PlainButtonStyle())
             
-                .sheet(isPresented: $viewModel.showGlossary) {
+                .sheet(isPresented: Bindable(viewModel).showGlossary) {
                     
-                    StratagemGlossaryView().environmentObject(viewModel)
+                    StratagemGlossaryView().environment(viewModel)
                     
                         .customSheetBackground()
                     
@@ -502,7 +499,7 @@ struct GameViewWatch: View {
 
                 }.shake(times: CGFloat(viewModel.arrowShakeTimes))
                 .frame(maxWidth: 150)
-                WatchTimerBarView(timeRemaining: $viewModel.timeRemaining, totalTime: 10)
+                WatchTimerBarView(timeRemaining: Bindable(viewModel).timeRemaining, totalTime: 10)
                     .frame(maxWidth: 100)
             }
             }

@@ -9,10 +9,11 @@ import SwiftUI
 
 struct BoostersList: View {
     
-    @EnvironmentObject var dbModel: DatabaseModel
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(DatabaseModel.self) var dbModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
     var body: some View {
+        @Bindable var dbModel = dbModel
         ScrollView {
             LazyVStack(alignment: .leading) {
                 
@@ -53,7 +54,7 @@ struct BoostersList: View {
 
 struct BoosterRow: View {
     
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(DatabaseModel.self) var dbModel
     
     let booster: Booster
     let dashPattern: [CGFloat]

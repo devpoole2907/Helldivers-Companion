@@ -18,7 +18,7 @@ struct PlayerCountView: View {
 #endif
     
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
     var showFullSize: Bool = false
     

@@ -19,7 +19,7 @@ struct PlayerCountPieChart: View {
     }
 
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
     @State private var liveAngle: Double?
     @State private var persistentAngle: Double? // saved angle
@@ -153,7 +153,6 @@ struct PlayerCountPieChart: View {
     }
 }
 
-
 struct PlayerCountRow: View {
     
     let playerCount: String
@@ -180,11 +179,10 @@ struct PlayerCountRow: View {
                     .foregroundStyle(factionColor)
                 
                 
-                    Text(playerCount)
-                        .font(Font.custom("FSSinclair-Bold", size: fontSize))
-                        .padding(.top, 2)
                     
-            
+                Text(playerCount)
+                    .font(Font.custom("FSSinclair-Bold", size: fontSize))
+                    .padding(.top, 2)
                 
                 
                 Spacer()
@@ -202,16 +200,13 @@ struct PlayerCountRow: View {
         }
         
         .background {
-            
             Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
                 .foregroundStyle(.gray)
                 .opacity(0.5)
                 .shadow(radius: 3)
-            
         }
         
     }
-        
 }
 
 #endif

@@ -8,27 +8,41 @@
 import SwiftUI
 import GameKit
 
-class GameCenterManager: ObservableObject {
+@MainActor
+@Observable
+class GameCenterManager {
     
-    @Published var isAuthenticated = false
+    var isAuthenticated = false
     
-    @AppStorage("signedInBefore") var hasSignedInBefore = false // used to not immediately show game center login/icon if they havent signed in before
+    // UserDefaults-backed stored var (avoids @AppStorage + @Observable redeclaration conflict)
+    var hasSignedInBefore: Bool = UserDefaults.standard.bool(forKey: "signedInBefore") {
+        didSet { UserDefaults.standard.set(hasSignedInBefore, forKey: "signedInBefore") }
+    }
     
     func authenticatePlayer(completion: @escaping (Result<GKLocalPlayer, Error>) -> Void) {
-           let localPlayer = GKLocalPlayer.local
-           localPlayer.authenticateHandler = { viewController, error in
-               if let viewController = viewController {
-                   // Handle viewController presentation to complete authentication
-                   completion(.failure(error ?? NSError(domain: "com.poole.james.helldivers-companion", code: -1, userInfo: nil)))
-               } else if localPlayer.isAuthenticated {
-                   self.isAuthenticated = true
-                   completion(.success(localPlayer))
-               } else {
-                   // Authentication failed
-                   completion(.failure(error ?? NSError(domain: "com.poole.james.helldivers-companion", code: -1, userInfo: nil)))
-               }
-           }
-       }
+        let localPlayer = GKLocalPlayer.local
+        localPlayer.authenticateHandler = { [weak self] viewController, error in
+            if let viewController = viewController {
+                // Present the Game Center sign-in UI on the root view controller
+                Task { @MainActor in
+                    if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                       let root = scene.windows.first?.rootViewController {
+                        root.present(viewController, animated: true)
+                    }
+                }
+            } else if localPlayer.isAuthenticated {
+                // Set state and deliver success callback together on MainActor
+                // to avoid a race where the caller reads isAuthenticated before it is set
+                Task { @MainActor [weak self] in
+                    self?.isAuthenticated = true
+                    completion(.success(localPlayer))
+                }
+            } else {
+                // Authentication failed
+                completion(.failure(error ?? NSError(domain: "com.poole.james.helldivers-companion", code: -1, userInfo: nil)))
+            }
+        }
+    }
 
     func fetchHighScore(leaderboardId: String, completion: @escaping (Int) -> Void) {
             GKLeaderboard.loadLeaderboards(IDs: [leaderboardId]) { (leaderboards, error) in

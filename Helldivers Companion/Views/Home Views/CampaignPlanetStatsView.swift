@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-@available(watchOS 9.0, *)
 struct CampaignPlanetStatsView: View {
     
     let context: PlanetContext
@@ -15,7 +14,7 @@ struct CampaignPlanetStatsView: View {
 
     @State private var pulsate = false
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
+    @Environment(PlanetsDataModel.self) var viewModel
     
     // Meridia dark energy bar — still needs live viewModel access
     var showEnergyBar: Bool {

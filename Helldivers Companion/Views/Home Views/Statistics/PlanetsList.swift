@@ -6,15 +6,14 @@
 //
 
 import SwiftUI
-@available(watchOS 9.0, *)
 struct PlanetsList: View {
     
-    @EnvironmentObject var viewModel: PlanetsDataModel
-    @EnvironmentObject var navPather: NavigationPather
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(PlanetsDataModel.self) var viewModel
+    @Environment(NavigationPather.self) var navPather
+    @Environment(DatabaseModel.self) var dbModel
     
     var body: some View {
-        
+        @Bindable var dbModel = dbModel
         ScrollView {
             LazyVStack(alignment: .leading) {
                 
