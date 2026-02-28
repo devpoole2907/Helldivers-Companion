@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WarBondsList: View {
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(DatabaseModel.self) var dbModel
     @Environment(PlanetsDataModel.self) var viewModel
     
     var body: some View {
@@ -76,7 +76,7 @@ struct WarBondRow: View {
 
 struct WarbondsItemsList: View {
     
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(DatabaseModel.self) var dbModel
     @Environment(PlanetsDataModel.self) var viewModel
     
     let warbond: FixedWarBond

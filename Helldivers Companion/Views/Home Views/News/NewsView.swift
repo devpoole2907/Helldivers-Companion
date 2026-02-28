@@ -14,7 +14,7 @@ struct NewsView: View {
     @Environment(NewsFeedModel.self) var feedModel
     @Environment(NavigationPather.self) var navPather
     @Environment(PlanetsDataModel.self) var viewModel
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(DatabaseModel.self) var dbModel
     
     var body: some View {
         @Bindable var navPather = navPather
@@ -93,7 +93,7 @@ struct NewsView: View {
                     }
             
     .navigationDestination(for: ContentViewPage.self) { _ in
-        SuperStoreList().environmentObject(dbModel)
+        SuperStoreList().environment(dbModel)
     }
                 
             

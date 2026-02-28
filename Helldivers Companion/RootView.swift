@@ -20,7 +20,7 @@ struct RootView: View {
     
     @State var viewModel = PlanetsDataModel()
     
-    @StateObject var dbModel = DatabaseModel()
+    @State var dbModel = DatabaseModel()
     
     @State var contentNavPather = NavigationPather()
     
@@ -67,7 +67,7 @@ struct RootView: View {
         ZStack(alignment: .bottom){
             TabView(selection: $viewModel.currentTab) {
                 
-                ContentView().environment(viewModel).environment(contentNavPather).environmentObject(dbModel)
+                ContentView().environment(viewModel).environment(contentNavPather).environment(dbModel)
                     .tag(Tab.home)
                 
                     .task {
@@ -80,12 +80,12 @@ struct RootView: View {
                 GameView().environment(viewModel)
                     .tag(Tab.game)
                 
-                GalaxyStatsView().environment(viewModel).environment(statsNavPather).environmentObject(dbModel)
+                GalaxyStatsView().environment(viewModel).environment(statsNavPather).environment(dbModel)
                     .tag(Tab.stats)
                 
               
                 
-                NewsView().environment(newsNavPather).environment(viewModel).environmentObject(dbModel).environment(newsModel)
+                NewsView().environment(newsNavPather).environment(viewModel).environment(dbModel).environment(newsModel)
                     .tag(Tab.news)
                 
              

@@ -11,7 +11,7 @@ import AVKit
 struct StratagemDetailView: View {
     
     @Environment(PlanetsDataModel.self) var viewModel
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(DatabaseModel.self) var dbModel
     
     let stratagem: Stratagem
     

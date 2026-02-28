@@ -64,9 +64,15 @@ class PlanetsDataModel {
     
     @ObservationIgnored @AppStorage("viewCount") var viewCount = 0
     
-    @AppStorage("enableLocalization") var enableLocalization = true
-    @AppStorage("darkMode") var darkMode = false
-    
+    // @AppStorage cannot be combined directly with @Observable (causes _name redeclaration).
+    // Use a plain stored var seeded from UserDefaults; didSet persists changes back.
+    var enableLocalization: Bool = UserDefaults.standard.object(forKey: "enableLocalization") as? Bool ?? true {
+        didSet { UserDefaults.standard.set(enableLocalization, forKey: "enableLocalization") }
+    }
+    var darkMode: Bool = UserDefaults.standard.object(forKey: "darkMode") as? Bool ?? false {
+        didSet { UserDefaults.standard.set(darkMode, forKey: "darkMode") }
+    }
+
     @ObservationIgnored private var apiToken: String? = ProcessInfo.processInfo.environment[
         "GITHUB_API_KEY"]
     

@@ -27,7 +27,7 @@ struct ContentView: View {
     
 
     #if os(iOS)
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(DatabaseModel.self) var dbModel
     @Environment(\.requestReview) var requestReview
     #endif
     
@@ -250,7 +250,7 @@ struct ContentView: View {
             
             #if os(iOS)
                 .navigationDestination(for: ContentViewPage.self) { _ in
-                    SuperStoreList().environmentObject(dbModel)
+                    SuperStoreList().environment(dbModel)
                 }
             #endif
             

@@ -9,10 +9,11 @@ import SwiftUI
 
 struct EnemiesList: View {
     
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(DatabaseModel.self) var dbModel
     @Environment(PlanetsDataModel.self) var viewModel
     
     var body: some View {
+        @Bindable var dbModel = dbModel
         ScrollView {
             LazyVStack(alignment: .leading) {
                 
@@ -94,7 +95,7 @@ struct EnemiesList: View {
 
 struct EnemyDetailRow: View {
     
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(DatabaseModel.self) var dbModel
     
     let dashPattern: [CGFloat]
     let enemy: Enemy

@@ -10,10 +10,10 @@ struct PlanetsList: View {
     
     @Environment(PlanetsDataModel.self) var viewModel
     @Environment(NavigationPather.self) var navPather
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(DatabaseModel.self) var dbModel
     
     var body: some View {
-        
+        @Bindable var dbModel = dbModel
         ScrollView {
             LazyVStack(alignment: .leading) {
                 

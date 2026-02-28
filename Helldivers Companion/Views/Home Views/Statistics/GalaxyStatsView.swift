@@ -14,7 +14,7 @@ struct GalaxyStatsView: View {
     
     @Environment(PlanetsDataModel.self) var viewModel
     @Environment(NavigationPather.self) var navPather
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(DatabaseModel.self) var dbModel
     
     var body: some View {
         @Bindable var navPather = navPather
@@ -135,17 +135,17 @@ struct GalaxyStatsView: View {
                     case .planetList:
                         PlanetsList()
                     case .stratList:
-                        StratagemsList().environmentObject(dbModel)
+                        StratagemsList().environment(dbModel)
                     case .armourList:
                         ArmourList()
                     case .weaponList:
                         WeaponsList()
                     case .boosterList:
-                        BoostersList().environmentObject(dbModel)
+                        BoostersList().environment(dbModel)
                     case .warbondsList:
-                        WarBondsList().environmentObject(dbModel)
+                        WarBondsList().environment(dbModel)
                     case .bestiary:
-                        EnemiesList().environmentObject(dbModel)
+                        EnemiesList().environment(dbModel)
                     
                     }
                    

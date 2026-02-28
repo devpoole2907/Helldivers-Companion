@@ -8,60 +8,60 @@
 import Foundation
 import SwiftUI
 
-@MainActor
-class DatabaseModel: ObservableObject {
+@MainActor @Observable
+class DatabaseModel {
     
-    @Published var decodedStrats: [DecodedStratagem] = []
-    @Published var primaryWeapons: [Weapon] = []
-    @Published var secondaryWeapons: [Weapon] = []
-    @Published var grenades: [Grenade] = []
-    @Published var types: [WeaponType] = []
-    @Published var traits: [Trait] = []
-    @Published var fireModes: [FireMode] = []
-    @Published var boosters: [Booster] = []
+    var decodedStrats: [DecodedStratagem] = []
+    var primaryWeapons: [Weapon] = []
+    var secondaryWeapons: [Weapon] = []
+    var grenades: [Grenade] = []
+    var types: [WeaponType] = []
+    var traits: [Trait] = []
+    var fireModes: [FireMode] = []
+    var boosters: [Booster] = []
     
-    @Published var helmets: [Armour] = []
-    @Published var cloaks: [Armour] = []
-    @Published var chests: [Armour] = []
+    var helmets: [Armour] = []
+    var cloaks: [Armour] = []
+    var chests: [Armour] = []
     
-    var allArmour: [Armour] {
-        helmets + cloaks + chests
+    private(set) var allArmour: [Armour] = []
+    private(set) var allWeapons: [Weapon] = []
+
+    private func rebuildDerivedCollections() {
+        allArmour = helmets + cloaks + chests
+        allWeapons = primaryWeapons + secondaryWeapons
     }
-    
-    var allWeapons: [Weapon] {
-        primaryWeapons + secondaryWeapons
-    }
+
     // fetch item costs in the store
     func storeCost(for itemName: String, slot: Int) -> Int? {
         return storeRotation?.items.first { $0.name == itemName && $0.slot == String(slot) }?.storeCost
     }
     
-    @Published var armourSlots: [ArmourSlot] = []
-    @Published var passives: [Passive] = []
+    var armourSlots: [ArmourSlot] = []
+    var passives: [Passive] = []
     
-    @Published var searchText = "" // for search bars
-    @Published var selectedWeaponCategory: WeaponCategory = .all // for weapons list
-    @Published var selectedArmourCategory: ArmourCategory = .all // for armour list
+    var searchText = "" // for search bars
+    var selectedWeaponCategory: WeaponCategory = .all // for weapons list
+    var selectedArmourCategory: ArmourCategory = .all // for armour list
     
-    @Published var sortCriteria: ArmourSortCriteria = .staminaRegen
+    var sortCriteria: ArmourSortCriteria = .staminaRegen
     
-    @Published var storeRotation: SuperStoreResponse?
+    var storeRotation: SuperStoreResponse?
     
     // war bonds
     // TODO: warbonds are totally screwed up here i misunderstood the data structures, for now ive duct taped it but its completely RINSED how all this works lmaoo
     // at least theyre dynamically fetched now
     
-    @Published var warBondCollections: [String: FixedWarBond] = [:]
+    var warBondCollections: [String: FixedWarBond] = [:]
     
     // enemies for bestiary
-    @Published var automatonEnemies: [Enemy] = []
-    @Published var terminidsEnemies: [Enemy] = []
-    @Published var illuminateEnemies: [Enemy] = []
+    var automatonEnemies: [Enemy] = []
+    var terminidsEnemies: [Enemy] = []
+    var illuminateEnemies: [Enemy] = []
     
-    let netManager = NetworkManager.shared
+    @ObservationIgnored let netManager = NetworkManager.shared
     
-    
-    private var timer: Timer?
+    @ObservationIgnored private var timer: Timer?
     
     enum ItemToFetch: CaseIterable {
         case primaryWeapons
@@ -119,9 +119,11 @@ class DatabaseModel: ObservableObject {
             case .primaryWeapons:
                 let items: [Weapon] = try await fetchItems(from: type.urlString)
                 self.primaryWeapons = items
+                self.rebuildDerivedCollections()
             case .secondaryWeapons:
                 let items: [Weapon] = try await fetchItems(from: type.urlString)
                 self.secondaryWeapons = items
+                self.rebuildDerivedCollections()
             case .grenades:
                 let items: [Grenade] = try await fetchItems(from: type.urlString)
                 self.grenades = items
@@ -136,6 +138,7 @@ class DatabaseModel: ObservableObject {
                 self.helmets = armours.filter({ $0.slot == 0 })
                 self.chests = armours.filter({ $0.slot == 2 })
                 self.cloaks = armours.filter({ $0.slot == 1 })
+                self.rebuildDerivedCollections()
             case .stratagems:
                 let decodedData: DecodedStratagemData = try await netManager.fetchData(from: type.urlString)
                 self.decodedStrats = decodedData.data
@@ -342,9 +345,7 @@ class DatabaseModel: ObservableObject {
                         return WarBond(name: warBondName, medalsToUnlock: details.medalsToUnlock, items: details.items)
                     }
                     
-                    DispatchQueue.main.async {
-                        self.updateWarBondCollection(with: warBonds, for: file.name)
-                    }
+                    self.updateWarBondCollection(with: warBonds, for: file.name)
                 } catch {
                     print("Failed to fetch war bond details from \(url): \(error)")
                 }
@@ -356,9 +357,7 @@ class DatabaseModel: ObservableObject {
     
     private func updateWarBondCollection(with warBonds: [WarBond], for fileName: String) {
         let fixedWarBond = FixedWarBond(warbondPages: warBonds)
-        DispatchQueue.main.async {
-            self.warBondCollections[fileName] = fixedWarBond
-        }
+        warBondCollections[fileName] = fixedWarBond
     }
     
     

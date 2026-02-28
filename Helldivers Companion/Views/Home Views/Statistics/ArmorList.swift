@@ -9,12 +9,13 @@ import SwiftUI
 
 struct ArmourList: View {
     
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(DatabaseModel.self) var dbModel
     @Environment(PlanetsDataModel.self) var viewModel
     
     
     // TODO: CHANGE THE DAMN SORTING IN THIS! SPEED RUNNING RN JEEZ
     var body: some View {
+        @Bindable var dbModel = dbModel
         ScrollView {
             LazyVStack(alignment: .leading) {
                 
@@ -220,7 +221,7 @@ struct ArmourRowStatView: View {
 
 struct ArmourDetailRow: View {
     
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(DatabaseModel.self) var dbModel
     
     let dashPattern: [CGFloat]
     let armour: Armour

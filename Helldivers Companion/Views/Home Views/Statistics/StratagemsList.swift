@@ -10,7 +10,7 @@ import SwiftUI
 struct StratagemsList: View {
     
     @Environment(PlanetsDataModel.self) var viewModel
-    @EnvironmentObject var dbModel: DatabaseModel
+    @Environment(DatabaseModel.self) var dbModel
     
     
     let stratagems: [StratagemType: [Stratagem]]
@@ -23,6 +23,7 @@ struct StratagemsList: View {
     
     
     var body: some View {
+        @Bindable var dbModel = dbModel
         
             ZStack(alignment: .bottom) {
             ScrollView {
