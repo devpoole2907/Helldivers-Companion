@@ -176,11 +176,7 @@ private struct UpdatedPlanetContentView: View {
                                 .foregroundStyle(Color(red: 49/255, green: 49/255, blue: 49/255))
                                 .frame(width: weatherIconSize, height: weatherIconSize)
                                 .offset(x: 0, y: -0.5)
-                                .padding(4)
-                                .background{
-                                    Circle().foregroundStyle(Color.white)
-                                        .shadow(radius: 3.0)
-                                }
+                                .whiteCircleBackground()
                         }
                         
                  
@@ -197,11 +193,7 @@ private struct UpdatedPlanetContentView: View {
                                     Image(weather.name).resizable().aspectRatio(contentMode: .fit)
                                     
                                         .frame(width: weatherIconSize, height: weatherIconSize)
-                                        .padding(4)
-                                        .background{
-                                            Circle().foregroundStyle(Color.white)
-                                                .shadow(radius: 3.0)
-                                        }
+                                        .whiteCircleBackground()
                                 }
                             }
                     }
@@ -219,11 +211,7 @@ private struct UpdatedPlanetContentView: View {
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: weatherIconSize - 2, height: weatherIconSize - 2)
                                         .offset(x: imageName == "sciencecenter" ? -1 : 0, y: 0)
-                                        .padding(4)
-                                        .background{
-                                            Circle().foregroundStyle(Color.white)
-                                                .shadow(radius: 3.0)
-                                        }
+                                        .whiteCircleBackground()
                                 }
                                 
                             }
@@ -283,9 +271,7 @@ private struct UpdatedPlanetContentView: View {
             
             
             
-        }.border(Color.white)
-            .padding(4)
-            .border(Color.gray)
+        }.helldiversBorder()
     }
     
     var planetaryImage: some View {

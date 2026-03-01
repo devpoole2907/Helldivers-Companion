@@ -68,9 +68,7 @@ struct TogglePickerPopup: CentrePopup {
                 Color.black
             }
         
-        .border(Color.white)
-            .padding(4)
-            .border(Color.gray)
+        .helldiversBorder()
         
         
     }

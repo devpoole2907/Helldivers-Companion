@@ -215,11 +215,7 @@ struct PlanetView: View {
                                         Image(weather.name).resizable().aspectRatio(contentMode: .fit)
                                         
                                             .frame(width: weatherIconSize, height: weatherIconSize)
-                                            .padding(4)
-                                            .background{
-                                                Circle().foregroundStyle(Color.white)
-                                                    .shadow(radius: 3.0)
-                                            }
+                                            .whiteCircleBackground()
                                     }
                                 }
                             }.opacity(0.7)
@@ -281,9 +277,7 @@ struct PlanetView: View {
             
             
             
-        }.border(Color.white)
-            .padding(4)
-            .border(Color.gray)
+        }.helldiversBorder()
     }
     
     var planetaryImage: some View {

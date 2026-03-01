@@ -460,10 +460,7 @@ struct PlanetInfoView: View {
                 
             }
             
-        }   .border(Color.white)
-            .padding(4)
-            .border(Color.gray)
-        
+        }   .helldiversBorder()
             .padding(4)
             .border(planet?.factionColor ?? Color.gray, width: 2) .padding([.bottom, .horizontal])
     }
@@ -533,11 +530,7 @@ struct PlanetInfoView: View {
                     .foregroundStyle(Color(red: 49/255, green: 49/255, blue: 49/255))
                     .frame(width: 30, height: 30)
                     .offset(x: 0, y: -0.5)
-                    .padding(4)
-                    .background{
-                        Circle().foregroundStyle(Color.white)
-                            .shadow(radius: 3.0)
-                    }
+                    .whiteCircleBackground()
                 
                 VStack(alignment: .leading) {
                     Text("MAJOR ORDER").textCase(.uppercase)
@@ -581,13 +574,7 @@ struct PlanetInfoView: View {
                            
                              .frame(width: 22, height: 22)
                              .offset(x: effect.imageName == "sciencecenter" ? -2 : 0, y: 0)
-                             .padding(8)
-                             .background(
-                                     Circle()
-                                         .foregroundStyle(.white)
-                                         .shadow(radius: 3)
-                                         .opacity(effect.imageName == nil ? 0.4 : 1.0)
-                                 )
+                             .whiteCircleBackground(padding: 8, opacity: effect.imageName == nil ? 0.4 : 1.0)
                              .frame(width: 34, height: 34)
 
                             
@@ -621,12 +608,7 @@ struct PlanetInfoView: View {
                         Image(weather.name).resizable().aspectRatio(contentMode: .fit)
                         
                             .frame(width: 30, height: 30)
-                            .padding(4)
-                            .background{
-                                Circle().foregroundStyle(Color.white)
-                                    .shadow(radius: 3.0)
-                                    .opacity(weather.name.lowercased() == "none" ? 0.4 : 1.0)
-                            }
+                            .whiteCircleBackground(opacity: weather.name.lowercased() == "none" ? 0.4 : 1.0)
                         
                         VStack(alignment: .leading) {
                             Text(weather.name).textCase(.uppercase)

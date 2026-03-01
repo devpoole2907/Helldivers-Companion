@@ -347,10 +347,7 @@ struct SettingsSheet: View {
             
             
                 .frame(height: 30)
-                .padding(4)
-                .border(Color.white)
-                .padding(4)
-                .border(Color.gray)
+                .helldiversBorder()
             
             
             

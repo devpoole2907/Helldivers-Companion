@@ -19,13 +19,7 @@ struct CustomSegmentedPicker<Item: SegmentedItem>: View {
     var cornerRadius: CGFloat = 20.0
     var borderWidth: CGFloat = 2.0
     
-#if os(iOS)
-let pickerFontSize: CGFloat = 24
-
-
-#elseif os(watchOS)
-    let pickerFontSize: CGFloat = 10
-#endif
+    private var pickerFontSize: CGFloat { LayoutConstants.pickerFontSize }
     
     var body: some View {
         
@@ -76,10 +70,7 @@ let pickerFontSize: CGFloat = 24
                                 
                             }
             .frame(maxHeight: 30)
-                                       .padding(4)
-                                       .border(Color.white)
-                                       .padding(4)
-                                       .border(Color.gray)
+                                       .helldiversBorder()
                             
         }.hapticFeedback(.selection, trigger: selection)
         .frame(maxWidth: 300).padding(.trailing, 14)

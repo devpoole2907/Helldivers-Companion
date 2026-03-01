@@ -63,11 +63,7 @@ struct PlanetInfoDetailRow: View {
                                     Image(weather.name).resizable().aspectRatio(contentMode: .fit)
                                     
                                         .frame(width: 13, height: 13)
-                                        .padding(4)
-                                        .background{
-                                            Circle().foregroundStyle(Color.white)
-                                                .shadow(radius: 3.0)
-                                        }
+                                        .whiteCircleBackground()
                                 }
                             }
                         }.opacity(0.7)

@@ -199,12 +199,7 @@ struct CampaignPlanetStatsView: View {
                 .padding(.vertical, 5)
                 
             }
-        .border(Color.white)
-        .padding(4)
-        .border(Color.gray)
-            
-            
-     
+        .helldiversBorder()
             
             // regions, show first region
             
@@ -218,9 +213,7 @@ struct CampaignPlanetStatsView: View {
                   .frame(maxHeight: 44)
                 .padding(.vertical, 5)
                 
-                .border(Color.white)
-                .padding(4)
-                .border(Color.gray)
+                .helldiversBorder()
                .frame(maxHeight: 50)
             
             
@@ -338,9 +331,7 @@ struct CampaignPlanetStatsView: View {
                 //  Color.black
             }
             .padding(.horizontal)
-            .border(Color.white)
-            .padding(4)
-            .border(Color.gray)
+            .helldiversBorder()
             
         }
         

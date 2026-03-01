@@ -215,9 +215,7 @@ struct StratagemVideoPlayer: View {
                 
                 
             }.frame(width: UIScreen.main.bounds.width - 40, height: 120)
-                .border(Color.white)
-                .padding(4)
-                .border(Color.gray)
+                .helldiversBorder()
                 .padding(4)
             
                 .onAppear {
