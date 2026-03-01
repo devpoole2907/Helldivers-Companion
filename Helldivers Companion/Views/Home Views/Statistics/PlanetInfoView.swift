@@ -288,47 +288,25 @@ struct PlanetInfoView: View {
         
         VStack(alignment: .leading) {
             if let missionsWon = planet?.statistics.missionsWon {
-                HStack {
-                    Text("Missions\(extraStatSplitter)won").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(missionsWon)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Missions\(extraStatSplitter)won", value: "\(missionsWon)")
             }
             
             if let missionsLost = planet?.statistics.missionsLost {
-                HStack {
-                    Text("Missions\(extraStatSplitter)lost").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(missionsLost)").font(Font.custom("FSSinclair", size: smallFont))
-                        .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Missions\(extraStatSplitter)lost", value: "\(missionsLost)")
             }
             
             if let successRate = planet?.statistics.missionSuccessRate {
-                HStack {
-                    Text("Success rate").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(successRate)%").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Success rate", value: "\(successRate)%")
             }
             
-            RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)
-                .padding(.bottom, 4)
+            RoundedDivider(width: dividerWidth)
             
             if let terminidKills = planet?.statistics.terminidKills {
-                HStack {
-                    Text("Terminids\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(terminidKills)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Terminids\(extraStatSplitter)Killed", value: "\(terminidKills)")
             }
             
             if let automatonKills = planet?.statistics.automatonKills {
-                HStack {
-                    Text("Automatons\(extraStatSplitter)Killed").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(automatonKills)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Automatons\(extraStatSplitter)Killed", value: "\(automatonKills)")
             }
             
             if let illuminateKills = planet?.statistics.illuminateKills, showIlluminateStats {
@@ -367,48 +345,28 @@ struct PlanetInfoView: View {
             
             
             
-            RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)         .padding(.bottom, 4)
+            RoundedDivider(width: dividerWidth)
             
             if let bulletsFired = planet?.statistics.bulletsFired {
-                HStack {
-                    Text("Bullets\(extraStatSplitter)Fired").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(bulletsFired)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Bullets\(extraStatSplitter)Fired", value: "\(bulletsFired)")
             }
             
             if let bulletsHit = planet?.statistics.bulletsHit {
-                HStack {
-                    Text("Bullets\(extraStatSplitter)Hit").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(bulletsHit)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Bullets\(extraStatSplitter)Hit", value: "\(bulletsHit)")
             }
             
             if let accuracy = planet?.statistics.accuracy {
-                HStack {
-                    Text("Accuracy").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(accuracy)%").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Accuracy", value: "\(accuracy)%")
             }
             
-            RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)         .padding(.bottom, 4)
+            RoundedDivider(width: dividerWidth)
             
             if let helldiversLost = planet?.statistics.deaths {
-                HStack {
-                    Text("Helldivers\(extraStatSplitter)Lost").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(helldiversLost)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Helldivers\(extraStatSplitter)Lost", value: "\(helldiversLost)")
             }
             
             if let friendlyKills = planet?.statistics.friendlies {
-                HStack {
-                    Text("Friendly\(extraStatSplitter)Kills").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(friendlyKills)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Friendly\(extraStatSplitter)Kills", value: "\(friendlyKills)")
             }
             
             
@@ -424,14 +382,7 @@ struct PlanetInfoView: View {
         ZStack(alignment: .bottomLeading) {
             Image(formattedPlanetImageName).resizable().aspectRatio(contentMode: .fit)
             
-            LinearGradient(
-                gradient: Gradient(colors: [.clear, .black]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .blendMode(.multiply)
-            
-            .frame(maxHeight: 80)
+            DarkGradientOverlay(maxHeight: 80)
             
             
             if let sector = planet?.sector {
@@ -470,7 +421,7 @@ struct PlanetInfoView: View {
             
             Text(planet?.biome.name ?? "").textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: largeFont))
             
-            RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
+            RoundedDivider(width: smallerDividerWidth)
             
             if let biomeDescript = planet?.biome.description {
                 Text(biomeDescript)
@@ -504,14 +455,8 @@ struct PlanetInfoView: View {
                     .padding(.horizontal, 6)
                 
             }.padding(20)
-        }.background {
-            
-            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
-                .foregroundStyle(.gray)
-                .opacity(0.5)
-                .shadow(radius: 3)
-            
         }
+        .dashedRowBackground(dashPattern: dashPattern)
         .padding(4)
         .padding(.bottom, 4)
     }
@@ -545,14 +490,8 @@ struct PlanetInfoView: View {
         }
             .padding(8)
             
-        } .background {
-            
-            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
-                .foregroundStyle(.gray)
-                .opacity(0.5)
-                .shadow(radius: 3)
-            
         }
+        .dashedRowBackground(dashPattern: dashPattern)
         .padding(4)
         .padding(.bottom, 4)
     }
@@ -562,7 +501,7 @@ struct PlanetInfoView: View {
             VStack(alignment: .leading, spacing: 5) {
                 
                 Text("Effects & POIs").textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: largeFont))
-                RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
+                RoundedDivider(width: smallerDividerWidth)
                 
                 ForEach(pointsOfInterest) { effect in
                      HStack(spacing: 12) {
@@ -599,7 +538,7 @@ struct PlanetInfoView: View {
             
             Text("Environment").textCase(.uppercase).font(Font.custom("FSSinclair-Bold", size: largeFont))
             
-            RoundedRectangle(cornerRadius: 25).frame(width: smallerDividerWidth, height: 2)         .padding(.bottom, 4)
+            RoundedDivider(width: smallerDividerWidth)
             
             if let weathers = planet?.hazards {
                 ForEach(weathers, id: \.name) { weather in

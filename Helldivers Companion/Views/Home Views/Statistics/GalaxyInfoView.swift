@@ -91,8 +91,7 @@ struct GalaxyInfoView: View {
                 }
             }
             
-            RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)
-              //  .padding(.bottom, 2)
+            RoundedDivider(width: dividerWidth, bottomPadding: 0)
             
             if let bugKills = galaxyStats?.bugKills {
                 HStack {
@@ -152,49 +151,26 @@ struct GalaxyInfoView: View {
                 
             }
             
-            RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)
-                .padding(.bottom, 4)
+            RoundedDivider(width: dividerWidth)
             
             if let bulletsFired = galaxyStats?.bulletsFired {
-                HStack {
-                    Text("Bullets\(extraStatSplitter)Fired").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(bulletsFired)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Bullets\(extraStatSplitter)Fired", value: "\(bulletsFired)")
             }
             
             if let bulletsHit = galaxyStats?.bulletsHit {
-                HStack {
-                    Text("Bullets\(extraStatSplitter)Hit").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(bulletsHit)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Bullets\(extraStatSplitter)Hit", value: "\(bulletsHit)")
             }
             
             if let accuracy = galaxyStats?.accuracy {
-                HStack {
-                    Text("Accuracy").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(accuracy)%").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Accuracy", value: "\(accuracy)%")
             }
             
-          //  RoundedRectangle(cornerRadius: 25).frame(width: dividerWidth, height: 2)         .padding(.bottom, 4)
-            
             if let helldiversLost = galaxyStats?.deaths {
-                HStack {
-                    Text("Helldivers\(extraStatSplitter)Lost").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(helldiversLost)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Helldivers\(extraStatSplitter)Lost", value: "\(helldiversLost)")
             }
             
             if let friendlyKills = galaxyStats?.friendlies {
-                HStack {
-                    Text("Friendly\(extraStatSplitter)Kills").textCase(.uppercase).font(Font.custom("FSSinclair", size: mediumFont))
-                    Spacer()
-                    Text("\(friendlyKills)").font(Font.custom("FSSinclair", size: smallFont))     .multilineTextAlignment(.trailing)
-                }
+                StatRow(label: "Friendly\(extraStatSplitter)Kills", value: "\(friendlyKills)")
             }
             
             

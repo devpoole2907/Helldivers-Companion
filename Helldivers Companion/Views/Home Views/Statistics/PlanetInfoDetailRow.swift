@@ -28,14 +28,7 @@ struct PlanetInfoDetailRow: View {
                     .aspectRatio(contentMode: .fill)
                 
                 
-                LinearGradient(
-                    gradient: Gradient(colors: [.clear, .black]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .blendMode(.multiply)
-                
-        
+                DarkGradientOverlay()
                 
             
                 

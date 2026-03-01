@@ -193,14 +193,7 @@ struct PlanetView: View {
                             planetaryImage
                             
                             
-                            LinearGradient(
-                                gradient: Gradient(colors: [.clear, .black]),
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                            .blendMode(.multiply)
-                            
-                            .frame(maxHeight: 80)
+                            DarkGradientOverlay(maxHeight: 80)
                             
                         }
                         

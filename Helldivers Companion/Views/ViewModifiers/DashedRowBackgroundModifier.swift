@@ -9,12 +9,13 @@ import SwiftUI
 
 struct DashedRowBackgroundModifier: ViewModifier {
     var dashPattern: [CGFloat]
+    var dashPhase: CGFloat = 0
 
     func body(content: Content) -> some View {
         content
             .background {
                 Rectangle()
-                    .stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                    .stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern, dashPhase: dashPhase))
                     .foregroundStyle(.gray)
                     .opacity(0.5)
                     .shadow(radius: 3)
@@ -23,8 +24,8 @@ struct DashedRowBackgroundModifier: ViewModifier {
 }
 
 extension View {
-    func dashedRowBackground(dashPattern: [CGFloat]) -> some View {
-        modifier(DashedRowBackgroundModifier(dashPattern: dashPattern))
+    func dashedRowBackground(dashPattern: [CGFloat], dashPhase: CGFloat = 0) -> some View {
+        modifier(DashedRowBackgroundModifier(dashPattern: dashPattern, dashPhase: dashPhase))
     }
 }
 

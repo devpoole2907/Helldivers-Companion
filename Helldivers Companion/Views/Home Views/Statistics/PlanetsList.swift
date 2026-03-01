@@ -48,7 +48,7 @@ struct PlanetsList: View {
                     } header: {
                         VStack(alignment: .leading, spacing: 5) {
                             Text("\(sector) Sector").font(Font.custom("FSSinclair-Bold", size: largeFont))
-                            RoundedRectangle(cornerRadius: 25).frame(width: 250, height: 2)         .padding(.bottom, 4)
+                            RoundedDivider(width: 250)
                         }.padding(.top)
                         
                     }.id(index + 1)

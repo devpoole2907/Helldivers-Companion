@@ -38,3 +38,5 @@ extension View {
             modifier(ConditionalBackgroundModifier(viewModel: viewModel, grayscale: grayscale, opacity: opacity))
         }
 }
+
+
