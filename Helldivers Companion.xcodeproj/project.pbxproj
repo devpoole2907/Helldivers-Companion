@@ -420,6 +420,32 @@
 		7CC32A012F4C30F300703873 /* WarAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC329F72F4C30F300703873 /* WarAPIService.swift */; };
 		7CD554912BB73EDE008D4267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
 		7CD554922BB73EDF008D4267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */; };
+		7CD803012F542CB2006D549B /* NavigationStyleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803002F542CB2006D549B /* NavigationStyleModifier.swift */; };
+		7CD803022F542CB2006D549B /* NavigationStyleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803002F542CB2006D549B /* NavigationStyleModifier.swift */; };
+		7CD803042F542CD6006D549B /* PulsatingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803032F542CD6006D549B /* PulsatingModifier.swift */; };
+		7CD803052F542CD6006D549B /* PulsatingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803032F542CD6006D549B /* PulsatingModifier.swift */; };
+		7CD803072F542D05006D549B /* LayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803062F542D05006D549B /* LayoutConstants.swift */; };
+		7CD803082F542D05006D549B /* LayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803062F542D05006D549B /* LayoutConstants.swift */; };
+		7CD8030C2F542E26006D549B /* LayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803062F542D05006D549B /* LayoutConstants.swift */; };
+		7CD8030D2F542E26006D549B /* LayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803062F542D05006D549B /* LayoutConstants.swift */; };
+		7CD8030E2F542E26006D549B /* LayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803062F542D05006D549B /* LayoutConstants.swift */; };
+		7CD8030F2F542E26006D549B /* LayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803062F542D05006D549B /* LayoutConstants.swift */; };
+		7CD803102F542E26006D549B /* LayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803062F542D05006D549B /* LayoutConstants.swift */; };
+		7CD803112F542E26006D549B /* LayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803062F542D05006D549B /* LayoutConstants.swift */; };
+		7CD803122F542E26006D549B /* LayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803062F542D05006D549B /* LayoutConstants.swift */; };
+		7CD803132F542E26006D549B /* LayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803062F542D05006D549B /* LayoutConstants.swift */; };
+		7CD803142F542E26006D549B /* LayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803062F542D05006D549B /* LayoutConstants.swift */; };
+		7CD803152F542E26006D549B /* LayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803062F542D05006D549B /* LayoutConstants.swift */; };
+		7CD803162F542E42006D549B /* PulsatingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803032F542CD6006D549B /* PulsatingModifier.swift */; };
+		7CD803172F542E42006D549B /* PulsatingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803032F542CD6006D549B /* PulsatingModifier.swift */; };
+		7CD803182F542E42006D549B /* PulsatingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803032F542CD6006D549B /* PulsatingModifier.swift */; };
+		7CD803192F542E42006D549B /* PulsatingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803032F542CD6006D549B /* PulsatingModifier.swift */; };
+		7CD8031A2F542E42006D549B /* PulsatingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803032F542CD6006D549B /* PulsatingModifier.swift */; };
+		7CD8031B2F542E42006D549B /* PulsatingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803032F542CD6006D549B /* PulsatingModifier.swift */; };
+		7CD8031C2F542E42006D549B /* PulsatingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803032F542CD6006D549B /* PulsatingModifier.swift */; };
+		7CD8031D2F542E42006D549B /* PulsatingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803032F542CD6006D549B /* PulsatingModifier.swift */; };
+		7CD8031E2F542E42006D549B /* PulsatingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803032F542CD6006D549B /* PulsatingModifier.swift */; };
+		7CD8031F2F542E42006D549B /* PulsatingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803032F542CD6006D549B /* PulsatingModifier.swift */; };
 		7CE4AE332BA82C6A0033D4AF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE4AE322BA82C6A0033D4AF /* FirebaseFirestore */; };
 		7CE4AE352BA82C6A0033D4AF /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE4AE342BA82C6A0033D4AF /* FirebaseFunctions */; };
 		7CE4AE372BA82C6A0033D4AF /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE4AE362BA82C6A0033D4AF /* FirebaseMessaging */; };
@@ -715,6 +741,9 @@
 		7CC284CC2BD92B2E0036EBFD /* WeaponsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponsList.swift; sourceTree = "<group>"; };
 		7CC284CE2BD9310A0036EBFD /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
 		7CC329F72F4C30F300703873 /* WarAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarAPIService.swift; sourceTree = "<group>"; };
+		7CD803002F542CB2006D549B /* NavigationStyleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationStyleModifier.swift; sourceTree = "<group>"; };
+		7CD803032F542CD6006D549B /* PulsatingModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulsatingModifier.swift; sourceTree = "<group>"; };
+		7CD803062F542D05006D549B /* LayoutConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutConstants.swift; sourceTree = "<group>"; };
 		7CE4AE3C2BA832C40033D4AF /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentrePopup.swift; sourceTree = "<group>"; };
 		7CE97D3C2BB53D2E008329BA /* TipJarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarView.swift; sourceTree = "<group>"; };
@@ -1188,6 +1217,9 @@
 			children = (
 				7C4A74942D5EF996001CD5C6 /* ZoomableModifier.swift */,
 				7CC284C32BD8DD790036EBFD /* BackgroundModifier.swift */,
+				7CD803002F542CB2006D549B /* NavigationStyleModifier.swift */,
+				7CD803032F542CD6006D549B /* PulsatingModifier.swift */,
+				7CD803062F542D05006D549B /* LayoutConstants.swift */,
 			);
 			path = ViewModifiers;
 			sourceTree = "<group>";
@@ -1993,15 +2025,18 @@
 				7C0DF6192BB922230062AB9B /* PlanetInfoView.swift in Sources */,
 				7C5D5F592BAFD74900B644B9 /* WatchConnectivityProvider.swift in Sources */,
 				7CC0D19D2F4D592300BA4DB6 /* TaskType.swift in Sources */,
+				7CD803052F542CD6006D549B /* PulsatingModifier.swift in Sources */,
 				7C88C3382F5019C00084538A /* PlanetContext.swift in Sources */,
 				7C0DF62F2BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */,
 				7CE97D4D2BB564F6008329BA /* CloseButton.swift in Sources */,
 				7CC284C72BD8E6DF0036EBFD /* StratagemsList.swift in Sources */,
 				7C88C3422F501B080084538A /* LiberationType.swift in Sources */,
+				7CD803082F542D05006D549B /* LayoutConstants.swift in Sources */,
 				7C0DF63D2BBA19340062AB9B /* GalaxyInfoView.swift in Sources */,
 				7C0C994C2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift in Sources */,
 				7C0DF61F2BB9319C0062AB9B /* NavigationPather.swift in Sources */,
 				7CC329F92F4C30F300703873 /* WarAPIService.swift in Sources */,
+				7CD803012F542CB2006D549B /* NavigationStyleModifier.swift in Sources */,
 				7CC284C92BD8F03F0036EBFD /* DatabaseModel.swift in Sources */,
 				7CC284C42BD8DD790036EBFD /* BackgroundModifier.swift in Sources */,
 				7C0C995F2BA2C7BC00CF7C91 /* PlanetView.swift in Sources */,
@@ -2027,10 +2062,12 @@
 				7C0DF62B2BB96D530062AB9B /* NavigationPather.swift in Sources */,
 				7CC329FD2F4C30F300703873 /* WarAPIService.swift in Sources */,
 				7CBC0E452BDDB954008ED950 /* CacheManager.swift in Sources */,
+				7CD8030E2F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7C80F3F02BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7CAAFFDD2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7CC0D1A22F4D592300BA4DB6 /* TaskType.swift in Sources */,
 				7C1B8C2E2BAD718200944823 /* NewsItemView.swift in Sources */,
+				7CD803182F542E42006D549B /* PulsatingModifier.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2038,6 +2075,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CD8030D2F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7CC0D1A02F4D592300BA4DB6 /* TaskType.swift in Sources */,
 				7C9062572C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7C8C5F282BAE80D300C4FBD2 /* PlanetView.swift in Sources */,
@@ -2055,6 +2093,7 @@
 				7C88C3362F5019C00084538A /* PlanetContext.swift in Sources */,
 				7C45D4762BABF47C0013A632 /* AlertView.swift in Sources */,
 				7C45D4712BABEECF0013A632 /* OrderTimeView.swift in Sources */,
+				7CD803172F542E42006D549B /* PulsatingModifier.swift in Sources */,
 				7C0DF6322BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */,
 				7C6C0F7D2BD0AEBC00BD73B2 /* UpdatedPlanetView.swift in Sources */,
 				7C45D46B2BABEE7D0013A632 /* RewardView.swift in Sources */,
@@ -2092,6 +2131,8 @@
 				7C44B7FA2BC945890097C29B /* NavigationPather.swift in Sources */,
 				7C44B7FE2BC945CB0097C29B /* AngledLinesShape.swift in Sources */,
 				7C44B7F82BC9457D0097C29B /* PlanetInfoView.swift in Sources */,
+				7CD8031B2F542E42006D549B /* PulsatingModifier.swift in Sources */,
+				7CD803112F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7CAAFFE02C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C44B7F42BC9451F0097C29B /* CampaignPlanetStatsView.swift in Sources */,
 				7CF3E57D2DD942E1006CFB00 /* FleetStrengthView.swift in Sources */,
@@ -2109,7 +2150,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CD8031E2F542E42006D549B /* PulsatingModifier.swift in Sources */,
 				7C3446D02F4C057700157213 /* Faction.swift in Sources */,
+				7CD803142F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7C4A9E352BD355EF0014FCCD /* War_Monitor_Total_Player_Count_WidgetBundle.swift in Sources */,
 				7CAAFFE12C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C6DE51F2C474D9200077534 /* NetworkManager.swift in Sources */,
@@ -2128,7 +2171,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CD8031F2F542E42006D549B /* PulsatingModifier.swift in Sources */,
 				7C3446CE2F4C057700157213 /* Faction.swift in Sources */,
+				7CD803152F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7C4A9E4A2BD356860014FCCD /* War_Monitor_Total_Player_Count_Watch_Widget.swift in Sources */,
 				7CAAFFE22C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C6DE5202C474D9200077534 /* NetworkManager.swift in Sources */,
@@ -2158,6 +2203,7 @@
 				7C587F5C2BA6DD1700C66643 /* AboutView.swift in Sources */,
 				7CE97D4B2BB55F5D008329BA /* TipJarView.swift in Sources */,
 				7CC0D1A32F4D592300BA4DB6 /* TaskType.swift in Sources */,
+				7CD803042F542CD6006D549B /* PulsatingModifier.swift in Sources */,
 				7C1B8C602BAD85B200944823 /* GameViewWatch.swift in Sources */,
 				7C45D45E2BABEDE40013A632 /* WatchOrdersView.swift in Sources */,
 				7C45D4662BABEE750013A632 /* AngledLinesShape.swift in Sources */,
@@ -2180,6 +2226,7 @@
 				7C587F5E2BA6DD2500C66643 /* RectangleProgressBar.swift in Sources */,
 				7C319F952BAAEF7F0075A1E4 /* NewsItemView.swift in Sources */,
 				7C0DF6232BB934E90062AB9B /* PlanetImageFormatter.swift in Sources */,
+				7CD803022F542CB2006D549B /* NavigationStyleModifier.swift in Sources */,
 				7CC329FF2F4C30F300703873 /* WarAPIService.swift in Sources */,
 				7C587F572BA6DC2400C66643 /* ContentView.swift in Sources */,
 				7CBC0E422BDDB954008ED950 /* CacheManager.swift in Sources */,
@@ -2199,6 +2246,7 @@
 				7C88C3352F5019C00084538A /* PlanetContext.swift in Sources */,
 				7C3A9ECB2BA9725800F26307 /* NewsFeedModel.swift in Sources */,
 				7CC284C12BD8DB390036EBFD /* PlanetsList.swift in Sources */,
+				7CD803072F542D05006D549B /* LayoutConstants.swift in Sources */,
 				7C587F472BA6DBB400C66643 /* Helldivers_Companion_Watch_EditionApp.swift in Sources */,
 				7C418DC02DE16D8E0027A05D /* DualRingSpinner.swift in Sources */,
 			);
@@ -2209,11 +2257,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C3446D32F4C057700157213 /* Faction.swift in Sources */,
+				7CD803192F542E42006D549B /* PulsatingModifier.swift in Sources */,
 				7CC0D1A12F4D592300BA4DB6 /* TaskType.swift in Sources */,
 				7C8C5F482BAEFE8600C4FBD2 /* AngledLinesShape.swift in Sources */,
 				7C6A8A682D3E2201008CFB71 /* PersonalOrderView.swift in Sources */,
 				7C8C5F342BAEF91300C4FBD2 /* Helldivers_Companion_Major_Order_WidgetBundle.swift in Sources */,
 				7C8C5F472BAEFE1A00C4FBD2 /* OrderView.swift in Sources */,
+				7CD8030F2F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7CAAFFDE2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C8C5F442BAEF98100C4FBD2 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C8C5F432BAEF97600C4FBD2 /* OrderTimeView.swift in Sources */,
@@ -2238,11 +2288,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C3446CF2F4C057700157213 /* Faction.swift in Sources */,
+				7CD8031A2F542E42006D549B /* PulsatingModifier.swift in Sources */,
 				7CC0D1A42F4D592300BA4DB6 /* TaskType.swift in Sources */,
 				7C8C5F642BAF0C2900C4FBD2 /* AngledLinesShape.swift in Sources */,
 				7C6A8A6C2D3E2201008CFB71 /* PersonalOrderView.swift in Sources */,
 				7C8C5F632BAF0C1D00C4FBD2 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C8C5F522BAF0AD100C4FBD2 /* Helldivers_Companion_Major_Order_Watch_Widget.swift in Sources */,
+				7CD803102F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7CAAFFDF2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C8C5F612BAF0C1500C4FBD2 /* RewardView.swift in Sources */,
 				7CBC0E472BDDB954008ED950 /* CacheManager.swift in Sources */,
@@ -2269,6 +2321,8 @@
 				7CBC0E492BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7CA240B72BCA33FC007F685C /* Stratagem_Hero_High_Score_WidgetBundle.swift in Sources */,
 				7CA240B92BCA33FC007F685C /* Stratagem_Hero_High_Score_Widget.swift in Sources */,
+				7CD803122F542E26006D549B /* LayoutConstants.swift in Sources */,
+				7CD8031C2F542E42006D549B /* PulsatingModifier.swift in Sources */,
 				7C5E450E2BCE420700A74212 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C418DC62DE16D990027A05D /* DualRingSpinner.swift in Sources */,
 			);
@@ -2281,6 +2335,8 @@
 				7CBC0E4A2BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7CA240CF2BCA5082007F685C /* Stratagem_Hero_High_Score_Watch_Widget.swift in Sources */,
 				7CA240D92BCA50A2007F685C /* Stratagem_Hero_High_Score_Widget.swift in Sources */,
+				7CD803132F542E26006D549B /* LayoutConstants.swift in Sources */,
+				7CD8031D2F542E42006D549B /* PulsatingModifier.swift in Sources */,
 				7C5E450F2BCE420700A74212 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C418DC72DE16D990027A05D /* DualRingSpinner.swift in Sources */,
 			);
@@ -2290,6 +2346,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CD8030C2F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7CC0D19E2F4D592300BA4DB6 /* TaskType.swift in Sources */,
 				7C90625A2C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7C45D4672BABEE770013A632 /* AngledLinesShape.swift in Sources */,
@@ -2307,6 +2364,7 @@
 				7C88C33A2F5019C00084538A /* PlanetContext.swift in Sources */,
 				7C45D46A2BABEE7D0013A632 /* RewardView.swift in Sources */,
 				7C45D45C2BABEB370013A632 /* GlobalFunctions+Extensions.swift in Sources */,
+				7CD803162F542E42006D549B /* PulsatingModifier.swift in Sources */,
 				7C0DF6312BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */,
 				7C6C0F7C2BD0AEBC00BD73B2 /* UpdatedPlanetView.swift in Sources */,
 				7C45D4752BABF47C0013A632 /* AlertView.swift in Sources */,

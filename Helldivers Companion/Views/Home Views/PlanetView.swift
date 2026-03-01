@@ -42,17 +42,9 @@ struct PlanetView: View {
     var campaignType: Int? = 0
     
 
-#if os(iOS)
-    let raceIconSize: CGFloat = 25
-    let spacingSize: CGFloat = 10
-    
-    let zStackAlignment: Alignment = .topTrailing
-    
-#elseif os(watchOS)
-    let raceIconSize: CGFloat = 20
-    let spacingSize: CGFloat = 4
-    let zStackAlignment: Alignment = .topLeading
-#endif
+    private var raceIconSize: CGFloat { LayoutConstants.raceIconSize }
+    private var spacingSize: CGFloat { LayoutConstants.spacingSize }
+    private var zStackAlignment: Alignment { LayoutConstants.zStackAlignment }
     
     private var planetData: [UpdatedPlanetDataPoint] {
         viewModel.planetHistory[planetName] ?? []
