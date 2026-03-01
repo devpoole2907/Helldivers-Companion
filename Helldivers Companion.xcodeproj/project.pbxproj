@@ -482,6 +482,13 @@
 		7CD803442F543489006D549B /* DashedRowBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8033A2F543489006D549B /* DashedRowBackgroundModifier.swift */; };
 		7CD803452F543489006D549B /* DashedRowBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8033A2F543489006D549B /* DashedRowBackgroundModifier.swift */; };
 		7CD803462F543489006D549B /* DashedRowBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8033A2F543489006D549B /* DashedRowBackgroundModifier.swift */; };
+		7CD803482F5436CA006D549B /* StatsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803472F5436CA006D549B /* StatsCard.swift */; };
+		7CD803492F5436CA006D549B /* StatsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803472F5436CA006D549B /* StatsCard.swift */; };
+		7CD8034A2F5436CA006D549B /* StatsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803472F5436CA006D549B /* StatsCard.swift */; };
+		7CD8034B2F5436CA006D549B /* StatsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803472F5436CA006D549B /* StatsCard.swift */; };
+		7CD8034C2F5436CA006D549B /* StatsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803472F5436CA006D549B /* StatsCard.swift */; };
+		7CD8034D2F5436CA006D549B /* StatsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803472F5436CA006D549B /* StatsCard.swift */; };
+		7CD8034E2F5436CA006D549B /* StatsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD803472F5436CA006D549B /* StatsCard.swift */; };
 		7CE4AE332BA82C6A0033D4AF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE4AE322BA82C6A0033D4AF /* FirebaseFirestore */; };
 		7CE4AE352BA82C6A0033D4AF /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE4AE342BA82C6A0033D4AF /* FirebaseFunctions */; };
 		7CE4AE372BA82C6A0033D4AF /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE4AE362BA82C6A0033D4AF /* FirebaseMessaging */; };
@@ -783,6 +790,7 @@
 		7CD803202F543152006D549B /* HelldiversBorderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelldiversBorderModifier.swift; sourceTree = "<group>"; };
 		7CD8032D2F5431A5006D549B /* WhiteCircleBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteCircleBackgroundModifier.swift; sourceTree = "<group>"; };
 		7CD8033A2F543489006D549B /* DashedRowBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashedRowBackgroundModifier.swift; sourceTree = "<group>"; };
+		7CD803472F5436CA006D549B /* StatsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCard.swift; sourceTree = "<group>"; };
 		7CE4AE3C2BA832C40033D4AF /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentrePopup.swift; sourceTree = "<group>"; };
 		7CE97D3C2BB53D2E008329BA /* TipJarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarView.swift; sourceTree = "<group>"; };
@@ -1305,6 +1313,7 @@
 				7C45D4642BABEE6E0013A632 /* AngledLinesShape.swift */,
 				7CE97D4C2BB564F6008329BA /* CloseButton.swift */,
 				7CF6D2E72BC401B800107663 /* CircularProgressView.swift */,
+				7CD803472F5436CA006D549B /* StatsCard.swift */,
 			);
 			path = CustomUIElements;
 			sourceTree = "<group>";
@@ -2048,6 +2057,7 @@
 				7C3446CD2F4C057700157213 /* Faction.swift in Sources */,
 				7C44B7D72BC800790097C29B /* PlayerCountView.swift in Sources */,
 				7C4589C22BA5554E0019B00E /* StratagemHeroModel.swift in Sources */,
+				7CD8034E2F5436CA006D549B /* StatsCard.swift in Sources */,
 				7C587F3F2BA6A7DA00C66643 /* CustomSegmentedPicker.swift in Sources */,
 				7CC284C02BD8DB390036EBFD /* PlanetsList.swift in Sources */,
 				7C25BC792D3BA22200586852 /* SpaceStationView.swift in Sources */,
@@ -2123,6 +2133,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CD803492F5436CA006D549B /* StatsCard.swift in Sources */,
 				7CD8030D2F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7CC0D1A02F4D592300BA4DB6 /* TaskType.swift in Sources */,
 				7C9062572C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
@@ -2174,6 +2185,7 @@
 				7CC32A002F4C30F300703873 /* WarAPIService.swift in Sources */,
 				7C44B8002BC945EC0097C29B /* Version Check View Modifiers.swift in Sources */,
 				7C6DE51E2C474D9200077534 /* NetworkManager.swift in Sources */,
+				7CD803482F5436CA006D549B /* StatsCard.swift in Sources */,
 				7C44B7F32BC945140097C29B /* PlanetView.swift in Sources */,
 				7C44B7EE2BC944540097C29B /* GalaxyMapView.swift in Sources */,
 				7C44B7FF2BC945D30097C29B /* PlanetImageFormatter.swift in Sources */,
@@ -2298,6 +2310,7 @@
 				7CD8032A2F543152006D549B /* HelldiversBorderModifier.swift in Sources */,
 				7CBC0E3B2BDB26F1008ED950 /* DatabaseModel.swift in Sources */,
 				7C587F5A2BA6DCFC00C66643 /* OrderView.swift in Sources */,
+				7CD8034D2F5436CA006D549B /* StatsCard.swift in Sources */,
 				7C44B7D82BC800790097C29B /* PlayerCountView.swift in Sources */,
 				7C8C5F272BADD17000C4FBD2 /* ShakeModifier.swift in Sources */,
 				7C0DF6302BB970E10062AB9B /* CampaignPlanetStatsView.swift in Sources */,
@@ -2328,6 +2341,7 @@
 				7C8C5F472BAEFE1A00C4FBD2 /* OrderView.swift in Sources */,
 				7CD803292F543152006D549B /* HelldiversBorderModifier.swift in Sources */,
 				7CD8030F2F542E26006D549B /* LayoutConstants.swift in Sources */,
+				7CD8034C2F5436CA006D549B /* StatsCard.swift in Sources */,
 				7CAAFFDE2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C8C5F442BAEF98100C4FBD2 /* GlobalFunctions+Extensions.swift in Sources */,
 				7C8C5F432BAEF97600C4FBD2 /* OrderTimeView.swift in Sources */,
@@ -2362,6 +2376,7 @@
 				7C8C5F522BAF0AD100C4FBD2 /* Helldivers_Companion_Major_Order_Watch_Widget.swift in Sources */,
 				7CD803222F543152006D549B /* HelldiversBorderModifier.swift in Sources */,
 				7CD803102F542E26006D549B /* LayoutConstants.swift in Sources */,
+				7CD8034A2F5436CA006D549B /* StatsCard.swift in Sources */,
 				7CAAFFDF2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C8C5F612BAF0C1500C4FBD2 /* RewardView.swift in Sources */,
 				7CBC0E472BDDB954008ED950 /* CacheManager.swift in Sources */,
@@ -2421,6 +2436,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CD8034B2F5436CA006D549B /* StatsCard.swift in Sources */,
 				7CD8030C2F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7CC0D19E2F4D592300BA4DB6 /* TaskType.swift in Sources */,
 				7C90625A2C4E47140033B8F5 /* AsyncImageView.swift in Sources */,

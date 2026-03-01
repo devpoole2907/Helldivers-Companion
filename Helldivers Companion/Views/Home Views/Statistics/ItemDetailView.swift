@@ -231,74 +231,43 @@ struct ItemDetailView: View {
                 
                 if enemy == nil {
                 
-                ZStack(alignment: .topLeading) {
-                    Color.gray.opacity(0.2)
-                        .shadow(radius: 3)
+                StatsCard(label: "STATS") {
                     VStack(spacing: 24) {
-                        
                         if let weaponDamage = weapon?.damage {
                             WeaponStatRow(title: "DAMAGE", value: Double(weaponDamage))
                         }
-                        
                         if let capacity = weapon?.capacity {
                             WeaponStatRow(title: "CAPACITY", value: Double(capacity))
                         }
-                        
-                        
                         if let recoil = weapon?.recoil {
                             WeaponStatRow(title: "RECOIL", value: Double(recoil))
                         }
-                        
                         if let fireRate = weapon?.fireRate {
                             WeaponStatRow(title: "FIRE RATE", value: Double(fireRate))
                         }
-                        
                         if let grenadeDamage = grenade?.damage {
                             WeaponStatRow(title: "DAMAGE", value: Double(grenadeDamage))
                         }
-                        
                         if let penetration = grenade?.penetration {
                             WeaponStatRow(title: "PENETRATION", value: Double(penetration))
                         }
-                        
                         if let outerRadius = grenade?.outerRadius {
                             WeaponStatRow(title: "OUTER RADIUS", value: Double(outerRadius))
                         }
-                        
                         if let fuseTime = grenade?.fuseTime {
                             WeaponStatRow(title: "FUSE TIME", value: fuseTime)
                         }
-                        
                         if let rating = armour?.armourRating {
                             WeaponStatRow(title: "ARMOR RATING", value: Double(rating))
                         }
-                        
                         if let speed = armour?.speed {
                             WeaponStatRow(title: "SPEED", value: Double(speed))
                         }
-                        
                         if let regen = armour?.staminaRegen {
                             WeaponStatRow(title: "STAMINA REGEN", value: Double(regen))
                         }
-                        
-                    }  .font(Font.custom("FSSinclair", size: 20))
-                    
-                        .padding()
-                    
-                    
-                        .background {
-                            
-                            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern, dashPhase: 30))
-                                .foregroundStyle(.gray)
-                                .opacity(0.5)
-                                .shadow(radius: 3)
-                            
-                        }
-                    
-                    Text("STATS").offset(x: 20, y: -12).font(Font.custom("FSSinclair", size: 20)).bold().foregroundStyle(.white).opacity(0.8).shadow(radius: 5.0)
-                    
-                }.shadow(radius: 3.0)
-                    .padding()
+                    }.font(Font.custom("FSSinclair", size: 20))
+                }
                 
             }
                 
@@ -326,116 +295,55 @@ struct ItemDetailView: View {
                 if let weapon = weapon, !weapon.fireMode.isEmpty {
                     
                     
-                    ZStack(alignment: .topLeading) {
-                        Color.gray.opacity(0.2)
-                            .shadow(radius: 3)
+                    StatsCard(label: "FIRING MODES") {
                         VStack(spacing: 12) {
-                            
                             ForEach(weapon.fireMode, id: \.self) { fireMode in
-                                
                                 if let mode = dbModel.fireModes.first(where: { $0.id == fireMode }) {
                                     HStack {
-                                        
                                         Spacer()
-                                        
                                         Text("\(mode.mode)")
-                                        
                                     }
-                                    
                                 }
-                                
                             }
-                            
-                        }  .font(Font.custom("FSSinclair", size: 20))
-                        
-                            .padding()
-                        
-                        
-                            .background {
-                                
-                                Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern, dashPhase: 30))
-                                    .foregroundStyle(.gray)
-                                    .opacity(0.5)
-                                    .shadow(radius: 3)
-                                
-                            }
-                        
-                        Text("FIRING MODES").offset(x: 20, y: -12).font(Font.custom("FSSinclair", size: 20)).bold().foregroundStyle(.white).opacity(0.8).shadow(radius: 5.0)
-                        
-                    }.shadow(radius: 3.0)
-                        .padding()
+                        }.font(Font.custom("FSSinclair", size: 20))
+                    }
                     
                     
                 }
                 
                 
                 if (itemType == .armour && passive != nil) || (itemType == .weapon && weapon?.traits != nil) {
-                ZStack(alignment: .topLeading) {
-                    Color.gray.opacity(0.2)
-                        .shadow(radius: 3)
+                StatsCard(label: itemType == .weapon ? "WEAPON TRAITS" : "ARMOUR PASSIVE") {
                     VStack(alignment: .leading, spacing: 24) {
-                        
-                        
                         if itemType == .weapon {
                             if let traits = weapon?.traits {
                                 ForEach(traits, id: \.self) { trait in
-                                    
                                     if let trait = dbModel.traits.first(where: { $0.id == trait }) {
                                         HStack {
-                                            
                                             RoundedRectangle(cornerRadius: 14)
                                                 .foregroundStyle(.white)
                                                 .frame(width: 2)
-                                            
                                             Text(trait.description).foregroundStyle(.white).bold()
-                                            
                                             Spacer()
-                                            
                                         }
                                     }
-                                    
                                 }
-                                
                             }
-                            
-                        } else { // armor passive
-                            
+                        } else {
                             if let passive = passive {
-                                
                                 HStack {
                                     VStack(alignment: .leading) {
                                         Text("\(passive.name.uppercased())").bold()
                                             .multilineTextAlignment(.leading)
-                                        
                                         Text("\(passive.description)")
                                             .multilineTextAlignment(.leading)
-                                        
                                     }
                                     Spacer()
                                 }
                             }
-                            
-                            
                         }
-                        
-                    }  .font(Font.custom("FSSinclair", size: 20))
-                    
-                        .padding()
-                    
-                    
-                        .background {
-                            
-                            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern, dashPhase: 30))
-                                .foregroundStyle(.gray)
-                                .opacity(0.5)
-                                .shadow(radius: 3)
-                            
-                        }
-                    
-                    Text(itemType == .weapon ? "WEAPON TRAITS" : "ARMOUR PASSIVE").offset(x: 20, y: -12).font(Font.custom("FSSinclair", size: 20)).bold().foregroundStyle(.white).opacity(0.8).shadow(radius: 5.0)
-                    
-                }.shadow(radius: 3.0)
-                    .padding()
+                    }.font(Font.custom("FSSinclair", size: 20))
+                }
                 
             }
             
@@ -550,38 +458,10 @@ struct ItemDetailCostView: View {
     let cost: Int
     
     var body: some View {
-        
-        ZStack(alignment: .topLeading) {
-            Color.gray.opacity(0.2)
-                .shadow(radius: 3)
+        StatsCard(label: name?.uppercased()) {
             VStack(alignment: .leading, spacing: 24) {
-                
                 ItemCostRow(image: image, value: cost)
-                
-                
-            }  .font(Font.custom("FSSinclair", size: 20))
-            
-                .padding()
-            
-            
-                .background {
-                    
-                    Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern, dashPhase: 30))
-                        .foregroundStyle(.gray)
-                        .opacity(0.5)
-                        .shadow(radius: 3)
-                    
-                }
-            
-            if let name = name {
-                Text("\(name.uppercased())").offset(x: 20, y: -12).font(Font.custom("FSSinclair", size: 20)).bold().foregroundStyle(.white).opacity(0.8).shadow(radius: 5.0)
-            }
-            
-        }.shadow(radius: 3.0)
-            .padding()
-        
+            }.font(Font.custom("FSSinclair", size: 20))
+        }
     }
-    
-    
-    
 }
