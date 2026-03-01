@@ -25,7 +25,7 @@ struct BoostersList: View {
                             
                          
                                 
-                                BoosterRow(booster: booster, dashPattern: [64, 13])
+                                BoosterRow(booster: booster)
                                 
                                  .padding(.vertical, 5)
                             
@@ -57,7 +57,7 @@ struct BoosterRow: View {
     @Environment(DatabaseModel.self) var dbModel
     
     let booster: Booster
-    let dashPattern: [CGFloat]
+    var dashPattern: [CGFloat] = [64, 13]
     var showWarBondName = true
     
     var body: some View {
@@ -122,14 +122,7 @@ struct BoosterRow: View {
             
         }.frame(minHeight: 100)
         
-        .background {
-            
-            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
-                .foregroundStyle(.gray)
-                .opacity(0.5)
-                .shadow(radius: 3)
-            
-        }
+        .dashedRowBackground(dashPattern: dashPattern)
         
         
     }

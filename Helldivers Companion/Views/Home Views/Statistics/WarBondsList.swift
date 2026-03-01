@@ -101,7 +101,7 @@ struct WarbondsItemsList: View {
                                             warBond.items.contains(where: { $0.itemId == Int(weapon.id) })
                                         }, id: \.id) { weapon in
                                             NavigationLink(value: weapon) {
-                                                ItemDetailRowView(dashPattern: [57, 19], item: weapon, showWarBondName: false)
+                                                ItemDetailRowView(item: weapon, showWarBondName: false)
                                             }
                                             .padding(.vertical, 5)
                                         }
@@ -111,7 +111,7 @@ struct WarbondsItemsList: View {
                                             warBond.items.contains(where: { $0.itemId == Int(grenade.id) })
                                         }, id: \.id) { grenade in
                                             NavigationLink(value: grenade) {
-                                                ItemDetailRowView(dashPattern: [57, 19], item: grenade, showWarBondName: false)
+                                                ItemDetailRowView(item: grenade, showWarBondName: false)
                                             }
                                             .padding(.vertical, 5)
                                         }
@@ -120,7 +120,7 @@ struct WarbondsItemsList: View {
                                             warBond.items.contains(where: { $0.itemId == Int(armour.id) })
                                         }, id: \.id) { armour in
                                             NavigationLink(value: armour) {
-                                                ArmourDetailRow(dashPattern: [57, 19], armour: armour, showWarBondName: false)
+                                                ArmourDetailRow(armour: armour, showWarBondName: false)
                                             }
                                             .padding(.vertical, 5)
                                         }
@@ -130,7 +130,7 @@ struct WarbondsItemsList: View {
                                         }, id: \.id) { booster in
                                             
                                             
-                                            BoosterRow(booster: booster, dashPattern: [64, 13], showWarBondName: false)
+                                            BoosterRow(booster: booster, showWarBondName: false)
                                                 .padding(.vertical, 5)
                                             
                                         }

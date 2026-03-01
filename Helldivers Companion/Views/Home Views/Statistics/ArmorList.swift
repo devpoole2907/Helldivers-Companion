@@ -39,20 +39,13 @@ struct ArmourList: View {
                         
                         NavigationLink(value: armour) {
                             
-                            ArmourDetailRow(dashPattern: [57, 19], armour: armour)
-                            
-                     
+                            ArmourDetailRow(armour: armour)
                             
                         }      .padding(.vertical, 5)
                         
                     }
                 } header: {
-                    Text("Body".uppercased())
-                        .font(Font.custom("FSSinclair-Bold", size: 16))
-                        .foregroundStyle(.white).opacity(0.8)
-                        .padding(.horizontal)
-                        .padding(.bottom, -8)
-                        .minimumScaleFactor(0.8)
+                    Text("Body".uppercased()).dbSectionHeader()
                 }
                 
             }
@@ -75,18 +68,13 @@ struct ArmourList: View {
                             
                             NavigationLink(value: armour) {
                                 
-                                ArmourDetailRow(dashPattern: [57, 19], armour: armour)
+                                ArmourDetailRow(armour: armour)
                                 
                             }      .padding(.vertical, 5)
                             
                         }
                     } header: {
-                        Text("Helmets".uppercased())
-                            .font(Font.custom("FSSinclair-Bold", size: 16))
-                            .foregroundStyle(.white).opacity(0.8)
-                            .padding(.horizontal)
-                            .padding(.bottom, -8)
-                            .minimumScaleFactor(0.8)
+                        Text("Helmets".uppercased()).dbSectionHeader()
                     }
                     
                 }
@@ -110,18 +98,13 @@ struct ArmourList: View {
                             
                             NavigationLink(value: armour) {
                                 
-                                ArmourDetailRow(dashPattern: [57, 19], armour: armour)
+                                ArmourDetailRow(armour: armour)
                                 
                             }      .padding(.vertical, 5)
                             
                         }
                     } header: {
-                        Text("Cloak".uppercased())
-                            .font(Font.custom("FSSinclair-Bold", size: 16))
-                            .foregroundStyle(.white).opacity(0.8)
-                            .padding(.horizontal)
-                            .padding(.bottom, -8)
-                            .minimumScaleFactor(0.8)
+                        Text("Cloak".uppercased()).dbSectionHeader()
                     }
                 }
 
@@ -223,7 +206,7 @@ struct ArmourDetailRow: View {
     
     @Environment(DatabaseModel.self) var dbModel
     
-    let dashPattern: [CGFloat]
+    var dashPattern: [CGFloat] = [57, 19]
     let armour: Armour
     var showWarBondName = true
     var cost: Int?
@@ -315,19 +298,6 @@ struct ArmourDetailRow: View {
             
         }
         
-        .background {
-            
-            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
-                .foregroundStyle(.gray)
-                .opacity(0.5)
-                .shadow(radius: 3)
-            
-        }
+        .dashedRowBackground(dashPattern: dashPattern)
     }
-        
-        
-    
-    
-    
-    
 }

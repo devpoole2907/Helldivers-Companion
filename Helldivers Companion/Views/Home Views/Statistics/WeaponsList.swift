@@ -25,18 +25,13 @@ struct WeaponsList: View {
                             
                             NavigationLink(value: weapon) {
                                 
-                                ItemDetailRowView(dashPattern: [57, 19], item: weapon)
+                                ItemDetailRowView(item: weapon)
                                 
                             }      .padding(.vertical, 5)
                             
                         }
                     } header: {
-                        Text("Primary".uppercased())
-                            .font(Font.custom("FSSinclair-Bold", size: 16))
-                            .foregroundStyle(.white).opacity(0.8)
-                            .padding(.horizontal)
-                            .padding(.bottom, -8)
-                        
+                        Text("Primary".uppercased()).dbSectionHeader()
                     }
                 }
                 
@@ -49,18 +44,13 @@ struct WeaponsList: View {
                             
                             NavigationLink(value: weapon) {
                                 
-                                ItemDetailRowView(dashPattern: [57, 19], item: weapon)
+                                ItemDetailRowView(item: weapon)
                                 
                             }      .padding(.vertical, 5)
                             
                         }
                     } header: {
-                        Text("Secondary".uppercased())
-                            .font(Font.custom("FSSinclair-Bold", size: 16))
-                            .foregroundStyle(.white).opacity(0.8)
-                            .padding(.horizontal)
-                            .padding(.bottom, -8)
-                        
+                        Text("Secondary".uppercased()).dbSectionHeader()
                     }
                 }
                 
@@ -74,18 +64,13 @@ struct WeaponsList: View {
                             NavigationLink(value: grenade) {
                                 
                                 
-                                ItemDetailRowView(dashPattern: [57, 19], item: grenade)
+                                ItemDetailRowView(item: grenade)
                                 
                             }      .padding(.vertical, 5)
                             
                         }
                     } header: {
-                        Text("Grenades".uppercased())
-                            .font(Font.custom("FSSinclair-Bold", size: 16))
-                            .foregroundStyle(.white).opacity(0.8)
-                            .padding(.horizontal)
-                            .padding(.bottom, -8)
-                        
+                        Text("Grenades".uppercased()).dbSectionHeader()
                     }
                     
                 }
@@ -144,7 +129,7 @@ struct ItemDetailRowView: View {
     
     @Environment(DatabaseModel.self) var dbModel
     
-    let dashPattern: [CGFloat]
+    var dashPattern: [CGFloat] = [57, 19]
     let item: DetailItem
     var showWarBondName = true
     
@@ -234,11 +219,6 @@ struct ItemDetailRowView: View {
             .padding(.horizontal, 10)
             .padding(.vertical, 8)
         }
-        .background {
-            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
-                .foregroundStyle(.gray)
-                .opacity(0.5)
-                .shadow(radius: 3)
-        }
+        .dashedRowBackground(dashPattern: dashPattern)
     }
 }
