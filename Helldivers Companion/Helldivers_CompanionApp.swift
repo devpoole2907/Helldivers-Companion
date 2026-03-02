@@ -19,18 +19,25 @@ class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNot
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         
-#if !DEBUG
+
+        #if DEBUG
+        let isPreview = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+        if !isPreview {
+            application.registerForRemoteNotifications()
+            FirebaseApp.configure()
+            Messaging.messaging().delegate = self
+            UNUserNotificationCenter.current().delegate = self
+            migrateUserDefaults()
+        }
+        #else
         application.registerForRemoteNotifications()
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
-
-        
-        migrateUserDefaults() // migrate users to new user defaults so they dont lose their high score in stratagem hero if they aren't signed in
-#endif
+        migrateUserDefaults()
+        #endif
         // set defaults for subscribed notification topics
         
-        // TODO: implement toggleable settings for users to choose their notification topics
         let userPrefs = UserDefaults(suiteName: "group.com.poole.james.HelldiversCompanion") ?? .standard
         
         userPrefs.register(defaults: [

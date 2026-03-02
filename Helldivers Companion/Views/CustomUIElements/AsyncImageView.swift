@@ -62,7 +62,7 @@ struct AsyncImageView: View {
        }
 }
 
-#Preview("Loading state") {
+#Preview("Error state") {
     // Pass an invalid URL so the view stays in its loading spinner state
     AsyncImageView(imageUrl: "https://example.invalid/image.png")
         .frame(width: 200, height: 200)

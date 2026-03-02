@@ -259,6 +259,7 @@ struct TacticalActionView: View {
     }
 }
 
+#if DEBUG
 #Preview("Space Station – compact") {
     SpaceStationView(
         spaceStationExpiration: Date().addingTimeInterval(3600 * 6),
@@ -279,3 +280,4 @@ struct TacticalActionView: View {
     )
     .background(.black)
 }
+#endif
