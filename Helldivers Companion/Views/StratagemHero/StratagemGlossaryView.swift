@@ -55,7 +55,8 @@ struct StratagemGlossaryView: View {
                         if let stratagemsOfType = stratagems[type] {
                             Section {
                                 ForEach(stratagemsOfType, id: \.id) { stratagem in
-                                    StratagemInfoRow(stratagem).environment(viewModel)
+                                    let pattern = viewModel.dashPattern(for: stratagem)
+                                    StratagemInfoRow(stratagem, dashPattern: pattern).environment(viewModel)
                                     
                                         .padding(.horizontal)
                                         .padding(.vertical, 5)
@@ -159,16 +160,15 @@ struct StratagemInfoRow: View {
     @Environment(StratagemHeroModel.self) var viewModel
     
     var stratagem: Stratagem
-    
+    let dashPattern: [CGFloat]
     
     var selected: Bool {
-        
         viewModel.selectedStratagems.contains(where: { $0.name == stratagem.name })
-        
     }
     
-    init(_ stratagem: Stratagem) {
+    init(_ stratagem: Stratagem, dashPattern: [CGFloat]) {
         self.stratagem = stratagem
+        self.dashPattern = dashPattern
     }
     
     #if os(iOS)
@@ -246,7 +246,7 @@ struct StratagemInfoRow: View {
             
         }
         
-        .dashedRowBackground(dashPattern: viewModel.dashPattern(for: stratagem))
+        .dashedRowBackground(dashPattern: dashPattern)
         
         .overlay(
                        GeometryReader { geometry in

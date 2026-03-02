@@ -39,8 +39,9 @@ struct StratagemsList: View {
                         if dbModel.searchText.isEmpty || !filteredStratagems.isEmpty {
                                                 Section {
                                                     ForEach(filteredStratagems, id: \.id) { stratagem in
+                                                        let pattern = viewModel.dashPattern(for: stratagem)
                                                         NavigationLink(value: stratagem) {
-                                                            StratagemDetailRow(stratagem)
+                                                            StratagemDetailRow(stratagem, dashPattern: pattern)
                                                         }
                                                         .padding(.horizontal)
                                                         .padding(.vertical, 5)
@@ -82,12 +83,12 @@ struct StratagemsList: View {
 
 struct StratagemDetailRow: View {
     
-    @Environment(PlanetsDataModel.self) var viewModel
-    
     var stratagem: Stratagem
+    let dashPattern: [CGFloat]
     
-    init(_ stratagem: Stratagem) {
+    init(_ stratagem: Stratagem, dashPattern: [CGFloat]) {
         self.stratagem = stratagem
+        self.dashPattern = dashPattern
     }
 
     let stackSpacing: CGFloat = 6
@@ -128,7 +129,7 @@ struct StratagemDetailRow: View {
             
         }
         
-        .dashedRowBackground(dashPattern: viewModel.dashPattern(for: stratagem))
+        .dashedRowBackground(dashPattern: dashPattern)
         
         
     

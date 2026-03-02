@@ -165,136 +165,154 @@ struct ItemDetailView: View {
         
     }
     
+    @ViewBuilder
+    var itemImageView: some View {
+        if let enemy = enemy {
+            AsyncImageView(imageUrl: enemy.imageUrl)
+                .frame(width: 240, height: 200)
+        } else if UIImage(named: itemName) != nil {
+            Image(itemName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: itemType == .armour ? 200 : 240)
+                .frame(maxHeight: itemType == .armour ? 160 : 200)
+                .offset(x: itemType == .grenade ? -5 : 0)
+        } else if UIImage(named: itemImage ?? "") != nil {
+            Image(itemImage ?? "")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: itemType == .armour ? 200 : 240)
+                .frame(maxHeight: itemType == .armour ? 160 : 200)
+                .offset(x: itemType == .grenade ? -5 : 0)
+        }
+    }
+
+    @ViewBuilder
+    var statsCard: some View {
+        if enemy == nil {
+            StatsCard(label: "STATS") {
+                VStack(spacing: 24) {
+                    if let weaponDamage = weapon?.damage {
+                        WeaponStatRow(title: "DAMAGE", value: Double(weaponDamage))
+                    }
+                    if let capacity = weapon?.capacity {
+                        WeaponStatRow(title: "CAPACITY", value: Double(capacity))
+                    }
+                    if let recoil = weapon?.recoil {
+                        WeaponStatRow(title: "RECOIL", value: Double(recoil))
+                    }
+                    if let fireRate = weapon?.fireRate {
+                        WeaponStatRow(title: "FIRE RATE", value: Double(fireRate))
+                    }
+                    if let grenadeDamage = grenade?.damage {
+                        WeaponStatRow(title: "DAMAGE", value: Double(grenadeDamage))
+                    }
+                    if let penetration = grenade?.penetration {
+                        WeaponStatRow(title: "PENETRATION", value: Double(penetration))
+                    }
+                    if let outerRadius = grenade?.outerRadius {
+                        WeaponStatRow(title: "OUTER RADIUS", value: Double(outerRadius))
+                    }
+                    if let fuseTime = grenade?.fuseTime {
+                        WeaponStatRow(title: "FUSE TIME", value: fuseTime)
+                    }
+                    if let rating = armour?.armourRating {
+                        WeaponStatRow(title: "ARMOR RATING", value: Double(rating))
+                    }
+                    if let speed = armour?.speed {
+                        WeaponStatRow(title: "SPEED", value: Double(speed))
+                    }
+                    if let regen = armour?.staminaRegen {
+                        WeaponStatRow(title: "STAMINA REGEN", value: Double(regen))
+                    }
+                }.font(Font.custom("FSSinclair", size: 20))
+            }
+        }
+    }
+
+    @ViewBuilder
+    var traitsCard: some View {
+        if (itemType == .armour && passive != nil) || (itemType == .weapon && weapon?.traits != nil) {
+            StatsCard(label: itemType == .weapon ? "WEAPON TRAITS" : "ARMOUR PASSIVE") {
+                VStack(alignment: .leading, spacing: 24) {
+                    if itemType == .weapon {
+                        if let traits = weapon?.traits {
+                            ForEach(traits, id: \.self) { trait in
+                                if let trait = dbModel.traits.first(where: { $0.id == trait }) {
+                                    HStack {
+                                        RoundedRectangle(cornerRadius: 14)
+                                            .foregroundStyle(.white)
+                                            .frame(width: 2)
+                                        Text(trait.description).foregroundStyle(.white).bold()
+                                        Spacer()
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        if let passive = passive {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("\(passive.name.uppercased())").bold()
+                                        .multilineTextAlignment(.leading)
+                                    Text("\(passive.description)")
+                                        .multilineTextAlignment(.leading)
+                                }
+                                Spacer()
+                            }
+                        }
+                    }
+                }.font(Font.custom("FSSinclair", size: 20))
+            }
+        }
+    }
+
     var body: some View {
         ScrollView {
-            
             VStack(alignment: .center) {
-                
-                
-                if let enemy = enemy {
-                    AsyncImageView(imageUrl: enemy.imageUrl)
-                                       .frame(width: 240, height: 200)
-                } else if UIImage(named: itemName) != nil {
-                    Image(itemName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                    
-                        .frame(width: itemType == .armour ? 200 : 240)
-                        .frame(maxHeight: itemType == .armour ? 160 : 200)
-                        .offset(x: itemType == .grenade ? -5 : 0)
-                } else if UIImage(named: itemImage ?? "") != nil {
-                    Image(itemImage ?? "")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                    
-                        .frame(width: itemType == .armour ? 200 : 240)
-                        .frame(maxHeight: itemType == .armour ? 160 : 200)
-                        .offset(x: itemType == .grenade ? -5 : 0)
-                    
-                }
-                
-                
+
+                itemImageView
+
                 HStack(spacing: 18) {
-                    
                     RoundedRectangle(cornerRadius: 25)
                         .foregroundStyle(.yellow)
                         .frame(width: 4)
-                    
                     VStack(alignment: .leading) {
-                        
                         if let weaponType = weaponType {
                             Text("\(weaponType.name)").foregroundStyle(.gray).bold()
-                            
                         } else if let slot = slot {
                             Text("\(slot.name)").foregroundStyle(.gray).bold()
                         }
-                        
-                        
                         if let description = description {
                             Text(description).foregroundStyle(.white)
                         }
-                        
-                        
                     }.font(Font.custom("FSSinclair", size: 20))
-                    
                 }.padding()
-                
+
                 if let warBond = warBond, let itemMedalCost = itemMedalCost {
-                    
-                    
                     ItemDetailCostView(name: warBond.name, image: "medalSymbol", cost: itemMedalCost)
-                    
                 } else if let itemCreditCost = dbModel.storeCost(for: itemName, slot: slot?.id ?? -1) {
-                    
                     ItemDetailCostView(name: "Super Store", image: "superCredit", cost: itemCreditCost)
                 }
-                
-                if enemy == nil {
-                
-                StatsCard(label: "STATS") {
-                    VStack(spacing: 24) {
-                        if let weaponDamage = weapon?.damage {
-                            WeaponStatRow(title: "DAMAGE", value: Double(weaponDamage))
-                        }
-                        if let capacity = weapon?.capacity {
-                            WeaponStatRow(title: "CAPACITY", value: Double(capacity))
-                        }
-                        if let recoil = weapon?.recoil {
-                            WeaponStatRow(title: "RECOIL", value: Double(recoil))
-                        }
-                        if let fireRate = weapon?.fireRate {
-                            WeaponStatRow(title: "FIRE RATE", value: Double(fireRate))
-                        }
-                        if let grenadeDamage = grenade?.damage {
-                            WeaponStatRow(title: "DAMAGE", value: Double(grenadeDamage))
-                        }
-                        if let penetration = grenade?.penetration {
-                            WeaponStatRow(title: "PENETRATION", value: Double(penetration))
-                        }
-                        if let outerRadius = grenade?.outerRadius {
-                            WeaponStatRow(title: "OUTER RADIUS", value: Double(outerRadius))
-                        }
-                        if let fuseTime = grenade?.fuseTime {
-                            WeaponStatRow(title: "FUSE TIME", value: fuseTime)
-                        }
-                        if let rating = armour?.armourRating {
-                            WeaponStatRow(title: "ARMOR RATING", value: Double(rating))
-                        }
-                        if let speed = armour?.speed {
-                            WeaponStatRow(title: "SPEED", value: Double(speed))
-                        }
-                        if let regen = armour?.staminaRegen {
-                            WeaponStatRow(title: "STAMINA REGEN", value: Double(regen))
-                        }
-                    }.font(Font.custom("FSSinclair", size: 20))
-                }
-                
-            }
-                
+
+                statsCard
+
                 if let enemy = enemy, !enemy.recommendedStratagems.isEmpty {
-                    
                     VStack(alignment: .leading, spacing: 6) {
-                        
                         Text("RECOMMENDED STRATAGEMS").font(Font.custom("FSSinclair", size: 20)).bold().foregroundStyle(.white).opacity(0.8).shadow(radius: 5.0)
                             .padding(.horizontal)
                         ForEach(enemy.recommendedStratagems, id: \.id) { stratagem in
+                            let pattern = viewModel.dashPattern(for: stratagem)
                             NavigationLink(value: stratagem) {
-                                StratagemDetailRow(stratagem)
+                                StratagemDetailRow(stratagem, dashPattern: pattern)
                             }
-                            
-                                .padding(.horizontal)
-                                .padding(.vertical, 5)
+                            .padding(.horizontal)
+                            .padding(.vertical, 5)
                         }
-                        
-                        
                     }
-                    
-                    
                 }
-                
+
                 if let weapon = weapon, !weapon.fireMode.isEmpty {
-                    
-                    
                     StatsCard(label: "FIRING MODES") {
                         VStack(spacing: 12) {
                             ForEach(weapon.fireMode, id: \.self) { fireMode in
@@ -307,57 +325,18 @@ struct ItemDetailView: View {
                             }
                         }.font(Font.custom("FSSinclair", size: 20))
                     }
-                    
-                    
                 }
-                
-                
-                if (itemType == .armour && passive != nil) || (itemType == .weapon && weapon?.traits != nil) {
-                StatsCard(label: itemType == .weapon ? "WEAPON TRAITS" : "ARMOUR PASSIVE") {
-                    VStack(alignment: .leading, spacing: 24) {
-                        if itemType == .weapon {
-                            if let traits = weapon?.traits {
-                                ForEach(traits, id: \.self) { trait in
-                                    if let trait = dbModel.traits.first(where: { $0.id == trait }) {
-                                        HStack {
-                                            RoundedRectangle(cornerRadius: 14)
-                                                .foregroundStyle(.white)
-                                                .frame(width: 2)
-                                            Text(trait.description).foregroundStyle(.white).bold()
-                                            Spacer()
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if let passive = passive {
-                                HStack {
-                                    VStack(alignment: .leading) {
-                                        Text("\(passive.name.uppercased())").bold()
-                                            .multilineTextAlignment(.leading)
-                                        Text("\(passive.description)")
-                                            .multilineTextAlignment(.leading)
-                                    }
-                                    Spacer()
-                                }
-                            }
-                        }
-                    }.font(Font.custom("FSSinclair", size: 20))
-                }
-                
-            }
-            
-                
+
+                traitsCard
+
                 Text("Images from https://divers.gg, Helldivers 2 Wiki, and https://helldiverscompanion.app - go check them out!").textCase(.uppercase)
                     .opacity(0.5)
                     .foregroundStyle(.gray)
                     .font(Font.custom("FSSinclair-Bold", size: smallFont))
                     .padding()
                     .multilineTextAlignment(.center)
-                
-                
-            }.padding()
 
+            }.padding()
         }
         
         .toolbar {
