@@ -103,12 +103,12 @@ struct SpaceStationView: View {
         
             .background {
                 if showFullInfo {
-                    Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
+                    Rectangle()
+                        .stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
                         .foregroundStyle(.gray)
                         .opacity(0.5)
                         .shadow(radius: 3)
                 }
-                
             }
         
             .border(showFullInfo ? Color.clear : Color.white)

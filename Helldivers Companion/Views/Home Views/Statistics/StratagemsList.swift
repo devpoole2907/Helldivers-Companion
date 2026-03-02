@@ -39,19 +39,15 @@ struct StratagemsList: View {
                         if dbModel.searchText.isEmpty || !filteredStratagems.isEmpty {
                                                 Section {
                                                     ForEach(filteredStratagems, id: \.id) { stratagem in
+                                                        let pattern = viewModel.dashPattern(for: stratagem)
                                                         NavigationLink(value: stratagem) {
-                                                            StratagemDetailRow(stratagem)
+                                                            StratagemDetailRow(stratagem, dashPattern: pattern)
                                                         }
                                                         .padding(.horizontal)
                                                         .padding(.vertical, 5)
                                                     }
                                                 } header: {
-                                                    Text(type.title.uppercased())
-                                                        .font(Font.custom("FSSinclair-Bold", size: 16))
-                                                        .foregroundStyle(.white).opacity(0.8)
-                                                        .padding(.horizontal)
-                                                        .padding(.bottom, -8)
-                                                        .minimumScaleFactor(0.8)
+                                                    Text(type.title.uppercased()).dbSectionHeader()
                                                 }
                                                 .id(index + 1)
                                             }
@@ -87,14 +83,12 @@ struct StratagemsList: View {
 
 struct StratagemDetailRow: View {
     
-    @Environment(PlanetsDataModel.self) var viewModel
-    
-    let dashPattern: [CGFloat] = [CGFloat.random(in: 50...70), CGFloat.random(in: 5...20)]
-    
     var stratagem: Stratagem
+    let dashPattern: [CGFloat]
     
-    init(_ stratagem: Stratagem) {
+    init(_ stratagem: Stratagem, dashPattern: [CGFloat]) {
         self.stratagem = stratagem
+        self.dashPattern = dashPattern
     }
 
     let stackSpacing: CGFloat = 6
@@ -135,14 +129,7 @@ struct StratagemDetailRow: View {
             
         }
         
-        .background {
-            
-            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: viewModel.dashPattern(for: stratagem)))
-                .foregroundStyle(.gray)
-                .opacity(0.5)
-                .shadow(radius: 3)
-            
-        }
+        .dashedRowBackground(dashPattern: dashPattern)
         
         
     

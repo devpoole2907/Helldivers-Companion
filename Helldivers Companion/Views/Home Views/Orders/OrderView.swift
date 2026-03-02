@@ -162,9 +162,7 @@ struct OrderView: View {
       
         
     }
-        .border(Color.white)
-        .padding(4)
-        .border(Color.gray)
+        .helldiversBorder()
          
         
     

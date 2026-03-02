@@ -43,7 +43,7 @@ struct SuperStoreList: View {
                         // display matching filtered armours
                         ForEach(filteredArmour, id: \.id) { armour in
                             NavigationLink(value: armour) {
-                                ArmourDetailRow(dashPattern: [57, 19], armour: armour, showWarBondName: false)
+                                ArmourDetailRow(armour: armour, showWarBondName: false)
                             }
                             .padding(.vertical, 5)
                         }
@@ -71,7 +71,7 @@ struct SuperStoreList: View {
                                                        passive: passiveId)
                             
                             NavigationLink(value: unknownArmour) {
-                                ArmourDetailRow(dashPattern: [57, 19], armour: unknownArmour, showWarBondName: false)
+                                ArmourDetailRow(armour: unknownArmour, showWarBondName: false)
                             }
                             .padding(.vertical, 5)
                         }

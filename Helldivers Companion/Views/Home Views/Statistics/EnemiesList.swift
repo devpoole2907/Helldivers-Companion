@@ -24,7 +24,7 @@ struct EnemiesList: View {
                         dbModel.searchText.isEmpty || enemy.name.localizedCaseInsensitiveContains(dbModel.searchText)
                         || "illuminate".hasPrefix(dbModel.searchText.lowercased()) }, id: \.id) { enemy in
                         NavigationLink(value: enemy) {
-                            EnemyDetailRow(dashPattern: [57, 13], enemy: enemy)
+                            EnemyDetailRow(enemy: enemy)
                         }
                                     }
                                 } header: {
@@ -42,7 +42,7 @@ struct EnemiesList: View {
                     , id: \.id) { enemy in
                         
                         NavigationLink(value: enemy) {
-                            EnemyDetailRow(dashPattern: [57, 13], enemy: enemy)
+                            EnemyDetailRow(enemy: enemy)
                             
                         }
                                     }
@@ -60,7 +60,7 @@ struct EnemiesList: View {
                         dbModel.searchText.isEmpty || enemy.name.localizedCaseInsensitiveContains(dbModel.searchText)
                         || "terminids".hasPrefix(dbModel.searchText.lowercased()) }, id: \.id) { enemy in
                         NavigationLink(value: enemy) {
-                            EnemyDetailRow(dashPattern: [57, 13], enemy: enemy)
+                            EnemyDetailRow(enemy: enemy)
                         }
                                     }
                                 } header: {
@@ -97,7 +97,7 @@ struct EnemyDetailRow: View {
     
     @Environment(DatabaseModel.self) var dbModel
     
-    let dashPattern: [CGFloat]
+    var dashPattern: [CGFloat] = [57, 13]
     let enemy: Enemy
     
     var body: some View {
@@ -140,11 +140,6 @@ struct EnemyDetailRow: View {
             .padding(.horizontal, 10)
             .padding(.vertical, 8)
         }
-        .background {
-            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
-                .foregroundStyle(.gray)
-                .opacity(0.5)
-                .shadow(radius: 3)
-        }
+        .dashedRowBackground(dashPattern: dashPattern)
     }
 }

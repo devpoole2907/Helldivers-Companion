@@ -24,18 +24,6 @@ struct UpdatedPlanetView: View {
     
     var isInMapView = false // map view uses navigation view not navigationstack, due to the zoomable package/modifier not working in stack. so this is a workaround that allows us to change the navigationlink styling to the older deprecated way if we are in the map view
 
-#if os(iOS)
-    let raceIconSize: CGFloat = 25
-    let spacingSize: CGFloat = 10
-    
-    let zStackAlignment: Alignment = .topTrailing
-    
-#elseif os(watchOS)
-    let raceIconSize: CGFloat = 20
-    let spacingSize: CGFloat = 4
-    let zStackAlignment: Alignment = .topLeading
-#endif
-    
     var body: some View {
         if let context = viewModel.context(for: planetIndex) {
             UpdatedPlanetContentView(
@@ -67,15 +55,9 @@ private struct UpdatedPlanetContentView: View {
 
     @Environment(NavigationPather.self) var navPather
 
-#if os(iOS)
-    let raceIconSize: CGFloat = 25
-    let spacingSize: CGFloat = 10
-    let zStackAlignment: Alignment = .topTrailing
-#elseif os(watchOS)
-    let raceIconSize: CGFloat = 20
-    let spacingSize: CGFloat = 4
-    let zStackAlignment: Alignment = .topLeading
-#endif
+    private var raceIconSize: CGFloat { LayoutConstants.raceIconSize }
+    private var spacingSize: CGFloat { LayoutConstants.spacingSize }
+    private var zStackAlignment: Alignment { LayoutConstants.zStackAlignment }
 
     private var formattedPlanetImageName: String {
         PlanetImageFormatter.formattedPlanetImageName(for: context.planet)
@@ -175,13 +157,7 @@ private struct UpdatedPlanetContentView: View {
                         
                         planetaryImage
                         
-                        LinearGradient(
-                            gradient: Gradient(colors: [.clear, .black]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                        .blendMode(.multiply)
-                        .frame(maxHeight: 80)
+                        DarkGradientOverlay(maxHeight: 80)
                         
                     }
                     
@@ -194,11 +170,7 @@ private struct UpdatedPlanetContentView: View {
                                 .foregroundStyle(Color(red: 49/255, green: 49/255, blue: 49/255))
                                 .frame(width: weatherIconSize, height: weatherIconSize)
                                 .offset(x: 0, y: -0.5)
-                                .padding(4)
-                                .background{
-                                    Circle().foregroundStyle(Color.white)
-                                        .shadow(radius: 3.0)
-                                }
+                                .whiteCircleBackground()
                         }
                         
                  
@@ -215,11 +187,7 @@ private struct UpdatedPlanetContentView: View {
                                     Image(weather.name).resizable().aspectRatio(contentMode: .fit)
                                     
                                         .frame(width: weatherIconSize, height: weatherIconSize)
-                                        .padding(4)
-                                        .background{
-                                            Circle().foregroundStyle(Color.white)
-                                                .shadow(radius: 3.0)
-                                        }
+                                        .whiteCircleBackground()
                                 }
                             }
                     }
@@ -237,11 +205,7 @@ private struct UpdatedPlanetContentView: View {
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: weatherIconSize - 2, height: weatherIconSize - 2)
                                         .offset(x: imageName == "sciencecenter" ? -1 : 0, y: 0)
-                                        .padding(4)
-                                        .background{
-                                            Circle().foregroundStyle(Color.white)
-                                                .shadow(radius: 3.0)
-                                        }
+                                        .whiteCircleBackground()
                                 }
                                 
                             }
@@ -301,9 +265,7 @@ private struct UpdatedPlanetContentView: View {
             
             
             
-        }.border(Color.white)
-            .padding(4)
-            .border(Color.gray)
+        }.helldiversBorder()
     }
     
     var planetaryImage: some View {

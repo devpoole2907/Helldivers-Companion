@@ -139,17 +139,13 @@ struct NewsItemView: View {
         
    
         .background {
-            
-            if !isWidget { Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: [57, 19], dashPhase: 30))
+            if !isWidget {
+                Rectangle()
+                    .stroke(style: StrokeStyle(lineWidth: 3, dash: [57, 19], dashPhase: 30))
                     .foregroundStyle(.gray)
                     .opacity(0.5)
                     .shadow(radius: 3)
-                
-            } else {
-                Rectangle().foregroundStyle(Color.clear)
-                
             }
-            
         }
         
   

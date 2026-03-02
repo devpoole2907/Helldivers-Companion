@@ -199,12 +199,7 @@ struct PlayerCountRow: View {
             
         }
         
-        .background {
-            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern))
-                .foregroundStyle(.gray)
-                .opacity(0.5)
-                .shadow(radius: 3)
-        }
+        .dashedRowBackground(dashPattern: dashPattern)
         
     }
 }

@@ -6,9 +6,7 @@
 //
 
 import SwiftUI
-#if os(iOS)
-import SwiftUIIntrospect
-#endif
+
 struct StratagemGlossaryView: View {
     
     @Environment(StratagemHeroModel.self) var viewModel
@@ -57,7 +55,8 @@ struct StratagemGlossaryView: View {
                         if let stratagemsOfType = stratagems[type] {
                             Section {
                                 ForEach(stratagemsOfType, id: \.id) { stratagem in
-                                    StratagemInfoRow(stratagem).environment(viewModel)
+                                    let pattern = viewModel.dashPattern(for: stratagem)
+                                    StratagemInfoRow(stratagem, dashPattern: pattern).environment(viewModel)
                                     
                                         .padding(.horizontal)
                                         .padding(.vertical, 5)
@@ -151,31 +150,7 @@ struct StratagemGlossaryView: View {
             
         }  
         #if os(iOS)
-        .introspect(.navigationStack, on: .iOS(.v16, .v17, .v18, .v26)) { controller in
-            print("I am introspecting!")
-            
-            DispatchQueue.main.async {
-                let largeFontSize: CGFloat = UIFont.preferredFont(forTextStyle: .largeTitle).pointSize
-                let inlineFontSize: CGFloat = UIFont.preferredFont(forTextStyle: .body).pointSize
-                
-                // default to sf system font
-                let largeFont = UIFont(name: "FSSinclair-Bold", size: largeFontSize) ?? UIFont.systemFont(ofSize: largeFontSize, weight: .bold)
-                let inlineFont = UIFont(name: "FSSinclair-Bold", size: inlineFontSize) ?? UIFont.systemFont(ofSize: inlineFontSize, weight: .bold)
-                
-                
-                let largeAttributes: [NSAttributedString.Key: Any] = [
-                    .font: largeFont
-                ]
-                
-                let inlineAttributes: [NSAttributedString.Key: Any] = [
-                    .font: inlineFont
-                ]
-                
-                controller.navigationBar.titleTextAttributes = inlineAttributes
-                
-                controller.navigationBar.largeTitleTextAttributes = largeAttributes
-            }
-        }
+        .helldiversNavigationStyle()
         #endif
     }
 }
@@ -184,19 +159,16 @@ struct StratagemInfoRow: View {
     
     @Environment(StratagemHeroModel.self) var viewModel
     
-    let dashPattern: [CGFloat] = [CGFloat.random(in: 50...70), CGFloat.random(in: 5...20)]
-    
     var stratagem: Stratagem
-    
+    let dashPattern: [CGFloat]
     
     var selected: Bool {
-        
         viewModel.selectedStratagems.contains(where: { $0.name == stratagem.name })
-        
     }
     
-    init(_ stratagem: Stratagem) {
+    init(_ stratagem: Stratagem, dashPattern: [CGFloat]) {
         self.stratagem = stratagem
+        self.dashPattern = dashPattern
     }
     
     #if os(iOS)
@@ -274,14 +246,7 @@ struct StratagemInfoRow: View {
             
         }
         
-        .background {
-            
-            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: viewModel.dashPattern(for: stratagem)))
-                .foregroundStyle(.gray)
-                .opacity(0.5)
-                .shadow(radius: 3)
-            
-        }
+        .dashedRowBackground(dashPattern: dashPattern)
         
         .overlay(
                        GeometryReader { geometry in

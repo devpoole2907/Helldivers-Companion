@@ -42,17 +42,9 @@ struct PlanetView: View {
     var campaignType: Int? = 0
     
 
-#if os(iOS)
-    let raceIconSize: CGFloat = 25
-    let spacingSize: CGFloat = 10
-    
-    let zStackAlignment: Alignment = .topTrailing
-    
-#elseif os(watchOS)
-    let raceIconSize: CGFloat = 20
-    let spacingSize: CGFloat = 4
-    let zStackAlignment: Alignment = .topLeading
-#endif
+    private var raceIconSize: CGFloat { LayoutConstants.raceIconSize }
+    private var spacingSize: CGFloat { LayoutConstants.spacingSize }
+    private var zStackAlignment: Alignment { LayoutConstants.zStackAlignment }
     
     private var planetData: [UpdatedPlanetDataPoint] {
         viewModel.planetHistory[planetName] ?? []
@@ -201,14 +193,7 @@ struct PlanetView: View {
                             planetaryImage
                             
                             
-                            LinearGradient(
-                                gradient: Gradient(colors: [.clear, .black]),
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                            .blendMode(.multiply)
-                            
-                            .frame(maxHeight: 80)
+                            DarkGradientOverlay(maxHeight: 80)
                             
                         }
                         
@@ -223,11 +208,7 @@ struct PlanetView: View {
                                         Image(weather.name).resizable().aspectRatio(contentMode: .fit)
                                         
                                             .frame(width: weatherIconSize, height: weatherIconSize)
-                                            .padding(4)
-                                            .background{
-                                                Circle().foregroundStyle(Color.white)
-                                                    .shadow(radius: 3.0)
-                                            }
+                                            .whiteCircleBackground()
                                     }
                                 }
                             }.opacity(0.7)
@@ -289,9 +270,7 @@ struct PlanetView: View {
             
             
             
-        }.border(Color.white)
-            .padding(4)
-            .border(Color.gray)
+        }.helldiversBorder()
     }
     
     var planetaryImage: some View {

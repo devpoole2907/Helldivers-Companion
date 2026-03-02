@@ -77,13 +77,7 @@ struct RewardView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, (widgetMode && rewards.count > 1) ? 5 : 10)
-        .background(
-            AngledLinesShape()
-                .stroke(lineWidth: 3)
-                .foregroundColor(.white)
-                .opacity(0.2)
-                .clipped()
-        )
+        .angledLinesBackground()
         .padding(.horizontal, 14)
     }
 }

@@ -34,13 +34,7 @@ struct TogglePickerPopup: CentrePopup {
                     .multilineTextAlignment(.center)
                     .padding()
                     .padding(.top, 3)
-                    .background(
-                        AngledLinesShape()
-                            .stroke(lineWidth: 3)
-                            .foregroundColor(.white)
-                            .opacity(0.2)
-                            .clipped()
-                    )
+                    .angledLinesBackground()
                     .padding(.top)
             
 
@@ -68,9 +62,7 @@ struct TogglePickerPopup: CentrePopup {
                 Color.black
             }
         
-        .border(Color.white)
-            .padding(4)
-            .border(Color.gray)
+        .helldiversBorder()
         
         
     }

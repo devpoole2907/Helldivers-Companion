@@ -7,6 +7,25 @@
 
 import SwiftUI
 
+struct AngledLinesBackgroundModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .background(
+                AngledLinesShape()
+                    .stroke(lineWidth: 3)
+                    .foregroundColor(.white)
+                    .opacity(0.2)
+                    .clipped()
+            )
+    }
+}
+
+extension View {
+    func angledLinesBackground() -> some View {
+        modifier(AngledLinesBackgroundModifier())
+    }
+}
+
 struct AngledLinesShape: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()

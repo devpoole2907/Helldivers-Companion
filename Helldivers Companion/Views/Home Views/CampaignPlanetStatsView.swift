@@ -12,8 +12,6 @@ struct CampaignPlanetStatsView: View {
     var showExtraStats: Bool = true
     var isWidget = false
 
-    @State private var pulsate = false
-    
     @Environment(PlanetsDataModel.self) var viewModel
     
     // Meridia dark energy bar — still needs live viewModel access
@@ -45,17 +43,10 @@ struct CampaignPlanetStatsView: View {
     private var factionColor: Color { context.factionColor }
     private var factionImage: String { context.factionImageName }
 
-#if os(iOS)
-    let helldiverImageSize: CGFloat = 25
-    let raceIconSize: CGFloat = 20
-    let spacingSize: CGFloat = 10
-    
-#elseif os(watchOS)
-    let helldiverImageSize: CGFloat = 10
-    let raceIconSize: CGFloat = 20
-    let spacingSize: CGFloat = 4
-    
-#endif
+    private var helldiverImageSize: CGFloat { LayoutConstants.helldiverImageSize }
+    // raceIconSize is 20 on both platforms in this view (differs from LayoutConstants.raceIconSize)
+    private let raceIconSize: CGFloat = 20
+    private var spacingSize: CGFloat { LayoutConstants.spacingSize }
     
     var body: some View {
         VStack(spacing: 0) {
@@ -208,12 +199,7 @@ struct CampaignPlanetStatsView: View {
                 .padding(.vertical, 5)
                 
             }
-        .border(Color.white)
-        .padding(4)
-        .border(Color.gray)
-            
-            
-     
+        .helldiversBorder()
             
             // regions, show first region
             
@@ -227,9 +213,7 @@ struct CampaignPlanetStatsView: View {
                   .frame(maxHeight: 44)
                 .padding(.vertical, 5)
                 
-                .border(Color.white)
-                .padding(4)
-                .border(Color.gray)
+                .helldiversBorder()
                .frame(maxHeight: 50)
             
             
@@ -267,18 +251,17 @@ struct CampaignPlanetStatsView: View {
                             VStack(spacing: -5) {
                                 // only show defend text on defense type events (this is so duct taped holy)
                                 if planet.event?.eventType != 3 {
-                                    Text("DEFEND") .font(Font.custom("FSSinclair", size: mediumFont)).bold()
+                                    let defendText = Text("DEFEND")
+                                        .font(Font.custom("FSSinclair", size: mediumFont)).bold()
                                         .scaledToFit()
-                                    
-                                    // defense is important, so pulsate
-                                        .foregroundStyle(isWidget ? .red : (pulsate ? .red : .white))
-                                        .opacity(isWidget ? 1.0 : (pulsate ? 1.0 : 0.4))
-                                        .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: pulsate)
                                         .dynamicTypeSize(.small)
-                                        .onAppear {
-                                            pulsate = true
-                                        }
-                                    
+
+                                    // defense is important, so pulsate
+                                    if isWidget {
+                                        defendText.foregroundStyle(Color.red)
+                                    } else {
+                                        defendText.pulsating()
+                                    }
                                 }
                                 if let eventExpiration = context.eventExpiration {
                                     Text(eventExpiration, style: .timer)
@@ -348,9 +331,7 @@ struct CampaignPlanetStatsView: View {
                 //  Color.black
             }
             .padding(.horizontal)
-            .border(Color.white)
-            .padding(4)
-            .border(Color.gray)
+            .helldiversBorder()
             
         }
         

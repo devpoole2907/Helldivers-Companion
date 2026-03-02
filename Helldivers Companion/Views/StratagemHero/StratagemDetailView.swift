@@ -77,9 +77,7 @@ struct StratagemDetailView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.top, 10)
                 
-                StratagemStatView(dashPattern: [58, 40], activation: decodedStratagem?.activation, cooldown: decodedStratagem?.cooldown, uses: decodedStratagem?.uses)
-                
-                    .padding()
+                StratagemStatView(activation: decodedStratagem?.activation, cooldown: decodedStratagem?.cooldown, uses: decodedStratagem?.uses)
                 
                 
                 
@@ -114,66 +112,32 @@ struct StratagemDetailView: View {
 
 struct StratagemStatView: View {
     
-    let dashPattern: [CGFloat]
-    
     let activation: Int?
     let cooldown: Int?
     let uses: String?
     
     var body: some View {
-        
-        ZStack(alignment: .topLeading) {
-            Color.gray.opacity(0.2)
-                    .shadow(radius: 3)
-        VStack(spacing: 24) {
-            HStack {
-                Text("CALL-IN TIME").foregroundStyle(.white).opacity(0.8)
-                
-                Spacer()
-                Text("\(activation ?? 0) SEC")         .foregroundStyle(.white).bold()
-                
-            }
-            
-            if let uses = uses {
+        StatsCard(label: "STATS") {
+            VStack(spacing: 24) {
                 HStack {
-                    Text("USES").foregroundStyle(.white).opacity(0.8)
-                    
+                    Text("CALL-IN TIME").foregroundStyle(.white).opacity(0.8)
                     Spacer()
-                    Text(uses)
-                        .foregroundStyle(.white).bold()
-                    
+                    Text("\(activation ?? 0) SEC").foregroundStyle(.white).bold()
                 }
-            }
-            
-            HStack {
-                Text("COOLDOWN TIME").foregroundStyle(.white).opacity(0.8)
-                
-                Spacer()
-                Text("\(cooldown ?? 0) SEC")         .foregroundStyle(.white).bold()
-                
-            }
-            
-        }  .font(Font.custom("FSSinclair", size: 20))
-        
-        .padding()
-        
-        
-        .background {
-            
-            Rectangle().stroke(style: StrokeStyle(lineWidth: 3, dash: dashPattern, dashPhase: 30))
-                .foregroundStyle(.gray)
-                .opacity(0.5)
-                .shadow(radius: 3)
-            
+                if let uses = uses {
+                    HStack {
+                        Text("USES").foregroundStyle(.white).opacity(0.8)
+                        Spacer()
+                        Text(uses).foregroundStyle(.white).bold()
+                    }
+                }
+                HStack {
+                    Text("COOLDOWN TIME").foregroundStyle(.white).opacity(0.8)
+                    Spacer()
+                    Text("\(cooldown ?? 0) SEC").foregroundStyle(.white).bold()
+                }
+            }.font(Font.custom("FSSinclair", size: 20))
         }
-            
-            Text("STATS").offset(x: 20, y: -12).font(Font.custom("FSSinclair", size: 20)).bold().foregroundStyle(.white).opacity(0.8).shadow(radius: 5.0)
-        
-        }.shadow(radius: 3.0)
-        
-        
-        
-        
     }
     
 }
@@ -215,9 +179,7 @@ struct StratagemVideoPlayer: View {
                 
                 
             }.frame(width: UIScreen.main.bounds.width - 40, height: 120)
-                .border(Color.white)
-                .padding(4)
-                .border(Color.gray)
+                .helldiversBorder()
                 .padding(4)
             
                 .onAppear {
