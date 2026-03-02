@@ -243,4 +243,16 @@ extension PlanetContext {
         )
     }
 }
+
+// MARK: - PlanetsDataModel preview helpers
+
+extension PlanetsDataModel {
+    /// Returns a model pre-seeded with mock contexts so views that call
+    /// `viewModel.context(for:)` work in Xcode Previews without a live fetch.
+    static func preview(contexts: [PlanetContext]) -> PlanetsDataModel {
+        let model = PlanetsDataModel()
+        model.seedForPreview(contexts: contexts)
+        return model
+    }
+}
 #endif

@@ -81,3 +81,25 @@ struct RewardView: View {
         .padding(.horizontal, 14)
     }
 }
+
+#if DEBUG
+#Preview("Medal reward") {
+    RewardView(rewards: [Setting.Reward(type: 1, id32: 1, amount: 45)])
+        .background(.black)
+}
+
+#Preview("Requisition reward") {
+    RewardView(rewards: [Setting.Reward(type: 2, id32: 2, amount: 35000)])
+        .background(.black)
+}
+
+#Preview("Multiple rewards") {
+    RewardView(
+        rewards: [
+            Setting.Reward(type: 1, id32: 1, amount: 45),
+            Setting.Reward(type: 2, id32: 2, amount: 35000)
+        ]
+    )
+    .background(.black)
+}
+#endif

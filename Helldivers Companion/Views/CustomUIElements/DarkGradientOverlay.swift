@@ -22,3 +22,11 @@ struct DarkGradientOverlay: View {
         .frame(maxHeight: maxHeight ?? .infinity)
     }
 }
+
+#Preview {
+    ZStack {
+        Color.orange
+        DarkGradientOverlay(maxHeight: 80)
+    }
+    .frame(width: 300, height: 120)
+}

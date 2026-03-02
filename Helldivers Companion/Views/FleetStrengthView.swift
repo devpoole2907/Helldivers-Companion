@@ -40,3 +40,13 @@ struct FleetStrengthView: View {
         .padding(.vertical, 4)
     }
 }
+
+#Preview("42% fleet strength") {
+    FleetStrengthView(fleetStrengthProgress: 0.42)
+        .background(.black)
+}
+
+#Preview("Near full") {
+    FleetStrengthView(fleetStrengthProgress: 0.91)
+        .background(.black)
+}

@@ -18,3 +18,13 @@ struct RoundedDivider: View {
             .padding(.bottom, bottomPadding)
     }
 }
+
+#Preview {
+    VStack {
+        Text("Section A").foregroundStyle(.white)
+        RoundedDivider(width: 200)
+        Text("Section B").foregroundStyle(.white)
+    }
+    .padding()
+    .background(.black)
+}

@@ -82,3 +82,17 @@ struct PlanetInfoDetailRow: View {
   
     }
 }
+
+#if DEBUG
+#Preview("With planet") {
+    PlanetInfoDetailRow(planet: .mockTerminid)
+        .background(.black)
+        .frame(height: 80)
+}
+
+#Preview("No planet") {
+    PlanetInfoDetailRow(planet: nil)
+        .background(.black)
+        .frame(height: 80)
+}
+#endif

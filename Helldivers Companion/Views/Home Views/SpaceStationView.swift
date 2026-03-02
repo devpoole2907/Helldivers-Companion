@@ -167,6 +167,7 @@ struct TacticalActionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
+
             HStack {
                 Text(tacticalAction.name.uppercased())
                     .font(Font.custom("FSSinclair", size: smallFont))
@@ -256,4 +257,25 @@ struct TacticalActionView: View {
             }
         }
     }
+}
+
+#Preview("Space Station – compact") {
+    SpaceStationView(
+        spaceStationExpiration: Date().addingTimeInterval(3600 * 6),
+        spaceStationDetails: nil,
+        warTime: nil,
+        isWidget: false
+    )
+    .background(.black)
+    .padding()
+}
+
+#Preview("Space Station – widget") {
+    SpaceStationView(
+        spaceStationExpiration: Date().addingTimeInterval(3600 * 2),
+        spaceStationDetails: nil,
+        warTime: nil,
+        isWidget: true
+    )
+    .background(.black)
 }

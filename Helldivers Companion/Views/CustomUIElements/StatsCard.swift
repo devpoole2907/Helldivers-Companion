@@ -40,3 +40,22 @@ struct StatsCard<Content: View>: View {
         .padding()
     }
 }
+
+#Preview("With label") {
+    StatsCard(label: "GALAXY STATS") {
+        VStack {
+            StatRow(label: "Missions Won", value: "142,300")
+            StatRow(label: "Accuracy", value: "27%")
+        }
+    }
+    .background(.black)
+    .foregroundStyle(.white)
+}
+
+#Preview("No label") {
+    StatsCard {
+        Text("Content here")
+            .foregroundStyle(.white)
+    }
+    .background(.black)
+}

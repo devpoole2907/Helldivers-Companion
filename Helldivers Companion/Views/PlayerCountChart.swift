@@ -204,4 +204,19 @@ struct PlayerCountRow: View {
     }
 }
 
+#if DEBUG
+@available(iOS 17.0, *)
+#Preview("Pie Chart") {
+    let model = PlanetsDataModel()
+    model.seedDistributionForPreview([
+        PlayerDistributionItem(faction: "Terminids", count: 124500, color: .yellow, imageName: "terminid"),
+        PlayerDistributionItem(faction: "Automatons", count: 89300, color: .red, imageName: "automaton"),
+        PlayerDistributionItem(faction: "Illuminate", count: 32100, color: .purple, imageName: "illuminate")
+    ])
+    return PlayerCountPieChart()
+        .environment(model)
+        .background(.black)
+}
+#endif
+
 #endif

@@ -170,3 +170,27 @@ struct NewsItemView: View {
     
     
 }
+
+#if DEBUG
+#Preview("With title") {
+    NewsItemView(
+        newsTitle: "OPERATION SWIFT DISASSEMBLY",
+        newsMessage: "High Command has detected an unusual Automaton movement in the Lacaille sector. All available Helldivers are to deploy immediately and repel the incursion before it reaches the inner colonies.",
+        published: 0,
+        warTime: nil
+    )
+    .background(.black)
+    .padding()
+}
+
+#Preview("No title") {
+    NewsItemView(
+        newsTitle: nil,
+        newsMessage: "Terminids! Automatons! EVERYWHERE!!??!! Helldive immediately — for Super Earth!",
+        published: 0,
+        warTime: nil
+    )
+    .background(.black)
+    .padding()
+}
+#endif

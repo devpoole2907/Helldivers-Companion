@@ -23,3 +23,14 @@ struct StatRow: View {
         }
     }
 }
+
+#Preview {
+    VStack {
+        StatRow(label: "Missions Won", value: "142,300")
+        StatRow(label: "Bullets Fired", value: "88,500,000")
+        StatRow(label: "Accuracy", value: "27%")
+    }
+    .padding()
+    .background(.black)
+    .foregroundStyle(.white)
+}

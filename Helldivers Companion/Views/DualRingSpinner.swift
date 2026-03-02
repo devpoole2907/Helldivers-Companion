@@ -42,3 +42,9 @@ struct DualRingSpinner: View {
         }
     }
 }
+
+#Preview {
+    DualRingSpinner()
+        .frame(width: 60, height: 60)
+        .background(.black)
+}

@@ -541,6 +541,23 @@ enum Tab: String, CaseIterable {
     }
 }
 
+#if DEBUG
+extension PlanetsDataModel {
+    /// Seeds the context lookup so views that call `context(for:)` render
+    /// correctly in Xcode Previews without a live network fetch.
+    func seedForPreview(contexts: [PlanetContext]) {
+        contextLookup = Dictionary(uniqueKeysWithValues: contexts.map { ($0.planet.index, $0) })
+        updatedPlanets = contexts.map { $0.planet }
+    }
+
+    /// Seeds player distribution data for chart previews.
+    func seedDistributionForPreview(_ items: [PlayerDistributionItem]) {
+        playerDistribution = items
+        totalPlayerCount = items.reduce(0) { $0 + $1.count }
+    }
+}
+#endif
+
 actor PlanetHistoryManager {
     var history: [String: [UpdatedPlanetDataPoint]] = [:]
     

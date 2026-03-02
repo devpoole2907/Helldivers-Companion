@@ -353,3 +353,12 @@ struct SettingsSheet: View {
     
     
 }
+
+#if DEBUG
+#Preview {
+    AboutView()
+        .environment(PlanetsDataModel())
+        .environment(NavigationPather())
+        .background(.black)
+}
+#endif
