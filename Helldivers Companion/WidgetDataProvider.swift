@@ -16,7 +16,11 @@ private let planetsURL   = "https://raw.githubusercontent.com/devpoole2907/helld
 /// keeping getTimeline() bodies to ~5 lines.
 struct WidgetDataProvider {
 
-    let apiService = WarAPIService()
+    let apiService: WarAPIService
+
+    init(apiService: WarAPIService = WarAPIService()) {
+        self.apiService = apiService
+    }
 
     // MARK: - Planet widget
 

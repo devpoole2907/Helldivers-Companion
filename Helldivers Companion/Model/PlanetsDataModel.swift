@@ -235,8 +235,10 @@ class PlanetsDataModel {
             guard let self = self else { return }
             Task {
                 
-                let galaxyStats = await self.apiService.fetchGalaxyStats()
-                let cachedData = await self.apiService.fetchCachedPlanetData()
+                async let galaxyStatsResult = self.apiService.fetchGalaxyStats()
+                async let cachedDataResult  = self.apiService.fetchCachedPlanetData()
+                let galaxyStats = await galaxyStatsResult
+                let cachedData  = await cachedDataResult
                 
                 await MainActor.run {
                     withAnimation(.bouncy) {

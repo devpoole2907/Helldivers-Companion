@@ -122,6 +122,13 @@ struct GalaxyMapView: View {
                         return (c.planet.index, pct)
                     })
                     : [:]
+                // Precomputed index sets for O(1) lookups in the planet ForEach below (widget path only).
+                let stationIndices: Set<Int> = ctxLookup.isEmpty
+                    ? Set((widgetSpaceStations.isEmpty ? viewModel.spaceStations : widgetSpaceStations).map(\.planet.index))
+                    : []
+                let taskPlanetIndices: Set<Int> = ctxLookup.isEmpty
+                    ? Set((widgetTaskPlanets.isEmpty ? viewModel.updatedTaskPlanets : widgetTaskPlanets).map(\.index))
+                    : []
 
                 if showSupplyLines {
                     
@@ -187,8 +194,7 @@ struct GalaxyMapView: View {
                     // determine if has dss stationed here
                     let hasSpaceStation: Bool = {
                         if let ctx { return ctx.spaceStation != nil }
-                        let stations = widgetSpaceStations.isEmpty ? viewModel.spaceStations : widgetSpaceStations
-                        return stations.first?.planet.index == updatedPlanet.index
+                        return stationIndices.contains(updatedPlanet.index)
                     }()
 
                     // Use pre-built context booleans when available; fall back to O(1) lookups for the widget path.
@@ -204,8 +210,7 @@ struct GalaxyMapView: View {
                     ZStack {
                         
                         // show red expanding ring around defense planets
-                        let taskPlanets = widgetTaskPlanets.isEmpty ? viewModel.updatedTaskPlanets : widgetTaskPlanets
-                        let isMajorOrderTarget = ctx?.isMajorOrderTarget ?? taskPlanets.contains(where: { $0.index == updatedPlanet.index })
+                        let isMajorOrderTarget = ctx?.isMajorOrderTarget ?? taskPlanetIndices.contains(updatedPlanet.index)
                         let dotSize: CGFloat = selectedPlanet?.index == updatedPlanet.index ? 10 : (isActiveCampaign ? 8 : 6)
                         if isDefending || isMajorOrderTarget {
                             Circle()

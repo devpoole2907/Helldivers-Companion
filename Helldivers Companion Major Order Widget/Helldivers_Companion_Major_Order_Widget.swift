@@ -8,6 +8,28 @@
 import WidgetKit
 import SwiftUI
 
+private struct MajorOrderProgress {
+    let taskProgress: Double?
+    let progressString: String?
+    let progress: Double?
+    let orderType: TaskType?
+}
+
+private func resolveMajorOrderProgress(_ mo: MajorOrder) -> MajorOrderProgress {
+    if let first = mo.eradicationProgress?.first {
+        return MajorOrderProgress(taskProgress: first.progress, progressString: first.progressString, progress: first.progress, orderType: .eradicate)
+    } else if let first = mo.defenseProgress?.first {
+        return MajorOrderProgress(taskProgress: first.progress, progressString: first.progressString, progress: first.progress, orderType: .defense)
+    } else if let first = mo.netQuantityProgress?.first {
+        return MajorOrderProgress(taskProgress: first.progress, progressString: first.progressString, progress: first.progress, orderType: .netQuantity)
+    } else if mo.hasLiberationTasks {
+        return MajorOrderProgress(taskProgress: nil, progressString: nil, progress: nil, orderType: .liberation)
+    } else if let first = mo.missionExtractProgress?.first {
+        return MajorOrderProgress(taskProgress: first.progress, progressString: first.progressString, progress: first.progress, orderType: .missionExtract)
+    }
+    return MajorOrderProgress(taskProgress: nil, progressString: nil, progress: nil, orderType: nil)
+}
+
 struct MajorOrderProvider: TimelineProvider {
 
     typealias Entry = MajorOrderEntry
@@ -33,36 +55,11 @@ struct MajorOrderProvider: TimelineProvider {
             }
 
             let mo = data.majorOrder
-            var finalTaskProgress: Double?
-            var finalProgressString: String?
-            var finalProgress: Double?
-            var finalOrderType: TaskType?
-
-            if let mo = mo {
-                if let firstErad = mo.eradicationProgress?.first {
-                    finalTaskProgress = firstErad.progress
-                    finalProgressString = firstErad.progressString
-                    finalProgress = firstErad.progress
-                    finalOrderType = .eradicate
-                } else if let firstDef = mo.defenseProgress?.first {
-                    finalTaskProgress = firstDef.progress
-                    finalProgressString = firstDef.progressString
-                    finalProgress = firstDef.progress
-                    finalOrderType = .defense
-                } else if let firstNet = mo.netQuantityProgress?.first {
-                    finalTaskProgress = firstNet.progress
-                    finalProgressString = firstNet.progressString
-                    finalProgress = firstNet.progress
-                    finalOrderType = .netQuantity
-                } else if mo.hasLiberationTasks {
-                    finalOrderType = .liberation
-                } else if let firstExtract = mo.missionExtractProgress?.first {
-                    finalTaskProgress = firstExtract.progress
-                    finalProgressString = firstExtract.progressString
-                    finalProgress = firstExtract.progress
-                    finalOrderType = .missionExtract
-                }
-            }
+            let resolved = mo.map(resolveMajorOrderProgress)
+            let finalTaskProgress = resolved?.taskProgress
+            let finalProgressString = resolved?.progressString
+            let finalProgress = resolved?.progress
+            let finalOrderType = resolved?.orderType
 
             let entry = MajorOrderEntry(
                 date: Date(),
