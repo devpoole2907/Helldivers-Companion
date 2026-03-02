@@ -235,8 +235,10 @@ class PlanetsDataModel {
             guard let self = self else { return }
             Task {
                 
-                let galaxyStats = await self.fetchGalaxyStats()
-                let cachedData = await self.fetchCachedPlanetData()
+                async let galaxyStatsResult = self.apiService.fetchGalaxyStats()
+                async let cachedDataResult  = self.apiService.fetchCachedPlanetData()
+                let galaxyStats = await galaxyStatsResult
+                let cachedData  = await cachedDataResult
                 
                 await MainActor.run {
                     withAnimation(.bouncy) {
@@ -254,49 +256,6 @@ class PlanetsDataModel {
         
     }
     
-    func fetchCachedPlanetData() async -> [String: [UpdatedPlanetDataPoint]] {
-        await apiService.fetchCachedPlanetData()
-    }
-    
-    func fetchWarTime(with config: RemoteConfigDetails? = nil) async -> Int64? {
-        await apiService.fetchWarTime(season: config?.season ?? "801")
-    }
-    
-    func fetchStatus(with config: RemoteConfigDetails? = nil) async -> StatusResponse? {
-        await apiService.fetchStatus(season: config?.season ?? "801")
-    }
-    
-    func fetchSpaceStationDetails(for id32: Int64? = nil, with config: RemoteConfigDetails? = nil) async -> SpaceStationDetails? {
-        await apiService.fetchSpaceStationDetails(id32: id32 ?? 749875195, season: config?.season ?? "801")
-    }
-    
-    func fetchSpaceStations(using url: String? = nil, for configData: RemoteConfigDetails) async -> [SpaceStation] {
-        await apiService.fetchSpaceStations(apiAddress: configData.apiAddress, language: enableLocalization ? apiSupportedLanguage : nil)
-    }
-    
-    func fetchCampaigns(
-        using url: String? = nil, for configData: RemoteConfigDetails
-    ) async -> ([UpdatedCampaign], [UpdatedCampaign]) {
-        await apiService.fetchCampaigns(url: url, apiAddress: configData.apiAddress, language: enableLocalization ? apiSupportedLanguage : nil)
-    }
-    
-    func fetchPersonalOrder() async -> PersonalOrder? {
-        await apiService.fetchPersonalOrder()
-    }
-    
-    func fetchMajorOrder(
-        for season: String? = nil,
-        with planets: [UpdatedPlanet]? = nil
-    ) async -> ([UpdatedPlanet], [MajorOrder]) {
-        let seasonString = season ?? configData.season
-        let collectionOfPlanets = planets ?? self.updatedPlanets
-        return await apiService.fetchMajorOrder(season: seasonString, planets: collectionOfPlanets, language: enableLocalization ? apiSupportedLanguage : nil)
-    }
-    
-    func fetchConfig() async -> RemoteConfigDetails? {
-        await apiService.fetchConfig()
-    }
-    
     struct PlanetJSON: Decodable {
         let name: String
         let sector: String
@@ -305,21 +264,11 @@ class PlanetsDataModel {
         let weatherEffects: [String]?
     }
     
-    func fetchPlanets(
-        using url: String? = nil, for configData: RemoteConfigDetails, with status: StatusResponse? = nil
-    ) async -> ([UpdatedPlanet], [String], [String: [UpdatedPlanet]]) {
-        await apiService.fetchPlanets(url: url, apiAddress: configData.apiAddress, language: enableLocalization ? apiSupportedLanguage : nil, status: status)
-    }
-    
-    func fetchGalaxyStats() async -> GalaxyStatsResponseData? {
-        await apiService.fetchGalaxyStats()
-    }
-    
     
     private(set) var playerDistribution: [PlayerDistributionItem] = []
 
     private func rebuildFleetStrength() {
-        let resource = status?.globalResources.first { $0.id32 == 175685818 }
+        let resource = status?.globalResources.resource(for: .fleetStrength)
         fleetStrengthResource = resource
         fleetStrengthProgress = resource.map { r in r.maxValue > 0 ? Double(r.currentValue) / Double(r.maxValue) : 0.0 } ?? 0
     }

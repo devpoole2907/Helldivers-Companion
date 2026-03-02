@@ -8,86 +8,73 @@
 import WidgetKit
 import SwiftUI
 
+private struct MajorOrderProgress {
+    let taskProgress: Double?
+    let progressString: String?
+    let progress: Double?
+    let orderType: TaskType?
+}
+
+private func resolveMajorOrderProgress(_ mo: MajorOrder) -> MajorOrderProgress {
+    if let first = mo.eradicationProgress?.first {
+        return MajorOrderProgress(taskProgress: first.progress, progressString: first.progressString, progress: first.progress, orderType: .eradicate)
+    } else if let first = mo.defenseProgress?.first {
+        return MajorOrderProgress(taskProgress: first.progress, progressString: first.progressString, progress: first.progress, orderType: .defense)
+    } else if let first = mo.netQuantityProgress?.first {
+        return MajorOrderProgress(taskProgress: first.progress, progressString: first.progressString, progress: first.progress, orderType: .netQuantity)
+    } else if mo.hasLiberationTasks {
+        return MajorOrderProgress(taskProgress: nil, progressString: nil, progress: nil, orderType: .liberation)
+    } else if let first = mo.missionExtractProgress?.first {
+        return MajorOrderProgress(taskProgress: first.progress, progressString: first.progressString, progress: first.progress, orderType: .missionExtract)
+    }
+    return MajorOrderProgress(taskProgress: nil, progressString: nil, progress: nil, orderType: nil)
+}
+
 struct MajorOrderProvider: TimelineProvider {
-    
+
     typealias Entry = MajorOrderEntry
-    
-    let apiService = WarAPIService()
-    
+
+    private let dataProvider = WidgetDataProvider()
+
     func placeholder(in context: Context) -> MajorOrderEntry {
         MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil, progress: nil, orderType: nil)
     }
-    
+
     func getSnapshot(in context: Context, completion: @escaping (MajorOrderEntry) -> Void) {
         let entry = MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil, progress: nil, orderType: nil)
         completion(entry)
     }
-    
+
     func getTimeline(in context: Context, completion: @escaping (Timeline<MajorOrderEntry>) -> Void) {
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/currentPlanets.json"
-        
         Task {
             var entries: [MajorOrderEntry] = []
-            
-            guard let config = await apiService.fetchConfig() else {
-                print("config failed to load")
+
+            guard let data = await dataProvider.fetchOrderData() else {
                 completion(Timeline(entries: entries, policy: .atEnd))
                 return
             }
-            
-            let (planets, _, _) = await apiService.fetchPlanets(url: urlString, apiAddress: config.apiAddress, language: nil)
-            let (taskPlanets, majorOrders) = await apiService.fetchMajorOrder(season: config.season, planets: planets, language: nil)
-            let majorOrder = majorOrders.first
-            
-            var finalTaskProgress: Double?
-            var finalProgressString: String?
-            var finalProgress: Double?
-            var finalOrderType: TaskType?
-            
-            if let mo = majorOrder {
-                if let firstErad = mo.eradicationProgress?.first {
-                    finalTaskProgress = firstErad.progress
-                    finalProgressString = firstErad.progressString
-                    finalProgress = firstErad.progress
-                    finalOrderType = .eradicate
-                } else if let firstDef = mo.defenseProgress?.first {
-                    finalTaskProgress = firstDef.progress
-                    finalProgressString = firstDef.progressString
-                    finalProgress = firstDef.progress
-                    finalOrderType = .defense
-                } else if let firstNet = mo.netQuantityProgress?.first {
-                    finalTaskProgress = firstNet.progress
-                    finalProgressString = firstNet.progressString
-                    finalProgress = firstNet.progress
-                    finalOrderType = .netQuantity
-                } else if mo.hasLiberationTasks {
-                    finalOrderType = .liberation
-                } else if let firstExtract = mo.missionExtractProgress?.first {
-                    finalTaskProgress = firstExtract.progress
-                    finalProgressString = firstExtract.progressString
-                    finalProgress = firstExtract.progress
-                    finalOrderType = .missionExtract
-                }
-            }
-            
+
+            let mo = data.majorOrder
+            let resolved = mo.map(resolveMajorOrderProgress)
+            let finalTaskProgress = resolved?.taskProgress
+            let finalProgressString = resolved?.progressString
+            let finalProgress = resolved?.progress
+            let finalOrderType = resolved?.orderType
+
             let entry = MajorOrderEntry(
-                            date: Date(),
-                            majorOrder: majorOrder,
-                            taskPlanets: taskPlanets,
-                            // We’re effectively mapping multi-task logic down to a single Double for the widget
-                            taskProgress: finalTaskProgress,
-                            factionColor: majorOrder?.faction?.color,
-                            progressString: finalProgressString,
-                            progress: finalProgress,
-                            orderType: finalOrderType
-                        )
-            
-            print("appending entry, this many planets: \(planets.count)")
-            
+                date: Date(),
+                majorOrder: mo,
+                taskPlanets: data.taskPlanets,
+                // We're effectively mapping multi-task logic down to a single Double for the widget
+                taskProgress: finalTaskProgress,
+                factionColor: mo?.faction?.color,
+                progressString: finalProgressString,
+                progress: finalProgress,
+                orderType: finalOrderType)
+
+            print("appending entry, this many planets: \(data.planets.count)")
             entries.append(entry)
-            
-            let timeline = Timeline(entries: entries, policy: .atEnd)
-            completion(timeline)
+            completion(Timeline(entries: entries, policy: .atEnd))
         }
     }
 }

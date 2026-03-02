@@ -22,7 +22,10 @@ struct GalaxyMapView: View {
     var planets: [UpdatedPlanet] = []
     var campaigns: [UpdatedCampaign] = []
     var defenseCampaigns: [UpdatedCampaign] = []
-    
+    // Widget-path overrides — when non-empty, these replace the corresponding viewModel lookups
+    var widgetSpaceStations: [SpaceStation] = []
+    var widgetTaskPlanets: [UpdatedPlanet] = []
+
     var isWidget: Bool = false // to use a different sector image file thats smaller than 4k x 4k (a pdf)
 
     // computed prop, either use passed planets array if a widget otherwise go straight to viewmodel's published prop
@@ -119,6 +122,13 @@ struct GalaxyMapView: View {
                         return (c.planet.index, pct)
                     })
                     : [:]
+                // Precomputed index sets for O(1) lookups in the planet ForEach below (widget path only).
+                let stationIndices: Set<Int> = ctxLookup.isEmpty
+                    ? Set((widgetSpaceStations.isEmpty ? viewModel.spaceStations : widgetSpaceStations).map(\.planet.index))
+                    : []
+                let taskPlanetIndices: Set<Int> = ctxLookup.isEmpty
+                    ? Set((widgetTaskPlanets.isEmpty ? viewModel.updatedTaskPlanets : widgetTaskPlanets).map(\.index))
+                    : []
 
                 if showSupplyLines {
                     
@@ -184,7 +194,7 @@ struct GalaxyMapView: View {
                     // determine if has dss stationed here
                     let hasSpaceStation: Bool = {
                         if let ctx { return ctx.spaceStation != nil }
-                        return viewModel.spaceStations.first?.planet.index == updatedPlanet.index
+                        return stationIndices.contains(updatedPlanet.index)
                     }()
 
                     // Use pre-built context booleans when available; fall back to O(1) lookups for the widget path.
@@ -200,7 +210,7 @@ struct GalaxyMapView: View {
                     ZStack {
                         
                         // show red expanding ring around defense planets
-                        let isMajorOrderTarget = ctx?.isMajorOrderTarget ?? viewModel.updatedTaskPlanets.contains(where: { $0.index == updatedPlanet.index })
+                        let isMajorOrderTarget = ctx?.isMajorOrderTarget ?? taskPlanetIndices.contains(updatedPlanet.index)
                         let dotSize: CGFloat = selectedPlanet?.index == updatedPlanet.index ? 10 : (isActiveCampaign ? 8 : 6)
                         if isDefending || isMajorOrderTarget {
                             Circle()

@@ -171,7 +171,7 @@ struct OrderView: View {
 }
 
 #Preview {
-    OrderView().environment(PlanetsDataModel())
+    OrderView().environment(PlanetsDataModel.shared)
 }
 
 

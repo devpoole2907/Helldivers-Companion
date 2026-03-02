@@ -268,6 +268,16 @@
 		7C6DE51F2C474D9200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
 		7C6DE5202C474D9200077534 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6DE5162C474A6B00077534 /* NetworkManager.swift */; };
 		7C7F1AA12F3AF40F001EB3BC /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 7C7F1AA02F3AF40F001EB3BC /* SwiftUIIntrospect */; };
+		7C7F3B7C2F55469F00A25274 /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F3B7B2F55469F00A25274 /* WidgetDataProvider.swift */; };
+		7C7F3B852F554A5900A25274 /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F3B7B2F55469F00A25274 /* WidgetDataProvider.swift */; };
+		7C7F3B862F554A5900A25274 /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F3B7B2F55469F00A25274 /* WidgetDataProvider.swift */; };
+		7C7F3B872F554A5900A25274 /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F3B7B2F55469F00A25274 /* WidgetDataProvider.swift */; };
+		7C7F3B882F554A5900A25274 /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F3B7B2F55469F00A25274 /* WidgetDataProvider.swift */; };
+		7C7F3B892F554A5900A25274 /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F3B7B2F55469F00A25274 /* WidgetDataProvider.swift */; };
+		7C7F3B8A2F554A5900A25274 /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F3B7B2F55469F00A25274 /* WidgetDataProvider.swift */; };
+		7C7F3B8B2F554A5900A25274 /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F3B7B2F55469F00A25274 /* WidgetDataProvider.swift */; };
+		7C7F3B8E2F554A5900A25274 /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F3B7B2F55469F00A25274 /* WidgetDataProvider.swift */; };
+		7C7F3B8F2F554A5900A25274 /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F3B7B2F55469F00A25274 /* WidgetDataProvider.swift */; };
 		7C80F3EC2BC13F890058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
 		7C80F3ED2BC1425B0058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
 		7C80F3EE2BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */; };
@@ -756,6 +766,7 @@
 		7C6A8A662D3E2201008CFB71 /* PersonalOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalOrderView.swift; sourceTree = "<group>"; };
 		7C6C0F792BD0AEBC00BD73B2 /* UpdatedPlanetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedPlanetView.swift; sourceTree = "<group>"; };
 		7C6DE5162C474A6B00077534 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		7C7F3B7B2F55469F00A25274 /* WidgetDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataProvider.swift; sourceTree = "<group>"; };
 		7C80F3EB2BC13F890058BF39 /* Version Check View Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Version Check View Modifiers.swift"; sourceTree = "<group>"; };
 		7C88C3342F5019C00084538A /* PlanetContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetContext.swift; sourceTree = "<group>"; };
 		7C88C33F2F501B080084538A /* LiberationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiberationType.swift; sourceTree = "<group>"; };
@@ -1056,6 +1067,7 @@
 				7C297D162BCE845D00D884DD /* GoogleService-Info.plist */,
 				7C0C99592BA2BAC000CF7C91 /* Model */,
 				7C0C994B2BA2BA8F00CF7C91 /* Helldivers_CompanionApp.swift */,
+				7C7F3B7B2F55469F00A25274 /* WidgetDataProvider.swift */,
 				7C0C994F2BA2BA9000CF7C91 /* Assets.xcassets */,
 				7C0C99512BA2BA9000CF7C91 /* Preview Content */,
 				7C4589B82BA54BF50019B00E /* FS Sinclair Bold.otf */,
@@ -2084,6 +2096,7 @@
 				7C4589B72BA546B00019B00E /* OrderView.swift in Sources */,
 				7C3446CD2F4C057700157213 /* Faction.swift in Sources */,
 				7C44B7D72BC800790097C29B /* PlayerCountView.swift in Sources */,
+				7C7F3B852F554A5900A25274 /* WidgetDataProvider.swift in Sources */,
 				7C4589C22BA5554E0019B00E /* StratagemHeroModel.swift in Sources */,
 				7CD8034E2F5436CA006D549B /* StatsCard.swift in Sources */,
 				7C587F3F2BA6A7DA00C66643 /* CustomSegmentedPicker.swift in Sources */,
@@ -2151,6 +2164,7 @@
 				7CBC0E452BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7CD8030E2F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7CD803332F5431A5006D549B /* WhiteCircleBackgroundModifier.swift in Sources */,
+				7C7F3B892F554A5900A25274 /* WidgetDataProvider.swift in Sources */,
 				7C80F3F02BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7CAAFFDD2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7CC0D1A22F4D592300BA4DB6 /* TaskType.swift in Sources */,
@@ -2195,6 +2209,7 @@
 				7C8C5F2A2BAE811C00C4FBD2 /* RectangleProgressBar.swift in Sources */,
 				7CAAFFDC2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C45D45A2BABEB350013A632 /* GlobalFunctions+Extensions.swift in Sources */,
+				7C7F3B882F554A5900A25274 /* WidgetDataProvider.swift in Sources */,
 				7C80F3EF2BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7CBC0E442BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7CD803702F543BAF006D549B /* DarkGradientOverlay.swift in Sources */,
@@ -2234,6 +2249,7 @@
 				7CD803112F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7CAAFFE02C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C44B7F42BC9451F0097C29B /* CampaignPlanetStatsView.swift in Sources */,
+				7C7F3B8B2F554A5900A25274 /* WidgetDataProvider.swift in Sources */,
 				7CF3E57D2DD942E1006CFB00 /* FleetStrengthView.swift in Sources */,
 				7C44B7F02BC9445B0097C29B /* DraggablePlanetView.swift in Sources */,
 				7CD803562F5439DF006D549B /* StatRow.swift in Sources */,
@@ -2256,6 +2272,7 @@
 				7CD803212F543152006D549B /* HelldiversBorderModifier.swift in Sources */,
 				7CD8033D2F543489006D549B /* DashedRowBackgroundModifier.swift in Sources */,
 				7CD803322F5431A5006D549B /* WhiteCircleBackgroundModifier.swift in Sources */,
+				7C7F3B8E2F554A5900A25274 /* WidgetDataProvider.swift in Sources */,
 				7C3446D02F4C057700157213 /* Faction.swift in Sources */,
 				7CD803142F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7C4A9E352BD355EF0014FCCD /* War_Monitor_Total_Player_Count_WidgetBundle.swift in Sources */,
@@ -2280,6 +2297,7 @@
 				7CD803252F543152006D549B /* HelldiversBorderModifier.swift in Sources */,
 				7CD8033E2F543489006D549B /* DashedRowBackgroundModifier.swift in Sources */,
 				7CD803302F5431A5006D549B /* WhiteCircleBackgroundModifier.swift in Sources */,
+				7C7F3B8F2F554A5900A25274 /* WidgetDataProvider.swift in Sources */,
 				7C3446CE2F4C057700157213 /* Faction.swift in Sources */,
 				7CD803152F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7C4A9E4A2BD356860014FCCD /* War_Monitor_Total_Player_Count_Watch_Widget.swift in Sources */,
@@ -2330,6 +2348,7 @@
 				7C0DF6422BBA35770062AB9B /* WatchNewsView.swift in Sources */,
 				7C3DE9722BA80A1A00C95B84 /* Helldivers_Companion_Planet_Widgets.swift in Sources */,
 				7C0DF6382BB987FB0062AB9B /* PlanetInfoDetailRow.swift in Sources */,
+				7C7F3B862F554A5900A25274 /* WidgetDataProvider.swift in Sources */,
 				7CA240DF2BCA5D51007F685C /* StratagemGlossaryView.swift in Sources */,
 				7CAAFFD92C475C4000488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C6C0F7B2BD0AEBC00BD73B2 /* UpdatedPlanetView.swift in Sources */,
@@ -2382,6 +2401,7 @@
 				7CD803292F543152006D549B /* HelldiversBorderModifier.swift in Sources */,
 				7CD8030F2F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7CD8034C2F5436CA006D549B /* StatsCard.swift in Sources */,
+				7C7F3B7C2F55469F00A25274 /* WidgetDataProvider.swift in Sources */,
 				7CD803542F5439DF006D549B /* StatRow.swift in Sources */,
 				7CAAFFDE2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C8C5F442BAEF98100C4FBD2 /* GlobalFunctions+Extensions.swift in Sources */,
@@ -2428,6 +2448,7 @@
 				7C80F3F22BC142C40058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C418DC52DE16D990027A05D /* DualRingSpinner.swift in Sources */,
 				7C4A6A9A2BD25D7900727FEC /* RectangleProgressBar.swift in Sources */,
+				7C7F3B8A2F554A5900A25274 /* WidgetDataProvider.swift in Sources */,
 				7C88C3462F501B080084538A /* LiberationType.swift in Sources */,
 				7C8C5F622BAF0C1900C4FBD2 /* OrderView.swift in Sources */,
 				7C8C5F5C2BAF0B1800C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */,
@@ -2513,6 +2534,7 @@
 				7CAAFFDB2C475D7F00488CF9 /* PlanetsDataModel.swift in Sources */,
 				7C80F3EE2BC142C20058BF39 /* Version Check View Modifiers.swift in Sources */,
 				7C45D4702BABEECF0013A632 /* OrderTimeView.swift in Sources */,
+				7C7F3B872F554A5900A25274 /* WidgetDataProvider.swift in Sources */,
 				7CBC0E432BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7CC0AE772BA7F31400802D9F /* Helldivers_Companion_WidgetsBundle.swift in Sources */,
 				7CD8036A2F543BAF006D549B /* DarkGradientOverlay.swift in Sources */,

@@ -9,48 +9,25 @@ import WidgetKit
 import SwiftUI
 
 struct Provider: TimelineProvider {
-    
+
     typealias Entry = PlayerCountEntry
-    
-    let apiService = WarAPIService()
-    
+
+    private let dataProvider = WidgetDataProvider()
+
     func placeholder(in context: Context) -> PlayerCountEntry {
         PlayerCountEntry(date: Date(), playerCount: 247643)
     }
-    
+
     func getSnapshot(in context: Context, completion: @escaping (PlayerCountEntry) -> Void) {
-        let entry =  PlayerCountEntry(date: Date(), playerCount: 247643)
-        completion(entry)
+        completion(PlayerCountEntry(date: Date(), playerCount: 247643))
     }
-    
+
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
-        
-        
-        // fetches from github instead to save on api call
-        
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/currentPlanets.json"
-        
         Task {
-            var entries: [PlayerCountEntry] = []
-            
-            guard let config = await apiService.fetchConfig() else {
-                print("config failed to load")
-                completion(Timeline(entries: entries, policy: .atEnd))
-                return
-            }
-            
-            let (planets, _, _) = await apiService.fetchPlanets(url: urlString, apiAddress: config.apiAddress, language: nil)
-            
-            let playerCount = planets.reduce(0) { $0 + $1.statistics.playerCount }
-            
-            entries.append(PlayerCountEntry(date: Date(), playerCount: playerCount))
-            
-            let timeline = Timeline(entries: entries, policy: .atEnd)
+            let playerCount = await dataProvider.fetchTotalPlayerCount() ?? 0
+            let timeline = Timeline(entries: [PlayerCountEntry(date: Date(), playerCount: playerCount)], policy: .atEnd)
             completion(timeline)
-            
         }
-        
-        
     }
 }
 
