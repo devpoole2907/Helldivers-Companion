@@ -545,9 +545,13 @@ enum Tab: String, CaseIterable {
 extension PlanetsDataModel {
     /// Seeds the context lookup so views that call `context(for:)` render
     /// correctly in Xcode Previews without a live network fetch.
+    /// Also populates sector groupings used by PlanetsList / WatchGalaxyStatsView.
     func seedForPreview(contexts: [PlanetContext]) {
         contextLookup = Dictionary(uniqueKeysWithValues: contexts.map { ($0.planet.index, $0) })
         updatedPlanets = contexts.map { $0.planet }
+        let grouped = Dictionary(grouping: updatedPlanets, by: { $0.sector })
+        updatedGroupedBySectorPlanets = grouped
+        updatedSortedSectors = grouped.keys.sorted()
     }
 
     /// Seeds player distribution data for chart previews.

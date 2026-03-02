@@ -76,3 +76,12 @@ struct WatchNewsView: View {
         
     }
 }
+
+#if DEBUG
+@available(watchOS 10.0, *)
+#Preview {
+    WatchNewsView()
+        .environment(NavigationPather())
+        .environment(PlanetsDataModel())
+}
+#endif

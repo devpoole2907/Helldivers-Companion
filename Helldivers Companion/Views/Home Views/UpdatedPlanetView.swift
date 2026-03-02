@@ -273,3 +273,34 @@ private struct UpdatedPlanetContentView: View {
     }
     
 }
+
+#if DEBUG
+#Preview("Liberation") {
+    UpdatedPlanetView(planetIndex: 5)
+        .environment(PlanetsDataModel.preview(contexts: [.mockLiberation]))
+        .environment(NavigationPather())
+        .background(.black)
+}
+
+#Preview("Defense") {
+    UpdatedPlanetView(planetIndex: 5)
+        .environment(PlanetsDataModel.preview(contexts: [.mockDefense]))
+        .environment(NavigationPather())
+        .background(.black)
+}
+
+#Preview("Almost Liberated – Major Order") {
+    UpdatedPlanetView(planetIndex: 12)
+        .environment(PlanetsDataModel.preview(contexts: [.mockAlmostLiberated]))
+        .environment(NavigationPather())
+        .background(.black)
+}
+
+#Preview("Widget") {
+    UpdatedPlanetView(planetIndex: 5, showExtraStats: false, isWidget: true)
+        .environment(PlanetsDataModel.preview(contexts: [.mockDefense]))
+        .environment(NavigationPather())
+        .frame(width: 170, height: 170)
+        .background(.black)
+}
+#endif

@@ -69,3 +69,25 @@ struct TogglePickerPopup: CentrePopup {
     
     
 }
+
+#if DEBUG
+#Preview("Enabled") {
+    @Previewable @State var selection = true
+    TogglePickerPopup(
+        selection: $selection,
+        settingTitle: "Dark Mode",
+        settingSubtitle: "Swap the app background for plain black."
+    ).createContent()
+        .background(.black)
+}
+
+#Preview("Disabled") {
+    @Previewable @State var selection = false
+    TogglePickerPopup(
+        selection: $selection,
+        settingTitle: "Illuminate UI",
+        settingSubtitle: "Show Illuminate faction information and icons."
+    ).createContent()
+        .background(.black)
+}
+#endif

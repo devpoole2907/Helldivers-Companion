@@ -29,3 +29,11 @@ extension View {
         modifier(PulsatingModifier(activeColor: active, inactiveColor: inactive))
     }
 }
+
+#Preview("Pulsating text") {
+    Text("DEFEND")
+        .font(Font.custom("FSSinclair-Bold", size: 24))
+        .pulsating()
+        .padding()
+        .background(.black)
+}
