@@ -7,12 +7,13 @@
 
 import WidgetKit
 import SwiftUI
+
 @available(watchOS 9.0, *)
 struct PlanetStatusProvider: TimelineProvider {
     typealias Entry = SimplePlanetStatus
     
-    let apiService = WarAPIService()
-    
+    private let dataProvider = WidgetDataProvider()
+
     func placeholder(in context: Context) -> SimplePlanetStatus {
         SimplePlanetStatus(date: Date(), planetName: "Meridia", liberation: 86.54, playerCount: 264000, liberationType: .liberation, campaignType: 0)
     }
@@ -25,72 +26,49 @@ struct PlanetStatusProvider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimplePlanetStatus>) -> Void) {
-        
-        // fetches from github instead to save on api call
-        
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/currentCampaigns.json"
-        
         Task {
             var entries: [SimplePlanetStatus] = []
-            
-            guard let config = await apiService.fetchConfig() else {
-                print("config failed to load")
+
+            guard let data = await dataProvider.fetchPlanetData() else {
                 completion(Timeline(entries: entries, policy: .atEnd))
                 return
             }
-            
-            let status = await apiService.fetchStatus(season: config.season)
-            
-            let fleetStrengthResource = status?.globalResources.resource(for: .fleetStrength)
-            
-            let fleetStrengthProgress: Double = {
-                guard let resource = fleetStrengthResource else { return 0 }
-                return Double(resource.currentValue) / Double(resource.maxValue)
-            }()
-            
-            
-            let (campaigns, defenseCampaigns) = await apiService.fetchCampaigns(url: urlString, apiAddress: config.apiAddress, language: nil)
-            
-            let spaceStations = await apiService.fetchSpaceStations(apiAddress: config.apiAddress, language: nil)
-            
-            if let highestPlanetCampaign = campaigns.max(by: { $0.planet.statistics.playerCount < $1.planet.statistics.playerCount }) {
+
+            if let highestPlanetCampaign = data.campaigns.max(by: { $0.planet.statistics.playerCount < $1.planet.statistics.playerCount }) {
                 let highestPlanet = highestPlanetCampaign.planet
                 let campaignType = highestPlanetCampaign.type
-                
-                // grab space station expire time if one is there
-                    let spaceStationExpirationTime = spaceStations.first(where: { $0.planet.index == highestPlanet.index })?.electionEndDate
-                
-                if let defenseEvent = defenseCampaigns.first(where: { $0.planet.index == highestPlanet.index }) {
-                    
-                    let eventExpirationTime = highestPlanet.event?.expireTimeDate
-                    let invasionLevel = highestPlanet.event?.invasionLevel
-                    let eventHealth = highestPlanet.event?.health
-                    let eventMaxHealth = highestPlanet.event?.maxHealth
-                    
-                    var liberationPercentage = defenseEvent.planet.event?.percentage ?? highestPlanet.percentage
-                    
-                    if defenseEvent.planet.event?.eventType == 3 {
-                        liberationPercentage = (1.0 - fleetStrengthProgress) * 100
-                    }
+                let spaceStationExpirationTime = data.spaceStations.first(where: { $0.planet.index == highestPlanet.index })?.electionEndDate
 
-                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: liberationPercentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, liberationType: .defense, eventExpirationTime: eventExpirationTime, invasionLevel: invasionLevel, eventHealth: eventHealth, eventMaxHealth: eventMaxHealth, spaceStationExpirationTime: spaceStationExpirationTime, campaignType: campaignType)
+                if let defenseEvent = data.defenseCampaigns.first(where: { $0.planet.index == highestPlanet.index }) {
+                    var liberationPercentage = defenseEvent.planet.event?.percentage ?? highestPlanet.percentage
+                    if defenseEvent.planet.event?.eventType == 3 {
+                        liberationPercentage = (1.0 - data.fleetStrengthProgress) * 100
+                    }
+                    let entry = SimplePlanetStatus(
+                        date: Date(), planetName: highestPlanet.name,
+                        liberation: liberationPercentage, playerCount: highestPlanet.statistics.playerCount,
+                        planet: highestPlanet, liberationType: .defense,
+                        eventExpirationTime: highestPlanet.event?.expireTimeDate,
+                        invasionLevel: highestPlanet.event?.invasionLevel,
+                        eventHealth: highestPlanet.event?.health,
+                        eventMaxHealth: highestPlanet.event?.maxHealth,
+                        spaceStationExpirationTime: spaceStationExpirationTime,
+                        campaignType: campaignType)
                     entries.append(entry)
-                    
                 } else {
                     // we dont need to access the view models faction image function's additional conditions here, because the planet is definitely not defending and is definitely a campaign, so we can just use it in the view directly as it will fall through to the check we need anyway
-                    
-                    let entry = SimplePlanetStatus(date: Date(), planetName: highestPlanet.name, liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount, planet: highestPlanet, spaceStationExpirationTime: spaceStationExpirationTime, campaignType: campaignType)
+                    let entry = SimplePlanetStatus(
+                        date: Date(), planetName: highestPlanet.name,
+                        liberation: highestPlanet.percentage, playerCount: highestPlanet.statistics.playerCount,
+                        planet: highestPlanet, spaceStationExpirationTime: spaceStationExpirationTime,
+                        campaignType: campaignType)
                     entries.append(entry)
                 }
-                
+
                 print("appending entry!")
-                
             }
-            
-            
-            
-            let timeline = Timeline(entries: entries, policy: .atEnd)
-            completion(timeline)
+
+            completion(Timeline(entries: entries, policy: .atEnd))
         }
     }
     
@@ -165,7 +143,9 @@ struct Helldivers_Companion_WidgetsEntryView: View {
                     eventHealth: entry.eventHealth,
                     eventMaxHealth: entry.eventMaxHealth,
                     campaignType: entry.campaignType
-                ).environment(PlanetsDataModel())
+                // PlanetsDataModel.shared is a structurally-required environment value for PlanetView;
+                // all actual widget data flows through entry fields — the viewModel is never consulted for fetching.
+                ).environment(PlanetsDataModel.shared)
                     .padding(.horizontal)
                     .padding(.vertical, 5)
                 

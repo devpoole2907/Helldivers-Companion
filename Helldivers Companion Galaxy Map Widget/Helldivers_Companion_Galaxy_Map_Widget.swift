@@ -9,49 +9,30 @@ import WidgetKit
 import SwiftUI
 
 struct GalaxyMapProvider: TimelineProvider {
-    
-    let apiService = WarAPIService()
-    
-    
+
+    private let dataProvider = WidgetDataProvider()
+
     func placeholder(in context: Context) -> GalaxyMapEntry {
         GalaxyMapEntry(date: Date(), campaigns: [], defenseCampaigns: [], planets: [])
     }
-    
+
     func getSnapshot(in context: Context, completion: @escaping (GalaxyMapEntry) -> Void) {
         let entry = GalaxyMapEntry(date: Date(), campaigns: [], defenseCampaigns: [], planets: [])
         completion(entry)
     }
-    
-    
+
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
-        
-        let campaignsUrlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/currentCampaigns.json"
-        
-        let planetsUrlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/currentPlanets.json"
-        
         Task {
             var entries: [GalaxyMapEntry] = []
-            
-            guard let config = await apiService.fetchConfig() else {
-                print("config failed to load")
+
+            guard let data = await dataProvider.fetchMapData() else {
                 completion(Timeline(entries: entries, policy: .atEnd))
                 return
             }
-            
-            let (planets, _, _) = await apiService.fetchPlanets(url: planetsUrlString, apiAddress: config.apiAddress, language: nil)
-            let (campaigns, defenseCampaigns) = await apiService.fetchCampaigns(url: campaignsUrlString, apiAddress: config.apiAddress, language: nil)
-            
-            let entry = GalaxyMapEntry(date: Date(), campaigns: campaigns, defenseCampaigns: defenseCampaigns, planets: planets)
-            entries.append(entry)
-            
-            
-            let timeline = Timeline(entries: entries, policy: .atEnd)
-            completion(timeline)
-            
-            
-            
+
+            entries.append(GalaxyMapEntry(date: Date(), campaigns: data.campaigns, defenseCampaigns: data.defenseCampaigns, planets: data.planets, spaceStations: data.spaceStations, taskPlanets: data.taskPlanets))
+            completion(Timeline(entries: entries, policy: .atEnd))
         }
-        
     }
 }
 
@@ -60,6 +41,8 @@ struct GalaxyMapEntry: TimelineEntry {
     var campaigns: [UpdatedCampaign]
     var defenseCampaigns: [UpdatedCampaign]
     var planets: [UpdatedPlanet]
+    var spaceStations: [SpaceStation] = []
+    var taskPlanets: [UpdatedPlanet] = []
 }
 
 struct GalaxyMapWidgetEntryView: View {
@@ -112,7 +95,10 @@ struct GalaxyMapWidgetView: View {
             }
             
             VStack(spacing: 0) {
-                GalaxyMapView(selectedPlanet: .constant(nil), showSupplyLines: .constant(true), showAllPlanets: widgetRenderingMode == .accented ? .constant(false) : .constant(true), showPlanetNames: .constant(false), currentZoomLevel: .constant(1), planets: entry.planets, campaigns: entry.campaigns, defenseCampaigns: entry.defenseCampaigns, isWidget: true).environment(PlanetsDataModel())
+                GalaxyMapView(selectedPlanet: .constant(nil), showSupplyLines: .constant(true), showAllPlanets: widgetRenderingMode == .accented ? .constant(false) : .constant(true), showPlanetNames: .constant(false), currentZoomLevel: .constant(1), planets: entry.planets, campaigns: entry.campaigns, defenseCampaigns: entry.defenseCampaigns, widgetSpaceStations: entry.spaceStations, widgetTaskPlanets: entry.taskPlanets, isWidget: true)
+                    // PlanetsDataModel.shared is a structurally-required environment value for GalaxyMapView;
+                    // all actual widget data flows through entry fields — the viewModel is never consulted for fetching.
+                    .environment(PlanetsDataModel.shared)
                     .padding()
                     .frame(width: 300, height: 300)
                 

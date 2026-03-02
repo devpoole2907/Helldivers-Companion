@@ -9,42 +9,36 @@ import WidgetKit
 import SwiftUI
 
 struct MajorOrderProvider: TimelineProvider {
-    
+
     typealias Entry = MajorOrderEntry
-    
-    let apiService = WarAPIService()
-    
+
+    private let dataProvider = WidgetDataProvider()
+
     func placeholder(in context: Context) -> MajorOrderEntry {
         MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil, progress: nil, orderType: nil)
     }
-    
+
     func getSnapshot(in context: Context, completion: @escaping (MajorOrderEntry) -> Void) {
         let entry = MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil, progress: nil, orderType: nil)
         completion(entry)
     }
-    
+
     func getTimeline(in context: Context, completion: @escaping (Timeline<MajorOrderEntry>) -> Void) {
-        let urlString = "https://raw.githubusercontent.com/devpoole2907/helldivers-api-cache/main/newData/currentPlanets.json"
-        
         Task {
             var entries: [MajorOrderEntry] = []
-            
-            guard let config = await apiService.fetchConfig() else {
-                print("config failed to load")
+
+            guard let data = await dataProvider.fetchOrderData() else {
                 completion(Timeline(entries: entries, policy: .atEnd))
                 return
             }
-            
-            let (planets, _, _) = await apiService.fetchPlanets(url: urlString, apiAddress: config.apiAddress, language: nil)
-            let (taskPlanets, majorOrders) = await apiService.fetchMajorOrder(season: config.season, planets: planets, language: nil)
-            let majorOrder = majorOrders.first
-            
+
+            let mo = data.majorOrder
             var finalTaskProgress: Double?
             var finalProgressString: String?
             var finalProgress: Double?
             var finalOrderType: TaskType?
-            
-            if let mo = majorOrder {
+
+            if let mo = mo {
                 if let firstErad = mo.eradicationProgress?.first {
                     finalTaskProgress = firstErad.progress
                     finalProgressString = firstErad.progressString
@@ -69,25 +63,21 @@ struct MajorOrderProvider: TimelineProvider {
                     finalOrderType = .missionExtract
                 }
             }
-            
+
             let entry = MajorOrderEntry(
-                            date: Date(),
-                            majorOrder: majorOrder,
-                            taskPlanets: taskPlanets,
-                            // We’re effectively mapping multi-task logic down to a single Double for the widget
-                            taskProgress: finalTaskProgress,
-                            factionColor: majorOrder?.faction?.color,
-                            progressString: finalProgressString,
-                            progress: finalProgress,
-                            orderType: finalOrderType
-                        )
-            
-            print("appending entry, this many planets: \(planets.count)")
-            
+                date: Date(),
+                majorOrder: mo,
+                taskPlanets: data.taskPlanets,
+                // We're effectively mapping multi-task logic down to a single Double for the widget
+                taskProgress: finalTaskProgress,
+                factionColor: mo?.faction?.color,
+                progressString: finalProgressString,
+                progress: finalProgress,
+                orderType: finalOrderType)
+
+            print("appending entry, this many planets: \(data.planets.count)")
             entries.append(entry)
-            
-            let timeline = Timeline(entries: entries, policy: .atEnd)
-            completion(timeline)
+            completion(Timeline(entries: entries, policy: .atEnd))
         }
     }
 }

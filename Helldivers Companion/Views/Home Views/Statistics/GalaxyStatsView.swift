@@ -226,7 +226,7 @@ struct GalaxyStatsView: View {
 }
 
 #Preview {
-    GalaxyStatsView().environment(PlanetsDataModel()).environment(NavigationPather()).environment(DatabaseModel())
+    GalaxyStatsView().environment(PlanetsDataModel.shared).environment(NavigationPather()).environment(DatabaseModel())
 }
 
 enum DatabasePage: String, CaseIterable {
