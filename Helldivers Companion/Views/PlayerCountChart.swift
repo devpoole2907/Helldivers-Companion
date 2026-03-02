@@ -207,7 +207,7 @@ struct PlayerCountRow: View {
 #if DEBUG
 @available(iOS 17.0, *)
 #Preview("Pie Chart") {
-    let model = PlanetsDataModel()
+    let model = PlanetsDataModel(apiService: MockAPIService())
     model.seedDistributionForPreview([
         PlayerDistributionItem(faction: "Terminids", count: 124500, color: .yellow, imageName: "terminid"),
         PlayerDistributionItem(faction: "Automatons", count: 89300, color: .red, imageName: "automaton"),

@@ -108,6 +108,6 @@ struct WatchOrdersView: View {
 #if DEBUG
 #Preview {
     WatchOrdersView()
-        .environment(PlanetsDataModel())
+        .environment(PlanetsDataModel(apiService: MockAPIService()))
 }
 #endif

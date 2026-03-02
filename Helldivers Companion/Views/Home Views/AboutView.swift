@@ -357,7 +357,7 @@ struct SettingsSheet: View {
 #if DEBUG
 #Preview {
     AboutView()
-        .environment(PlanetsDataModel())
+        .environment(PlanetsDataModel(apiService: MockAPIService()))
         .environment(NavigationPather())
         .background(.black)
 }

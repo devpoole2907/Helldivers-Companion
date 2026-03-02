@@ -148,6 +148,10 @@ struct GalaxyMapRootView: View {
     
 }
 
+#if DEBUG
 #Preview {
     GalaxyMapRootView()
+        .environment(PlanetsDataModel(apiService: MockAPIService()))
+        .environment(NavigationPather())
 }
+#endif

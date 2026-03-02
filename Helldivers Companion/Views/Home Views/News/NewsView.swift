@@ -137,7 +137,7 @@ struct NewsView: View {
     return NewsView()
         .environment(feedModel)
         .environment(NavigationPather())
-        .environment(PlanetsDataModel())
+        .environment(PlanetsDataModel(apiService: MockAPIService()))
         .environment(DatabaseModel())
         .background(.black)
 }

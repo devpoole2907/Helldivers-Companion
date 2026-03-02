@@ -259,7 +259,7 @@ extension String {
         StratagemDetailView(stratagem: stratagem)
     }
     .background(.black)
-    .environment(PlanetsDataModel())
+    .environment(PlanetsDataModel(apiService: MockAPIService()))
     .environment(DatabaseModel())
 }
 
@@ -275,7 +275,7 @@ extension String {
         StratagemDetailView(stratagem: stratagem)
     }
     .background(.black)
-    .environment(PlanetsDataModel())
+    .environment(PlanetsDataModel(apiService: MockAPIService()))
     .environment(DatabaseModel())
 }
 #endif

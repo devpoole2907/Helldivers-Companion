@@ -225,9 +225,14 @@ struct GalaxyStatsView: View {
     }
 }
 
+#if DEBUG
 #Preview {
-    GalaxyStatsView().environment(PlanetsDataModel.shared).environment(NavigationPather()).environment(DatabaseModel())
+    GalaxyStatsView()
+        .environment(PlanetsDataModel(apiService: MockAPIService()))
+        .environment(NavigationPather())
+        .environment(DatabaseModel())
 }
+#endif
 
 enum DatabasePage: String, CaseIterable {
     

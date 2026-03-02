@@ -85,14 +85,14 @@ struct PlayerCountView: View {
 #if DEBUG
 #Preview("Compact") {
     PlayerCountView(showFullSize: false)
-        .environment(PlanetsDataModel())
+        .environment(PlanetsDataModel(apiService: MockAPIService()))
         .padding()
         .background(.black)
 }
 
 #Preview("Full size") {
     PlayerCountView(showFullSize: true)
-        .environment(PlanetsDataModel())
+        .environment(PlanetsDataModel(apiService: MockAPIService()))
         .padding()
         .background(.black)
 }

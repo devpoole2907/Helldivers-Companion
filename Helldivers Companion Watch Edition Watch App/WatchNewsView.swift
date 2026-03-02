@@ -82,6 +82,6 @@ struct WatchNewsView: View {
 #Preview {
     WatchNewsView()
         .environment(NavigationPather())
-        .environment(PlanetsDataModel())
+        .environment(PlanetsDataModel(apiService: MockAPIService()))
 }
 #endif
