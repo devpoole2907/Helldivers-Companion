@@ -80,7 +80,7 @@ struct PersonalOrderView: View {
 #if DEBUG
 #Preview("No order") {
     PersonalOrderView()
-        .environment(PlanetsDataModel())
+        .environment(PlanetsDataModel(apiService: MockAPIService()))
         .background(.black)
 }
 #endif

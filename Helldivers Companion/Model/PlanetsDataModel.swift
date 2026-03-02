@@ -12,7 +12,7 @@ import Combine
 @MainActor @Observable
 class PlanetsDataModel {
     
-    static let shared = PlanetsDataModel()
+    static let shared = PlanetsDataModel(apiService: WarAPIService())
     
     // for during loading
     var isLoading: Bool = true
@@ -90,7 +90,11 @@ class PlanetsDataModel {
     @ObservationIgnored private var cacheTimer: Timer?
     
     @ObservationIgnored let netManager = NetworkManager.shared
-    @ObservationIgnored let apiService = WarAPIService()
+    @ObservationIgnored let apiService: any WarAPIServiceProtocol
+
+    init(apiService: any WarAPIServiceProtocol = WarAPIService()) {
+        self.apiService = apiService
+    }
     
     private(set) var totalPlayerCount: Int64 = 0
     private(set) var formattedPlayerCount: String = ""

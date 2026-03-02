@@ -184,7 +184,7 @@ struct GalaxyInfoView: View {
 
 #if DEBUG
 #Preview {
-    let model = PlanetsDataModel()
+    let model = PlanetsDataModel(apiService: MockAPIService())
     model.galaxyStats = GalaxyStats(
         missionsWon: 4_823_112,
         missionsLost: 612_048,

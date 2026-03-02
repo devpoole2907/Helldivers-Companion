@@ -170,9 +170,12 @@ struct OrderView: View {
     }
 }
 
+#if DEBUG
 #Preview {
-    OrderView().environment(PlanetsDataModel.shared)
+    OrderView()
+        .environment(PlanetsDataModel(apiService: MockAPIService()))
 }
+#endif
 
 
 struct TasksView: View {

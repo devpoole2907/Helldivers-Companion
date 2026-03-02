@@ -352,25 +352,25 @@ struct CampaignPlanetStatsView: View {
 #if DEBUG
 #Preview("Liberation") {
     CampaignPlanetStatsView(context: .mockLiberation)
-        .environment(PlanetsDataModel())
+        .environment(PlanetsDataModel(apiService: MockAPIService()))
         .background(.black)
 }
 
 #Preview("Defense") {
     CampaignPlanetStatsView(context: .mockDefense)
-        .environment(PlanetsDataModel())
+        .environment(PlanetsDataModel(apiService: MockAPIService()))
         .background(.black)
 }
 
 #Preview("Almost Liberated – Major Order") {
     CampaignPlanetStatsView(context: .mockAlmostLiberated)
-        .environment(PlanetsDataModel())
+        .environment(PlanetsDataModel(apiService: MockAPIService()))
         .background(.black)
 }
 
 #Preview("Inactive") {
     CampaignPlanetStatsView(context: .mockInactive)
-        .environment(PlanetsDataModel())
+        .environment(PlanetsDataModel(apiService: MockAPIService()))
         .background(.black)
 }
 #endif

@@ -9,7 +9,7 @@ import Foundation
 
 /// Thread-safe networking service extracted from PlanetsDataModel.
 /// No SwiftUI imports — works in app, widget, and watch targets.
-actor WarAPIService {
+actor WarAPIService: WarAPIServiceProtocol {
     
     private let netManager = NetworkManager.shared
     
