@@ -41,7 +41,7 @@ struct PlanetStatusProvider: TimelineProvider {
             
             let status = await apiService.fetchStatus(season: config.season)
             
-            let fleetStrengthResource = status?.globalResources.first { $0.id32 == 175685818}
+            let fleetStrengthResource = status?.globalResources.resource(for: .fleetStrength)
             
             let fleetStrengthProgress: Double = {
                 guard let resource = fleetStrengthResource else { return 0 }

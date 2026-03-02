@@ -319,7 +319,7 @@ class PlanetsDataModel {
     private(set) var playerDistribution: [PlayerDistributionItem] = []
 
     private func rebuildFleetStrength() {
-        let resource = status?.globalResources.first { $0.id32 == 175685818 }
+        let resource = status?.globalResources.resource(for: .fleetStrength)
         fleetStrengthResource = resource
         fleetStrengthProgress = resource.map { r in r.maxValue > 0 ? Double(r.currentValue) / Double(r.maxValue) : 0.0 } ?? 0
     }

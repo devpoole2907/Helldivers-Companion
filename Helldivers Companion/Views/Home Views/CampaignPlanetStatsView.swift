@@ -21,7 +21,7 @@ struct CampaignPlanetStatsView: View {
     
     var darkEnergyResource: GlobalResource? {
         guard let resources = viewModel.status?.globalResources else { return nil }
-        return resources.first { $0.id32 == 194773219 }
+        return resources.resource(for: .darkEnergy)
     }
     
     var darkEnergyProgress: Double {
