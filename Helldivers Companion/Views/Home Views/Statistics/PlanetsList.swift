@@ -77,3 +77,21 @@ struct PlanetsList: View {
 
     }
 }
+
+#if DEBUG
+#Preview {
+    NavigationStack {
+        PlanetsList()
+    }
+    .environment(PlanetsDataModel.preview(contexts: [
+        .mockLiberation,
+        .mockDefense,
+        .mockAlmostLiberated,
+        .mockInactive
+    ]))
+    .environment(NavigationPather())
+    .environment(DatabaseModel())
+    .background(.black)
+    .foregroundStyle(.white)
+}
+#endif

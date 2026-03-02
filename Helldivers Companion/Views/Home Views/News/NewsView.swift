@@ -125,3 +125,20 @@ struct NewsView: View {
         
     }
 }
+
+#if DEBUG
+#Preview {
+    let feedModel = NewsFeedModel()
+    feedModel.news = [
+        NewsFeed(id: 1, title: "OPERATION SWIFT DISASSEMBLY", message: "High Command has detected unusual Automaton movement in the Lacaille sector. All available Helldivers are to deploy immediately.", published: 0),
+        NewsFeed(id: 2, title: "TERMINID BREACH DETECTED", message: "A major Terminid swarm has broken containment in the Barnard sector. Emergency evacuation protocols are now in effect for all civilian outposts.", published: 0),
+        NewsFeed(id: 3, title: nil, message: "Super Earth Broadcasting: All Helldivers are reminded that cowardice is a capital offence.", published: 0)
+    ]
+    return NewsView()
+        .environment(feedModel)
+        .environment(NavigationPather())
+        .environment(PlanetsDataModel())
+        .environment(DatabaseModel())
+        .background(.black)
+}
+#endif

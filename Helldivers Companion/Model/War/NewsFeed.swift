@@ -19,6 +19,17 @@ struct NewsFeed: Decodable, Hashable {
     }
     
     // custom init handles decoding/processing of message to seperate to title/message if possible
+#if DEBUG
+    init(id: Int, title: String?, message: String?, published: UInt32?) {
+        self.id = id
+        self.title = title
+        self.message = message
+        self.published = published
+        self.tagIds = nil
+        self.type = nil
+    }
+#endif
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(Int.self, forKey: .id)

@@ -181,3 +181,32 @@ struct GalaxyInfoView: View {
         
     }
 }
+
+#if DEBUG
+#Preview {
+    let model = PlanetsDataModel()
+    model.galaxyStats = GalaxyStats(
+        missionsWon: 4_823_112,
+        missionsLost: 612_048,
+        missionTime: 0,
+        bugKills: 982_341_200,
+        automatonKills: 341_882_000,
+        illuminateKills: 57_210_000,
+        bulletsFired: 88_500_000_000,
+        bulletsHit: 24_300_000_000,
+        timePlayed: 0,
+        deaths: 48_200_000,
+        revives: 14_300_000,
+        friendlies: 1_230_000,
+        missionSuccessRate: 88,
+        accuracy: 27
+    )
+    return ScrollView {
+        GalaxyInfoView()
+            .environment(model)
+            .padding()
+    }
+    .background(.black)
+    .foregroundStyle(.white)
+}
+#endif

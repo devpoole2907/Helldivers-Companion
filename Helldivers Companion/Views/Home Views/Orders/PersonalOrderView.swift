@@ -76,3 +76,11 @@ struct PersonalOrderView: View {
         
     }
 }
+
+#if DEBUG
+#Preview("No order") {
+    PersonalOrderView()
+        .environment(PlanetsDataModel())
+        .background(.black)
+}
+#endif

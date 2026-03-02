@@ -706,3 +706,32 @@ struct RegionListView: View {
         .max(by: { $0.players < $1.players })
 }
 }
+
+#if DEBUG
+#Preview("Liberation") {
+    NavigationStack {
+        PlanetInfoView(planetIndex: 5)
+    }
+    .background(.black)
+    .environment(PlanetsDataModel.preview(contexts: [.mockLiberation]))
+    .environment(NavigationPather())
+}
+
+#Preview("Defense") {
+    NavigationStack {
+        PlanetInfoView(planetIndex: 5)
+    }
+    .background(.black)
+    .environment(PlanetsDataModel.preview(contexts: [.mockDefense]))
+    .environment(NavigationPather())
+}
+
+#Preview("Almost Liberated") {
+    NavigationStack {
+        PlanetInfoView(planetIndex: 12)
+    }
+    .background(.black)
+    .environment(PlanetsDataModel.preview(contexts: [.mockAlmostLiberated]))
+    .environment(NavigationPather())
+}
+#endif

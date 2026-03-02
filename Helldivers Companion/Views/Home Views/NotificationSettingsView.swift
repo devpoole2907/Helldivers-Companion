@@ -134,3 +134,11 @@ struct NotificationSettingsView: View {
     
     
 }
+
+#if DEBUG
+#Preview {
+    NotificationSettingsView()
+        .background(.black)
+        .foregroundStyle(.white)
+}
+#endif

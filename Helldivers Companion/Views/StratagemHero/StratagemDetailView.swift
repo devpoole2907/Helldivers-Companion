@@ -245,3 +245,37 @@ extension String {
         return self.components(separatedBy: CharacterSet.alphanumerics.inverted).joined().lowercased()
     }
 }
+
+#if DEBUG
+#Preview("Orbital Strike") {
+    let stratagem = Stratagem(
+        name: "Orbital Precision Strike",
+        sequence: [.right, .right, .up],
+        type: .orbital,
+        imageUrl: nil,
+        videoUrl: nil
+    )
+    return ScrollView {
+        StratagemDetailView(stratagem: stratagem)
+    }
+    .background(.black)
+    .environment(PlanetsDataModel())
+    .environment(DatabaseModel())
+}
+
+#Preview("Support Weapon") {
+    let stratagem = Stratagem(
+        name: "Stalwart",
+        sequence: [.down, .left, .down, .up, .right],
+        type: .hangar,
+        imageUrl: nil,
+        videoUrl: nil
+    )
+    return ScrollView {
+        StratagemDetailView(stratagem: stratagem)
+    }
+    .background(.black)
+    .environment(PlanetsDataModel())
+    .environment(DatabaseModel())
+}
+#endif

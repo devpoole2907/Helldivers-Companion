@@ -104,3 +104,10 @@ struct WatchOrdersView: View {
         }
     }
 }
+
+#if DEBUG
+#Preview {
+    WatchOrdersView()
+        .environment(PlanetsDataModel())
+}
+#endif

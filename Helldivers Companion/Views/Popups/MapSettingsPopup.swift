@@ -92,3 +92,17 @@ struct MapSettingsPopup: CentrePopup {
     
     
 }
+
+#if DEBUG
+#Preview {
+    @Previewable @State var supplyLines = true
+    @Previewable @State var allPlanets = false
+    @Previewable @State var planetNames = false
+    MapSettingsPopup(
+        showSupplyLines: $supplyLines,
+        showAllPlanets: $allPlanets,
+        showPlanetNames: $planetNames
+    ).createContent()
+        .background(.black)
+}
+#endif

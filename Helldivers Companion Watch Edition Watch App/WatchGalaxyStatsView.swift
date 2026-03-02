@@ -95,3 +95,16 @@ struct WatchGalaxyStatsView: View {
    
     }
 }
+
+#if DEBUG
+@available(watchOS 10.0, *)
+#Preview {
+    WatchGalaxyStatsView()
+        .environment(PlanetsDataModel.preview(contexts: [
+            .mockLiberation,
+            .mockDefense,
+            .mockAlmostLiberated
+        ]))
+        .environment(NavigationPather())
+}
+#endif

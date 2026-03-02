@@ -42,3 +42,14 @@ struct AngledLinesShape: Shape {
         return path
     }
 }
+
+#Preview("Angled lines background") {
+    Text("DEMOCRACY PREVAILS")
+        .font(Font.custom("FSSinclair-Bold", size: 20))
+        .foregroundStyle(.white)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 12)
+        .angledLinesBackground()
+        .padding()
+        .background(.black)
+}

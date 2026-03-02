@@ -30,3 +30,17 @@ struct CircularProgressView: View {
         }
     }
 }
+
+#Preview("50% progress") {
+    CircularProgressView(progress: 0.5, color: .black)
+        .frame(width: 60, height: 60)
+        .padding()
+        .background(.black)
+}
+
+#Preview("Full progress") {
+    CircularProgressView(progress: 1.0, color: .black)
+        .frame(width: 60, height: 60)
+        .padding()
+        .background(.black)
+}

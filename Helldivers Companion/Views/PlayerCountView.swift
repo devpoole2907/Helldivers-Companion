@@ -81,3 +81,19 @@ struct PlayerCountView: View {
        
     }
 }
+
+#if DEBUG
+#Preview("Compact") {
+    PlayerCountView(showFullSize: false)
+        .environment(PlanetsDataModel())
+        .padding()
+        .background(.black)
+}
+
+#Preview("Full size") {
+    PlayerCountView(showFullSize: true)
+        .environment(PlanetsDataModel())
+        .padding()
+        .background(.black)
+}
+#endif

@@ -33,3 +33,17 @@ struct CloseButton: UIViewRepresentable {
     
     func updateUIView(_ uiView: UIButton, context: Context) {}
 }
+
+#Preview("Default dismiss") {
+    CloseButton()
+        .frame(width: 44, height: 44)
+        .padding()
+        .background(.black)
+}
+
+#Preview("Custom action") {
+    CloseButton { print("custom close") }
+        .frame(width: 44, height: 44)
+        .padding()
+        .background(.black)
+}

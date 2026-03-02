@@ -348,3 +348,29 @@ struct CampaignPlanetStatsView: View {
     
     
 }
+
+#if DEBUG
+#Preview("Liberation") {
+    CampaignPlanetStatsView(context: .mockLiberation)
+        .environment(PlanetsDataModel())
+        .background(.black)
+}
+
+#Preview("Defense") {
+    CampaignPlanetStatsView(context: .mockDefense)
+        .environment(PlanetsDataModel())
+        .background(.black)
+}
+
+#Preview("Almost Liberated – Major Order") {
+    CampaignPlanetStatsView(context: .mockAlmostLiberated)
+        .environment(PlanetsDataModel())
+        .background(.black)
+}
+
+#Preview("Inactive") {
+    CampaignPlanetStatsView(context: .mockInactive)
+        .environment(PlanetsDataModel())
+        .background(.black)
+}
+#endif
