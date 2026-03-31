@@ -162,10 +162,30 @@ struct ContentView: View {
                 }
                 
                 if viewModel.isLoading {
-                    VStack {
+                    VStack(spacing: 12) {
                         Text("Please wait democratically".uppercased()).foregroundStyle(.white) .font(Font.custom("FSSinclair", size: mediumFont))
                         DualRingSpinner()
+                        if viewModel.loadingTakingLong {
+                            Text("Taking longer than usual...".uppercased())
+                                .foregroundStyle(.gray)
+                                .font(Font.custom("FSSinclair", size: smallFont))
+                                .transition(.opacity)
+                        }
                     }
+                }
+                
+                if !viewModel.isLoading && viewModel.fetchFailed && viewModel.updatedCampaigns.isEmpty {
+                    VStack(spacing: 12) {
+                        Text("Failed to connect to Super Earth High Command".uppercased())
+                            .foregroundStyle(.white)
+                            .font(Font.custom("FSSinclair", size: mediumFont))
+                            .multilineTextAlignment(.center)
+                        Text("Retrying...".uppercased())
+                            .foregroundStyle(.gray)
+                            .font(Font.custom("FSSinclair", size: smallFont))
+                        DualRingSpinner()
+                    }
+                    .padding()
                 }
                 
             }

@@ -16,6 +16,8 @@ class PlanetsDataModel {
     
     // for during loading
     var isLoading: Bool = true
+    var fetchFailed: Bool = false
+    var loadingTakingLong: Bool = false
     
     var showPlayerCount: Bool = false
     
@@ -122,11 +124,31 @@ class PlanetsDataModel {
         
         let language = enableLocalization ? apiSupportedLanguage : nil
         
+        // Start a timer to show "taking longer than usual" after 10s
+        let slowLoadTask: Task<Void, Never>? = isInitialLoad ? Task { @MainActor in
+            try? await Task.sleep(for: .seconds(10))
+            if !Task.isCancelled && self.isLoading {
+                withAnimation {
+                    self.loadingTakingLong = true
+                }
+            }
+        } : nil
+        
         // 1. Config must come first — it gates everything else
         guard let config = await apiService.fetchConfig() else {
             print("config failed to load")
+            slowLoadTask?.cancel()
+            if isInitialLoad {
+                withAnimation {
+                    self.fetchFailed = true
+                    self.isLoading = false
+                    self.loadingTakingLong = false
+                }
+            }
             return
         }
+        
+        self.fetchFailed = false
         
         // 2. Fire independent fetches in parallel
         async let warTimeResult = apiService.fetchWarTime(season: config.season)
@@ -202,9 +224,14 @@ class PlanetsDataModel {
             self.rebuildPlayerDistribution()
         }
 
+        slowLoadTask?.cancel()
+        
         if isInitialLoad {
             withAnimation {
+                // If all key data came back empty, treat as a failed fetch
+                self.fetchFailed = self.updatedCampaigns.isEmpty && self.updatedPlanets.isEmpty
                 self.isLoading = false
+                self.loadingTakingLong = false
             }
         }
     }
@@ -224,8 +251,11 @@ class PlanetsDataModel {
         timer = Timer.scheduledTimer(withTimeInterval: 45, repeats: true) {
             [weak self] _ in
             guard let self = self else { return }
-            Task {
-                await self.refreshAll()
+            Task { @MainActor in
+                // If the initial load never succeeded (e.g. config fetch failed),
+                // retry as an initial load so isLoading can be cleared on success.
+                let needsInitialLoad = self.updatedCampaigns.isEmpty && self.updatedPlanets.isEmpty
+                await self.refreshAll(isInitialLoad: needsInitialLoad)
             }
         }
     }
