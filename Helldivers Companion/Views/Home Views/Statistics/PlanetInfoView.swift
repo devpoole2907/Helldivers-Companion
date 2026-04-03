@@ -100,11 +100,8 @@ struct PlanetInfoView: View {
             
             
         }).padding(.horizontal)
-            .padding(.vertical, 5)
-            .frame(height: 40)
-            .background(Material.thin)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .shadow(radius: 3)
+            .padding(.vertical, 4)
+            .modifier(MajorOrderButtonStyleModifier())
         
         
         
@@ -229,8 +226,9 @@ struct PlanetInfoView: View {
 #if os(iOS)
             
             if viewModel.currentTab != .map {
-                viewOnMapButton.padding(.bottom, 60)
+                viewOnMapButton
                     .padding(.trailing, 10)
+                    .modifier(FloatingButtonBottomPaddingModifier())
                     .transition(.opacity)
             }
             
