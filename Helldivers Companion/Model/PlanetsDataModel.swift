@@ -573,6 +573,20 @@ enum Tab: String, CaseIterable {
             return "cart.fill"
         }
     }
+    
+    /// Outline variants for the native tab bar — system auto-selects filled when in a tab bar.
+    var outlineSystemImage: String {
+        switch self {
+        case .home: return "scope"
+        case .game: return "gamecontroller"
+        case .news: return "newspaper"
+        case .about: return "info.circle"
+        case .orders: return "target"
+        case .stats: return "globe.americas"
+        case .map: return "map"
+        case .tipJar: return "cart"
+        }
+    }
 }
 
 #if DEBUG

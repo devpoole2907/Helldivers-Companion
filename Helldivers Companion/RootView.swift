@@ -62,52 +62,15 @@ struct RootView: View {
         @Bindable var newsNavPather = newsNavPather
         @Bindable var mapNavPather = mapNavPather
         ZStack(alignment: .bottomTrailing) {
-        ZStack(alignment: .bottom){
-            TabView(selection: $viewModel.currentTab) {
-                
-                ContentView().environment(viewModel).environment(contentNavPather).environment(dbModel)
-                    .tag(Tab.home)
-                
-                    .task {
-                        await notificationManager.request()
-                    }
-                
-                GalaxyMapRootView().environment(viewModel).environment(mapNavPather)
-                    .tag(Tab.map)
-              
-                GameView().environment(viewModel)
-                    .tag(Tab.game)
-                
-                GalaxyStatsView().environment(viewModel).environment(statsNavPather).environment(dbModel)
-                    .tag(Tab.stats)
-                
-              
-                
-                NewsView().environment(newsNavPather).environment(viewModel).environment(dbModel).environment(newsModel)
-                    .tag(Tab.news)
-                
-             
-                
-              
-                
-              
-                
-                
-                
-                
+        Group {
+            if #available(iOS 26, *) {
+                nativeTabView
+            } else {
+                legacyTabView
             }
-            tabButtons
-            
-            
-
-            
-            
         }.task {
             await notificationManager.getAuthStatus()
         }
-            
-        .ignoresSafeArea()
-        .ignoresSafeArea(.keyboard)
             
         .onReceive(viewModel.popMapToRoot) { _ in
                    // switch to map tab
@@ -180,6 +143,9 @@ struct RootView: View {
             
         .onChange(of: viewModel.currentTab) {
                         updateMajorOrderButtonVisibility()
+                        if viewModel.currentTab == .news {
+                            newsModel.markNewsAsSeen()
+                        }
                     }
                     .onChange(of: contentNavPather.navigationPath) {
                         updateMajorOrderButtonVisibility()
@@ -195,22 +161,12 @@ struct RootView: View {
 #if os(iOS)
             if showMajorOrderButton {
                 VStack(alignment: .trailing, spacing: 10) {
-                    
-                    
-                    
                     majorOrderButton
-                    // gone now :(
-                  /*  personalOrderButton
-                    superStoreButton */
-                    
-                }.padding(.bottom, 60)
-                    .padding(.trailing, 10)
-                    .transition(.opacity)
-                
+                }
+                .modifier(MajorOrderButtonPaddingModifier())
+                .transition(.opacity)
             }
-        
-                
-                #endif
+            #endif
         }.hapticFeedback(.selection, trigger: contentNavPather.navigationPath)
             .hapticFeedback(.selection, trigger: statsNavPather.navigationPath)
             .hapticFeedback(.selection, trigger: mapNavPather.navigationPath)
@@ -274,11 +230,8 @@ struct RootView: View {
             
             
         }.padding(.horizontal)
-            .padding(.vertical, 5)
-            .frame(height: 40)
-            .background(Material.thin)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .shadow(radius: 3)
+            .padding(.vertical, 4)
+            .modifier(MajorOrderButtonStyleModifier())
    
          //   .disabled(dbModel.storeRotation == nil)
         
@@ -287,16 +240,10 @@ struct RootView: View {
     }
     
     var majorOrderButton: some View {
-        
         Button(action: {
-            
-            OrdersPopup(viewModel: viewModel)
-            
-                        .showAndStack()
-            
-            
-        }){
-            HStack(spacing: 6){
+            OrdersPopup(viewModel: viewModel).showAndStack()
+        }) {
+            HStack(spacing: 6) {
                 Text("Major Order").textCase(.uppercase).tint(.white).fontWeight(.heavy)
                     .font(Font.custom("FSSinclair", size: 16))
                 
@@ -305,18 +252,10 @@ struct RootView: View {
                         .padding(.bottom, 2)
                 }
             }
-            
-            
-        }.padding(.horizontal)
-            .padding(.vertical, 5)
-            .frame(height: 40)
-            .background(Material.thin)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .shadow(radius: 3)
-         
-       
-
-        
+            .padding(.horizontal)
+            .padding(.vertical, 4)
+        }
+        .modifier(MajorOrderButtonStyleModifier())
     }
     
     var personalOrderButton: some View {
@@ -341,15 +280,108 @@ struct RootView: View {
             
             
         }.padding(.horizontal)
-            .padding(.vertical, 5)
-            .frame(height: 40)
-            .background(Material.thin)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .shadow(radius: 3)
+            .padding(.vertical, 4)
+            .modifier(MajorOrderButtonStyleModifier())
     }
     
     
     
+    private var majorOrderBottomPadding: CGFloat {
+        // Legacy only — iOS 26 uses safeAreaPadding instead
+        return 60
+    }
+
+    private var legacyTabView: some View {
+        ZStack(alignment: .bottom) {
+            TabView(selection: $viewModel.currentTab) {
+                ContentView().environment(viewModel).environment(contentNavPather).environment(dbModel)
+                    .tag(Tab.home)
+                    .task { await notificationManager.request() }
+
+                GalaxyMapRootView().environment(viewModel).environment(mapNavPather)
+                    .tag(Tab.map)
+
+                GameView().environment(viewModel)
+                    .tag(Tab.game)
+
+                GalaxyStatsView().environment(viewModel).environment(statsNavPather).environment(dbModel)
+                    .tag(Tab.stats)
+
+                NewsView().environment(newsNavPather).environment(viewModel).environment(dbModel).environment(newsModel)
+                    .tag(Tab.news)
+            }
+            .toolbar(.hidden, for: .tabBar)
+            tabButtons
+        }
+        .ignoresSafeArea()
+        .ignoresSafeArea(.keyboard)
+    }
+
+    @available(iOS 26, *)
+    private var nativeTabView: some View {
+        // Custom binding that handles re-tapping the current tab to pop to root / scroll to top
+        let tabBinding = Binding<Tab>(
+            get: { viewModel.currentTab },
+            set: { newTab in
+                if newTab == viewModel.currentTab {
+                    // Re-tapped the current tab — replicate legacy tab button pop-to-root logic
+                    switch newTab {
+                    case .home:
+                        if let scrollPos = contentNavPather.scrollPosition, scrollPos > 0, contentNavPather.navigationPath.isEmpty {
+                            withAnimation(.bouncy) { contentNavPather.scrollPosition = 0 }
+                        } else {
+                            contentNavPather.popToRoot()
+                        }
+                    case .map:
+                        mapNavPather.popToRoot()
+                    case .stats:
+                        if let scrollPos = statsNavPather.scrollPosition, scrollPos > 0, statsNavPather.navigationPath.isEmpty {
+                            withAnimation(.bouncy) { statsNavPather.scrollPosition = 0 }
+                        } else {
+                            statsNavPather.popToRoot()
+                        }
+                    case .news:
+                        if let scrollPos = newsNavPather.scrollPosition, scrollPos > 0, newsNavPather.navigationPath.isEmpty {
+                            withAnimation(.bouncy) { newsNavPather.scrollPosition = 0 }
+                        } else {
+                            newsNavPather.popToRoot()
+                        }
+                    default:
+                        break
+                    }
+                } else {
+                    viewModel.currentTab = newTab
+                }
+            }
+        )
+
+        return TabView(selection: tabBinding) {
+            SwiftUI.Tab(Tab.home.localizedName, systemImage: Tab.home.outlineSystemImage, value: Tab.home) {
+                ContentView().environment(viewModel).environment(contentNavPather).environment(dbModel)
+                    .task { await notificationManager.request() }
+            }
+
+            SwiftUI.Tab(Tab.map.localizedName, systemImage: Tab.map.outlineSystemImage, value: Tab.map) {
+                GalaxyMapRootView().environment(viewModel).environment(mapNavPather)
+            }
+
+            SwiftUI.Tab(Tab.game.localizedName, systemImage: Tab.game.outlineSystemImage, value: Tab.game) {
+                GameView().environment(viewModel)
+            }
+
+            SwiftUI.Tab(Tab.stats.localizedName, systemImage: Tab.stats.outlineSystemImage, value: Tab.stats) {
+                GalaxyStatsView().environment(viewModel).environment(statsNavPather).environment(dbModel)
+            }
+
+            SwiftUI.Tab(Tab.news.localizedName, systemImage: Tab.news.outlineSystemImage, value: Tab.news) {
+                NewsView().environment(newsNavPather).environment(viewModel).environment(dbModel).environment(newsModel)
+            }
+            .badge(newsModel.newItemsCount)
+        }
+        .tabBarMinimizeBehavior(.onScrollDown)
+        .labelsVisibility(.hidden)
+    }
+
     var tabButtons: some View {
         VStack(spacing: 0){
             HStack(spacing: -6) {
