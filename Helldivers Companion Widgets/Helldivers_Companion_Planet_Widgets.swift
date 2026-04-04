@@ -86,6 +86,8 @@ struct PlanetStatusProvider: TimelineProvider {
                     campaignType: 0
                 )
                 entries.append(fallback)
+                completion(Timeline(entries: entries, policy: .after(Date().addingTimeInterval(5 * 60))))
+                return
             }
 
             completion(Timeline(entries: entries, policy: .atEnd))
