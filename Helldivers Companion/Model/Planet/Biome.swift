@@ -6,7 +6,7 @@
 //
 
 
-struct Biome: Decodable {
+struct Biome: Codable {
     var name: String
     var description: String
 }

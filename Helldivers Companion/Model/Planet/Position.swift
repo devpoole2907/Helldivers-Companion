@@ -6,7 +6,7 @@
 //
 
 
-struct Position: Decodable {
+struct Position: Codable {
     let x: Double
     let y: Double
 }

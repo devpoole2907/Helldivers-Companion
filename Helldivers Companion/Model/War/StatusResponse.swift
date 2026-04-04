@@ -7,6 +7,7 @@
 
 
 struct StatusResponse: Codable {
+    let time: Int64?
     let planetActiveEffects: [GalacticEffect]
     let globalResources: [GlobalResource]
 }

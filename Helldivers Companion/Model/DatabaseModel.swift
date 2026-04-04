@@ -193,32 +193,42 @@ class DatabaseModel {
     
     func startUpdating() {
         Task {
-         
-                // fetch armour slots first
-                await fetchItems(for: .armourSlots)
-                print("Fetched armour slots")
-                
-                // try fetch and remap store rotation separately
-                do {
-                    let storeRotation = try await fetchAndRemapStoreRotation(with: self.armourSlots)
-                    await MainActor.run {
-                        withAnimation(.bouncy) {
-                            self.storeRotation = storeRotation
+            // 1. Fetch armour slots first — needed by store rotation remap
+            await fetchItems(for: .armourSlots)
+            print("Fetched armour slots")
+            
+            // 2. Fetch store rotation (depends on armourSlots) and all remaining
+            //    items in parallel using a task group.
+            let slotsSnapshot = self.armourSlots
+            await withTaskGroup(of: Void.self) { group in
+                // Store rotation depends on armourSlots but is independent of other items
+                group.addTask {
+                    do {
+                        let storeRotation = try await self.fetchAndRemapStoreRotation(with: slotsSnapshot)
+                        await MainActor.run {
+                            withAnimation(.bouncy) {
+                                self.storeRotation = storeRotation
+                            }
                         }
+                    } catch {
+                        print("Failed to fetch store rotation: \(error)")
                     }
-                } catch {
-                    print("Failed to fetch store rotation: \(error)")
                 }
                 
-     
-                for itemType in ItemToFetch.allCases {
-                    await fetchItems(for: itemType)
+                // All item types except armourSlots (already fetched above)
+                for itemType in ItemToFetch.allCases where itemType != .armourSlots {
+                    group.addTask {
+                        await self.fetchItems(for: itemType)
+                    }
                 }
                 
-                await fetchAllWarBonds()
-        
-                setupTimer()
-           
+                // War bonds in the same group
+                group.addTask {
+                    await self.fetchAllWarBonds()
+                }
+            }
+            
+            setupTimer()
         }
     }
     
@@ -326,7 +336,6 @@ class DatabaseModel {
     func fetchAllWarBonds() async {
         do {
             let files = try await netManager.fetchFileList(from: "https://api.github.com/repos/helldivers-2/json/contents/warbonds")
-                    print("fetched war bond file list: \(files.count)")
             print("fetched war bond file list: \(files.count)")
             for file in files {
                 guard let url = URL(string: file.downloadUrl) else {

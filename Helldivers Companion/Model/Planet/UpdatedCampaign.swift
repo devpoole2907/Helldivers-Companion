@@ -6,7 +6,7 @@
 //
 
 
-struct UpdatedCampaign: Decodable, Hashable {
+struct UpdatedCampaign: Codable, Hashable {
     
     static func == (lhs: UpdatedCampaign, rhs: UpdatedCampaign) -> Bool {
         return lhs.id == rhs.id

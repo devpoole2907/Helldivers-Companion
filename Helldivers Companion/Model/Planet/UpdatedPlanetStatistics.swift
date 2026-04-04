@@ -6,7 +6,7 @@
 //
 
 
-struct UpdatedPlanetStatistics: Decodable {
+struct UpdatedPlanetStatistics: Codable {
     var missionsWon: Int64
     var missionsLost: Int64
     var missionTime: Int64

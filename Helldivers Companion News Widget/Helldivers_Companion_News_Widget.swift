@@ -41,7 +41,8 @@ struct Provider: TimelineProvider {
             let news = await newsModel.fetchNewsFeed(config: config, true)
             print("[Widget] Fetched \(news.count) news items.")
 
-            let warTime = await apiService.fetchWarTime(season: config.season)
+            let status = await apiService.fetchStatus(season: config.season)
+            let warTime = status?.time
             if warTime != nil {
                 print("[Widget] War time fetched: \(warTime!)")
             } else {

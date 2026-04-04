@@ -554,6 +554,16 @@
 		7CE7F0CA2F55546100B21D2E /* PlanetContext+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE7F0C22F55546100B21D2E /* PlanetContext+Mocks.swift */; };
 		7CE7F0CB2F55546100B21D2E /* PlanetContext+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE7F0C22F55546100B21D2E /* PlanetContext+Mocks.swift */; };
 		7CE7F0CC2F55546100B21D2E /* PlanetContext+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE7F0C22F55546100B21D2E /* PlanetContext+Mocks.swift */; };
+		7CE82DE02F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE82DDF2F80A63A00DFD018 /* PlanetsDataModel+Cache.swift */; };
+		7CE82DE12F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE82DDF2F80A63A00DFD018 /* PlanetsDataModel+Cache.swift */; };
+		7CE82DE22F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE82DDF2F80A63A00DFD018 /* PlanetsDataModel+Cache.swift */; };
+		7CE82DE32F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE82DDF2F80A63A00DFD018 /* PlanetsDataModel+Cache.swift */; };
+		7CE82DE42F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE82DDF2F80A63A00DFD018 /* PlanetsDataModel+Cache.swift */; };
+		7CE82DE52F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE82DDF2F80A63A00DFD018 /* PlanetsDataModel+Cache.swift */; };
+		7CE82DE62F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE82DDF2F80A63A00DFD018 /* PlanetsDataModel+Cache.swift */; };
+		7CE82DE72F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE82DDF2F80A63A00DFD018 /* PlanetsDataModel+Cache.swift */; };
+		7CE82DE82F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE82DDF2F80A63A00DFD018 /* PlanetsDataModel+Cache.swift */; };
+		7CE82DE92F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE82DDF2F80A63A00DFD018 /* PlanetsDataModel+Cache.swift */; };
 		7CE97D382BB51D5D008329BA /* MijickPopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 7CE97D372BB51D5D008329BA /* MijickPopupView */; };
 		7CE97D3B2BB51DE9008329BA /* CentrePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */; };
 		7CE97D3D2BB53D2E008329BA /* TipJarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE97D3C2BB53D2E008329BA /* TipJarView.swift */; };
@@ -860,6 +870,7 @@
 		7CD803692F543BAF006D549B /* DarkGradientOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkGradientOverlay.swift; sourceTree = "<group>"; };
 		7CE4AE3C2BA832C40033D4AF /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		7CE7F0C22F55546100B21D2E /* PlanetContext+Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlanetContext+Mocks.swift"; sourceTree = "<group>"; };
+		7CE82DDF2F80A63A00DFD018 /* PlanetsDataModel+Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlanetsDataModel+Cache.swift"; sourceTree = "<group>"; };
 		7CE97D3A2BB51DE9008329BA /* CentrePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentrePopup.swift; sourceTree = "<group>"; };
 		7CE97D3C2BB53D2E008329BA /* TipJarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarView.swift; sourceTree = "<group>"; };
 		7CE97D3F2BB5414C008329BA /* GalaxyStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalaxyStatsView.swift; sourceTree = "<group>"; };
@@ -1149,6 +1160,7 @@
 				7CE7F0C22F55546100B21D2E /* PlanetContext+Mocks.swift */,
 				7C4C43BC2F557E9E0073CBF5 /* WarAPIServiceProtocol.swift */,
 				7C4C43C72F557EBC0073CBF5 /* MockAPIService.swift */,
+				7CE82DDF2F80A63A00DFD018 /* PlanetsDataModel+Cache.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2123,6 +2135,7 @@
 				7CE4AE3D2BA832C40033D4AF /* NotificationManager.swift in Sources */,
 				7CD803532F5439DF006D549B /* StatRow.swift in Sources */,
 				7CAAFFDA2C475C4000488CF9 /* PlanetsDataModel.swift in Sources */,
+				7CE82DE32F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */,
 				7CC284CF2BD9310A0036EBFD /* ItemDetailView.swift in Sources */,
 				7C4589C42BA574B20019B00E /* ShakeModifier.swift in Sources */,
 				7CD803442F543489006D549B /* DashedRowBackgroundModifier.swift in Sources */,
@@ -2202,6 +2215,7 @@
 				7C0DF62B2BB96D530062AB9B /* NavigationPather.swift in Sources */,
 				7CC329FD2F4C30F300703873 /* WarAPIService.swift in Sources */,
 				7CBC0E452BDDB954008ED950 /* CacheManager.swift in Sources */,
+				7CE82DE82F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */,
 				7CE7F0CB2F55546100B21D2E /* PlanetContext+Mocks.swift in Sources */,
 				7CD8030E2F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7CD803332F5431A5006D549B /* WhiteCircleBackgroundModifier.swift in Sources */,
@@ -2223,6 +2237,7 @@
 				7CD803492F5436CA006D549B /* StatsCard.swift in Sources */,
 				7CD8030D2F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7CC0D1A02F4D592300BA4DB6 /* TaskType.swift in Sources */,
+				7CE82DE72F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */,
 				7C9062572C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7CD803342F5431A5006D549B /* WhiteCircleBackgroundModifier.swift in Sources */,
 				7C8C5F282BAE80D300C4FBD2 /* PlanetView.swift in Sources */,
@@ -2276,6 +2291,7 @@
 				7C44B7F72BC945710097C29B /* PlayerCountView.swift in Sources */,
 				7CE7F0CA2F55546100B21D2E /* PlanetContext+Mocks.swift in Sources */,
 				7CD8036C2F543BAF006D549B /* DarkGradientOverlay.swift in Sources */,
+				7CE82DE42F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */,
 				7C274A582BE436C500F90369 /* ShakeModifier.swift in Sources */,
 				7C418DBE2DE16D8E0027A05D /* DualRingSpinner.swift in Sources */,
 				7C88C3412F501B080084538A /* LiberationType.swift in Sources */,
@@ -2321,6 +2337,7 @@
 				7CD8033D2F543489006D549B /* DashedRowBackgroundModifier.swift in Sources */,
 				7CD803322F5431A5006D549B /* WhiteCircleBackgroundModifier.swift in Sources */,
 				7C7F3B8E2F554A5900A25274 /* WidgetDataProvider.swift in Sources */,
+				7CE82DE52F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */,
 				7C3446D02F4C057700157213 /* Faction.swift in Sources */,
 				7CD803142F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7C4C43C62F557E9E0073CBF5 /* WarAPIServiceProtocol.swift in Sources */,
@@ -2349,6 +2366,7 @@
 				7CD8033E2F543489006D549B /* DashedRowBackgroundModifier.swift in Sources */,
 				7CD803302F5431A5006D549B /* WhiteCircleBackgroundModifier.swift in Sources */,
 				7C7F3B8F2F554A5900A25274 /* WidgetDataProvider.swift in Sources */,
+				7CE82DE62F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */,
 				7C3446CE2F4C057700157213 /* Faction.swift in Sources */,
 				7CD803152F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7C4C43C52F557E9E0073CBF5 /* WarAPIServiceProtocol.swift in Sources */,
@@ -2420,6 +2438,7 @@
 				7CBC0E422BDDB954008ED950 /* CacheManager.swift in Sources */,
 				7C1B8C332BAD77A100944823 /* StratagemHeroModel.swift in Sources */,
 				7CF3E57F2DD942E1006CFB00 /* FleetStrengthView.swift in Sources */,
+				7CE82DE12F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */,
 				7CC284C52BD8DD790036EBFD /* BackgroundModifier.swift in Sources */,
 				7CD8032A2F543152006D549B /* HelldiversBorderModifier.swift in Sources */,
 				7CBC0E3B2BDB26F1008ED950 /* DatabaseModel.swift in Sources */,
@@ -2472,6 +2491,7 @@
 				7C88C3492F501B080084538A /* LiberationType.swift in Sources */,
 				7C4A6A992BD25D7800727FEC /* RectangleProgressBar.swift in Sources */,
 				7C8C5F422BAEF97200C4FBD2 /* RewardView.swift in Sources */,
+				7CE82DE92F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */,
 				7CC329FA2F4C30F300703873 /* WarAPIService.swift in Sources */,
 				7C4C43CB2F557EBC0073CBF5 /* MockAPIService.swift in Sources */,
 				7CD803382F5431A5006D549B /* WhiteCircleBackgroundModifier.swift in Sources */,
@@ -2514,6 +2534,7 @@
 				7C88C3462F501B080084538A /* LiberationType.swift in Sources */,
 				7C8C5F622BAF0C1900C4FBD2 /* OrderView.swift in Sources */,
 				7C8C5F5C2BAF0B1800C4FBD2 /* Helldivers_Companion_Major_Order_Widget.swift in Sources */,
+				7CE82DE02F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */,
 				7CC32A012F4C30F300703873 /* WarAPIService.swift in Sources */,
 				7C4C43D12F557EBC0073CBF5 /* MockAPIService.swift in Sources */,
 				7CD803312F5431A5006D549B /* WhiteCircleBackgroundModifier.swift in Sources */,
@@ -2569,6 +2590,7 @@
 				7CD8034B2F5436CA006D549B /* StatsCard.swift in Sources */,
 				7CD8030C2F542E26006D549B /* LayoutConstants.swift in Sources */,
 				7CC0D19E2F4D592300BA4DB6 /* TaskType.swift in Sources */,
+				7CE82DE22F80A63A00DFD018 /* PlanetsDataModel+Cache.swift in Sources */,
 				7C90625A2C4E47140033B8F5 /* AsyncImageView.swift in Sources */,
 				7CD803352F5431A5006D549B /* WhiteCircleBackgroundModifier.swift in Sources */,
 				7C45D4672BABEE770013A632 /* AngledLinesShape.swift in Sources */,

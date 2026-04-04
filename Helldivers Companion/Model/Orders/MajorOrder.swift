@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct MajorOrder: Decodable {
+struct MajorOrder: Codable {
     let id32: Int64 // this must be int64 to run on watchOS!
     let progress: [Int64]
     let expiresIn: Int64 // this must be int64 to run on watchOS!

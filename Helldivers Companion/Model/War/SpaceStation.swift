@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct SpaceStation: Decodable, Equatable {
+struct SpaceStation: Codable, Equatable {
     let id32: Int64
     let planet: UpdatedPlanet
     let electionEnd: String
@@ -30,7 +30,7 @@ struct SpaceStation: Decodable, Equatable {
     
 }
 
-struct SpaceStationDetails: Decodable, Equatable {
+struct SpaceStationDetails: Codable, Equatable {
     let id32: Int64
     let planetIndex: Int
     let lastElectionId: String?
@@ -41,7 +41,7 @@ struct SpaceStationDetails: Decodable, Equatable {
     let tacticalActions: [SpaceStationTacticalAction]
 }
 
-struct SpaceStationTacticalAction: Decodable, Equatable {
+struct SpaceStationTacticalAction: Codable, Equatable {
     let id32: Int64
     let mediaId32: Int64
     let name: String
@@ -54,7 +54,7 @@ struct SpaceStationTacticalAction: Decodable, Equatable {
     let activeEffectIds: [Int]
 }
 
-struct SpaceStationActionCost: Decodable, Equatable {
+struct SpaceStationActionCost: Codable, Equatable {
     let id: String
     let itemMixId: Int64
     let targetValue: Double

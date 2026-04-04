@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Setting: Decodable {
+struct Setting: Codable {
     let type: Int
     let overrideTitle: String
     let overrideBrief: String
@@ -27,7 +27,7 @@ struct Setting: Decodable {
         }
     }
 
-    struct Task: Decodable, Equatable, Hashable {
+    struct Task: Codable, Equatable, Hashable {
         let type: Int
         let values: [Int64]
         let valueTypes: [Int]
@@ -190,7 +190,7 @@ struct Setting: Decodable {
             
         }
 
-    struct Reward: Decodable {
+    struct Reward: Codable {
         let type: Int
         let id32: Int
         let amount: Int

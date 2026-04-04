@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct UpdatedPlanet: Decodable, Hashable {
+struct UpdatedPlanet: Codable, Hashable {
     
     static func == (lhs: UpdatedPlanet, rhs: UpdatedPlanet) -> Bool {
         return lhs.index == rhs.index

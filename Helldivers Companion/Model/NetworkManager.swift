@@ -22,7 +22,7 @@ class NetworkManager {
             
             if let headers = headers {
                 for (key, value) in headers {
-                    request.addValue(value, forHTTPHeaderField: key)
+                    request.setValue(value, forHTTPHeaderField: key)
                 }
             }
             

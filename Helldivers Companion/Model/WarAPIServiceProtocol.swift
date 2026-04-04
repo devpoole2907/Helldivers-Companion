@@ -14,9 +14,6 @@ protocol WarAPIServiceProtocol: Actor {
     // MARK: - Config
     func fetchConfig() async -> RemoteConfigDetails?
 
-    // MARK: - War Time
-    func fetchWarTime(season: String) async -> Int64?
-
     // MARK: - Status
     func fetchStatus(season: String) async -> StatusResponse?
 
