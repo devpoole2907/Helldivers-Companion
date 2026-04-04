@@ -45,11 +45,12 @@ extension PlanetsDataModel {
 
 extension PlanetsDataModel {
 
-    /// Encodes and writes the current state to disk atomically.
-    /// Call after a successful `refreshAll()` so the snapshot is always fresh.
+    /// Captures the current state into a snapshot and writes it to disk
+    /// on a background thread so encoding + I/O don't block the main actor.
     func saveSnapshot() {
         guard let url = Self.snapshotFileURL else { return }
 
+        // Capture all values on the main actor (cheap struct copies).
         let snapshot = CachedWarSnapshot(
             campaigns: updatedCampaigns,
             defenseCampaigns: updatedDefenseCampaigns,
@@ -68,12 +69,15 @@ extension PlanetsDataModel {
             savedAt: Date()
         )
 
-        do {
-            let data = try JSONEncoder().encode(snapshot)
-            try data.write(to: url, options: .atomicWrite)
-            print("Snapshot saved to disk (\(data.count) bytes).")
-        } catch {
-            print("Failed to save snapshot: \(error)")
+        // Encode and write on a background thread.
+        Task.detached(priority: .utility) {
+            do {
+                let data = try JSONEncoder().encode(snapshot)
+                try data.write(to: url, options: .atomicWrite)
+                print("Snapshot saved to disk (\(data.count) bytes).")
+            } catch {
+                print("Failed to save snapshot: \(error)")
+            }
         }
     }
 
@@ -114,6 +118,7 @@ extension PlanetsDataModel {
             showIlluminateUI = config.showIlluminate
         }
         if let stats = snapshot.galaxyStats { galaxyStats = stats }
+        lastUpdatedDate = snapshot.savedAt
 
         if !hasSetSelectedPlanet {
             selectedPlanet = snapshot.campaigns.first?.planet

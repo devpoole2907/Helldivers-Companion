@@ -336,7 +336,6 @@ class DatabaseModel {
     func fetchAllWarBonds() async {
         do {
             let files = try await netManager.fetchFileList(from: "https://api.github.com/repos/helldivers-2/json/contents/warbonds")
-                    print("fetched war bond file list: \(files.count)")
             print("fetched war bond file list: \(files.count)")
             for file in files {
                 guard let url = URL(string: file.downloadUrl) else {

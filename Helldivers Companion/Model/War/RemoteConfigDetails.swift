@@ -45,8 +45,8 @@ struct RemoteConfigDetails: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         alert = try container.decode(String.self, forKey: .alert)
         
-        let prominentAlertValue = try container.decode(String.self, forKey: .prominentAlert)
-        prominentAlert = prominentAlertValue.isEmpty ? nil : prominentAlertValue
+        let prominentAlertValue = try container.decodeIfPresent(String.self, forKey: .prominentAlert)
+        prominentAlert = (prominentAlertValue?.isEmpty ?? true) ? nil : prominentAlertValue
         season = try container.decode(String.self, forKey: .season)
         showIlluminate = try container.decode(Bool.self, forKey: .showIlluminate)
         apiAddress = try container.decode(String.self, forKey: .apiAddress)

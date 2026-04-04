@@ -233,8 +233,11 @@ class PlanetsDataModel {
             }
         }
 
-        // Persist a snapshot after every successful refresh so the next launch is instant.
-        if !updatedPlanets.isEmpty {
+        // Persist a snapshot only when this refresh actually returned fresh data.
+        // Check the local `planets` (from the network) rather than `updatedPlanets`
+        // (which may contain stale cache data) to avoid extending the snapshot TTL
+        // when the network returned nothing.
+        if !planets.isEmpty {
             saveSnapshot()
         }
     }
