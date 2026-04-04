@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct RemoteConfigDetails: Decodable {
+struct RemoteConfigDetails: Codable {
     var alert: String?
     var prominentAlert: String?
     var season: String

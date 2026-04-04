@@ -13,6 +13,14 @@ actor WarAPIService: WarAPIServiceProtocol {
     
     private let netManager = NetworkManager.shared
     
+    // MARK: - In-memory caches for semi-static reference JSON
+    // These are populated on first fetch and reused for the app session,
+    // eliminating 4 repeated GitHub downloads on every 45s refresh cycle.
+    private var cachedPlanetsJSON: [String: PlanetsDataModel.PlanetJSON]?
+    private var cachedBiomesJSON: [String: Biome]?
+    private var cachedEnvironmentalsJSON: [String: Environmental]?
+    private var cachedEffectDefinitions: [Int: PlanetEffectJSON]?
+    
     // MARK: - Config
     
     func fetchConfig() async -> RemoteConfigDetails? {
@@ -25,20 +33,6 @@ actor WarAPIService: WarAPIServiceProtocol {
             return configData
         } catch {
             print("Failed to fetch config: \(error)")
-            return nil
-        }
-    }
-    
-    // MARK: - War Time
-    
-    func fetchWarTime(season: String = "801") async -> Int64? {
-        let urlString = "https://api.live.prod.thehelldiversgame.com/api/WarSeason/\(season)/Status"
-        
-        do {
-            let response: WarStatusResponse = try await netManager.fetchData(from: urlString)
-            return response.time
-        } catch {
-            print("Error fetching war time: \(error)")
             return nil
         }
     }
@@ -358,6 +352,11 @@ actor WarAPIService: WarAPIServiceProtocol {
     // MARK: - Planet Data Merging Helpers
     
     func fetchGalacticEffectDefinitions() async -> [Int: PlanetEffectJSON] {
+        if let cached = cachedEffectDefinitions {
+            print("Using cached effect definitions.")
+            return cached
+        }
+        
         let urlString = "https://raw.githubusercontent.com/CrosswaveOmega/json/refs/heads/master/effects/planetEffects.json"
         do {
             let planetEffectsDict: [String: PlanetEffectJSON] = try await netManager.fetchData(from: urlString)
@@ -368,6 +367,7 @@ actor WarAPIService: WarAPIServiceProtocol {
                     result[effectId] = value
                 }
             }
+            cachedEffectDefinitions = result
             return result
             
         } catch {
@@ -416,40 +416,35 @@ actor WarAPIService: WarAPIServiceProtocol {
         print("Calling planet update...")
         
         do {
-            print("Fetching planets JSON...")
+            // Use cached values when available; fetch all three in parallel on first call.
             let planetsJSON: [String: PlanetsDataModel.PlanetJSON]
-            do {
-                planetsJSON = try await netManager.fetchData(
+            let biomesJSON: [String: Biome]
+            let environmentalsJSON: [String: Environmental]
+            
+            if let p = cachedPlanetsJSON, let b = cachedBiomesJSON, let e = cachedEnvironmentalsJSON {
+                planetsJSON = p
+                biomesJSON = b
+                environmentalsJSON = e
+                print("Using cached reference JSON (planets/biomes/environmentals).")
+            } else {
+                print("Fetching planets/biomes/environmentals JSON in parallel...")
+                async let planetsResult: [String: PlanetsDataModel.PlanetJSON] = netManager.fetchData(
                     from: "https://raw.githubusercontent.com/helldivers-2/json/master/planets/planets.json"
                 )
-                print("Successfully fetched planets JSON with \(planetsJSON.count) entries.")
-            } catch {
-                print("Failed to fetch planets JSON: \(error.localizedDescription)")
-                throw error
-            }
-            
-            print("Fetching biomes JSON...")
-            let biomesJSON: [String: Biome]
-            do {
-                biomesJSON = try await netManager.fetchData(
+                async let biomesResult: [String: Biome] = netManager.fetchData(
                     from: "https://raw.githubusercontent.com/helldivers-2/json/master/planets/biomes.json"
                 )
-                print("Successfully fetched biomes JSON with \(biomesJSON.count) entries.")
-            } catch {
-                print("Failed to fetch biomes JSON: \(error.localizedDescription)")
-                throw error
-            }
-            
-            print("Fetching environmentals JSON...")
-            let environmentalsJSON: [String: Environmental]
-            do {
-                environmentalsJSON = try await netManager.fetchData(
+                async let environmentalsResult: [String: Environmental] = netManager.fetchData(
                     from: "https://raw.githubusercontent.com/helldivers-2/json/master/planets/environmentals.json"
                 )
-                print("Successfully fetched environmentals JSON with \(environmentalsJSON.count) entries.")
-            } catch {
-                print("Failed to fetch environmentals JSON: \(error.localizedDescription)")
-                throw error
+                planetsJSON = try await planetsResult
+                biomesJSON = try await biomesResult
+                environmentalsJSON = try await environmentalsResult
+                
+                cachedPlanetsJSON = planetsJSON
+                cachedBiomesJSON = biomesJSON
+                cachedEnvironmentalsJSON = environmentalsJSON
+                print("Fetched and cached reference JSON (\(planetsJSON.count) planets, \(biomesJSON.count) biomes, \(environmentalsJSON.count) environmentals).")
             }
             
             print("Updating planet data with fetched JSON...")

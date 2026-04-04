@@ -26,16 +26,10 @@ actor MockAPIService: WarAPIServiceProtocol {
         )
     }
 
-    // MARK: - War Time
-
-    func fetchWarTime(season: String) async -> Int64? {
-        9_876_543
-    }
-
     // MARK: - Status
 
     func fetchStatus(season: String) async -> StatusResponse? {
-        nil
+        StatusResponse(time: 9_876_543, planetActiveEffects: [], globalResources: [])
     }
 
     // MARK: - Space Stations

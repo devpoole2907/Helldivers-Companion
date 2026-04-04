@@ -6,7 +6,7 @@
 //
 
 
-struct PersonalOrder: Decodable {
+struct PersonalOrder: Codable {
     let id32: Int64
     let progress: [Int64]? // optional progress
     let expiresIn: Int64 // time in seconds until expiration

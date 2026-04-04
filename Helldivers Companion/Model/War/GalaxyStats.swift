@@ -7,7 +7,7 @@
 
 
 // for galaxy statistics reponse
-struct GalaxyStats: Decodable {
+struct GalaxyStats: Codable {
     let missionsWon: Int64
     let missionsLost: Int64
     let missionTime: Int64

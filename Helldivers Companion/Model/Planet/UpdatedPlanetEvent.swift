@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct UpdatedPlanetEvent: Decodable {
+struct UpdatedPlanetEvent: Codable {
     
     var id: Int
     var eventType: Int64

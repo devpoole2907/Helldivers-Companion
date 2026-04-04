@@ -151,17 +151,20 @@ class PlanetsDataModel {
         self.fetchFailed = false
         
         // 2. Fire independent fetches in parallel
-        async let warTimeResult = apiService.fetchWarTime(season: config.season)
         async let statusResult = apiService.fetchStatus(season: config.season)
         async let campaignsResult = apiService.fetchCampaigns(url: nil, apiAddress: config.apiAddress, language: language)
         async let spaceStationsResult = apiService.fetchSpaceStations(apiAddress: config.apiAddress, language: language)
         async let personalOrderResult = apiService.fetchPersonalOrder()
         
-        // galaxyStats only on initial load (cache timer handles subsequent fetches)
-        async let galaxyStatsResult = isInitialLoad ? apiService.fetchGalaxyStats() : nil
+        // Fetch galaxyStats on initial load or when we have no data yet (e.g. first
+        // silent refresh after loading from cache, which may not have included stats).
+        let needsGalaxyStats = isInitialLoad || galaxyStats == nil
+        async let galaxyStatsResult = needsGalaxyStats ? apiService.fetchGalaxyStats() : nil
         
         // 3. Await status, then fetch planets (needs status for galactic effects merge)
         let status = await statusResult
+        // Extract warTime from status — same URL, no extra round-trip
+        let warTime: Int64? = status?.time
         let (planets, sortedSectors, groupedBySector) = await apiService.fetchPlanets(url: nil, apiAddress: config.apiAddress, language: language, status: status)
         
         // 4. Await planets, then fetch major order (needs planets for task matching)
@@ -173,13 +176,9 @@ class PlanetsDataModel {
         let firstStationDetails = await apiService.fetchSpaceStationDetails(id32: firstStationID, season: config.season)
         
         // 6. Await remaining parallel results
-        let warTime = await warTimeResult
         let (campaigns, defenseCampaigns) = await campaignsResult
         let personalOrder = await personalOrderResult
         let galaxyStats = await galaxyStatsResult
-        
-        // cachedPlanetData only on initial load
-        let cachedData: [String: [UpdatedPlanetDataPoint]] = isInitialLoad ? await apiService.fetchCachedPlanetData() : [:]
         
         // 7. Single animated UI update
         withAnimation(.bouncy) {
@@ -205,10 +204,9 @@ class PlanetsDataModel {
             if let personalOrder { self.personalOrder = personalOrder }
             if let firstStationDetails { self.firstSpaceStationDetails = firstStationDetails }
             
+            if let stats = galaxyStats?.galaxyStats { self.galaxyStats = stats }
+
             if isInitialLoad {
-                if let stats = galaxyStats?.galaxyStats { self.galaxyStats = stats }
-                if !cachedData.isEmpty { self.planetHistory = cachedData }
-                
                 if !self.hasSetSelectedPlanet {
                     self.selectedPlanet = campaigns.first?.planet
                     self.hasSetSelectedPlanet = true
@@ -234,15 +232,47 @@ class PlanetsDataModel {
                 self.loadingTakingLong = false
             }
         }
+
+        // Persist a snapshot after every successful refresh so the next launch is instant.
+        if !updatedPlanets.isEmpty {
+            saveSnapshot()
+        }
     }
     
     func startUpdating() {
+        // Load the on-disk snapshot synchronously before any network request.
+        // If valid cached data exists, the UI renders immediately with last-session data.
+        let hadCache = loadSnapshot()
+        if hadCache {
+            // We already have data — clear the loading spinner now so the user
+            // sees their last session while the network refresh happens silently.
+            isLoading = false
+        }
+
         Task {
-            await refreshAll(isInitialLoad: true)
+            // If we showed cached data, refresh silently (isInitialLoad: false skips
+            // the loading spinner). Otherwise this is a true initial load.
+            await refreshAll(isInitialLoad: !hadCache)
+            // Kick off planet history fetch in the background after core data is loaded.
+            // This avoids blocking isLoading = false on heavy GitHub API calls.
+            await fetchAndApplyCachedPlanetData()
         }
         
         setupTimer()
         setupCacheTimer()
+    }
+    
+    /// Fetches historical planet data in the background and applies it with animation.
+    /// Called after the initial load completes so it never blocks the loading spinner.
+    private func fetchAndApplyCachedPlanetData() async {
+        let cachedData = await apiService.fetchCachedPlanetData()
+        guard !cachedData.isEmpty else { return }
+        withAnimation(.bouncy) {
+            self.planetHistory = cachedData
+            // Rebuild contexts so liberation rates and "defended in" times
+            // reflect the newly loaded history without waiting for the next refresh.
+            self.rebuildContexts()
+        }
     }
     
     func setupTimer() {
@@ -300,6 +330,14 @@ class PlanetsDataModel {
     
     
     private(set) var playerDistribution: [PlayerDistributionItem] = []
+
+    /// Rebuilds all derived state (fleet strength, contexts, player distribution).
+    /// Internal so it can be called from extensions (e.g. PlanetsDataModel+Cache).
+    func rebuildDerivedState() {
+        rebuildFleetStrength()
+        rebuildContexts()
+        rebuildPlayerDistribution()
+    }
 
     private func rebuildFleetStrength() {
         let resource = status?.globalResources.resource(for: .fleetStrength)

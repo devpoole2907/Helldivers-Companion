@@ -6,7 +6,7 @@
 //
 
 
-struct Environmental: Decodable {
+struct Environmental: Codable {
     var name: String
     var description: String
 }
