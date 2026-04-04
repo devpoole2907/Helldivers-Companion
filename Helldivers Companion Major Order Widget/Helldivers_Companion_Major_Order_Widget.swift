@@ -50,7 +50,8 @@ struct MajorOrderProvider: TimelineProvider {
             var entries: [MajorOrderEntry] = []
 
             guard let data = await dataProvider.fetchOrderData() else {
-                completion(Timeline(entries: entries, policy: .atEnd))
+                let fallback = MajorOrderEntry(date: Date(), majorOrder: nil, taskPlanets: [], taskProgress: nil, factionColor: .yellow, progressString: nil, progress: nil, orderType: nil)
+                completion(Timeline(entries: [fallback], policy: .after(Date().addingTimeInterval(300))))
                 return
             }
 

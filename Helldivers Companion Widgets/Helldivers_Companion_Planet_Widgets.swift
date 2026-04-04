@@ -30,7 +30,15 @@ struct PlanetStatusProvider: TimelineProvider {
             var entries: [SimplePlanetStatus] = []
 
             guard let data = await dataProvider.fetchPlanetData() else {
-                completion(Timeline(entries: entries, policy: .atEnd))
+                let fallback = SimplePlanetStatus(
+                    date: Date(),
+                    planetName: "Data Unavailable",
+                    liberation: 0,
+                    playerCount: 0,
+                    liberationType: .liberation,
+                    campaignType: 0
+                )
+                completion(Timeline(entries: [fallback], policy: .after(Date().addingTimeInterval(300))))
                 return
             }
 
@@ -66,6 +74,20 @@ struct PlanetStatusProvider: TimelineProvider {
                 }
 
                 print("appending entry!")
+            }
+
+            if entries.isEmpty {
+                let fallback = SimplePlanetStatus(
+                    date: Date(),
+                    planetName: "No Active Campaigns",
+                    liberation: 0,
+                    playerCount: 0,
+                    liberationType: .liberation,
+                    campaignType: 0
+                )
+                entries.append(fallback)
+                completion(Timeline(entries: entries, policy: .after(Date().addingTimeInterval(5 * 60))))
+                return
             }
 
             completion(Timeline(entries: entries, policy: .atEnd))
@@ -146,6 +168,7 @@ struct Helldivers_Companion_WidgetsEntryView: View {
                 // PlanetsDataModel.shared is a structurally-required environment value for PlanetView;
                 // all actual widget data flows through entry fields — the viewModel is never consulted for fetching.
                 ).environment(PlanetsDataModel.shared)
+                    .environment(NavigationPather())
                     .padding(.horizontal)
                     .padding(.vertical, 5)
                 

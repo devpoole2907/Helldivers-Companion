@@ -26,7 +26,8 @@ struct GalaxyMapProvider: TimelineProvider {
             var entries: [GalaxyMapEntry] = []
 
             guard let data = await dataProvider.fetchMapData() else {
-                completion(Timeline(entries: entries, policy: .atEnd))
+                let fallback = GalaxyMapEntry(date: Date(), campaigns: [], defenseCampaigns: [], planets: [])
+                completion(Timeline(entries: [fallback], policy: .after(Date().addingTimeInterval(300))))
                 return
             }
 
